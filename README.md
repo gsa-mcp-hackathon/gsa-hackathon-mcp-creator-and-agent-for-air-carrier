@@ -44,3 +44,7 @@ Each project has its own tests, for example:
 cd mcp-server-creator && PYTHONPATH=src pytest tests
 cd mcp-servers/mcp-aircarrier-ops && PYTHONPATH=src pytest tests
 ```
+
+When running tests inside a Databricks Git folder, also set `PYTHONDONTWRITEBYTECODE=1` and
+pass `-p no:cacheprovider`: Git folders do not allow `__pycache__` or `.pytest_cache` to be
+written, and the test run fails with `OSError: [Errno 95] Operation not supported`.
