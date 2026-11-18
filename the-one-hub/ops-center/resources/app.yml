@@ -1,0 +1,117 @@
+resources:
+  apps:
+    aircarrier_front_center:
+      name: "aircarrier-front-center-${bundle.target}"
+      description: "Air Carrier front center. CVN-79 pilot."
+      source_code_path: ../app
+
+      # On-behalf-of user authorization (B28.4, gap A-15). With the sql scope
+      # the app receives the signed-in user's token in x-forwarded-access-token
+      # and runs every authority-bearing statement under it, so current_user()
+      # in the authority rule is the person, not the app. Without it the work
+      # queue is read-only and says why; nothing falls back to the app's own
+      # identity. The user must consent to the scope once, on first visit.
+      user_api_scopes:
+        - sql
+
+      # What the app's service principal may use. Added 2026-11-09 for the
+      # live detail table and the /ask agent. Declaring a resource grants the
+      # SP the permission on deploy: CAN_USE on the warehouse, CAN_QUERY on
+      # every model endpoint in the agent, reasoning and checker chains. It
+      # does NOT grant SELECT on any table; that is
+      # deploy/grants_front_center.sql, run once by a schema owner.
+      # Without those grants the app still works: live.status() reports why
+      # and the pages fall back to the shipped extracts.
+      resources:
+        - name: sql-warehouse
+          description: Live Unity Catalog reads for the detail table and agent
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+        - name: agent-model
+          description: /ask tool-calling loop, primary
+          serving_endpoint:
+            name: ${var.agent_model}
+            permission: CAN_QUERY
+        - name: reasoning-model
+          description: SI specialist (JSON, no tools), primary
+          serving_endpoint:
+            name: ${var.reasoning_model}
+            permission: CAN_QUERY
+        - name: checker-model
+          description: SI records checker, primary
+          serving_endpoint:
+            name: ${var.checker_model}
+            permission: CAN_QUERY
+        - name: fallback-model
+          description: Shared fallback in every chain
+          serving_endpoint:
+            name: ${var.fallback_model}
+            permission: CAN_QUERY
+
+      # Deploy-time values, not file values.
+      #
+      # app/app.yaml still holds the start command and the defaults a local
+      # run needs. What it cannot hold is the catalog, the schema, the store
+      # prefix and the volume path, because those are chosen on the command
+      # line (-Catalog, -Schema, -StorePrefix) and differ per deployer. A
+      # literal typed into app.yaml is wrong the first time someone deploys
+      # into a schema they own, and it was: app.yaml said catalog aircarrier,
+      # schema default and /Volumes/aircarrier/source/extracted/kb, while the
+      # deploy went to users.xiaobing_shang1_civ with the aircarrier_ prefix.
+      # Nothing failed loudly. Search simply found no index.
+      #
+      # config.env overrides the matching names in app.yaml. Two things to
+      # know about it, both learned the hard way:
+      #
+      #   1. Environment variables are applied when the app STARTS, not when
+      #      bundle deploy uploads them. A deploy alone changes nothing.
+      #   2. The Apps API returns variable names without values, so the CLI
+      #      cannot tell that a value changed and will not redeploy on its
+      #      own.
+      #
+      # Both mean the same thing: bundle deploy must always be followed by
+      # bundle run aircarrier_front_center. The deploy script does that.
+      config:
+        env:
+          - name: AIRCARRIER_CATALOG
+            value: ${var.catalog}
+          - name: AIRCARRIER_SCHEMA
+            value: ${var.schema}
+          - name: AIRCARRIER_STORE_PREFIX
+            value: ${var.store_prefix}
+          # uc since 2026-11-12 (deployment 01f1dea94286): pages read the
+          # v_doc_<name> views. files is the rollback. docs/UC_SERVING_VIEWS.md.
+          - name: AIRCARRIER_DATA_BACKEND
+            value: uc
+          - name: AIRCARRIER_ADAPTER
+            value: commercial
+          - name: AIRCARRIER_KB_DIR
+            value: ${var.kb_dir}
+          # Resolved from the resource above at app start, so the id is never
+          # typed. api/live.py reads it; unset means extracts only.
+          # Bundle YAML is snake_case (value_from); app/app.yaml is camelCase
+          # (valueFrom). The CLI silently drops valueFrom here and then fails
+          # the run with "Must specify environment variable source".
+          - name: DATABRICKS_WAREHOUSE_ID
+            value_from: sql-warehouse
+          - name: AIRCARRIER_AGENT_MODEL
+            value: ${var.agent_model}
+          - name: AIRCARRIER_AGENT_FALLBACKS
+            value: ${var.agent_fallbacks}
+          - name: AIRCARRIER_REASONING_MODEL
+            value: ${var.reasoning_model}
+          - name: AIRCARRIER_REASONING_FALLBACKS
+            value: ${var.reasoning_fallbacks}
+          - name: AIRCARRIER_CHECKER_MODEL
+            value: ${var.checker_model}
+          - name: AIRCARRIER_CHECKER_FALLBACKS
+            value: ${var.checker_fallbacks}
+          # Added 2026-11-18: both were set only on REST deployments, so a
+          # bundle deploy dropped them. delta keeps SI runs across restarts
+          # (api/si/store.py; unset means memory). The capture volume is where
+          # /capture stores attachments (main.py; unset turns capture off).
+          - name: AIRCARRIER_SI_PERSIST
+            value: delta
+          - name: AIRCARRIER_CAPTURE_VOLUME
+            value: /Volumes/${var.catalog}/${var.schema}/aircarrier_captures

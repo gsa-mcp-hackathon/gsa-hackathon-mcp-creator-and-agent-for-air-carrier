@@ -1,0 +1,14 @@
+{
+ "built_at": "2026-11-08T19:37:41",
+ "source": "/sessions/rcw-01t9teaufhtsaucwwffepo1h/mnt/AirCarrier/dbrepo/corpus",
+ "chunks": 2765,
+ "terms": 24555,
+ "avg_tokens": 149.6,
+ "by_grade": {
+  "WORKING": 447,
+  "AUTHORITATIVE": 2318
+ },
+ "not_embedded": 23,
+ "missing": [],
+ "scanned": []
+}

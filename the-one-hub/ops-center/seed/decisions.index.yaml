@@ -1,0 +1,39 @@
+# D1 to D34. Statements and reasoning live in LOG.md Part I, which is the home.
+# This file marks which decisions are enforced in code and where.
+# source: LOG.md Part I
+
+decisions:
+  - {id: D1,  topic: "pilot and inception"}
+  - {id: D2,  topic: "funnel and onion as method"}
+  - {id: D3,  topic: "period and discovery date are separate fields", enforced: "core/policy/decisions.py"}
+  - {id: D4,  topic: "public sources generate leads only", enforced: "core/policy/decisions.py"}
+  - {id: D5,  topic: "limitations carried forward visibly"}
+  - {id: D6,  topic: "the product is the variance with its cause"}
+  - {id: D7,  topic: "hub and spoke topology, onion is the order of approach"}
+  - {id: D8,  topic: "six layers"}
+  - {id: D9,  topic: "cost scope is a variance cause"}
+  - {id: D10, topic: "unreimbursed inter-entity cost in scope"}
+  - {id: D11, topic: "functions at every access level including zero"}
+  - {id: D12, topic: "schema parked until design settled"}
+  - {id: D13, topic: "no AI output writes directly to a trusted table", enforced: "core/policy/gate.py"}
+  - {id: D14, topic: "messy data is the premise, investigation apparatus first"}
+  - {id: D15, topic: "conflicting values retained, never resolved by selection", enforced: "claim writer"}
+  - {id: D16, topic: "leads zone, Collection Requirement, weakest-link", enforced: "core/catalog.py grants"}
+  - {id: D17, topic: "unknowns are typed work items with executors", enforced: "core/contracts/gap.py"}
+  - {id: D18, topic: "ledger is two sources at a dated boundary"}
+  - {id: D19, topic: "FMR Vol 11B Ch 12 does not apply"}
+  - {id: D20, topic: "hull allocation is an implementation question against GAO-17-575"}
+  - {id: D21, topic: "the document set is four files, each fact one home"}
+  - {id: D22, topic: "two deliverables, the hull answer and the transferable method"}
+  - {id: D23, topic: "every surface element is a view over the spine"}
+  - {id: D24, topic: "event material feeds cause evidence and the CR queue only"}
+  - {id: D25, topic: "community of practice is the SME executor"}
+  - {id: D26, topic: "no composite risk score", enforced: "core/policy/gate.py routing table"}
+  - {id: D27, topic: "drill-through is a requirement", enforced: "core/policy/decisions.py"}
+  - {id: D28, topic: "Databricks Apps, event capture is a scheduled job"}
+  - {id: D29, topic: "event capture scoped to government sources"}
+  - {id: D30, topic: "phases classified by what controls their duration"}
+  - {id: D31, topic: "ring0 catalog separate from research notes"}
+  - {id: D32, topic: "reconstruction is a non-reportable layer, a confidence score on a mis-populated model reassures rather than warns"}
+  - {id: D33, topic: "obligations from the obligation record only", enforced: "core/policy/decisions.py"}
+  - {id: D34, topic: "identifier collisions are hard exclusions", enforced: "core/policy/decisions.py and seed/keyset.yaml"}

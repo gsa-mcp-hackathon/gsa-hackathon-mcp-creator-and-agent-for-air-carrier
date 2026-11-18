@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Evidence</div>
+ <h1>Sources</h1>
+ <p class="lede">The document families this product reads, what each uniquely carries, and the limit
+  on each. A source's limit is as important as its content: most of the recorded errors came from
+  reading a document for something it does not contain.</p>
+</div>
+
+{% for f in s.families %}
+<div class="card" style="margin-bottom:.8rem">
+ <div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+  <h3 style="margin:0">{{ f.name }}</h3><span class="b b-info">{{ f.short }}</span>
+ </div>
+ <div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+  <div><h4>Carries</h4><p style="font-size:.86rem;margin:0">{{ f.carries }}</p></div>
+  <div><h4>Limit</h4><p style="font-size:.86rem;margin:0">{{ f.limit or "—" }}</p></div>
+  <div><h4>Held in the repository</h4>
+   {% if f.held %}<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+    {% for h in f.held %}<span class="pill mono" style="font-size:.73rem">{{ h }}</span>{% endfor %}</div>
+   {% else %}<p class="muted" style="font-size:.86rem;margin:0">Cited, not held locally</p>{% endif %}</div>
+ </div>
+</div>
+{% endfor %}
+
+<div class="card accent">
+ <h3>The grading legend applied throughout</h3>
+ <div class="grid g4">
+  <div><span class="b b-ok">VERIFIED</span><p style="font-size:.83rem;margin-top:.4rem">Read from a
+   primary document or the obligation record.</p></div>
+  <div><span class="b b-info">DERIVED</span><p style="font-size:.83rem;margin-top:.4rem">Arithmetic
+   from verified inputs.</p></div>
+  <div><span class="b b-warn">ESTIMATE</span><p style="font-size:.83rem;margin-top:.4rem">Modelled.
+   Never reportable.</p></div>
+  <div><span class="b b-mut">UNKNOWN</span><p style="font-size:.83rem;margin-top:.4rem">No public
+   value. Never promotes; becomes a typed gap.</p></div>
+ </div>
+ <div class="note bad">A confidence score attached to a mis-populated model does not warn a reader,
+  it reassures one. Tagging is necessary and not sufficient, which is why every figure also carries
+  a coordinate chain back to the exhibit, column and page that produced it.</div>
+</div>
+{% endblock %}

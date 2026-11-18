@@ -1,0 +1,113 @@
+{
+ "source": "ring0/RING0_CVN79.md Part M. Ordered by expected materiality.",
+ "rows": [
+  {
+   "n": 1,
+   "where": "SCN line 2001 Carrier Replacement Program",
+   "key": "1611N / BA 02 / BLI 2001 / PE 0204112N; subhead",
+   "note": "The construction spine"
+  },
+  {
+   "n": 2,
+   "where": "SCN line 5110 Outfitting",
+   "key": "1611N / BA 05 / LI 5110",
+   "note": "Outfitting and spares. Not on the construction line"
+  },
+  {
+   "n": 3,
+   "where": "SCN line 5300 Completion of PY Shipbuilding",
+   "key": "1611N / BA 05 / LI 5300",
+   "note": "Where post-OWLD completion money lands"
+  },
+  {
+   "n": 4,
+   "where": "NAVAIR EMALS and AAG",
+   "key": "N00019-14-C-0037; PMA-251",
+   "note": "CVN-79 share $830.438M"
+  },
+  {
+   "n": 5,
+   "where": "Naval Reactors reactor plant",
+   "key": "SCN AP Nuclear Propulsion Equipment; DOE Naval Reactors",
+   "note": "Crosses from Navy to DOE. 30 to 72 month lead"
+  },
+  {
+   "n": 6,
+   "where": "NSWC Philadelphia AWE",
+   "key": "N64498-18-D-4022",
+   "note": "Engineering, technical services, land-based test site"
+  },
+  {
+   "n": 7,
+   "where": "Shared class RDT&E",
+   "key": "PE 0604112N",
+   "note": "EMALS, AAG, DBR development. Allocation method open, G4"
+  },
+  {
+   "n": 8,
+   "where": "Other Procurement, Navy",
+   "key": "OPN",
+   "note": "Small but proves the line exists"
+  },
+  {
+   "n": 9,
+   "where": "Other appropriations on the MSAR funding table",
+   "key": "1810N / 5664; 1804N / 1B5B",
+   "note": "Published by the program itself"
+  },
+  {
+   "n": 10,
+   "where": "Foreign Military Sales funds on the hull contract",
+   "key": "FMS Canada, Norway, Spain",
+   "note": "Arguably not US program cost at all"
+  },
+  {
+   "n": 11,
+   "where": "Other-service funds on the hull contract",
+   "key": "FY2025 RDT&E (USMC) $250,000",
+   "note": "Same point, other direction"
+  },
+  {
+   "n": 12,
+   "where": "GFP in contractor possession",
+   "key": "GFP Position Report, CAGE 43689; IUID Registry",
+   "note": "G16. Cheapest high-value request in the file"
+  },
+  {
+   "n": 13,
+   "where": "Contractor cost by work breakdown",
+   "key": "CSDR: DD 2794, DD 1921 series, FlexFile, in CADE",
+   "note": "G11. The only below-appropriation view. Compliance rated Red"
+  },
+  {
+   "n": 14,
+   "where": "Post-delivery, PSA and fitting out",
+   "key": "Between delivery and OWLD",
+   "note": "Part of SCN by rule"
+  },
+  {
+   "n": 15,
+   "where": "Consequence cost on other hulls",
+   "key": "Nimitz ten-month extension and inactivation planning",
+   "note": "Caused by this hull's delay, will never carry a CVN-79 line of accounting"
+  },
+  {
+   "n": 16,
+   "where": "Shore infrastructure driven by the ship",
+   "key": "$145M electrical overhaul at Naval Base Kitsap",
+   "note": "Real property, FMR Vol 4 Ch 24"
+  },
+  {
+   "n": 17,
+   "where": "Below-threshold expensed content",
+   "key": "items under the $1M Navy capitalization threshold",
+   "note": "G19. Installed on the ship, never capitalized"
+  },
+  {
+   "n": 18,
+   "where": "Reprogramming and apportionment",
+   "key": "DD 1415-1; OMB apportionment for TAFS 017-1611",
+   "note": "Movement after appropriation that no J-book shows"
+  }
+ ]
+}

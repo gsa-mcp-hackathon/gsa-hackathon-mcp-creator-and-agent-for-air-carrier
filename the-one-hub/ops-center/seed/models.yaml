@@ -1,0 +1,98 @@
+# Role to model-service binding.
+#
+# Agents ask for a ROLE, never a model name. Swapping a model is a change here
+# and nowhere else. That is the ports layer paying off at transfer time.
+#
+# Observed in the gsa-mcp-hackathon Unity Gateway Models tab, 2026-11-08.
+# Confirm the exact service names with: databricks serving-endpoints list
+source: Unity Gateway > Models, workspace gsa-mcp-hackathon
+
+# Routing, set 2026-11-11 from live probes (chat, function tools, json_schema,
+# temperature, a two-turn tool loop). No Claude model is used anywhere.
+#   * gpt-6-1-sol, gpt-6-sol, gpt-5-6-sol: json_schema yes; function tools are
+#     refused on chat completions while reasoning is on. JSON roles only.
+#   * gpt-5-5, gemini-3-8-flash: tools + json_schema; tool loop ~2-3 s.
+#   * grok-4-7: tools + json_schema, but 32-38 s for a two-step loop. Fallback only.
+#   * gpt-6-astra: 403 disabled. gpt-5-5-pro: Responses API only.
+#   * No endpoint here reliably accepts temperature; callers never send it.
+# Each role's chain is tried in order on any endpoint error. Environment
+# variables AIRCARRIER_<ROLE>_MODEL / AIRCARRIER_<ROLE>_FALLBACKS override a
+# chain (ops/harness/_common.role_chain; app/api/agent.py mirrors these
+# defaults, and checks/test_app.py fails if the two drift apart).
+
+roles:
+
+  agent:
+    primary: databricks-gpt-5-5
+    fallbacks: [databricks-gemini-3-8-flash, databricks-grok-4-7]
+    used_by: [front-center /ask, harness specialist]
+    why: >
+      Tool-calling loops: the model must call tools, read results and cite
+      them, while a user may be waiting. Needs function tools with reasoning on
+      chat completions and low latency, which rules out the GPT-6 family.
+      grok-4-7 is last because it is an order of magnitude slower.
+
+  reasoning:
+    primary: databricks-gpt-6-1-sol
+    fallbacks: [databricks-grok-4-7, databricks-gemini-3-8-flash]
+    used_by: [investigator, investigator.triage, front-center SI specialist]
+    why: >
+      Comprehension and judgment returned as one JSON object, no tools: the
+      Investigator generates hypotheses, triage ranks gaps, the SI specialist
+      writes the narrative over a code-built pack. Strongest reasoning model
+      that answers json_schema on chat completions.
+
+  checker:
+    primary: databricks-gemini-3-8-flash
+    fallbacks: [databricks-grok-4-7]
+    used_by: [harness checker, front-center SI records checker]
+    why: >
+      Re-reads a specialist answer against the records (B28.5). It must be a
+      different family from the specialist, and both specialist roles lead
+      with GPT, so this chain holds no GPT model. The SI checker also drops
+      any model of the family that actually answered.
+
+  extraction:
+    # deepseek-v4-1-flash: 400 (endpoint deprecated).
+    primary: databricks-gpt-6-sol
+    fallbacks: [databricks-gpt-5-6-sol, databricks-gemini-3-8-flash]
+    used_by: [reader.exhibit, reader.prose]
+    why: >
+      Structured extraction against a known exhibit schema with a JSON schema
+      response format. Cheaper and faster than the reasoning role, and the
+      coordinate-capture rule plus the Challenger carry the correctness burden
+      rather than model strength.
+
+  embedding:
+    # The UC model is system.ai.bge-large-en; the serving endpoint that fronts it is
+    # databricks-bge-large-en, and the endpoint name is what the client calls.
+    primary: databricks-bge-large-en
+    fallbacks: [databricks-gte-large-en]
+    dimensions: 1024
+    used_by: [reader, investigator]
+    why: >
+      IL5 portability decision. bge-large-en and gte-large-en are Databricks
+      provided and sit in system.ai, so they are the embedding models most
+      likely to exist in a DoD Databricks environment. text-embedding-3-large
+      and text-embedding-3-small route to an external provider through
+      models.ai and almost certainly will not be present after transfer.
+      Choosing the portable one now avoids re-embedding the whole corpus later.
+
+  nl_query:
+    primary: databricks-genie
+    used_by: [front-center]
+    why: >
+      Natural-language query over governed tables for the front center only.
+      Never in the ops center path: a Genie answer is not a claim and has no
+      coordinate chain, so it cannot satisfy D27.
+
+il5_transfer:
+  rule: >
+    Every role above must resolve to a service that exists in the target
+    workspace. If a role has no equivalent, the agents using it are disabled
+    rather than silently downgraded, and that is recorded as a gap.
+  expected_available: [system.ai.bge-large-en, system.ai.gte-large-en]
+  expected_unavailable: [models.ai.text-embedding-3-large, models.ai.text-embedding-3-small]
+  unknown: [databricks-gpt-5-5, databricks-gpt-6-1-sol, databricks-gpt-6-sol, databricks-gemini-3-8-flash, databricks-grok-4-7, databricks-genie]
+  commercial_disabled_2026_11_11: [databricks-gpt-6-astra]
+  commercial_deprecated_2026_11_08: [databricks-deepseek-v4-1-flash]

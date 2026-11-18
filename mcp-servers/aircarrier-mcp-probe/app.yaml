@@ -1,0 +1,8 @@
+# aircarrier-mcp-probe: synthetic probe of the Air Carrier MCP apps (see probe.py).
+# Not named mcp-* on purpose: it is not an MCP server and must not appear in the connector picker.
+command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+env:
+  - name: PROBE_VOLUME
+    value: /Volumes/users/xiaobing_shang1_civ/aircarrier_mcp_probe_runs
+  - name: PROBE_INTERVAL_S
+    value: "900"

@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% import "_si.html" as si %}
+{% set VB = {'pass':'b-ok','pass_with_notes':'b-warn','fail':'b-bad','error':'b-bad','not_run':'b-mut'} %}
+{% set SB = {'ready':'b-ok','decided':'b-info','blocked':'b-bad','failed':'b-bad'} %}
+{% block body %}
+{% if run %}
+<div class="phead">
+ <div class="eyebrow">Run {{ run.run_id[:8] }} · {{ run.page }} · <span class="mono">{{ run.run_id }}</span></div>
+ <h1>{{ run.label }}</h1>
+ <p class="lede">{{ run.question }}</p>
+ <p class="small">Asked by <b>{{ run.asked_by or "unknown" }}</b> at {{ run.started_at }}, ended {{ run.ended_at or "not yet" }}.
+  Status <span class="b {{ SB.get(run.status, 'b-mut') }}">{{ run.status }}</span>.
+  Models: specialist {{ run.models.specialist or "none" }}, checker {{ run.models.records_checker or "none" }}.
+  {{ run.persisted.note or run.persisted.error or "" }}</p>
+ <div class="si-headacts">
+  <button type="button" class="btn" data-si-open-run="{{ run.run_id }}">Open in the run panel to review</button>
+  <a class="btn ghost" href="/api/v1/si/runs/{{ run.run_id }}?full=1">Export JSON</a>
+ </div>
+</div>
+<ol class="si-team si-team-static">
+ {% for a in run.team %}<li class="si-agent si-{{ a.kind|lower }}" title="{{ a.job }}"><b>{{ a.name }}</b><span>{{ a.kind|lower }}</span></li>
+ {% if not loop.last %}<li class="si-arrow" aria-hidden="true">&rarr;</li>{% endif %}{% endfor %}
+</ol>
+<div class="grid g-2-1">
+ <section class="card"><h2>Steps</h2>
+  <ol class="si-steps">
+   {% for e in run.events %}
+   <li class="si-step si-k-{{ e.kind }}{% if e.kind == 'verdict' %} si-v-{{ e.data.result }}{% endif %}">
+    <div class="si-step-h"><span class="si-who">{{ e.agent }}</span><span class="si-kind">{{ e.kind }}</span>
+     {% if e.rule %}<span class="si-rule">{{ e.rule }}</span>{% endif %}
+     <span class="si-by{% if e.by not in ('code', 'none') %} si-by-model{% endif %}">{{ e.by|replace('databricks-', '') }}</span>
+     <time>{{ e.at[11:19] }}</time></div>
+    <p>{{ e.text }}</p></li>
+   {% endfor %}
+  </ol>
+ </section>
+ <section class="card"><h2>Checks</h2>
+  {% for name, v in run.verdicts.items() %}
+  <details class="si-verdict si-v-{{ v.result }}" open><summary><b>{{ 'Canvas re-check' if name == 'canvas' else 'Records Checker' }}</b>
+   <span class="b {{ VB.get(v.result, 'b-mut') }}">{{ v.result|replace('_', ' ')|upper }}</span>
+   {% if v.total %}{{ v.passed }} of {{ v.total }}{% endif %}</summary>
+   <p class="small">{{ v.notes }}</p>
+   {% if v.checks %}<div class="tscroll"><table class="si-checks"><thead><tr><th>Condition</th><th>Expected</th><th>Actual</th><th>Result</th></tr></thead><tbody>
+   {% for c in v.checks %}<tr class="{{ '' if c.result == 'pass' else 'si-fail' }}"><td>{{ c.name }}</td><td class="mono">{{ c.expected }}</td><td class="mono">{{ c.actual }}</td><td>{{ c.result }}</td></tr>{% endfor %}
+   </tbody></table></div>{% endif %}
+  </details>
+  {% endfor %}
+  {% if run.pack %}<p class="small">Packed {{ run.pack.record_count }} {{ run.pack.noun }} from {{ run.pack.source }},
+   provenance <span class="mono">{{ run.pack.provenance_id }}</span>, {{ 'live' if run.pack.live else 'extract' }}.</p>{% endif %}
+ </section>
+</div>
+{% if run.finding %}<section class="card si-finding"><h2>Finding</h2><p>{{ run.finding }}</p></section>{% endif %}
+<section class="card"><h2>Proposals</h2>
+ <div class="tscroll"><table class="si-review">
+  <thead><tr><th>Status</th><th>Goes to</th><th>Proposed</th><th>Why</th><th>Rule</th></tr></thead>
+  <tbody>
+  {% for p in run.proposals %}
+  <tr class="si-p-{{ p.status }}"><td><span class="b {{ {'applied':'b-ok','rejected':'b-mut','blocked':'b-bad'}.get(p.status, 'b-warn') }}">{{ p.status }}</span>
+    {% if p.block_reason %}<div class="small">{{ p.block_reason }}</div>{% endif %}</td>
+   <td><b>{{ p.goes_to.office }}</b><div class="mono small">{{ p.goes_to.role }}</div>
+    {% if p.addressed_to %}<div class="si-addr small">Addressed to <b>{{ p.addressed_to }}</b></div>{% endif %}</td>
+   <td><div class="si-ptitle">{{ p.title }}</div><p>{{ p.proposed }}</p>
+    {% for b in p.marked_blanks %}<div class="si-blank" title="{{ b.why }}"><span>Marked blank</span> {{ b.field }} · <i>{{ b.who_fills }} fills it</i></div>{% endfor %}
+    {% for f in p.flags %}<div class="si-pflag si-flag-{{ f.severity }}">Flags for a person: {{ f.text }}</div>{% endfor %}</td>
+   <td>{{ p.why }}<div class="small">{{ 'Drafted by code' if p.drafted_by == 'code' else 'Drafted by code, worded by ' ~ p.drafted_by }}</div></td>
+   <td><span class="si-rule">{{ p.rule }}</span></td></tr>
+  {% else %}<tr><td colspan="5">{{ ui.empty("This run made no proposals.") }}</td></tr>{% endfor %}
+  </tbody></table></div>
+ {% if decisions_error %}<div class="si-note">{{ decisions_error }}</div>{% endif %}
+ {% if run.decisions %}<h3>Decisions</h3><ul class="si-runs">
+  {% for d in run.decisions %}<li><b>{{ d.action }}</b> {{ d.title }} by {{ d.actor }} as {{ d.role }} at {{ d.at }}{% if d.notes %}: {{ d.notes }}{% endif %} <span class="small">({{ d.persisted }})</span></li>{% endfor %}
+ </ul>{% endif %}
+</section>
+{% else %}
+<div class="phead">
+ <div class="eyebrow">Run log</div>
+ <h1>Every run, and every action by every person</h1>
+ <p class="lede">Each specialist run is kept: who asked, from which page, which agents worked it,
+  each step and the rule it ran under, both checks, and what a person applied. {% if mode == 'memory' %}Runs are kept
+  in this app process (the last {{ max_runs }}); durable write to the harness tables is off.{% else %}Runs are
+  also written to the harness tables on the asker's token.{% endif %}</p>
+ <div class="si-headacts"><a class="btn ghost" href="/api/v1/si/runs">Export runs (JSON)</a>
+  <a class="btn ghost" href="/api/v1/si/activity">Export activity (JSON)</a></div>
+</div>
+{% if missing and load_error %}<div class="si-note" role="alert">Run <span class="mono">{{ missing }}</span> could not be loaded from
+ the harness tables: {{ load_error }}</div>
+{% elif missing %}<div class="si-note">No run <span class="mono">{{ missing }}</span> is in this app process or in the harness
+ tables. With durable write off, runs are kept in memory only (the last {{ max_runs }}) and a restart clears them.</div>{% endif %}
+<section class="card"><h2>Runs</h2>
+ {% if runs %}
+ <div class="tscroll"><table class="wq">
+  <thead><tr><th>Run</th><th>What</th><th>Asked by</th><th>Page</th><th>Specialist</th><th>Canvas</th><th>Checker</th><th>Proposals</th><th>Status</th><th>Started</th></tr></thead>
+  <tbody>
+  {% for r in runs %}
+  <tr><td class="mono"><a href="/runs/{{ r.run_id }}">{{ r.run_id[:8] }}</a></td><td>{{ r.label }}</td><td>{{ r.asked_by or "unknown" }}</td>
+   <td class="mono">{{ r.page }}</td><td>{{ r.team[1].name }}</td>
+   <td>{% set cv = r.verdict_summary.canvas %}<span class="b {{ VB.get(cv, 'b-mut') }}">{{ (cv or 'none')|replace('_', ' ') }}</span></td>
+   <td>{% set rv = r.verdict_summary.records_checker %}<span class="b {{ VB.get(rv, 'b-mut') }}">{{ (rv or 'none')|replace('_', ' ') }}</span></td>
+   <td>{{ r.counts.proposals }} ({{ r.counts.applied }} applied, {{ r.counts.reviewable }} open)</td>
+   <td><span class="b {{ SB.get(r.status, 'b-mut') }}">{{ r.status }}</span></td><td class="mono small">{{ r.started_at }}</td></tr>
+  {% endfor %}
+  </tbody></table></div>
+ {% else %}{{ ui.empty("No runs yet in this app process.") }}{% endif %}
+</section>
+<section class="card"><h2>Activity</h2>
+ {% if activity %}
+ <div class="tscroll"><table class="wq">
+  <thead><tr><th>When</th><th>Who</th><th>Kind</th><th>Role</th><th>Action</th><th>Run</th><th>Detail</th></tr></thead>
+  <tbody>{% for a in activity %}
+  <tr><td class="mono small">{{ a.at }}</td><td>{{ a.actor }}</td><td>{{ a.actor_kind }}</td><td class="mono">{{ a.role or "" }}</td>
+   <td>{{ a.action|replace('_', ' ') }}</td><td class="mono">{% if a.run_id %}<a href="/runs/{{ a.run_id }}">{{ a.run_id[:8] }}</a>{% endif %}</td><td>{{ a.detail }}</td></tr>
+  {% endfor %}</tbody></table></div>
+ {% else %}{{ ui.empty("No activity yet.") }}{% endif %}
+</section>
+{% endif %}
+{% endblock %}

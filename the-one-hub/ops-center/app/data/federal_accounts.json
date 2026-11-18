@@ -1,0 +1,94 @@
+{
+ "source": "Contract_N0002415C2114_FederalAccountFunding, 39 rows. ring0/RING0_CVN79.md Part N.5",
+ "linked_usd_m": 1656.686,
+ "coverage_pct": 36.2,
+ "coverage_warning": "Account linkage covers only a third of the contract. The remainder predates award-level account reporting and the page carries no warning.",
+ "accounts": [
+  {
+   "label": "017-1611 Shipbuilding and Conversion, Navy",
+   "usd_m": 1625.584,
+   "pct": 98.12
+  },
+  {
+   "label": "017-1319 Research, Development, Test, and Evaluation, Navy",
+   "usd_m": 28.281,
+   "pct": 1.71
+  },
+  {
+   "label": "017-1804 Operation and Maintenance, Navy",
+   "usd_m": 3.656,
+   "pct": 0.22
+  },
+  {
+   "label": "097-0400 Research, Development, Test, and Evaluation, Defense-Wide",
+   "usd_m": -0.835,
+   "pct": -0.05
+  }
+ ],
+ "tas": [
+  {
+   "label": "017-2018/2022-1611-000",
+   "usd_m": 1627.004
+  },
+  {
+   "label": "017-2019/2020-1319-000",
+   "usd_m": 12.65
+  },
+  {
+   "label": "017-2021/2022-1319-000",
+   "usd_m": 8.0
+  },
+  {
+   "label": "017-2020/2021-1319-000",
+   "usd_m": 5.097
+  },
+  {
+   "label": "017-2020/2020-1804-000",
+   "usd_m": 3.534
+  },
+  {
+   "label": "017-2018/2019-1319-000",
+   "usd_m": 2.534
+  },
+  {
+   "label": "017-2017/2021-1611-000",
+   "usd_m": 1.06
+  },
+  {
+   "label": "017-2019/2019-1804-000",
+   "usd_m": 0.122
+  }
+ ],
+ "object_class": [
+  {
+   "label": "31.0 Equipment",
+   "usd_m": 1657.521
+  },
+  {
+   "label": "25.5 Research and development contracts",
+   "usd_m": -0.835
+  }
+ ],
+ "program_activity": [
+  {
+   "label": "SHIPBUILDING",
+   "usd_m": 965.837,
+   "pct": 58.3
+  },
+  {
+   "label": "(blank)",
+   "usd_m": 677.238,
+   "pct": 40.9
+  },
+  {
+   "label": "ADVANCED COMPONENT DEVELOPMENT AND PROTOTYPES",
+   "usd_m": 8.0,
+   "pct": 0.5
+  },
+  {
+   "label": "FIELD IS OPTIONAL PRIOR TO FY21",
+   "usd_m": 5.612,
+   "pct": 0.3
+  }
+ ]
+}

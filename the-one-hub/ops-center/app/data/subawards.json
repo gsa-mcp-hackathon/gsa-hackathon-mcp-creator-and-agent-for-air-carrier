@@ -1,0 +1,542 @@
+{
+ "source": "Contract_N0002415C2114_Sub-Awards, 2,990 rows. NEW: not previously in the dossier. Extends Part L.3, the finding that the vendor map runs one tier deeper than the contract map.",
+ "rows": 2990,
+ "total_usd_m": 426.84,
+ "distinct_subawardees": 261,
+ "share_of_prime_obligations_pct": 9.3,
+ "note": "Only the DD&C contract reports sub-awards. This is the visible tier-2 map and it covers under a tenth of the prime. The rest of the supply chain is not reported at all.",
+ "top": [
+  {
+   "name": "L3HARRIS MARITIME POWER & ENERGY SOLUTIONS, INC",
+   "usd_m": 35.52,
+   "n": 6,
+   "state": "CA",
+   "pop_state": "CA"
+  },
+  {
+   "name": "MAIN INDUSTRIES, INC.",
+   "usd_m": 25.9,
+   "n": 16,
+   "state": "VA",
+   "pop_state": ""
+  },
+  {
+   "name": "NORTHROP GRUMMAN SYSTEMS CORPORATION",
+   "usd_m": 24.57,
+   "n": 208,
+   "state": "CA",
+   "pop_state": "CA"
+  },
+  {
+   "name": "EXLAR CORPORATION",
+   "usd_m": 16.72,
+   "n": 16,
+   "state": "MN",
+   "pop_state": "MN"
+  },
+  {
+   "name": "WARD LEONARD CT LLC",
+   "usd_m": 16.59,
+   "n": 92,
+   "state": "CT",
+   "pop_state": "CT"
+  },
+  {
+   "name": "TRI-WAY INDUSTRIES, INC.",
+   "usd_m": 15.78,
+   "n": 86,
+   "state": "WA",
+   "pop_state": "WA"
+  },
+  {
+   "name": "CLEVELAND-CLIFFS PLATE LLC",
+   "usd_m": 15.37,
+   "n": 182,
+   "state": "PA",
+   "pop_state": "NC"
+  },
+  {
+   "name": "JO-KELL INC.",
+   "usd_m": 11.86,
+   "n": 95,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "JAMESTOWN METAL MARINE SALES, INC.",
+   "usd_m": 9.89,
+   "n": 1,
+   "state": "FL",
+   "pop_state": "FL"
+  },
+  {
+   "name": "DRS NAVAL POWER SYSTEMS INC",
+   "usd_m": 9.09,
+   "n": 153,
+   "state": "CT",
+   "pop_state": "CT"
+  },
+  {
+   "name": "FEDERAL EQUIPMENT CO",
+   "usd_m": 8.92,
+   "n": 26,
+   "state": "OH",
+   "pop_state": "OH"
+  },
+  {
+   "name": "AVAYA FEDERAL SOLUTIONS, INC.",
+   "usd_m": 8.73,
+   "n": 23,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "BAE SYSTEMS MARITIME SOLUTIONS NORFOLK INC.",
+   "usd_m": 8.52,
+   "n": 36,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "GLOBECOMM SYSTEMS INC",
+   "usd_m": 7.68,
+   "n": 44,
+   "state": "NY",
+   "pop_state": "NY"
+  },
+  {
+   "name": "THE ENTWISTLE COMPANY LLC",
+   "usd_m": 7.03,
+   "n": 20,
+   "state": "MA",
+   "pop_state": "MA"
+  },
+  {
+   "name": "L.C.DOANE COMPANY,THE",
+   "usd_m": 6.28,
+   "n": 39,
+   "state": "CT",
+   "pop_state": "CT"
+  },
+  {
+   "name": "RIX INDUSTRIES",
+   "usd_m": 6.19,
+   "n": 11,
+   "state": "CA",
+   "pop_state": ""
+  },
+  {
+   "name": "NTT DATA FEDERAL SERVICES, INC.",
+   "usd_m": 6.1,
+   "n": 16,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "US JOINER LLC",
+   "usd_m": 6.06,
+   "n": 1,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "MOTOROLA SOLUTIONS, INC.",
+   "usd_m": 4.96,
+   "n": 21,
+   "state": "MD",
+   "pop_state": "MD"
+  },
+  {
+   "name": "BAKER SHEET METAL CORPORATION",
+   "usd_m": 4.9,
+   "n": 62,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "L3 TECHNOLOGIES, INC.",
+   "usd_m": 4.74,
+   "n": 22,
+   "state": "MA",
+   "pop_state": "MA"
+  },
+  {
+   "name": "ELECTRICAL EQUIPMENT CO",
+   "usd_m": 4.67,
+   "n": 50,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "LEIDOS, INC.",
+   "usd_m": 4.4,
+   "n": 13,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "FAIRLEAD INTEGRATED POWER AND CONTROLS, LLC",
+   "usd_m": 4.37,
+   "n": 12,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "HOWDEN NORTH AMERICA INC",
+   "usd_m": 4.13,
+   "n": 56,
+   "state": "OH",
+   "pop_state": "OH"
+  },
+  {
+   "name": "SPECIALTY DISTRIBUTION GROUP, LLC",
+   "usd_m": 4.1,
+   "n": 85,
+   "state": "VA",
+   "pop_state": "VA"
+  },
+  {
+   "name": "DYNALEC CORPORATION",
+   "usd_m": 4.05,
+   "n": 31,
+   "state": "NY",
+   "pop_state": "NY"
+  },
+  {
+   "name": "THE AMERICAN TANK & FABRICATING COMPANY",
+   "usd_m": 3.95,
+   "n": 68,
+   "state": "OH",
+   "pop_state": "OH"
+  },
+  {
+   "name": "ROLLS-ROYCE MARINE NORTH AMERICA INC.",
+   "usd_m": 3.69,
+   "n": 3,
+   "state": "MA",
+   "pop_state": "MA"
+  }
+ ],
+ "by_state": [
+  {
+   "state": "VA",
+   "usd_m": 146.01
+  },
+  {
+   "state": "CA",
+   "usd_m": 47.36
+  },
+  {
+   "state": "MD",
+   "usd_m": 31.77
+  },
+  {
+   "state": "CT",
+   "usd_m": 30.02
+  },
+  {
+   "state": "PA",
+   "usd_m": 26.29
+  },
+  {
+   "state": "OH",
+   "usd_m": 25.38
+  },
+  {
+   "state": "WA",
+   "usd_m": 21.17
+  },
+  {
+   "state": "NY",
+   "usd_m": 20.81
+  },
+  {
+   "state": "MN",
+   "usd_m": 16.76
+  },
+  {
+   "state": "MA",
+   "usd_m": 16.11
+  },
+  {
+   "state": "FL",
+   "usd_m": 10.67
+  },
+  {
+   "state": "WI",
+   "usd_m": 3.94
+  },
+  {
+   "state": "NC",
+   "usd_m": 3.25
+  },
+  {
+   "state": "AK",
+   "usd_m": 3.23
+  },
+  {
+   "state": "MI",
+   "usd_m": 2.99
+  },
+  {
+   "state": "OK",
+   "usd_m": 2.82
+  },
+  {
+   "state": "TX",
+   "usd_m": 2.32
+  },
+  {
+   "state": "NJ",
+   "usd_m": 2.03
+  },
+  {
+   "state": "AZ",
+   "usd_m": 2.02
+  },
+  {
+   "state": "IL",
+   "usd_m": 1.81
+  },
+  {
+   "state": "LA",
+   "usd_m": 1.78
+  },
+  {
+   "state": "IA",
+   "usd_m": 1.52
+  },
+  {
+   "state": "CO",
+   "usd_m": 1.49
+  },
+  {
+   "state": "GA",
+   "usd_m": 1.42
+  },
+  {
+   "state": "SC",
+   "usd_m": 1.16
+  },
+  {
+   "state": "IN",
+   "usd_m": 0.68
+  },
+  {
+   "state": "AR",
+   "usd_m": 0.57
+  },
+  {
+   "state": "MO",
+   "usd_m": 0.39
+  },
+  {
+   "state": "OR",
+   "usd_m": 0.3
+  },
+  {
+   "state": "ME",
+   "usd_m": 0.24
+  },
+  {
+   "state": "AL",
+   "usd_m": 0.14
+  },
+  {
+   "state": "WV",
+   "usd_m": 0.13
+  },
+  {
+   "state": "TN",
+   "usd_m": 0.13
+  },
+  {
+   "state": "ID",
+   "usd_m": 0.07
+  },
+  {
+   "state": "RI",
+   "usd_m": 0.06
+  }
+ ],
+ "by_fy": [
+  {
+   "fy": "2015",
+   "usd_m": 18.98
+  },
+  {
+   "fy": "2016",
+   "usd_m": 172.89
+  },
+  {
+   "fy": "2017",
+   "usd_m": 116.37
+  },
+  {
+   "fy": "2018",
+   "usd_m": 42.65
+  },
+  {
+   "fy": "2019",
+   "usd_m": 48.88
+  },
+  {
+   "fy": "2020",
+   "usd_m": 25.81
+  },
+  {
+   "fy": "2025",
+   "usd_m": 1.26
+  }
+ ],
+ "business_types": [
+  {
+   "label": "FOR-PROFIT ORGANIZATION",
+   "n": 2920
+  },
+  {
+   "label": "MANUFACTURER OF GOODS",
+   "n": 2141
+  },
+  {
+   "label": "LIMITED LIABILITY COMPANY",
+   "n": 532
+  },
+  {
+   "label": "S CORPORATION",
+   "n": 440
+  },
+  {
+   "label": "WOMAN-OWNED BUSINESS",
+   "n": 196
+  },
+  {
+   "label": "SELF-CERTIFIED SMALL DISADVANTAGED BUSINESS",
+   "n": 85
+  },
+  {
+   "label": "FOREIGN OWNED AND LOCATED",
+   "n": 75
+  },
+  {
+   "label": "MINORITY-OWNED BUSINESS",
+   "n": 54
+  },
+  {
+   "label": "VETERAN OWNED BUSINESS",
+   "n": 45
+  },
+  {
+   "label": "ALASKAN NATIVE CORPORATION OWNED FIRM",
+   "n": 26
+  },
+  {
+   "label": "TRIBALLY OWNED FIRM",
+   "n": 26
+  },
+  {
+   "label": "NATIVE AMERICAN OWNED",
+   "n": 26
+  },
+  {
+   "label": "ASIAN-PACIFIC AMERICAN OWNED",
+   "n": 18
+  },
+  {
+   "label": "ECONOMICALLY DISADVANTAGED WOMEN-OWNED SMALL BUSINESS",
+   "n": 17
+  }
+ ],
+ "largest": [
+  {
+   "date": "2018-10-01",
+   "name": "MAIN INDUSTRIES, INC.",
+   "usd_m": 23.35,
+   "desc": "BLAST FREEBOARD\nB/C SCOOPS\nTEMP BLAST PLUGS CR#20\nHURRICANE DORIAN CR#55\nCR# 74 HMR 1505.02\nCR# 70-73\nCR# 75-7"
+  },
+  {
+   "date": "2017-08-25",
+   "name": "L3HARRIS MARITIME POWER & ENERGY SOLUTIONS, INC",
+   "usd_m": 18.46,
+   "desc": "PWR PACK, VAR, 90KVA INPUT, 2-90KVA OUTPUT; ITEM #2"
+  },
+  {
+   "date": "2015-11-11",
+   "name": "L3HARRIS MARITIME POWER & ENERGY SOLUTIONS, INC",
+   "usd_m": 10.89,
+   "desc": "POWER SPLY,VAR,12KW 440V 60HZ,DEGUSG; ITEM #04"
+  },
+  {
+   "date": "2018-03-19",
+   "name": "JAMESTOWN METAL MARINE SALES, INC.",
+   "usd_m": 9.89,
+   "desc": "CVN79 MRU FUNDING; ITEM #1"
+  },
+  {
+   "date": "2017-02-28",
+   "name": "EXLAR CORPORATION",
+   "usd_m": 6.29,
+   "desc": "ACTUATOR, VARIOUS, 18.470 STROKE, ELECTRIC; ITEM #3"
+  },
+  {
+   "date": "2020-07-14",
+   "name": "US JOINER LLC",
+   "usd_m": 6.06,
+   "desc": "VSR (CVN79, DECK COVERING); PO ITEM# 1"
+  },
+  {
+   "date": "2018-03-27",
+   "name": "FEDERAL EQUIPMENT CO",
+   "usd_m": 3.36,
+   "desc": "STATOR MOTOR REFURBISHMENT; ITEM #1"
+  },
+  {
+   "date": "2017-05-18",
+   "name": "EXLAR CORPORATION",
+   "usd_m": 3.13,
+   "desc": "ACE NRE; ITEM #1"
+  },
+  {
+   "date": "2016-02-09",
+   "name": "CSA GLOBAL LLC",
+   "usd_m": 3.05,
+   "desc": "CVN79 NETWORK & IA ENGINEERING SUPPORT; ITEM #1"
+  },
+  {
+   "date": "2017-08-25",
+   "name": "L3HARRIS MARITIME POWER & ENERGY SOLUTIONS, INC",
+   "usd_m": 3.03,
+   "desc": "SSVFC OBSOLESCENCE MANAGEMENT; ITEM #1"
+  },
+  {
+   "date": "2015-11-11",
+   "name": "L3HARRIS MARITIME POWER & ENERGY SOLUTIONS, INC",
+   "usd_m": 2.99,
+   "desc": "BPAU REDESIGN AND QUALIFICATION; ITEM #01"
+  },
+  {
+   "date": "2017-05-18",
+   "name": "EXLAR CORPORATION",
+   "usd_m": 2.87,
+   "desc": "ACTR,VAR,39.000 STROKE,ELMCH; ITEM #3"
+  },
+  {
+   "date": "2017-01-31",
+   "name": "FEDERAL EQUIPMENT CO",
+   "usd_m": 2.63,
+   "desc": "AWE STATOR MODIFICATIONS CVN79; ITEM #2"
+  },
+  {
+   "date": "2016-06-23",
+   "name": "RIX INDUSTRIES",
+   "usd_m": 2.1,
+   "desc": "TUBE, VARIOUS,  PULSE/ACOUSTIC LIQ; ITEM #4"
+  },
+  {
+   "date": "2016-08-09",
+   "name": "ROLLS-ROYCE MARINE NORTH AMERICA INC.",
+   "usd_m": 2.01,
+   "desc": "FINISH MACHINING, INSPECTION OF PROPS; ITEM #15"
+  }
+ ]
+}

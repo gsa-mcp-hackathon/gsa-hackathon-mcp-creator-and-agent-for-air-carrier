@@ -1,0 +1,117 @@
+{
+ "source": "ring0/RING0_CVN79.md Part E",
+ "rows": [
+  {
+   "id": "E-1",
+   "status": "live",
+   "flag": "",
+   "title": "Three different cost caps in circulation",
+   "detail": "Statutory cap $11,398.0M, SECNAV Cost Limitation Baseline $12,936M, budget submission $13,409.970M. All three are current and all three are correct for their own purpose. Any product showing one number as the cost cap will be wrong."
+  },
+  {
+   "id": "E-2",
+   "status": "resolved",
+   "flag": "",
+   "title": "The $11.341B figure",
+   "detail": "A sourced FY2019 budget estimate in then-year dollars, not a total and not a cap. Usable as a dated estimate, never as the cost of the ship."
+  },
+  {
+   "id": "E-3",
+   "status": "resolved",
+   "flag": "",
+   "title": "Obligation Work Limiting Date",
+   "detail": "Resolved in favour of OPNAVINST 4700.8M. CFO Jul 2027 plus eleven months gives Jun 2028. The NAVSEA desk reference reading of thirteen months after delivery would give Apr 2028."
+  },
+  {
+   "id": "E-4",
+   "status": "live",
+   "flag": "",
+   "title": "Keel laying date",
+   "detail": "20 July 2015 in some records, 22 August 2015 in others."
+  },
+  {
+   "id": "E-5",
+   "status": "live",
+   "flag": "",
+   "title": "Attributed delay cause shifts by year and by authority",
+   "detail": "The budget footnote says AAG certification and AWE. DOT&E adds supply chain. GAO adds material availability and workforce. HII adds untimely availability of Ford lessons. Same slip, four causes. That is itself a finding."
+  },
+  {
+   "id": "E-6",
+   "status": "live",
+   "flag": "",
+   "title": "Life-cycle savings claim, $4B against $5B",
+   "detail": "Per ship over 50 years versus Nimitz class."
+  },
+  {
+   "id": "E-7",
+   "status": "live",
+   "flag": "",
+   "title": "Is the FY2026-FY2027 unit cost increase new cost",
+   "detail": "GAO: unit costs up 3%, about $480M, roughly half from delivery schedule changes, but the Navy is using funds already budgeted for post-delivery, so these are not new program costs. The same dollars are a cost increase in one view and a reclassification in another."
+  },
+  {
+   "id": "E-8",
+   "status": "live",
+   "flag": "",
+   "title": "Program start has at least six defensible dates",
+   "detail": "FY2001 shared CVN-21 AP, FY2004 CP contract, FY2007 first hull-specific AP, Jan 2009 CP award, FY2013 procurement year, Jun 2015 DD&C award, Aug 2015 keel. Each correct for a different audience."
+  },
+  {
+   "id": "E-9",
+   "status": "live",
+   "flag": "",
+   "title": "Supplier footprint count",
+   "detail": "2,000 firms in 46 states against 43 states."
+  },
+  {
+   "id": "E-10",
+   "status": "live",
+   "flag": "",
+   "title": "Delivery against commissioning conflated",
+   "detail": "Several outlets treat March 2027 as both. Preliminary acceptance actually occurred 29 Sep 2026."
+  },
+  {
+   "id": "E-11",
+   "status": "live",
+   "flag": "",
+   "title": "A contract mislabel in the research notes",
+   "detail": "January 2009 was the Construction Preparation contract. DD&C was awarded 5 June 2015. Two different contracts six years apart."
+  },
+  {
+   "id": "E-12",
+   "status": "recorded",
+   "flag": "INTERPRETATION",
+   "title": "The dagger inference",
+   "detail": "Part K.1 reasoned the dagger marked GFE-bearing categories. The exhibit defines it in place as indicating the presence of a P-8a. Plausible, convenient, consistent with everything else, and wrong. Kept because the shape recurs: a real structural pattern with an invented interpretation laid over it."
+  },
+  {
+   "id": "E-13",
+   "status": "recorded",
+   "flag": "METHOD",
+   "title": "Announced modifications summed as obligations",
+   "detail": "N00024-09-C-2116 was carried at roughly $1.08B, built by summing announced DoD contract modifications. The obligation record gives $4,519,300,323.83, an understatement by a factor of 4.18. Announcements have a dollar threshold, omit incremental funding (which carries $2.49B here) and cannot net deobligations (68 actions, -$66.8M). A press release is an announcement, never a record."
+  },
+  {
+   "id": "E-14",
+   "status": "live",
+   "flag": "METHOD",
+   "title": "USAspending disagrees with itself",
+   "detail": "By exactly $5,880,250.00 on N00024-15-C-2114. Two of three products agree, so the transaction sum is canonical. Both are the same system on the same as-of date."
+  },
+  {
+   "id": "E-15",
+   "status": "live",
+   "flag": "KEY",
+   "title": "The 2116 identifier collision",
+   "detail": "N00024-09-C-2116 is this hull's Construction Preparation. N00024-16-C-2116 is CVN-80 and CVN-81 DD&C, carrying a $14,917,738,145 modification. Same last four digits, seven years apart, different hulls. Any fuzzy or partial match merges three hulls undetectably."
+  },
+  {
+   "id": "E-16",
+   "status": "resolved",
+   "flag": "METHOD",
+   "title": "FPDS-NG and USAspending differ by $583,963.00 on the construction preparation contract: an as-of difference",
+   "detail": "Resolved 2026-11-08. The contract is N00024-09-C-2116 (construction preparation), not the DD&C contract N00024-15-C-2114, whose transaction sum is $4,578,603,345.77. The FPDS-NG ATOM feed reported totalObligatedAmount $4,518,716,360.83 against USAspending's transaction sum of $4,519,300,323.83. The USAspending running total on 09-C-2116 through action date 2026-06-10 is exactly $4,518,716,360.83. The eight actions dated 2026-06-17 to 2026-07-20 (A00645 to AZ0122) sum to exactly $583,963.00. Cause: as-of date. totalObligatedAmount is cumulative per modification, and the entry read was the 10 June action, not the latest. Method rule: read totalObligatedAmount from the latest modification, and state the as-of date with every obligation figure. Caveat: the FPDS side is the figure as recorded on 2026-11-08 and was not re-pulled."
+  }
+ ]
+}

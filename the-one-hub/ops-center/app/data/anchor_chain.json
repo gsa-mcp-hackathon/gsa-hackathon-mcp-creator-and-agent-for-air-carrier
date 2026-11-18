@@ -1,0 +1,37 @@
+{
+ "source": "ring0/RING0_CVN79.md Part N.3",
+ "steps": [
+  {
+   "label": "Statutory cap, FY2020 NDAA",
+   "delta": 11398.0,
+   "cum": 11398.0,
+   "tag": "VERIFIED"
+  },
+  {
+   "label": "Aug 2021 baseline increase (contract overruns)",
+   "delta": 1300.0,
+   "cum": 12698.0,
+   "tag": "VERIFIED"
+  },
+  {
+   "label": "Aug 2023 increment to Cost Limitation Baseline",
+   "delta": 238.0,
+   "cum": 12936.0,
+   "tag": "DERIVED"
+  },
+  {
+   "label": "Increment to the FY2026 submission",
+   "delta": 260.0,
+   "cum": 13196.0,
+   "tag": "DERIVED"
+  },
+  {
+   "label": "Increment to the FY2027 submission",
+   "delta": 213.97,
+   "cum": 13409.97,
+   "tag": "VERIFIED"
+  }
+ ],
+ "above_cap": 2011.97,
+ "above_cap_pct": 17.7
+}

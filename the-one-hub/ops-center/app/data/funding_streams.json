@@ -1,0 +1,61 @@
+{
+ "total": 13409.97,
+ "source": "PB2027 Exhibit P-5c deduction block. VERIFIED c=0.98",
+ "streams": [
+  {
+   "name": "Advance Procurement",
+   "span": "FY2007-FY2012",
+   "value": 3327.05,
+   "pct": 24.8,
+   "by_year": {
+    "2007": 52.75,
+    "2008": 123.53,
+    "2009": 1210.561,
+    "2010": 482.938,
+    "2011": 902.473,
+    "2012": 554.798
+   },
+   "note": "A quarter of the hull was bought before the ship was authorized"
+  },
+  {
+   "name": "Subsequent Full Funding",
+   "span": "FY2014-FY2018",
+   "value": 7504.668,
+   "pct": 56.0,
+   "by_year": {
+    "2014": 917.553,
+    "2015": 1219.405,
+    "2016": 1569.543,
+    "2017": 1241.783,
+    "2018": 2556.384
+   },
+   "note": ""
+  },
+  {
+   "name": "Cost to Complete",
+   "span": "FY2022-FY2027",
+   "value": 2087.3,
+   "pct": 15.6,
+   "by_year": {
+    "2022": 291.0,
+    "2023": 461.7,
+    "2024": 624.6,
+    "2025": 236.0,
+    "2026": 150.0,
+    "2027": 324.0
+   },
+   "note": "Still running in FY2027 for a ship that reached preliminary acceptance in Sep 2026"
+  },
+  {
+   "name": "Net P-1 Funding",
+   "span": "FY2013",
+   "value": 490.952,
+   "pct": 3.7,
+   "by_year": {
+    "2013": 490.952
+   },
+   "note": "The procurement year itself carried 3.7%. An accounting label, not an economic event"
+  }
+ ],
+ "residual": 0.0
+}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Register</div>
+ <h1>Gap register</h1>
+ <p class="lede">Every unknown carries a type and the type determines who works it. A gap is never
+  assigned back to the sponsor: an unknown is work to be executed, not a question to hand upward.
+  Closing gaps opens gaps, and that is the register working rather than failing.</p>
+</div>
+
+<div class="grid g4" style="margin-bottom:1rem">
+ <div class="stat"><div class="k">Registered</div><div class="v">{{ g.total }}</div><div class="n">G1 through G{{ g.total }}</div></div>
+ <div class="stat up"><div class="k">Open</div><div class="v">{{ g.open }}</div><div class="n">each with a named executor</div></div>
+ <div class="stat good"><div class="k">Closed or resolved</div><div class="v">{{ g.closed }}</div><div class="n">most by document research needing no access</div></div>
+ <div class="stat acc"><div class="k">Workable now, no access</div><div class="v">{{ g.free_now|length }}</div>
+  <div class="n">{{ g.free_now|join(", ") }}</div></div>
+</div>
+
+<div class="card">
+ <h2>The discovery queue</h2>
+ <p class="cap">{{ g.ranking }} Bubble area is dollar exposure. Green is free to work now, red is
+  high exposure waiting on access.</p>
+ {{ C.bubble(bub) }}
+ {% if unsized %}<p class="cap"><b>{{ unsized|length }} open gaps are not plotted</b> because nobody has
+  scored their ignorance yet ({{ unsized|map(attribute='id')|first }} to {{ unsized|map(attribute='id')|list|last }}).
+  They are in the table below. Scoring a gap in seed/gaps.index.yaml is what puts it on this chart.</p>{% endif %}
+ <div class="note ok"><b>Read it top-right first.</b> High ignorance and high closability is where
+  the next hour pays. High exposure sitting on the left is the access ask, not the work queue.</div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <div class="toolbar" data-filter-scope>
+  <button class="btn ghost on" data-filter="*" data-target="#gtable">All</button>
+  <button class="btn ghost" data-filter="open" data-target="#gtable">Open</button>
+  <button class="btn ghost" data-filter="DOCUMENT" data-target="#gtable">DOCUMENT</button>
+  <button class="btn ghost" data-filter="DATA" data-target="#gtable">DATA</button>
+  <button class="btn ghost" data-filter="SME" data-target="#gtable">SME</button>
+  <button class="btn ghost" data-filter="CATALOG" data-target="#gtable">CATALOG</button>
+  <button class="btn ghost" data-filter="zero_access" data-target="#gtable">Zero access</button>
+  <input type="search" placeholder="Search gaps…" data-search="#gtable" data-count="#gn" style="min-width:240px;margin-left:auto">
+  <span class="pill"><b id="gn">{{ g.rows|length }}</b> shown</span>
+ </div>
+ <div class="tscroll" id="gtable" style="max-height:none">
+  <table>
+   <thead><tr><th data-sort>ID</th><th>Question</th><th>Type</th><th>Executor</th>
+    <th class="num" data-sort>Exposure $M</th><th>Closability</th><th class="num" data-sort>Priority</th></tr></thead>
+   <tbody>
+   {% for r in ranked %}
+   <tr data-row data-tags="{{ 'open' if not r.closed else 'closed' }} {{ r.type }} {{ r.closability }}">
+    <td><span class="b {% if r.closed %}b-ok{% else %}b-warn{% endif %}">{{ r.id }}</span></td>
+    <td><b style="font-size:.85rem">{{ r.title }}</b>
+     {% if r.note %}<div class="muted" style="font-size:.78rem;max-width:62ch">{{ r.note }}</div>{% endif %}</td>
+    <td><span class="b b-mut">{{ r.type }}</span></td>
+    <td style="font-size:.79rem">{{ r.executor }}</td>
+    <td class="num" data-v="{{ r.exposure_usd_m }}">{% if r.exposure_usd_m %}{{ "{:,.0f}".format(r.exposure_usd_m) }}{% else %}<span class="muted">-</span>{% endif %}</td>
+    <td>{% if r.closability == "zero_access" %}<span class="b b-ok">zero access</span>
+        {% elif r.closability == "query" %}<span class="b b-info">query</span>
+        {% elif r.closability == "access_required" %}<span class="b b-bad">access</span>
+        {% elif r.closability == "sme" %}<span class="b b-warn">SME{% if r.decay %} · {{ r.decay }} decay{% endif %}</span>
+        {% else %}<span class="muted">-</span>{% endif %}</td>
+    <td class="num" data-v="{{ r.priority }}">{% if r.priority %}{{ "{:,.0f}".format(r.priority) }}{% else %}<span class="muted">-</span>{% endif %}</td>
+   </tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+ <div class="src"><b>Source</b> {{ g.source }} · ranking is exposure x ignorance x closability, and
+  the three terms stay visible on the row so a reader sees why a gap is where it is.</div>
+</div>
+{% endblock %}

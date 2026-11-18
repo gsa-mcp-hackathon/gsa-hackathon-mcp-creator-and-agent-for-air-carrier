@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Evidence</div>
+ <h1>Knowledge base</h1>
+ <p class="lede">Every document in the package, what it establishes, and whether it is
+  searchable. A corpus you cannot interrogate is a folder. This one is indexed to the page,
+  so a passage can be cited and returned to.</p>
+</div>
+
+<div class="kpi-row">
+ <div class="kpi acc"><div class="k">Artifacts catalogued</div>
+  <div class="v">{{ corpus.count }}</div>
+  <div class="n">{{ "%.0f"|format(corpus.bytes / 1048576) }}MB, each addressed by sha256</div></div>
+ <div class="kpi"><div class="k">Searchable chunks</div>
+  <div class="v">{{ "{:,}".format(kb.chunks or 0) }}</div>
+  <div class="n">from {{ kb.documents or embed|length }} documents, every hit cited to a page</div></div>
+ <div class="kpi"><div class="k">Distinct terms</div>
+  <div class="v">{{ "{:,}".format(kb.terms or 0) }}</div>
+  <div class="n">BM25 index. No model and no network required</div></div>
+ <div class="kpi"><div class="k">Not embedded, by design</div>
+  <div class="v">{{ table|length + asset|length }}</div>
+  <div class="n">{{ table|length }} structured, {{ asset|length }} images</div></div>
+</div>
+
+<section class="card">
+ <h2>Search it</h2>
+ <p class="sub">Lexical retrieval over the indexed documents. Authoritative sources only by
+  default: without that filter the analyst's own dossier outranks the documents it summarises
+  on nearly every query, because a summary written in your vocabulary always out-matches its
+  source. Citing the summary is how a lead silently becomes a figure.</p>
+ <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:.6rem 0">
+  <input id="kbq" type="search" placeholder="e.g. what does the cost cap exclude"
+         style="flex:1;min-width:280px" aria-label="Search the knowledge base">
+  <label style="display:flex;align-items:center;gap:.35rem;font-size:.85rem">
+   <input type="checkbox" id="kbauth" checked> authoritative only</label>
+  <button class="btn" id="kbgo" type="button">Search</button>
+ </div>
+ <div id="kbres"></div>
+</section>
+
+<section class="card" style="margin-top:1rem">
+ <h2>Indexed documents <span class="muted">({{ embed|length }})</span></h2>
+ <p class="sub">Prose and the tables printed inside documents. Chunked with the page number
+  and every legend on that page attached, because a legend changes what a figure means and
+  cannot be recovered later.</p>
+ <table class="ledger">
+  <thead><tr><th>Document</th><th>Establishes</th><th class="num">Pages</th><th>Grade</th></tr></thead>
+  {% for r in embed %}
+  <tr>
+   <td><b style="font-size:.83rem">{{ r.filename }}</b>
+    <div class="muted mono" style="font-size:.73rem">{{ r.artifact_id }}</div></td>
+   <td style="font-size:.81rem">{{ r.establishes or "—" }}</td>
+   <td class="num">{{ r.pages or "—" }}</td>
+   <td>{% if r.grade == "AUTHORITATIVE" %}<span class="b b-ok">authoritative</span>
+       {% else %}<span class="b b-mut">working</span>{% endif %}</td>
+  </tr>
+  {% endfor %}
+ </table>
+</section>
+
+<div class="grid2" style="margin-top:1rem">
+ <section class="card">
+  <h2>Structured, not embedded <span class="muted">({{ table|length }})</span></h2>
+  <p class="sub">Queried with SQL rather than by meaning. Embedding these was tried and
+   produced 16,072 of 18,871 chunks, swamping the index with rows that a WHERE clause
+   answers better.</p>
+  <table class="ledger">
+   {% for r in table %}
+   <tr><td style="font-size:.81rem">{{ r.filename }}</td>
+    <td class="num muted">{{ "%.0f"|format(r.bytes / 1024) }}KB</td></tr>
+   {% endfor %}
+  </table>
+ </section>
+ <section class="card">
+  <h2>Imagery <span class="muted">({{ asset|length }})</span></h2>
+  <p class="sub">Catalogued and stored, never indexed and never a cost source.</p>
+  <table class="ledger">
+   {% for r in asset %}
+   <tr><td style="font-size:.81rem">{{ r.filename }}</td>
+    <td class="num muted">{{ "%.0f"|format(r.bytes / 1024) }}KB</td></tr>
+   {% endfor %}
+  </table>
+ </section>
+</div>
+{% endblock %}

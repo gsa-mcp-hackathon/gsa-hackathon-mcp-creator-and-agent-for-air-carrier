@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block body %}
+{% set x = card.exception %}
+<div class="phead">
+ <div class="eyebrow"><a href="/work">Work queue</a> · Exception</div>
+ <h1>{{ x.citation.rule_id }} v{{ x.citation.rule_version }} · {{ x.subject_type }}</h1>
+ <p class="lede">{% if card.rule %}{{ card.rule.statement_text }}{% else %}The rule text for this version could not be read.{% endif %}</p>
+</div>
+
+{% if outcome %}
+<div class="note {{ 'ok' if outcome.outcome == 'allowed' else 'bad' }}" role="status">
+ <b>{{ "Recorded." if outcome.outcome == "allowed" else "Refused. Nothing was changed." }}</b>
+ {{ outcome.reason }}
+ {% if outcome.decision_id %}<span class="muted">Decision <code>{{ outcome.decision_id }}</code>.</span>{% endif %}
+</div>
+{% endif %}
+{% if not card.obo %}<div class="note warn"><b>Read only.</b> {{ obo_reason }}</div>{% endif %}
+
+{# The answer line: from the lane and the rule state, by code (harness.exception_lane). #}
+<div class="note {{ 'warn' if card.lane == 'decide' else 'ok' if card.lane == 'system' else 'bad' }}" role="status">
+ <b>{% if card.lane == 'system' %}No action.{% elif card.lane == 'decide' %}Decision needed.{% else %}Lane unknown.{% endif %}</b>
+ {{ card.answer }}
+ {% if card.lane == 'system' %}<span class="muted">Listed under System on the <a href="/work#lane-system">work queue</a>. The evidence below is kept for audit.</span>{% endif %}
+</div>
+
+<div class="grid g-2-1">
+ <section class="card" aria-labelledby="h-what">
+  <h2 id="h-what">What the rule found</h2>
+  {{ ui.figure(x.amount, "fig-lg") }}
+  {{ ui.citation(x.citation) }}
+  <dl class="kv">
+   <dt>Status</dt><dd><span class="b {{ 'b-warn' if x.status == 'open' else 'b-mut' }}">{{ x.status }}</span></dd>
+   <dt>Owner</dt><dd><b>{{ x.owner_role }}</b> · {{ x.owner_office }}</dd>
+   <dt>Required action</dt><dd>{{ x.required_action }}</dd>
+   <dt>Window closes</dt><dd>{{ x.window_closes_at or "The rule sets no window." }}</dd>
+   <dt>Detected</dt><dd>{{ x.detected_at }} in evaluation <code>{{ x.eval_id }}</code></dd>
+   <dt>Area</dt><dd>{{ x.area or "not recorded" }}</dd>
+  </dl>
+  {{ ui.section_error(card.rule_error) }}
+  {% if card.rule %}
+  <details class="rulebox"><summary>Rule {{ card.rule.rule_id }} version {{ card.rule.version }} as it stood</summary>
+   <dl class="kv">
+    <dt>Effective from</dt><dd>{{ card.rule.effective_from }}</dd>
+    <dt>Rule status</dt><dd>{{ card.rule.status }}{% if card.rule.blocked_reason %}: {{ card.rule.blocked_reason }}{% endif %}</dd>
+    <dt>Parameters</dt><dd class="mono">{{ card.rule.params_json }}</dd>
+    <dt>Written by</dt><dd>{{ card.rule.created_by }}</dd>
+   </dl>
+  </details>
+  {% endif %}
+ </section>
+
+ <section class="card" aria-labelledby="h-agent">
+  <h2 id="h-agent">What the agent found</h2>
+  {{ ui.section_error(card.runs_error) }}
+  {% set run = card.latest_run %}
+  {% if run %}
+   <p class="small muted">Latest of {{ card.run_count }} run{{ "" if card.run_count == 1 else "s" }} · {{ run.specialist }} · {{ run.outcome }} · ended {{ run.ended_at }}</p>
+   {% if run.finding %}
+   <div class="finding">
+    {{ ui.actor(run.finding.actor) }}
+    <blockquote>{{ run.finding.text }}{% if run.finding.truncated %} <span class="muted">(shortened when stored)</span>{% endif %}</blockquote>
+    {{ ui.citation(run.finding.citation) }}
+    {{ ui.verdict(run.finding.verdict) }}
+   </div>
+   {% else %}
+   {{ ui.empty("This run recorded no finding. Runs before 2026-11-11 did not store the agent's conclusion.") }}
+   {% endif %}
+   {% if run.steps %}
+   <details class="steps-box"><summary>{{ run.steps|length }} evidence step{{ "" if run.steps|length == 1 else "s" }}</summary>
+    <ol class="stepl">{% for s in run.steps %}
+     <li>{% if s.stepped_at %}<time class="muted small">{{ s.stepped_at }}</time> {% endif %}<span class="b {{ 'b-bad' if s.status in ('error', 'blocked_no_source') else 'b-mut' }}">{{ s.status }}</span>
+      {{ s.summary }} {{ ui.citation(s.citation) }}</li>{% endfor %}
+    </ol>
+   </details>
+   {% endif %}
+  {% else %}
+   {{ ui.empty("No agent has run on this exception.") }}
+  {% endif %}
+ </section>
+</div>
+
+<section class="card" style="margin-top:1rem" aria-labelledby="h-prop">
+ <h2 id="h-prop">Proposals</h2>
+ {{ ui.section_error(card.proposals_error) }}
+ {% for p in card.proposals %}
+ <article class="proposal" aria-label="Proposal {{ p.proposal_id }}">
+  <header>
+   {{ ui.actor(p.actor) }}
+   <span class="b {{ {'pending': 'b-info', 'applied': 'b-ok', 'rejected': 'b-mut', 'blocked': 'b-bad'}.get(p.status, 'b-mut') }}">{{ p.status }}</span>
+   {% if p.intake_outcome %}<span class="b b-mut">intake: {{ p.intake_outcome }}</span>{% endif %}
+   <span class="muted small">{{ p.created_at }} · <code>{{ p.proposal_id }}</code></span>
+  </header>
+  {% if p.block_reason %}<div class="note bad"><b>Blocked.</b> {{ p.block_reason }}</div>{% endif %}
+  {% if p.unbacked %}<div class="note bad" role="alert"><b>No decision behind this status.</b> {{ p.unbacked }}</div>{% endif %}
+  <dl class="kv">
+   <dt>Writes to</dt><dd class="mono">{{ p.target }}</dd>
+   {% for pf in p.payload %}{% if pf.typed == 'figure' %}<dt>{{ pf.field }}</dt><dd>{{ ui.figure(pf.figure) }}</dd>{% else %}<dt>{{ pf.field }}</dt><dd>{{ pf.value }}</dd>{% endif %}{% endfor %}
+  </dl>
+  {{ ui.citation(p.citation) }}
+  {% if p.grounding %}<details><summary>Grounding ({{ p.grounding|length }})</summary>
+   <ul class="cites">{% for g in p.grounding %}<li>{% for gk, gv in g.items() %}<b>{{ gk }}</b> {{ gv }}{% if not loop.last %} · {% endif %}{% endfor %}</li>{% endfor %}</ul></details>{% endif %}
+  {{ ui.verdict(p.verdict) }}
+  <div class="acts">
+   {{ ui.act_button(p.authority.apply, "Apply", "/work/proposals/" ~ p.proposal_id ~ "/confirm?action=apply&exception_id=" ~ x.exception_id, "primary") }}
+   {{ ui.act_button(p.authority.reject, "Reject", "/work/proposals/" ~ p.proposal_id ~ "/confirm?action=reject&exception_id=" ~ x.exception_id) }}
+  </div>
+ </article>
+ {% else %}
+ {{ ui.empty("No proposal has been staged for this exception.") }}
+ {% endfor %}
+</section>
+
+<section class="card" style="margin-top:1rem" aria-labelledby="h-hist">
+ <h2 id="h-hist">Decisions and attempts</h2>
+ <p class="cap">Decisions are what was recorded. Attempts include every refusal, with the server's reason.</p>
+ {{ ui.section_error(card.decisions_error) }}
+ {% if card.decisions %}
+ <table class="wq"><thead><tr><th scope="col">When</th><th scope="col">Who</th><th scope="col">Action</th><th scope="col">Proposal</th><th scope="col">Authority</th><th scope="col">Notes</th></tr></thead><tbody>
+  {% for d in card.decisions %}<tr><td>{{ d.decided_at }}</td><td>{{ ui.actor(d.actor_view) }}</td><td>{{ d.action }}</td>
+   <td><code>{{ d.proposal_id[:8] }}</code></td><td>{{ d.authority_check_result }}</td><td>{{ d.notes or "" }}</td></tr>{% endfor %}
+ </tbody></table>
+ {% elif not card.decisions_error %}{{ ui.empty("No decision has been recorded on this exception.") }}{% endif %}
+ {{ ui.section_error(card.attempts_error) }}
+ {% if card.attempts %}
+ <details open><summary>{{ card.attempts|length }} attempt{{ "" if card.attempts|length == 1 else "s" }}</summary>
+ <table class="wq"><thead><tr><th scope="col">When</th><th scope="col">Who</th><th scope="col">Action</th><th scope="col">Outcome</th><th scope="col">Reason</th></tr></thead><tbody>
+  {% for a in card.attempts %}<tr{% if outcome and a.request_id == outcome.request_id %} class="hl"{% endif %}><td>{{ a.attempted_at }}</td>
+   <td><span class="actor actor-human"><span class="actor-kind">Person</span> <span class="actor-id">{{ a.actor }}</span></span></td>
+   <td>{{ a.action }}</td><td><span class="b {{ 'b-ok' if a.outcome == 'allowed' else 'b-bad' }}">{{ a.outcome }}</span></td><td>{{ a.reason }}</td></tr>{% endfor %}
+ </tbody></table></details>
+ {% endif %}
+</section>
+{% endblock %}

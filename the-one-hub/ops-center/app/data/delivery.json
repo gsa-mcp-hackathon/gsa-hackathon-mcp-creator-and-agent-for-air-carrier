@@ -1,0 +1,251 @@
+{
+ "generated": "etl/build_delivery.py, counted from the repository",
+ "window": "18 to 21 November 2026 sponsor brief",
+ "counts": {
+  "decisions_D": 34,
+  "build_decisions_B": 31,
+  "gaps_total": 65,
+  "gaps_open": 59,
+  "gaps_closed": 6,
+  "variances_E": 16,
+  "files": 305,
+  "python_files": 136,
+  "python_loc": 23849,
+  "corpus_artifacts": 43,
+  "corpus_mb": 38.2,
+  "kb_chunks": 2765,
+  "kb_documents": 22,
+  "components_done": 8,
+  "components_total": 14,
+  "percent_built": 57.1,
+  "checks_passing": 291,
+  "checks_failing": 0
+ },
+ "tests": [
+  {
+   "suite": "test_gate",
+   "label": "Gate routing",
+   "checks": 10,
+   "failed": 0,
+   "passing": true
+  },
+  {
+   "suite": "test_agents",
+   "label": "Agents",
+   "checks": 46,
+   "failed": 0,
+   "passing": true
+  },
+  {
+   "suite": "test_app",
+   "label": "Front end and integrity",
+   "checks": 72,
+   "failed": 0,
+   "passing": true
+  },
+  {
+   "suite": "test_harness",
+   "label": "Rule harness",
+   "checks": 64,
+   "failed": 0,
+   "passing": true
+  },
+  {
+   "suite": "test_work",
+   "label": "Work queue",
+   "checks": 77,
+   "failed": 0,
+   "passing": true
+  },
+  {
+   "suite": "test_si",
+   "label": "Specialist runs",
+   "checks": 22,
+   "failed": 0,
+   "passing": true
+  }
+ ],
+ "gates": [
+  {
+   "gate": "A",
+   "question": "Is Databricks Apps enabled in the workspace?",
+   "status": "unverified",
+   "note": "checks/gates.py runs it. Needs a configured CLI profile."
+  },
+  {
+   "gate": "B",
+   "question": "What is the serverless egress policy on this workspace?",
+   "status": "unverified",
+   "note": "checks/gates.py runs it. Needs a configured CLI profile."
+  },
+  {
+   "gate": "C",
+   "question": "Can the sponsor actually open the app?",
+   "status": "unverified",
+   "note": "checks/gates.py runs it. Needs a configured CLI profile."
+  },
+  {
+   "gate": "D",
+   "question": "Is Advana budget execution data reachable for the specific appropriation lines?",
+   "status": "unverified",
+   "note": "checks/gates.py runs it. Needs a configured CLI profile."
+  }
+ ],
+ "components": [
+  {
+   "name": "Contracts and policy",
+   "path": "core/",
+   "status": "done",
+   "note": "Claim, Coordinate, Gap, the D-decisions as predicates, the gate as a routing table"
+  },
+  {
+   "name": "The gate",
+   "path": "core/policy/gate.py",
+   "status": "done",
+   "note": "Three-axis routing with a miss log. No figure reaches a product without it"
+  },
+  {
+   "name": "Tie-out",
+   "path": "ops/agents/tieout",
+   "status": "done",
+   "note": "Two-axis close, anchor chain, per-step cumulative. Runs daily and goes red on a break"
+  },
+  {
+   "name": "Challenger",
+   "path": "ops/agents/challenger",
+   "status": "done",
+   "note": "Catches all three recorded errors from their own text. Tells, not scores"
+  },
+  {
+   "name": "Investigator",
+   "path": "ops/agents/investigator",
+   "status": "done",
+   "note": "Ranked queue, plans with no model, D16 enforced in code. Triages prose questions into existing gaps, proposed gaps and collection requirements"
+  },
+  {
+   "name": "Analyst engine",
+   "path": "core/analyst",
+   "status": "partial",
+   "note": "Deterministic LOA leads with three options and calibrated confidence, plus a backtest on N00024-15-C-2114 (N00024-09-C-2116 has no labels yet). Top-1 ties the dominant-account baseline (6/8 periods). Split error 0.337 vs 0.349 favours the engine only through the two missed periods. Log loss 1.02 vs 1.18 (smoothed baseline) favours it in the six hit periods too, because it is more confident when right. No proven skill at n=8"
+  },
+  {
+   "name": "Knowledge base",
+   "path": "ops/ingest/",
+   "status": "done",
+   "note": "2,765 chunks from 22 documents, every hit cited to a page"
+  },
+  {
+   "name": "Front center",
+   "path": "app/",
+   "status": "done",
+   "note": "FastAPI and Jinja2, server-side SVG, no CDN and no build step"
+  },
+  {
+   "name": "Agent surface",
+   "path": "mcp/",
+   "status": "done",
+   "note": "Deployed as mcp-aircarrier-ops (read-only stores) and mcp-aircarrier-analyst (LOA investigator). mcp/mcp_server.py is the in-bundle reference and is not deployed"
+  },
+  {
+   "name": "Reader",
+   "path": "ops/agents/reader",
+   "status": "partial",
+   "note": "Transaction, exhibit and prose handlers turn documents into claims and mechanisms. Tables with no handler are deferred. Exhibit units are read from the row, column, title and page legend; 1,778 of 11,632 active exhibit claims stay UNKNOWN because their page prints no unit (1,556 on twelve P-29/P-30 pages), and the reader does not guess. 397 Hull Number cells, ship identifiers rather than quantities, were withdrawn as ledger versions on 2026-11-12 (exhibit/0.4 no longer reads them)"
+  },
+  {
+   "name": "Attributor",
+   "path": "ops/agents/attributor",
+   "status": "not started",
+   "note": "Assigns a claim to a layer and a cause category"
+  },
+  {
+   "name": "Briefer",
+   "path": "ops/agents/briefer",
+   "status": "not started",
+   "note": "Assembles the account with its trust states intact"
+  },
+  {
+   "name": "Unity Catalog backend",
+   "path": "app/api/data.py",
+   "status": "partial",
+   "note": "The app reads its 23 page documents from Unity Catalog views (v_doc_<name>), byte-identical to the files backend, which stays as the fallback. The ingest job publishes them last (etl/publish_serving_docs.py); relational views over the source tables are phase 2"
+  },
+  {
+   "name": "IL5 adapters",
+   "path": "core/adapters/il5",
+   "status": "by design",
+   "note": "Every method raises NotImplementedError. That is the transfer checklist"
+  }
+ ],
+ "changelog": [
+  {
+   "date": "2026-11-06",
+   "label": "",
+   "body": "Decision log created, replacing an activity-style gate-check log that recorded which files changed on which day. That is history without reasoning and does not prevent drift. A decision with its reasoning can be held against a later proposal, which is the purpose."
+  },
+  {
+   "date": "2026-11-06",
+   "label": "",
+   "body": "Gap register created, replacing an open-questions list that had no owners."
+  },
+  {
+   "date": "2026-11-06",
+   "label": "consolidation",
+   "body": "Merged the decision log and gap register into this file, stripped design restatement from both so each entry points to the owning document, added D21 and the verification record."
+  },
+  {
+   "date": "2026-11-07",
+   "label": "enterprise scope",
+   "body": "Added D22 through D27 covering the enterprise-pilot framing and the two deliverables, the product surface and the rule keeping it tied to the spine, the event and narrative stream, the community of practice as SME executor, derived risk analysis, and drill-through as a requirement. No gap was closed or opened by this pass."
+  },
+  {
+   "date": "2026-11-07",
+   "label": "delivery plan",
+   "body": "Added D28 through D30 for the prototype platform decisions, and `PLAN.md` for the sponsor brief in the 18 to 21 November window. `PLAN.md` is deliberately outside the durable four, since it goes stale on a known date. Verified against Databricks documentation that Apps inherit serverless egress control, that pypi.org must be allowlisted for the app build itself in a restricted workspace, that apps are reachable only by\u2026"
+  },
+  {
+   "date": "2026-11-07",
+   "label": "reconciliation pass",
+   "body": "Folded `ring0/ring0_research_notes.md`'s 2026-11-06 gate-check findings into the durable files rather than leaving them stranded in the research notes. Sharpened G2 with the named STARS-to-SABRS (S2S) / FMP-4 migration project as the concrete object behind the residual NAVSEA 01 / DFAS question. Added DODIG-2012-051's Navy ERP SFIS/USSGL non-compliance finding to the verification record as carried-but-unverified."
+  },
+  {
+   "date": "2026-11-07",
+   "label": "public data research pass",
+   "body": "Added `ring0/RING0_CVN79.md` as the Ring 0 source catalog and identifier set, and D31 for the division of labor against `ring0/ring0_research_notes.md`. Opened G8 through G13 from that research: the Navy ERP subhead to NWA/WBS mapping, the MOCAS to Navy ERP entitlement seam, this hull's obligation work limiting date, the cost and software data reporting submissions, the FY2016 cap exclusions, and the 2024 welding rework cost."
+  },
+  {
+   "date": "2026-11-08",
+   "label": "asset, property and industrial research pass",
+   "body": "Extended `ring0/RING0_CVN79.md` with five sections: asset valuation and evaluation, government furnished property with the F-35 precedent, the cost increase timeline against the official cost categories, the industrial map of who builds what, and a clue map for costs outside the two shipbuilder contracts. Opened G14 through G19. Four findings change the design rather than only adding reference."
+  },
+  {
+   "date": "2026-11-08",
+   "label": "reconstruction pass",
+   "body": "Added Part N to `ring0/RING0_CVN79.md`, an explicitly non-reportable analyst reconstruction of how the hull total is composed, and D32 for the decision to carry that reasoning as a separate tagged layer. Opened G20 and G21. Four results worth holding onto."
+  },
+  {
+   "date": "2026-11-08",
+   "label": "primary source pass",
+   "body": "Rebuilt Part N of `ring0/RING0_CVN79.md` on primary documents after they were placed in `ring0/reference/`: the fiscal year 2027 shipbuilding justification book and a full federal transaction download for the detail design and construction contract. The reconstruction is no longer an estimate and reconciles to zero residual on two independent axes. Closed G10, G17 and G18, narrowed G20, opened G22 and G23, and resolved E-3."
+  },
+  {
+   "date": "2026-11-08",
+   "label": "correction pass, reader initiated",
+   "body": "A reader supplied a federal spending extract for the two prime contracts and asked why three contract numbers in it were absent from the research and why the construction preparation contract was carried at roughly a billion dollars when its obligations were four and a half. Both questions had answers and both answers were findings."
+  },
+  {
+   "date": "2026-11-08",
+   "label": "G27 closed by direct query",
+   "body": "The public spending record was refused by the session's network allowlist for the third time, so the federal procurement data system ATOM feed was queried directly and G27 closed the same day it opened. Neither contract belongs to this hull. N00024-18-C-4100 is Vericor Power Systems, not General Atomics, and is a landing craft part."
+  },
+  {
+   "date": "2026-11-09",
+   "label": "proposed gaps adopted",
+   "body": "All 37 gaps the investigator proposed from prose questions (`aircarrier_proposed_gaps`, run `investigator-65a84c4f589d`) adopted as G29 to G65, each keeping its `PQ-` id. By type 29 are `DOCUMENT`, 5 `DATA`, 2 `CATALOG` and 1 `SME`; by closability 30 wait on access, 4 are reachable by query and 3 wait on a person. None is sized for exposure yet."
+  }
+ ],
+ "gap_burn": {
+  "open": 59,
+  "closed": 6
+ }
+}

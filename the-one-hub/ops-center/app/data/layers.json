@@ -1,0 +1,60 @@
+{
+ "source": "BLUEPRINT.md section 8. Hub and spoke with the ledger as hub.",
+ "layers": [
+  {
+   "id": "L0",
+   "name": "Reported",
+   "producer": "The Department to Congress, plus oversight bodies",
+   "purpose": "Justification and accountability",
+   "status": "rich",
+   "present": "Parts A to E and K.2. SARs, MSARs, J-Books, CRS, GAO, DODIG",
+   "access": "none needed"
+  },
+  {
+   "id": "L1",
+   "name": "Budget",
+   "producer": "The comptroller chain",
+   "purpose": "Plan, request, appropriate, apportion, allot, obligate, expend",
+   "status": "partial",
+   "present": "P-5c categories, P-40 funding streams by year, the appropriation map from the contract's own account file",
+   "access": "Advana budget execution for the specific appropriation lines (Gate D)"
+  },
+  {
+   "id": "L2",
+   "name": "Ledger",
+   "producer": "The accounting systems and DFAS",
+   "purpose": "Record transactions under the USSGL",
+   "status": "absent",
+   "present": "nothing",
+   "access": "NAVSEA 01 or PEO Carriers. The long pole"
+  },
+  {
+   "id": "L3",
+   "name": "Asset",
+   "producer": "Accounting plus property accountability",
+   "purpose": "Accumulate CIP, capitalize at placement in service, depreciate",
+   "status": "standards only",
+   "present": "Part I. The standards stack and the three structural divergences. No figures",
+   "access": "Navy Office of Financial Operations"
+  },
+  {
+   "id": "L4",
+   "name": "Program",
+   "producer": "PEO Carriers, PMS 379, the shipbuilder",
+   "purpose": "Manage cost and schedule against a baseline",
+   "status": "partial",
+   "present": "MSAR EVM for CVN-80 at 56.43% complete, cost variance -$1,745.6M. Sister-hull only",
+   "access": "CADE / DCARC. Compliance rated Red"
+  },
+  {
+   "id": "L5",
+   "name": "Evidence",
+   "producer": "Feeder systems",
+   "purpose": "The underlying documents",
+   "status": "partial",
+   "present": "1,875 prime transactions and 2,990 sub-awards, held and parsed",
+   "access": "PIEE, EDA, MOCAS for the rest"
+  }
+ ],
+ "topology": "L2 is the hub, the only layer where every dollar has a posting. L1, L3 and L4 each tie to it on a different cut. L0 ties to L1 and L4 and never directly to L2. L5 sits beneath L2."
+}

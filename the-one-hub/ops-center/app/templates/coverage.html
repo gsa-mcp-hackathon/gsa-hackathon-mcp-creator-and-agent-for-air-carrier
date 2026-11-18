@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Coverage</div>
+ <h1>Coverage map</h1>
+ <p class="lede">Which layers are present, at what fidelity, and for the absent ones, what specific
+  access would change that. This is the artifact that does the work in the room: it converts a
+  statement of what is missing into a named ask.</p>
+</div>
+
+<div class="card">
+ <h2>The six layers</h2>
+ <p class="cap">{{ layers.topology }}</p>
+ {% for l in layers.layers %}
+ <div class="card" style="box-shadow:none;margin-bottom:.6rem;border-left:3px solid
+   {% if l.status=='rich' %}var(--ok){% elif l.status=='partial' %}var(--accent){% elif l.status=='absent' %}var(--bad){% else %}var(--warn){% endif %}">
+  <div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+   <h3 style="margin:0">{{ l.id }} · {{ l.name }}</h3>
+   {% if l.status == "rich" %}<span class="b b-ok">rich</span>
+   {% elif l.status == "partial" %}<span class="b b-info">partial</span>
+   {% elif l.status == "absent" %}<span class="b b-bad">absent</span>
+   {% else %}<span class="b b-warn">{{ l.status }}</span>{% endif %}
+   <span class="muted" style="font-size:.8rem">{{ l.producer }} · {{ l.purpose }}</span>
+  </div>
+  <div class="grid g2" style="margin-top:.5rem;gap:.7rem">
+   <div><h4>Present</h4><p style="font-size:.86rem;margin:0">{{ l.present }}</p></div>
+   <div><h4>What would change it</h4><p style="font-size:.86rem;margin:0">{{ l.access }}</p></div>
+  </div>
+ </div>
+ {% endfor %}
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Where the other costs hide</h2>
+ <p class="cap">{{ clue.source }} Each entry gives the key to query, not only the place to look.</p>
+ <div class="toolbar">
+  <input type="search" placeholder="Search the clue map…" data-search="#clue" data-count="#cn" style="min-width:280px">
+  <span class="pill"><b id="cn">{{ clue.rows|length }}</b> of {{ clue.rows|length }}</span>
+ </div>
+ <div class="tscroll" id="clue">
+  <table>
+   <thead><tr><th class="num">#</th><th>Where</th><th>Key to query</th><th>Note</th></tr></thead>
+   <tbody>
+   {% for r in clue.rows %}
+   <tr data-row><td class="num">{{ r.n }}</td><td><b style="font-size:.85rem">{{ r.where }}</b></td>
+    <td class="mono" style="font-size:.76rem">{{ r.key }}</td>
+    <td style="font-size:.81rem">{{ r.note }}</td></tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+</div>
+
+<div class="card accent" style="margin-top:1rem">
+ <h2>The asks, in order of how cheap they are</h2>
+ <ol style="font-size:.9rem;line-height:1.7;padding-left:1.1rem">
+  <li><b>Two questions closable with one email each.</b> Was any budget submitting office carrying
+   CVN-79 funds ever on SABRS (G2, NAVSEA 01 or DFAS). Were GAO-17-575's per-hull cost reporting
+   recommendations implemented (G4, NAVSEA 05C).</li>
+  <li><b>Run the GFP Position Report</b> for CAGE 43689 scoped to both contracts (G16). Existing
+   report, defined key, mandated cadence, no new access path. Best ratio in the register.</li>
+  <li><b>Confirm Advana access covers the specific appropriation lines</b> funding this hull.</li>
+  <li><b>Approve the egress allowlist</b> for the named .gov event sources.</li>
+  <li><b>One introduction</b>, to NAVSEA 01 Comptroller and to PEO Carriers or PMS 379. This is the
+   real ask. Access is the binding constraint and an introduction is the only instrument that moves it.</li>
+  <li><b>Endorsement to publish the gap register department-wide</b>, which is what opens the
+   community of practice.</li>
+ </ol>
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Execution</div>
+ <h1>Program execution</h1>
+ <p class="lede">Computed live from {{ contracts.primes[0].n + contracts.primes[1].n }} prime
+  transactions and {{ "{:,}".format(subs.rows) }} sub-awards held in the repository. Obligations are
+  usable. Outlays are not.</p>
+</div>
+
+<div class="grid g2">
+ {% for p in contracts.primes %}
+ <div class="card accent">
+  <h3>{{ p.title }}</h3>
+  <p class="cap mono">{{ p.piid }} · {{ p.pricing }} · {{ p.competition }}</p>
+  <div class="grid g2" style="gap:.6rem">
+   <div class="stat"><div class="k">Obligated</div><div class="v">${{ "{:,.0f}".format(p.obligated_usd_m) }}M</div>
+    <div class="n">{{ p.n }} actions · {{ p.share_of_hull }}% of the hull</div></div>
+   <div class="stat"><div class="k">Unobligated ceiling</div><div class="v">${{ "{:,.0f}".format(p.unobligated_usd_m) }}M</div>
+    <div class="n">against a value of ${{ "{:,.0f}".format(p.value_usd_m) }}M</div></div>
+  </div>
+  <dl class="kv" style="margin-top:.8rem">
+   <dt>Base award</dt><dd>${{ "{:,.3f}".format(p.base_usd_m) }}M on {{ p.base_date }}</dd>
+   <dt>Deobligations</dt><dd>{{ p.deob.n }} actions, {{ "{:,.3f}".format(p.deob.usd_m) }} $M</dd>
+   <dt>Reported outlays</dt><dd>{% if p.outlayed_usd_m %}${{ "{:,.3f}".format(p.outlayed_usd_m) }}M{% else %}<span class="b b-bad">$0.00</span>{% endif %}</dd>
+   <dt>Administered by</dt><dd>{{ p.admin }}</dd>
+   {% if p.pop_end %}<dt>Period of performance end</dt><dd>{{ p.pop_end }}</dd>{% endif %}
+  </dl>
+ </div>
+ {% endfor %}
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>The obligation curve, and the handoff</h2>
+ <p class="cap">The two contracts are sequential rather than parallel and they cross in FY{{ obl.crossover_fy }}.
+  Peak combined obligation year is FY{{ obl.peak.fy }} at ${{ "{:,.1f}".format(obl.peak.combined) }}M,
+  which is the year the DD&C contract was awarded: the Navy was funding both at once precisely
+  during the transition.</p>
+ {{ C.obligation_curve(obl.curve) }}
+ <div class="tscroll" style="margin-top:1rem;max-height:340px">
+  <table>
+   <thead><tr><th data-sort>FY</th><th class="num" data-sort>CP $M</th><th class="num" data-sort>DD&amp;C $M</th>
+    <th class="num" data-sort>Combined $M</th><th class="num">Cumulative $M</th></tr></thead>
+   <tbody>
+   {% for r in obl.curve %}
+   <tr {% if r.fy == obl.crossover_fy %}style="background:var(--accent-soft)"{% endif %}>
+    <td class="mono">{{ r.fy }}</td><td class="num">{{ "{:,.1f}".format(r.cp) }}</td>
+    <td class="num">{{ "{:,.1f}".format(r.ddc) }}</td><td class="num"><b>{{ "{:,.1f}".format(r.combined) }}</b></td>
+    <td class="num muted">{{ "{:,.1f}".format(r.cumulative) }}</td></tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+ <div class="note"><b>"Construction Preparation" is a misnomer, and the misnomer is where $4.5 billion
+  went.</b> The contract carries {{ obl.cp_pct_by_fy2017 }} per cent of its lifetime total by the end
+  of FY2017 and then stops. It was the Navy's vehicle for building the ship during the advance
+  procurement years, not for planning it.</div>
+</div>
+
+<div class="grid g2" style="margin-top:1rem">
+ <div class="card">
+  <h3>What the preparation contract actually bought</h3>
+  <p class="cap">Transaction descriptions on {{ contracts.primes[0].n }} actions, classified.</p>
+  {{ C.hbar(obl.classification_2116, value="usd_m", label="label", sub="n", pad_left=250, w=680) }}
+ </div>
+ <div class="card">
+  <h3>Hull attribution on the preparation contract</h3>
+  <p class="cap">Keyword scan of every transaction description. Cross-hull contamination is
+   negligible, which is what makes it safe to treat 2116 as a single-hull contract.</p>
+  {{ C.hbar(obl.hull_scan_2116, value="usd_m", label="label", sub="n", pad_left=200, w=640) }}
+ </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Appropriation map, from the contract's own account file</h2>
+ <p class="cap">{{ accounts.coverage_warning }}</p>
+ <div class="grid g2">
+  <div>
+   {{ C.hbar(accounts.accounts, value="usd_m", label="label", pad_left=260, w=660) }}
+   <div class="note warn">Account linkage covers <b>{{ accounts.coverage_pct }}%</b> of the contract.
+    An analyst querying the public record for this contract's appropriation split is seeing roughly a
+    third of it, with no warning on the page.</div>
+  </div>
+  <div>
+   <h4>Program activity</h4>
+   {{ C.hbar(accounts.program_activity, value="usd_m", label="label", pad_left=200, w=600) }}
+   <h4 style="margin-top:1rem">Treasury account symbols</h4>
+   <table><tbody>
+   {% for t in accounts.tas %}<tr><td class="mono">{{ t.label }}</td><td class="num">{{ "{:,.3f}".format(t.usd_m) }}</td></tr>{% endfor %}
+   </tbody></table>
+   <div class="note ok">The dominant TAS proves the five-year availability rule empirically, visible
+    in the transaction record rather than inferred from policy.</div>
+  </div>
+ </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Largest actions</h2>
+ <div class="toolbar">
+  <input type="search" placeholder="Filter descriptions…" data-search="#txtable" data-count="#txn" style="min-width:280px">
+  <span class="pill"><b id="txn">{{ obl.top_2116|length + obl.top_2114|length }}</b> shown</span>
+ </div>
+ <div class="tscroll" id="txtable">
+  <table>
+   <thead><tr><th data-sort>Date</th><th>Mod</th><th class="num" data-sort>$M</th><th>Description</th></tr></thead>
+   <tbody>
+   {% for t in obl.top_2116 %}<tr data-row><td class="mono">{{ t.date }}</td><td class="mono">{{ t.mod }}</td>
+    <td class="num" data-v="{{ t.usd_m }}">{{ "{:,.3f}".format(t.usd_m) }}</td><td style="font-size:.8rem">{{ t.desc }}</td></tr>{% endfor %}
+   {% for t in obl.top_2114 %}<tr data-row><td class="mono">{{ t.date }}</td><td class="mono">{{ t.mod }}</td>
+    <td class="num" data-v="{{ t.usd_m }}">{{ "{:,.3f}".format(t.usd_m) }}</td><td style="font-size:.8rem">{{ t.desc }}</td></tr>{% endfor %}
+   </tbody>
+  </table>
+ </div>
+ <div class="src"><b>Source</b> {{ contracts.source }} · as of {{ contracts.as_of }}</div>
+</div>
+{% endblock %}

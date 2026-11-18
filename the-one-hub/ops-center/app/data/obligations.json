@@ -1,0 +1,390 @@
+{
+ "source": "computed from 1,875 prime transactions",
+ "curve": [
+  {
+   "fy": 2009,
+   "cp": 195.3,
+   "ddc": 0.0,
+   "combined": 195.3,
+   "cumulative": 195.3
+  },
+  {
+   "fy": 2010,
+   "cp": 212.0,
+   "ddc": 0.0,
+   "combined": 212.0,
+   "cumulative": 407.3
+  },
+  {
+   "fy": 2011,
+   "cp": 327.4,
+   "ddc": 0.0,
+   "combined": 327.4,
+   "cumulative": 734.7
+  },
+  {
+   "fy": 2012,
+   "cp": 559.2,
+   "ddc": 0.0,
+   "combined": 559.2,
+   "cumulative": 1293.8
+  },
+  {
+   "fy": 2013,
+   "cp": 398.1,
+   "ddc": 0.0,
+   "combined": 398.1,
+   "cumulative": 1691.9
+  },
+  {
+   "fy": 2014,
+   "cp": 686.0,
+   "ddc": 0.0,
+   "combined": 686.0,
+   "cumulative": 2377.9
+  },
+  {
+   "fy": 2015,
+   "cp": 885.6,
+   "ddc": 196.5,
+   "combined": 1082.1,
+   "cumulative": 3460.0
+  },
+  {
+   "fy": 2016,
+   "cp": 634.9,
+   "ddc": 342.3,
+   "combined": 977.2,
+   "cumulative": 4437.2
+  },
+  {
+   "fy": 2017,
+   "cp": 312.4,
+   "ddc": 616.7,
+   "combined": 929.1,
+   "cumulative": 5366.3
+  },
+  {
+   "fy": 2018,
+   "cp": 10.5,
+   "ddc": 763.4,
+   "combined": 773.9,
+   "cumulative": 6140.2
+  },
+  {
+   "fy": 2019,
+   "cp": 2.8,
+   "ddc": 648.6,
+   "combined": 651.4,
+   "cumulative": 6791.6
+  },
+  {
+   "fy": 2020,
+   "cp": 7.7,
+   "ddc": 502.7,
+   "combined": 510.5,
+   "cumulative": 7302.1
+  },
+  {
+   "fy": 2021,
+   "cp": 17.5,
+   "ddc": 243.1,
+   "combined": 260.6,
+   "cumulative": 7562.7
+  },
+  {
+   "fy": 2022,
+   "cp": 56.7,
+   "ddc": 300.6,
+   "combined": 357.3,
+   "cumulative": 7920.0
+  },
+  {
+   "fy": 2023,
+   "cp": 29.2,
+   "ddc": 371.6,
+   "combined": 400.8,
+   "cumulative": 8320.8
+  },
+  {
+   "fy": 2024,
+   "cp": 45.4,
+   "ddc": 360.9,
+   "combined": 406.3,
+   "cumulative": 8727.1
+  },
+  {
+   "fy": 2025,
+   "cp": 5.1,
+   "ddc": 120.0,
+   "combined": 125.2,
+   "cumulative": 8852.3
+  },
+  {
+   "fy": 2026,
+   "cp": 133.4,
+   "ddc": 112.2,
+   "combined": 245.6,
+   "cumulative": 9097.9
+  }
+ ],
+ "peak": {
+  "fy": 2015,
+  "cp": 885.6,
+  "ddc": 196.5,
+  "combined": 1082.1,
+  "cumulative": 3460.0
+ },
+ "crossover_fy": 2017,
+ "cp_pct_by_fy2017": 93.2,
+ "classification_2116": [
+  {
+   "label": "Advance construction",
+   "n": 635,
+   "usd_m": 2493.7
+  },
+  {
+   "label": "Incremental / installment funding",
+   "n": 21,
+   "usd_m": 1882.0
+  },
+  {
+   "label": "Other / administrative",
+   "n": 118,
+   "usd_m": 461.1
+  },
+  {
+   "label": "Non-nuclear propulsion plant",
+   "n": 69,
+   "usd_m": 398.5
+  },
+  {
+   "label": "Construction preparation",
+   "n": 116,
+   "usd_m": 349.6
+  }
+ ],
+ "classification_2114": [
+  {
+   "label": "Detail design and construction",
+   "n": 779,
+   "usd_m": 2410.2
+  },
+  {
+   "label": "Incremental / installment funding",
+   "n": 7,
+   "usd_m": 1661.4
+  },
+  {
+   "label": "Other / administrative",
+   "n": 145,
+   "usd_m": 1648.4
+  }
+ ],
+ "hull_scan_2116": [
+  {
+   "label": "CVN 79 / Kennedy",
+   "n": 872,
+   "usd_m": 3503.0
+  },
+  {
+   "label": "no hull keyword",
+   "n": 73,
+   "usd_m": 1014.2
+  },
+  {
+   "label": "CVN 80 / Enterprise",
+   "n": 2,
+   "usd_m": 1.8
+  },
+  {
+   "label": "CVN 78 / Ford",
+   "n": 1,
+   "usd_m": 0.3
+  }
+ ],
+ "top_2116": [
+  {
+   "date": "2016-03-04",
+   "mod": "P00116",
+   "usd_m": 520.092,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION INCREMENTAL FUNDING"
+  },
+  {
+   "date": "2014-03-20",
+   "mod": "P00079",
+   "usd_m": 451.075,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION FY14 FUNDING"
+  },
+  {
+   "date": "2015-06-05",
+   "mod": "P00103",
+   "usd_m": 350.844,
+   "desc": "THE PURPOSE OF THIS MODIFICATION IS TO 1) REVISE THE UNIT OF ISSUE FROM MAN HOURS TO LABOR HOURS FOR CLINS 0001,0202, 0606, 0616, 0707, 0717"
+  },
+  {
+   "date": "2012-02-27",
+   "mod": "P00046",
+   "usd_m": 317.642,
+   "desc": "THE PURPOSE OF THIS MODIFICATION IS TO (1) OBLIGATE FUNDING IN THE AMOUNT OF $66,563,248 TO ITEM 000104 (ACRN: AU); (2) OBLIGATE FUNDING IN "
+  },
+  {
+   "date": "2015-05-01",
+   "mod": "P00100",
+   "usd_m": 279.1,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION; MAY 2015 INSTALLMENT FUNDING"
+  },
+  {
+   "date": "2013-08-02",
+   "mod": "P00069",
+   "usd_m": 185.225,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION"
+  },
+  {
+   "date": "2017-05-15",
+   "mod": "P00129",
+   "usd_m": 184.172,
+   "desc": "CVN 79 CP INSTALLMENT FUNDING ($184M)"
+  },
+  {
+   "date": "2015-03-18",
+   "mod": "P00098",
+   "usd_m": 177.355,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION."
+  },
+  {
+   "date": "2013-05-23",
+   "mod": "P00067",
+   "usd_m": 151.116,
+   "desc": "THE PURPOSE OF THE MODIFICATION IS TO (1) OBLIGATE FUNDING IN THE AMOUNT OF $43,493,097 TO ITEM 000105 (ACRN: BE); (2) OBLIGATE FUNDING IN T"
+  },
+  {
+   "date": "2012-09-27",
+   "mod": "P00053",
+   "usd_m": 146.884,
+   "desc": "CVN79 NON NUCLEAR PROPULSION PLANT"
+  },
+  {
+   "date": "2011-06-09",
+   "mod": "P00034",
+   "usd_m": 125.155,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION"
+  },
+  {
+   "date": "2014-02-06",
+   "mod": "P00076",
+   "usd_m": 124.862,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION"
+  },
+  {
+   "date": "2011-06-03",
+   "mod": "P00033",
+   "usd_m": 120.822,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION"
+  },
+  {
+   "date": "2016-02-18",
+   "mod": "P00115",
+   "usd_m": 117.6,
+   "desc": "CVN 79 ADVANCE CONSTRUCTION INSTALLMENT FUNDING ACTION"
+  },
+  {
+   "date": "2009-01-15",
+   "mod": "0",
+   "usd_m": 111.804,
+   "desc": "TAS::17 1611::TAS CVN79 CONSTRUCTION PREPARATION EFFORTS FY09"
+  }
+ ],
+ "top_2114": [
+  {
+   "date": "2018-05-02",
+   "mod": "P00038",
+   "usd_m": 707.617,
+   "desc": "CLIN 0001, CLIN 0003 AND CLIN 0020 FUNDING"
+  },
+  {
+   "date": "2019-04-18",
+   "mod": "P00051",
+   "usd_m": 620.523,
+   "desc": "FUND CLIN 0001 AND 0003"
+  },
+  {
+   "date": "2017-05-04",
+   "mod": "P00022",
+   "usd_m": 586.679,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79 MAY 2017 INSTALLMENT FUNDING ($586M)"
+  },
+  {
+   "date": "2020-03-10",
+   "mod": "P00067",
+   "usd_m": 454.765,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79 FUNDING"
+  },
+  {
+   "date": "2016-03-28",
+   "mod": "P00008",
+   "usd_m": 318.48,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79 MAY 2016 INCREMENTAL FUNDING"
+  },
+  {
+   "date": "2015-06-05",
+   "mod": "0",
+   "usd_m": 188.031,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79"
+  },
+  {
+   "date": "2020-11-02",
+   "mod": "P00077",
+   "usd_m": 180.177,
+   "desc": "AUTHORIZE HMR 1532.00 REV 2 ON A BILATERAL NOT-TO-EXCEED UNDEFINITIZED BASIS IN THE PERFORMANCE OF CLIN 0001 AND PROVIDE INCREMENTAL FUNDING"
+  },
+  {
+   "date": "2022-04-29",
+   "mod": "P00102",
+   "usd_m": 174.694,
+   "desc": "OBLIGATE INSTALLMENT FUNDING FOR CVN 79 DD&C CLIN 0001. OBLIGATE FUNDING FOR ENGINEERING SUPPORT VIA CLIN 0003."
+  },
+  {
+   "date": "2023-12-01",
+   "mod": "P00131",
+   "usd_m": 165.163,
+   "desc": "INSTALLMENT FUNDING FOR CLIN 0001 ADDITIONAL FUNDING FOR CLIN 0003"
+  },
+  {
+   "date": "2023-02-16",
+   "mod": "P00118",
+   "usd_m": 130.412,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79 - NET ZERO DEOBLIGATION/REOBLIGATION AND SCN INSTALLMENT FUNDING."
+  },
+  {
+   "date": "2022-12-30",
+   "mod": "P00114",
+   "usd_m": 105.817,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79 - CLIN 0001 PARTIAL INSTALLMENT FUNDING AMOUNT"
+  },
+  {
+   "date": "2023-10-23",
+   "mod": "P00129",
+   "usd_m": 87.308,
+   "desc": "FORWARD FUND INSTALLMENT FOR CLIN 0001 & 0003 FUND CLIN 0020"
+  },
+  {
+   "date": "2022-02-22",
+   "mod": "A00316",
+   "usd_m": 55.001,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79"
+  },
+  {
+   "date": "2024-12-16",
+   "mod": "P00154",
+   "usd_m": 54.0,
+   "desc": "DETAIL DESIGN AND CONSTRUCTION CVN 79"
+  },
+  {
+   "date": "2024-03-08",
+   "mod": "AZ0091",
+   "usd_m": 33.845,
+   "desc": "INSTALLATION OF THE CONSOLIDATED AFLOAT NETWORKS AND ENTERPRISE SERVICES (CANES) LOCAL AREA NETWORK (LAN) DROPS"
+  }
+ ]
+}

@@ -1,0 +1,67 @@
+{
+ "total": 13409.97,
+ "residual": -0.0,
+ "source": "PB2027 Exhibit P-5c, FY2013 column. VERIFIED c=0.98",
+ "rows": [
+  {
+   "name": "Plan Costs",
+   "value": 898.865,
+   "pct": 6.7,
+   "note": "government and contractor planning and design"
+  },
+  {
+   "name": "Basic Construction/Conversion",
+   "value": 8463.156,
+   "pct": 63.11,
+   "note": "the hull itself. 63.1% of the ship"
+  },
+  {
+   "name": "Change Orders",
+   "value": 432.065,
+   "pct": 3.22,
+   "note": "scope changed after award"
+  },
+  {
+   "name": "Electronics",
+   "value": 263.359,
+   "pct": 1.96,
+   "note": "SSDS only. EASR is budgeted under Ordnance"
+  },
+  {
+   "name": "Propulsion Equipment",
+   "value": 2041.582,
+   "pct": 15.22,
+   "note": "reactor plant. No public vendor line item anywhere"
+  },
+  {
+   "name": "Hull, Mechanical, and Electrical",
+   "value": 30.302,
+   "pct": 0.23,
+   "note": "government furnished engineering services"
+  },
+  {
+   "name": "Ordnance",
+   "value": 1149.651,
+   "pct": 8.57,
+   "note": "EMALS, EASR, AAG, MOVLAS"
+  },
+  {
+   "name": "Other Cost",
+   "value": 130.99,
+   "pct": 0.98,
+   "note": ""
+  }
+ ],
+ "gfe_bearing": [
+  "Electronics",
+  "Propulsion Equipment",
+  "Hull, Mechanical, and Electrical",
+  "Ordnance"
+ ],
+ "shipbuilder_side": [
+  "Plan Costs",
+  "Basic Construction/Conversion",
+  "Change Orders",
+  "Other Cost"
+ ]
+}

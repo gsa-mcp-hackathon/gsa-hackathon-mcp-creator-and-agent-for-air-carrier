@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Analyze</div>
+ <h1>Ask the evidence</h1>
+ <p class="lede">Ask in plain language. The agent answers only from the same records and documents
+  the pages use, shows which tools it called, and cites what each figure rests on.</p>
+ <div class="note warn" style="margin-top:.6rem"><b>Answers are leads, not reported figures.</b>
+  Each one is a starting point to verify against the cited record, under the same trust model as
+  everything else here (D16). The agent cannot change any data.</div>
+ <p class="muted" style="font-size:.76rem;margin-top:.5rem">Model: {{ models|join(" then ") }}.
+  Data: {% if live.live %}live Unity Catalog plus extracts{% else %}shipped extracts and documents
+  ({{ live.reason }}){% endif %}.</p>
+</div>
+
+<section class="card">
+ <div class="chips" id="ask-starters" aria-label="Example questions">
+  <button type="button" class="chip" data-ask>Why are there three different cost caps, and which applies to what?</button>
+  <button type="button" class="chip" data-ask>What was obligated on the DD&amp;C contract in FY2022, and what was the largest action?</button>
+  <button type="button" class="chip" data-ask>Which File C periods fail to tie to the transactions, and by how much?</button>
+  <button type="button" class="chip" data-ask>What does gap G22 block, and who could close it?</button>
+ </div>
+ <div class="chat" id="ask-log" aria-live="polite"></div>
+ <form class="askform" id="ask-form">
+  <textarea id="ask-q" rows="2" placeholder="Ask about CVN-79 cost, contracts, exhibits or open gaps"
+            aria-label="Question" required></textarea>
+  <button class="btn" type="submit" id="ask-go">Ask</button>
+ </form>
+</section>
+{% endblock %}

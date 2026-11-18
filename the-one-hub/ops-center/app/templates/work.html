@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow"><a href="/work">Work queue</a> · every exception row</div>
+ <h1>Exceptions</h1>
+ <p class="lede">Each exception is one rule, at one version, failing on named records. The rule names the
+  office that owns it and the action required. Open one to see the evidence, what the agent found, what the
+  checker said, and whether you may act.</p>
+</div>
+
+{% if not me.obo %}
+<div class="note warn"><b>Read only.</b> {{ me.reason }}</div>
+{% endif %}
+
+{% if error %}
+<div class="note bad" role="alert"><b>{{ error_title or "The exception list could not be read." }}</b> {{ error }}</div>
+<p><a class="btn ghost" href="/work">Back to the work queue</a></p>
+
+{% else %}
+{# Status as tabs with counts, so the reader sees what exists before filtering. #}
+<nav class="chips" aria-label="Exceptions by status" style="margin:.2rem 0 .7rem">
+ {% set cur = result.filters.status %}
+ <a class="chip{% if not cur %} on{% endif %}" href="{{ status_href('') }}">All <b>{{ status_total }}</b></a>
+ {% set seen = status_counts|map(attribute=0)|list %}
+ {% if 'open' not in seen %}<a class="chip{% if cur == 'open' %} on{% endif %}" href="{{ status_href('open') }}">open <b>0</b></a>{% endif %}
+ {% for s, n in status_counts %}
+ <a class="chip{% if cur == s %} on{% endif %}" href="{{ status_href(s) }}">{{ s|replace('_', ' ') }} <b>{{ n }}</b></a>
+ {% endfor %}
+</nav>
+
+<div class="card">
+ <form class="toolbar" method="get" action="/work" aria-label="Filter exceptions" data-autosubmit>
+  {% for name, label, opts in filter_options %}
+  <label class="fl">{{ label }}
+   <select name="{{ name }}" onchange="this.form.submit()">
+    <option value="">Any</option>
+    {% for o in opts %}<option value="{{ o }}" {% if result.filters[name] == o %}selected{% endif %}>{{ o }}</option>{% endfor %}
+   </select>
+  </label>
+  {% endfor %}
+  <input type="hidden" name="view" value="table">
+   <input type="hidden" name="sort" value="{{ result.sort }}">
+  <input type="hidden" name="descending" value="{{ 'true' if result.descending else 'false' }}">
+  <noscript><button class="btn" type="submit">Apply filters</button></noscript>
+  <a class="btn ghost" href="/work?view=table&status=">Show all</a>
+  <span class="pill" style="margin-left:auto">{{ ui.figure(result.total) }}</span>
+ </form>
+
+ {% if result.exceptions %}
+ <div class="tscroll" style="max-height:none">
+  <table class="wq">
+   <thead><tr>
+    {% for key, label in [("rule_id", "Rule"), (None, "Records"), ("dollar_amount", "Amount"), (None, "Owner and required action"), ("window_closes_at", "Window closes"), ("detected_at", "Detected"), (None, "Status"), (None, "Last agent run")] %}
+    <th scope="col">{% if key %}<a href="{{ sort_href(key) }}" {% if result.sort == key %}aria-sort="{{ 'descending' if result.descending else 'ascending' }}"{% endif %}>{{ label }}{% if result.sort == key %} {{ "↓" if result.descending else "↑" }}{% endif %}</a>{% else %}{{ label }}{% endif %}</th>
+    {% endfor %}
+   </tr></thead>
+   <tbody>
+   {% for x in result.exceptions %}
+    <tr>
+     <td><a href="/work/exceptions/{{ x.exception_id }}"><b>{{ x.citation.rule_id }}</b> v{{ x.citation.rule_version }}</a>
+      <div class="muted small">{{ x.area or "no area" }} · {{ x.subject_type }}</div></td>
+     <td>{% for r in x.citation.record_ids %}<code>{{ r }}</code>{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+     <td>{{ ui.figure(x.amount) }}</td>
+     <td><b>{{ x.owner_role }}</b> · {{ x.owner_office }}<div class="small">{{ x.required_action }}</div></td>
+     <td>{{ x.window_closes_at or "no window set by rule" }}</td>
+     <td>{{ x.detected_at }}</td>
+     <td><span class="b {{ 'b-warn' if x.status == 'open' else 'b-mut' }}">{{ x.status }}</span></td>
+     <td>{% if x.last_run_at %}{{ x.last_run_outcome }}<div class="muted small">{{ x.last_run_at }}</div>{% else %}<span class="muted">no run</span>{% endif %}</td>
+    </tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+ <nav class="xp-pager" aria-label="Pages">
+  {% if result.page > 1 %}<a class="btn ghost" href="{{ page_href(result.page - 1) }}">Previous</a>{% endif %}
+  <span class="pill">Page {{ result.page }}</span>
+  {% if result.has_next %}<a class="btn ghost" href="{{ page_href(result.page + 1) }}">Next</a>{% endif %}
+ </nav>
+ {% elif result.filters.status == 'open' and status_total %}
+  <div class="note ok"><b>No open exceptions.</b> Nothing needs a decision right now. The
+   {{ status_total }} recorded exception{{ 's' if status_total != 1 }} are closed
+   ({% for s, n in status_counts %}{{ n }} {{ s|replace('_', ' ') }}{% if not loop.last %}, {% endif %}{% endfor %}).
+   <a href="{{ status_href('') }}">Show them</a>.</div>
+  {% elif not status_total %}
+  {{ ui.empty("No exceptions have been recorded yet. Rules raise one when a named record fails a check.") }}
+  {% else %}
+ {{ ui.empty("No exceptions match these filters.") }}
+ {% endif %}
+</div>
+{% endif %}
+{% endblock %}

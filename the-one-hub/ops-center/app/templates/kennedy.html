@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Hull</div>
+ <h1>{{ program.name }} · {{ program.hull }}</h1>
+ <p class="lede">Second ship of the {{ program.ship_class }}. Built at {{ program.builder }}, the
+  only US shipyard able to build large-deck nuclear carriers. Preliminary acceptance
+  {{ program.preliminary_acceptance }}, delivery planned {{ program.delivery }}.</p>
+</div>
+
+<div class="grid g-2-1">
+ <div class="card pad0">
+  <img src="/static/img/cvn79-047.jpg" alt="CVN-79 under construction" style="width:100%;display:block;aspect-ratio:16/8;object-fit:cover">
+ </div>
+ <div class="card">
+  <h3>Identity</h3>
+  <dl class="kv">
+   <dt>Hull</dt><dd>{{ program.hull }}</dd>
+   <dt>Pre-delivery</dt><dd>{{ program.pre_delivery }}</dd>
+   <dt>Class</dt><dd>{{ program.ship_class }}</dd>
+   <dt>ACAT</dt><dd>{{ program.acat }}</dd>
+   <dt>Program office</dt><dd>{{ program.program_office }}</dd>
+   <dt>Builder</dt><dd>{{ program.builder }}</dd>
+   <dt>CAGE</dt><dd class="mono">{{ program.cage }}</dd>
+   <dt>District</dt><dd>{{ program.district }}</dd>
+   <dt>Sponsor</dt><dd>{{ program.sponsor }}</dd>
+   <dt>Motto</dt><dd>{{ program.motto }}</dd>
+   <dt>Service life</dt><dd>{{ program.service_life_years }} years</dd>
+  </dl>
+  <div style="display:flex;gap:.6rem;margin-top:.9rem">
+   <img src="/static/img/crest-thumb.jpg" data-full="/static/img/crest.jpg" data-lightbox alt="Ship's crest" style="width:84px;border-radius:8px;cursor:zoom-in">
+   <img src="/static/img/patch-thumb.jpg" data-full="/static/img/patch.jpg" data-lightbox alt="Ship's patch" style="width:84px;border-radius:8px;cursor:zoom-in">
+  </div>
+ </div>
+</div>
+
+<div class="grid g4" style="margin:1rem 0">
+ <div class="stat"><div class="k">Delivery</div><div class="v">{{ program.delivery }}</div>
+  <div class="n">141 months award to delivery, 193 months construction start to delivery</div></div>
+ <div class="stat"><div class="k">Completion of fitting out</div><div class="v">{{ program.cfo }}</div>
+  <div class="n">The clock that sets the OWLD</div></div>
+ <div class="stat"><div class="k">Obligation Work Limit Date</div><div class="v">{{ program.owld }}</div>
+  <div class="n">CFO plus eleven months, confirming OPNAVINST 4700.8M and refuting the NAVSEA desk reference reading</div></div>
+ <div class="stat up"><div class="k">Delay against the procurement-year plan</div><div class="v">{{ program.schedule_variance_months }} mo</div>
+  <div class="n">Four and a half years</div></div>
+</div>
+
+<div class="card">
+ <h2>Program spine</h2>
+ <p class="cap">{{ timeline|length }} dated events, each with its source. Timestamps matter more than
+  values: the same ship has a different cost at every timestamp.</p>
+ <div class="toolbar" data-filter-scope>
+  <button class="btn ghost on" data-filter="*" data-target="#tl">All</button>
+  <button class="btn ghost" data-filter="milestone" data-target="#tl">Milestones</button>
+  <button class="btn ghost" data-filter="contract" data-target="#tl">Contracts</button>
+  <button class="btn ghost" data-filter="cost" data-target="#tl">Cost</button>
+  <button class="btn ghost" data-filter="progress" data-target="#tl">Progress</button>
+  <button class="btn ghost" data-filter="risk" data-target="#tl">Risk</button>
+  <button class="btn ghost" data-filter="planned" data-target="#tl">Planned</button>
+ </div>
+ <div class="tl" id="tl">
+  {% for e in timeline %}
+  <div class="tl-item kind-{{ e.kind }}" data-tags="{{ e.kind }}">
+   <div class="tl-d">{{ e.date }}</div>
+   <div class="tl-e">{{ e.event }}</div>
+   <div class="tl-s">{{ e.src }}</div>
+  </div>
+  {% endfor %}
+ </div>
+ <div class="src"><b>Source</b> ring0/RING0_CVN79.md Part A. Every row carries a primary or secondary citation.</div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h3>Construction record</h3>
+ <p class="cap">Click to enlarge.</p>
+ <div class="gallery">
+  {% for g in gallery %}
+  <img src="/static/img/{{ g }}-thumb.jpg" data-full="/static/img/{{ g }}.jpg" data-lightbox
+       alt="CVN-79 construction and trials" loading="lazy">
+  {% endfor %}
+ </div>
+</div>
+{% endblock %}

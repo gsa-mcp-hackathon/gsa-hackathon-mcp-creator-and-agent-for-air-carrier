@@ -1,0 +1,31 @@
+# Databricks Asset Bundle for mcp-aircarrier-ops.
+#
+# Declaring resources here is what grants the app access to them on deploy
+# and keeps the deployment reproducible. Requires Databricks CLI v0.298.0+.
+#
+#   databricks bundle validate
+#   databricks bundle deploy --var="warehouse_id=<id>"
+bundle:
+  name: mcp-aircarrier-ops
+
+variables:
+  warehouse_id:
+    description: SQL warehouse the server queries through
+    default: ""
+
+resources:
+  apps:
+    mcp_aircarrier_ops:
+      name: mcp-aircarrier-ops
+      description: Let an agent answer CVN-79 cost-reconciliation questions from the Air Carrier lossless stores, returning every figure with its page or row coordinate, legends, tag and source, and never promoting a fi
+      source_code_path: ../../
+      resources:
+        - name: sql_warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+
+targets:
+  dev:
+    mode: development
+    default: true

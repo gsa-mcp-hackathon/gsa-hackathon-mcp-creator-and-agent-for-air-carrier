@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block body %}
+
+<section class="hero">
+ <img src="/static/img/hero-atlantic.jpg" alt="PCU John F. Kennedy (CVN 79) transits the Atlantic during aircraft compatibility testing">
+ <div class="scrim"></div>
+ <div class="inner">
+  <h1>What has CVN-79 cost?</h1>
+  <p>The data exists. What is missing is the connection between how the cost is reported and how it
+     was recorded. This is a defensible account of where those diverge, and why.</p>
+ </div>
+ <span class="credit">PCU John F. Kennedy, Atlantic Ocean, October 2026</span>
+</section>
+
+<div class="grid g4" style="margin-bottom:1rem">
+ <div class="stat acc"><div class="k">Total Ship Estimate</div>
+  <div class="v">${{ "{:,.0f}".format(program.total_ship_estimate_usd_m) }}M</div>
+  <div class="n">FY2027 President's Budget, Exhibit P-5c</div></div>
+ <div class="stat up"><div class="k">Above the statutory cap</div>
+  <div class="v">+{{ program.above_cap_pct }}%</div>
+  <div class="n">${{ "{:,.0f}".format(program.above_cap_usd_m) }}M over $11,398.0M. Fully attributable to four dated movements</div></div>
+ <div class="stat"><div class="k">Attributed to a named contract</div>
+  <div class="v">{{ attribution.attributed_pct }}%</div>
+  <div class="n">Up from {{ attribution.improved_from_pct }}% in one pass, by replacing an announcement-derived figure with the obligation record</div></div>
+ <div class="stat"><div class="k">Schedule variance</div>
+  <div class="v">{{ program.schedule_variance_months }} mo</div>
+  <div class="n">FY2013 submission showed Sep 2022 delivery. FY2026 shows Mar 2027</div></div>
+</div>
+
+<div class="grid g-2-1">
+ <div class="card">
+  <h2>Start here</h2>
+  <p class="cap">Four ways in, depending on what you need.</p>
+  <table class="ledger">
+   <tr><td><a href="/position"><b>Position</b></a></td>
+    <td style="font-size:.84rem">The four published cost figures side by side, why each pair differs,
+     and the one difference nobody can explain yet.</td></tr>
+   <tr><td><a href="/dashboard"><b>Decision dashboard</b></a></td>
+    <td style="font-size:.84rem">Ceilings, the account file tie-out, who can close each open gap, and
+     where the evidence pipeline is stuck.</td></tr>
+   <tr><td><a href="/explore"><b>Detail table</b></a></td>
+    <td style="font-size:.84rem">Every contract action, exhibit table, collection request and lead.
+     Filter, total and export.</td></tr>
+   <tr><td><a href="/ask"><b>Ask the evidence</b></a></td>
+    <td style="font-size:.84rem">A question in plain language, answered from the same records, with
+     citations. Answers are leads.</td></tr>
+  </table>
+  <div class="src">The ship decomposes exactly two ways (<a href="/cost">cost composition</a>). <b>Source</b> {{ cost.source }} · residual {{ "%.3f"|format(cost.residual + 0) }}</div>
+ </div>
+
+ <div class="card">
+  <h3>What the hull is made of</h3>
+  <p class="cap">Two contract numbers with one company.</p>
+  <dl class="kv">
+   <dt>Two HII primes</dt><dd>${{ "{:,.0f}".format(contracts.combined_usd_m) }}M · {{ contracts.combined_share_of_hull }}% of the hull</dd>
+   <dt>Of shipbuilder-side categories</dt><dd>{{ contracts.combined_share_of_shipbuilder_side }}%</dd>
+   <dt>Prime transactions</dt><dd>{{ contracts.primes[0].n + contracts.primes[1].n }}</dd>
+   <dt>Outlay coverage</dt><dd><span class="b b-bad">{{ contracts.outlay_coverage_pct }}%</span> of obligations</dd>
+   <dt>Supplier base</dt><dd>{{ "{:,}".format(program.industrial_base.supplier_firms) }} firms in {{ program.industrial_base.states }} states</dd>
+   <dt>Builder</dt><dd>{{ program.builder }}, CAGE {{ program.cage }}</dd>
+  </dl>
+  <div class="note bad"><b>The audit finding visible in public data.</b> Award-level outlay reporting
+   covers {{ contracts.outlay_coverage_pct }} per cent of ${{ "{:,.0f}".format(contracts.combined_usd_m) }}M obligated, and
+   the detail design contract reports zero. The shipbuilder has plainly been paid billions. This is
+   the Fund Balance with Treasury weakness appearing in the public record rather than in an audit
+   report. <a href="/gaps">G25</a>.</div>
+ </div>
+</div>
+
+<div class="grid g3" style="margin-top:1rem">
+ <div class="card">
+  <h3>Unattributed</h3>
+  <div class="v" style="font-size:1.5rem;font-weight:600">${{ "{:,.0f}".format(attribution.residual_usd_m) }}M</div>
+  <p class="cap">{{ attribution.residual_pct }}% of the hull has no public contract record. The largest
+   block is the nuclear propulsion plant, <a href="/gaps">G22</a>.
+   <a href="/cost">The breakdown</a>.</p>
+ </div>
+ <div class="card">
+  <h3>Coverage</h3>
+  <div class="v" style="font-size:1.5rem;font-weight:600">{{ layers.layers|selectattr('status', 'equalto', 'rich')|list|length }} of {{ layers.layers|length }}</div>
+  <p class="cap">evidence layers rich today. Each layer added increases resolution; none is a
+   precondition. <a href="/coverage">The map</a>.</p>
+ </div>
+ <div class="card">
+  <h3>Open questions</h3>
+  <div class="v" style="font-size:1.5rem;font-weight:600">{{ gaps.open }}</div>
+  <p class="cap">of {{ gaps.total }} registered, {{ gaps.free_now|length }} closable with no access.
+   <a href="/gaps">The register</a> · <a href="/insight">answer one</a>.</p>
+ </div>
+</div>
+
+{% if false %}{# retired 2026-11-09: attribution bars, coverage table and work queue
+   each have a home page (/cost, /coverage, /gaps). Kept out of the render. #}
+<div>
+ <div class="card">
+  <h3>Where the attribution stands</h3>
+  <p class="cap">The residual is not a budget gap. The budget closes to zero twice over. It is the
+   part of the hull that no public contract-level record attributes to CVN-79.</p>
+  {{ C.hbar(attribution.components, value="usd_m", label="label", pad_left=220, w=520) }}
+  <div class="note warn" style="margin-top:.9rem">
+   <b>${{ "{:,.0f}".format(attribution.residual_usd_m) }}M unattributed, {{ attribution.residual_pct }}%.</b>
+   Dominated by one thing: the nuclear propulsion plant at up to $1,643M, furnished through Naval
+   Reactors with funding crossing into the Department of Energy and no public vendor line item
+   anywhere. <a href="/gaps">G22</a>.</div>
+ </div>
+
+ <div class="card">
+  <h3>Coverage by layer</h3>
+  <p class="cap">The system produces its artifacts at every access level, including zero. Each layer
+   added increases resolution. No layer is a precondition for functioning.</p>
+  <table>
+   <thead><tr><th>Layer</th><th>Producer</th><th>State</th><th>What would change it</th></tr></thead>
+   <tbody>
+   {% for l in layers.layers %}
+   <tr>
+    <td><b>{{ l.id }}</b> {{ l.name }}</td>
+    <td class="muted" style="font-size:.8rem">{{ l.producer }}</td>
+    <td>
+     {% if l.status == "rich" %}<span class="b b-ok">rich</span>
+     {% elif l.status == "partial" %}<span class="b b-info">partial</span>
+     {% elif l.status == "absent" %}<span class="b b-bad">absent</span>
+     {% else %}<span class="b b-warn">{{ l.status }}</span>{% endif %}
+    </td>
+    <td style="font-size:.8rem">{{ l.access }}</td>
+   </tr>
+   {% endfor %}
+   </tbody>
+  </table>
+  <div class="src"><b>Topology</b> {{ layers.topology }}</div>
+ </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h3>The work queue, ranked for discovery</h3>
+ <p class="cap">{{ g_note if g_note else gaps.ranking }}</p>
+ <div class="grid g3">
+  <div class="stat good"><div class="k">Open gaps closable now</div><div class="v">{{ gaps.free_now|length }}</div>
+   <div class="n">Zero access or an already-reachable query. {{ gaps.free_now|join(", ") }}</div></div>
+  <div class="stat"><div class="k">Open</div><div class="v">{{ gaps.open }}</div>
+   <div class="n">of {{ gaps.total }} registered. {{ gaps.closed }} closed or resolved</div></div>
+  <div class="stat"><div class="k">Top of the queue</div><div class="v">{{ gaps.ranked[0] }}</div>
+   <div class="n">{% for r in gaps.rows %}{% if r.id == gaps.ranked[0] %}{{ r.title }}{% endif %}{% endfor %}</div></div>
+ </div>
+ <p style="margin-top:.9rem"><a href="/gaps">Open the full register →</a></p>
+</div>
+{% endif %}
+
+<div class="card" style="margin-top:1rem">
+ <h3>The three sentences</h3>
+ <div class="grid g3">
+  <div><h4>One</h4><p>The ship is <b>${{ "{:,.3f}".format(program.total_ship_estimate_usd_m) }}M</b> and it
+   decomposes exactly, two different ways. By category it is 63.1% basic construction, 15.2%
+   propulsion equipment, 8.6% ordnance, 6.7% plans. By funding stream it is 24.8% advance
+   procurement bought before the ship was authorised, 56.0% subsequent full funding, 15.6% cost to
+   complete still running, and 3.7% in the procurement year itself.</p></div>
+  <div><h4>Two</h4><p>Two contracts with one company are <b>{{ contracts.combined_share_of_hull }}%</b>
+   of the ship and {{ contracts.combined_share_of_shipbuilder_side }}% of everything the shipbuilder is
+   paid out of. They are sequential rather than parallel and cross in FY2017.
+   "Construction Preparation" built the ship: $2.49 billion of it is described as advance
+   construction, not planning.</p></div>
+  <div><h4>Three</h4><p>The ship is <b>${{ "{:,.0f}".format(program.above_cap_usd_m) }}M above its
+   statutory cost cap</b>, {{ program.above_cap_pct }}%, and that overage is fully attributable to four dated
+   movements, of which the $1.3 billion August 2021 contract overrun is the only one that is cost
+   growth in the ordinary sense.</p></div>
+ </div>
+</div>
+{% endblock %}

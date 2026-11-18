@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Register</div>
+ <h1>Variance register</h1>
+ <p class="lede">Where public sources disagree. Each is a real finding about the reporting rather
+  than a data error to clean. Conflicting values are retained with provenance and never resolved by
+  selection: if the product is the variance, two sources disagreeing about the same cell is the raw
+  material rather than a defect.</p>
+</div>
+
+<div class="toolbar" data-filter-scope>
+ <button class="btn ghost on" data-filter="*" data-target="#vlist">All {{ v.rows|length }}</button>
+ <button class="btn ghost" data-filter="live" data-target="#vlist">Live</button>
+ <button class="btn ghost" data-filter="resolved" data-target="#vlist">Resolved</button>
+ <button class="btn ghost" data-filter="recorded" data-target="#vlist">Recorded errors</button>
+ <button class="btn ghost" data-filter="METHOD" data-target="#vlist">METHOD</button>
+ <button class="btn ghost" data-filter="KEY" data-target="#vlist">KEY</button>
+ <button class="btn ghost" data-filter="INTERPRETATION" data-target="#vlist">INTERPRETATION</button>
+ <input type="search" placeholder="Search the register…" data-search="#vlist" data-count="#vn" style="min-width:240px;margin-left:auto">
+ <span class="pill"><b id="vn">{{ v.rows|length }}</b> shown</span>
+</div>
+
+<div class="grid g2" id="vlist">
+ {% for r in v.rows %}
+ <div class="card {% if r.flag %}flag{% elif r.status == 'resolved' %}{% else %}accent{% endif %}"
+      id="{{ r.id }}" data-row data-tags="{{ r.status }} {{ r.flag }}">
+  <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+   <span class="b b-info">{{ r.id }}</span>
+   {% if r.status == "resolved" %}<span class="b b-ok">resolved</span>
+   {% elif r.status == "recorded" %}<span class="b b-bad">recorded error</span>
+   {% else %}<span class="b b-warn">live</span>{% endif %}
+   {% if r.flag %}<span class="b b-bad">{{ r.flag }}</span>{% endif %}
+  </div>
+  <h3>{{ r.title }}</h3>
+  <p style="font-size:.87rem;color:var(--fg-2);margin:0">{{ r.detail }}</p>
+ </div>
+ {% endfor %}
+</div>
+<div class="src"><b>Source</b> {{ v.source }}</div>
+{% endblock %}

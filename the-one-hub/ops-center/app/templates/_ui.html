@@ -1,0 +1,97 @@
+{#- Shared components for the work queue. Every page imports these and renders
+    the envelopes from api/envelopes.py through them, so the rules hold in one
+    place:
+
+      figure()     no bare number: value, as-of, staleness, provenance panel
+      citation()   rule id, version and record ids, on the page, not a tooltip
+      verdict()    always shown, including "not checked"
+      actor()      agent and person look different, and say which they are
+      act_button() authority as a state: disabled with the server's reason
+
+    Nothing here computes. figure.display is formatted on the server. -#}
+
+{% macro figure(f, size="") -%}
+<details class="fig fig-{{ f.state }}{% if f.stale %} fig-stale{% endif %} {{ size }}" data-figure="{{ f.figure_id }}">
+ <summary aria-label="{{ f.label }}: {{ f.display if f.state == 'known' else 'unknown' }}. Open provenance.">
+  {%- if f.state == "known" -%}
+  <span class="fig-v">{{ f.display }}</span>
+  {%- else -%}
+  <span class="fig-v fig-unknown">Unknown</span>
+  {%- endif %}
+  <span class="fig-asof">{% if f.as_of %}as of {{ f.as_of }}{% else %}no as-of time{% endif %}</span>
+  {%- if f.stale %}<span class="b b-warn">Stale</span>{% endif %}
+ </summary>
+ <div class="prov" role="group" aria-label="Provenance of {{ f.label }}">
+  {% if f.state != "known" %}<p class="prov-why"><b>Why unknown:</b> {{ f.state_reason }}</p>{% endif %}
+  <dl class="kv">
+   <dt>Figure</dt><dd>{{ f.label }}</dd>
+   {% if f.state == "known" %}<dt>Value as stored</dt><dd class="mono">{{ f.value }} {{ f.unit }}</dd>{% endif %}
+   <dt>As of</dt><dd>{{ f.as_of or "not recorded" }}</dd>
+   <dt>Current until</dt><dd>{{ f.stale_after or "no window" }}{% if f.stale %} <b>(passed)</b>{% endif %}</dd>
+   <dt>Rule</dt><dd>{% if f.provenance.rule %}{{ f.provenance.rule.rule_id }} version {{ f.provenance.rule.rule_version }}{% else %}none{% endif %}</dd>
+   <dt>Computation</dt><dd>{{ f.provenance.computation }}</dd>
+   <dt>Source</dt><dd class="mono">{{ f.provenance.source }}</dd>
+   <dt>Evidence layer</dt><dd>{{ f.provenance.layer or f.provenance.layer_note }}</dd>
+   <dt>Provenance</dt><dd class="mono"><a href="{{ f.provenance.records_href }}">{{ f.provenance.provenance_id }}</a></dd>
+    <dt>Records ({{ f.provenance.record_count }})</dt>
+   <dd>{% for r in f.provenance.record_ids %}<code>{{ r }}</code>{% if not loop.last %} {% endif %}{% else %}none{% endfor %}</dd>
+  </dl>
+ </div>
+</details>
+{%- endmacro %}
+
+{% macro citation(c) -%}
+<p class="cite{% if not c.complete %} cite-bad{% endif %}">
+ {%- if c.rule_id %}<span class="cite-rule">Rule <b>{{ c.rule_id }}</b> v{{ c.rule_version }}</span>{% else %}<span class="cite-rule">No rule cited</span>{% endif %}
+ <span class="cite-recs">{{ c.record_ids|length }} record{{ "" if c.record_ids|length == 1 else "s" }}:
+  {% for r in c.record_ids %}<code>{{ r }}</code>{% if not loop.last %}, {% endif %}{% else %}none{% endfor %}</span>
+ {%- if c.run_id %}<span class="cite-run">run <code>{{ c.run_id[:8] }}</code>{% if c.step_seq %} step {{ c.step_seq }}{% endif %}</span>{% endif %}
+ {%- if not c.complete %} <span class="b b-bad">Citation incomplete</span>{% endif %}
+</p>
+{%- endmacro %}
+
+{% macro verdict(v) -%}
+{%- set VERDICT_LABEL = {"pass": "Checker: pass", "pass_with_exception": "Checker: pass with exception",
+                         "fail": "Checker: fail", "error": "Checker: error", "not_checked": "Not checked"} -%}
+{%- set VERDICT_TONE = {"pass": "b-ok", "pass_with_exception": "b-warn", "fail": "b-bad",
+                        "error": "b-bad", "not_checked": "b-mut"} -%}
+<div class="verdict verdict-{{ v.state }}">
+ <span class="b {{ VERDICT_TONE[v.state] }}">{{ VERDICT_LABEL[v.state] }}</span>
+ {% if v.state == "not_checked" %}<span class="verdict-why">{{ v.reason }}</span>
+ {% else %}<span class="verdict-who">{{ v.checker_agent }}{% if v.model_endpoint %} · {{ v.model_endpoint }}{% endif %}{% if v.decided_at %} · {{ v.decided_at }}{% endif %}</span>
+  {% if v.checks %}<ul class="checks">{% for c in v.checks %}
+   <li><b>{{ c.check_name }}</b> {{ c.result }}{% if c.actual and c.actual != c.result %}: {{ c.actual }}{% endif %}</li>{% endfor %}</ul>{% endif %}
+  {% if v.notes %}<p class="verdict-notes">{{ v.notes }}</p>{% endif %}
+ {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro actor(a) -%}
+<span class="actor actor-{{ a.kind }}" data-actor-kind="{{ a.kind }}"{% if a.authority_basis %} data-authority="{{ a.authority_basis }}"{% endif %}>
+ <span class="actor-kind">{{ {"agent": "Agent", "human": "Person", "system": "System"}[a.kind] }}</span>
+ <span class="actor-id">{{ a.id }}</span>{% if a.role %} <span class="actor-role">as {{ a.role }}</span>{% endif %}
+ {%- if a.detail %} <span class="actor-detail">{{ a.detail }}</span>{% endif %}
+ {%- if a.authority_basis and a.authority_basis != 'none' %} <span class="actor-basis b b-mut">{{ a.authority_basis }}</span>{% endif %}
+</span>
+{%- endmacro %}
+
+{#- An action the server may refuse. Enabled only when the server said allowed;
+    otherwise a disabled control with the server's sentence beside it. The
+    link leads to a confirmation page, never straight to a write. -#}
+{% macro act_button(auth, label, href, tone="") -%}
+<div class="act">
+ {% if auth.allowed %}
+ <a class="btn {{ tone }}" href="{{ href }}">{{ label }}</a>
+ <span class="act-why ok">{{ auth.reason }}</span>
+ {% else %}
+ <button class="btn" type="button" disabled aria-disabled="true" aria-describedby="why-{{ href|replace('/', '-') }}">{{ label }}</button>
+ <span class="act-why" id="why-{{ href|replace('/', '-') }}">{{ auth.reason }}</span>
+ {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro empty(text) -%}<p class="empty">{{ text }}</p>{%- endmacro %}
+
+{% macro section_error(err) -%}
+{% if err %}<div class="note bad"><b>This section could not be read.</b> {{ err }}</div>{% endif %}
+{%- endmacro %}

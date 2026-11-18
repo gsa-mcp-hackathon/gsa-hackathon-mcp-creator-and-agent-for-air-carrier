@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Air Carrier">
+  <!-- 2026-11-11 redesign: a flat navy tile, one white carrier profile and a
+       gold waterline. Three shapes, so it stays legible at 16 px. -->
+  <rect width="32" height="32" rx="7" fill="#0B2545"/>
+  <path d="M3 16.6h26v1.6H3z" fill="#FFFFFF"/>
+  <path d="M5 18.2h22.4l-2.9 4.6H7.6z" fill="#FFFFFF"/>
+  <path d="M18.6 10.4h3.6v6.2h-3.6z M19.9 7.4h1.1v3h-1.1z" fill="#FFFFFF"/>
+  <rect x="7" y="24.6" width="18" height="1.5" rx=".75" fill="#C9A227"/>
+</svg>

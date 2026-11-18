@@ -1,0 +1,539 @@
+# G1 to G65 (G29-G65 adopted 2026-11-09 from aircarrier_proposed_gaps). The question text, reasoning and sourcing live in LOG.md Part II.
+# This file carries only the fields the work register routes and ranks on.
+# source: LOG.md Part II
+#
+# closability drives the Investigator's queue as much as exposure does:
+#   zero_access      readable today with nothing but effort
+#   query            a system already reachable
+#   access_required  waits on sponsorship
+#   sme              waits on a person, and decays
+#   terminal         IRREDUCIBLE
+#
+# ignorance: 1.0 means nothing known. Inverse of the best confidence held.
+
+gaps:
+
+  - id: G1
+    status: resolved
+    type: DOCUMENT
+    executor: AI research
+
+  - id: G2
+    status: narrowed
+    type: SME
+    executor: NAVSEA 01 or DFAS
+    closability: sme
+    decay: moderate
+    ignorance: 0.6
+
+  - id: G3
+    status: resolved_negative
+    type: DOCUMENT
+    executor: AI research
+
+  - id: G4
+    status: reframed
+    type: DATA
+    executor: NAVSEA 05C, NCCA, CAPE
+    closability: access_required
+    ignorance: 0.8
+    note: >
+      Highest dollar materiality in the register. Governs every hull-level
+      figure the product produces.
+
+  - id: G5
+    status: open
+    type: CATALOG
+    executor: someone inside Advana
+    closability: access_required
+    ignorance: 0.9
+
+  - id: G6
+    status: open
+    type: DOCUMENT
+    executor: AI research then SME
+    closability: zero_access
+    ignorance: 0.9
+    note: NSMA, the fourth Navy general ledger.
+
+  - id: G7
+    status: open
+    type: DATA
+    executor: Navy FMO
+    closability: access_required
+    ignorance: 0.8
+
+  - id: G8
+    status: open
+    type: SME
+    executor: NAVSEA 01 or DFAS
+    closability: sme
+    decay: low
+    ignorance: 0.9
+    note: >
+      Navy ERP subhead to NWA/WBS node isolating CVN-79 from CVN-80/81 within
+      BLI 2001. Until answered the budget layer cannot be split by hull, which
+      blocks the hull answer rather than delaying it.
+
+  - id: G9
+    status: open
+    type: DOCUMENT
+    executor: DFAS Columbus or SUPSHIP Newport News
+    closability: zero_access
+    ignorance: 0.8
+
+  - id: G10
+    status: closed
+    type: DOCUMENT
+    resolution: >
+      OWLD Jun 2028, CFO Jul 2027. Resolves E-3 in favour of OPNAVINST 4700.8M.
+
+  - id: G11
+    status: open
+    type: DATA
+    executor: OSD CAPE DCARC via CADE
+    closability: access_required
+    ignorance: 0.85
+    note: >
+      DCARC CSDR compliance for this program is rated Red. Expect the pull to
+      be late or incomplete, and ask for the compliance assessment alongside
+      the data.
+
+  - id: G12
+    status: open
+    type: DOCUMENT
+    executor: Navy FMB or OGC
+    closability: zero_access
+    ignorance: 0.8
+    note: >
+      FY2016 NDAA cap exclusions. Governs the meaning of the E-1 three-ceiling
+      spread the product intends to lead with.
+
+  - id: G13
+    status: open
+    type: DATA
+    executor: NAVSEA or SUPSHIP Newport News
+    closability: access_required
+    ignorance: 0.9
+    note: >
+      2024 weld rework cost. A named dated public event with no public cost
+      attached, which makes it the cleanest end-to-end test of the event
+      stream feeding cause evidence.
+
+  - id: G14
+    status: open
+    type: DOCUMENT
+    executor: Navy FMO or NAVSEA
+    closability: zero_access
+    ignorance: 0.7
+    exposure_usd_m: 13409.970
+    note: >
+      CIP relief trigger. Decides which fiscal year a roughly 13.4 billion
+      dollar asset lands on the balance sheet.
+
+  - id: G15
+    status: open
+    type: SME
+    executor: Navy FMO, PEO Carriers, NAVAIR PMA-251
+    closability: sme
+    ignorance: 0.9
+
+  - id: G16
+    status: open
+    type: DATA
+    executor: PIEE GFP Module role holder or SUPSHIP Newport News
+    closability: query
+    ignorance: 0.9
+    note: >
+      BEST RATIO IN THE REGISTER. Existing report, defined key (CAGE 43689
+      scoped to both PIIDs), mandated seven-business-day cadence, no new access
+      path. GAO-25-106868 names SUPSHIP as not consistently verifying
+      contractor property records, so this is the local test of a
+      department-wide weakness standing since FY2001.
+
+  - id: G17
+    status: resolved_negative
+    type: DOCUMENT
+    resolution: >
+      The dagger marks the presence of a P-8a, not government furnished
+      content. E-12.
+
+  - id: G18
+    status: closed_for_pb2027
+    type: DOCUMENT
+    closability: zero_access
+    ignorance: 0.4
+    note: >
+      RESIDUAL IS LIVE AND FREE. Repeat the column read for each prior budget
+      year to build the category-by-year variance series. That is the first
+      real deliverable of the variance ledger and it needs no access at all.
+
+  - id: G19
+    status: open
+    type: DATA
+    executor: Navy FMO
+    closability: access_required
+    ignorance: 0.9
+
+  - id: G20
+    status: narrowed
+    type: DATA
+    executor: PEO Carriers, NSWC Philadelphia, NAVAIR
+    exposure_usd_m: 319.213
+    closability: access_required
+    ignorance: 0.85
+    note: AWE shipset plus the residual Ordnance after EMALS and AAG.
+
+  - id: G21
+    status: closed
+    type: DOCUMENT
+    resolution: >
+      Base award 111,803,875 on 2009-01-15. Never unpriced; it was below the
+      departmental announcement threshold.
+
+  - id: G22
+    status: open
+    type: DATA
+    executor: Naval Reactors, NAVSEA, Department of Energy
+    exposure_usd_m: 1643.073
+    closability: access_required
+    ignorance: 0.90
+    note: >
+      LARGEST SINGLE UNATTRIBUTED BLOCK. Propulsion equipment, 15.2 per cent of
+      the hull, with no public vendor line item anywhere.
+
+  - id: G23
+    status: open
+    type: DOCUMENT
+    executor: Navy FMB, PEO Carriers
+    exposure_usd_m: 1766.730
+    closability: zero_access
+    ignorance: 0.8
+    note: >
+      Outfitting and post-delivery, published only as an informational row for
+      the whole line item. The CVN-79 share is not separable from it.
+
+  - id: G24
+    status: open
+    type: DOCUMENT
+    executor: SUPSHIP Newport News, NAVSEA 02
+    exposure_usd_m: 133.4
+    closability: zero_access
+    ignorance: 0.7
+
+  - id: G25
+    status: open
+    type: DATA
+    executor: DFAS Columbus, Navy FMO, OUSD(C)
+    exposure_usd_m: 9025.3
+    closability: access_required
+    ignorance: 0.95
+    note: >
+      THE AUDIT FINDING VISIBLE IN PUBLIC DATA. Outlay reporting covers 0.80
+      per cent of 9,097.9M obligated and 2114 reports zero. This is the Fund
+      Balance with Treasury weakness appearing in the public record rather than
+      in an audit report. Standing consequence until closed: no cost product
+      may take outlays for this hull from the public spending record.
+
+  - id: G26
+    status: open
+    type: DATA
+    executor: anyone with FPDS-NG or USAspending access
+    closability: query
+    ignorance: 0.7
+    note: >
+      Full contract population, built outward from the ship rather than inward
+      from the documents. PSC 1901, acquisition program code 223, funding
+      office N30270.
+
+  - id: G27
+    status: closed
+    closed_on: 2026-11-08
+    closed_by: FPDS-NG ATOM feed, exact-match and free-text, with a control query
+    type: DATA
+    executor: FPDS-NG PIID search or USAspending award page
+    closability: zero_access
+    ignorance: 0.0
+    note: >
+      Two PIIDs carried as General Atomics. Neither attribution held.
+      N00024-18-C-4100 is VERICOR POWER SYSTEMS LLC, 19,169,760 FFP signed
+      2017-11-22, for an ETF40B power producer group assembly on LCAC 86, a
+      landing craft and not this hull. N00024-14-C-4201 is absent from both
+      the awardfull and IDV indexes. A control query on N0002409C2116 returned
+      a complete record from the same feed in the same session, which is what
+      makes the absence a finding rather than a feed failure. The gap had
+      stood open on an inherited vendor label that no one had tested.
+    yielded: E-16
+
+  - id: G28
+    status: open
+    type: CATALOG
+    executor: this repo, then the Advana FM data product owner
+    closability: zero_access
+    ignorance: 0.1
+    note: >
+      Register the 2116 collision pair as a hard exclusion in every query
+      template and Advana view. Catalogue work rather than a question. Already
+      enforced in core/policy/decisions.py and seed/keyset.yaml.
+
+  # G29-G65: adopted from the investigator's proposed gaps. Exposure not yet
+  # sized, so ignorance and exposure take the build_data defaults.
+
+  - id: G29
+    status: open
+    type: DOCUMENT
+    executor: "Milestone Decision Authority / USD(A&S) acquisition document repository"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-1a85a2d3. Exposure not yet sized."
+
+  - id: G30
+    status: open
+    type: CATALOG
+    executor: "DCMA records management / agency records officer"
+    closability: query
+    note: "Adopted 2026-11-09 from PQ-1d2ba631. Exposure not yet sized."
+
+  - id: G31
+    status: open
+    type: DATA
+    executor: "SUPSHIP Comptroller and PEO Aircraft Carriers (reimbursable order register / Navy ERP)"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-2114e407. Exposure not yet sized."
+
+  - id: G32
+    status: open
+    type: DOCUMENT
+    executor: "DOT&E and the CVN-78 program office test and evaluation master plan library"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-21555673. Exposure not yet sized. Overlaps G36."
+
+  - id: G33
+    status: open
+    type: DOCUMENT
+    executor: "SUPSHIP Newport News Comptroller (document request via NAVSEA FM)"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-28d0c320. Exposure not yet sized."
+
+  - id: G34
+    status: open
+    type: DOCUMENT
+    executor: "SUPSHIP Newport News; GAO report source files"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-35b8c6a7. Exposure not yet sized."
+
+  - id: G35
+    status: open
+    type: DOCUMENT
+    executor: "NAVAIR PMA 251 program office / Milestone Decision Authority baseline files"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-3d37c3fb. Exposure not yet sized."
+
+  - id: G36
+    status: open
+    type: DOCUMENT
+    executor: "DOT&E / PEO Aircraft Carriers test and evaluation office"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-518fc9b3. Exposure not yet sized. Overlaps G32."
+
+  - id: G37
+    status: open
+    type: DOCUMENT
+    executor: "PEO Aircraft Carriers (PMS 378) program office / Milestone Decision Authority baseline file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-5665638c. Exposure not yet sized."
+
+  - id: G38
+    status: open
+    type: DOCUMENT
+    executor: "NCCA (Naval Center for Cost Analysis) and OPNAV N43/N98 maintenance notice holders"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-60482249. Exposure not yet sized."
+
+  - id: G39
+    status: open
+    type: DOCUMENT
+    executor: "Responsible DCMA ACO; DFAS Columbus debt management"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-6172e5ba. Exposure not yet sized."
+
+  - id: G40
+    status: open
+    type: DOCUMENT
+    executor: "PEO Aircraft Carriers (PMS 378) acquisition program baseline records / ASN(RDA) baseline repository"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-69390d94. Exposure not yet sized."
+
+  - id: G41
+    status: open
+    type: DOCUMENT
+    executor: "NAVSEA PMS 378 / shipbuilder contract data requirements list"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-6b0e0de0. Exposure not yet sized."
+
+  - id: G42
+    status: open
+    type: DOCUMENT
+    executor: "GAO published reports / Navy CAPE and program office independent cost estimate file"
+    closability: query
+    note: "Adopted 2026-11-09 from PQ-74429161. Exposure not yet sized."
+
+  - id: G43
+    status: open
+    type: DATA
+    executor: "Responsible DCMA ACO and DFAS Columbus contract pay"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-79adb445. Exposure not yet sized."
+
+  - id: G44
+    status: open
+    type: DATA
+    executor: "PMS 378 government-furnished-equipment cost sponsor list and the responsible other-program offices"
+    closability: sme
+    note: "Adopted 2026-11-09 from PQ-7dc2992b. Exposure not yet sized."
+
+  - id: G45
+    status: open
+    type: DOCUMENT
+    executor: "NAVSEA 05C / NCCA (Naval Center for Cost Analysis)"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-8c81891f. Exposure not yet sized. Overlaps G54."
+
+  - id: G46
+    status: open
+    type: DOCUMENT
+    executor: "PEO Aircraft Carriers (PMS 378) contracting file / NAVSEA 02 contracts office"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-9c84f959. Exposure not yet sized."
+
+  - id: G47
+    status: open
+    type: DOCUMENT
+    executor: "PEO Aircraft Carriers program office / Milestone Decision Authority correspondence file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-a62e3390. Exposure not yet sized."
+
+  - id: G48
+    status: open
+    type: CATALOG
+    executor: "DFAS Columbus MOCAS system documentation office; contract file holder"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-a8652d97. Exposure not yet sized."
+
+  - id: G49
+    status: open
+    type: DATA
+    executor: "NAVSEA FMB / PMS 378 budget execution records for SCN line 1611N and the RDT&E-to-SCN strategy change file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-ac29b248. Exposure not yet sized."
+
+  - id: G50
+    status: open
+    type: DOCUMENT
+    executor: "ASN (FM&C) Office of Financial Operations"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-ba0bdc8d. Exposure not yet sized."
+
+  - id: G51
+    status: open
+    type: DOCUMENT
+    executor: "ASN(RD&A) acquisition policy office / PEO Aircraft Carriers program documentation"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-bebcd323. Exposure not yet sized."
+
+  - id: G52
+    status: open
+    type: DOCUMENT
+    executor: "OPNAV N9 / NAVSEA cost engineering (VAMOSC program office)"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-bf51ebc4. Exposure not yet sized."
+
+  - id: G53
+    status: open
+    type: DOCUMENT
+    executor: "Office of the Assistant Secretary of the Navy (Financial Management and Comptroller), FMB - SCN budget justification books"
+    closability: query
+    note: "Adopted 2026-11-09 from PQ-bfcb40e8. Exposure not yet sized."
+
+  - id: G54
+    status: open
+    type: DOCUMENT
+    executor: "OSD Cost Assessment and Program Evaluation (CAPE)"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-c8684acc. Exposure not yet sized. Overlaps G45."
+
+  - id: G55
+    status: open
+    type: DOCUMENT
+    executor: "PEO Aircraft Carriers program office; ASN(RD&A) acquisition strategy approval file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-d09f38c9. Exposure not yet sized."
+
+  - id: G56
+    status: open
+    type: DOCUMENT
+    executor: "DCMA contract management office / Program Support Team for the shipbuilder, via the responsible ACO"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-d0b14fc4. Exposure not yet sized."
+
+  - id: G57
+    status: open
+    type: DOCUMENT
+    executor: "OPNAV N9 / ASN (FM&C) budget policy"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-d331ac6b. Exposure not yet sized."
+
+  - id: G58
+    status: open
+    type: DOCUMENT
+    executor: "OUSD(A&S) / PEO Aircraft Carriers (PEO CVN) certification file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-d4890327. Exposure not yet sized."
+
+  - id: G59
+    status: open
+    type: DOCUMENT
+    executor: "NAVAIR PMA 251 contracting officer / contract files"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-d6a755ff. Exposure not yet sized."
+
+  - id: G60
+    status: open
+    type: DATA
+    executor: "NAVSEA Budget Submitting Office financial reporting / ASN (FM&C) quarterly submission repository"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-d7b5136e. Exposure not yet sized."
+
+  - id: G61
+    status: open
+    type: DOCUMENT
+    executor: "CVN-78 Class MSAR preparer (PMS 378 business financial manager) and the EMALS program office"
+    closability: sme
+    note: "Adopted 2026-11-09 from PQ-dd15e896. Exposure not yet sized."
+
+  - id: G62
+    status: open
+    type: SME
+    executor: "PEO Aircraft Carriers (PMS 378) with NAVSEA Command Property Officer"
+    closability: sme
+    note: "Adopted 2026-11-09 from PQ-e7aa6f1a. Exposure not yet sized."
+
+  - id: G63
+    status: open
+    type: DOCUMENT
+    executor: "ASN(RDA)/Navy acquisition policy office and the CVN-78 program office APB/statutory reference file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-efe41def. Exposure not yet sized."
+
+  - id: G64
+    status: open
+    type: DOCUMENT
+    executor: "Public statute text / Navy Office of Legislative Affairs"
+    closability: query
+    note: "Adopted 2026-11-09 from PQ-f0037537. Exposure not yet sized."
+
+  - id: G65
+    status: open
+    type: DOCUMENT
+    executor: "OSD CAPE and ASN(RDA) two-ship-buy certification file"
+    closability: access_required
+    note: "Adopted 2026-11-09 from PQ-f124b1bc. Exposure not yet sized."

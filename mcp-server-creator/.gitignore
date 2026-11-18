@@ -1,0 +1,42 @@
+# Virtual environments
+.venv/
+venv/
+
+# Environment variables (keep .env.example, never commit .env)
+.env
+deploy/**/.env
+deploy/**/eval.env
+
+# Deploy kit generated artifacts
+deploy/**/eval-results/
+
+# Generated projects written by creator_write_project
+generated/
+_generated/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Ruff
+.ruff_cache/
+
+# IDE / editor
+.vscode/
+.idea/
+.zed/
+*.swp
+
+# Reference files for the Databricks eval agent
+eval/databricks/agent_server/agent.py
+eval/databricks/agent_server/utils.py

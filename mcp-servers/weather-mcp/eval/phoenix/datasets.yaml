@@ -1,0 +1,8 @@
+datasets:
+  weather-eval-0:
+    csv_path: datasets/weather-eval-0/examples/weather-eval-0.csv
+    input_keys:
+      - query
+    output_keys:
+      - responses
+    description: "8 questions for Weather Mcp"

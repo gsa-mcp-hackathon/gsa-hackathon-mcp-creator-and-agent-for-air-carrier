@@ -1,0 +1,204 @@
+{
+ "source": "ring0/RING0_CVN79.md Part N.6, PB2027 P-5a and P-8a equipment pages, FY2013 / CVN 79 rows",
+ "captured_usd_m": 1059.688,
+ "share_of_gfe_categories_pct": 30.4,
+ "note": "Propulsion Equipment, the second largest category in the ship at $2,041.582M, has no captured line items at all. The reactor plant is not itemised by vendor in any public exhibit. That is the largest single unattributed block in the hull.",
+ "rows": [
+  {
+   "usd_m": 611.307,
+   "vendor": "GENERAL ATOMICS",
+   "type": "SS/FFP",
+   "award": "May 2014",
+   "note": "EMALS"
+  },
+  {
+   "usd_m": 219.131,
+   "vendor": "GENERAL ATOMICS",
+   "type": "SS/FFP",
+   "award": "May 2014",
+   "note": "AAG"
+  },
+  {
+   "usd_m": 44.937,
+   "vendor": "RAYTHEON",
+   "type": "C/CPIF",
+   "award": "Dec 2019",
+   "note": ""
+  },
+  {
+   "usd_m": 39.607,
+   "vendor": "RAYTHEON",
+   "type": "C/FFP",
+   "award": "Nov 2019",
+   "note": ""
+  },
+  {
+   "usd_m": 39.423,
+   "vendor": "LOCKHEED MARTIN",
+   "type": "SS/FFP",
+   "award": "Dec 2022",
+   "note": ""
+  },
+  {
+   "usd_m": 12.305,
+   "vendor": "VARIOUS",
+   "type": "C/FFP",
+   "award": "Mar 2017",
+   "note": ""
+  },
+  {
+   "usd_m": 11.135,
+   "vendor": "LOCKHEED MARTIN",
+   "type": "C/FFP",
+   "award": "Apr 2019",
+   "note": ""
+  },
+  {
+   "usd_m": 10.117,
+   "vendor": "LOCKHEED MARTIN",
+   "type": "C/FFP",
+   "award": "Jan 2020",
+   "note": ""
+  },
+  {
+   "usd_m": 9.162,
+   "vendor": "RAYTHEON",
+   "type": "C/FFP",
+   "award": "Nov 2021",
+   "note": ""
+  },
+  {
+   "usd_m": 7.73,
+   "vendor": "GENERAL DYNAMICS",
+   "type": "C/FFP",
+   "award": "Sep 2014",
+   "note": ""
+  },
+  {
+   "usd_m": 7.389,
+   "vendor": "NAWCAD",
+   "type": "Various",
+   "award": "Dec 2016",
+   "note": ""
+  },
+  {
+   "usd_m": 6.092,
+   "vendor": "RAYTHEON",
+   "type": "C/FFP",
+   "award": "Jun 2019",
+   "note": "qty 2"
+  },
+  {
+   "usd_m": 5.903,
+   "vendor": "BAE SYSTEMS",
+   "type": "C/FFP",
+   "award": "May 2016",
+   "note": ""
+  },
+  {
+   "usd_m": 5.186,
+   "vendor": "RAYTHEON",
+   "type": "C/FFP",
+   "award": "Mar 2020",
+   "note": "qty 3"
+  },
+  {
+   "usd_m": 5.091,
+   "vendor": "RAYTHEON",
+   "type": "C/FFP",
+   "award": "Jun 2014",
+   "note": ""
+  },
+  {
+   "usd_m": 4.528,
+   "vendor": "GENERAL DYNAMICS",
+   "type": "C/FFP",
+   "award": "Feb 2019",
+   "note": ""
+  },
+  {
+   "usd_m": 4.505,
+   "vendor": "LAUREL TECHNOLOGIES",
+   "type": "SS/FFP",
+   "award": "Mar 2020",
+   "note": ""
+  },
+  {
+   "usd_m": 4.024,
+   "vendor": "DRS",
+   "type": "C/FFP",
+   "award": "May 2020",
+   "note": ""
+  },
+  {
+   "usd_m": 3.771,
+   "vendor": "VARIOUS",
+   "type": "Various",
+   "award": "Apr 2020",
+   "note": ""
+  },
+  {
+   "usd_m": 2.863,
+   "vendor": "VARIOUS",
+   "type": "Various",
+   "award": "Jan 2020",
+   "note": ""
+  },
+  {
+   "usd_m": 2.743,
+   "vendor": "VARIOUS",
+   "type": "Various",
+   "award": "Jan 2020",
+   "note": ""
+  },
+  {
+   "usd_m": 2.739,
+   "vendor": "BOWHEAD",
+   "type": "C/FFP",
+   "award": "Jul 2016",
+   "note": "option"
+  }
+ ],
+ "by_vendor": [
+  {
+   "vendor": "General Atomics",
+   "usd_m": 830.438
+  },
+  {
+   "vendor": "Raytheon",
+   "usd_m": 110.075
+  },
+  {
+   "vendor": "Lockheed Martin",
+   "usd_m": 60.675
+  },
+  {
+   "vendor": "Various",
+   "usd_m": 21.682
+  },
+  {
+   "vendor": "General Dynamics",
+   "usd_m": 12.258
+  },
+  {
+   "vendor": "NAWCAD",
+   "usd_m": 7.389
+  },
+  {
+   "vendor": "BAE Systems",
+   "usd_m": 5.903
+  },
+  {
+   "vendor": "Laurel Technologies",
+   "usd_m": 4.505
+  },
+  {
+   "vendor": "DRS",
+   "usd_m": 4.024
+  },
+  {
+   "vendor": "Bowhead",
+   "usd_m": 2.739
+  }
+ ]
+}

@@ -1,0 +1,144 @@
+# The identifier set that isolates CVN-79 from the data ocean.
+# This is the selector registry. It is the project's accumulated intelligence
+# and the part that transfers to the next hull and the next programme.
+# source: ring0/RING0_CVN79.md Part G (home), D.1, D.2, D.3, D.13
+
+ship:
+  hull: CVN-79
+  name: JOHN F. KENNEDY
+  class: CVN 78 GERALD R. FORD
+  program: CVN 78 Gerald R. Ford Class Nuclear Aircraft Carrier
+  acat: IC
+  program_office: PEO Carriers
+
+budget:
+  appropriation: 1611N
+  treasury_main_account: "1611"
+  agency: "017"
+  tafs_form: "017-1611 YYYY/YYYY"
+  legacy_symbol_form: "17*1611"
+  budget_activities: {"02": Other Warships, "05": "Auxiliaries, craft, prior-year program costs"}
+  line_items:
+    "2001": Carrier Replacement Program    # also written 200100
+    "5110": Outfitting
+    "5300": Completion of PY Shipbuilding Programs
+  program_element: 0204112N
+  shared_rdte_element: 0604112N            # DISTINCT. allocation method open, G4
+  other_appropriations:
+    - {appn: 1810N, ba: "04", li: "5664", name: Surface Training Equipment}
+    - {appn: 1804N, ba: "01", li: 1B5B, name: Ship Depot Operations Support}
+    - {appn: OPN}
+    - {appn: RDT&E}
+  subhead:
+    length: 4
+    encodes: [budget activity, P-1 line]
+    maps_to: Navy ERP NWA or WBS
+    note: >
+      SCN is the one DON appropriation that is line-item appropriated. The
+      subhead is therefore a structural pointer from the ledger to the Carrier
+      Replacement Program line. The NWA/WBS node distinguishing CVN-79 from
+      CVN-80/81 within BLI 2001 is the highest-value open item. G8.
+
+contracts:
+  primes:
+    - piid: N00024-09-C-2116
+      name: CVN 79 Construction Preparation
+      pricing: CPFF
+      base_award_usd: 111803875
+      base_date: 2009-01-15
+      solicitation: N0002408R2116
+      obligated_usd: 4519300323.83
+      actions: 948
+      value_usd: 5386149876.01
+      pop_end: 2025-07-31
+    - piid: N00024-15-C-2114
+      name: CVN 79 Detail Design and Construction
+      pricing: FPIF
+      base_target_usd: 3352611760
+      base_date: 2015-06-05
+      obligated_usd: 4578603345.77
+      actions: 927
+      value_usd: 4615795653.36
+  combined_usd: 9097903669.60
+  combined_share_of_hull: 0.678
+  combined_share_of_shipbuilder_side: 0.917
+  other:
+    - piid: N00019-14-C-0037
+      office: NAVAIR
+      vendor: GA-EMS
+      cage: 4V360
+      scope: EMALS and AAG, CVN 79 and CVN 80
+      cvn79_share_usd_m: 830.438        # EMALS 611.307 + AAG 219.131
+    - piid: N00024-16-C-5370
+      office: NAVSEA
+      vendor: Raytheon
+      scope: EASR, multi-platform
+      cvn79_share_usd_m: 110.075
+      warning: Obligation total is NOT a CVN-79 number. Multi-hull, multi-platform.
+
+collisions:
+  hard_exclusions:
+    - ours: N00024-09-C-2116
+      not_ours: N00024-16-C-2116
+      why: CVN-80 and CVN-81 DD&C, carrying a 14,917,738,145 dollar modification
+      rule: Match full PIID only. Never LIKE '%2116%'. Never trailing digits.
+      refs: [D34, G28, E-15]
+    - not_ours: N00024-17-C-2117
+      why: appears in MSAR tables, scope unconfirmed
+  resolved_not_this_hull:
+    # Closed 2026-11-08 against the FPDS-NG ATOM feed. Both were carried as
+    # "General Atomics, unresolved". Neither attribution survived the lookup.
+    - piid: N00024-18-C-4100
+      vendor: VERICOR POWER SYSTEMS LLC
+      vendor_as_carried: General Atomics
+      office: NAVSEA HQ N00024
+      description: ETF40B POWER PRODUCER GROUP ASY(LCAC 86)
+      base_and_all_options_usd: 19169760
+      signed: 2017-11-22
+      pricing: FFP
+      verdict: not this hull. LCAC 86 is a landing craft air cushion.
+      ref: G27
+    - piid: N00024-14-C-4201
+      vendor: null
+      vendor_as_carried: General Atomics
+      verdict: >
+        absent from both the FPDS awardfull and IDV indexes on exact-match and
+        free-text. A control query on N0002409C2116 returned a complete record
+        from the same feed in the same session, so the absence is the finding
+        and not a feed failure.
+      ref: G27
+  name_collision:
+    term: John F. Kennedy
+    why: CV-67, the previous USS John F. Kennedy, built at the same shipyard
+    rule: Keyed searches must use the hull number.
+
+vendor:
+  cage: "43689"
+  name: HII Newport News Shipbuilding
+  parent_uei: F9SDJAZFTLG6
+  recipient_uei: WMXDDH6HJNA5
+  naics: "336611"
+  psc: "1901"
+  acquisition_program_code: "223"
+  contracting_offices: [N62793 SUPSHIP Newport News, NAVSEA HQ]
+  funding_office: N30270 PROGRAM EXECUTIVE OFFICER CARRIERS
+  administered_by: SUPSHIP Newport News    # not DCMA
+
+ledger:
+  fy10_and_prior: STARS-HCM
+  fy11_forward: Navy ERP
+  supship_legacy: [STARS-FL Charleston, STARS-FL Norfolk]
+  fourth_navy_gl: NSMA                      # scope open, G6
+  seams:
+    - {id: 1, date: 2011-04-01, what: "STARS to Navy ERP, complex contracts"}
+    - {id: 2, date: 2019-08-19, what: "Navy ERP ECC to HANA"}
+    - {id: 3, date: "~2019",    what: "DD 1921 series to FlexFile"}
+    - {id: 4, date: "~2025-07", what: "MOCAS to Navy ERP entitlement, open, G9"}
+
+scope_boundary:
+  start: first AP obligation FY2007, 52.750 usd_m      # see E-8, six defensible dates
+  end: OWLD Jun 2028                                    # CFO Jul 2027 + 11 months, E-3 resolved
+  delivery: 2027-03
+  completion_of_fitting_out: 2027-07
+  total_ship_estimate_usd_m: 13409.970
+  total_source: PB2027 Exhibit P-5c, FY2013 column

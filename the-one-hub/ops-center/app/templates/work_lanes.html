@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Work queue</div>
+ <h1>What needs a decision, what is blocked, and why</h1>
+ <p class="lede">The queue answers one question for the person who owns a record: what must I decide, and
+  is the evidence good enough to sign? Items land in one of three lanes by code, never by a model.
+  <b>Decide</b> is work a named role can act on now. <b>Unblock</b> is what keeps rules from running, one row
+  per root cause. <b>System</b> is test data, repeats and defects: real, but not a decision.</p>
+</div>
+
+{% if not me.obo %}<div class="note warn"><b>Read only.</b> {{ me.reason }}</div>{% endif %}
+
+{% if error %}
+<div class="note bad" role="alert"><b>The work queue could not be read.</b> {{ error }}</div>
+{% else %}
+<div class="note {{ 'warn' if L.counts.decide else 'ok' }}" role="status"><b>{{ L.answer }}</b></div>
+
+<nav class="chips" aria-label="Lanes" style="margin:.2rem 0 .7rem">
+ <a class="chip on" href="#lane-decide">Decide <b>{{ L.counts.decide }}</b></a>
+ <a class="chip" href="#lane-unblock">Unblock <b>{{ L.unblock|length }}</b></a>
+ <a class="chip" href="#lane-system">System <b>{{ L.counts.system }}</b></a>
+ <a class="chip" href="/work?view=table&status=">Every exception row</a>
+</nav>
+
+<section class="card" id="lane-decide" aria-labelledby="h-decide">
+ <h2 id="h-decide">Decide <span class="muted small">{{ L.counts.decide }} item{{ 's' if L.counts.decide != 1 }}</span></h2>
+ <p class="muted small">Open exceptions on a live rule version, and the newest checked proposal for each subject.
+  A proposal is decided on its run page, where the evidence, both checker verdicts and Apply / Reject sit together.</p>
+ {% if L.decide %}
+ <div class="tscroll" style="max-height:none">
+  <table class="wq">
+   <thead><tr><th scope="col">Item</th><th scope="col">Goes to</th><th scope="col">Figure</th><th scope="col">Checked / required</th><th scope="col">Raised</th><th scope="col"></th></tr></thead>
+   <tbody>
+   {% for d in L.decide %}
+    <tr>
+     <td><b>{{ d.title }}</b>
+      <div class="muted small">{{ d.kind }}{% if d.rule_id %} · rule {{ d.rule_id }}{% endif %}{% if d.subject %} · {{ d.subject }}{% endif %}{% if d.copies %} · {{ d.copies }} older cop{{ 'ies' if d.copies != 1 else 'y' }} from repeat runs{% endif %}</div>
+      {% if d.addressed_to %}<div class="small">Addressed to {{ d.addressed_to }}</div>{% endif %}</td>
+     <td><b>{{ d.role }}</b>{% if d.office %}<div class="small">{{ d.office }}</div>{% endif %}
+      {% if d.holder is sameas false %}<div class="b b-bad small">no one holds this role</div>{% endif %}</td>
+     <td>{% if d.amount %}{{ ui.figure(d.amount) }}{% elif d.figures %}{% for f in d.figures %}<div><b>{{ f.display }}</b> <span class="muted small">{{ f.label }}</span></div>{% endfor %}{% else %}<span class="muted">no figure</span>{% endif %}</td>
+     <td class="small">{{ d.check if d.kind == 'proposal' else d.answer }}</td>
+     <td class="small">{{ d.created_at }}</td>
+     <td>{% if d.href %}<a class="btn" href="{{ d.href }}">{{ 'Review and decide' if d.kind == 'proposal' else 'Open' }}</a>{% endif %}</td>
+    </tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+ {% else %}
+ {{ ui.empty("Nothing needs a decision. No open exception is on a live rule, and no checked proposal is pending.") }}
+ {% endif %}
+</section>
+
+<section class="card" id="lane-unblock" aria-labelledby="h-unblock">
+ <h2 id="h-unblock">Unblock <span class="muted small">{{ L.unblock|length }} root cause{{ 's' if L.unblock|length != 1 }}, {{ L.counts.blocked_rules }} rule{{ 's' if L.counts.blocked_rules != 1 }} held</span></h2>
+ <p class="muted small">Each row is one thing that, once supplied, lets rules run or items be decided. This is the evidence for the access ask.</p>
+ {% if L.unblock %}
+ <div class="tscroll" style="max-height:none">
+  <table class="wq">
+   <thead><tr><th scope="col">Kind</th><th scope="col">What is missing</th><th scope="col">Holds</th><th scope="col">Owner</th></tr></thead>
+   <tbody>
+   {% for u in L.unblock %}
+    <tr>
+     <td><span class="b b-warn">{{ u.kind_label }}</span></td>
+     <td>{{ u.reason }}</td>
+     <td>{% if u.rules %}{% for r in u.rules %}<a href="/rules/{{ r }}"><code>{{ r }}</code></a>{% if not loop.last %} {% endif %}{% endfor %}{% else %}{{ u['items'] }} Decide item{{ 's' if u['items'] != 1 }}{% endif %}</td>
+     <td>{{ u.offices|join(', ') }}</td>
+    </tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+ {% else %}{{ ui.empty("No rule is blocked.") }}{% endif %}
+</section>
+
+<section class="card" id="lane-system" aria-labelledby="h-system">
+ <h2 id="h-system">System <span class="muted small">{{ L.counts.system }} item{{ 's' if L.counts.system != 1 }}, no business action</span></h2>
+ <p class="muted small">Kept visible so nothing is hidden, and collapsed so it is not mistaken for a decision.</p>
+ {% for g in L.system %}
+ <details>
+  <summary><b>{{ g.group }}</b> <span class="muted">({{ g['items']|length }})</span></summary>
+  <ul class="small">
+  {% for i in g['items'] %}
+   <li>{% if i.href %}<a href="{{ i.href }}">{{ i.title }}</a>{% else %}{{ i.title }}{% endif %}
+    {% if i.status %}<span class="b b-mut">{{ i.status|replace('_', ' ') }}</span>{% endif %}
+    <span class="muted">{{ i.answer }}</span></li>
+  {% endfor %}
+  </ul>
+ </details>
+ {% else %}{{ ui.empty("No system items.") }}{% endfor %}
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,82 @@
+{
+ "source": "ring0/RING0_CVN79.md Parts C and H",
+ "families": [
+  {
+   "name": "Modernized Selected Acquisition Report",
+   "short": "MSAR / SAR",
+   "carries": "contract numbers, CAGE codes, percent complete, EVM variances, funding by appropriation and line item, Cost Limitation Baseline history",
+   "limit": "Reports aggregate program cost for all ships in the class, not broken out by hull. Genuine CVN-79 detail at contract and subprogram level; no clean hull-allocated total.",
+   "held": [
+    "CVN 78 MSAR FY2027 PB",
+    "CVN 78 MSAR Dec 2023",
+    "CVN 78 SAR Dec 2022"
+   ]
+  },
+  {
+   "name": "SCN Justification Book",
+   "short": "J-Book",
+   "carries": "P-1 total obligational authority, P-40 funding profile, P-5/P-5a/P-5c cost analysis by category, P-10 advance procurement, P-21 production schedule and OWLD",
+   "limit": "Printed P-1 line number is renumbered between budget years while the BLI stays 2001.",
+   "held": [
+    "SCN Book PB27"
+   ]
+  },
+  {
+   "name": "Congressional Research Service",
+   "short": "CRS",
+   "carries": "Table 1 procurement funding for CVNs 78-82 by fiscal year; Table 2 the estimate in each successive budget submission; Table 3 congressional action",
+   "limit": "Secondary. Good citations, written for Congress.",
+   "held": [
+    "RS20643 current",
+    "RS20643.302 (2007)"
+   ]
+  },
+  {
+   "name": "Government Accountability Office",
+   "short": "GAO",
+   "carries": "independent assessment, cost estimate reliability, post-delivery and OWLD policy, shipbuilding financing payments",
+   "limit": "Findings about other layers, which is a free head start on variance causes.",
+   "held": [
+    "GAO-17-575 Ford-class cost estimates",
+    "GAO-15-22 cost cap legislation"
+   ]
+  },
+  {
+   "name": "DoD Inspector General",
+   "short": "DODIG",
+   "carries": "material weakness findings, shipbuilding CIP, government property in contractor possession",
+   "limit": "",
+   "held": []
+  },
+  {
+   "name": "Policy and standards",
+   "short": "FMR / OPNAVINST / FASAB",
+   "carries": "the rules that make a figure mean something",
+   "limit": "Produces mechanisms, not figures.",
+   "held": [
+    "SUPSHIP Operations Manual Ch 4 Financial Management",
+    "DCMA MAN 2101-02 Payment",
+    "DoN 5200.45A General Equipment Accountability"
+   ]
+  },
+  {
+   "name": "Federal spending transaction record",
+   "short": "USAspending / FPDS",
+   "carries": "1,875 prime transactions, 2,990 sub-awards, 39 federal account funding rows",
+   "limit": "Obligations usable. Outlays are not: award-level outlay reporting covers 0.80% of obligations on this hull. Account linkage covers a third of the DD&C contract.",
+   "held": [
+    "CONT_N0002415C2114 bundle",
+    "PrimeAwardSummariesAndTransactions bundle"
+   ]
+  },
+  {
+   "name": "Academic and industry",
+   "short": "other",
+   "carries": "method and context",
+   "limit": "Lead grade.",
+   "held": [
+    "NPS-AM-26-055"
+   ]
+  }
+ ]
+}

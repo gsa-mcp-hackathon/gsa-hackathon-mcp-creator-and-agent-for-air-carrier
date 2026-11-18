@@ -1,0 +1,31 @@
+# The two volumes, in a schema you already own.
+#
+# No schemas are declared here. A catalog and a schema are provisioned
+# objects with storage and grants attached, and a deployment that insists on
+# creating them is a deployment that cannot land in a governed workspace.
+# Point var.schema at something you can write to; a personal schema under the
+# users catalog works and is often the only thing a new user owns.
+#
+# For a schema per store, see resources-optional/schemas.yml.
+
+resources:
+  volumes:
+
+    artifacts:
+      catalog_name: ${var.catalog}
+      schema_name: ${var.schema}
+      name: ${var.store_prefix}artifacts
+      comment: >
+        Raw bytes of every registered artifact, addressed by sha256. A claim's
+        coordinate points at an artifact id, so replacing a document changes
+        the id and the supersession is visible instead of silent.
+
+    extracted:
+      catalog_name: ${var.catalog}
+      schema_name: ${var.schema}
+      name: ${var.store_prefix}extracted
+      comment: >
+        Per-page extracted text and the built knowledge base index, written by
+        the ingest job. Kept as files so a human can open the page a claim
+        cites and read exactly what the extractor saw. A coordinate that
+        cannot be returned to is not a coordinate.

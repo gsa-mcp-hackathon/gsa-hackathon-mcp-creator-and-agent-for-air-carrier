@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Analyze</div>
+ <h1>Detail table</h1>
+ <p class="lede">The records behind the figures. Filter, sort and export them, and follow any row
+  to its source file or document page. Totals are summed exactly over everything that matches the
+  filter, not just the page shown.</p>
+ <p class="muted" style="font-size:.78rem">
+  {% if live.live %}<span class="b b-ok">live</span> Exhibit cells read from Unity Catalog.
+  {% else %}<span class="b b-info">extract</span> {{ live.reason }}{% endif %}
+  {% if xmeta %} Datasets built {{ xmeta.built_at }} from {{ xmeta.source }}.{% endif %}</p>
+</div>
+
+<nav class="chips xtabs" aria-label="Datasets">
+ {% for key, spec in datasets.items() %}
+ <a class="chip{% if key == ds %} on{% endif %}" href="/explore?ds={{ key }}"
+    {% if key == ds %}aria-current="true"{% endif %}>{{ spec.label }}
+  {% if xmeta and xmeta.counts.get(key) %}<span class="muted">{{ "{:,}".format(xmeta.counts[key]) }}</span>{% endif %}</a>
+ {% endfor %}
+</nav>
+
+<section class="card" id="xp" data-ds="{{ ds }}">
+ <p class="sub" id="xp-blurb">{{ datasets[ds].blurb }}</p>
+ <div class="toolbar xp-tools">
+  <input type="search" id="xp-q" placeholder="Search every column" aria-label="Search">
+  <span id="xp-facets"></span>
+  <a class="btn" id="xp-csv" href="/api/explore/{{ ds }}/csv">Export CSV</a>
+ </div>
+ <div class="xp-sum" id="xp-sum" aria-live="polite"></div>
+ <div class="tscroll"><table class="ledger xp-table" id="xp-table"><tbody>
+  <tr><td class="muted">Loading…</td></tr></tbody></table></div>
+ <div class="xp-pager" id="xp-pager"></div>
+ <noscript><p class="muted">The table needs JavaScript. The same data is at
+  <a href="/api/explore/{{ ds }}">/api/explore/{{ ds }}</a> and as CSV.</p></noscript>
+</section>
+
+<section class="card hide" id="xp-cells" style="margin-top:1rem">
+ <h2 id="xp-cells-title">Exhibit table</h2>
+ <div id="xp-cells-body"></div>
+</section>
+{% endblock %}

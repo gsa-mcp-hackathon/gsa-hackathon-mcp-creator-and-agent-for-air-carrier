@@ -1,0 +1,182 @@
+# Air Carrier build bundle.
+# Declarative Automation Bundle (formerly Databricks Asset Bundles).
+# This is the ONLY deploy path. Nothing is created by clicking in the workspace.
+# Reason: the bundle is the transfer unit to the DoD IL5 environment. Anything
+# created outside it does not transfer. See docs/DEPLOY.md.
+
+bundle:
+  name: aircarrier
+
+include:
+  - resources/*.yml
+
+# What travels to the workspace as files, and what does not.
+#
+# Code, config, the dossier, the durable record and the built JSON tables all
+# go: they are text, they are small, and the app reads them directly.
+#
+# corpus/reference and corpus/imagery do NOT go as workspace files. They are
+# 38MB of PDFs, zips and photographs, and workspace files are the wrong home
+# for binaries: slow to sync, awkward to read from a job, and no content
+# addressing. They go to the Unity Catalog volume instead, by
+# tools/upload_corpus.py, which hashes each file and skips anything already
+# there. The manifest travels with the code so the catalogue is always present
+# even when the bytes have not been uploaded yet, and the app degrades to
+# showing the catalogue without the documents rather than breaking.
+# Bundles already honour .gitignore, which covers .env, __pycache__, *.pyc,
+# .databricks and .bundle. Listing them again here is duplication, and a
+# pattern that matches nothing is reported as a warning on every deploy, which
+# trains people to ignore deploy warnings. Only the two things .gitignore does
+# not cover are listed.
+sync:
+  exclude:
+    - corpus/reference/**
+    - corpus/imagery/**
+    - app/_preview/**
+
+variables:
+  catalog:
+    description: Unity Catalog catalog the stores live in. Not created by this bundle.
+    default: aircarrier
+  ops_root:
+    description: Workspace folder for ops center assets
+    default: /Workspace/Users/${workspace.current_user.userName}/the-one-hub/the-ops-center
+  app_root:
+    description: Workspace folder for front center assets
+    default: /Workspace/Users/${workspace.current_user.userName}/the-one-hub/the-front-center
+  # Model routing. The jobs read seed/models.yaml (role -> primary +
+  # fallbacks). The front-center app gets the agent, reasoning and checker
+  # chains from these variables through resources/app.yml: each *_model and
+  # fallback_model becomes a serving-endpoint resource (CAN_QUERY), and the
+  # chains become AIRCARRIER_<ROLE>_MODEL / _FALLBACKS. Keep every default
+  # equal to models.yaml; checks/test_app.py fails if they disagree or if an
+  # endpoint in a chain has no resource. Rationale: docs/MODELS.md.
+  agent_model:
+    description: Tool-calling loops (app /ask). Needs function tools on chat completions
+    default: databricks-gpt-5-5
+  agent_fallbacks:
+    description: Comma-separated fallbacks for agent_model
+    default: databricks-gemini-3-8-flash,databricks-grok-4-7
+  reasoning_model:
+    description: JSON judgment with no tools (app SI specialist; Investigator in jobs)
+    default: databricks-gpt-6-1-sol
+  reasoning_fallbacks:
+    description: Comma-separated fallbacks for reasoning_model
+    default: databricks-grok-4-7,databricks-gemini-3-8-flash
+  checker_model:
+    description: Records checker. A different family from both specialist roles (B28.5)
+    default: databricks-gemini-3-8-flash
+  checker_fallbacks:
+    description: Comma-separated fallbacks for checker_model
+    default: databricks-grok-4-7
+  fallback_model:
+    description: >
+      The one endpoint that appears only in fallback lists. It needs its own
+      CAN_QUERY resource because no role's primary covers it.
+    default: databricks-grok-4-7
+  warehouse_id:
+    description: >
+      SQL warehouse the front-center app reads Unity Catalog through. Looked
+      up by name so the bundle carries no workspace-specific id; at transfer,
+      pass --var warehouse_id=<id> or change the name.
+    lookup:
+      warehouse: "Serverless Starter Warehouse"
+  extraction_model:
+    description: Model service for Reader-exhibit structured extraction
+    default: databricks-gpt-6-sol
+  embedding_model:
+    description: Model service for embeddings. system.ai preferred for IL5 portability
+    default: databricks-bge-large-en
+  schema:
+    description: >
+      The schema the stores live in. The bundle does not create it, for the
+      same reason it does not create the catalog: in a governed workspace
+      neither is the project's to make. Point this at a schema you can
+      already write to. A personal schema under the users catalog works and
+      is often the only thing a new user owns.
+    default: default
+  store_prefix:
+    description: >
+      Prefixed to every table, view and volume the build owns, so the seven
+      logical stores are distinguishable inside one shared schema. Set it to
+      "" only when the build has a schema to itself.
+    default: aircarrier_
+  corpus_volume:
+    description: UC volume holding the raw bytes of every registered artifact
+    default: /Volumes/${var.catalog}/${var.schema}/${var.store_prefix}artifacts
+  kb_dir:
+    description: >
+      Where the built knowledge base index lives in a deployed workspace. A
+      volume, not a workspace path: bundle-synced files are the deployment's
+      own copy, so an ingest job writing there would either fail or update a
+      copy the app never reads.
+    default: /Volumes/${var.catalog}/${var.schema}/${var.store_prefix}extracted/kb
+  serverless_env_version:
+    description: >
+      Serverless Python environment version for job tasks. Each version pins a
+      Python version and a package set, and Databricks keeps each for three
+      years. One variable rather than a literal in three jobs, because IL5 will
+      very likely be on an older version than commercial and that must be a
+      one-line change at transfer.
+    default: "4"
+
+# Neither the catalog NOR the schemas are bundle resources, though bundles can
+# define both.
+#
+# This was learned twice against a real workspace. First the catalog: no
+# CREATE CATALOG on the metastore, and on an account using Default Storage
+# even the UI route is the only one that works. Then the schemas: no CREATE
+# SCHEMA on the one catalog that did exist. Seven identical 403s.
+#
+# The pattern is the same both times. In a governed environment a catalog and
+# a schema are provisioned objects with storage and grants attached, and a
+# deployment that insists on creating them is a deployment that cannot land.
+# What this build owns is tables, views, volumes and jobs, all prefixed, all
+# inside a schema someone points it at.
+#
+# resources-optional/schemas.yml holds the seven-schema layout for whoever
+# does own a catalog and wants the fuller separation. It is outside the
+# include glob, so it is opt-in by copying one file.
+#
+# What follows is the older note on the catalog specifically, still true.
+#
+# In a governed environment, and IL5 is the target, a catalog is created by a
+# platform administrator against a storage root and a set of grants that are
+# not this project's to decide. A bundle that owns the catalog either fails
+# there for want of CREATE CATALOG, or succeeds and starts managing a
+# securable the platform team believes it owns. The schemas below are this
+# project's; the catalog is the environment's.
+#
+# So the catalog is a precondition, ensured by tools/ensure_catalog.py and by
+# the deploy script before it runs the bundle. Point var.catalog at an
+# existing catalog with -Catalog and nothing is created at all.
+
+targets:
+
+  dev:
+    # Commercial test workspace. gsa-mcp-hackathon.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-aae0ba16-8727.cloud.databricks.com
+      root_path: ${var.ops_root}/.bundle/${bundle.name}/${bundle.target}
+
+  il5:
+    # Placeholder. Host, catalog and model services are supplied at transfer time.
+    # Everything above this line is expected to be unchanged on transfer.
+    # What changes: workspace.host, var.catalog, the model service names,
+    # and core/adapters selection. Nothing in ops/ or app/ should need editing.
+    mode: production
+    workspace:
+      host: https://PLACEHOLDER.il5.invalid
+      root_path: /Workspace/Shared/the-one-hub/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: PLACEHOLDER
+      agent_model: PLACEHOLDER
+      reasoning_model: PLACEHOLDER
+      checker_model: PLACEHOLDER
+      fallback_model: PLACEHOLDER
+      extraction_model: PLACEHOLDER
+      embedding_model: PLACEHOLDER
+      # Check what the IL5 workspace actually offers before deploying.
+      serverless_env_version: PLACEHOLDER

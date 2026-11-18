@@ -1,0 +1,75 @@
+{#- SI components. A run is always started by a button that names its scope
+    ("Reconcile N00024-09-C-2116"), never by a blank chat box. The run panel
+    and the review dialog are drawn once per page by base.html; static/js/si.js
+    fills them from /api/v1/si. Nothing here computes. -#}
+
+{% macro trigger(t, page, cls="") -%}
+<button type="button" class="btn si-go {{ cls }}" data-si-task="{{ t.task_id }}"
+        data-si-subject="{{ t.subject }}" data-si-page="{{ page }}"
+        {% if t.params %}data-si-params='{{ t.params|tojson }}'{% endif %}
+        title="{{ t.question or '' }}">
+ <svg class="si-spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"/></svg>
+ <span>{{ t.label }}</span>
+</button>
+{%- endmacro %}
+
+{% macro strip(triggers, page) -%}
+{% if triggers %}
+<div class="si-strip" role="region" aria-label="Specialist runs for this page">
+ <span class="si-strip-lab">Specialist runs for this page</span>
+ {% for t in triggers %}{{ trigger(t, page) }}{% endfor %}
+ <a class="si-strip-log" href="/runs">Run log</a>
+</div>
+{% endif %}
+{%- endmacro %}
+
+{% macro dock() -%}
+<aside class="si-dock" id="si-dock" aria-label="Run" hidden>
+ <header class="si-dock-h">
+  <div>
+   <div class="eyebrow" id="si-run-no">Run</div>
+   <h3 id="si-run-label">Run</h3>
+   <p class="si-q" id="si-run-q"></p>
+  </div>
+  <button type="button" class="iconbtn" data-si-close aria-label="Close run panel">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+ </header>
+ <ol class="si-team" id="si-team" aria-label="Who works this run"></ol>
+ <div class="si-status" id="si-status" role="status" aria-live="polite"></div>
+ <ol class="si-steps" id="si-steps" aria-live="polite"></ol>
+ <div id="si-result"></div>
+ <footer class="si-dock-f">
+  <button type="button" class="btn primary" id="si-review" hidden>Review proposals</button>
+  <a class="linkbtn" id="si-open-log" href="/runs">Open in run log</a>
+ </footer>
+</aside>
+
+<dialog class="si-modal" id="si-modal" aria-labelledby="si-modal-h">
+ <form method="dialog" class="si-modal-in" id="si-modal-form">
+  <header class="si-modal-h">
+   <div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+    <h3 id="si-modal-h">Review and decide</h3></div>
+   <button type="button" class="iconbtn" data-si-modal-close aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </header>
+  <div class="si-modal-body">
+   <div class="tscroll"><table class="si-review">
+    <thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+     <th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+    <tbody id="si-review-rows"></tbody>
+   </table></div>
+   <div id="si-receipt"></div>
+   <label class="si-notes" id="si-notes-wrap" hidden>Reason for rejecting (required)
+    <textarea id="si-notes" rows="2" maxlength="2000"></textarea></label>
+  </div>
+  <footer class="si-modal-f">
+   <span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+   <span class="si-modal-acts">
+    <button type="button" class="btn ghost" id="si-reject">Reject ticked</button>
+    <button type="button" class="btn primary" id="si-apply">Apply ticked</button>
+   </span>
+  </footer>
+ </form>
+</dialog>
+{%- endmacro %}

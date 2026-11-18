@@ -1,0 +1,127 @@
+{
+ "piid": "N0002415C2114",
+ "rows": [
+  {
+   "period": "FY2019Q1",
+   "file_c_rows": 7,
+   "file_c": "12053869.00",
+   "window": "3 months",
+   "transactions": "12053869.00",
+   "delta": "0.00",
+   "ties": true,
+   "windows": {
+    "3 months": "12053869.00",
+    "fiscal year to date": "12053869.00",
+    "1 month": "4617400.00"
+   },
+   "period_end": "2018-12-31"
+  },
+  {
+   "period": "FY2019Q2",
+   "file_c_rows": 5,
+   "file_c": "3590948.00",
+   "window": "3 months",
+   "transactions": "3590948.00",
+   "delta": "0.00",
+   "ties": true,
+   "windows": {
+    "3 months": "3590948.00",
+    "fiscal year to date": "15644817.00",
+    "1 month": "2967987.00"
+   },
+   "period_end": "2019-03-31"
+  },
+  {
+   "period": "FY2019Q3",
+   "file_c_rows": 3,
+   "file_c": "627850638.00",
+   "window": "3 months",
+   "transactions": "627850638.00",
+   "delta": "0.00",
+   "ties": true,
+   "windows": {
+    "3 months": "627850638.00",
+    "fiscal year to date": "643495455.00",
+    "1 month": "34758.00"
+   },
+   "period_end": "2019-06-30"
+  },
+  {
+   "period": "FY2019Q4",
+   "file_c_rows": 7,
+   "file_c": "5142658.75",
+   "window": "3 months",
+   "transactions": "5142658.75",
+   "delta": "0.00",
+   "ties": true,
+   "windows": {
+    "3 months": "5142658.75",
+    "fiscal year to date": "648638113.75",
+    "1 month": "1846004.75"
+   },
+   "period_end": "2019-09-30"
+  },
+  {
+   "period": "FY2020P09",
+   "file_c_rows": 3,
+   "file_c": "14766111.00",
+   "window": "3 months",
+   "transactions": "13951350.28",
+   "delta": "814760.72",
+   "ties": false,
+   "windows": {
+    "3 months": "13951350.28",
+    "fiscal year to date": "495956871.28",
+    "1 month": "3610301.00"
+   },
+   "period_end": "2020-06-30"
+  },
+  {
+   "period": "FY2020P12",
+   "file_c_rows": 5,
+   "file_c": "5612309.00",
+   "window": "3 months",
+   "transactions": "6790090.38",
+   "delta": "-1177781.38",
+   "ties": false,
+   "windows": {
+    "3 months": "6790090.38",
+    "fiscal year to date": "502746961.66",
+    "1 month": "1905958.00"
+   },
+   "period_end": "2020-09-30"
+  },
+  {
+   "period": "FY2020Q1",
+   "file_c_rows": 6,
+   "file_c": "13833275.40",
+   "window": "3 months",
+   "transactions": "15032810.00",
+   "delta": "-1199534.60",
+   "ties": false,
+   "windows": {
+    "3 months": "15032810.00",
+    "fiscal year to date": "15032810.00",
+    "1 month": "1055000.00"
+   },
+   "period_end": "2019-12-31"
+  },
+  {
+   "period": "FY2021P03",
+   "file_c_rows": 3,
+   "file_c": "973836673.00",
+   "window": "3 months",
+   "transactions": "203429405.00",
+   "delta": "770407268.00",
+   "ties": false,
+   "windows": {
+    "3 months": "203429405.00",
+    "fiscal year to date": "203429405.00",
+    "1 month": "4889330.00"
+   },
+   "period_end": "2020-12-31"
+  }
+ ],
+ "n_periods": 8,
+ "n_tie": 4
+}

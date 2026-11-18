@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "local.example/mcp-bakehouse-sales",
+  "description": "Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.",
+  "repository": {
+    "url": "https://github.com/OWNER/mcp-bakehouse-sales",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp-bakehouse-sales.databricksapps.com/mcp"
+    }
+  ]
+}

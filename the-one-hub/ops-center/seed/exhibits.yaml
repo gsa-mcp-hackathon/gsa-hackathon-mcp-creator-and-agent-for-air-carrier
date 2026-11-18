@@ -1,0 +1,149 @@
+# Exhibit registry. Each entry carries the exhibit's structure and its known
+# hazards, so every extraction from that exhibit inherits them.
+# source: ring0/RING0_CVN79.md K.1, D.1, N.1, N.6a, C.1, C.2
+
+exhibits:
+
+  P-1:
+    name: Procurement programs summary
+    document_family: SCN J-Book
+    hazards:
+      - id: P1-H1
+        hazard: >
+          The printed P-1 LINE NUMBER is renumbered between budget years while
+          the BLI stays 2001. Carrier Replacement Program appears as Line 1 in
+          FY2010-FY2012, Line 2 in FY2020, Line 3 in FY2025.
+        defence: Key on BLI 2001 and PE 0204112N. Never on the printed line number.
+        flag: KEY
+
+  P-5:
+    aliases: [P-5a, P-5c]
+    name: Ship cost analysis
+    document_family: SCN J-Book
+    row_structure:
+      - Plan Costs
+      - Basic Construction/Conversion
+      - Change Orders
+      - Electronics
+      - Propulsion Equipment
+      - Hull, Mechanical, and Electrical
+      - Ordnance
+      - Other Cost
+      - "= Total Ship Estimate"
+      - Less Advance Procurement FY xxxx
+      - Less Subsequent Full Funding FY xxxx
+      - Less Cost to Complete FY xxxx
+      - "Less AP Transfer to NSBDF FY xxxx   (submarine lines only)"
+    hazards:
+      - id: P5-H1
+        hazard: >
+          The row structure is IDENTICAL on every SCN line, carriers and
+          submarines alike. A submarine column therefore passes structural
+          inspection. This is what produced N.7 Error 1.
+        defence: >
+          Capture the full column header chain and the surrounding page text.
+          Run the Challenger negative vocabulary before using any value.
+        flag: PREMISE
+      - id: P5-H2
+        hazard: >
+          The dagger does NOT mark government furnished content. The exhibit
+          defines it in place: "(dagger) indicates the presence of a P-8a."
+          The GFE inference was plausible, convenient and wrong. E-12.
+        defence: Capture every legend printed on the page with the value.
+        flag: INTERPRETATION
+      - id: P5-H3
+        hazard: >
+          EASR is budgeted under Ordnance, not Electronics. Reading
+          "Electronics 263.359" as the ship's electronics content understates
+          it by a factor of five.
+        defence: Read the P-40 Systems list for the line before interpreting categories.
+        flag: INTERPRETATION
+    known_good:
+      hull: CVN-79
+      column: "FY2013"
+      document: PB2027 SCN Book
+      closes_to_zero: true
+
+  P-8a:
+    name: Equipment line items by vendor
+    document_family: SCN J-Book
+    hazards:
+      - id: P8a-H1
+        hazard: Lists vendor, contract type and award month. Prints NO contract numbers.
+        defence: >
+          Match to a PIID by vendor plus pricing type plus award month, and
+          record the match as DERIVED, never VERIFIED.
+        flag: KEY
+
+  P-10:
+    name: Advance procurement requirements analysis
+    document_family: SCN J-Book
+    note: Where GFE becomes visible. Nuclear Propulsion Equipment is named as GFE here.
+
+  P-21:
+    name: Production schedule
+    document_family: SCN J-Book
+    carries: [award to delivery months, construction start to delivery, delivery date,
+              Completion of Fitting Out, Obligation Work Limiting Date]
+    note: The P-21 block closed G10. OWLD Jun 2028, CFO Jul 2027, confirming OPNAVINST 4700.8M.
+
+  MSAR-contract-table:
+    name: Contract tables in the Modernized Selected Acquisition Report
+    document_family: SAR / MSAR
+    hazards:
+      - id: MSAR-H1
+        hazard: >
+          A CLOSED LIST. It names only efforts under Cost and Software Data
+          Reporting surveillance. Seven PIIDs for a 13.4 billion dollar ship.
+          A NAVSEA-held equipment contract that is neither CSDR-surveilled nor
+          printed in the budget exhibit is invisible to both catalogues at once.
+        defence: >
+          Build the contract population outward from the ship with an FPDS query
+          on PSC 1901, acquisition program code 223 and funding office N30270,
+          rather than inward from the documents. G26.
+        flag: PREMISE
+      - id: MSAR-H2
+        hazard: >
+          N00024-09-C-2116 and N00024-16-C-2116 both appear. Seven years apart,
+          three hulls, same trailing four digits, the latter carrying a
+          14,917,738,145 dollar modification.
+        defence: Match on full PIID only. Never LIKE, never trailing digits. D34, G28.
+        flag: KEY
+      - id: MSAR-H3
+        hazard: Prints "DCARC CSDR Compliance Rating; Red" for this program.
+        defence: >
+          Any CADE pull should be expected late, incomplete or non-compliant,
+          and the request must ask for the compliance assessment alongside the data.
+        flag: METHOD
+
+  USAspending-transactions:
+    name: Prime award transaction history
+    document_family: federal spending transaction record
+    hazards:
+      - id: USA-H1
+        hazard: >
+          Award-level outlay reporting covers 0.80 percent of obligations on
+          this hull. N00024-15-C-2114 reports 0.00 outlays against 4,578.6M
+          obligated.
+        defence: Obligations usable. Outlays NOT. Take disbursement from MOCAS or Navy ERP. G25.
+        flag: METHOD
+      - id: USA-H2
+        hazard: >
+          Two USAspending products disagree with each other by exactly
+          5,880,250 dollars on N00024-15-C-2114. E-14.
+        defence: Use the transaction sum and reconcile it against the summary every time.
+        flag: METHOD
+      - id: USA-H3
+        hazard: >
+          The transaction description field can be wrong. P00154, 2024-12-16,
+          54,000,000 dollars reads "DETAIL DESIGN AND CONSTRUCTION CVN 79" and
+          the Department's own announcement describes it as Nimitz class
+          defueling and inactivation facility upgrades.
+        defence: Contract number is necessary and insufficient. So is the description field.
+        flag: KEY
+      - id: USA-H4
+        hazard: >
+          Federal account linkage covers only 36.1 percent of N00024-15-C-2114.
+          The remainder predates award-level account reporting. No warning on the page.
+        defence: Never present an appropriation split from this source as complete.
+        flag: METHOD

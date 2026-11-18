@@ -1,0 +1,16 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "local.example/weather-mcp",
+  "description": "Let an AI agent look up current weather conditions and forecasts for any US location using the NWS (weather.gov) REST API",
+  "repository": {
+    "url": "https://github.com/OWNER/weather-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp-weather.databricksapps.com/mcp"
+    }
+  ]
+}

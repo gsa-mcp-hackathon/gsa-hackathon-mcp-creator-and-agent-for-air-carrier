@@ -1,0 +1,33 @@
+{
+ "claims": [
+  {
+   "zone": "R",
+   "state": "candidate",
+   "n": 12059
+  },
+  {
+   "zone": "V",
+   "state": "promoted",
+   "n": 2
+  }
+ ],
+ "claims_total": 12063,
+ "claims_superseded": 2,
+ "gate": [
+  {
+   "outcome": "human_review",
+   "n": 12048
+  },
+  {
+   "outcome": "awaiting_tieout",
+   "n": 11
+  },
+  {
+   "outcome": "promoted",
+   "n": 2
+  }
+ ],
+ "challenge_changed": 19,
+ "challenge_total": 12061,
+ "review_queue": 12048
+}

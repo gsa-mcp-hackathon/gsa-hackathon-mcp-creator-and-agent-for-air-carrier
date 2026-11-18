@@ -1,0 +1,48 @@
+source: docs/GATE.md
+subject:
+  hull: CVN-79
+  total_usd_m: 13409.970      # PB2027 Total Ship Estimate, Exhibit P-5c, FY2013 column
+  total_source: ring0/RING0_CVN79.md N.1
+
+materiality_floor_share: 0.01   # share of the subject total, so it transfers between hulls
+
+residual_floor_usd_m: 1.0       # above this, a residual opens a gap rather than taking a label
+
+always_review_flags: [PREMISE, METHOD, KEY]
+
+# Routes in evaluation order (core/policy/gate.py route()); the first match
+# decides. R-1 and R8 were added after the first smoke test, which promoted a
+# claim that had already failed D34: a policy violation is evidence of a risk
+# class, and the gate must see it.
+routes:
+  R-1: {when: "any outstanding policy violation",                decision: human_review}
+  R8:  {when: "claim exceeds 100 percent of its own subject",    decision: human_review}
+  R0: {when: "tag == UNKNOWN",                                   decision: gap}
+  R1: {when: "any of PREMISE, METHOD, KEY",                      decision: human_review}
+  R2: {when: "INTERPRETATION and material",                      decision: human_review}
+  R3: {when: "INTERPRETATION and below floor",                   decision: hold_candidate}
+  R4: {when: "material and tag below VERIFIED",                  decision: human_review}
+  R5: {when: "material and VERIFIED and unflagged",              decision: promote_if_tied_out}
+  R6: {when: "below floor and VERIFIED and unflagged",           decision: promote}
+  R7: {when: "below floor and below VERIFIED",                   decision: hold_candidate}
+
+review_queue:
+  ranked_by: exposure_usd_m
+  shows: [claim, flag, the specific tell, what it bears on]
+  why: >
+    An unranked queue of undifferentiated candidates becomes its own
+    bottleneck. Same argument as the Collection Requirement queue.
+
+miss_log:
+  table: work.gate_misses
+  records: [what the gate saw, what it allowed, the tell, which flag should have fired]
+  why: >
+    E-13 was caught by a reader, not by the gate. Without a miss log the gate
+    is static and catches only what it was built to catch. With one, the
+    negative vocabulary and the flag rules grow from real escapes.
+
+violation_to_flag:
+  D33: METHOD
+  D34: KEY
+  D4:  PREMISE
+  E12: INTERPRETATION

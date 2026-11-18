@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Method</div>
+ <h1>How this is built, and why it can be challenged</h1>
+ <p class="lede">The goal is not a single authoritative number. A single number tied to one declared
+  source of truth is worth less than a defensible account of how the number is reported, how it is
+  recorded, where those diverge, and why. The divergence with its cause attached is the product.</p>
+</div>
+
+<div class="grid g3">
+ <div class="card accent"><h3>The design premise</h3>
+  <p style="font-size:.87rem">The data is messy and the picture is never complete. That is the
+   normal condition rather than an exception, and treating it otherwise is how this kind of effort
+   fails. The architecture is an investigation apparatus before it is a reporting apparatus.</p></div>
+ <div class="card accent"><h3>Completeness is never a gate</h3>
+  <p style="font-size:.87rem">No component may require that a layer be present, that a system
+   inventory be finished, or that a question be settled before it produces output. The system
+   produces its three artifacts at every access level, including zero.</p></div>
+ <div class="card accent"><h3>Conflicts are retained</h3>
+  <p style="font-size:.87rem">When two sources give different figures for the same cell, both are
+   kept with their provenance and no winner is picked. A pipeline that cleans conflicting values
+   destroys the raw material the product is made of.</p></div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Three trust zones and a one-way door</h2>
+ <p class="cap">A single confidence column is a label and can be ignored. This is a firewall.</p>
+ <div class="grid g3">
+  <div class="card bad" style="box-shadow:none"><h3>Zone L · Leads</h3>
+   <p style="font-size:.86rem">Everything from public or secondary sourcing lives here and only
+    here, graded on two independent Admiralty axes. <b>A lead's only legitimate output is a
+    Collection Requirement.</b> Zone L has no join path into the canonical tables. That is
+    structural rather than procedural.</p></div>
+  <div class="card flag" style="box-shadow:none"><h3>Zone R · Raw authoritative</h3>
+   <p style="font-size:.86rem">Only primary material actually collected, with full chain of custody.
+    Ingested, not yet trusted for arithmetic.</p></div>
+  <div class="card" style="box-shadow:none;border-left:3px solid var(--ok)"><h3>Zone V · Validated</h3>
+   <p style="font-size:.86rem">A record enters only when a named person or a documented
+    deterministic rule validates it against the source or ties it to a control total. Only this zone
+    feeds anything presented as a figure.</p></div>
+ </div>
+ <div class="note"><b>Weakest-link aggregation.</b> Any total inherits the weakest trust state among
+  its inputs. If one period's contribution is lead-grade, the whole total displays as lead-grade.
+  That prevents a good-looking aggregate from concealing a weak input, and it is what makes it safe
+  to show partial work to an audience that will not read footnotes.</div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>What the method got wrong, kept on purpose</h2>
+ <p class="cap">All three share a shape: a structural pattern was real, the interpretation laid over
+  it was invented, and the result was coherent. Coherence is not evidence.</p>
+ <div class="grid g3">
+  <div class="card bad" style="box-shadow:none">
+   <span class="b b-bad">PREMISE</span>
+   <h3 style="margin-top:.4rem">Wrong platform</h3>
+   <p style="font-size:.85rem">Cost category proportions were taken from exhibit columns assumed to
+    be carrier columns. They were Columbia-class submarine columns. The row structure is identical
+    on every line of that appropriation, which is why the extract passed inspection. The model had
+    the two largest categories almost exactly inverted and would have been published with an
+    ESTIMATE tag and a confidence score of 0.55.</p></div>
+  <div class="card bad" style="box-shadow:none">
+   <span class="b b-bad">INTERPRETATION</span>
+   <h3 style="margin-top:.4rem">Inferring a footnote</h3>
+   <p style="font-size:.85rem">A dagger on three cost rows was read as marking government furnished
+    content, because those are the GFE-heavy categories and the pattern fit. The exhibit defines it
+    in place: it indicates the presence of a further exhibit. Plausible, convenient, consistent with
+    everything else, and wrong.</p></div>
+  <div class="card bad" style="box-shadow:none">
+   <span class="b b-bad">METHOD</span>
+   <h3 style="margin-top:.4rem">Summing announcements</h3>
+   <p style="font-size:.85rem">A contract was reconstructed by adding up announced modifications and
+    carried at roughly a quarter of its real value. Announcements have a dollar threshold, omit
+    incremental funding, and cannot net deobligations. The error was knowable without new data: the
+    residual it created had been written down and given a narrative label instead of a test.</p></div>
+ </div>
+ <div class="note bad"><b>The rule taken from all three.</b> A press release is an announcement,
+  never a record. And the corollary that matters more: <b>a large unexplained residual is a finding,
+  not a remainder.</b> When a reconciliation leaves a gap and the gap gets a narrative label, the
+  label is a hypothesis that needs a test.</div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Where AI sits, and the one rule everything follows</h2>
+ <div class="note warn" style="font-size:.95rem"><b>No AI output writes directly to a trusted
+  table.</b> Every role writes to a candidate location with a confidence grade and full provenance:
+  what it looked at, what rule or model produced the output, and when. A person, or a deterministic
+  rule for mechanical checks, promotes a candidate. More AI roles means more candidates arriving at
+  the gate, never a looser gate.</div>
+ <div class="grid g3" style="margin-top:.8rem">
+  <div><h4>Investigator</h4><p style="font-size:.85rem">Unknowns in, hypotheses and collection
+   requirements out. Never asserts a value.</p></div>
+  <div><h4>Reader</h4><p style="font-size:.85rem">Documents in, typed knowledge out. Never extracts
+   a cell without its coordinate chain and every legend on its page.</p></div>
+  <div><h4>Tie-out</h4><p style="font-size:.85rem">Deterministic. No model, ever. If a check needs
+   judgment it emits a flag and stops.</p></div>
+  <div><h4>Challenger</h4><p style="font-size:.85rem">Tries to break a claim. Sets the risk flags.
+   Never promotes anything.</p></div>
+  <div><h4>Attributor</h4><p style="font-size:.85rem">Identity across systems with no shared key.
+   Scored candidates only, never a silent merge.</p></div>
+  <div><h4>Briefer</h4><p style="font-size:.85rem">Audience-specific explanation. Never introduces a
+   figure that is not in the ledger.</p></div>
+ </div>
+ <div class="note"><b>The honest limit, stated as a design property.</b> The gate catches the error
+  classes already seen, and a novel one only where the negative vocabulary reaches. The miss log is
+  the mechanism by which that limit moves: when something gets through and is caught later, it
+  becomes a row recording what the gate saw, what it allowed, and which flag should have fired.</div>
+</div>
+{% endblock %}

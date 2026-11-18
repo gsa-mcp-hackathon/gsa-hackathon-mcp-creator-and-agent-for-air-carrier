@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Asset</div>
+ <h1>Asset valuation</h1>
+ <p class="lede">{{ asset.status }} Capitalized value will never equal program cost, and that is
+  definitional rather than a data quality problem. It will not go away with better data.</p>
+</div>
+
+<div class="grid g4">
+ <div class="stat"><div class="k">Navy GPP&amp;E net book value</div><div class="v">${{ asset.balance_sheet.gppe_net_book_value_usd_b }}B</div>
+  <div class="n">{{ asset.balance_sheet.share_of_total_assets_pct }}% of total assets</div></div>
+ {% for p in asset.parameters %}
+ <div class="stat"><div class="k">{{ p.label }}</div><div class="v">{{ p.value }}</div><div class="n">{{ p.note }}</div></div>
+ {% endfor %}
+</div>
+
+<div class="note warn" style="margin-top:1rem">{{ asset.balance_sheet.note }}
+ <b>Source:</b> {{ asset.balance_sheet.source }}</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>The three structural reasons capitalized value will never equal program cost</h2>
+ <div class="grid g3">
+  {% for d in asset.divergences %}
+  <div class="card accent" style="box-shadow:none">
+   <h3>{{ d.n }}. {{ d.name }}</h3>
+   <p style="font-size:.87rem;color:var(--fg-2)">{{ d.detail }}</p>
+  </div>
+  {% endfor %}
+ </div>
+ <div class="note bad" style="margin-top:.9rem"><b>A fourth divergence is a genuine open risk rather
+  than a definitional one.</b> {{ asset.open_risk }}</div>
+</div>
+
+<div class="grid g2" style="margin-top:1rem">
+ <div class="card flag">
+  <h3>When is construction in progress relieved?</h3>
+  <p class="cap">Gap {{ asset.cip_relief_question.gap }}. The three candidate dates straddle a fiscal
+   year boundary.</p>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.6rem 0">
+   {% for c in asset.cip_relief_question.candidates %}<span class="pill">{{ c }}</span>{% endfor %}
+  </div>
+  <p>{{ asset.cip_relief_question.note }}</p>
+ </div>
+ <div class="card bad">
+  <h3>Government property in contractor possession</h3>
+  <p class="cap">A material weakness since fiscal year {{ asset.gfp.weakness_since }}.</p>
+  <p>{{ asset.gfp.detail }}</p>
+  <div class="note bad"><b>The F-35 precedent, stated precisely.</b> Parts held at
+   {{ asset.gfp.f35_precedent.facilities }}+ facilities. Since 2018 one prime incurred losses of over
+   {{ "{:,}".format(asset.gfp.f35_precedent.lost_parts) }} spare parts totalling over
+   ${{ asset.gfp.f35_precedent.lost_usd_m }} million, of which under
+   {{ asset.gfp.f35_precedent.reviewed_pct }} per cent had been reviewed. DoD has estimated the value
+   of F-35 parts in contractor possession at over ${{ asset.gfp.f35_precedent.estimate_usd_b }} billion,
+   which GAO reports is likely significantly understated. {{ asset.gfp.f35_precedent.note }}</div>
+  <div class="note ok"><b>The actionable query, which needs no new system.</b> {{ asset.gfp.actionable }}</div>
+ </div>
+</div>
+{% endblock %}

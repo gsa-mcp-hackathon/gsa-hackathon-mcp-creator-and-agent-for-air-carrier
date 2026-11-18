@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Baseline</div>
+ <h1>Cost growth, and what it actually is</h1>
+ <p class="lede">The estimate moved from $9,192.0M to ${{ "{:,.3f}".format(program.total_ship_estimate_usd_m) }}M
+  across {{ hist.rows|length }} published estimates, about +{{ hist.net_movement_pct }}%. A product that draws one line
+  labelled "cost growth" will be wrong about four fifths of it.</p>
+</div>
+
+{# 2026-11-11: the three-ceilings cards and the anchor-chain waterfall were
+   copies of /position. They live there now; this page keeps what only it
+   has: the estimate history, the five mechanisms and the cap's legal history. #}
+<div class="note" style="margin-bottom:1rem">The three ceilings in circulation, and the step-by-step bridge from the
+ statutory cap to the budget submission, are on <a href="/position#bridge">Position</a>.
+ This page is how the estimate got there over time.</div>
+
+<div class="card">
+ <h2>The estimate in each successive budget submission</h2>
+ <p class="cap">Point colour is the mechanism. Hover any point for the authority and what moved.</p>
+ {{ C.line_series(points, mark_key="mech", mark_colors=mech_color) }}
+ <ul class="legend inline">
+  {% for m in hist.mechanisms %}
+  <li><span class="sw" style="background:{{ mech_color[m.id] }}"></span>{{ m.label }}</li>
+  {% endfor %}
+ </ul>
+ <div class="grid g2" style="margin-top:1rem">
+  <div class="tscroll">
+   <table>
+    <thead><tr><th data-sort>As of</th><th class="num" data-sort>$M</th><th>Authority</th><th>What moved</th></tr></thead>
+    <tbody>
+    {% for r in hist.rows %}
+    <tr><td class="mono">{{ r.as_of }}</td><td class="num" data-v="{{ r.value }}">{{ "{:,.1f}".format(r.value) }}</td>
+     <td style="font-size:.8rem">{{ r.authority }}</td><td style="font-size:.8rem">{{ r.what }}</td></tr>
+    {% endfor %}
+    </tbody>
+   </table>
+  </div>
+  <div>
+   <h4>Five distinct mechanisms, and only one is cost growth</h4>
+   {% for m in hist.mechanisms %}
+   <div style="display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--line)">
+    <span class="sw" style="background:{{ mech_color[m.id] }};margin-top:.4rem"></span>
+    <div><b style="font-size:.88rem">{{ m.label }}</b>
+     <div class="muted" style="font-size:.81rem">{{ m.note }}</div></div>
+   </div>
+   {% endfor %}
+   <div class="note warn" style="margin-top:.8rem">A sixth mechanism is visible in the same exhibit
+    family and matters for other hulls: "Less AP Transfer to NSBDF" lines show advance procurement
+    moving out of SCN into the National Sea-Based Deterrence Fund. That is a cost leaving the
+    appropriation without leaving the program.</div>
+  </div>
+ </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Statutory cap history</h2>
+ <table>
+  <thead><tr><th>Authority</th><th>Action</th></tr></thead>
+  <tbody>
+  {% for r in caps.rows %}<tr><td class="mono" style="white-space:nowrap">{{ r.authority }}</td><td>{{ r.action }}</td></tr>{% endfor %}
+  </tbody>
+ </table>
+ <div class="src"><b>Source</b> {{ caps.source }}</div>
+</div>
+{% endblock %}

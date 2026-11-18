@@ -1,0 +1,566 @@
+{
+ "rows": [
+  {
+   "question": "Which hull or program does this record belong to, and what are its missing data elements?",
+   "rank": 1,
+   "confidence": 0.9974,
+   "none_of_these": null,
+   "option": {
+    "rank": 1,
+    "case": "CVN-79",
+    "confidence": 0.9974,
+    "basis": "deterministic"
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "case",
+   "piid": "N0002415C2114",
+   "period": null,
+   "engine": "investigator/0.1",
+   "run_id": "lead-b41c4e8a4956454b",
+   "created_at": "2026-11-09 21:38:50.066753"
+  },
+  {
+   "question": "Which hull or program does this record belong to, and what are its missing data elements?",
+   "rank": 2,
+   "confidence": 0.0009,
+   "none_of_these": null,
+   "option": {
+    "rank": 2,
+    "case": "CVN-80/81",
+    "confidence": 0.0009,
+    "basis": "inferred"
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "case",
+   "piid": "N0002415C2114",
+   "period": null,
+   "engine": "investigator/0.1",
+   "run_id": "lead-b41c4e8a4956454b",
+   "created_at": "2026-11-09 21:38:50.066753"
+  },
+  {
+   "question": "Which hull or program does this record belong to, and what are its missing data elements?",
+   "rank": 3,
+   "confidence": 0.0007,
+   "none_of_these": null,
+   "option": {
+    "rank": 3,
+    "case": "CVN-78",
+    "confidence": 0.0007,
+    "basis": "inferred"
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "case",
+   "piid": "N0002415C2114",
+   "period": null,
+   "engine": "investigator/0.1",
+   "run_id": "lead-b41c4e8a4956454b",
+   "created_at": "2026-11-09 21:38:50.066753"
+  },
+  {
+   "question": "Which line of accounting primarily funds N0002415C2114 P00067 (2020-03-10, $454,765,071.00)?",
+   "rank": 1,
+   "confidence": 0.8634,
+   "none_of_these": 0.0282,
+   "option": {
+    "rank": 1,
+    "confidence": 0.8634,
+    "loa": {
+     "tas": "017-2018/2022-1611-000",
+     "appropriation": "Shipbuilding and Conversion, Navy",
+     "colour": "SCN",
+     "availability": "2018/2022",
+     "status_on_action_date": "current",
+     "object_class": {
+      "value": "31.0",
+      "share": 1.0,
+      "basis": "File C rows for 017-2018/2022-1611-000 on this award"
+     },
+     "program_activity": {
+      "value": "0002",
+      "share": 0.5935,
+      "basis": "File C rows for 017-2018/2022-1611-000 on this award"
+     }
+    },
+    "deductive": false,
+    "evidence": [
+     {
+      "method": "recency",
+      "value": 1.0,
+      "weight": 0.7,
+      "contribution": 0.7
+     },
+     {
+      "method": "history",
+      "value": -0.2779,
+      "weight": 1.0,
+      "contribution": -0.278
+     }
+    ],
+    "collection_requirement": {
+     "instruction": "Retrieve the accounting lines for N0002415C2114 modification P00067 (2020-03-10) and confirm whether 017-2018/2022-1611-000 carries it.",
+     "target_document": "PIEE EDA: the conformed modification, Section G accounting data (ACRN to LOA)",
+     "target_office": "SUPSHIP Newport News or NAVSEA 02 (contracting officer)",
+     "cross_check": "Navy ERP obligation postings for the document number, by TAS and period, from DFAS Columbus or NAVSEA 01 (comptroller)",
+     "period": "2020-03-10",
+     "account": "017-2018/2022-1611-000"
+    }
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": null,
+   "piid": null,
+   "period": null,
+   "engine": "analyst/0.1",
+   "run_id": "analyst-20261109T030852",
+   "created_at": "2026-11-09 03:08:55.610475"
+  },
+  {
+   "question": "Which line of accounting primarily funds N0002415C2114 P00067 (2020-03-10, $454,765,071.00)?",
+   "rank": 2,
+   "confidence": 0.0271,
+   "none_of_these": 0.0282,
+   "option": {
+    "rank": 2,
+    "confidence": 0.0271,
+    "loa": {
+     "tas": "017-2020/2021-1319-000",
+     "appropriation": "Research, Development, Test and Evaluation, Navy",
+     "colour": "RDTEN",
+     "availability": "2020/2021",
+     "status_on_action_date": "current",
+     "object_class": {
+      "value": "31.0",
+      "share": 1.0,
+      "basis": "File C rows for 017-2020/2021-1319-000 on this award"
+     },
+     "program_activity": {
+      "value": "OPTN",
+      "share": 0.5095,
+      "basis": "File C rows for 017-2020/2021-1319-000 on this award"
+     }
+    },
+    "deductive": false,
+    "evidence": [
+     {
+      "method": "history",
+      "value": -3.7374,
+      "weight": 1.0,
+      "contribution": -3.737
+     },
+     {
+      "method": "recency",
+      "value": 1.0,
+      "weight": 0.7,
+      "contribution": 0.7
+     }
+    ],
+    "collection_requirement": {
+     "instruction": "Retrieve the accounting lines for N0002415C2114 modification P00067 (2020-03-10) and confirm whether 017-2020/2021-1319-000 carries it.",
+     "target_document": "PIEE EDA: the conformed modification, Section G accounting data (ACRN to LOA)",
+     "target_office": "SUPSHIP Newport News or NAVSEA 02 (contracting officer)",
+     "cross_check": "Navy ERP obligation postings for the document number, by TAS and period, from DFAS Columbus or NAVSEA 01 (comptroller)",
+     "period": "2020-03-10",
+     "account": "017-2020/2021-1319-000"
+    }
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": null,
+   "piid": null,
+   "period": null,
+   "engine": "analyst/0.1",
+   "run_id": "analyst-20261109T030852",
+   "created_at": "2026-11-09 03:08:55.610504"
+  },
+  {
+   "question": "Which line of accounting primarily funds N0002415C2114 P00067 (2020-03-10, $454,765,071.00)?",
+   "rank": 3,
+   "confidence": 0.0259,
+   "none_of_these": 0.0282,
+   "option": {
+    "rank": 3,
+    "confidence": 0.0259,
+    "loa": {
+     "tas": "017-2020/2020-1804-000",
+     "appropriation": "Operation and Maintenance, Navy",
+     "colour": "OMN",
+     "availability": "2020/2020",
+     "status_on_action_date": "current",
+     "object_class": {
+      "value": "31.0",
+      "share": 1.0,
+      "basis": "File C rows for 017-2020/2020-1804-000 on this award"
+     },
+     "program_activity": {
+      "value": "OPTN",
+      "share": 1.0,
+      "basis": "File C rows for 017-2020/2020-1804-000 on this award"
+     }
+    },
+    "deductive": false,
+    "evidence": [
+     {
+      "method": "history",
+      "value": -3.7842,
+      "weight": 1.0,
+      "contribution": -3.784
+     },
+     {
+      "method": "recency",
+      "value": 1.0,
+      "weight": 0.7,
+      "contribution": 0.7
+     }
+    ],
+    "collection_requirement": {
+     "instruction": "Retrieve the accounting lines for N0002415C2114 modification P00067 (2020-03-10) and confirm whether 017-2020/2020-1804-000 carries it.",
+     "target_document": "PIEE EDA: the conformed modification, Section G accounting data (ACRN to LOA)",
+     "target_office": "SUPSHIP Newport News or NAVSEA 02 (contracting officer)",
+     "cross_check": "Navy ERP obligation postings for the document number, by TAS and period, from DFAS Columbus or NAVSEA 01 (comptroller)",
+     "period": "2020-03-10",
+     "account": "017-2020/2020-1804-000"
+    }
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": null,
+   "piid": null,
+   "period": null,
+   "engine": "analyst/0.1",
+   "run_id": "analyst-20261109T030852",
+   "created_at": "2026-11-09 03:08:55.610547"
+  },
+  {
+   "question": "Which line of accounting primarily funds N0002415C2114 P00067 (2020-03-10, $454,765,071.00)?",
+   "rank": 1,
+   "confidence": 0.9195,
+   "none_of_these": 0.0292,
+   "option": {
+    "rank": 1,
+    "confidence": 0.9195,
+    "loa": {
+     "tas": "017-2018/2022-1611-000",
+     "appropriation": "Shipbuilding and Conversion, Navy",
+     "colour": "SCN",
+     "availability": "2018/2022",
+     "status_on_action_date": "current",
+     "object_class": {
+      "value": "31.0",
+      "share": 1.0,
+      "basis": "File C rows for 017-2018/2022-1611-000 on this award"
+     },
+     "program_activity": {
+      "value": "0002",
+      "share": 0.5935,
+      "basis": "File C rows for 017-2018/2022-1611-000 on this award"
+     }
+    },
+    "deductive": false,
+    "evidence": [
+     {
+      "method": "recency",
+      "value": 1.0,
+      "weight": 0.7623,
+      "contribution": 0.762
+     },
+     {
+      "method": "history",
+      "value": -0.2779,
+      "weight": 1.223,
+      "contribution": -0.34
+     }
+    ],
+    "collection_requirement": {
+     "instruction": "Retrieve the accounting lines for N0002415C2114 modification P00067 (2020-03-10) and confirm whether 017-2018/2022-1611-000 carries it.",
+     "target_document": "PIEE EDA: the conformed modification, Section G accounting data (ACRN to LOA)",
+     "target_office": "SUPSHIP Newport News or NAVSEA 02 (contracting officer)",
+     "cross_check": "Navy ERP obligation postings for the document number, by TAS and period, from DFAS Columbus or NAVSEA 01 (comptroller)",
+     "period": "2020-03-10",
+     "account": "017-2018/2022-1611-000"
+    }
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "tx",
+   "piid": "N0002415C2114",
+   "period": null,
+   "engine": "analyst/0.1",
+   "run_id": "lead-0386a5137a1a4069",
+   "created_at": "2026-11-09 03:25:03.394570"
+  },
+  {
+   "question": "Which line of accounting primarily funds N0002415C2114 P00067 (2020-03-10, $454,765,071.00)?",
+   "rank": 2,
+   "confidence": 0.0134,
+   "none_of_these": 0.0292,
+   "option": {
+    "rank": 2,
+    "confidence": 0.0134,
+    "loa": {
+     "tas": "017-2020/2021-1319-000",
+     "appropriation": "Research, Development, Test and Evaluation, Navy",
+     "colour": "RDTEN",
+     "availability": "2020/2021",
+     "status_on_action_date": "current",
+     "object_class": {
+      "value": "31.0",
+      "share": 1.0,
+      "basis": "File C rows for 017-2020/2021-1319-000 on this award"
+     },
+     "program_activity": {
+      "value": "OPTN",
+      "share": 0.5095,
+      "basis": "File C rows for 017-2020/2021-1319-000 on this award"
+     }
+    },
+    "deductive": false,
+    "evidence": [
+     {
+      "method": "history",
+      "value": -3.7374,
+      "weight": 1.223,
+      "contribution": -4.571
+     },
+     {
+      "method": "recency",
+      "value": 1.0,
+      "weight": 0.7623,
+      "contribution": 0.762
+     }
+    ],
+    "collection_requirement": {
+     "instruction": "Retrieve the accounting lines for N0002415C2114 modification P00067 (2020-03-10) and confirm whether 017-2020/2021-1319-000 carries it.",
+     "target_document": "PIEE EDA: the conformed modification, Section G accounting data (ACRN to LOA)",
+     "target_office": "SUPSHIP Newport News or NAVSEA 02 (contracting officer)",
+     "cross_check": "Navy ERP obligation postings for the document number, by TAS and period, from DFAS Columbus or NAVSEA 01 (comptroller)",
+     "period": "2020-03-10",
+     "account": "017-2020/2021-1319-000"
+    }
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "tx",
+   "piid": "N0002415C2114",
+   "period": null,
+   "engine": "analyst/0.1",
+   "run_id": "lead-0386a5137a1a4069",
+   "created_at": "2026-11-09 03:25:03.394570"
+  },
+  {
+   "question": "Which line of accounting primarily funds N0002415C2114 P00067 (2020-03-10, $454,765,071.00)?",
+   "rank": 3,
+   "confidence": 0.0126,
+   "none_of_these": 0.0292,
+   "option": {
+    "rank": 3,
+    "confidence": 0.0126,
+    "loa": {
+     "tas": "017-2020/2020-1804-000",
+     "appropriation": "Operation and Maintenance, Navy",
+     "colour": "OMN",
+     "availability": "2020/2020",
+     "status_on_action_date": "current",
+     "object_class": {
+      "value": "31.0",
+      "share": 1.0,
+      "basis": "File C rows for 017-2020/2020-1804-000 on this award"
+     },
+     "program_activity": {
+      "value": "OPTN",
+      "share": 1.0,
+      "basis": "File C rows for 017-2020/2020-1804-000 on this award"
+     }
+    },
+    "deductive": false,
+    "evidence": [
+     {
+      "method": "history",
+      "value": -3.7842,
+      "weight": 1.223,
+      "contribution": -4.628
+     },
+     {
+      "method": "recency",
+      "value": 1.0,
+      "weight": 0.7623,
+      "contribution": 0.762
+     }
+    ],
+    "collection_requirement": {
+     "instruction": "Retrieve the accounting lines for N0002415C2114 modification P00067 (2020-03-10) and confirm whether 017-2020/2020-1804-000 carries it.",
+     "target_document": "PIEE EDA: the conformed modification, Section G accounting data (ACRN to LOA)",
+     "target_office": "SUPSHIP Newport News or NAVSEA 02 (contracting officer)",
+     "cross_check": "Navy ERP obligation postings for the document number, by TAS and period, from DFAS Columbus or NAVSEA 01 (comptroller)",
+     "period": "2020-03-10",
+     "account": "017-2020/2020-1804-000"
+    }
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "tx",
+   "piid": "N0002415C2114",
+   "period": null,
+   "engine": "analyst/0.1",
+   "run_id": "lead-0386a5137a1a4069",
+   "created_at": "2026-11-09 03:25:03.394570"
+  },
+  {
+   "question": "Why does File C for N0002415C2114 FY2021P03 differ from FPDS?",
+   "rank": 1,
+   "confidence": 0.6954,
+   "none_of_these": 0.0941,
+   "option": {
+    "rank": 1,
+    "cause": "unmirrored",
+    "statement": "The ledger posted obligations on 017-2018/2022-1611-000 with no matching FPDS action in the window (a funding action not reported to FPDS, or reported under another date or PIID).",
+    "explains": "$770,407,268.00",
+    "score": 1.5,
+    "test": "supported by the proven lower bound; confirm against Navy ERP postings by document number",
+    "confidence": 0.6954
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": null,
+   "piid": null,
+   "period": null,
+   "engine": "residual/0.1",
+   "run_id": "analyst-20261109T030852",
+   "created_at": "2026-11-09 03:08:55.610388"
+  },
+  {
+   "question": "Why does File C for N0002415C2114 FY2021P03 differ from FPDS?",
+   "rank": 2,
+   "confidence": 0.1164,
+   "none_of_these": 0.0941,
+   "option": {
+    "rank": 2,
+    "cause": "timing",
+    "statement": "$466,972,711.00 obligated in months no File C submission covers (FY2020 P04, FY2020 P05, FY2020 P06) was reported in FY2021P03.",
+    "explains": "$466,972,711.00",
+    "fraction_explained": 0.6061,
+    "exact_to_cent": false,
+    "score": -0.28772506336220083,
+    "against": "Submission(s) FY2020P09, FY2020P12 came after those months and before FY2021P03 and did not carry them.",
+    "test": "sum of FPDS federal_action_obligation over the uncovered months",
+    "lines": [
+     "P00067 2020-03-10 $454,765,071.00",
+     "P00065 2020-02-25 $4,800,000.00",
+     "P00064 2020-01-27 $2,901,698.00",
+     "AZ0040 2020-03-13 $1,730,962.00",
+     "A00215 2020-03-03 $1,600,000.00"
+    ],
+    "confidence": 0.1164
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": null,
+   "piid": null,
+   "period": null,
+   "engine": "residual/0.1",
+   "run_id": "analyst-20261109T030852",
+   "created_at": "2026-11-09 03:08:55.610423"
+  },
+  {
+   "question": "Why does File C for N0002415C2114 FY2021P03 differ from FPDS?",
+   "rank": 3,
+   "confidence": 0.0941,
+   "none_of_these": 0.0941,
+   "option": {
+    "rank": 3,
+    "cause": "restatement",
+    "statement": "Earlier obligations re-reported in this submission, not as an exact subset of FPDS lines.",
+    "score": -0.5,
+    "confidence": 0.0941
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": null,
+   "piid": null,
+   "period": null,
+   "engine": "residual/0.1",
+   "run_id": "analyst-20261109T030852",
+   "created_at": "2026-11-09 03:08:55.610437"
+  },
+  {
+   "question": "Why does File C for N0002415C2114 FY2021P03 differ from FPDS?",
+   "rank": 1,
+   "confidence": 0.6954,
+   "none_of_these": 0.0941,
+   "option": {
+    "rank": 1,
+    "cause": "unmirrored",
+    "statement": "The ledger posted obligations on 017-2018/2022-1611-000 with no matching FPDS action in the window (a funding action not reported to FPDS, or reported under another date or PIID).",
+    "explains": "$770,407,268.00",
+    "score": 1.5,
+    "test": "supported by the proven lower bound; confirm against Navy ERP postings by document number",
+    "confidence": 0.6954
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "residual",
+   "piid": "N0002415C2114",
+   "period": "FY2021P03",
+   "engine": "residual/0.1",
+   "run_id": "lead-2790ab97548946b8",
+   "created_at": "2026-11-09 03:25:06.645212"
+  },
+  {
+   "question": "Why does File C for N0002415C2114 FY2021P03 differ from FPDS?",
+   "rank": 2,
+   "confidence": 0.1164,
+   "none_of_these": 0.0941,
+   "option": {
+    "rank": 2,
+    "cause": "timing",
+    "statement": "$466,972,711.00 obligated in months no File C submission covers (FY2020 P04, FY2020 P05, FY2020 P06) was reported in FY2021P03.",
+    "explains": "$466,972,711.00",
+    "fraction_explained": 0.6061,
+    "exact_to_cent": false,
+    "score": -0.28772506336220083,
+    "against": "Submission(s) FY2020P09, FY2020P12 came after those months and before FY2021P03 and did not carry them.",
+    "test": "sum of FPDS federal_action_obligation over the uncovered months",
+    "lines": [
+     "P00067 2020-03-10 $454,765,071.00",
+     "P00065 2020-02-25 $4,800,000.00",
+     "P00064 2020-01-27 $2,901,698.00",
+     "AZ0040 2020-03-13 $1,730,962.00",
+     "A00215 2020-03-03 $1,600,000.00"
+    ],
+    "confidence": 0.1164
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "residual",
+   "piid": "N0002415C2114",
+   "period": "FY2021P03",
+   "engine": "residual/0.1",
+   "run_id": "lead-2790ab97548946b8",
+   "created_at": "2026-11-09 03:25:06.645212"
+  },
+  {
+   "question": "Why does File C for N0002415C2114 FY2021P03 differ from FPDS?",
+   "rank": 3,
+   "confidence": 0.0941,
+   "none_of_these": 0.0941,
+   "option": {
+    "rank": 3,
+    "cause": "restatement",
+    "statement": "Earlier obligations re-reported in this submission, not as an exact subset of FPDS lines.",
+    "score": -0.5,
+    "confidence": 0.0941
+   },
+   "grade": "LEAD",
+   "status": "open",
+   "kind": "residual",
+   "piid": "N0002415C2114",
+   "period": "FY2021P03",
+   "engine": "residual/0.1",
+   "run_id": "lead-2790ab97548946b8",
+   "created_at": "2026-11-09 03:25:06.645212"
+  }
+ ]
+}

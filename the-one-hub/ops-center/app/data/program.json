@@ -1,0 +1,33 @@
+{
+ "hull": "CVN-79",
+ "name": "USS John F. Kennedy",
+ "pre_delivery": "PCU John F. Kennedy",
+ "ship_class": "Gerald R. Ford class (CVN 78)",
+ "program": "CVN 78 Gerald R. Ford Class Nuclear Aircraft Carrier",
+ "acat": "IC",
+ "program_office": "PEO Aircraft Carriers",
+ "builder": "HII Newport News Shipbuilding",
+ "cage": "43689",
+ "district": "VA-03",
+ "motto": "Serve with courage",
+ "sponsor": "Caroline Kennedy",
+ "service_life_years": 50,
+ "total_ship_estimate_usd_m": 13409.97,
+ "total_source": "PB2027 SCN Book, Exhibit P-5c, 1611N/02/2001, FY2013 column",
+ "statutory_cap_usd_m": 11398.0,
+ "cost_limitation_baseline_usd_m": 12936.0,
+ "above_cap_usd_m": 2011.97,
+ "above_cap_pct": 17.7,
+ "delivery": "March 2027",
+ "cfo": "July 2027",
+ "owld": "June 2028",
+ "preliminary_acceptance": "29 September 2026",
+ "schedule_variance_months": 54,
+ "industrial_base": {
+  "supplier_firms": 2000,
+  "states": 46,
+  "nns_employees": 25000,
+  "source": "CRS RS20643, 2019 basis"
+ },
+ "source": "ring0/RING0_CVN79.md Part A"
+}

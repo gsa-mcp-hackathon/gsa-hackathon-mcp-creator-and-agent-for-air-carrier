@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Industrial base</div>
+ <h1>Who builds what</h1>
+ <p class="lede">{{ ind.integrator.name }} is the hull builder and the systems integrator. It is not
+  the manufacturer of most of the ship's major systems. That is why neither roll-up method is
+  sufficient alone, and why cross-command government furnished equipment is the hardest attribution
+  problem in this program.</p>
+</div>
+
+<div class="grid g-1-2">
+ <div class="card">
+  <h3>The integrator</h3>
+  <dl class="kv">
+   <dt>Yard</dt><dd>{{ ind.integrator.name }}</dd>
+   <dt>Role</dt><dd>{{ ind.integrator.role }}</dd>
+   <dt>Total lifts</dt><dd>{{ ind.integrator.lifts }} erectable units</dd>
+   <dt>On the class</dt><dd>{{ "{:,}".format(ind.integrator.employees_on_class) }} employees</dd>
+   <dt>Yard total</dt><dd>{{ "{:,}".format(ind.integrator.total_employees) }} Virginians</dd>
+  </dl>
+  <div class="note">{{ ind.integrator.monopoly }}</div>
+  <div class="note ok"><b>Build strategy.</b> {{ ind.integrator.build_strategy }}</div>
+ </div>
+ <div class="card">
+  <h3>Major systems and where they come from</h3>
+  <div class="tscroll">
+   <table>
+    <thead><tr><th>System</th><th>Maker</th><th>Command</th><th>Delivery</th></tr></thead>
+    <tbody>
+    {% for s in ind.systems %}
+    <tr><td><b>{{ s.system }}</b>{% if s.path %}<div class="muted" style="font-size:.78rem">{{ s.path }}</div>{% endif %}</td>
+     <td style="font-size:.82rem">{{ s.maker }}</td>
+     <td class="mono" style="font-size:.78rem">{{ s.command }}</td>
+     <td><span class="b b-info">{{ s.delivery }}</span></td></tr>
+    {% endfor %}
+    </tbody>
+   </table>
+  </div>
+ </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h3>Why the industrial map changes the cost architecture</h3>
+ <div class="grid g3">
+  {% for c in ind.consequences %}<div class="note">{{ c }}</div>{% endfor %}
+ </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+ <h2>Tier two: the sub-award map</h2>
+ <p class="cap">{{ subs.source }}</p>
+ <div class="grid g4" style="margin-bottom:1rem">
+  <div class="stat"><div class="k">Sub-awards reported</div><div class="v">{{ "{:,}".format(subs.rows) }}</div>
+   <div class="n">on the detail design contract. The preparation contract reports none</div></div>
+  <div class="stat"><div class="k">Reported value</div><div class="v">${{ "{:,.1f}".format(subs.total_usd_m) }}M</div>
+   <div class="n">{{ subs.share_of_prime_obligations_pct }}% of the prime's obligations</div></div>
+  <div class="stat"><div class="k">Distinct subcontractors</div><div class="v">{{ subs.distinct_subawardees }}</div>
+   <div class="n">named at tier two</div></div>
+  <div class="stat"><div class="k">States</div><div class="v">{{ subs.by_state|length }}</div>
+   <div class="n">in the reported tier-two footprint</div></div>
+ </div>
+ <div class="note warn">{{ subs.note }}</div>
+ <div class="grid g2" style="margin-top:1rem">
+  <div><h4>Top subcontractors</h4>
+   {{ C.hbar(subs.top[:18], value="usd_m", label="name", sub="state", pad_left=270, w=720) }}</div>
+  <div><h4>By state of the subawardee</h4>
+   {{ C.hbar(subs.by_state[:14], value="usd_m", label="state", pad_left=80, w=520) }}
+   <h4 style="margin-top:1rem">By fiscal year</h4>
+   {{ C.hbar(subs.by_fy, value="usd_m", label="fy", pad_left=80, w=520) }}
+  </div>
+ </div>
+ <h4 style="margin-top:1rem">Business types represented</h4>
+ <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+  {% for b in subs.business_types %}<span class="pill">{{ b.label|title }} <b>{{ b.n }}</b></span>{% endfor %}
+ </div>
+ <h4 style="margin-top:1.1rem">Largest reported sub-awards</h4>
+ <div class="tscroll" style="max-height:360px">
+  <table>
+   <thead><tr><th data-sort>Date</th><th data-sort>Subawardee</th><th class="num" data-sort>$M</th><th>Description</th></tr></thead>
+   <tbody>
+   {% for r in subs.largest %}
+   <tr><td class="mono">{{ r.date }}</td><td>{{ r.name }}</td>
+    <td class="num" data-v="{{ r.usd_m }}">{{ "{:,.2f}".format(r.usd_m) }}</td>
+    <td style="font-size:.79rem">{{ r.desc }}</td></tr>
+   {% endfor %}
+   </tbody>
+  </table>
+ </div>
+ <div class="note ok"><b>This confirms the Part L finding at the transaction level.</b> Curtiss-Wright
+  Exlar and Federal Equipment Company appear here as named subcontractors, which is exactly the
+  pattern the industrial map predicted: the same hardware is a prime contract on one hull and an
+  invisible subcontract on another.</div>
+</div>
+{% endblock %}

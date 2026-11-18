@@ -1,0 +1,199 @@
+resources:
+  jobs:
+
+    aircarrier_tieout:
+      name: "[${bundle.target}] aircarrier tieout"
+      description: >
+        The standing deterministic suite. Runs the two-axis close, the anchor
+        chain and the per-step cumulative check against the current tables and
+        exits non-zero on a break. Built before extraction because the asset it
+        protects exists today. This one is implemented and scheduled; the other
+        two are paused until their entry points have bodies.
+      schedule:
+        quartz_cron_expression: "0 0 11 * * ?"
+        timezone_id: America/New_York
+      # Serverless. A Python script task on serverless compute must name an
+      # environment, and the deploy fails at validate without one rather than
+      # silently defaulting to a cluster. No node types, no worker counts, no
+      # Spark version: the environment version pins the Python runtime and the
+      # dependency list pins everything else.
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: ${var.serverless_env_version}
+            dependencies:
+              # spec.client is deprecated in favour of environment_version.
+              # Keep this list minimal: every entry is a wheel that has to be
+              # vendored for IL5, where there is no package index.
+              - pyyaml
+      tasks:
+        - task_key: tieout
+          environment_key: default
+          spark_python_task:
+            python_file: ../ops/entrypoints/tieout_job.py
+            # ${workspace.file_path} is the deployed files/ folder. The task
+            # needs it because a serverless run exec()s the entry point
+            # without binding __file__, so the script cannot work out where
+            # it is. Passing it is deterministic and identical in IL5.
+            parameters: ["--root", "${workspace.file_path}"]
+
+    aircarrier_events:
+      name: "[${bundle.target}] aircarrier event capture"
+      description: >
+        D28 and D29. Scheduled job writing to Delta, scoped to government
+        sources. The app never fetches live: the trust model requires a
+        retrieval timestamp and a source citation on every item, and a live
+        fetch from the front end records neither.
+      schedule:
+        quartz_cron_expression: "0 30 6 * * ?"
+        timezone_id: America/New_York
+        # PAUSED until ops/agents/reader has a body. Deploying a schedule
+        # against an entry point that raises NotImplementedError would put a
+        # red run on the board every morning and teach everyone to ignore the
+        # job list. Unpause in the same commit that implements the reader.
+        pause_status: PAUSED
+      # Serverless. A Python script task on serverless compute must name an
+      # environment, and the deploy fails at validate without one rather than
+      # silently defaulting to a cluster. No node types, no worker counts, no
+      # Spark version: the environment version pins the Python runtime and the
+      # dependency list pins everything else.
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: ${var.serverless_env_version}
+            dependencies:
+              # spec.client is deprecated in favour of environment_version.
+              # Keep this list minimal: every entry is a wheel that has to be
+              # vendored for IL5, where there is no package index.
+              - pyyaml
+      tasks:
+        - task_key: capture
+          environment_key: default
+          spark_python_task:
+            python_file: ../ops/entrypoints/reader_job.py
+            parameters: ["--handler", "transaction", "--source", "gov-events",
+                         "--root", "${workspace.file_path}"]
+
+    aircarrier_dispatcher:
+      name: "[${bundle.target}] aircarrier dispatcher"
+      description: >
+        Reads the work register against the routing table and enqueues.
+        Scheduled rather than event-driven: every step is idempotent and a
+        missed tick costs nothing.
+      schedule:
+        quartz_cron_expression: "0 0 * * * ?"
+        timezone_id: America/New_York
+        pause_status: PAUSED
+      # Serverless. A Python script task on serverless compute must name an
+      # environment, and the deploy fails at validate without one rather than
+      # silently defaulting to a cluster. No node types, no worker counts, no
+      # Spark version: the environment version pins the Python runtime and the
+      # dependency list pins everything else.
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: ${var.serverless_env_version}
+            dependencies:
+              # spec.client is deprecated in favour of environment_version.
+              # Keep this list minimal: every entry is a wheel that has to be
+              # vendored for IL5, where there is no package index.
+              - pyyaml
+      tasks:
+        - task_key: dispatch
+          environment_key: default
+          spark_python_task:
+            python_file: ../ops/dispatcher/run.py
+            parameters: ["--root", "${workspace.file_path}"]
+
+    aircarrier_rule_eval:
+      name: "[${bundle.target}] aircarrier rule eval"
+      description: >
+        Evaluates all active rules with expression_sql against the current data
+        and writes any matching rows to the exceptions table. Runs on-demand
+        (triggered after a rule_register insert) or on schedule. A threshold
+        change alters the exception population with no deploy (invariant 2).
+      schedule:
+        quartz_cron_expression: "0 0 12 * * ?"
+        timezone_id: America/New_York
+        pause_status: PAUSED
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: ${var.serverless_env_version}
+            dependencies:
+              - pyyaml
+      tasks:
+        - task_key: evaluate
+          environment_key: default
+          spark_python_task:
+            python_file: ../ops/entrypoints/eval_job.py
+            parameters: ["--trigger", "job",
+                         "--triggered-by", "aircarrier_rule_eval",
+                         "--root", "${workspace.file_path}"]
+
+    aircarrier_harness:
+      name: "[${bundle.target}] aircarrier harness"
+      description: >
+        Orchestrator + checker. For each open exception: selects a specialist
+        by area, runs the tool-calling loop (reasoning model), stages
+        proposals, then the independent checker (different model family)
+        verifies each proposal. PAUSED until first deploy.
+      schedule:
+        quartz_cron_expression: "0 30 12 * * ?"
+        timezone_id: America/New_York
+        pause_status: PAUSED
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: ${var.serverless_env_version}
+            dependencies:
+              - pyyaml
+              - databricks-sdk
+      tasks:
+        - task_key: harness
+          environment_key: default
+          spark_python_task:
+            python_file: ../ops/entrypoints/harness_job.py
+            parameters: ["--root", "${workspace.file_path}"]
+
+    aircarrier_ingest:
+      name: "[${bundle.target}] aircarrier ingest"
+      description: >
+        Builds the document knowledge base from the corpus volume: extract per
+        page, chunk with the coordinate and the page legends attached, index.
+        Runs on demand rather than on a schedule, because the corpus only
+        changes when someone adds a document, and a nightly rebuild of an
+        unchanged corpus is pure cost.
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: ${var.serverless_env_version}
+            dependencies:
+              - pyyaml
+              - pypdf
+      tasks:
+        - task_key: ingest
+          environment_key: default
+          spark_python_task:
+            python_file: ../ops/entrypoints/ingest_job.py
+            # --root for the same reason as tieout above.
+            parameters: ["--root", "${workspace.file_path}",
+                         "--volume", "${var.corpus_volume}",
+                         "--out", "${var.kb_dir}"]
+        - task_key: build_rules
+          depends_on:
+            - task_key: ingest
+          environment_key: default
+          spark_python_task:
+            python_file: ../etl/build_rules.py
+            parameters: ["--root", "${workspace.file_path}"]
+        # The app reads its page documents from Unity Catalog (uc backend), so a
+        # rebuilt app/data file is live only once it is published. Last, after
+        # every task that writes app/data. docs/UC_SERVING_VIEWS.md.
+        - task_key: publish_serving_docs
+          depends_on:
+            - task_key: build_rules
+          environment_key: default
+          spark_python_task:
+            python_file: ../etl/publish_serving_docs.py
+            parameters: ["--root", "${workspace.file_path}"]

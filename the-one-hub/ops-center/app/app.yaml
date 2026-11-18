@@ -1,0 +1,32 @@
+command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Local-run defaults only.
+#
+# Every name below is overridden at deploy time by config.env in
+# resources/app.yml, which binds them to the bundle variables so they follow
+# -Catalog, -Schema and -StorePrefix instead of being typed here. Keep these
+# as the values a laptop run should see, and change deployed values in the
+# bundle, not in this file.
+env:
+  - name: AIRCARRIER_CATALOG
+    value: aircarrier
+  - name: AIRCARRIER_ADAPTER
+    value: commercial
+  - name: AIRCARRIER_SCHEMA
+    value: default
+  - name: AIRCARRIER_STORE_PREFIX
+    value: aircarrier_
+  - name: AIRCARRIER_DATA_BACKEND
+    value: files
+
+# AIRCARRIER_KB_DIR is deliberately absent.
+#
+# It used to be pinned here to /Volumes/aircarrier/source/extracted/kb, a
+# path that exists in no deployment anyone has made. The effect was not an
+# error: the knowledge base simply reported no index, which reads as "the
+# ingest job has not run yet" rather than "this path is wrong".
+#
+# Unset, the search layer falls back to the index that ships beside the app
+# in app/data/kb, so a local run and a workspace with no ingest run yet both
+# have working retrieval on the smaller index. The deployed value comes from
+# var.kb_dir through config.env in resources/app.yml.

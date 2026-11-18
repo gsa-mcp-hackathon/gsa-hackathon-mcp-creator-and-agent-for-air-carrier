@@ -1,0 +1,20 @@
+# E-1 to E-16. Full text and sourcing live in ring0/RING0_CVN79.md Part E.
+# source: ring0/RING0_CVN79.md Part E
+
+variances:
+  - {id: E-1,  status: live,     topic: "three different cost caps in circulation, all three correct for their own purpose"}
+  - {id: E-2,  status: resolved, topic: "the 11,341.4 figure is a sourced FY2019 budget estimate"}
+  - {id: E-3,  status: resolved, topic: "OWLD, in favour of OPNAVINST 4700.8M"}
+  - {id: E-4,  status: live,     topic: "keel laying date"}
+  - {id: E-5,  status: live,     topic: "attributed delay cause shifts by year and by authority"}
+  - {id: E-6,  status: live,     topic: "life-cycle savings claim 4B against 5B"}
+  - {id: E-7,  status: live,     topic: "is the FY2026-FY2027 unit cost increase new cost"}
+  - {id: E-8,  status: live,     topic: "program start has at least six defensible dates"}
+  - {id: E-9,  status: live,     topic: "supplier footprint count"}
+  - {id: E-10, status: live,     topic: "delivery against commissioning conflated in reporting"}
+  - {id: E-11, status: live,     topic: "a contract mislabel in the research notes"}
+  - {id: E-12, status: recorded, topic: "the dagger inference. A real structural pattern with an invented interpretation over it", flag: INTERPRETATION}
+  - {id: E-13, status: recorded, topic: "announced modifications summed as obligations. Factor of 4.18", flag: METHOD}
+  - {id: E-14, status: live,     topic: "USAspending disagrees with itself by exactly 5,880,250 on one contract", flag: METHOD}
+  - {id: E-15, status: live,     topic: "the 2116 identifier collision", flag: KEY}
+  - {id: E-16, status: resolved, topic: "FPDS and USAspending differ by 583,963.00 on N00024-09-C-2116 (not DD and C); as-of date, the 10 June 2026 cumulative", flag: METHOD}

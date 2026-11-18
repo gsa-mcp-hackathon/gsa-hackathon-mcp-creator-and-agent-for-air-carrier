@@ -1,0 +1,77 @@
+{
+ "source": "ring0/RING0_CVN79.md Part N.4, computed live from the USAspending bundles in ring0/reference/",
+ "as_of": "2026-07-20",
+ "primes": [
+  {
+   "piid": "N00024-09-C-2116",
+   "title": "CVN 79 Construction Preparation",
+   "short": "CP",
+   "pricing": "Cost Plus Fixed Fee",
+   "base_date": "2009-01-15",
+   "base_usd_m": 111.804,
+   "solicitation": "N0002408R2116",
+   "obligated_usd_m": 4519.3,
+   "value_usd_m": 5386.15,
+   "unobligated_usd_m": 866.8,
+   "outlayed_usd_m": 72.62,
+   "n": 948,
+   "deob": {
+    "n": 68,
+    "usd_m": -66.794
+   },
+   "pop_end": "2025-07-31",
+   "share_of_hull": 33.7,
+   "admin": "SUPSHIP Newport News",
+   "competition": "Not competed, one source, FAR 6.302-1"
+  },
+  {
+   "piid": "N00024-15-C-2114",
+   "title": "CVN 79 Detail Design and Construction",
+   "short": "DD&C",
+   "pricing": "Fixed Price Incentive",
+   "base_date": "2015-06-05",
+   "base_usd_m": 3352.612,
+   "solicitation": "",
+   "obligated_usd_m": 4578.603,
+   "value_usd_m": 4615.796,
+   "unobligated_usd_m": 37.2,
+   "outlayed_usd_m": 0.0,
+   "n": 927,
+   "deob": {
+    "n": 52,
+    "usd_m": -23.944
+   },
+   "pop_end": "",
+   "share_of_hull": 34.1,
+   "admin": "SUPSHIP Newport News",
+   "competition": "Not competed, one source, FAR 6.302-1"
+  }
+ ],
+ "combined_usd_m": 9097.904,
+ "combined_share_of_hull": 67.8,
+ "combined_share_of_shipbuilder_side": 91.7,
+ "outlay_coverage_pct": 0.8,
+ "others": [
+  {
+   "piid": "N00019-14-C-0037",
+   "office": "NAVAIR",
+   "vendor": "General Atomics EMS",
+   "scope": "EMALS and AAG, CVN 79 and CVN 80",
+   "cvn79_usd_m": 830.438
+  },
+  {
+   "piid": "N00024-16-C-5370",
+   "office": "NAVSEA",
+   "vendor": "Raytheon",
+   "scope": "AN/SPY-6(V)3 EASR, six platforms",
+   "cvn79_usd_m": 110.075,
+   "warning": "Obligation total is not a CVN-79 number"
+  }
+ ],
+ "collision": {
+  "ours": "N00024-09-C-2116",
+  "not_ours": "N00024-16-C-2116",
+  "not_ours_mod_usd_m": 14917.738,
+  "note": "Seven years apart, three hulls, same trailing four digits"
+ }
+}

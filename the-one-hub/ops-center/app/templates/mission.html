@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% import "_si.html" as si %}
+{% block body %}
+{% set H = P.headline %}
+<div class="phead si-head">
+ <div class="eyebrow">Kennedy picture · CVN-79 · as of {{ P.as_of }}</div>
+ <h1>{{ H.text }}</h1>
+ <p class="lede">{{ H.question }} Every number below is recomputed from the records each time the
+  page is read. A specialist run starts from the button that names what it works on; nothing is
+  saved until a person applies it.</p>
+ <div class="si-headacts">
+  {{ si.trigger(T.brief, "/mission", "primary") }}
+  <span class="pill" title="{% for f in P.sources.failed %}{{ f.source }}: {{ f.error }} {% endfor %}">
+   {{ P.sources.text }}{% if P.sources.failed %} <b>{{ P.sources.failed|length }} could not be read.</b>{% endif %}</span>
+ </div>
+ <div class="si-toast" id="si-toast" role="status" hidden></div>
+</div>
+
+<div class="kpi-row si-kpis">
+ {% for k in P.kpis %}
+ <a class="kpi {{ {'ok':'good','warn':'warn','bad':'bad'}[k.tone] }} si-kpi" href="{{ k.href }}">
+  <div class="k">{{ k.label }}</div>
+  <div class="v">{{ k.figure.display or "Unknown" }}{% if k.of is not none %}<span class="si-of"> of {{ k.of }}</span>{% endif %}</div>
+  <div class="n">{{ k.sub }}</div>
+ </a>
+ {% endfor %}
+</div>
+
+<div class="grid g-2-1">
+ <section class="card" id="waiting" aria-labelledby="w-h">
+  <h2 id="w-h">Waiting on a decision</h2>
+  <p class="small">Who has to act, on what. A row that names a role can only be decided by a person
+   who holds it; the server checks that at the moment of the decision.</p>
+  {% if P.waiting %}
+  <ul class="si-wait">
+   {% for w in P.waiting %}
+   <li>
+    <div class="si-wait-what"><a href="{{ w.href }}">{{ w.what }}</a>
+     {% if w.role %}<span class="b b-info">{{ w.role }}</span>{% endif %}</div>
+    <div class="si-wait-who">{{ w.who or "no office named" }}</div>
+    <div class="si-wait-n">{% if w.figure %}{{ ui.figure(w.figure) }}{% endif %}
+     {% if w.task %}{{ si.trigger({"task_id": w.task.task_id, "subject": w.task.subject,
+        "label": "Work gap " ~ w.task.subject}, "/mission", "sm ghost") }}{% endif %}</div>
+   </li>
+   {% endfor %}
+  </ul>
+  {% else %}{{ ui.empty("Nothing is waiting on a decision.") }}{% endif %}
+ </section>
+
+ <section class="card" id="brief" aria-labelledby="b-h">
+  <h2 id="b-h">What the brief can stand on</h2>
+  <div class="si-bigfig">{{ ui.figure(H.promoted, "fig-lg") }}<span>of</span>{{ ui.figure(H.claims) }}</div>
+  <p class="small">CVN-79 figures in the claim ledger that tie to a source record (zone V). The rest are
+   leads and are shown as leads (BR-01). Brief on {{ H.brief_date }}, {{ H.days_to_brief }} days from today.</p>
+  {% set zt = (P.zones|sum(attribute="count")) or 1 %}
+  <svg class="si-zones" viewBox="0 0 300 22" role="img" aria-label="Claims by zone">
+   {% set ns = namespace(x=0) %}
+   {% for z in P.zones %}
+   {% set w = 300 * z.count / zt %}
+   <rect x="{{ ns.x }}" y="0" width="{{ w }}" height="22" class="si-z-{{ z.tone }}"><title>{{ z.label }}: {{ z.count }}</title></rect>
+   {% set ns.x = ns.x + w %}
+   {% endfor %}
+  </svg>
+  <ul class="si-legend">{% for z in P.zones %}<li><i class="si-z-{{ z.tone }}"></i>{{ z.label }} <b>{{ z.count }}</b></li>{% endfor %}</ul>
+ </section>
+</div>
+
+<section class="card" id="contracts" aria-labelledby="c-h">
+ <h2 id="c-h">Obligations by contract</h2>
+ <p class="small">Recomputed from every FPDS action, federal_action_obligation in exact decimal (OB-01).
+  Click a fiscal year to read it; shift-click a second year to read the range. The server sums it.</p>
+ <div class="grid g2">
+  {% for c in P.contracts %}
+  {% set tie = P.contract_ties[loop.index0] %}
+  <div class="si-contract">
+   <div class="si-c-h">
+    <div><b class="mono">{{ c.display }}</b> <span class="small">{{ c.desc }}</span></div>
+    {% if tie.claim_id %}
+    <span class="b {{ 'b-ok' if tie.ties and tie.zone == 'V' else 'b-warn' }}"
+          title="{{ tie.claim_id }}">{% if tie.ties %}ties to claim{% else %}differs from claim{% endif %} · zone {{ tie.zone }}</span>
+    {% else %}<span class="b b-mut">no claim</span>{% endif %}
+   </div>
+   {{ ui.figure(c.total, "fig-lg") }}
+   <div class="small">{{ c.count }} actions · last action {{ c.last_action }}</div>
+   {% set g = bars[c.piid] %}
+   <svg class="si-bars" viewBox="0 0 {{ g.w }} {{ g.h + 18 }}" role="img" aria-label="Obligations by fiscal year, {{ c.display }}">
+    <line x1="0" x2="{{ g.w }}" y1="{{ g.zero }}" y2="{{ g.zero }}" class="si-axis"/>
+    {% for b in g.bars %}
+    <g>
+     <rect data-si-bar data-contract="{{ c.piid }}" data-fy="{{ b.fy }}" x="{{ b.x }}" y="{{ b.y }}" width="{{ b.bw }}" height="{{ b.bh }}"
+           class="{{ 'neg' if b.neg }}" tabindex="0"><title>FY{{ b.fy }}: {{ b.display }} ({{ b.count }} actions)</title></rect>
+     {% if b.label %}<text x="{{ b.x + b.bw/2 }}" y="{{ g.h + 14 }}" text-anchor="middle">{{ b.fy[2:] }}</text>{% endif %}
+    </g>
+    {% endfor %}
+   </svg>
+   <div class="si-range" data-si-range="{{ c.piid }}"><p class="small">Select a year to read its actions.</p></div>
+   <div class="si-c-acts">
+    {{ si.trigger({"task_id": "reconcile_obligations", "subject": c.display, "label": "Reconcile " ~ c.display}, "/mission") }}
+    <form class="si-test" data-si-test data-si-subject="{{ c.display }}" data-si-page="/mission">
+     <label>Test a reported figure <input name="reported_total" inputmode="decimal" placeholder="e.g. {{ c.total.display|default('')|replace('$','')|trim }}" required></label>
+     <label>labelled <select name="reported_label">
+      {% for o in P.contracts %}<option value="{{ o.display }}" {% if o.piid == c.piid %}selected{% endif %}>{{ o.display }}</option>{% endfor %}
+     </select></label>
+     <button class="btn ghost sm" type="submit">Test it</button>
+    </form>
+   </div>
+  </div>
+  {% endfor %}
+ </div>
+</section>
+
+<section class="card" id="filec" aria-labelledby="f-h">
+ <h2 id="f-h">File C against the transactions</h2>
+ <p class="small">Each File C submission period for N00024-15-C-2114 against the contract's FPDS actions
+  under three windows; the window that matches is reported, never assumed (TO-01). A period that does
+  not tie is a residual to explain (TO-02).</p>
+ <div class="si-tiles">
+  {% for r in P.file_c %}
+  <div class="si-tile {{ 'ok' if r.ties else 'bad' }}">
+   <div class="si-tile-h"><b class="mono">{{ r.period }}</b><span class="b {{ 'b-ok' if r.ties else 'b-bad' }}">{{ 'ties' if r.ties else 'residual' }}</span></div>
+   <dl class="kv"><dt>File C</dt><dd class="mono">{{ r.file_c_display }}</dd>
+    <dt>{{ r.window }}</dt><dd class="mono">{{ r.transactions_display }}</dd>
+    <dt>Difference</dt><dd class="mono">{{ r.delta_display }}</dd></dl>
+   {{ si.trigger({"task_id": "explain_residual", "subject": r.period,
+      "label": ("Confirm " if r.ties else "Explain ") ~ r.period}, "/mission", "sm" ~ (" ghost" if r.ties else "")) }}
+  </div>
+  {% endfor %}
+ </div>
+</section>
+
+<div class="grid g2">
+ <section class="card" aria-labelledby="g-h">
+  <h2 id="g-h">Gaps that block the most</h2>
+  <ul class="si-gaps">
+   {% for g in P.top_gaps %}
+   <li><span class="b b-info">{{ g.id }}</span> {{ g.title }}
+    <div class="small">{{ g.executor or "no executor named" }} · {{ g.status }}</div>
+    {{ si.trigger({"task_id": "investigate_gap", "subject": g.id, "label": "Work gap " ~ g.id}, "/mission", "sm ghost") }}</li>
+   {% endfor %}
+  </ul>
+  <a href="/gaps">All {{ P.kpis[3].of }} gaps</a>
+ </section>
+ <section class="card" aria-labelledby="r-h">
+  <h2 id="r-h">Recent runs</h2>
+  {% if runs %}
+  <ul class="si-runs">
+   {% for r in runs %}
+   <li><a href="/runs/{{ r.run_id }}" data-si-open-run="{{ r.run_id }}">{{ r.label }}</a>
+    <span class="b {{ {'ready':'b-ok','decided':'b-info','blocked':'b-bad','failed':'b-bad'}.get(r.status, 'b-mut') }}">{{ r.status }}</span>
+    <div class="small">{{ r.asked_by or "unknown" }} · {{ r.started_at }} · {{ r.counts.reviewable }} to review, {{ r.counts.applied }} applied</div></li>
+   {% endfor %}
+  </ul>
+  {% else %}{{ ui.empty("No runs in this app process yet. Start one from any button that names its subject.") }}{% endif %}
+  <a href="/runs">Run log and activity</a>
+ </section>
+</div>
+<div class="src"><b>Source</b> FPDS prime transactions (both contracts), File C (N00024-15-C-2114), the claim
+ ledger, the variance register, the gap register, the work queue and the collection requirements, read at
+ {{ P.sources.at }}. Computed in api/si/picture.py.</div>
+{% endblock %}

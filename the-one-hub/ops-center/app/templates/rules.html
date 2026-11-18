@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="phead">
+  <div class="eyebrow">Evidence</div>
+  <h1>Rule codes</h1>
+  <p class="lede">Every code used in this product, with the rule it stands for and where it is defined.
+   Three families: the SI rulebook (task-level rules a specialist run cites), the rule register
+   (exception classes that govern the work queue), and the gate routes (claim promotion decisions).</p>
+</div>
+
+<div class="card" style="margin-top:1rem">
+  <h2>SI rulebook</h2>
+  <p class="cap">The task-level rules every specialist run works under, shown exactly as the
+   specialist receives them (<code>app/api/si/tasks.py</code> RULEBOOK). EC-01 and EC-02 are system
+   rules: the gate and the canvas, not rules a specialist cites.</p>
+  <table class="tbl" style="width:100%;margin-top:.6rem">
+    <thead><tr><th style="width:5rem">Code</th><th>Description</th></tr></thead>
+    <tbody>
+    {% for r in si_rules %}
+    <tr>
+      <td><code{% if r.system %} class="muted" title="System rule: the gate or canvas, not cited by a specialist"{% endif %}>{{ r.code }}</code></td>
+      <td style="font-size:.87rem">{{ r.description }}{% if r.system %} <span class="b b-flag" style="font-size:.7rem">system</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card" style="margin-top:1rem">
+  <h2>Rule register</h2>
+  <p class="cap">The {{ register.count }} rules in <code>aircarrier_app_rule_register</code>, each at its
+   latest stored version. Each governs an exception class: what triggers it, who owns it, and what
+   action is required. Status shows whether the rule can run with the data feeds available now.</p>
+  {% if register.source == 'live' %}
+  <p class="cap" data-source="live"><span class="b b-ok" style="font-size:.7rem">live</span>
+   Read from Unity Catalog for this page view.</p>
+  {% else %}
+  <div class="note" data-source="snapshot" style="margin-top:.4rem">
+   <b>The live register could not be read.</b> {{ register.error }}<br>
+   {% if register.areas %}Showing the snapshot built {{ register.built_at or 'at an unknown time' }}
+   by <code>etl/build_rules.py</code>. A rule changed since then is not reflected.
+   {% else %}No snapshot is bundled either. Run <code>etl/build_rules.py</code>.{% endif %}
+  </div>
+  {% endif %}
+  <div style="margin-top:.6rem">
+  {% for area in register.areas %}
+  <details{% if loop.first %} open{% endif %} style="margin-bottom:.4rem">
+    <summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:.3rem 0">
+      {{ area.area }} <span class="muted" style="font-weight:400">({{ area.prefix }}) · {{ area.owner_office }} · {{ area.owner_role }}</span>
+    </summary>
+    <table class="tbl" style="width:100%;margin-top:.2rem">
+      <thead><tr>
+        <th style="width:5rem">Code</th>
+        <th>Description</th>
+        <th style="width:6rem">Version</th>
+        <th style="width:8rem">Status</th>
+        <th style="width:10rem">Required action</th>
+      </tr></thead>
+      <tbody>
+      {% for r in area.rules %}
+      <tr>
+        <td><code>{{ r.code }}</code></td>
+        <td style="font-size:.85rem">
+          {{ r.description }}
+          {% if r.params %}<br><span class="muted" style="font-size:.78rem">params: {{ r.params }}</span>{% endif %}
+          {% if r.blocked_reason %}<br><span class="muted" style="font-size:.78rem">blocked: {{ r.blocked_reason }}</span>{% endif %}
+        </td>
+        <td style="font-size:.82rem">v{{ r.version }}{% if r.version_count > 1 %} <span class="muted">of {{ r.version_count }}</span>{% endif %}
+          {% if r.current_version and r.current_version != r.version %}<br><span class="muted">in effect: v{{ r.current_version }}</span>{% elif not r.current_version %}<br><span class="muted">none in effect</span>{% endif %}</td>
+        <td><span class="b{% if r.status == 'active' %} b-ok{% elif 'blocked' in r.status %} b-bad{% else %} b-flag{% endif %}" style="font-size:.72rem">{{ r.status }}</span></td>
+        <td style="font-size:.82rem">{{ r.required_action }}</td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </details>
+  {% endfor %}
+  </div>
+</div>
+
+<div class="card" style="margin-top:1rem">
+  <h2>Gate routes</h2>
+  <p class="cap">The claim promotion gate (<code>seed/gate.yaml</code>), in evaluation order. A claim
+   enters with a trust tag and a materiality flag, and the first route that matches decides: promote,
+   hold, or send to a human.{% if built_at %} Copied into the app {{ built_at }}.{% endif %}</p>
+  {% if gate_routes %}
+  <table class="tbl" style="width:100%;margin-top:.6rem">
+    <thead><tr><th style="width:5rem">Code</th><th>When</th><th style="width:10rem">Decision</th></tr></thead>
+    <tbody>
+    {% for r in gate_routes %}
+    <tr>
+      <td><code>{{ r.code }}</code></td>
+      <td style="font-size:.87rem">{{ r.description }}</td>
+      <td><span class="b{% if r.decision in ('promote', 'promote_if_tied_out') %} b-ok{% elif r.decision == 'human_review' %} b-flag{% else %} b-bad{% endif %}" style="font-size:.72rem">{{ r.decision }}</span></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="note">The gate routes are not bundled. Run <code>etl/build_rules.py</code>.</div>
+  {% endif %}
+</div>
+
+<div class="note" style="margin-top:1rem">
+  <b>Where each family lives.</b>
+  SI rulebook codes (OB, TO, GP, BR, EC) are read from <code>app/api/si/tasks.py</code>
+  and enforced by the SI engine (<code>app/api/si/sdk.py</code>).
+  Rule register codes (CC, EV, CAP, AV, CM) were seeded by <code>deploy/seed_rules.py</code>;
+  later versions are inserted into the register, which is insert-only, and read here live.
+  Gate routes are defined in <code>seed/gate.yaml</code> and applied by
+  <code>core/policy/gate.py</code>. Nothing on this page is typed by hand.
+</div>
+{% endblock %}

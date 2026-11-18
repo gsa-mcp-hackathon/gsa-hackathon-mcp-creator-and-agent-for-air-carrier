@@ -1,0 +1,129 @@
+{
+ "source": "ring0/RING0_CVN79.md K.2, from CRS RS20643 Table 2",
+ "net_movement_pct": 45.9,
+ "rows": [
+  {
+   "as_of": "FY2008 PB",
+   "y": 2008,
+   "value": 9192.0,
+   "authority": "Budget submission",
+   "what": "Pre-procurement estimate",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "FY2011 PB",
+   "y": 2011,
+   "value": 10413.1,
+   "authority": "Budget submission",
+   "what": "Estimate revision",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "FY2012 PB",
+   "y": 2012,
+   "value": 10253.0,
+   "authority": "Budget submission",
+   "what": "Revision, slightly down",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "FY2013 PB",
+   "y": 2013,
+   "value": 11411.0,
+   "authority": "Budget submission",
+   "what": "Procurement year",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "Nov 2015",
+   "y": 2015,
+   "value": 11398.0,
+   "authority": "FY2016 NDAA",
+   "what": "Cap lowered by statute",
+   "mech": "statute"
+  },
+  {
+   "as_of": "FY2017 PB",
+   "y": 2017,
+   "value": 11398.0,
+   "authority": "Budget submission",
+   "what": "Estimate equals the cap exactly",
+   "mech": "statute"
+  },
+  {
+   "as_of": "FY2019 PB",
+   "y": 2019,
+   "value": 11341.4,
+   "authority": "Budget submission",
+   "what": "Revision below the cap",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "Aug 2021",
+   "y": 2021,
+   "value": 12698.0,
+   "authority": "Navy, via GAO",
+   "what": "Contract overruns at 88% complete",
+   "mech": "overrun"
+  },
+  {
+   "as_of": "FY2022 PB",
+   "y": 2022,
+   "value": 11929.7,
+   "authority": "Budget submission",
+   "what": "Estimate revision",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "Aug 2023",
+   "y": 2023,
+   "value": 12936.0,
+   "authority": "SECNAV to Congress",
+   "what": "PSA work moved into construction",
+   "mech": "scope"
+  },
+  {
+   "as_of": "FY2026 PB",
+   "y": 2026,
+   "value": 13196.0,
+   "authority": "Budget submission",
+   "what": "Cost to complete",
+   "mech": "estimate"
+  },
+  {
+   "as_of": "FY2027 PB",
+   "y": 2027,
+   "value": 13409.97,
+   "authority": "Budget submission",
+   "what": "AAG testing, delay and disruption, AWE, wage and manning surge",
+   "mech": "overrun"
+  }
+ ],
+ "mechanisms": [
+  {
+   "id": "estimate",
+   "label": "Estimate revision with no scope change",
+   "note": "The ship did not change; the estimate did"
+  },
+  {
+   "id": "statute",
+   "label": "Statute moved and the estimate followed it",
+   "note": "GAO: the cost cap informed the program cost estimate rather than the reverse"
+  },
+  {
+   "id": "overrun",
+   "label": "Genuine contract overrun",
+   "note": "The only one of the five that is cost growth in the ordinary sense"
+  },
+  {
+   "id": "scope",
+   "label": "Scope transferred into the baseline",
+   "note": "The ship got more expensive; the program did not"
+  },
+  {
+   "id": "reclass",
+   "label": "Reclassification inside the program",
+   "note": "GAO FY2026-27: not new program costs"
+  }
+ ]
+}

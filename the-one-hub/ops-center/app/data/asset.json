@@ -1,0 +1,67 @@
+{
+ "source": "ring0/RING0_CVN79.md Parts I and J",
+ "status": "The hull is on the Navy's books today as Construction in Progress, not as a vessel.",
+ "balance_sheet": {
+  "gppe_net_book_value_usd_b": 503.1,
+  "share_of_total_assets_pct": 55.9,
+  "note": "Vessels and aircraft make up over 90% of the CIP balance. GPP&E remains a material weakness.",
+  "source": "DON FY2025 Agency Financial Report"
+ },
+ "parameters": [
+  {
+   "label": "Capitalization threshold",
+   "value": "$1,000,000",
+   "note": "Department of the Navy general fund general equipment. Raised from $100,000 in October 2013"
+  },
+  {
+   "label": "Useful life",
+   "value": "50 years",
+   "note": "FMR Table 25-2, Aircraft Carrier"
+  },
+  {
+   "label": "Depreciation",
+   "value": "Straight line only",
+   "note": "Alternate methods require written OUSD(C) approval"
+  }
+ ],
+ "divergences": [
+  {
+   "n": 1,
+   "name": "Scope",
+   "detail": "Capitalized value is the acquisition cost of the asset placed in service. Program cost includes things that never capitalize: terminated or reworked scope, the cost of delay, class research benefiting later hulls, program office overhead, FMS-funded content. And every component below the $1M threshold is expensed even though it is physically installed on the ship."
+  },
+  {
+   "n": 2,
+   "name": "Timing",
+   "detail": "Program cost accrues from FY2001 or FY2007 depending on convention. Capitalized value appears at a single instant at placed in service. Roughly twenty years of accumulated cost collapses onto one date, and the depreciation clock then runs 50 years forward."
+  },
+  {
+   "n": 3,
+   "name": "Boundary",
+   "detail": "Two authorities set two different end points. OWLD governs what may be charged to the appropriation. Placed in service governs when the asset is recognized. Different dates, different offices, different purposes."
+  }
+ ],
+ "open_risk": "Whether GFE installed on the hull is capitalized separately or rolled into the vessel's value. EMALS, AAG, the eleven AWEs and the EASR array are each far above the threshold and each bought by a different command. If both records capitalize it the Navy double counts. If neither does it drops. G15.",
+ "cip_relief_question": {
+  "gap": "G14",
+  "candidates": [
+   "Preliminary acceptance, 29 Sep 2026",
+   "Delivery, Mar 2027",
+   "Commissioning"
+  ],
+  "note": "FMR Vol 4 Ch 25 ties relief to placed in service in one paragraph and to acceptance in another. The three candidate dates straddle a fiscal year boundary, so the answer decides which year a roughly $13 billion asset appears on the balance sheet."
+ },
+ "gfp": {
+  "weakness_since": 2001,
+  "detail": "Reporting of government property in contractor possession has been a DoD-wide material weakness since fiscal year 2001. GAO-25-106868 found that DCMA and the Navy's Supervisors of Shipbuilding were not consistently verifying the accuracy of contractor property records on selected major programs. SUPSHIP Newport News administers both of this hull's contracts. That is not an analogy, it is the same office.",
+  "f35_precedent": {
+   "facilities": 50,
+   "lost_parts": 1000000,
+   "lost_usd_m": 85,
+   "reviewed_pct": 2,
+   "estimate_usd_b": 220,
+   "note": "DoD has estimated the value of F-35 parts in contractor possession at over $220 billion, which GAO reports is likely significantly understated. The root cause is a categorization dispute, not a counting failure."
+  },
+  "actionable": "Run the GFP Position Report for CAGE 43689 scoped to both contracts and cross-check against the IUID Registry. Defined population, defined key, existing report, mandated seven-business-day cadence, no new access path. G16."
+ }
+}

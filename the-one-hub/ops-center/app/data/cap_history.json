@@ -1,0 +1,49 @@
+{
+ "source": "ring0/RING0_CVN79.md C.4, from CRS RS20643 footnotes",
+ "three_ceilings": [
+  {
+   "name": "Statutory cost cap",
+   "value": 11398.0,
+   "basis": "10 U.S.C. 8691, FY2020 NDAA",
+   "note": "SECNAV may raise by up to $100M to $11,498M"
+  },
+  {
+   "name": "SECNAV Cost Limitation Baseline",
+   "value": 12936.0,
+   "basis": "Aug 2023 notification to Congress",
+   "note": ""
+  },
+  {
+   "name": "Budget submission total",
+   "value": 13409.97,
+   "basis": "FY2027 PB",
+   "note": "All three are current and all three are correct for their own purpose"
+  }
+ ],
+ "rows": [
+  {
+   "authority": "FY2007 NDAA (P.L. 109-364) Sec. 121",
+   "action": "CVN-78 cap $10.5B, follow-ons $8.1B, plus inflation adjustment"
+  },
+  {
+   "authority": "FY2014 NDAA",
+   "action": "Raised CVN-79 and follow-on cap to $11,498M"
+  },
+  {
+   "authority": "FY2016 NDAA (P.L. 114-92)",
+   "action": "Lowered follow-on cap to $11,398.0M. Excluded certain costs from the caps (G12)"
+  },
+  {
+   "authority": "FY2018 NDAA (P.L. 115-91)",
+   "action": "CVN-80 and subsequent to $12,568.0M. CVN-79 held"
+  },
+  {
+   "authority": "FY2020 NDAA (P.L. 116-92)",
+   "action": "CVN-78 $13,224.0M, CVN-79 $11,398.0M, CVN-80 $12,202.0M, CVN-81 $12,451.0M"
+  },
+  {
+   "authority": "FY2021 NDAA (P.L. 116-283) Sec. 1054",
+   "action": "10 U.S.C. 8062(g), no retirement before first refueling"
+  }
+ ]
+}

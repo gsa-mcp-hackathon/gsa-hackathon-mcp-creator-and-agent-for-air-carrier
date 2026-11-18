@@ -1,0 +1,24 @@
+# Databricks Apps runtime configuration for mcp-aircarrier-docs.
+# MCP endpoint: https://<app-host>/mcp (stateless streamable HTTP). Health: /health.
+# src/ layout: both packages (docs_core, mcp_aircarrier_docs) go on the path.
+# Self-heal: if a stale fastmcp/mcp install shadows the pinned 2.x, wipe and reinstall.
+command:
+  - /bin/sh
+  - -c
+  - >-
+    export PYTHONPATH=/app/python/source_code/src:$PYTHONPATH &&
+    { python -c "import fastmcp" >/dev/null 2>&1 || {
+    SP=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])");
+    rm -rf "$SP/fastmcp" "$SP/mcp";
+    python -m pip install --no-cache-dir --force-reinstall --no-deps
+    "fastmcp>=2.14,<3" "mcp>=1.24,<2"; }; } &&
+    python -m mcp_aircarrier_docs.app
+env:
+  - name: DATABRICKS_WAREHOUSE_ID
+    valueFrom: sql-warehouse
+  - name: AIRCARRIER_STORE_SCHEMA
+    value: users.xiaobing_shang1_civ
+  - name: DOCS_VOLUME_ROOTS
+    value: /Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts
+  - name: DOCS_CACHE_TTL_S
+    value: "1800"

@@ -1,0 +1,32 @@
+# Root ignore rules. Sub-projects keep their own .gitignore files.
+
+# Secrets and local settings (the .env.example files are committed)
+.env
+**/.env
+**/eval.env
+
+# Databricks bundle state and local tooling
+.databricks/
+.bundle/
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+**/eval-results/
+
+# Large media: attach to a GitHub Release instead
+*.mp4
+*.mov
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.swp

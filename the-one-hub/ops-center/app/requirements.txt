@@ -1,0 +1,6 @@
+# Pinned. Vendored at build time for IL5, where PyPI is not reachable.
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+jinja2==3.1.5
+databricks-sdk==0.40.0
+pyyaml==6.0.2

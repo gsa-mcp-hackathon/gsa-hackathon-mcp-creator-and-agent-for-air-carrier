@@ -1,0 +1,79 @@
+{
+ "source": "ring0/RING0_CVN79.md Part N.8",
+ "total": 13409.97,
+ "attributed_usd_m": 10157.592,
+ "attributed_pct": 75.8,
+ "residual_usd_m": 3252.378,
+ "residual_pct": 24.2,
+ "improved_from_pct": 42.2,
+ "note": "Attribution improved from 42.2% to 75.8% in one pass, entirely by replacing an announcement-derived figure with the obligation record. The residual is not a budget gap: the budget closes to zero twice over. It is the portion of the hull that no public contract-level record attributes to CVN-79.",
+ "components": [
+  {
+   "label": "CP contract N00024-09-C-2116",
+   "usd_m": 4519.3,
+   "tag": "VERIFIED",
+   "c": 0.95
+  },
+  {
+   "label": "DD&C contract N00024-15-C-2114",
+   "usd_m": 4578.603,
+   "tag": "VERIFIED",
+   "c": 0.95
+  },
+  {
+   "label": "EMALS, N00019-14-C-0037",
+   "usd_m": 611.307,
+   "tag": "VERIFIED",
+   "c": 0.95
+  },
+  {
+   "label": "AAG, N00019-14-C-0037",
+   "usd_m": 219.131,
+   "tag": "VERIFIED",
+   "c": 0.95
+  },
+  {
+   "label": "Other equipment line items",
+   "usd_m": 229.251,
+   "tag": "VERIFIED",
+   "c": 0.9
+  }
+ ],
+ "residual_contents": [
+  {
+   "label": "Nuclear propulsion plant, Naval Reactors furnished",
+   "usd_m": 1643.073,
+   "tag": "UNKNOWN",
+   "c": 0.1,
+   "gap": "G22"
+  },
+  {
+   "label": "Ordnance less EMALS, AAG and EASR",
+   "usd_m": 319.213,
+   "tag": "UNKNOWN",
+   "c": 0.15,
+   "gap": "G20"
+  },
+  {
+   "label": "Government plans, engineering, program management",
+   "usd_m": null,
+   "tag": "UNKNOWN",
+   "c": 0.15,
+   "gap": ""
+  },
+  {
+   "label": "Outfitting and post-delivery, this hull's share",
+   "usd_m": null,
+   "tag": "UNKNOWN",
+   "c": 0.2,
+   "gap": "G23"
+  },
+  {
+   "label": "Unobligated ceiling and cost to complete FY26-27",
+   "usd_m": null,
+   "tag": "UNKNOWN",
+   "c": 0.3,
+   "gap": ""
+  }
+ ]
+}

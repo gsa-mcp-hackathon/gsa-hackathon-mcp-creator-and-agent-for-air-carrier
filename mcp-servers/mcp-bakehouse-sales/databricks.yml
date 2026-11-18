@@ -1,0 +1,31 @@
+# Databricks Asset Bundle for mcp-bakehouse-sales.
+#
+# Declaring resources here is what grants the app access to them on deploy
+# and keeps the deployment reproducible. Requires Databricks CLI v0.298.0+.
+#
+#   databricks bundle validate
+#   databricks bundle deploy --var="warehouse_id=<id>"
+bundle:
+  name: mcp-bakehouse-sales
+
+variables:
+  warehouse_id:
+    description: SQL warehouse the server queries through
+    default: ""
+
+resources:
+  apps:
+    mcp_bakehouse_sales:
+      name: mcp-bakehouse-sales
+      description: Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.
+      source_code_path: ../../
+      resources:
+        - name: sql_warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+
+targets:
+  dev:
+    mode: development
+    default: true

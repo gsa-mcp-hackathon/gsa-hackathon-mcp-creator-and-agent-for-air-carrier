@@ -1,0 +1,247 @@
+[
+ {
+  "date": "2004-05",
+  "y": 2004,
+  "event": "Construction Preparation contract awarded (CVN 21 era)",
+  "kind": "contract",
+  "src": "FY2027 MSAR"
+ },
+ {
+  "date": "2007",
+  "y": 2007,
+  "event": "First CVN-79-specific advance procurement increment, $52.750M",
+  "kind": "funding",
+  "src": "PB2027 P-5c"
+ },
+ {
+  "date": "2008-08",
+  "y": 2008,
+  "event": "USD(AT&L) DAB authorizes CVN-79 construction preparation phase",
+  "kind": "milestone",
+  "src": "FY2022 SAR"
+ },
+ {
+  "date": "2009-01-15",
+  "y": 2009,
+  "event": "Construction Preparation contract N00024-09-C-2116 awarded, $111,803,875 base",
+  "kind": "contract",
+  "src": "USAspending; FY2023 MSAR"
+ },
+ {
+  "date": "2011-05-29",
+  "y": 2011,
+  "event": "Named John F. Kennedy by SECNAV Ray Mabus",
+  "kind": "milestone",
+  "src": "CRS RS20643"
+ },
+ {
+  "date": "2013-03",
+  "y": 2013,
+  "event": "Construction Preparation contract extended through FY2013",
+  "kind": "contract",
+  "src": "FY2023 MSAR"
+ },
+ {
+  "date": "2013",
+  "y": 2013,
+  "event": "Procurement year. Authorization moved FY2012 to FY2013. Procurement year carried only 3.7% of the ship",
+  "kind": "funding",
+  "src": "CRS RS20643; PB2027 P-5c"
+ },
+ {
+  "date": "2015-06-05",
+  "y": 2015,
+  "event": "Detail Design & Construction contract N00024-15-C-2114 awarded, $3,352,611,760 FPIF target",
+  "kind": "contract",
+  "src": "HII release"
+ },
+ {
+  "date": "2015-08-22",
+  "y": 2015,
+  "event": "Keel laid",
+  "kind": "milestone",
+  "src": "Naval Vessel Register"
+ },
+ {
+  "date": "2017-06",
+  "y": 2017,
+  "event": "50% structurally erected, 224 of 447 erectables landed",
+  "kind": "progress",
+  "src": "FY2023 MSAR"
+ },
+ {
+  "date": "2018-04",
+  "y": 2018,
+  "event": "75% structurally erected, 341 of 447 erectables landed",
+  "kind": "progress",
+  "src": "FY2023 MSAR"
+ },
+ {
+  "date": "2019-10-01",
+  "y": 2019,
+  "event": "Crew activated as Pre-Commissioning Unit",
+  "kind": "milestone",
+  "src": "seaforces"
+ },
+ {
+  "date": "2019-10-29",
+  "y": 2019,
+  "event": "Dry dock flooded, ship launched",
+  "kind": "milestone",
+  "src": "NavSource"
+ },
+ {
+  "date": "2019-12-07",
+  "y": 2019,
+  "event": "Christened by Caroline Kennedy",
+  "kind": "milestone",
+  "src": "NavSource"
+ },
+ {
+  "date": "2019-12-20",
+  "y": 2019,
+  "event": "FY2020 NDAA Sec. 124 mandates F-35C capability before PSA completion",
+  "kind": "statute",
+  "src": "CRS RS20643"
+ },
+ {
+  "date": "2020-11",
+  "y": 2020,
+  "event": "NTE $284,285,022 FPIF mod for single-phase delivery and JSF work",
+  "kind": "contract",
+  "src": "HigherGov"
+ },
+ {
+  "date": "2021-08",
+  "y": 2021,
+  "event": "Navy raises cost baseline $1.3B to ~$12.7B, primarily contract overruns. Ship over 88% complete",
+  "kind": "cost",
+  "src": "GAO via CRS RS20643"
+ },
+ {
+  "date": "2023-06-23",
+  "y": 2023,
+  "event": "$393.3M in mods shift PSA work into baseline construction. Delivery reset to 31 Jul 2025",
+  "kind": "cost",
+  "src": "HII release"
+ },
+ {
+  "date": "2023-08",
+  "y": 2023,
+  "event": "SECNAV notifies Congress of Cost Limitation Baseline rise to $12.936B",
+  "kind": "cost",
+  "src": "FY2023 MSAR"
+ },
+ {
+  "date": "2023-12",
+  "y": 2023,
+  "event": "Ship 91% complete. DD&C contract 81.3% complete by dollars",
+  "kind": "progress",
+  "src": "FY2023 MSAR"
+ },
+ {
+  "date": "2024-09",
+  "y": 2024,
+  "event": "Faulty welds disclosed at NNS, referred to DOJ. HASC opens investigation. 26 ships affected",
+  "kind": "risk",
+  "src": "USNI; Military.com"
+ },
+ {
+  "date": "2025-04-08",
+  "y": 2025,
+  "event": "PEO Carriers tells SASC Seapower the ship is 95% complete",
+  "kind": "progress",
+  "src": "USNI; Inside Defense"
+ },
+ {
+  "date": "2025-07",
+  "y": 2025,
+  "event": "FY2026 books move delivery from July 2025 to March 2027",
+  "kind": "schedule",
+  "src": "CRS RS20643"
+ },
+ {
+  "date": "2025-11-21",
+  "y": 2025,
+  "event": "Four-part mod across both contracts, $142.9M, including FMS Canada and USMC RDT&E",
+  "kind": "contract",
+  "src": "DoW announcement"
+ },
+ {
+  "date": "2026-01-28",
+  "y": 2026,
+  "event": "Builder's trials begin, first time underway",
+  "kind": "milestone",
+  "src": "USNI"
+ },
+ {
+  "date": "2026-02-04",
+  "y": 2026,
+  "event": "Returns from builder's trials, eight days at sea",
+  "kind": "milestone",
+  "src": "Stars and Stripes"
+ },
+ {
+  "date": "2026-03-14",
+  "y": 2026,
+  "event": "Navy extends USS Nimitz ten months to hold the 11-carrier floor",
+  "kind": "risk",
+  "src": "Stars and Stripes"
+ },
+ {
+  "date": "2026-04-21",
+  "y": 2026,
+  "event": "FY2027 PB raises Total Ship Estimate to $13,409.970M, +$213.970M",
+  "kind": "cost",
+  "src": "PB2027 SCN Book P-5c"
+ },
+ {
+  "date": "2026-07-02",
+  "y": 2026,
+  "event": "GAO-26-108457 reports program unit costs up 3%, about $480M in one year",
+  "kind": "cost",
+  "src": "GAO-26-108457"
+ },
+ {
+  "date": "2026-08-12",
+  "y": 2026,
+  "event": "Acceptance trials, four days underway",
+  "kind": "milestone",
+  "src": "HII"
+ },
+ {
+  "date": "2026-09-29",
+  "y": 2026,
+  "event": "Preliminary acceptance. Ship departs NNS for Naval Station Norfolk",
+  "kind": "milestone",
+  "src": "HII release; USNI"
+ },
+ {
+  "date": "2026-10-13",
+  "y": 2026,
+  "event": "First F-35C launch and arrested recovery on a Ford-class ship",
+  "kind": "milestone",
+  "src": "Naval News"
+ },
+ {
+  "date": "2027-03",
+  "y": 2027,
+  "event": "Delivery and commissioning planned. 141 months award to delivery",
+  "kind": "planned",
+  "src": "PB2027 SCN Book P-21"
+ },
+ {
+  "date": "2027-07",
+  "y": 2027,
+  "event": "Completion of Fitting Out planned",
+  "kind": "planned",
+  "src": "PB2027 SCN Book P-21"
+ },
+ {
+  "date": "2028-06",
+  "y": 2028,
+  "event": "Obligation Work Limit Date. CFO plus 11 months, confirming OPNAVINST 4700.8M",
+  "kind": "planned",
+  "src": "PB2027 SCN Book P-21"
+ }
+]

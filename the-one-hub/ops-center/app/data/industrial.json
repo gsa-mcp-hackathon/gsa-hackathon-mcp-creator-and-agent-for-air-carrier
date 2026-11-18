@@ -1,0 +1,69 @@
+{
+ "source": "ring0/RING0_CVN79.md Part L",
+ "integrator": {
+  "name": "HII Newport News Shipbuilding",
+  "role": "hull builder and systems integrator. Not the manufacturer of most major systems",
+  "monopoly": "The only US shipyard able to build large-deck nuclear carriers. Every US carrier procured since FY1958 was built there",
+  "method": "Modular construction. Sections welded into superlifts, equipment installed while the unit is on the ground, lifted into Dry Dock 12 by a 1,050 metric ton gantry crane",
+  "lifts": 447,
+  "employees_on_class": 6600,
+  "total_employees": 25000,
+  "build_strategy": "CVN-79 took modular construction and pre-outfitting to a new level: larger superlifts at a higher state of outfitting completion, more parts installed in shop and on the final assembly platen"
+ },
+ "systems": [
+  {
+   "system": "A1B reactor plant, two per ship",
+   "maker": "Bechtel Marine Propulsion (design); BWXT (core and fuel)",
+   "delivery": "GFE",
+   "path": "SCN advance procurement, Nuclear Propulsion Equipment, 30 to 72 month lead. Naval Reactors is jointly Navy and DOE",
+   "command": "Naval Reactors / DOE"
+  },
+  {
+   "system": "EMALS and AAG",
+   "maker": "General Atomics Electromagnetic Systems; QinetiQ subcontract",
+   "delivery": "GFE, installed by HII",
+   "path": "N00019-14-C-0037, CVN 79 and CVN 80. CVN-79 share $830.438M",
+   "command": "NAVAIR PMA-251"
+  },
+  {
+   "system": "Advanced Weapons Elevators, eleven per ship",
+   "maker": "Federal Equipment Company; MagneMotion linear synchronous motors; Curtiss-Wright Exlar actuators",
+   "delivery": "installed on the ship",
+   "path": "N64498-18-D-4022 engineering and the land-based test site. The single largest driver of this hull's delay",
+   "command": "NSWC Philadelphia"
+  },
+  {
+   "system": "Radar",
+   "maker": "Raytheon AN/SPY-6(V)3 EASR plus AN/SPQ-9B",
+   "delivery": "GFE",
+   "path": "A configuration break from CVN-78's Dual Band Radar. CVN-79 is a different configuration, not a second copy, which weakens any learning-curve comparison between the two hulls",
+   "command": "NAVSEA"
+  },
+  {
+   "system": "Combat system",
+   "maker": "Raytheon Ship Self-Defense System Mk 2 with CEC",
+   "delivery": "GFE",
+   "path": "",
+   "command": "NAVSEA"
+  },
+  {
+   "system": "EMALS energy storage subsystems",
+   "maker": "KATO Engineering, CAGE 3LVT8",
+   "delivery": "GFE",
+   "path": "On CVN-79 this sits inside the GA contract as a subcontract and is invisible at prime level. On CVN-81 it is its own prime, N00019-23-C-0040. The cleanest worked example that the vendor map runs a tier deeper than the contract map",
+   "command": "NAVAIR"
+  },
+  {
+   "system": "Networks (CANES)",
+   "maker": "integrated by HII",
+   "delivery": "under the HII contract",
+   "path": "$37,544,972 FPIF mod to 2114, Mar 2024, funded 65% FY2024 SCN and 35% FY2018 SCN",
+   "command": "NAVSEA"
+  }
+ ],
+ "consequences": [
+  "The two HII contracts buy construction and integration, not content. Electronics, Propulsion Equipment and Ordnance are substantially government furnished, bought on other contracts by other commands.",
+  "Neither roll-up method is sufficient alone. A contract roll-up anchored on CAGE 43689 captures the hull and misses the systems. A category roll-up from the P-5 captures the systems but cannot see the contracts beneath them.",
+  "Cross-command GFE is where hull attribution breaks. An EMALS shipset bought by NAVAIR on an aviation contract and installed by HII on a NAVSEA ship under a NAVSEA contract has no single line of accounting that says CVN-79 from end to end. That, not the ledger seam, is the hardest attribution problem in this program."
+ ]
+}

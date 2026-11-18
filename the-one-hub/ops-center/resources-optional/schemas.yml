@@ -1,0 +1,55 @@
+# OPT-IN. Outside the include glob in databricks.yml, so this is not deployed
+# unless you copy it into resources/.
+#
+# Use it when you own the catalog and want a schema per store, which is the
+# cleaner separation: the grant model becomes the firewall rather than a
+# naming convention. It needs CREATE SCHEMA on the catalog, which a new user
+# in a governed workspace usually does not have. Without it the same seven
+# stores live as prefixed tables in one schema, which is what resources/
+# deploys by default.
+#
+# The four stores plus the firewalled leads zone, the capture zone and the
+# serving views. Declared so the grant model is version-controlled rather than
+# clicked.
+#
+# D16 is enforced here and not in code: the leads schema carries no grant that
+# permits a join to claim. A confidence column is a label and can be ignored.
+# A schema with no join grant cannot.
+
+resources:
+  schemas:
+
+    source:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}source
+      comment: "document profiles, exhibit registry, system catalog"
+
+    mechanism:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}mechanism
+      comment: "rules with establishing passages"
+
+    claim:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}claim
+      comment: "values with coordinates, tags, lineage"
+
+    work:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}work
+      comment: "gaps, collection requirements, variances, states, gate misses"
+
+    leads:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}leads
+      comment: "FIREWALLED. No join grant to claim. D16"
+
+    capture:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}capture
+      comment: "front center human input. INSERT only, append only"
+
+    serving:
+      catalog_name: ${var.catalog}
+      name: ${var.store_prefix}serving
+      comment: "the only schema the app may read"

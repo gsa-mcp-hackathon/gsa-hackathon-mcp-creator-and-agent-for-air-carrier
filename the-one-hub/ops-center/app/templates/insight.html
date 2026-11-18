@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block body %}
+
+{# 2026-11-11 redesign. The answer box is the first thing on the page and
+   stays in view; the questions sit beside it. Opening a question loads its
+   brief (what it is, what we have, what is needed, the transactions behind
+   it) on demand from /api/gaps/{id}/brief. Every open question is listed. #}
+<div class="phead" style="margin-bottom:.6rem">
+ <div class="eyebrow">Contribute</div>
+ <h1>{{ g.open }} open questions. Two sentences from the right person closes one.</h1>
+ <p class="lede">Pick a question in your area, read the brief, and tell us what you know or attach
+  the document that answers it. A rough answer with how you know it is worth more than a precise
+  one we never get.</p>
+ <div class="cx-stats">
+  <span><b>{{ quick|length }}</b> answerable from knowledge or a document</span>
+  <span><b>{{ rest|length }}</b> need a system or an access approval</span>
+  <span><b>{{ g.closed }}</b> already closed</span>
+ </div>
+</div>
+
+<div class="cx">
+{# -------------------------------------------------------- answer panel #}
+<section class="card cx-panel" id="form-card" aria-live="polite">
+ <div id="cx-brief" class="cx-brief" hidden>
+  <div class="qtop"><span class="b b-info" id="cb-id"></span><span class="b b-mut" id="cb-type"></span>
+   <span class="muted" id="cb-exp" style="font-size:.78rem"></span></div>
+  <h2 id="cb-title" style="margin:.35rem 0 .2rem"></h2>
+  <div id="cb-body"><p class="muted">Reading the register…</p></div>
+ </div>
+ <div id="cx-intro">
+  <h2 id="form-title" style="margin-top:0">Tell us what you know</h2>
+  <p class="sub">Choose a question on the right for its brief, or write here about anything that
+   bears on the cost of CVN-79.</p>
+ </div>
+
+ <form id="capture" autocomplete="off">
+  <input type="hidden" name="gap_id" id="f-gap">
+  <div id="f-context" class="note" style="display:none"></div>
+
+  <label class="fl" for="f-body">What do you know?</label>
+  <textarea id="f-body" name="body" rows="4"
+    placeholder="Plain words are fine. If you are not certain, say so."></textarea>
+
+  <label class="fl" for="f-source">How do you know it?</label>
+  <input id="f-source" name="source" type="text"
+    placeholder="I ran the interface for four years · SUPSHIP manual Ch4 · I would have to check">
+
+  <label class="fl" for="f-files">Attach a document <span class="muted">(optional, up to {{ max_files }}, {{ max_mb }} MB each)</span></label>
+  <div class="cx-drop" id="f-drop">
+   <input id="f-files" type="file" multiple
+     accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.pptx,.png,.jpg,.jpeg,.msg,.eml">
+   <span>Drop a file here or <u>browse</u>. An instruction, exhibit, spreadsheet or e-mail.</span>
+  </div>
+  <ul id="f-filelist" class="cx-files"></ul>
+
+  <label class="fl" for="f-conf">How sure are you?</label>
+  <div class="chips" role="radiogroup" aria-labelledby="f-conf">
+   <label class="chip"><input type="radio" name="reliability" value="certain"> Certain</label>
+   <label class="chip"><input type="radio" name="reliability" value="fairly" checked> Fairly sure</label>
+   <label class="chip"><input type="radio" name="reliability" value="think"> I think so</label>
+   <label class="chip"><input type="radio" name="reliability" value="who"> Not sure, but I know who is</label>
+  </div>
+
+  <details style="margin:.6rem 0">
+   <summary>Who else, and how to reach you <span class="muted">(optional)</span></summary>
+   <label class="fl" for="f-who">Who else should we ask?</label>
+   <input id="f-who" name="refer" type="text" placeholder="An office, a role, a name">
+   <label class="fl" for="f-contact">Can we come back to you?</label>
+   <input id="f-contact" name="contact" type="text" placeholder="Email, or leave blank">
+  </details>
+
+  <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
+   <button class="btn primary" type="submit">Send it</button>
+   <button class="btn" type="reset">Clear</button>
+   <span id="f-status" class="muted"></span>
+  </div>
+  <p class="fhint">Recorded as a lead with your name and how you knew it, never as a certified
+   figure. {% if not store_on %}<b>This deployment does not store submissions yet</b>; the reply
+   will say so.{% endif %}</p>
+ </form>
+</section>
+
+{# -------------------------------------------------------- the questions #}
+<section class="card cx-list">
+ <div class="cx-filter">
+  <input id="q-search" type="search" placeholder="Filter {{ rows|length }} questions: ERP, GFE, payroll, G22…" aria-label="Filter questions">
+  <div class="chips" id="q-types">
+   <button type="button" class="chip on" data-type="">All</button>
+   <button type="button" class="chip" data-type="easy">Answerable now</button>
+   {% for t in types %}<button type="button" class="chip" data-type="{{ t }}">{{ t|capitalize }}</button>{% endfor %}
+  </div>
+  <div class="muted" style="font-size:.76rem"><span id="q-count">{{ rows|length }}</span> shown. Easiest to answer first.</div>
+ </div>
+ <ul class="cx-q" id="q-list">
+  {% for r in quick + rest %}
+  <li>
+   <button type="button" class="cx-qbtn" data-answer="{{ r.id }}" data-q="{{ r.title }}"
+           data-type="{{ r.type or 'OTHER' }}" data-easy="{{ 1 if r.two_minutes else 0 }}"
+           data-text="{{ (r.id ~ ' ' ~ r.title ~ ' ' ~ (r.note or '') ~ ' ' ~ (r.executor or ''))|lower }}">
+    <span class="b {{ 'b-ok' if r.two_minutes else 'b-mut' }}">{{ r.id }}</span>
+    <span class="cx-qt">{{ r.title }}<small>{{ r.ask_who }}{% if r.executor %} · {{ r.executor }}{% endif %}</small></span>
+   </button>
+  </li>
+  {% endfor %}
+ </ul>
+</section>
+</div>
+
+{# -------------------------------------------------------- what happens #}
+<div class="grid2" style="margin-top:1rem">
+ <section class="card">
+  <h2>What happens to your answer</h2>
+  <ol class="steps">
+   <li><b>It is recorded as a lead, not as a fact.</b> Everything from a person enters the
+    same way, including from people who are certainly right. What you said and how you knew
+    it are stored together and never separated.</li>
+   <li><b>It is graded on two axes</b>, how reliable the source is and how credible the
+    content is, the way an intelligence report is. Nothing is thrown away for scoring low.</li>
+   <li><b>It contributes a direction, not a number.</b> A lead tells us where to look and
+    what to rule out. The figure itself still has to come from the record, which is what
+    stops anyone's recollection becoming a reported cost.</li>
+   <li><b>You are told when it closes something.</b> If your answer closes a question or
+    opens a better one, you hear about it. Contributions are attributed to you internally
+    and never published with your name without asking.</li>
+  </ol>
+ </section>
+
+ <section class="card">
+  <h2>Why your answer matters</h2>
+  <ol class="steps">
+   <li><b>One answer can move a large block.</b> The brief for each question shows the exposure
+    the register records for it and the transactions behind it.</li>
+   <li><b>Your name stays with your answer.</b> Internally, so the answer can be traced back to
+    how it was known; never published without asking.</li>
+   <li><b>A pointer is enough.</b> "It is in chapter 4 of the manual" or "ask the budget office"
+    closes as many questions as a full answer.</li>
+   <li><b>We will not ask twice.</b> An answer is recorded once with its source.</li>
+  </ol>
+ </section>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+# Falsification tells. If one of these appears in the neighborhood of a claim
+# about the named subject, the Challenger sets the flag.
+#
+# source: ring0/RING0_CVN79.md N.7 Error 1 (the tells that caught the
+#         Columbia-class columns), Part G collision warnings, D.13 name
+#         collision, E-13 and E-15.
+
+CVN-79:
+  # Wrong platform. These caught Error 1.
+  - {term: "NSBDF",                       flag: PREMISE, why: "National Sea-Based Deterrence Fund is statutorily for SSBN construction, not carriers"}
+  - {term: "Large Aperture Bow",          flag: PREMISE, why: "LAB array is a submarine bow sonar. Carriers do not carry one"}
+  - {term: "AN/WSQ-9",                    flag: PREMISE, why: "submarine acoustic signal analysis system"}
+  - {term: "Low Cost Conformal Array",    flag: PREMISE, why: "submarine acoustic system"}
+  - {term: "COLUMBIA",                    flag: PREMISE, why: "Columbia-class SSBN line appearing in a column assumed to be a carrier"}
+  - {term: "SSBN",                        flag: PREMISE, why: "ballistic missile submarine"}
+  - {term: "ACRU",                        flag: PREMISE, why: "Advanced Carbon Dioxide Removal Unit, stated for Columbia Class Submarines"}
+
+  # Wrong hull, same class or same name.
+  - {term: "CVN 80",                      flag: KEY, why: "Enterprise. Different hull on the same line item"}
+  - {term: "CVN-80",                      flag: KEY, why: "Enterprise"}
+  - {term: "CVN 81",                      flag: KEY, why: "Doris Miller"}
+  - {term: "CVN-81",                      flag: KEY, why: "Doris Miller"}
+  - {term: "CV-67",                       flag: KEY, why: "the previous USS John F. Kennedy, built at the same yard. Any name search returns it"}
+
+  # Identifier collisions. E-15, D34, G28.
+  - {term: "N00024-16-C-2116",            flag: KEY, why: "CVN-80 and CVN-81 DD&C, carrying a $14,917,738,145 modification. NOT this hull"}
+  - {term: "N00024-17-C-2117",            flag: KEY, why: "appears in MSAR tables, scope unconfirmed. NOT this hull"}
+  - {term: "N00024-14-C-4201",            flag: KEY, why: "carried as General Atomics and absent from FPDS-NG entirely, verified against a control query. G27 closed. Not a cost source for this hull"}
+  - {term: "N00024-18-C-4100",            flag: KEY, why: "VERICOR POWER SYSTEMS, an ETF40B power producer assembly for LCAC 86. Not General Atomics, not a carrier. G27 closed"}
+
+  # Wrong program element.
+  - {term: "0604112N",                    flag: PREMISE, why: "shared class RDT&E element, not the procurement element 0204112N. Adding it without an allocation rule overstates the hull"}
+
+  # Wrong method. E-13, D33.
+  - {term: "contract announcement",       flag: METHOD, why: "announcements have a dollar threshold and omit incremental funding and deobligations. A press release is never a record"}
+  - {term: "announced modification",      flag: METHOD, why: "same. This method understated N00024-09-C-2116 by a factor of 4.18"}
+  - {term: "not-to-exceed",               flag: METHOD, why: "an NTE value is a ceiling, not an obligation"}
+  - {term: "worth up to",                 flag: METHOD, why: "potential total value of award, not obligated"}
+
+  # Wrong interpretation. E-12, the dagger inference, and its neighbours. These
+  # catch the error class where a real structural pattern is correct and the
+  # meaning laid over it is invented.
+  - {term: "dagger",                      flag: INTERPRETATION, why: "the dagger marks the presence of a P-8a Supporting Data exhibit. It does not mark government furnished content, and reading it that way was E-12"}
+  - {term: "footnote symbol",             flag: INTERPRETATION, why: "a symbol's meaning is in the exhibit legend, not in the pattern of rows it appears on"}
+  - {term: "appears to indicate",         flag: INTERPRETATION, why: "an inference about what a mark means, stated as a reading"}
+  - {term: "consistent with",             flag: INTERPRETATION, why: "coherence is not confirmation. All three recorded errors were internally consistent"}
+  - {term: "suggests that",               flag: INTERPRETATION, why: "a hypothesis in the voice of a finding"}
+  - {term: "structural pattern",          flag: INTERPRETATION, why: "a pattern across rows supports a question, not a meaning"}
+
+  # Wrong field. G25.
+  - {term: "total_outlayed_amount",       flag: METHOD, why: "award-level outlay reporting covers 0.80% of obligations on this hull. Obligations usable, outlays not"}
+
+default: []

@@ -1,0 +1,9 @@
+from typing import Protocol
+
+
+class Blob(Protocol):
+    """Unity Catalog Volumes in both environments. Never DBFS root, never
+    workspace-local files: neither transfers."""
+    def put(self, path: str, data: bytes) -> str: ...
+    def get(self, path: str) -> bytes: ...
+    def list(self, prefix: str) -> list[str]: ...

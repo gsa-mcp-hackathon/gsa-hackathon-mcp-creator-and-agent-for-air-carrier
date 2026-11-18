@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import "_ui.html" as ui %}
+{% block body %}
+{% set x = card.exception %}
+<div class="phead">
+ <div class="eyebrow"><a href="/work">Work queue</a> · <a href="/work/exceptions/{{ x.exception_id }}">{{ x.citation.rule_id }} v{{ x.citation.rule_version }}</a> · Confirm</div>
+ <h1>{{ "Apply" if action == "apply" else "Reject" }} this proposal?</h1>
+ <p class="lede">{% if action == "apply" %}Applying records a determination from this proposal, under your name and
+  role. It cannot be edited afterwards; a later decision supersedes it.{% else %}Rejecting records that this
+  proposal will not be used, under your name and role, with your reason.{% endif %}</p>
+</div>
+
+<div class="card">
+ <h2>You are acting on</h2>
+ <dl class="kv">
+  <dt>Exception amount</dt><dd>{{ ui.figure(x.amount) }}</dd>
+  <dt>Owner</dt><dd><b>{{ x.owner_role }}</b> · {{ x.owner_office }}</dd>
+  <dt>Proposal</dt><dd><code>{{ p.proposal_id }}</code> · writes to <span class="mono">{{ p.target }}</span></dd>
+  {% for pf in p.payload %}{% if pf.typed == 'figure' %}<dt>{{ pf.field }}</dt><dd>{{ ui.figure(pf.figure) }}</dd>{% else %}<dt>{{ pf.field }}</dt><dd>{{ pf.value }}</dd>{% endif %}{% endfor %}
+ </dl>
+ <h3>Records ({{ p.citation.record_ids|length }})</h3>
+ <ul class="reclist">{% for r in p.citation.record_ids %}<li><code>{{ r }}</code></li>{% else %}<li>none</li>{% endfor %}</ul>
+ {{ ui.verdict(p.verdict) }}
+
+ {% set auth = p.authority[action] %}
+ {% if auth.allowed %}
+ <form method="post" action="/work/proposals/{{ p.proposal_id }}/{{ action }}" class="confirm-form">
+  {% for r in p.citation.record_ids %}<input type="hidden" name="confirmed_record_ids" value="{{ r }}">{% endfor %}
+  <input type="hidden" name="request_id" value="{{ request_id }}">
+  <input type="hidden" name="exception_id" value="{{ x.exception_id }}">
+  <label class="fl" for="notes">{{ "Reason (required)" if action == "reject" else "Note (optional)" }}</label>
+  <textarea id="notes" name="notes" rows="3" maxlength="2000" {% if action == "reject" %}required{% endif %}></textarea>
+  <p class="cap">The server checks your authority again when you submit, inside the same transaction as the
+   write. {{ auth.reason }}</p>
+  <div class="acts">
+   <button class="btn {{ 'primary' if action == 'apply' else '' }}" type="submit">{{ "Apply" if action == "apply" else "Reject" }} {{ p.citation.record_ids|length }} record{{ "" if p.citation.record_ids|length == 1 else "s" }}</button>
+   <a class="btn ghost" href="/work/exceptions/{{ x.exception_id }}">Cancel</a>
+  </div>
+ </form>
+ {% else %}
+ <div class="note bad"><b>You cannot {{ action }} this proposal.</b> {{ auth.reason }}</div>
+ <a class="btn ghost" href="/work/exceptions/{{ x.exception_id }}">Back to the exception</a>
+ {% endif %}
+</div>
+{% endblock %}
