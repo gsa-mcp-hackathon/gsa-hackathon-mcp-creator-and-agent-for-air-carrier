@@ -289,6 +289,91 @@ def test_generated_project_passes_its_own_tests(manifest, tmp_path):
     assert result.returncode == 0, result.stdout[-4000:] + result.stderr[-2000:]
 
 
+def test_evaluation_dependencies_stay_out_of_the_server_environment(manifest):
+    """uv installs `dev` by default and resolves every group with the project.
+
+    Phoenix 20.7 and later need fastmcp 4 while the server pins fastmcp below
+    3, so folding the harness into pyproject.toml made `uv sync` fail on a
+    fresh clone. The harness lives in eval/requirements.txt instead.
+    """
+    import tomllib
+
+    by_path = {f.path: f.content for f in manifest.files}
+    pyproject = tomllib.loads(by_path["pyproject.toml"])
+    groups = pyproject.get("dependency-groups", {})
+    in_groups = " ".join(dep for deps in groups.values() for dep in deps)
+    for harness_only in ("arize-phoenix", "langchain", "opentelemetry"):
+        assert harness_only not in in_groups, harness_only
+
+    requirements = by_path["eval/requirements.txt"]
+    for needed in ("arize-phoenix", "langchain-mcp-adapters", "databricks-sdk"):
+        assert needed in requirements, needed
+    assert "uv sync --group dev" not in by_path["eval/README.md"]
+    # langchain-mcp-adapters breaks on mcp 2.x; an unpinned harness picks it.
+    assert "mcp>=1.24,<2" in requirements.splitlines()
+
+
+_NETWORK_FAILURE = ("failed to fetch", "dns error", "connect error", "timed out")
+
+
+def test_generated_pyproject_resolves_with_uv(manifest, tmp_path):
+    """`uv sync` is the first command a reader runs; it has to resolve.
+
+    The other round-trip tests use this environment's packages, so they could
+    not see a dependency conflict in the generated pyproject. This one asks uv
+    to lock it for every supported platform and Python version.
+    """
+    import shutil
+
+    if shutil.which("uv") is None:
+        pytest.skip("uv is not installed")
+    project = _write(manifest, tmp_path / "lock")
+    result = subprocess.run(
+        ["uv", "lock", "--quiet"],
+        cwd=project,
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=600,
+    )
+    if result.returncode != 0 and any(
+        marker in result.stderr.lower() for marker in _NETWORK_FAILURE
+    ):
+        pytest.skip("package index not reachable from this environment")
+    assert result.returncode == 0, result.stderr[-4000:]
+
+
+def test_long_source_descriptions_still_generate_a_lint_clean_project(
+    designed_spec, tmp_path
+):
+    """Found in weather-mcp: a one-sentence grain longer than the line limit
+    landed in data/sources.py and the data dictionary as single string
+    literals, which ruff cannot split, so the project failed its own CI."""
+    from mcp_server_creator.generators import formatting
+
+    if not formatting.ruff_available():
+        pytest.skip("ruff is not installed, so generated code is unformatted")
+    spec = designed_spec.model_copy(deep=True)
+    long_text = (
+        "one HTTP response per API call; each forecast endpoint returns a list "
+        "of forecast periods with temperature, wind and precipitation fields"
+    )
+    for source in spec.data_sources:
+        source.grain = long_text
+        source.update_cadence = long_text
+        source.title = long_text
+        for field in source.fields:
+            field.description = long_text
+    project = _write(generate_full_project(spec), tmp_path / "long-text")
+    result = subprocess.run(
+        ["ruff", "check", "--output-format=concise", str(project)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
 def test_long_names_still_generate_a_lint_clean_project(tmp_path):
     """Found by an end-to-end run of the README prompts: a long package or
     tool name pushed a generated docstring past 88 characters, so the

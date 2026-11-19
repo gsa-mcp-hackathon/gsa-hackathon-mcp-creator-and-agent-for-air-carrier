@@ -1005,6 +1005,28 @@ def _body_sql_validate(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
     ]
 
 
+def _fields_literal(rows: list[dict], indent: str) -> list[str]:
+    """Render `fields = [...]` with long text values pre-wrapped.
+
+    Field descriptions often arrive as full sentences (Unity Catalog column
+    comments), and ruff cannot split a long string inside a list literal.
+    """
+    lines = [f"{indent}fields = ["]
+    for row in rows:
+        lines.append(f"{indent}    {{")
+        for key, value in row.items():
+            line = f"{indent}        {key!r}: {value!r},"
+            if isinstance(value, str) and len(line) > 88:
+                lines.append(f"{indent}        {key!r}: (")
+                lines.extend(_string_literal(value, indent + "            "))
+                lines.append(f"{indent}        ),")
+            else:
+                lines.append(line)
+        lines.append(f"{indent}    }},")
+    lines.append(f"{indent}]")
+    return lines
+
+
 def _body_describe_source(source: DataSourceProfile) -> list[str]:
     """Return the data dictionary, with no query and no credentials."""
     fields = [
@@ -1020,7 +1042,7 @@ def _body_describe_source(source: DataSourceProfile) -> list[str]:
     ]
     prefix = const_prefix(source)
     return [
-        f"        fields = {fields!r}",
+        *_fields_literal(fields, "        "),
         "        return {",
         f'            "source": "{source.name}",',
         f'            "kind": sources.{prefix}_KIND,',

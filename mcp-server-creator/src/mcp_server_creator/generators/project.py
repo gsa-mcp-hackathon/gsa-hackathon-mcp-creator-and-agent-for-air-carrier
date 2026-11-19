@@ -585,6 +585,11 @@ extend-exclude = ["*.md"]
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 
+[tool.ruff.lint.per-file-ignores]
+# The data dictionary is a literal of profiled descriptions. Ruff cannot split
+# a string inside it, and rewording a description would change the data.
+"src/{{package}}/resources/dictionary.py" = ["E501"]
+
 [tool.bandit]
 # Tests use assert by design. Run: bandit -c pyproject.toml -r .
 exclude_dirs = ["tests", ".venv"]

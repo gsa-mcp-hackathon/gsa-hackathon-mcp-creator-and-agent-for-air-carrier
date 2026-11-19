@@ -15,7 +15,10 @@ CATALOGUE = {
         "kind": "rest_api",
         "modality": "semi_structured",
         "title": "NWS Weather API (weather.gov)",
-        "grain": "one HTTP response per NWS API call; each forecast endpoint returns a list of forecast periods",
+        "grain": (
+            "one HTTP response per NWS API call; "
+            "each forecast endpoint returns a list of forecast periods"
+        ),
         "update_cadence": "live — data is fresh at call time",
         "as_of": "",
         "fields": [
