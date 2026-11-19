@@ -234,7 +234,87 @@ else:
 
 # COMMAND ----------
 
-import base64; exec(base64.b64decode("aW1wb3J0IHRpbWUsIGpzb24KIyBEQlRJVExFIDEsRXZhbHVhdGlvbiByZXBvcnQ6IG5vLXRvb2wgYmFzZWxpbmUgYW5kIDMgcmVwZWF0cyAocGFzdGUgYWZ0ZXIgIlNhdmUgdGhpcyBydW4gdG8gRGVsdGEiLCBjZWxsIDgpCiMgQWRkcyB0aGUgdHdvIHRoaW5ncyB0aGUgZXZhbHVhdGlvbiB0ZW1wbGF0ZSBhc2tzIGZvcjoKIyAgICogYSBuby10b29sIGJhc2VsaW5lOiB0aGUgc2FtZSBtb2RlbCBhbmQgc3lzdGVtIHByb21wdCB3aXRoIG5vIHRvb2xzIGF0dGFjaGVkLAojICAgICB3aGljaCBzaG93cyB3aGF0IHRoZSBNQ1Agc2VydmVycyBhZGQ7CiMgICAqIHJlcGVhdHM6IGV2ZXJ5IHF1ZXN0aW9uIDMgdGltZXMgcGVyIG1vZGVsLCB3aGljaCBzaG93cyBjb25zaXN0ZW5jeS4KIyBVc2VzIGV2ZXJ5IHF1ZXN0aW9uIChkZXYgUTEtUTkgYW5kIGhlbGQtb3V0IEYxLUY1KSBhbmQgdGhlIG5vX2luc3RyIHByb21wdC4KIyBSb3dzIGFyZSBhcHBlbmRlZCB0byBSRVNVTFRTX1RBQkxFIHdpdGggbW9kZSA9ICJub190b29scyIgb3IgInRvb2xzX3JlcDxuPiIuCmltcG9ydCBzdGF0aXN0aWNzLCB1dWlkLCBkYXRldGltZSwgaGFzaGxpYgoKUkVQRUFUUyA9IDMKQUxMX1FTID0gW3ggZm9yIHggaW4gWypRU11dICAjIFFTIGFscmVhZHkgZmlsdGVyZWQgYnkgUVVFU1RJT05fU0VUUzsgc2V0IFFVRVNUSU9OX1NFVFMgPSBbImRldiIsICJmcmVzaCJdCgoKZGVmIHJ1bl9ub190b29scyhxdWVzdGlvbiwgbW9kZWwsIHN5c3RlbSk6CiAgICB0MCA9IHRpbWUudGltZSgpCiAgICBkID0gVy5hcGlfY2xpZW50LmRvKCJQT1NUIiwgZiIvc2VydmluZy1lbmRwb2ludHMve21vZGVsfS9pbnZvY2F0aW9ucyIsCiAgICAgICAgICAgICAgICAgICAgICAgIGJvZHk9eyJtZXNzYWdlcyI6IFt7InJvbGUiOiAic3lzdGVtIiwgImNvbnRlbnQiOiBzeXN0ZW19LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgeyJyb2xlIjogInVzZXIiLCAiY29udGVudCI6IHF1ZXN0aW9ufV0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJtYXhfdG9rZW5zIjogMTUwMH0pCiAgICBtID0gZFsiY2hvaWNlcyJdWzBdWyJtZXNzYWdlIl0KICAgIGNvbnRlbnQgPSBtLmdldCgiY29udGVudCIpCiAgICBpZiBpc2luc3RhbmNlKGNvbnRlbnQsIGxpc3QpOgogICAgICAgIGNvbnRlbnQgPSAiIi5qb2luKHAuZ2V0KCJ0ZXh0IiwgIiIpIGZvciBwIGluIGNvbnRlbnQgaWYgaXNpbnN0YW5jZShwLCBkaWN0KSkKICAgIHUgPSBkLmdldCgidXNhZ2UiLCB7fSkKICAgIHJldHVybiBkaWN0KGFuc3dlcj1jb250ZW50LCB0cmFjZT1bXSwgb3V0X2J5dGVzPTAsIHB0b2s9dS5nZXQoInByb21wdF90b2tlbnMiLCAwKSwKICAgICAgICAgICAgICAgIGN0b2s9dS5nZXQoImNvbXBsZXRpb25fdG9rZW5zIiwgMCksIHNlY3M9cm91bmQodGltZS50aW1lKCkgLSB0MCwgMSkpCgoKRVZBTF9SVU5fSUQgPSAicnB0LSIgKyB1dWlkLnV1aWQ0KCkuaGV4Wzo4XQpFVkFMX1JVTl9BVCA9IGRhdGV0aW1lLmRhdGV0aW1lLm5vdyhkYXRldGltZS50aW1lem9uZS51dGMpCkVWQUwgPSBbXQpmb3IgbW9kZWwgaW4gTU9ERUxTOgogICAgZm9yIHFpZCwgcSwgcGF0cyBpbiBBTExfUVM6CiAgICAgICAgdHJ5OgogICAgICAgICAgICByID0gcnVuX25vX3Rvb2xzKHEsIG1vZGVsLCBCQVNFX1NZU1RFTSkKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgICAgIHIgPSBkaWN0KGFuc3dlcj1Ob25lLCB0cmFjZT1bXSwgb3V0X2J5dGVzPTAsIHB0b2s9MCwgY3Rvaz0wLCBzZWNzPTAsIGVycm9yPXN0cihlKVs6MzAwXSkKICAgICAgICByLnVwZGF0ZShtb2RlbD1tb2RlbCwgbW9kZT0ibm9fdG9vbHMiLCBxaWQ9cWlkLCBxdWVzdGlvbj1xLAogICAgICAgICAgICAgICAgIHF1ZXN0aW9uX3NldD1RVUVTVElPTl9TRVRbcWlkXSwgcGFzc2VkPWdyYWRlKHJbImFuc3dlciJdLCBwYXRzKSkKICAgICAgICBFVkFMLmFwcGVuZChyKQogICAgICAgIGZvciByZXAgaW4gcmFuZ2UoMSwgUkVQRUFUUyArIDEpOgogICAgICAgICAgICB0cnk6CiAgICAgICAgICAgICAgICByID0gcnVuX2FnZW50KHEsIG1vZGVsLCBCQVNFX1NZU1RFTSkKICAgICAgICAgICAgZXhjZXB0IEV4Y2VwdGlvbiBhcyBlOgogICAgICAgICAgICAgICAgciA9IGRpY3QoYW5zd2VyPU5vbmUsIHRyYWNlPVtdLCBvdXRfYnl0ZXM9MCwgcHRvaz0wLCBjdG9rPTAsIHNlY3M9MCwgZXJyb3I9c3RyKGUpWzozMDBdKQogICAgICAgICAgICByLnVwZGF0ZShtb2RlbD1tb2RlbCwgbW9kZT1mInRvb2xzX3JlcHtyZXB9IiwgcWlkPXFpZCwgcXVlc3Rpb249cSwKICAgICAgICAgICAgICAgICAgICAgcXVlc3Rpb25fc2V0PVFVRVNUSU9OX1NFVFtxaWRdLCBwYXNzZWQ9Z3JhZGUoclsiYW5zd2VyIl0sIHBhdHMpKQogICAgICAgICAgICBFVkFMLmFwcGVuZChyKQogICAgICAgIHByaW50KG1vZGVsLCBxaWQsICJkb25lIikKCmlmIFNBVkVfUkVTVUxUUzoKICAgIHJvd3MgPSBbKEVWQUxfUlVOX0lELCBFVkFMX1JVTl9BVCwgQ0FUQUxPR19TSEEsIElOU1RSX1NIQSwgclsibW9kZWwiXSwgclsibW9kZSJdLCByWyJxdWVzdGlvbl9zZXQiXSwKICAgICAgICAgICAgIHJbInFpZCJdLCByWyJxdWVzdGlvbiJdLCBib29sKHJbInBhc3NlZCJdKSwgbGVuKHJbInRyYWNlIl0pLCBpbnQoclsib3V0X2J5dGVzIl0pLAogICAgICAgICAgICAgaW50KHJbInB0b2siXSksIGludChyWyJjdG9rIl0pLCBmbG9hdChyWyJzZWNzIl0pLCByWyJhbnN3ZXIiXSwganNvbi5kdW1wcyhyWyJ0cmFjZSJdKSwKICAgICAgICAgICAgIHIuZ2V0KCJlcnJvciIpKSBmb3IgciBpbiBFVkFMXQogICAgc3BhcmsuY3JlYXRlRGF0YUZyYW1lKHJvd3MsIFJFU1VMVF9TQ0hFTUEpLndyaXRlLm1vZGUoImFwcGVuZCIpLnNhdmVBc1RhYmxlKFJFU1VMVFNfVEFCTEUpCgojIE9uZSBwbGFpbi10ZXh0IHN1bW1hcnkgdG8gY29weSBpbnRvIHRoZSByZXBvcnQuCnByaW50KCJcbj09PSBFVkFMIFJFUE9SVCBTVU1NQVJZIiwgRVZBTF9SVU5fSUQsICJjYXRhbG9nIiwgQ0FUQUxPR19TSEEsICI9PT0iKQpmb3IgbW9kZWwgaW4gTU9ERUxTOgogICAgZm9yIHFzZXQgaW4gKCJkZXYiLCAiZnJlc2giKToKICAgICAgICBiYXNlID0gW3IgZm9yIHIgaW4gRVZBTCBpZiByWyJtb2RlbCJdID09IG1vZGVsIGFuZCByWyJtb2RlIl0gPT0gIm5vX3Rvb2xzIiBhbmQgclsicXVlc3Rpb25fc2V0Il0gPT0gcXNldF0KICAgICAgICB0b29scyA9IFtyIGZvciByIGluIEVWQUwgaWYgclsibW9kZWwiXSA9PSBtb2RlbCBhbmQgclsibW9kZSJdLnN0YXJ0c3dpdGgoInRvb2xzX3JlcCIpIGFuZCByWyJxdWVzdGlvbl9zZXQiXSA9PSBxc2V0XQogICAgICAgIGlmIG5vdCBiYXNlOgogICAgICAgICAgICBjb250aW51ZQogICAgICAgIHNlY3MgPSBbclsic2VjcyJdIGZvciByIGluIHRvb2xzIGlmIHJbInNlY3MiXV0KICAgICAgICBjYWxscyA9IFtsZW4oclsidHJhY2UiXSkgZm9yIHIgaW4gdG9vbHNdCiAgICAgICAgcHRvayA9IFtyWyJwdG9rIl0gZm9yIHIgaW4gdG9vbHNdCiAgICAgICAgcHJpbnQoZiJ7bW9kZWx9IHwge3FzZXR9IHwgYmFzZWxpbmUge3N1bShyWydwYXNzZWQnXSBmb3IgciBpbiBiYXNlKX0ve2xlbihiYXNlKX0iCiAgICAgICAgICAgICAgZiIgfCB0b29scyB7c3VtKHJbJ3Bhc3NlZCddIGZvciByIGluIHRvb2xzKX0ve2xlbih0b29scyl9IgogICAgICAgICAgICAgIGYiIHwgbWVkaWFuIHtzdGF0aXN0aWNzLm1lZGlhbihzZWNzKSBpZiBzZWNzIGVsc2UgMH1zLCBwOTAge3NvcnRlZChzZWNzKVtpbnQoMC45KmxlbihzZWNzKSktMV0gaWYgc2VjcyBlbHNlIDB9cyIKICAgICAgICAgICAgICBmIiB8IG1lYW4gY2FsbHMge3JvdW5kKHN0YXRpc3RpY3MubWVhbihjYWxscyksIDEpIGlmIGNhbGxzIGVsc2UgMH0iCiAgICAgICAgICAgICAgZiIgfCBtZWFuIHByb21wdCB0b2tlbnMge3JvdW5kKHN0YXRpc3RpY3MubWVhbihwdG9rKSkgaWYgcHRvayBlbHNlIDB9IikKcHJpbnQoIi0tLSBwZXIgcXVlc3Rpb246IHBhc3NlcyBvdXQgb2YiLCBSRVBFQVRTLCAiKHRvb2xzKSBhbmQgYmFzZWxpbmUgcGFzcyIpCmZvciBtb2RlbCBpbiBNT0RFTFM6CiAgICBmb3IgcWlkLCBfLCBfIGluIEFMTF9RUzoKICAgICAgICByZXBzID0gW3IgZm9yIHIgaW4gRVZBTCBpZiByWyJtb2RlbCJdID09IG1vZGVsIGFuZCByWyJxaWQiXSA9PSBxaWQgYW5kIHJbIm1vZGUiXS5zdGFydHN3aXRoKCJ0b29sc19yZXAiKV0KICAgICAgICBiYXNlID0gbmV4dChyIGZvciByIGluIEVWQUwgaWYgclsibW9kZWwiXSA9PSBtb2RlbCBhbmQgclsicWlkIl0gPT0gcWlkIGFuZCByWyJtb2RlIl0gPT0gIm5vX3Rvb2xzIikKICAgICAgICBwcmludChmInttb2RlbH0ge3FpZH06IHRvb2xzIHtzdW0oclsncGFzc2VkJ10gZm9yIHIgaW4gcmVwcyl9L3tsZW4ocmVwcyl9LCBiYXNlbGluZSB7J1BBU1MnIGlmIGJhc2VbJ3Bhc3NlZCddIGVsc2UgJ0ZBSUwnfSIpCnByaW50KCI9PT0gRU5EID09PSIpCg==").decode())
+# DBTITLE 1,Evaluation report: no-tool baseline and 3 repeats
+# Adds the two things the evaluation template asks for:
+#   * a no-tool baseline: the same model and system prompt with no tools attached,
+#     which shows what the MCP servers add;
+#   * repeats: every question 3 times per model, which shows consistency.
+# Uses every question (dev Q1-Q9 and held-out F1-F5) and the no_instr prompt.
+# Rows are appended to RESULTS_TABLE with mode = "no_tools" or "tools_rep<n>".
+import time, json
+import statistics, uuid, datetime, hashlib
+
+REPEATS = 3
+ALL_QS = [x for x in [*QS]]  # QS already filtered by QUESTION_SETS; set QUESTION_SETS = ["dev", "fresh"]
+
+
+def run_no_tools(question, model, system):
+    t0 = time.time()
+    d = W.api_client.do("POST", f"/serving-endpoints/{model}/invocations",
+                        body={"messages": [{"role": "system", "content": system},
+                                           {"role": "user", "content": question}],
+                              "max_tokens": 1500})
+    m = d["choices"][0]["message"]
+    content = m.get("content")
+    if isinstance(content, list):
+        content = "".join(p.get("text", "") for p in content if isinstance(p, dict))
+    u = d.get("usage", {})
+    return dict(answer=content, trace=[], out_bytes=0, ptok=u.get("prompt_tokens", 0),
+                ctok=u.get("completion_tokens", 0), secs=round(time.time() - t0, 1))
+
+
+EVAL_RUN_ID = "rpt-" + uuid.uuid4().hex[:8]
+EVAL_RUN_AT = datetime.datetime.now(datetime.timezone.utc)
+EVAL = []
+for model in MODELS:
+    for qid, q, pats in ALL_QS:
+        try:
+            r = run_no_tools(q, model, BASE_SYSTEM)
+        except Exception as e:
+            r = dict(answer=None, trace=[], out_bytes=0, ptok=0, ctok=0, secs=0, error=str(e)[:300])
+        r.update(model=model, mode="no_tools", qid=qid, question=q,
+                 question_set=QUESTION_SET[qid], passed=grade(r["answer"], pats))
+        EVAL.append(r)
+        for rep in range(1, REPEATS + 1):
+            try:
+                r = run_agent(q, model, BASE_SYSTEM)
+            except Exception as e:
+                r = dict(answer=None, trace=[], out_bytes=0, ptok=0, ctok=0, secs=0, error=str(e)[:300])
+            r.update(model=model, mode=f"tools_rep{rep}", qid=qid, question=q,
+                     question_set=QUESTION_SET[qid], passed=grade(r["answer"], pats))
+            EVAL.append(r)
+        print(model, qid, "done")
+
+if SAVE_RESULTS:
+    rows = [(EVAL_RUN_ID, EVAL_RUN_AT, CATALOG_SHA, INSTR_SHA, r["model"], r["mode"], r["question_set"],
+             r["qid"], r["question"], bool(r["passed"]), len(r["trace"]), int(r["out_bytes"]),
+             int(r["ptok"]), int(r["ctok"]), float(r["secs"]), r["answer"], json.dumps(r["trace"]),
+             r.get("error")) for r in EVAL]
+    spark.createDataFrame(rows, RESULT_SCHEMA).write.mode("append").saveAsTable(RESULTS_TABLE)
+
+# One plain-text summary to copy into the report.
+print("\n=== EVAL REPORT SUMMARY", EVAL_RUN_ID, "catalog", CATALOG_SHA, "===")
+for model in MODELS:
+    for qset in ("dev", "fresh"):
+        base = [r for r in EVAL if r["model"] == model and r["mode"] == "no_tools" and r["question_set"] == qset]
+        tools = [r for r in EVAL if r["model"] == model and r["mode"].startswith("tools_rep") and r["question_set"] == qset]
+        if not base:
+            continue
+        secs = [r["secs"] for r in tools if r["secs"]]
+        calls = [len(r["trace"]) for r in tools]
+        ptok = [r["ptok"] for r in tools]
+        print(f"{model} | {qset} | baseline {sum(r['passed'] for r in base)}/{len(base)}"
+              f" | tools {sum(r['passed'] for r in tools)}/{len(tools)}"
+              f" | median {statistics.median(secs) if secs else 0}s, p90 {sorted(secs)[int(0.9*len(secs))-1] if secs else 0}s"
+              f" | mean calls {round(statistics.mean(calls), 1) if calls else 0}"
+              f" | mean prompt tokens {round(statistics.mean(ptok)) if ptok else 0}")
+print("--- per question: passes out of", REPEATS, "(tools) and baseline pass")
+for model in MODELS:
+    for qid, _, _ in ALL_QS:
+        reps = [r for r in EVAL if r["model"] == model and r["qid"] == qid and r["mode"].startswith("tools_rep")]
+        base = next(r for r in EVAL if r["model"] == model and r["qid"] == qid and r["mode"] == "no_tools")
+        print(f"{model} {qid}: tools {sum(r['passed'] for r in reps)}/{len(reps)}, baseline {'PASS' if base['passed'] else 'FAIL'}")
+print("=== END ===")
 
 # COMMAND ----------
 
