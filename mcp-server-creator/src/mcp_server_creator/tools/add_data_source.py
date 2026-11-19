@@ -22,6 +22,7 @@ from mcp_server_creator import designs, environments, live
 from mcp_server_creator.models import (
     DataModality,
     DataSourceProfile,
+    FieldRole,
     RetrievalProfile,
     SourceKind,
 )
@@ -182,13 +183,10 @@ def register(mcp: FastMCP) -> None:
         fields: list[Any] = []
         inspection: dict[str, Any] = {"source": "none"}
 
-        wants_live = (
-            try_live_inspection
-            and kind is SourceKind.UC_TABLE
-            and bool(catalog and schema_name and table)
-            and not schema_text
-        )
-        if wants_live:
+        # Checked on every path, not only live inspection: a pasted schema
+        # with a table name like `t; DROP TABLE x` would otherwise produce a
+        # server whose every call fails its own identifier check.
+        if kind is SourceKind.UC_TABLE and (catalog or schema_name or table):
             valid, reason = validate_source_coordinates(catalog, schema_name, table)
             if not valid:
                 return {
@@ -198,6 +196,14 @@ def register(mcp: FastMCP) -> None:
                         "identifiers: letters, digits and underscores."
                     ),
                 }
+
+        wants_live = (
+            try_live_inspection
+            and kind is SourceKind.UC_TABLE
+            and bool(catalog and schema_name and table)
+            and not schema_text
+        )
+        if wants_live:
             if live.available():
                 try:
                     fields, inspection = live.profile_table(catalog, schema_name, table)
@@ -236,6 +242,10 @@ def register(mcp: FastMCP) -> None:
         for field in fields:
             if looks_like_pii(field.name):
                 field.pii = True
+            # The caller named the text column; that beats type inference,
+            # which reads a free-text STRING as a dimension.
+            if text_column and field.name == text_column.strip():
+                field.role = FieldRole.TEXT
 
         retrieval = None
         if modality is DataModality.UNSTRUCTURED or kind is SourceKind.AI_SEARCH_INDEX:

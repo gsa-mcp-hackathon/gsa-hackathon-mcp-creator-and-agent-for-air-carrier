@@ -16,7 +16,7 @@ from mcp_server_creator.models import (
     FileManifest,
     ServerSpec,
 )
-from mcp_server_creator.utils import render, wrap_text
+from mcp_server_creator.utils import inert_text, render, wrap_text
 
 AGENT_MODULE = r'''"""The agent under test: a LangChain agent wired to this MCP server.
 
@@ -450,8 +450,12 @@ from typing import Callable
 def q1_example() -> str:
     """TODO: compute this answer with a query written from scratch.
 
-    Do not import from {{package}}. Write the SQL (or the snapshot read)
-    yourself, run it, and return the answer as a string.
+    Do not import from the server package:
+
+        {{package}}
+
+    Write the SQL (or the snapshot read) yourself, run it, and return the
+    answer as a string.
     """
     raise NotImplementedError(
         "write an independent query for q1 before trusting the correctness "
@@ -793,13 +797,17 @@ def generate_evaluation(spec: ServerSpec) -> FileManifest:
     )
     rows = _seed_questions(spec)
     dataset = spec.evaluation.dataset_name
-    in_scope = "; ".join(spec.jobs_to_be_done[:5]) or spec.purpose
+    # Every free-text value lands inside a Python string literal below.
+    purpose = inert_text(spec.purpose)
+    jobs = [inert_text(job) for job in spec.jobs_to_be_done]
+    out_of_scope = [inert_text(item) for item in spec.out_of_scope]
+    in_scope = "; ".join(jobs[:5]) or purpose
     values = {
         "package": spec.package_name,
         "server_name": spec.server_name,
         "title": spec.title,
-        "purpose": wrap_text(spec.purpose),
-        "user": spec.primary_user or "an analyst",
+        "purpose": wrap_text(purpose),
+        "user": inert_text(spec.primary_user) or "an analyst",
         "dataset_name": dataset,
         "agent_class": _agent_class_name(spec),
         "agent_model": spec.evaluation.agent_model,
@@ -808,15 +816,13 @@ def generate_evaluation(spec: ServerSpec) -> FileManifest:
         "question_count": len(rows),
         "target": int(spec.evaluation.target_accuracy * 100),
         "in_scope": wrap_text(in_scope),
-        "out_of_scope": wrap_text("; ".join(spec.out_of_scope) or "nothing recorded"),
+        "out_of_scope": wrap_text("; ".join(out_of_scope) or "nothing recorded"),
         "out_of_scope_lines": "\n".join(
-            f"- {wrap_text(item, width=86)}" for item in spec.out_of_scope
+            f"- {wrap_text(item, width=86)}" for item in out_of_scope
         )
         or "- nothing recorded yet",
         "smoke_question": (
-            spec.jobs_to_be_done[0]
-            if spec.jobs_to_be_done
-            else "What can you tell me about this data?"
+            jobs[0] if jobs else "What can you tell me about this data?"
         ),
     }
 

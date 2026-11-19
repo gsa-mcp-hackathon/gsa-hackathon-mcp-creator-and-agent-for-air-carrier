@@ -172,6 +172,24 @@ def docstring_safe(text: str) -> str:
     return cleaned.strip()
 
 
+def inert_text(text: str) -> str:
+    """Make user prose safe to place inside any generated string literal.
+
+    The purpose, the user and the questions arrive from a model that may
+    have read untrusted text. Placed raw inside a Python, TOML, JSON or
+    YAML string, a double quote or backslash ends or escapes the literal
+    and the rest runs as code (a judge module executed `os.system` on
+    import). Everything that can do that is replaced: backslashes, double
+    quotes, the triple single quote, and template braces. Whitespace is
+    collapsed so a newline cannot start a new statement or YAML key.
+    """
+    cleaned = " ".join(str(text).split())
+    cleaned = cleaned.replace("\\", "/").replace('"', "'")
+    cleaned = cleaned.replace("'''", "' ' '")
+    cleaned = cleaned.replace("{", "(").replace("}", ")")
+    return cleaned.strip()
+
+
 def truncate(text: str, limit: int = 2000) -> str:
     """Shorten text for a tool response, flagging that it was cut."""
     if len(text) <= limit:

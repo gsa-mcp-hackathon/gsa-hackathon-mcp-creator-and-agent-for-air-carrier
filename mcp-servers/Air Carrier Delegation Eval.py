@@ -234,6 +234,90 @@ else:
 
 # COMMAND ----------
 
+# DBTITLE 1,Evaluation report: no-tool baseline and 3 repeats
+# Adds the two things the evaluation template asks for:
+#   * a no-tool baseline: the same model and system prompt with no tools attached,
+#     which shows what the MCP servers add;
+#   * repeats: every question 3 times per model, which shows consistency.
+# Uses every question (dev Q1-Q9 and held-out F1-F5) and the no_instr prompt.
+# Rows are appended to RESULTS_TABLE with mode = "no_tools" or "tools_rep<n>".
+import time, json
+import statistics, uuid, datetime, hashlib
+
+REPEATS = 3
+ALL_QS = [x for x in [*QS]]  # QS already filtered by QUESTION_SETS; set QUESTION_SETS = ["dev", "fresh"]
+
+
+def run_no_tools(question, model, system):
+    t0 = time.time()
+    d = W.api_client.do("POST", f"/serving-endpoints/{model}/invocations",
+                        body={"messages": [{"role": "system", "content": system},
+                                           {"role": "user", "content": question}],
+                              "max_tokens": 1500})
+    m = d["choices"][0]["message"]
+    content = m.get("content")
+    if isinstance(content, list):
+        content = "".join(p.get("text", "") for p in content if isinstance(p, dict))
+    u = d.get("usage", {})
+    return dict(answer=content, trace=[], out_bytes=0, ptok=u.get("prompt_tokens", 0),
+                ctok=u.get("completion_tokens", 0), secs=round(time.time() - t0, 1))
+
+
+EVAL_RUN_ID = "rpt-" + uuid.uuid4().hex[:8]
+EVAL_RUN_AT = datetime.datetime.now(datetime.timezone.utc)
+EVAL = []
+for model in MODELS:
+    for qid, q, pats in ALL_QS:
+        try:
+            r = run_no_tools(q, model, BASE_SYSTEM)
+        except Exception as e:
+            r = dict(answer=None, trace=[], out_bytes=0, ptok=0, ctok=0, secs=0, error=str(e)[:300])
+        r.update(model=model, mode="no_tools", qid=qid, question=q,
+                 question_set=QUESTION_SET[qid], passed=grade(r["answer"], pats))
+        EVAL.append(r)
+        for rep in range(1, REPEATS + 1):
+            try:
+                r = run_agent(q, model, BASE_SYSTEM)
+            except Exception as e:
+                r = dict(answer=None, trace=[], out_bytes=0, ptok=0, ctok=0, secs=0, error=str(e)[:300])
+            r.update(model=model, mode=f"tools_rep{rep}", qid=qid, question=q,
+                     question_set=QUESTION_SET[qid], passed=grade(r["answer"], pats))
+            EVAL.append(r)
+        print(model, qid, "done")
+
+if SAVE_RESULTS:
+    rows = [(EVAL_RUN_ID, EVAL_RUN_AT, CATALOG_SHA, INSTR_SHA, r["model"], r["mode"], r["question_set"],
+             r["qid"], r["question"], bool(r["passed"]), len(r["trace"]), int(r["out_bytes"]),
+             int(r["ptok"]), int(r["ctok"]), float(r["secs"]), r["answer"], json.dumps(r["trace"]),
+             r.get("error")) for r in EVAL]
+    spark.createDataFrame(rows, RESULT_SCHEMA).write.mode("append").saveAsTable(RESULTS_TABLE)
+
+# One plain-text summary to copy into the report.
+print("\n=== EVAL REPORT SUMMARY", EVAL_RUN_ID, "catalog", CATALOG_SHA, "===")
+for model in MODELS:
+    for qset in ("dev", "fresh"):
+        base = [r for r in EVAL if r["model"] == model and r["mode"] == "no_tools" and r["question_set"] == qset]
+        tools = [r for r in EVAL if r["model"] == model and r["mode"].startswith("tools_rep") and r["question_set"] == qset]
+        if not base:
+            continue
+        secs = [r["secs"] for r in tools if r["secs"]]
+        calls = [len(r["trace"]) for r in tools]
+        ptok = [r["ptok"] for r in tools]
+        print(f"{model} | {qset} | baseline {sum(r['passed'] for r in base)}/{len(base)}"
+              f" | tools {sum(r['passed'] for r in tools)}/{len(tools)}"
+              f" | median {statistics.median(secs) if secs else 0}s, p90 {sorted(secs)[int(0.9*len(secs))-1] if secs else 0}s"
+              f" | mean calls {round(statistics.mean(calls), 1) if calls else 0}"
+              f" | mean prompt tokens {round(statistics.mean(ptok)) if ptok else 0}")
+print("--- per question: passes out of", REPEATS, "(tools) and baseline pass")
+for model in MODELS:
+    for qid, _, _ in ALL_QS:
+        reps = [r for r in EVAL if r["model"] == model and r["qid"] == qid and r["mode"].startswith("tools_rep")]
+        base = next(r for r in EVAL if r["model"] == model and r["qid"] == qid and r["mode"] == "no_tools")
+        print(f"{model} {qid}: tools {sum(r['passed'] for r in reps)}/{len(reps)}, baseline {'PASS' if base['passed'] else 'FAIL'}")
+print("=== END ===")
+
+# COMMAND ----------
+
 # DBTITLE 1,Pass rate across saved runs
 # Every saved run, newest first: compare a run against earlier ones and against tool catalog changes.
 if spark.catalog.tableExists(RESULTS_TABLE):

@@ -322,16 +322,22 @@ def parse_create_table_ddl(ddl: str) -> list[FieldProfile]:
 
 
 def _split_top_level(body: str) -> list[str]:
-    """Split a DDL column list on commas that are not inside brackets."""
+    """Split a DDL column list on commas not inside brackets or quotes."""
     parts: list[str] = []
     depth = 0
+    quote = ""
     current: list[str] = []
     for char in body:
-        if char in "(<[":
+        if quote:
+            if char == quote:
+                quote = ""
+        elif char in "'\"":
+            quote = char
+        elif char in "(<[":
             depth += 1
         elif char in ")>]":
             depth -= 1
-        if char == "," and depth == 0:
+        if char == "," and depth == 0 and not quote:
             parts.append("".join(current))
             current = []
         else:
@@ -491,6 +497,12 @@ def parse_tabular_text(text: str) -> list[FieldProfile]:
         fields = parse_create_table_ddl(stripped)
         if fields:
             return fields
+    # `name TYPE, name TYPE` (one line or wrapped) is what a model client
+    # most often sends. Checked before the line-based shape, which would
+    # read each wrapped line as a single column and drop the rest.
+    fields = _parse_comma_list(stripped)
+    if fields:
+        return fields
     if _looks_like_column_list(stripped):
         fields = _parse_column_list(stripped)
         if fields:
@@ -501,9 +513,67 @@ def parse_tabular_text(text: str) -> list[FieldProfile]:
     return parse_create_table_ddl(stripped)
 
 
+KNOWN_TYPE_RE = re.compile(
+    r"^(string|varchar|char|text|int|integer|bigint|smallint|tinyint|long|"
+    r"double|float|real|decimal|numeric|number|boolean|bool|bit|date|"
+    r"timestamp|timestamp_ntz|datetime|array|map|struct|binary|variant)\b",
+    re.IGNORECASE,
+)
+COMMA_COLUMN_RE = re.compile(
+    r"^\s*[`\"\[]?(?P<name>[A-Za-z_][A-Za-z0-9_]*)[`\"\]]?(?:\s*:\s*|\s+)"
+    r"(?P<type>[A-Za-z][A-Za-z0-9_]*(?:\s*\([^)]*\))?(?:<.*>)?)"
+    r"(?P<rest>.*)$",
+    re.DOTALL,
+)
+# A markdown or DESCRIBE header row, not a column.
+HEADER_NAMES = {"col_name", "column_name", "column", "name", "field"}
+HEADER_TYPES = {"data_type", "datatype", "type"}
+
+
+def _parse_comma_list(text: str) -> list[FieldProfile]:
+    """Parse `name TYPE, name TYPE` or `name: type, ...`, wrapped or not.
+
+    Returns [] unless the text splits into two or more comma-separated
+    segments and at least half of them read as a column with a recognised
+    type, so a CSV header (`a,b,c`) or prose is left to the other parsers.
+    A segment whose name is not a plain identifier is dropped: no generated
+    tool could quote it safely.
+    """
+    flat = " ".join(text.split())
+    segments = [s.strip() for s in _split_top_level(flat) if s.strip()]
+    lines = [ln for ln in text.splitlines() if ln.strip()]
+    # One column per line (DESCRIBE output, possibly with commas inside a
+    # comment) is the line-based parser's job.
+    if len(segments) < 2 or len(segments) <= len(lines):
+        return []
+    matches = [COMMA_COLUMN_RE.match(segment) for segment in segments]
+    matches = [m for m in matches if m and KNOWN_TYPE_RE.match(m.group("type"))]
+    if not matches or len(matches) * 2 < len(segments):
+        return []
+    fields: list[FieldProfile] = []
+    for match in matches:
+        comment = ""
+        comment_match = re.search(
+            r"COMMENT\s+'([^']*)'", match.group("rest"), re.IGNORECASE
+        )
+        if comment_match:
+            comment = comment_match.group(1)
+        data_type = normalize_type(match.group("type"))
+        fields.append(
+            FieldProfile(
+                name=match.group("name"),
+                data_type=data_type,
+                role=infer_role(match.group("name"), data_type),
+                description=comment,
+                nullable="NOT NULL" not in match.group("rest").upper(),
+            )
+        )
+    return fields
+
+
 def _looks_like_column_list(text: str) -> bool:
     """True for `name type` or `name: type` lines, as DESCRIBE TABLE prints."""
-    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    lines = [ln.strip().strip("|").strip() for ln in text.splitlines() if ln.strip()]
     if len(lines) < 2:
         return False
     matches = 0
@@ -523,15 +593,17 @@ def _parse_column_list(text: str) -> list[FieldProfile]:
     """Parse `name type [comment]` lines from DESCRIBE-style output."""
     fields: list[FieldProfile] = []
     for line in text.splitlines():
-        line = line.strip().strip("|").strip()
-        if not line or line.startswith(("#", "--", "+")):
+        line = line.strip().strip("|").strip().rstrip(",").strip()
+        if not line or line.startswith(("#", "--", "+", ":-")):
             continue
         parts = re.split(r"[:|\t]|\s{2,}|\s", line, maxsplit=2)
         parts = [p.strip() for p in parts if p.strip()]
         if len(parts) < 2:
             continue
-        name, raw_type = parts[0].strip('`"'), parts[1]
+        name, raw_type = parts[0].strip('`"'), parts[1].rstrip(",")
         if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", name):
+            continue
+        if name.lower() in HEADER_NAMES and raw_type.lower() in HEADER_TYPES:
             continue
         data_type = normalize_type(raw_type)
         description = parts[2].strip() if len(parts) > 2 else ""

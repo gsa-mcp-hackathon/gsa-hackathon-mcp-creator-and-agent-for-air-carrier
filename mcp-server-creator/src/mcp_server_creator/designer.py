@@ -244,6 +244,13 @@ _COMPARE_CUES = re.compile(
     r"[a-z]+\s+(date|time|deadline)\b"
 )
 _STATE_CUES = re.compile(r"\b(late|overdue|delayed|on time|on-time|churned)\b")
+# 'expire in the next 90 days', 'due within 30 days': a window that moves
+# with today. No generated pattern bounds a date relative to now, so a
+# ranking or total would answer a different question.
+_FORWARD_WINDOW_CUES = re.compile(
+    r"\b(expire|expires|expiring|due|ending|end|ends)\b.*\b(next|within|coming)\s+"
+    r"\d+\s+(day|days|week|weeks|month|months)\b"
+)
 _PHRASE_STOP = {
     "last", "this", "next", "between", "for", "in", "on", "from", "since", "and",
     "or", "with", "during", "over", "per", "each", "do", "does", "did", "sold",
@@ -378,6 +385,13 @@ def _job_tool(
             f"'{job}': compares two columns of the same row (for example a "
             "receipt date after a commit date). Add a computed column such as "
             "is_late to the table, or write this tool by hand."
+        )
+    if _FORWARD_WINDOW_CUES.search(text):
+        return None, (
+            f"'{job}': asks for a window that moves with today. No generated "
+            "pattern filters a date relative to now yet, so write this tool by "
+            "hand: WHERE end_date BETWEEN current_date() AND "
+            "date_add(current_date(), n)."
         )
     state = _STATE_CUES.search(text)
     if state and not any(state.group(1)[:4] in f.name.lower() for f in source.fields):
@@ -969,7 +983,22 @@ def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
     notes.extend(_apply_scope_exclusions(spec))
 
     for source in spec.data_sources:
-        if source.modality is DataModality.UNSTRUCTURED:
+        text_table = (
+            source.modality is DataModality.UNSTRUCTURED
+            and source.kind is SourceKind.UC_TABLE
+            and bool(source.fields)
+        )
+        if text_table:
+            # A table of text rows (reviews, notes) answers keyword search,
+            # counts and lookups with plain SQL; only semantic search needs
+            # an index.
+            plans.extend(_structured_tools(spec, source))
+            notes.append(
+                f"'{source.name}' is a table of text, so its search is keyword "
+                "matching. For meaning-based search, build an AI Search index "
+                "on it and add that index as an ai_search_index source."
+            )
+        elif source.modality is DataModality.UNSTRUCTURED:
             plans.extend(_unstructured_tools(spec, source))
         elif source.kind in {
             SourceKind.UC_TABLE,
@@ -1035,10 +1064,14 @@ def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
         unique = kept
 
     for source in spec.data_sources:
-        if source.modality is not DataModality.UNSTRUCTURED and source.kind in {
-            SourceKind.UC_TABLE,
-            SourceKind.LOCAL_SNAPSHOT,
-        }:
+        text_table = (
+            source.modality is DataModality.UNSTRUCTURED
+            and source.kind is SourceKind.UC_TABLE
+            and bool(source.fields)
+        )
+        if (
+            text_table or source.modality is not DataModality.UNSTRUCTURED
+        ) and source.kind in {SourceKind.UC_TABLE, SourceKind.LOCAL_SNAPSHOT}:
             notes.extend(_job_tools(spec, source)[1])
     pii = [f.name for s in spec.data_sources for f in s.fields if f.pii]
     if pii:

@@ -121,6 +121,17 @@ def register(mcp: FastMCP) -> None:
             return failure
         assert spec is not None
 
+        # Same guard as creator_generate_project: writing (and later
+        # deploying) a server with no tools ships nothing anyone can use.
+        if not spec.tools:
+            return {
+                "error": "The design has no tools yet.",
+                "hint": (
+                    "Call creator_design_tools first and confirm the names "
+                    "with the user, then write the project."
+                ),
+            }
+
         if destination == "auto":
             destination = "workspace" if live.caller_token() else ""
         if destination == "workspace":

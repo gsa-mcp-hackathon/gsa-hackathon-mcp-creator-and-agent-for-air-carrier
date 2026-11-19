@@ -1378,7 +1378,13 @@ def _seed():
 
 
 def _live():
-    return SparkSession.getActiveSession()
+    spark = SparkSession.getActiveSession()
+    # Run as a script, the caller returns "skip" and the runner reports it.
+    # Under pytest a returned value counts as a pass, so skip explicitly.
+    if spark is None and "pytest" in sys.modules:
+        import pytest
+        pytest.skip("needs a live Spark session (Databricks)")
+    return spark
 
 
 def test_live_cc02_detection_and_invariant_2():

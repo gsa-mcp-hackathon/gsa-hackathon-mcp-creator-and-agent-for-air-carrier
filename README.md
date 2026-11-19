@@ -43,7 +43,31 @@ Each project has its own tests, for example:
 ```
 cd mcp-server-creator && PYTHONPATH=src pytest tests
 cd mcp-servers/mcp-aircarrier-ops && PYTHONPATH=src pytest tests
+cd the-one-hub/ops-center && PYTHONPATH=. pytest checks/test_work.py checks/test_mcp_server.py
+cd the-one-hub/ops-center && python checks/test_agents.py   # script suites run as scripts
 ```
+
+595 pytest cases pass across the nine projects; 13 more need a live Spark session and
+run in the workspace. The [checks README](the-one-hub/ops-center/checks/README.md) lists
+every One Hub suite and how it runs.
+
+## Evaluation
+
+The [evaluation report](docs/submission/evaluation-report.pdf) follows the hackathon
+template. In short:
+
+* **Creator, end to end**: the five README prompts, three runs each, through the MCP
+  interface. All 15 generated projects pass their own tests and lint, and each server's
+  files are byte-identical across runs. Of the 14 questions, 11 get the right tool, a
+  stated reason why not, or a review flag; 3 do not, and the report says which.
+* **Ops golden set**: 17 items with SQL-computed answers, including decoy, no-action,
+  out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)).
+* **Delegation eval**: two models get all 29 Air Carrier tools; every run is logged to
+  Delta with a hash of the tool catalog (`Air Carrier Delegation Eval`). Over 14 questions
+  with three repeats each, they answer 80 of 84 runs correctly with the servers and 2 of 28
+  with no tools.
+* **Defects found by testing** and their regression tests are listed in
+  [docs/REVIEW-2026-11-18.md](docs/REVIEW-2026-11-18.md).
 
 When running tests inside a Databricks Git folder, also set `PYTHONDONTWRITEBYTECODE=1` and
 pass `-p no:cacheprovider`: Git folders do not allow `__pycache__` or `.pytest_cache` to be

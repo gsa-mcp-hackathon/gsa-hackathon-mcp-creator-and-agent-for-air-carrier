@@ -20,6 +20,7 @@ from mcp_server_creator.models import (
 from mcp_server_creator.utils import (
     bullet_list,
     docstring_safe,
+    inert_text,
     render,
     wrap_string_parts,
     wrap_text,
@@ -360,8 +361,8 @@ def _starters_prompt(spec: ServerSpec) -> str:
         STARTERS_PROMPT,
         {
             "title": docstring_safe(spec.title),
-            "questions": repr([docstring_safe(job) for job in jobs]),
-            "user": docstring_safe(spec.primary_user or "an analyst")[:60],
+            "questions": repr([inert_text(job) for job in jobs]),
+            "user": (inert_text(spec.primary_user) or "an analyst")[:60],
         },
     )
 
@@ -1383,8 +1384,8 @@ def repo_files(spec: ServerSpec) -> dict[str, str]:
         "package": spec.package_name,
         "server_name": spec.server_name,
         "title": docstring_safe(spec.title),
-        "purpose": docstring_safe(spec.purpose),
-        "user": docstring_safe(spec.primary_user or "an analyst"),
+        "purpose": inert_text(spec.purpose),
+        "user": inert_text(spec.primary_user) or "an analyst",
         "app_name": spec.deployment.app_name,
         "repo_url": spec.repo_url or "https://github.com/OWNER/" + spec.server_name,
         "registry_name": _registry_name(spec),

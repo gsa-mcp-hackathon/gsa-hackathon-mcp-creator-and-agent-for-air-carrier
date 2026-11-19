@@ -287,3 +287,50 @@ def test_generated_project_passes_its_own_tests(manifest, tmp_path):
         },
     )
     assert result.returncode == 0, result.stdout[-4000:] + result.stderr[-2000:]
+
+
+def test_long_names_still_generate_a_lint_clean_project(tmp_path):
+    """Found by an end-to-end run of the README prompts: a long package or
+    tool name pushed a generated docstring past 88 characters, so the
+    project failed its own `ruff check` on the first commit."""
+    from mcp_server_creator.designer import design_tools
+    from mcp_server_creator.generators import formatting
+    from mcp_server_creator.models import (
+        DataModality,
+        DataSourceProfile,
+        ServerSpec,
+        SourceKind,
+    )
+    from mcp_server_creator.profiling import parse_tabular_text
+
+    if not formatting.ruff_available():
+        pytest.skip("ruff is not installed, so generated code is unformatted")
+    source = DataSourceProfile(
+        name="neighborhood_transportation_trip_records",
+        kind=SourceKind.UC_TABLE,
+        modality=DataModality.STRUCTURED,
+        catalog="samples",
+        schema_name="nyctaxi",
+        table="trips",
+        fields=parse_tabular_text(
+            "tpep_pickup_datetime TIMESTAMP, fare_amount_in_dollars DOUBLE, "
+            "pickup_postal_zone_identifier_code INT"
+        ),
+    )
+    spec = ServerSpec(
+        server_name="analyze-metropolitan-city-taxi-fares-mcp",
+        purpose="Analyze city taxi fares",
+        jobs_to_be_done=[
+            "What was the average fare per mile by pickup ZIP in January 2016?"
+        ],
+        data_sources=[source],
+    )
+    spec.tools, _ = design_tools(spec)
+    project = _write(generate_full_project(spec), tmp_path / "long")
+    result = subprocess.run(
+        ["ruff", "check", "--output-format=concise", str(project)],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr

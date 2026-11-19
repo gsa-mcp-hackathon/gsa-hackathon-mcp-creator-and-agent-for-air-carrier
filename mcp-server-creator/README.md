@@ -18,7 +18,7 @@ Deployment target is Databricks Apps.
 The deployed app (`mcp-a-creator`) works as a Genie Code connector:
 
 1. In Genie Code, open **Settings > Connectors > Custom MCP Server**.
-2. Select **mcp-a-creator** and save. The nine `creator_*` tools become
+2. Select **mcp-a-creator** and save. The ten `creator_*` tools become
    available immediately; no prompt changes needed.
 3. Ask for a server in plain words, starting with "Use MCP A Creator
    to...", and name the user, their questions, and a table that exists.
@@ -112,7 +112,7 @@ living on the server.
 
 ---
 
-## The nine tools
+## The ten tools
 
 | Tool | What it answers |
 |---|---|
@@ -125,6 +125,7 @@ living on the server.
 | `creator_review_server` | Is this design any good, and what is weak? |
 | `creator_generate_project` | Build the whole project |
 | `creator_write_project` | Put it on disk (opt-in, dry-run by default) |
+| `creator_deploy_server` | Deploy it as my own Databricks App (asks for approval first) |
 
 Plus three prompts a client shows as commands: `create_mcp_server`,
 `review_my_mcp_server`, `mcp_from_my_data`.

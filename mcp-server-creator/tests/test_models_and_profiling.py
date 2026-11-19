@@ -137,6 +137,65 @@ def test_tabular_text_detects_describe_output():
     ]
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        # One line, as a model client usually sends it.
+        "pickup_at TIMESTAMP, trip_distance DOUBLE, fare_amount DOUBLE, pickup_zip INT",
+        # Wrapped: each line used to be read as one column.
+        "pickup_at TIMESTAMP, trip_distance DOUBLE,\nfare_amount DOUBLE, "
+        "pickup_zip INT",
+        # One per line with trailing commas: types used to keep the comma.
+        "pickup_at TIMESTAMP,\ntrip_distance DOUBLE,\nfare_amount DOUBLE,\n"
+        "pickup_zip INT",
+        "pickup_at: timestamp, trip_distance: double, fare_amount: double, "
+        "pickup_zip: int",
+        "`pickup_at` TIMESTAMP, `trip_distance` DOUBLE, `fare_amount` DOUBLE, "
+        "`pickup_zip` INT",
+        "| col_name | data_type |\n|---|---|\n| pickup_at | timestamp |\n"
+        "| trip_distance | double |\n| fare_amount | double |\n"
+        "| pickup_zip | int |",
+    ],
+)
+def test_tabular_text_reads_every_column_list_shape(text):
+    fields = parse_tabular_text(text)
+    assert [(f.name, f.data_type) for f in fields] == [
+        ("pickup_at", "timestamp"),
+        ("trip_distance", "double"),
+        ("fare_amount", "double"),
+        ("pickup_zip", "int"),
+    ]
+
+
+def test_column_list_keeps_bracketed_and_quoted_commas_inside_one_column():
+    fields = parse_tabular_text(
+        "amount DECIMAL(18,2), tags STRUCT<a:INT,b:STRING>, "
+        "note STRING NOT NULL COMMENT 'free text, any length'"
+    )
+    assert [(f.name, f.data_type) for f in fields] == [
+        ("amount", "decimal"),
+        ("tags", "struct"),
+        ("note", "string"),
+    ]
+    assert fields[2].description == "free text, any length"
+    assert fields[2].nullable is False
+
+
+def test_column_list_drops_a_name_no_tool_could_quote():
+    fields = parse_tabular_text("`id; DROP TABLE x` BIGINT, amount DOUBLE")
+    assert [f.name for f in fields] == ["amount"]
+
+
+def test_describe_output_with_a_comma_in_a_comment_stays_line_based():
+    fields = parse_tabular_text("a\tstring\tthe id, unique\nb\tint\nc\tdouble")
+    assert [f.name for f in fields] == ["a", "b", "c"]
+
+
+def test_csv_header_is_not_mistaken_for_a_column_list():
+    fields = parse_tabular_text("a,b,c\n2024-01-01,1.5,3\n")
+    assert [f.name for f in fields] == ["a", "b", "c"]
+
+
 def test_profile_summary_names_what_is_missing():
     fields = parse_csv_sample("label,note\nalpha,some text\nbeta,other text\n")
     summary = profile_summary(fields)

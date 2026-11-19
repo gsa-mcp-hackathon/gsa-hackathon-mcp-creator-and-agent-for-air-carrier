@@ -496,3 +496,38 @@ def test_tool_prefix_skips_generic_name_parts():
     assert prefix("mcp-aircarrier-ops-v2") == "aircarrier"
     assert prefix("contract-triage-mcp") == "contract"
     assert prefix("mcp-server") == "mcp"
+
+
+def test_a_forward_window_question_is_reported_not_mapped_to_a_ranking():
+    """'Which awards expire in the next 90 days?' was answered by a ranking
+    of awards by amount: a confident tool for a different question."""
+    from mcp_server_creator.designer import design_tools
+    from mcp_server_creator.models import (
+        DataModality,
+        DataSourceProfile,
+        ServerSpec,
+        SourceKind,
+    )
+    from mcp_server_creator.profiling import parse_tabular_text
+
+    spec = ServerSpec(
+        server_name="awards-mcp",
+        purpose="Watch expiring awards",
+        jobs_to_be_done=["Which awards expire in the next 90 days?"],
+        data_sources=[
+            DataSourceProfile(
+                name="awards",
+                kind=SourceKind.UC_TABLE,
+                modality=DataModality.STRUCTURED,
+                catalog="main",
+                schema_name="procurement",
+                table="awards",
+                fields=parse_tabular_text(
+                    "award_id STRING, award_amount DECIMAL(18,2), end_date DATE"
+                ),
+            )
+        ],
+    )
+    tools, notes = design_tools(spec)
+    assert not any(t.goal == spec.jobs_to_be_done[0] for t in tools)
+    assert any("moves with today" in note for note in notes)

@@ -25,6 +25,7 @@ why they were rejected.
 | `test_gate.py` | gate routing and the N.7 recorded errors | `python checks/test_gate.py` |
 | `test_llm_tracing.py` | every GatewayLLM trace goes to the dedicated audit experiment, not the session's | `python checks/test_llm_tracing.py` |
 | `test_analyst.py` | analyst engine on synthetic cases with known answers | `PYTHONPATH=. python -m pytest checks/test_analyst.py` |
+| `test_mcp_server.py` | the ops-center MCP server: every tool answers on the shipped data, and no table name reads outside `app/data` | `PYTHONPATH=. python -m pytest checks/test_mcp_server.py` |
 
 `test_analyst.py` is pytest only. Run as a plain script it defines the tests,
 runs none, and exits 0, which looks like a pass.

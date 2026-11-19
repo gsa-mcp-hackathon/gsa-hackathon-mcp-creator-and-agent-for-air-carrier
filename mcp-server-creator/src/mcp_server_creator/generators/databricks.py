@@ -15,7 +15,7 @@ from mcp_server_creator.models import (
     SourceKind,
 )
 from mcp_server_creator.profiling import default_grants
-from mcp_server_creator.utils import quote_uc_name, render
+from mcp_server_creator.utils import inert_text, quote_uc_name, render
 
 
 def _grant_statements(source: DataSourceProfile) -> list[str]:
@@ -100,7 +100,7 @@ resources:
   apps:
     {{resource_key}}:
       name: {{app_name}}
-      description: {{purpose}}
+      description: "{{purpose}}"
       source_code_path: ../../
 {{resource_block}}
 targets:
@@ -482,7 +482,7 @@ def generate_deployment(spec: ServerSpec) -> FileManifest:
         "server_name": spec.server_name,
         "app_name": spec.deployment.app_name,
         "resource_key": spec.package_name,
-        "purpose": spec.purpose.replace("\n", " ")[:200],
+        "purpose": inert_text(spec.purpose)[:200],
         "title": spec.title,
         "env_block": _env_block(spec),
         "resource_block": _resource_block(spec),

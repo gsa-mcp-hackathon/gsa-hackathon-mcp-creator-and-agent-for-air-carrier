@@ -34,7 +34,11 @@ SEED = ROOT / "seed"
 
 
 def _json(name: str) -> Any:
-    p = DATA / f"{name}.json"
+    # name can come straight from a tool argument (get_table), so it must
+    # resolve inside DATA: '../../x' would otherwise read any .json file.
+    p = (DATA / f"{name}.json").resolve()
+    if not p.is_relative_to(DATA.resolve()):
+        return {}
     return json.loads(p.read_text()) if p.exists() else {}
 
 

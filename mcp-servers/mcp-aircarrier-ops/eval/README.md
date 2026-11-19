@@ -46,7 +46,7 @@ uv run run_experiment.py --dataset-name mcp-eval-0 \
 
 ## Fill in the answers first
 
-`datasets/mcp-eval-0/evaluation.xml` ships with 16
+`datasets/mcp-eval-0/evaluation.xml` ships with 17
 questions. The ones marked `TODO` need a real answer before a correctness
 score means anything:
 

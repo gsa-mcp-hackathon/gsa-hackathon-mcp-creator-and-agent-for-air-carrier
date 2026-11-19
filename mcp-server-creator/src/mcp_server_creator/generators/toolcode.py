@@ -1561,7 +1561,9 @@ def tool_module(spec: ServerSpec, plan: ToolPlan) -> str:
     lines += [
         "",
         "def register(mcp: FastMCP) -> None:",
-        f'    """Register the {plan.name} tool with the MCP server."""',
+        # The tool name is the only variable part; keep it on a line of its
+        # own so a long name cannot push the docstring past the line limit.
+        f'    """Register this tool with the MCP server:\n\n    {plan.name}\n    """',
         "",
         "    @mcp.tool(",
         f'        name="{plan.name}",',
