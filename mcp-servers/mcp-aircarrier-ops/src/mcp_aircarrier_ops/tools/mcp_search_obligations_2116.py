@@ -135,7 +135,7 @@ def register(mcp: FastMCP) -> None:
 
         One record is one contract action (modification) row; federal_action_obligation
         is that action's obligation. The source refreshes manual re-download from
-        USAspending and currently reflects 2026-06-10.
+        USAspending; as_of is the latest action_date in the table at query time.
 
         Returns: A pagination envelope with total, obligation_total (exact sum of
         federal_action_obligation over every matching action, not just this page),
@@ -215,16 +215,22 @@ def register(mcp: FastMCP) -> None:
                 for c in ("action_date", "modification_number", "transaction_number")
             )
             obligation = column("federal_action_obligation", COLUMNS)
+            action_date = column("action_date", COLUMNS)
+            # data_as_of is the latest action in the whole table (not just the
+            # filtered rows), so as_of says how fresh the source is.
             totals = run_query(
                 "SELECT COUNT(*) AS total, "  # nosemgrep # nosec B608
                 f"CAST(SUM(CAST({obligation} AS DECIMAL(20,2))) AS STRING) "
-                f"AS obligation_total FROM {TABLE}{joined}",
+                f"AS obligation_total, "
+                f"(SELECT CAST(MAX({action_date}) AS STRING) FROM {TABLE}) "
+                f"AS data_as_of FROM {TABLE}{joined}",
                 bound,
             )
             total = int(totals[0]["total"]) if totals else 0
             # Exact decimal string over every matching action, not just this
             # page, so an agent never has to add rows up itself.
             obligation_total = totals[0].get("obligation_total") if totals else None
+            data_as_of = (totals[0].get("data_as_of") if totals else None) or AS_OF
             select_list = ", ".join(
                 column(name, COLUMNS)
                 for name in SUMMARY_FIELDS
@@ -546,7 +552,7 @@ def register(mcp: FastMCP) -> None:
             }
         next_offset = offset + len(rows)
         return {
-            "as_of": AS_OF,
+            "as_of": data_as_of,
             "total": total,
             "obligation_total": obligation_total,
             "obligation_total_note": (

@@ -436,13 +436,20 @@ def _job_tool(
     else:
         aggregation = "sum"
     if aggregation == "count":
-        wants_amount = any(
-            w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text)
+        # 'How much has been obligated ... by fiscal year?' asks for an
+        # amount. Answering it with a row count is a confident wrong number
+        # (eval F6), so with no measure to add up the tool is refused.
+        wants_amount = (
+            " how much " in text
+            or any(w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text))
         ) and not any(cue in text for cue in _COUNT_CUES)
         if wants_amount:
             return (
                 None,
-                f"'{job}': no numeric column in '{source.name}' holds that amount.",
+                f"'{job}': no numeric column in '{source.name}' holds that "
+                "amount. If the amount is stored as text, re-profile the source "
+                "live so it is recognised as a measure and cast before it is "
+                "summed; never answer 'how much' with a row count.",
             )
         measure = None
     if aggregation == "avg" and measure is None:

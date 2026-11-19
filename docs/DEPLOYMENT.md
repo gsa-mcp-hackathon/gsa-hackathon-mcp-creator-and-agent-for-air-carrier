@@ -50,6 +50,24 @@ dropped them.
   forward the previous deployment's variables. Pass all 15 `env_vars` explicitly, or the app
   starts with no warehouse, catalog or models.
 
+> **Warning: a deploy without the 15 variables still reports SUCCEEDED.** The app then falls
+> back to the local defaults in `app/app.yaml` (`AIRCARRIER_DATA_BACKEND=files`, catalog
+> `aircarrier.default`, no `DATABRICKS_WAREHOUSE_ID`, run history kept in memory only). It does
+> not fail; it quietly gives wrong answers. This happened on 2026-11-12 and again on 2026-11-19
+> (deployments `01f1e3bb1063` and `01f1e3bc00c0`): Brief readiness for CVN-79 reported 0 claims
+> instead of 32, and the run was not saved. Fixed by deployment `01f1e3d515d1`.
+>
+> Only `bundle deploy` applies `resources/app.yml`. Treat `databricks apps deploy` and the
+> **Deploy** button in the Apps UI as unsafe until proven otherwise, and run the checks below
+> after using them.
+>
+> After any front-center deploy, check:
+>
+> 1. `GET /api/2.0/apps/aircarrier-front-center-dev/deployments/<id>` lists 15 `env_vars`
+>    (names only; values are not returned).
+> 2. The run log has no "No warehouse is bound" note, and Brief readiness counts the live
+>    CVN-79 claims (32 as of 2026-11-19), not 0.
+
 The workspace copy of the bundle is the latest source. Do not run `bundle deploy` from an older
 local clone; it would overwrite newer workspace files. To work locally, clone this GitHub
 repository instead.

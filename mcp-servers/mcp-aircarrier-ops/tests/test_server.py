@@ -231,6 +231,43 @@ async def test_obligation_search_returns_the_server_side_sum():
     assert out["count"] == 1 and out["has_more"] is True
 
 
+async def test_obligation_as_of_comes_from_the_data_not_a_constant():
+    """Eval F4: as_of said 2026-06-10 while the latest action was 2026-07-20."""
+    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+
+    seen: list[str] = []
+
+    def fake(sql, params):
+        seen.append(sql)
+        if "COUNT(*)" in sql:
+            return [
+                {"total": 1, "obligation_total": "1.00", "data_as_of": "2026-07-20"}
+            ]
+        return [{"modification_number": "0"}]
+
+    async def run(fake_fn):
+        original = ob.run_query
+        ob.run_query = fake_fn
+        try:
+            server = FastMCP("t")
+            ob.register(server)
+            tool = (await server.get_tools())["carrier_search_obligations_2116"]
+            return (
+                await tool.run({"fiscal_year": 2010, "limit": 1})
+            ).structured_content
+        finally:
+            ob.run_query = original
+
+    out = await run(fake)
+    assert out["as_of"] == "2026-07-20"
+    # MAX runs over the whole table (subquery), not only the filtered rows.
+    assert "(SELECT CAST(MAX(" in seen[0] and "AS data_as_of" in seen[0]
+
+    # A warehouse that returns no date falls back to the registered constant.
+    out = await run(lambda sql, params: [{"total": 0}] if "COUNT(*)" in sql else [])
+    assert out["as_of"] == ob.AS_OF
+
+
 async def test_get_exhibit_cells_returns_the_whole_table_in_order():
     """A table id holds 2 to ~1,600 cells; LIMIT 1 used to return one arbitrary cell."""
     from mcp_aircarrier_ops.tools import mcp_get_exhibit_cells as gx

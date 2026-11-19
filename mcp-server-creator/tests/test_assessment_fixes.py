@@ -531,3 +531,33 @@ def test_a_forward_window_question_is_reported_not_mapped_to_a_ranking():
     tools, notes = design_tools(spec)
     assert not any(t.goal == spec.jobs_to_be_done[0] for t in tools)
     assert any("moves with today" in note for note in notes)
+
+
+def test_how_much_is_never_answered_with_a_row_count():
+    """Eval F6: 'How much has been obligated ... by fiscal year?' became a count.
+
+    A profile taken before text-stored amounts were recognised has no measure.
+    The designer must refuse and say why, not count rows.
+    """
+    job = "How much has been obligated on contract N00024-09-C-2116, by fiscal year?"
+    stale = _lossless_2116()
+    for field in stale.fields:
+        if field.name == "federal_action_obligation":
+            field.role, field.stored_as_text = FieldRole.DIMENSION, False
+    spec = _spec([stale], [job])
+    plan, reason = _job_tool(spec, stale, job)
+    assert plan is None
+    assert "never answer 'how much' with a row count" in reason
+
+    # Re-profiled live, the text-stored amount is a measure and is summed.
+    fresh = _lossless_2116()
+    spec = _spec([fresh], [job])
+    plan, _ = _job_tool(spec, fresh, job)
+    assert plan is not None and plan.aggregation == "sum"
+    assert plan.measure_field == "federal_action_obligation"
+    assert plan.group_field == "action_date_fiscal_year"
+
+    # 'How many' is still a count.
+    job = "How many actions were there by fiscal year?"
+    plan, _ = _job_tool(_spec([stale], [job]), stale, job)
+    assert plan is not None and plan.aggregation == "count"
