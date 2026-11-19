@@ -12,14 +12,14 @@ from __future__ import annotations
 import re
 
 KINDS = (
-    ("budget_justification", re.compile(r"SCN_Book|J-?Book|Justification Book|_Book\b", re.I)),
-    ("selected_acquisition_report", re.compile(r"\bM?SAR\b|_SAR_|MSAR", re.I)),
-    ("crs_report", re.compile(r"^RS\d+|^R\d{5}|\bCRS\b", re.I)),
-    ("gao_report", re.compile(r"^gao", re.I)),
-    ("thesis_or_study", re.compile(r"^NPS", re.I)),
-    ("regulation_or_manual", re.compile(r"MAN_|Manual|5200\.45|Instruction|OPNAVINST|DoDI|FMR", re.I)),
+    ("budget_justification", re.compile(r"SCN_Book|J-?Book|Justification Book|_Book\b", re.IGNORECASE)),
+    ("selected_acquisition_report", re.compile(r"\bM?SAR\b|_SAR_|MSAR", re.IGNORECASE)),
+    ("crs_report", re.compile(r"^RS\d+|^R\d{5}|\bCRS\b", re.IGNORECASE)),
+    ("gao_report", re.compile(r"^gao", re.IGNORECASE)),
+    ("thesis_or_study", re.compile(r"^NPS", re.IGNORECASE)),
+    ("regulation_or_manual", re.compile(r"MAN_|Manual|5200\.45|Instruction|OPNAVINST|DoDI|FMR", re.IGNORECASE)),
 )
-EXHIBIT = re.compile(r"Exhibit\s+([PRO]-\d+[a-z]?)\s*,?\s*([^\n:]*?)(?::\s*(PB\s*\d{4}[^\n]*))?\s*$", re.M)
+EXHIBIT = re.compile(r"Exhibit\s+([PRO]-\d+[a-z]?)\s*,?\s*([^\n:]*?)(?::\s*(PB\s*\d{4}[^\n]*))?\s*$", re.MULTILINE)
 LINE_ITEM = re.compile(r"(?:LI|P-1 Line Item Number / Title:?)\s*\n?\s*(\d{4})\s*[-/]\s*([^\n]+)")
 APPROP = re.compile(r"Appropriation\s*/\s*Budget Activity[^:]*:\s*\n?\s*([0-9A-Z]{4,6}N?)\s*/\s*(\d+)(?:\s*/\s*(\d+))?")
 DATE = re.compile(r"\bDate:\s*([A-Z][a-z]+ \d{4})")
@@ -27,8 +27,8 @@ SAR_SECTION = re.compile(
     r"^\s*(Program Information|Responsible Office|References|Mission and Description|Executive Summary|"
     r"Threshold Breaches|Schedule|Performance|Track to Budget|Cost and Funding|Low Rate Initial Production|"
     r"Foreign Military Sales|Nuclear Costs|Unit Cost|Cost Variance|Contracts|Deliveries and Expenditures|"
-    r"Operating and Support Cost)\s*$", re.M)
-NUMBERED = re.compile(r"^\s*(Table|Figure)\s+(\d+[A-Z]?)\.\s+([^\n]+)", re.M)
+    r"Operating and Support Cost)\s*$", re.MULTILINE)
+NUMBERED = re.compile(r"^\s*(Table|Figure)\s+(\d+[A-Z]?)\.\s+([^\n]+)", re.MULTILINE)
 SAR_DOLLARS = re.compile(r"\b(BY\s?\d{4}\s*\$[MK]|TY\s*\$[MK])\b")
 
 

@@ -14,12 +14,12 @@ from decimal import Decimal
 
 from docs_core.grid import Table
 
-TOTAL = re.compile(r"^(grand\s+)?total\b|\btotal ship estimate\b|\btotal$", re.I)
-SUBTOTAL = re.compile(r"\bsub-?total\b", re.I)
-LESS = re.compile(r"^less\b", re.I)
-NET = re.compile(r"^net\b.*funding|^net p-1", re.I)
-SKIP = re.compile(r"^(less|plus|memo|note|percent|%|unit cost|qty|quantity)\b", re.I)
-SHIP_TOTAL = re.compile(r"total ship estimate|^total estimate", re.I)
+TOTAL = re.compile(r"^(grand\s+)?total\b|\btotal ship estimate\b|\btotal$", re.IGNORECASE)
+SUBTOTAL = re.compile(r"\bsub-?total\b", re.IGNORECASE)
+LESS = re.compile(r"^less\b", re.IGNORECASE)
+NET = re.compile(r"^net\b.*funding|^net p-1", re.IGNORECASE)
+SKIP = re.compile(r"^(less|plus|memo|note|percent|%|unit cost|qty|quantity)\b", re.IGNORECASE)
+SHIP_TOTAL = re.compile(r"total ship estimate|^total estimate", re.IGNORECASE)
 
 
 def tolerance(*places: int) -> Decimal:

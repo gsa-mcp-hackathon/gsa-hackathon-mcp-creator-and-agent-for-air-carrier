@@ -38,7 +38,11 @@ print(f"  {'GFE-bearing categories':<42}{gfe:>12,.3f}{gfe/TOT*100:>8.1f}%")
 print(f"  {'Shipbuilder-side categories':<42}{sb:>12,.3f}{sb/TOT*100:>8.1f}%")
 # reconcile to the actual obligated DD&C contract
 ddc_obl=4584.484; ddc_val=4615.796
-print(f"\n  DD&C N00024-15-C-2114 obligated (USAspending, 2026-07-20): {ddc_obl:,.3f}")
+print(f"\n  DD&C N00024-15-C-2114 obligated, award-level total (USAspending award record, 2026-07-20): {ddc_obl:,.3f}")
+# The transaction sum differs (finding F8); quote one with its basis, never interchangeably.
+ddc_txn=4578.603  # sum of 927 prime transactions, $4,578,603,345.77
+print(f"  DD&C N00024-15-C-2114 obligated, sum of 927 transactions (USAspending):          {ddc_txn:,.3f}")
+print(f"  -> award-level minus transaction sum: {ddc_obl-ddc_txn:,.3f} $M; quote the basis with each figure")
 print(f"  DD&C current/potential total value:                        {ddc_val:,.3f}")
 print(f"  Basic Construction + Change Orders + Plan:                 {cat5['Basic Construction/Conversion']+cat5['Change Orders']+cat5['Plan Costs']:,.3f}")
 print(f"  -> DD&C obligations are {ddc_obl/(cat5['Basic Construction/Conversion']+cat5['Change Orders']+cat5['Plan Costs'])*100:.1f}% of the shipbuilder-side budget categories")

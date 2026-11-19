@@ -12,6 +12,7 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export PYTHONDONTWRITEBYTECODE=1
 PYTEST_FLAGS=(-q -p no:cacheprovider)
+RUFF_PIN=0.17.5
 PROJECTS=(creator ops bakehouse weather docs analyst probe mcp-local one-hub evidence)
 FAILED=()
 
@@ -37,6 +38,8 @@ req_project() {
     uv venv --quiet --allow-existing .venv || exit 1
     uv pip install --quiet --python .venv -r requirements.txt pytest pytest-asyncio || exit 1
     PYTHONPATH=src .venv/bin/python -m pytest "$target" "${PYTEST_FLAGS[@]}" || exit 1
+    # Hand-written projects carry no ruff config, so pin the version (finding F12).
+    uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
   )
 }
 

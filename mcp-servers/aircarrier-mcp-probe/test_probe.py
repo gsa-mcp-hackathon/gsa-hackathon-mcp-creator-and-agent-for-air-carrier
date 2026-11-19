@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-import probe as P  # noqa: E402
+import probe as P
 
 DOCS_OK = {"value_musd": "13529", "n_text_hits": 2, "text_hits": [
     {"filename": "CVN_78_MSAR_FY2027_PBv2.pdf", "page": 8, "printed": "$13.529 billion"}]}
