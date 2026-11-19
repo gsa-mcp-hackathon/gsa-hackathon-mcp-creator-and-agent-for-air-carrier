@@ -146,6 +146,20 @@ async def test_counts_tool_does_not_report_an_exposure_sum_by_default():
         counts.run_query = original
     assert out["totals"]["record_count"] == 5
     assert "exposure" not in out and "exposure_note" in out
+    assert "freshness_note" in out  # 2026-11-10 is well past two days old
+
+
+def test_counts_freshness_note_names_the_snapshot_date():
+    """Evaluation finding F5: the counts came back seven days old with no warning."""
+    from datetime import datetime
+
+    from mcp_aircarrier_ops.tools.mcp_work_register_totals import freshness_note
+
+    now = datetime(2026, 11, 19, 12, 0)
+    note = freshness_note("2026-11-12 15:15:00", now=now)
+    assert note and "2026-11-12" in note and "6 days ago" in note
+    assert freshness_note("2026-11-18 15:15:00", now=now) is None
+    assert freshness_note("not a date", now=now) is None
 
 
 async def test_obligation_search_defaults_to_summary_fields():

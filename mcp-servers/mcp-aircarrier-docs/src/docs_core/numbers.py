@@ -16,10 +16,10 @@ _NUM = re.compile(r"^\(?-?\$?\s?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\)?%?$")
 NIL = {"-", "\u2013", "\u2014", "--", "n/a", "N/A", "na", "NA", ""}
 
 SCALES = (  # (pattern, multiplier to dollars, label)
-    (re.compile(r"\$\s*(?:in\s+)?b(?:illions?)?\b|\(\$\s*B\)|\bbillions?\s+of\b", re.I), Decimal(10) ** 9, "B"),
-    (re.compile(r"\(\$\s*M\)|\$\s*(?:in\s+)?m(?:illions?)?\b|\bmillions?\s+of\b|\$M\b|\(\$\s*in\s+millions\)", re.I),
+    (re.compile(r"\$\s*(?:in\s+)?b(?:illions?)?\b|\(\$\s*B\)|\bbillions?\s+of\b", re.IGNORECASE), Decimal(10) ** 9, "B"),
+    (re.compile(r"\(\$\s*M\)|\$\s*(?:in\s+)?m(?:illions?)?\b|\bmillions?\s+of\b|\$M\b|\(\$\s*in\s+millions\)", re.IGNORECASE),
      Decimal(10) ** 6, "M"),
-    (re.compile(r"\(\$\s*K\)|\(\$\s*000s?\)|\$\s*(?:in\s+)?thousands\b|\bthousands\s+of\b|\$K\b|TY\s*\$K", re.I),
+    (re.compile(r"\(\$\s*K\)|\(\$\s*000s?\)|\$\s*(?:in\s+)?thousands\b|\bthousands\s+of\b|\$K\b|TY\s*\$K", re.IGNORECASE),
      Decimal(10) ** 3, "K"),
 )
 
@@ -90,4 +90,4 @@ def variants(value_m: Decimal) -> list[re.Pattern]:
             txt = f"{b:.{dp}f}"
             if dp == 2 or Decimal(txt) * 1000 == q:
                 pats.append(rf"(?<![\d.,])\$?{re.escape(txt)}\s*billion")
-    return [re.compile(p, re.I) for p in pats]
+    return [re.compile(p, re.IGNORECASE) for p in pats]

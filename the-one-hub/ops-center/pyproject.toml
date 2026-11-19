@@ -12,7 +12,14 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pytest>=8.0", "ruff>=0.6"]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+  # checks/test_mcp_server.py builds the server; mcp 2.0 removed mcp.server.fastmcp.
+  "mcp>=1.2.0,<2",
+  # checks/test_harness.py fakes Spark but imports pyspark types; no cluster needed.
+  "pyspark>=3.5",
+]
 
 # uv manages the lock file. The lock is what makes the build reproducible when
 # someone else redeploys it, and it is required for IL5 where PyPI is not

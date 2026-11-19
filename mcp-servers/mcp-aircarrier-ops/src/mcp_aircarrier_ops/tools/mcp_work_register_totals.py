@@ -12,6 +12,7 @@ tool is registered as carrier_work_register_counts.
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Annotated, Any
 
 from fastmcp import FastMCP
@@ -32,6 +33,27 @@ from mcp_aircarrier_ops.models import (
 )
 
 TOOL_NAME = "carrier_work_register_counts"
+
+# The register refreshes each dispatcher tick. A newest row older than this
+# means the ticks stopped, and the counts describe that day, not today.
+STALE_AFTER_DAYS = 2
+
+
+def freshness_note(as_of: str, now: datetime | None = None) -> str | None:
+    """Say how old the register is when its newest row is past STALE_AFTER_DAYS."""
+    try:
+        stamp = datetime.fromisoformat(str(as_of)[:19].replace("T", " "))
+    except ValueError:
+        return None
+    now = now or datetime.now(timezone.utc).replace(tzinfo=None)
+    age = (now - stamp).days
+    if age <= STALE_AFTER_DAYS:
+        return None
+    return (
+        f"The newest work item was updated {stamp:%Y-%m-%d}, {age} days ago, so "
+        "these counts describe the register on that date. Say so when you report them."
+    )
+
 
 TABLE = qualified(
     sources.WORK_REGISTER_CATALOG,
@@ -156,6 +178,9 @@ def register(mcp: FastMCP) -> None:
             "by_kind_state": by_kind_state,
             "filters_applied": len(clauses),
         }
+        note = freshness_note(out["as_of"])
+        if note:
+            out["freshness_note"] = note
         if with_exposure:
             out["exposure"] = {
                 "records_with_exposure": with_exposure,

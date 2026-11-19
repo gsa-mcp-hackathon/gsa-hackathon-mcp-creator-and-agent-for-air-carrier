@@ -24,9 +24,10 @@ import os
 import re
 import time
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Callable
+from datetime import UTC, datetime
+from typing import Any
 from urllib.parse import urlsplit, urlunsplit
 
 PROTOCOL = "2025-06-18"
@@ -133,7 +134,7 @@ def tool_body(result: dict) -> Any:
 class Sweep:
     """One pass over all targets. post(url, headers, json) -> (status, text)."""
 
-    def __init__(self, resolve, headers, post, now=lambda: datetime.now(timezone.utc)):
+    def __init__(self, resolve, headers, post, now=lambda: datetime.now(UTC)):
         self.resolve, self.headers, self.post, self.now = resolve, headers, post, now
         self.run_id = "probe-" + uuid.uuid4().hex[:12]
         self.rows: list[dict] = []

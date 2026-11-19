@@ -110,9 +110,9 @@ def premise_flags(query: str, terms) -> list[dict]:
     q = query or ""
     found: list[dict] = []
     for term, why in sorted(terms or [], key=lambda t: -len(t[0])):
-        if term and re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", q, re.I):
-            if not any(term.lower() in f["term"].lower() for f in found):
-                found.append({"term": term, "why": why})
+        if (term and re.search(r"(?<![A-Za-z0-9])" + re.escape(term) + r"(?![A-Za-z0-9])", q, re.IGNORECASE)
+                and not any(term.lower() in f["term"].lower() for f in found)):
+            found.append({"term": term, "why": why})
     return found
 
 

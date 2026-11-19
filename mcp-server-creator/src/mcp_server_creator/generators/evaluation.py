@@ -267,9 +267,11 @@ __all__ = ["match_expected_response", "check_answer_scope"]
 
 CREATE_DATASET = r'''"""Upload a CSV dataset to Phoenix.
 
-    uv run create_dataset.py --list
-    uv run create_dataset.py --dataset-name {{dataset_name}} --dry-run
-    uv run create_dataset.py --dataset-name {{dataset_name}}
+Run inside the harness environment described in eval/README.md:
+
+    python create_dataset.py --list
+    python create_dataset.py --dataset-name {{dataset_name}} --dry-run
+    python create_dataset.py --dataset-name {{dataset_name}}
 """
 
 from __future__ import annotations
@@ -350,9 +352,11 @@ if __name__ == "__main__":
 
 RUN_EXPERIMENT = r'''"""Run an experiment: the agent plus the judges, against a dataset.
 
-    uv run run_experiment.py --dataset-name {{dataset_name}}
-    uv run run_experiment.py --dataset-name {{dataset_name}} --no-tools
-    uv run run_experiment.py --dataset-name {{dataset_name}} \
+Run inside the harness environment described in eval/README.md:
+
+    python run_experiment.py --dataset-name {{dataset_name}}
+    python run_experiment.py --dataset-name {{dataset_name}} --no-tools
+    python run_experiment.py --dataset-name {{dataset_name}} \
         --system-prompt-version v2 --repeats 3
 
 `--no-tools` is the baseline. The gap between it and the tooled run is the
@@ -566,9 +570,13 @@ holding only these tool names, schemas, and docstrings can answer a question
 ## Setup
 
 ```bash
-uv sync --group dev
 cp eval/.env.example eval/.env    # then fill it in
 ```
+
+The harness has its own dependencies in `eval/requirements.txt`, apart from the
+server's. `uv run --no-project --with-requirements ../requirements.txt` builds
+and caches an isolated environment for them on first use, so `uv sync` for the
+server never has to resolve Phoenix or LangChain.
 
 `AGENT_MODEL` and `JUDGE_MODEL` are deliberately separate. Judging with a
 different, usually stronger model reduces self-preference bias and lets you
@@ -579,15 +587,19 @@ hold the judge fixed while you iterate on the agent.
 ```bash
 cd eval/phoenix
 
-uv run arize-phoenix serve                                  # UI on :6006
+uv run --no-project --with-requirements ../requirements.txt phoenix serve  # :6006
 
-uv run create_dataset.py --dataset-name {{dataset_name}} --dry-run
-uv run create_dataset.py --dataset-name {{dataset_name}}
+uv run --no-project --with-requirements ../requirements.txt \\
+    python create_dataset.py --dataset-name {{dataset_name}} --dry-run
+uv run --no-project --with-requirements ../requirements.txt \\
+    python create_dataset.py --dataset-name {{dataset_name}}
 
-uv run run_experiment.py --dataset-name {{dataset_name}} --no-tools
-uv run run_experiment.py --dataset-name {{dataset_name}}
-uv run run_experiment.py --dataset-name {{dataset_name}} \\
-    --system-prompt-version v2
+uv run --no-project --with-requirements ../requirements.txt \\
+    python run_experiment.py --dataset-name {{dataset_name}} --no-tools
+uv run --no-project --with-requirements ../requirements.txt \\
+    python run_experiment.py --dataset-name {{dataset_name}}
+uv run --no-project --with-requirements ../requirements.txt \\
+    python run_experiment.py --dataset-name {{dataset_name}} --system-prompt-version v2
 ```
 
 ## Fill in the answers first
@@ -908,8 +920,13 @@ def generate_evaluation(spec: ServerSpec) -> FileManifest:
 
 
 def eval_dependencies() -> list[str]:
-    """Dev dependencies the generated evaluation harness needs."""
+    """What the generated evaluation harness needs, for eval/requirements.txt."""
     return [
+        # answer_key.py queries governed tables directly, never via the server.
+        "databricks-sdk>=0.30.0",
+        # langchain-mcp-adapters imports mcp.shared.context.RequestContext,
+        # which mcp 2.0 removed. Same ceiling as the deployment kit's pin.
+        "mcp>=1.24,<2",
         "arize-phoenix>=18.0.0",
         "arize-phoenix-client>=2.13.0",
         "arize-phoenix-evals>=3.1.1",

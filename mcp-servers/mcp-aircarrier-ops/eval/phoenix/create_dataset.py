@@ -1,8 +1,10 @@
 """Upload a CSV dataset to Phoenix.
 
-uv run create_dataset.py --list
-uv run create_dataset.py --dataset-name mcp-eval-0 --dry-run
-uv run create_dataset.py --dataset-name mcp-eval-0
+Run inside the harness environment described in eval/README.md:
+
+python create_dataset.py --list
+python create_dataset.py --dataset-name mcp-eval-0 --dry-run
+python create_dataset.py --dataset-name mcp-eval-0
 """
 
 from __future__ import annotations

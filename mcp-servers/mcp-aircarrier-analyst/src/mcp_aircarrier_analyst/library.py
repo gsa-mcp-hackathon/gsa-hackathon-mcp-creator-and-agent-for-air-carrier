@@ -44,7 +44,7 @@ CATEGORIES = (
 
 def category(filename: str) -> str:
     for name, pat in CATEGORIES:
-        if re.search(pat, filename or "", re.I):
+        if re.search(pat, filename or "", re.IGNORECASE):
             return name
     return "other"
 

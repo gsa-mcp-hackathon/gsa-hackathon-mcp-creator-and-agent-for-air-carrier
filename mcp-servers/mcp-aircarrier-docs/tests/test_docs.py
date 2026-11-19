@@ -8,9 +8,10 @@ import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from docs_core import extract, grid, numbers as N, search, structure, tieout  # noqa: E402
-from docs_core.corpus import Corpus  # noqa: E402
-from mcp_aircarrier_docs import service, store, volume  # noqa: E402
+from docs_core import extract, grid, search, structure, tieout
+from docs_core import numbers as N
+from docs_core.corpus import Corpus
+from mcp_aircarrier_docs import service, store, volume
 
 AID = "bb2e90fd1d91a0bc"
 TITLE = ["Exhibit P-5c, Ship Cost Analysis: PB 2027 Navy", "Date: April 2026"]
@@ -62,7 +63,7 @@ def test_places_and_scales():
     assert N.scale_of("Total Cost ($ M)")[1] == "M"
     assert N.scale_of("TY $K")[1] == "K"
     assert N.scale_of("Qty (Each)") is None
-    assert N.to_millions(Decimal("1500"), "K") == Decimal("1.5")
+    assert N.to_millions(Decimal(1500), "K") == Decimal("1.5")
 
 
 def test_variants_match_prose():
@@ -73,7 +74,7 @@ def test_variants_match_prose():
 
 def test_variants_billions_three_places():
     """MSAR prose prints $12.936 billion and $13.529 billion (wrapped across a line)."""
-    hit = lambda v, s: any(p.search(s) for p in N.variants(Decimal(v)))  # noqa: E731
+    hit = lambda v, s: any(p.search(s) for p in N.variants(Decimal(v)))
     assert hit("13529", "from $12.936\nbillion to $13.529 billion.")
     assert hit("12936", "from $12.936\nbillion to $13.529 billion.")
     assert hit("13529", "about $13.53 billion")             # rounded print, as before
@@ -107,7 +108,7 @@ def test_a_wrong_cell_fails():
     bad[4][3] = "8,463.157"  # one unit off in the last place is caught
     bad[5][3] = "432.066"
     c = Corpus(*rows(p95=bad))
-    r = [x for x in c.tieouts(f"{AID}:0095:00") if x["rule"] == "total_equals_sum_of_rows"][0]
+    r = next(x for x in c.tieouts(f"{AID}:0095:00") if x["rule"] == "total_equals_sum_of_rows")
     assert not r["passed"] and r["difference"] == "-0.002"
 
 

@@ -125,8 +125,9 @@ def fake_store(monkeypatch):
 
 
 def call(name, args):
-    from mcp_aircarrier_analyst.app import mcp
     from fastmcp import Client
+
+    from mcp_aircarrier_analyst.app import mcp
 
     async def go():
         async with Client(mcp) as cl:
@@ -139,8 +140,9 @@ def payload(res):
 
 
 def test_tools_listed():
-    from mcp_aircarrier_analyst.app import mcp
     from fastmcp import Client
+
+    from mcp_aircarrier_analyst.app import mcp
 
     async def go():
         async with Client(mcp) as cl:
@@ -204,5 +206,5 @@ VENDORED = ("catalog.py", "analyst/__init__.py", "analyst/loa.py", "analyst/engi
 @pytest.mark.parametrize("rel", VENDORED)
 def test_vendored_engine_matches_bundle(rel):
     here = Path(engine.__file__).parents[1] / rel
-    h = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()  # noqa: E731
+    h = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
     assert h(here) == h(BUNDLE / rel), f"src/core/{rel} drifted from the bundle; recopy it"

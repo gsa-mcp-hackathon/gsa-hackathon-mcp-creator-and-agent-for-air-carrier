@@ -6,7 +6,7 @@
    "status": "live",
    "flag": "",
    "title": "Three different cost caps in circulation",
-   "detail": "Statutory cap $11,398.0M, SECNAV Cost Limitation Baseline $12,936M, budget submission $13,409.970M. All three are current and all three are correct for their own purpose. Any product showing one number as the cost cap will be wrong."
+   "detail": "Statutory cap $11,398.0M, SECNAV Cost Limitation Baseline $12,936M, budget submission $13,409.970M. All three are current and all three are correct for their own purpose. Any product showing one number as the cost cap will be wrong. The baseline itself is under review: see E-17."
   },
   {
    "id": "E-2",
@@ -112,6 +112,13 @@
    "flag": "METHOD",
    "title": "FPDS-NG and USAspending differ by $583,963.00 on the construction preparation contract: an as-of difference",
    "detail": "Resolved 2026-11-08. The contract is N00024-09-C-2116 (construction preparation), not the DD&C contract N00024-15-C-2114, whose transaction sum is $4,578,603,345.77. The FPDS-NG ATOM feed reported totalObligatedAmount $4,518,716,360.83 against USAspending's transaction sum of $4,519,300,323.83. The USAspending running total on 09-C-2116 through action date 2026-06-10 is exactly $4,518,716,360.83. The eight actions dated 2026-06-17 to 2026-07-20 (A00645 to AZ0122) sum to exactly $583,963.00. Cause: as-of date. totalObligatedAmount is cumulative per modification, and the entry read was the 10 June action, not the latest. Method rule: read totalObligatedAmount from the latest modification, and state the as-of date with every obligation figure. Caveat: the FPDS side is the figure as recorded on 2026-11-08 and was not re-pulled."
+  },
+  {
+   "id": "E-17",
+   "status": "live",
+   "flag": "KEY",
+   "title": "A December 2025 Cost Limitation Baseline of $13,529M is printed but not yet confirmed",
+   "detail": "The FY2027 MSAR (CVN_78_MSAR_FY2027_PBv2.pdf, p.8) says that in December 2025 the Secretary of the Navy notified Congress he was increasing the CVN-79 Cost Limitation Baseline from $12.936B to $13.529B. The One Hub still carries $12,936M (August 2023) as the baseline in force, because the figure gate routed $13,529M to human review: it comes from an MSAR sentence, not the notification, with no adjustments or exclusions. Hull caution: $13.529B is also CVN 80's baseline since August 2023 (MSAR Dec 2023, p.7). If confirmed, the FY2027 budget total of $13,409.970M sits $119.03M under the baseline rather than $473.97M over it. Open with OUSD(C) FMO as the CAP-05 request; registered 2026-11-19 from evaluation finding F1."
   }
  ]
 }

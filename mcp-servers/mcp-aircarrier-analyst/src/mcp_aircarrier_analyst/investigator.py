@@ -32,11 +32,13 @@ loop runs in tests on fake sources.
 """
 from __future__ import annotations
 
+import logging
 import math
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from decimal import Decimal, InvalidOperation
-from typing import Any, Callable, Protocol
+from typing import Any, Protocol
 
 from core.analyst import loa
 
@@ -497,7 +499,7 @@ def _s_tas(case: Case, clue: Clue, src: Sources) -> dict:
         if not m:
             return {"found": f"{clue.value!r} is not a parseable TAS or main account"}
         main = m.group(1)
-        colour, title = loa.MAIN_ACCOUNTS.get(main, ("OTHER", "unknown"))
+        _colour, title = loa.MAIN_ACCOUNTS.get(main, ("OTHER", "unknown"))
         case.element("appropriation", f"{main} {title}", "main account in the record", 0.9, "parsed")
         return {"found": f"main account {main} ({title}); no availability years, so no budget year. SCN funds "
                          "every ship type (submarines too), so the account alone does not move any case"}
@@ -572,7 +574,7 @@ def _s_text(case: Case, clue: Clue, src: Sources) -> dict:
         case.flags.append("Name collision: 'Enterprise' alone fits CVN-80 and CVN-65.")
     for term, why in case.k.neg_terms.items():
         if len(term) >= 4 and not PIID_RE.match(term.upper()) and re.search(r"\b" + re.escape(term.upper()) + r"\b", t):
-            if re.search(r"submarine|SSBN|Columbia|LCAC|sonar|acoustic", why, re.I):
+            if re.search(r"submarine|SSBN|Columbia|LCAC|sonar|acoustic", why, re.IGNORECASE):
                 hits.append(f"negative term {term}")
                 case.ev("text_cues", "text_not_carrier", f"Negative vocabulary {term!r}: {why}", {"NOT_CARRIER": 1.0},
                         "WORKING", "seed/negative_vocabulary.yaml via knowledge graph", clue=clue.id)
@@ -823,8 +825,8 @@ def investigate(record: dict, k: Knowledge, src: Sources, max_hops: int = 4,
         case.caveats += [{"rule": m.get("statement"), "consequence": m.get("consequence"),
                           "citation": m.get("citation"), "review_state": m.get("review_state")}
                          for m in src.mechanisms(_mech_terms(case), 5)]
-    except Exception:  # noqa: BLE001
-        pass
+    except Exception as error:  # noqa: BLE001  # caveats are optional; the case still scores
+        logging.getLogger(__name__).warning("mechanism caveats unavailable: %s", error)
 
     post = score(case.evidence)
     ranked = sorted(post, key=post.get, reverse=True)

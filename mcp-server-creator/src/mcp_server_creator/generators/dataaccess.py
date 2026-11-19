@@ -10,6 +10,9 @@ code they contain uses double-quoted docstrings.
 
 from __future__ import annotations
 
+import textwrap
+
+from mcp_server_creator.generators.toolcode import _string_literal
 from mcp_server_creator.models import ServerSpec, SourceKind
 from mcp_server_creator.utils import docstring_safe, render, to_identifier
 
@@ -695,16 +698,39 @@ def _constant_prefix(name: str) -> str:
     return to_identifier(name).upper()
 
 
+def _text_constant(name: str, text: str) -> list[str]:
+    """Assign free text to a constant, wrapped when it would pass 88 columns.
+
+    Grain, cadence and as-of come from the user's description of the source,
+    so they can be a full sentence. Ruff cannot split a long string literal,
+    which would fail the generated project's own lint on its first commit.
+    """
+    one_line = f'{name} = "{docstring_safe(text)}"'
+    if len(one_line) <= 88:
+        return [one_line]
+    return [f"{name} = (", *_string_literal(text, "    "), ")"]
+
+
 def sources_module(spec: ServerSpec) -> str:
     """Render `data/sources.py`: coordinates and freshness per source."""
     lines = [SOURCES_HEADER]
     for source in spec.data_sources:
         prefix = _constant_prefix(source.name)
-        lines.append(f"# --- {source.name}: {docstring_safe(source.title or '')}")
+        heading = f"--- {source.name}: {docstring_safe(source.title or '')}"
+        lines.extend(
+            textwrap.wrap(
+                heading,
+                width=88,
+                initial_indent="# ",
+                subsequent_indent="#     ",
+                break_long_words=False,
+            )
+            or ["# ---"]
+        )
         lines.append(f'{prefix}_KIND = "{source.kind.value}"')
-        lines.append(f'{prefix}_GRAIN = "{docstring_safe(source.grain)}"')
-        lines.append(f'{prefix}_CADENCE = "{docstring_safe(source.update_cadence)}"')
-        lines.append(f'{prefix}_AS_OF = "{docstring_safe(source.as_of)}"')
+        lines.extend(_text_constant(f"{prefix}_GRAIN", source.grain))
+        lines.extend(_text_constant(f"{prefix}_CADENCE", source.update_cadence))
+        lines.extend(_text_constant(f"{prefix}_AS_OF", source.as_of))
         if source.catalog:
             lines.append(f'{prefix}_CATALOG = "{source.catalog}"')
         if source.schema_name:

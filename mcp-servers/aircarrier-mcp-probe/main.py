@@ -82,7 +82,7 @@ def _loop():
     while True:
         try:
             sweep()
-        except Exception:  # noqa: BLE001
+        except Exception:
             log.exception("sweep crashed")
         time.sleep(INTERVAL_S)
 

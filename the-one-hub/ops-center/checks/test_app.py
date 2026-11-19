@@ -148,6 +148,20 @@ def main_() -> int:
         f"found {seen}")
     reg("/position names G12 as the unexplained difference", "G12" in html and "cannot yet be explained" in html)
 
+    # ---- 2026-11-19: evaluation findings F1 and F2 ----
+    # F2: the cap is 10 U.S.C. 8692 (Ford-class cost limitation baselines);
+    # 8691 is carrier dismantlement and disposal. Two screens cited 8691.
+    wrong = [p for p in ("/position", "/dashboard", "/baseline", "/rules")
+             if "8691" in c.get(p).text]
+    reg("no screen cites 10 U.S.C. 8691 for the cost cap", not wrong, f"found on {wrong}")
+    reg("/position cites 10 U.S.C. 8692 for the statutory cap", "U.S.C. 8692" in html)
+    # F1: the December 2025 baseline in the FY2027 MSAR is registered, linked
+    # from the baseline card, and not silently swapped in for $12,936M.
+    reg("/position links the baseline card to variance E-17",
+        'href="/variances#E-17"' in html and "$12,936.0M" in html)
+    vhtml = c.get("/variances").text
+    reg("/variances shows E-17 with the $13,529M figure", "E-17" in vhtml and "13,529" in vhtml)
+
     r = c.get("/api/explore/transactions", params={"f.award_id_piid": "N0002409C2116"}).json()
     reg("detail table: 2116 is 948 rows, $4,519,300,323.83 exactly",
         r["total"] == 948 and r["sum"] == "4519300323.83", f"{r['total']} {r['sum']}")

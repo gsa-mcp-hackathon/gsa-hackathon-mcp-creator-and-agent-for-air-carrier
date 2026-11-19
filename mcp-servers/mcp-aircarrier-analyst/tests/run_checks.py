@@ -16,18 +16,18 @@ shutil.rmtree("/tmp/mca", ignore_errors=True)
 shutil.copytree(ROOT, "/tmp/mca", ignore=shutil.ignore_patterns("__pycache__", ".git"))
 
 res = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "tests"],  # nosec B603
-                     cwd="/tmp/mca", capture_output=True, text=True, env={**os.environ, "PYTHONPATH": "/tmp/mca/src",
+                     check=False, cwd="/tmp/mca", capture_output=True, text=True, env={**os.environ, "PYTHONPATH": "/tmp/mca/src",
                                                                           "PYTHONDONTWRITEBYTECODE": "1"})
 print("PYTEST_EXIT", res.returncode)
 print(res.stdout[-6000:])
 print(res.stderr[-2000:])
 
 sys.path.insert(0, "/tmp/mca/src")
-from pyspark.sql import SparkSession  # noqa: E402
+from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
-from mcp_aircarrier_analyst import investigator as inv  # noqa: E402
-from mcp_aircarrier_analyst import library, warehouse  # noqa: E402
+from mcp_aircarrier_analyst import investigator as inv
+from mcp_aircarrier_analyst import library, warehouse
 
 
 def spark_run(sql, params=None):

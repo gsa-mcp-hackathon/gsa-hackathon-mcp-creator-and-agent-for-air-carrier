@@ -14,7 +14,7 @@ import re
 
 MAX_BYTES = 60 * 1024 * 1024
 MAX_PAGES = 40
-_TITLE = re.compile(r"^\s*(Exhibit\s+[A-Z]-\d+|Appropriation|P-1 Line Item|Date:|Table\s+\d+\.|Figure\s+\d+\.)", re.I)
+_TITLE = re.compile(r"^\s*(Exhibit\s+[A-Z]-\d+|Appropriation|P-1 Line Item|Date:|Table\s+\d+\.|Figure\s+\d+\.)", re.IGNORECASE)
 _NUMS = re.compile(r"\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+\.\d{2,}")
 
 

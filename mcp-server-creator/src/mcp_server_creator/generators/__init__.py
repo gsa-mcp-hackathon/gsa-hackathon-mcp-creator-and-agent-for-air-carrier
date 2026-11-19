@@ -64,22 +64,27 @@ def generate_full_project(
 
 
 def _add_eval_dependency_group(manifest: FileManifest, spec: ServerSpec) -> None:
-    """Fold the evaluation dependencies into the generated pyproject."""
-    for generated in manifest.files:
-        if generated.path != "pyproject.toml":
-            continue
-        extras = "\n".join(f'    "{dep}",' for dep in evaluation.eval_dependencies())
-        updated = generated.content.replace(
-            '    "ruff>=0.6.0",\n]',
-            '    "ruff>=0.6.0",\n' + extras + "\n]",
-        )
-        manifest.add(
-            "pyproject.toml",
-            updated,
-            "Packaging, lint, test, and evaluation dependencies",
-        )
-        return
-    manifest.warnings.append(
-        f"Could not fold evaluation dependencies into pyproject.toml for "
-        f"{spec.server_name}; add them by hand."
+    """Write the evaluation dependencies to eval/requirements.txt.
+
+    They stay out of pyproject.toml on purpose. uv resolves every dependency
+    group together with the project and installs `dev` by default, so a
+    harness pin that disagrees with the server's own pins (arize-phoenix 20.7
+    and later need fastmcp 4; the server pins fastmcp below 3) would make
+    `uv sync` fail before the server ever starts. The Phoenix harness launches
+    the server as a subprocess, so it does not need to share its environment.
+    """
+    lines = [
+        "# Evaluation harness dependencies (eval/phoenix and eval/answer_key.py).",
+        "# Kept apart from pyproject.toml so `uv sync` for the server never has",
+        "# to resolve them. Install into an isolated environment, for example:",
+        "#   cd eval/phoenix",
+        "#   uv run --no-project --with-requirements ../requirements.txt \\",
+        "#       python run_experiment.py --dataset-name <name>",
+        *evaluation.eval_dependencies(),
+        "",
+    ]
+    manifest.add(
+        "eval/requirements.txt",
+        "\n".join(lines),
+        f"Evaluation dependencies for {spec.server_name}, isolated from the server",
     )

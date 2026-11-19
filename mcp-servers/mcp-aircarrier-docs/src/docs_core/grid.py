@@ -16,7 +16,7 @@ from decimal import Decimal
 
 from docs_core import numbers as N
 
-COUNT = re.compile(r"\b(qty|quantity|each|units?|percent|ratio|index|fte|count|number of)\b|%", re.I)
+COUNT = re.compile(r"\b(qty|quantity|each|units?|percent|ratio|index|fte|count|number of)\b|%", re.IGNORECASE)
 TITLE_ROW = ("Exhibit", "Appropriation", "P-1 Line")
 
 

@@ -88,7 +88,7 @@ def test_amount_alone_chains_to_cvn79_deterministically():
     assert r["cases"][0]["basis"] == "deterministic"
     skills = [s["skill"] for s in r["trail"]]
     assert skills.index("fpds_amount") < skills.index("keyset")          # amount found the PIID first
-    piid = [c for c in r["clue_chain"] if c["key"] == "piid"][0]
+    piid = next(c for c in r["clue_chain"] if c["key"] == "piid")
     assert piid["from"] == "fpds_amount" and piid["strength"] == "exact" and piid["parent"] == 1
     assert any(e["value"] == "N0002415C2114" for e in r["data_elements_recovered"]["piid"])
     assert r["perfect_match"] is True and r["human_review"]["required"] is False

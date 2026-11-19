@@ -259,8 +259,10 @@ write("estimate_history", {
 write("cap_history", {
  "source": "ring0/RING0_CVN79.md C.4, from CRS RS20643 footnotes",
  "three_ceilings": [
-  {"name": "Statutory cost cap", "value": 11398.0, "basis": "10 U.S.C. 8691, FY2020 NDAA", "note": "SECNAV may raise by up to $100M to $11,498M"},
-  {"name": "SECNAV Cost Limitation Baseline", "value": 12936.0, "basis": "Aug 2023 notification to Congress", "note": ""},
+  {"name": "Statutory cost cap", "value": 11398.0, "basis": "10 U.S.C. 8692, FY2020 NDAA", "note": "SECNAV may raise by up to $100M to $11,498M"},
+  {"name": "SECNAV Cost Limitation Baseline", "value": 12936.0, "basis": "Aug 2023 notification to Congress",
+   "note": "Raised to $13,529M in December 2025 per the FY2027 MSAR, p.8. Held for human review under "
+   "CAP-05 before it replaces this figure; see E-17", "var": "E-17"},
   {"name": "Budget submission total", "value": 13409.970, "basis": "FY2027 PB", "note": "All three are current and all three are correct for their own purpose"},
  ],
  "rows": [
@@ -632,7 +634,7 @@ write("variances", {
   {"id": "E-1", "status": "live", "flag": "", "title": "Three different cost caps in circulation",
    "detail": "Statutory cap $11,398.0M, SECNAV Cost Limitation Baseline $12,936M, budget submission "
    "$13,409.970M. All three are current and all three are correct for their own purpose. Any product "
-   "showing one number as the cost cap will be wrong."},
+   "showing one number as the cost cap will be wrong. The baseline itself is under review: see E-17."},
   {"id": "E-2", "status": "resolved", "flag": "", "title": "The $11.341B figure",
    "detail": "A sourced FY2019 budget estimate in then-year dollars, not a total and not a cap. "
    "Usable as a dated estimate, never as the cost of the ship."},
@@ -689,6 +691,7 @@ write("variances", {
    "totalObligatedAmount from the latest modification, and state the as-of date with every "
    "obligation figure. Caveat: the FPDS side is the figure as recorded on 2026-11-08 and was not "
    "re-pulled."},
+  {"id": "E-17", "status": "live", "flag": "KEY", "title": "A December 2025 Cost Limitation Baseline of $13,529M is printed but not yet confirmed", "detail": "The FY2027 MSAR (CVN_78_MSAR_FY2027_PBv2.pdf, p.8) says that in December 2025 the Secretary of the Navy notified Congress he was increasing the CVN-79 Cost Limitation Baseline from $12.936B to $13.529B. The One Hub still carries $12,936M (August 2023) as the baseline in force, because the figure gate routed $13,529M to human review: it comes from an MSAR sentence, not the notification, with no adjustments or exclusions. Hull caution: $13.529B is also CVN 80's baseline since August 2023 (MSAR Dec 2023, p.7). If confirmed, the FY2027 budget total of $13,409.970M sits $119.03M under the baseline rather than $473.97M over it. Open with OUSD(C) FMO as the CAP-05 request; registered 2026-11-19 from evaluation finding F1."},
  ],
 })
 

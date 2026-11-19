@@ -11,7 +11,7 @@ import re
 from collections import Counter, defaultdict
 
 _TOK = re.compile(r"\$?\d[\d,]*(?:\.\d+)?|[A-Za-z][A-Za-z0-9\-]*")
-STOP = set("the a an of and or to in for on by with at as is are was were be this that from it its which".split())
+STOP = {"the", "a", "an", "of", "and", "or", "to", "in", "for", "on", "by", "with", "at", "as", "is", "are", "was", "were", "be", "this", "that", "from", "it", "its", "which"}
 
 
 def _norm_num(t: str) -> str:
