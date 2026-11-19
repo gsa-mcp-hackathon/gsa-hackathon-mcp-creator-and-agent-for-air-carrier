@@ -6,7 +6,7 @@ What has the aircraft carrier USS John F. Kennedy (CVN-79) cost, and why do the 
 published figures for it disagree? This repository answers that question from public
 records, and ships the tool we built to answer questions like it.
 
-It holds two things that depend on each other:
+It holds two things that depend on each other: the product, and the proof that it works.
 
 1. **MCP A Creator**, an MCP server whose job is building MCP servers. A person brings a
    question and a Unity Catalog table. The Creator profiles the data, designs one tool per
@@ -20,9 +20,11 @@ It holds two things that depend on each other:
 | --- | --- |
 | **Live front center** | <https://aircarrier-front-center-dev-7474654188777746.aws.databricksapps.com/> (Databricks sign-in required, see [below](#open-the-front-center)) |
 | **Evaluation report** | [docs/submission/evaluation-report.pdf](docs/submission/evaluation-report.pdf) |
+| **Slide deck** | [PowerPoint](docs/submission/mcp-a-creator-one-hub-deck.pptx) · [PDF](docs/submission/mcp-a-creator-one-hub-deck.pdf) |
+| **No account needed** | [Run the front center locally](#run-the-front-center-locally) in two commands, or see the [screenshots](#screenshots) |
 | **Defects found by testing** | [docs/REVIEW-2026-11-18.md](docs/REVIEW-2026-11-18.md) |
 | **Deployment** | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
-| **Data** | Public only: budget justification books, Selected Acquisition Reports, GAO and CRS reports, FPDS and USAspending |
+| **Data** | The One Hub uses public records only: budget justification books, Selected Acquisition Reports, GAO and CRS reports, FPDS and USAspending. The generator demo `mcp-bakehouse-sales` reads Databricks' `samples.bakehouse` sample table, which is not government data |
 
 ---
 
@@ -82,7 +84,7 @@ pilot for doing it across the fleet.
 | How it was funded | Advance procurement FY2007-FY2012 $3,327.1M (24.8%); full funding FY2014-FY2018 $7,504.7M (56.0%); cost to complete FY2022-FY2027 $2,087.3M (15.6%) |
 | Prime contracts | N00024-09-C-2116, construction preparation, cost plus fixed fee, $4,519.3M obligated over 948 actions; N00024-15-C-2114, detail design and construction, fixed price incentive, $4,578.6M over 927 actions |
 | Attribution | 75.8% of the hull attributed to a named contract, up from 42.2% in one pass by replacing an announcement-derived figure with the obligation record |
-| Open questions | 65 registered gaps (55 open), each typed and assigned to a named executor; 16 variances where public sources disagree, kept with provenance |
+| Open questions | 65 registered gaps, 59 still open and 6 closed or resolved, each typed and assigned to a named executor; 16 variances where public sources disagree, kept with provenance |
 | Evidence base | 43 source documents, 2,765 retrieval chunks, every hit cited to a page |
 
 One small example of why provenance matters: FPDS-NG reports $4,518,716,360.83 obligated
@@ -102,7 +104,7 @@ sign-in, and on first visit a consent screen for the app. Visitors without an ac
 in this workspace can:
 
 - run the same app locally with no workspace at all ([two commands](#run-the-front-center-locally));
-- read the screenshots below, the demo video, and the
+- read the screenshots below, the [slide deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), and the
   [evaluation report](docs/submission/evaluation-report.pdf).
 
 ### Where to start
@@ -213,7 +215,10 @@ Design choices that matter:
 The Creator works as a Genie Code connector. See
 [mcp-server-creator/README.md](mcp-server-creator/README.md) for the walk-through and five
 example prompts. Two servers it generated, [`mcp-bakehouse-sales`](mcp-servers/mcp-bakehouse-sales/)
-and [`weather-mcp`](mcp-servers/weather-mcp/), are in this repository and deployed.
+and [`weather-mcp`](mcp-servers/weather-mcp/), are in this repository and deployed. They show
+the generator on two source kinds: a Unity Catalog table (Databricks' `samples.bakehouse`
+sample data, chosen because every workspace has it) and a public REST API (the National
+Weather Service).
 
 ---
 
@@ -344,13 +349,19 @@ uv run mcp-a-creator-doctor       # will it start here, and what is missing
 
 ### Run the tests
 
+Each project installs its own test dependencies with `uv`. From a fresh clone:
+
 ```
-cd mcp-server-creator && PYTHONPATH=src pytest tests
-cd mcp-servers/mcp-aircarrier-ops && PYTHONPATH=src pytest tests
-cd the-one-hub/ops-center && PYTHONPATH=. pytest checks/test_analyst.py checks/test_si.py \
-    checks/test_work.py checks/test_harness.py checks/test_mcp_server.py
-cd the-one-hub/ops-center && python checks/test_agents.py   # script suites run as scripts
+cd mcp-server-creator && uv run --group dev pytest tests
+cd mcp-servers/mcp-aircarrier-ops && uv run --group dev pytest tests
+cd the-one-hub/ops-center && PYTHONPATH=. uv run --group dev pytest checks/test_analyst.py \
+    checks/test_si.py checks/test_work.py checks/test_harness.py checks/test_mcp_server.py
+cd the-one-hub/ops-center && PYTHONPATH=. uv run --group dev python checks/test_agents.py
 ```
+
+Expected on a fresh clone (checked 2026-11-19): Creator 247 passed, 1 skipped; Air Carrier
+ops 35 passed; One Hub pytest suites 187 passed, 5 skipped (the 5 need a live Spark
+session); `test_agents.py` 46 ok.
 
 The [checks README](the-one-hub/ops-center/checks/README.md) lists every One Hub suite
 and how it runs. Inside a Databricks Git folder, also set `PYTHONDONTWRITEBYTECODE=1` and
