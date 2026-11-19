@@ -1,0 +1,41 @@
+name: CI
+
+# Every suite in the repository, from a clean checkout, on every push and PR.
+# Each job runs scripts/check.sh for one project, the same command a reader
+# runs locally, so the badge and a local run cannot disagree.
+
+on:
+  push:
+    branches: [main, "enhance/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: ${{ matrix.project }} (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+        project: [creator, ops, bakehouse, weather, docs, analyst, probe, mcp-local, one-hub]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: scripts/check.sh ${{ matrix.project }}
+        run: scripts/check.sh ${{ matrix.project }}
+
+  evidence:
+    name: links resolve and published results match the raw runs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: scripts/check.sh evidence
