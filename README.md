@@ -1,10 +1,35 @@
 # MCP A Creator and the One Hub for CVN-79
 
+[![CI](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml/badge.svg)](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml)
+
 **GSA MCP & SI Agent Government Hackathon, Data track.**
 
-What has the aircraft carrier USS John F. Kennedy (CVN-79) cost, and why do the four
-published figures for it disagree? This repository answers that question from public
-records, and ships the tool we built to answer questions like it.
+**MCP A Creator turns a question and a Unity Catalog table into a tested, governed MCP
+server.** The One Hub is the proof: three MCP servers built the same way reconcile the
+four published costs of the aircraft carrier USS John F. Kennedy (CVN-79) from public
+records, with every figure cited to its page and every unknown named and owned.
+
+## For judges: five minutes
+
+| GSA criterion | Open this | What it shows |
+| --- | --- | --- |
+| Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 600 tests, lint and format, on Python 3.11 and 3.12 |
+| Technical quality | [Delegation results](eval/delegation/RESULTS.md) | With all 29 tools, models answer 83.3% of strict held-out questions (95% CI 64.1 to 93.3) against 25.0% without tools; re-derived from 224 logged runs |
+| Technical quality | [Evaluation report](docs/submission/evaluation-report.pdf) and [addendum](docs/submission/EVALUATION_ADDENDUM.md) | Seven-day probe at 99.83%, independent answer keys, tie-outs to the cent; every finding and what happened to it |
+| Innovation | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation |
+| Mission alignment | [Background](#background-one-ship-four-numbers) | DoD's PP&E audit material weakness, made concrete for one $13.4B hull, and a pattern any agency can reuse |
+| Presentation | [Deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
+
+## Results at a glance
+
+| Measure | Result |
+| --- | --- |
+| Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), all 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools (7.1%, CI 2.0 to 22.6) |
+| Strict held-out questions, with vs without tools | 20/24 (83.3%) vs 2/8 (25.0%) |
+| Code suites from a clean clone | 600 passed, 0 failed; 14 skipped because they need a live Spark session, the deployed data bundle or bandit |
+| Creator determinism | Same specification, byte-identical files: 58 of 58 |
+| Availability of the deployed servers | 99.83% of 3,568 checks in 238 hourly probe sweeps over seven days; 709 of 709 known-answer checks right |
+| Data integrity | $13,409.970M Total Ship Estimate closes to 0.000 on two independent axes |
 
 It holds two things that depend on each other: the product, and the proof that it works.
 
@@ -61,7 +86,7 @@ its own purpose:
 | --- | --- | --- |
 | **$11,341.4M** | A dated estimate in then-year dollars | FY2019 President's Budget |
 | **$11,398.0M** | The cost limitation in law | 10 U.S.C. 8692, enacted in the FY2020 NDAA |
-| **$12,936.0M** | The adjusted limit the program manages to | Secretary of the Navy notification to Congress, August 2023 |
+| **$12,936.0M** | The adjusted limit the program manages to | Secretary of the Navy notification to Congress, August 2023. The FY2027 MSAR (p.8) reports a December 2025 increase to $13,529M; it is held for human review as variance [E-17](#e-17-the-baseline-under-review) |
 | **$13,409.97M** | The current request and estimate to complete | FY2027 President's Budget, SCN Exhibit P-5c |
 
 The budget total sits **$2,011.97M (17.7%) above the statutory cap**. A product that
@@ -82,15 +107,25 @@ pilot for doing it across the fleet.
 | Total Ship Estimate | $13,409.970M, closing to **zero residual on two independent axes** (cost category and funding stream) |
 | Largest cost category | Basic construction, $8,463.2M (63.1%); propulsion (reactor plant) $2,041.6M (15.2%) |
 | How it was funded | Advance procurement FY2007-FY2012 $3,327.1M (24.8%); full funding FY2014-FY2018 $7,504.7M (56.0%); cost to complete FY2022-FY2027 $2,087.3M (15.6%) |
-| Prime contracts | N00024-09-C-2116, construction preparation, cost plus fixed fee, $4,519.3M obligated over 948 actions; N00024-15-C-2114, detail design and construction, fixed price incentive, $4,578.6M over 927 actions |
+| Prime contracts | N00024-09-C-2116, construction preparation, cost plus fixed fee, $4,519.3M obligated over 948 actions; N00024-15-C-2114, detail design and construction, fixed price incentive, $4,578.6M summed over 927 actions (the award record reads $4,584.5M; the hub quotes each with its basis) |
 | Attribution | 75.8% of the hull attributed to a named contract, up from 42.2% in one pass by replacing an announcement-derived figure with the obligation record |
-| Open questions | 65 registered gaps, 59 still open and 6 closed or resolved, each typed and assigned to a named executor; 16 variances where public sources disagree, kept with provenance |
-| Evidence base | 43 source documents, 2,765 retrieval chunks, every hit cited to a page |
+| Open questions | 65 registered gaps, 59 still open and 6 closed or resolved, each typed and assigned to a named executor; 17 variances where public sources disagree, kept with provenance |
+| Evidence base | Docs MCP server: 33 source PDFs, 7,555 pages, 19,917 chunks. Front center knowledge base: 43 catalogued artifacts, 2,765 chunks from 22 indexed documents. Every hit cited to a page |
 
 One small example of why provenance matters: FPDS-NG reports $4,518,716,360.83 obligated
 on the construction preparation contract and USAspending reports $4,519,300,323.83. The
 $583,963.00 difference is 0.013%, small enough to pass any reasonableness check, so the
 hub records it as variance E-16 and cites the system by name with every obligation figure.
+
+### E-17: the baseline under review
+
+The FY2027 MSAR says the Secretary of the Navy raised the CVN-79 Cost Limitation Baseline
+from $12.936B to $13.529B in December 2025. The hub's figure gate sent that number to human
+review instead of using it: it comes from an MSAR sentence rather than the notification, and
+$13.529B is also CVN 80's baseline, so a search for the number alone returns both hulls. If
+confirmed, the budget total sits $119.03M under the baseline rather than $473.97M over it.
+Until a person confirms it under rule CAP-05, the hub shows both readings and keeps $12,936M
+as the baseline in force.
 
 ---
 
@@ -135,7 +170,7 @@ what is on the page (for example "Explain File C FY2021P03").
 | ![Budget execution from the transaction record](docs/screenshots/execution.jpg) | ![Gap register](docs/screenshots/gaps.jpg) |
 | **Budget execution.** 1,875 prime actions on two HII contracts, from USAspending. | **Gap register.** 65 unknowns ranked on exposure x ignorance x closability. |
 | ![Variance register](docs/screenshots/variances.jpg) | ![Knowledge base](docs/screenshots/knowledge.jpg) |
-| **Variance register.** 16 places where public sources disagree. | **Knowledge base.** 43 documents, every search hit cited to a page. |
+| **Variance register.** 17 places where public sources disagree. | **Knowledge base.** 43 catalogued artifacts, every search hit cited to a page. |
 
 ---
 
@@ -277,17 +312,19 @@ The evaluation has four layers, one question each. Full method and results are i
 
 | Layer | Question | Result |
 | --- | --- | --- |
-| Code suites | Does the code do what it says? | **595 pytest cases pass** across nine projects (13 more need a live Spark session), plus 5 script suites and 2 tie-outs that close the $13,409.970M estimate to zero residual |
+| Code suites | Does the code do what it says? | **600 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
-| Delegation | Given all 29 tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, 14 questions (9 development, 5 held out), three repeats each: **80 of 84 runs correct with the servers (95%), 2 of 28 with no tools (7%)**. With each server's instructions in the prompt, both models scored 14 of 14 |
+| Delegation | Given all 29 tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, 14 questions (9 development, 5 held out), three repeats each: **80 of 84 runs correct with the servers (95.2%, 95% CI 88.4 to 98.1), 2 of 28 with no tools (7.1%)**. Strict held-out: 20/24 (83.3%, CI 64.1 to 93.3). With each server's instructions in the prompt, 28 of 28. Raw runs and the script that re-derives every number: [eval/delegation/](eval/delegation/) |
 
 Every delegation run is logged to Delta with a SHA-256 of the tool catalog, so a result
 is tied to the exact tool surface it measured. The evaluation also found defects, each
 fixed and pinned by a regression test: a missing fiscal-year filter, an ambiguous word
 ("open"), a decoy question that burned 255k tokens, and in the Creator, free text that
 could break out of a string in a generated evaluation file. They are listed in
-[docs/REVIEW-2026-11-18.md](docs/REVIEW-2026-11-18.md) and the report's Appendix B.
+[docs/REVIEW-2026-11-18.md](docs/REVIEW-2026-11-18.md) and the report's Appendix B. What
+happened to each of the report's twelve findings is in the
+[evaluation addendum](docs/submission/EVALUATION_ADDENDUM.md).
 
 ---
 
@@ -321,7 +358,10 @@ documents. The controls are in code, not in prompts:
 | [`the-one-hub/ops-center/`](the-one-hub/ops-center/) | The One Hub: front center, agents, harness, ETL, checks, bundle config, its own MCP server (16 tools) | `aircarrier-front-center-dev` |
 | `the-one-hub/notebooks/` | Build notebooks: knowledge graph, PDF and source table stores, work register, tracker | - |
 | `genie-code-skills/` | Genie Code skills for analysts: verify a figure, investigate a gap, draft a collection request | - |
-| `docs/` | Deployment guide, review, evaluation report, screenshots | - |
+| `eval/delegation/` | Delegation evaluation: questions, 224 logged runs, analysis with confidence intervals | - |
+| `docs/` | Deployment guide, review, evaluation report and addendum, deck, screenshots | - |
+| `scripts/` | `check.sh` (every suite, one command), `check_links.py` (no broken links) | - |
+| `.github/workflows/ci.yml` | CI: `scripts/check.sh` per project on Python 3.11 and 3.12 | - |
 | `tools/sync_from_workspace.py` | Refreshes this repository from the live workspace folders | - |
 
 ---
@@ -349,19 +389,17 @@ uv run mcp-a-creator-doctor       # will it start here, and what is missing
 
 ### Run the tests
 
-Each project installs its own test dependencies with `uv`. From a fresh clone:
+One command, from a fresh clone, with [uv](https://docs.astral.sh/uv/) installed:
 
 ```
-cd mcp-server-creator && uv run --group dev pytest tests
-cd mcp-servers/mcp-aircarrier-ops && uv run --group dev pytest tests
-cd the-one-hub/ops-center && PYTHONPATH=. uv run --group dev pytest checks/test_analyst.py \
-    checks/test_si.py checks/test_work.py checks/test_harness.py checks/test_mcp_server.py
-cd the-one-hub/ops-center && PYTHONPATH=. uv run --group dev python checks/test_agents.py
+scripts/check.sh              # every project
+scripts/check.sh creator      # or one: creator ops bakehouse weather docs analyst probe mcp-local one-hub evidence
 ```
 
-Expected on a fresh clone (checked 2026-11-19): Creator 247 passed, 1 skipped; Air Carrier
-ops 35 passed; One Hub pytest suites 187 passed, 5 skipped (the 5 need a live Spark
-session); `test_agents.py` 46 ok.
+Each project installs its own dependencies into its own environment. Expected (checked
+2026-11-19): Creator 247 passed, 1 skipped; ops 36; bakehouse 21; weather 19; docs 27;
+analyst 31 passed, 8 skipped; probe 9; mcp_local 23; One Hub 187 passed, 5 skipped, plus six
+script suites. The skips need a live Spark session (5 in the One Hub), the deployed data bundle (8 in analyst) or bandit (1 in the Creator). CI runs the same script.
 
 The [checks README](the-one-hub/ops-center/checks/README.md) lists every One Hub suite
 and how it runs. Inside a Databricks Git folder, also set `PYTHONDONTWRITEBYTECODE=1` and
@@ -393,7 +431,10 @@ to repository, so it would overwrite newer edits made here.
   but not a confident tool mapped to a different question; two of 14 questions in the
   end-to-end run showed this.
 - **Small evaluation sets.** 14 delegation questions, 17 golden items and 5 Creator
-  prompts. The planted-record injection case (q16) needs a data change and is still open.
+  prompts, so the confidence intervals are wide (strict held-out 64.1 to 93.3). The
+  planted-record injection case (q16) needs a data change and is still open.
+- **The Cost Limitation Baseline is under review** (E-17). The hub keeps $12,936M in force
+  until a person confirms the December 2025 figure.
 - **Figures are the app's reading of the register, not a cleared position.** The front
   center says so where it shows a selection.
 
