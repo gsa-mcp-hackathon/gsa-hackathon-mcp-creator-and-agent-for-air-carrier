@@ -1,8 +1,10 @@
 """Run an experiment: the agent plus the judges, against a dataset.
 
-    uv run run_experiment.py --dataset-name mcp-eval-0
-    uv run run_experiment.py --dataset-name mcp-eval-0 --no-tools
-    uv run run_experiment.py --dataset-name mcp-eval-0 \
+Run inside the harness environment described in eval/README.md:
+
+    python run_experiment.py --dataset-name mcp-eval-0
+    python run_experiment.py --dataset-name mcp-eval-0 --no-tools
+    python run_experiment.py --dataset-name mcp-eval-0 \
         --system-prompt-version v2 --repeats 3
 
 `--no-tools` is the baseline. The gap between it and the tooled run is the

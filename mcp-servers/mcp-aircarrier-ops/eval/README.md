@@ -20,9 +20,13 @@ A cost analyst reconciling the CVN-79 (USS John F. Kennedy) program cost across 
 ## Setup
 
 ```bash
-uv sync --group dev
 cp eval/.env.example eval/.env    # then fill it in
 ```
+
+The harness has its own dependencies in `eval/requirements.txt`, apart from the
+server's. `uv run --no-project --with-requirements ../requirements.txt` builds
+and caches an isolated environment for them on first use, so `uv sync` for the
+server never has to resolve Phoenix or LangChain.
 
 `AGENT_MODEL` and `JUDGE_MODEL` are deliberately separate. Judging with a
 different, usually stronger model reduces self-preference bias and lets you
@@ -33,14 +37,19 @@ hold the judge fixed while you iterate on the agent.
 ```bash
 cd eval/phoenix
 
-uv run arize-phoenix serve                                  # UI on :6006
+uv run --no-project --with-requirements ../requirements.txt phoenix serve  # :6006
 
-uv run create_dataset.py --dataset-name mcp-eval-0 --dry-run
-uv run create_dataset.py --dataset-name mcp-eval-0
+uv run --no-project --with-requirements ../requirements.txt \
+    python create_dataset.py --dataset-name mcp-eval-0 --dry-run
+uv run --no-project --with-requirements ../requirements.txt \
+    python create_dataset.py --dataset-name mcp-eval-0
 
-uv run run_experiment.py --dataset-name mcp-eval-0 --no-tools
-uv run run_experiment.py --dataset-name mcp-eval-0
-uv run run_experiment.py --dataset-name mcp-eval-0 \
+uv run --no-project --with-requirements ../requirements.txt \
+    python run_experiment.py --dataset-name mcp-eval-0 --no-tools
+uv run --no-project --with-requirements ../requirements.txt \
+    python run_experiment.py --dataset-name mcp-eval-0
+uv run --no-project --with-requirements ../requirements.txt \
+    python run_experiment.py --dataset-name mcp-eval-0 \
     --system-prompt-version v2
 ```
 
