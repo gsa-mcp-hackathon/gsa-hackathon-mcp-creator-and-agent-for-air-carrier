@@ -728,7 +728,7 @@ def position(request: Request):
                      "var": "E-2"})
     for c in caps:
         figs.append({"name": c["name"], "value": float(c["value"]), "basis": c.get("basis"),
-                     "what": c.get("note") or "", "var": "E-1"})
+                     "what": c.get("note") or "", "var": c.get("var") or "E-1"})
     figs.sort(key=lambda f: f["value"])
     for i, f in enumerate(figs):
         f["n"] = i + 1
@@ -758,7 +758,7 @@ FIG_KIND = {
         "avoid": "The cost of the ship, or a cap"},
     "Statutory cost cap": {
         "kind": "Limit in law", "cls": "law",
-        "set_by": "Congress (10 U.S.C. 8691, as set by the FY2020 NDAA)",
+        "set_by": "Congress (10 U.S.C. 8692, as set by the FY2020 NDAA)",
         "binds": "Procurement cost, after the adjustments and exclusions the statute allows (which apply is G12)",
         "use": "Compliance with the statute",
         "avoid": "Expected cost, or the limit the Navy manages to"},

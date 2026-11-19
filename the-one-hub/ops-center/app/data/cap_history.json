@@ -4,14 +4,15 @@
   {
    "name": "Statutory cost cap",
    "value": 11398.0,
-   "basis": "10 U.S.C. 8691, FY2020 NDAA",
+   "basis": "10 U.S.C. 8692, FY2020 NDAA",
    "note": "SECNAV may raise by up to $100M to $11,498M"
   },
   {
    "name": "SECNAV Cost Limitation Baseline",
    "value": 12936.0,
    "basis": "Aug 2023 notification to Congress",
-   "note": ""
+   "note": "Raised to $13,529M in December 2025 per the FY2027 MSAR, p.8. Held for human review under CAP-05 before it replaces this figure; see E-17",
+   "var": "E-17"
   },
   {
    "name": "Budget submission total",

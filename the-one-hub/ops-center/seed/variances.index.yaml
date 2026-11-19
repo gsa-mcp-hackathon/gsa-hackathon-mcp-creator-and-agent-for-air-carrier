@@ -1,4 +1,4 @@
-# E-1 to E-16. Full text and sourcing live in ring0/RING0_CVN79.md Part E.
+# E-1 to E-17. Full text and sourcing live in ring0/RING0_CVN79.md Part E.
 # source: ring0/RING0_CVN79.md Part E
 
 variances:
@@ -18,3 +18,4 @@ variances:
   - {id: E-14, status: live,     topic: "USAspending disagrees with itself by exactly 5,880,250 on one contract", flag: METHOD}
   - {id: E-15, status: live,     topic: "the 2116 identifier collision", flag: KEY}
   - {id: E-16, status: resolved, topic: "FPDS and USAspending differ by 583,963.00 on N00024-09-C-2116 (not DD and C); as-of date, the 10 June 2026 cumulative", flag: METHOD}
+  - {id: E-17, status: live,     topic: "December 2025 Cost Limitation Baseline of 13,529 printed in the FY2027 MSAR; held for human review under CAP-05; equals CVN 80's figure", flag: KEY}

@@ -64,7 +64,7 @@ def derive(d: dict) -> list[Item]:
                   f"excluded is still an open question (G12). Until that closes, the "
                   f"gap between these two figures cannot be read as cost growth."),
             evidence=[f"cost_categories.total = {total:,.3f}",
-                      f"cap_history: {stat:,.1f}, 10 U.S.C. 8691"],
+                      f"cap_history: {stat:,.1f}, 10 U.S.C. 8692"],
             rule="total ship estimate vs statutory ceiling",
             link="/baseline"))
 
