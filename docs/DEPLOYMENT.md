@@ -12,7 +12,7 @@ There is no CI/CD deployment: CI only runs the test suites. `~` below means
 | `mcp-a-creator` | `~/mcp-server-creator` | `mcp-server-creator/` | SQL warehouse, UC volume `storage`, MLflow experiment, trace tables (8) | sql, workspace.workspace, apps |
 | `mcp-aircarrier-docs` | `~/mcp-servers/mcp-aircarrier-docs` | `mcp-servers/mcp-aircarrier-docs/` | SQL warehouse, 3 UC tables (pdf-pages, pdf-tables, artifacts) | - |
 | `mcp-aircarrier-analyst` | `~/mcp-servers/mcp-aircarrier-analyst` | `mcp-servers/mcp-aircarrier-analyst/` | SQL warehouse | - |
-| `mcp-aircarrier-ops` | `~/mcp-servers/mcp-aircarrier-ops` | `mcp-servers/mcp-aircarrier-ops/` | SQL warehouse, 4 UC tables | - |
+| `mcp-aircarrier-ops` | `~/mcp-servers/mcp-aircarrier-ops` | `mcp-servers/mcp-aircarrier-ops/` | SQL warehouse, 6 UC tables (2114 transactions and the variance register added 2026-11-20; see its `deploy/databricks/grants.sql`) | - |
 | `aircarrier-mcp-probe` | `~/mcp-servers/aircarrier-mcp-probe` | `mcp-servers/aircarrier-mcp-probe/` | none (UC volume grant on the SP) | - |
 | `mcp-bakehouse-sales` | `~/mcp-servers/mcp-bakehouse-sales` | `mcp-servers/mcp-bakehouse-sales/` | SQL warehouse, 1 UC table | - |
 | `mcp-weather` | `~/mcp-servers/weather-mcp` | `mcp-servers/weather-mcp/` | none | - |

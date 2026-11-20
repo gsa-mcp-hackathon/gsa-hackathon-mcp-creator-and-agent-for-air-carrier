@@ -381,6 +381,38 @@ OBLIGATIONS_2116_COLUMNS = (
     "_source_locator",
 )
 
+# --- obligations_2114: USAspending prime transactions, N00024-15-C-2114
+# (CVN-79 detail design and construction). Same USAspending prime transaction
+# download, so the same columns. Round 2 (question H02) found no tool for it.
+OBLIGATIONS_2114_KIND = "uc_table"
+OBLIGATIONS_2114_GRAIN = OBLIGATIONS_2116_GRAIN
+OBLIGATIONS_2114_CADENCE = OBLIGATIONS_2116_CADENCE
+OBLIGATIONS_2114_AS_OF = "2026-07-20"
+OBLIGATIONS_2114_CATALOG = STORE_CATALOG
+OBLIGATIONS_2114_SCHEMA = STORE_SCHEMA
+OBLIGATIONS_2114_TABLE = "aircarrier_src_2114_contract_transactions"
+OBLIGATIONS_2114_COLUMNS = OBLIGATIONS_2116_COLUMNS
+
+# --- variances: the variance register, where public sources disagree
+VARIANCES_KIND = "uc_table"
+VARIANCES_GRAIN = (
+    "one variance (E-1 to E-17): where two public sources disagree, and why"
+)
+VARIANCES_CADENCE = "published from the front center register on each update"
+VARIANCES_AS_OF = "2026-11-19"
+VARIANCES_CATALOG = STORE_CATALOG
+VARIANCES_SCHEMA = STORE_SCHEMA
+VARIANCES_TABLE = "aircarrier_variances"
+VARIANCES_COLUMNS = (
+    "id",
+    "status",
+    "flag",
+    "title",
+    "detail",
+    "_source",
+    "_published_at",
+)
+
 # --- graph_edges: Knowledge graph edges
 GRAPH_EDGES_KIND = "uc_table"
 GRAPH_EDGES_GRAIN = "one directed edge src -rel-> dst between typed node ids (type:key)"

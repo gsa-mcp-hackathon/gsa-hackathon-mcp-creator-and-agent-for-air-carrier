@@ -29,7 +29,8 @@ LANDING: dict = {
     "tools": [
         "carrier_get_exhibit_cells",
         "carrier_search_exhibit_cells",
-        "carrier_search_obligations_2116",
+        "carrier_search_obligations",
+        "carrier_search_variances",
         "carrier_search_graph_edges",
         "carrier_search_work_register",
         "carrier_work_register_counts",
@@ -39,6 +40,8 @@ LANDING: dict = {
         for table in (
             sources.EXHIBIT_CELLS_TABLE,
             sources.OBLIGATIONS_2116_TABLE,
+            sources.OBLIGATIONS_2114_TABLE,
+            sources.VARIANCES_TABLE,
             sources.GRAPH_EDGES_TABLE,
             sources.WORK_REGISTER_TABLE,
         )

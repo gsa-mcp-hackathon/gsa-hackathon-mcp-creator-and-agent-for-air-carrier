@@ -18,6 +18,12 @@ GRANT SELECT ON TABLE `users`.`xiaobing_shang1_civ`.`aircarrier_pdf_cells` TO `$
 -- obligations_2116 (uc_table)
 GRANT SELECT ON TABLE `users`.`xiaobing_shang1_civ`.`aircarrier_src_2116_contract_transactions` TO `$app_sp`;
 
+-- obligations_2114 (uc_table), added 2026-11-20 for carrier_search_obligations
+GRANT SELECT ON TABLE `users`.`xiaobing_shang1_civ`.`aircarrier_src_2114_contract_transactions` TO `$app_sp`;
+
+-- variances (uc_table), added 2026-11-20 for carrier_search_variances
+GRANT SELECT ON TABLE `users`.`xiaobing_shang1_civ`.`aircarrier_variances` TO `$app_sp`;
+
 -- graph_edges (uc_table)
 GRANT SELECT ON TABLE `users`.`xiaobing_shang1_civ`.`aircarrier_kg_edges` TO `$app_sp`;
 

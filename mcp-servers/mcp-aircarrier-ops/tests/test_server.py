@@ -17,7 +17,8 @@ EXPECTED_TOOLS = {
     "carrier_work_register_counts",
     "carrier_search_work_register",
     "carrier_get_exhibit_cells",
-    "carrier_search_obligations_2116",
+    "carrier_search_obligations",
+    "carrier_search_variances",
 }
 
 
@@ -180,9 +181,15 @@ async def test_obligation_search_defaults_to_summary_fields():
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations_2116"]
-        out = (await tool.run({"query": "cvn"})).structured_content
-        full = (await tool.run({"query": "cvn", "detail": "full"})).structured_content
+        tool = (await server.get_tools())["carrier_search_obligations"]
+        out = (
+            await tool.run({"contract": "N00024-09-C-2116", "query": "cvn"})
+        ).structured_content
+        full = (
+            await tool.run(
+                {"contract": "N00024-09-C-2116", "query": "cvn", "detail": "full"}
+            )
+        ).structured_content
     finally:
         ob.run_query = original
     # Compare only the SELECT list; the WHERE clause searches the same text
@@ -209,8 +216,14 @@ async def test_obligation_search_finds_the_base_award_by_filter():
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations_2116"]
-        await tool.run({"modification_number": "0", "fiscal_year": 2009})
+        tool = (await server.get_tools())["carrier_search_obligations"]
+        await tool.run(
+            {
+                "contract": "N00024-09-C-2116",
+                "modification_number": "0",
+                "fiscal_year": 2009,
+            }
+        )
     finally:
         ob.run_query = original
     sql, params = seen[1]
@@ -236,8 +249,12 @@ async def test_obligation_search_returns_the_server_side_sum():
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations_2116"]
-        out = (await tool.run({"fiscal_year": 2010, "limit": 5})).structured_content
+        tool = (await server.get_tools())["carrier_search_obligations"]
+        out = (
+            await tool.run(
+                {"contract": "N00024-09-C-2116", "fiscal_year": 2010, "limit": 5}
+            )
+        ).structured_content
     finally:
         ob.run_query = original
     assert "SUM(CAST(" in seen[0] and "DECIMAL(20,2)" in seen[0]
@@ -265,9 +282,11 @@ async def test_obligation_as_of_comes_from_the_data_not_a_constant():
         try:
             server = FastMCP("t")
             ob.register(server)
-            tool = (await server.get_tools())["carrier_search_obligations_2116"]
+            tool = (await server.get_tools())["carrier_search_obligations"]
             return (
-                await tool.run({"fiscal_year": 2010, "limit": 1})
+                await tool.run(
+                    {"contract": "N00024-09-C-2116", "fiscal_year": 2010, "limit": 1}
+                )
             ).structured_content
         finally:
             ob.run_query = original
@@ -333,9 +352,9 @@ def test_store_schema_env_moves_every_table():
         "from mcp_aircarrier_ops.tools import mcp_get_exhibit_cells as a, "
         "mcp_search_exhibit_cells as b, mcp_search_obligations_2116 as c, "
         "mcp_search_graph_edges as d, mcp_search_work_register as e, "
-        "mcp_work_register_totals as f\n"
+        "mcp_work_register_totals as f, mcp_search_variances as g\n"
         "from mcp_aircarrier_ops.routes import LANDING\n"
-        "print('|'.join(m.TABLE for m in (a, b, c, d, e, f)))\n"
+        "print('|'.join([m.TABLE for m in (a, b, c, d, e, f, g)] + [c.TABLE_2114]))\n"
         "print('|'.join(LANDING['data']))\n"
     )
     env = dict(
@@ -390,3 +409,91 @@ async def test_every_tool_documents_itself():
     tools = await mcp.list_tools()
     undocumented = [tool.name for tool in tools if not (tool.description or "").strip()]
     assert not undocumented, f"tools with no description: {undocumented}"
+
+
+async def _obligations(arguments: dict) -> tuple[dict, list[tuple[str, list]]]:
+    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+
+    seen: list[tuple[str, list]] = []
+
+    def fake(sql, params):
+        seen.append((sql, list(params)))
+        if "COUNT(*)" in sql:
+            return [
+                {"total": 1, "obligation_total": "1.00", "data_as_of": "2026-07-20"}
+            ]
+        return [{"modification_number": "P00116"}]
+
+    original = ob.run_query
+    ob.run_query = fake
+    try:
+        server = FastMCP("t")
+        ob.register(server)
+        tool = (await server.get_tools())["carrier_search_obligations"]
+        out = (await tool.run(arguments)).structured_content
+    finally:
+        ob.run_query = original
+    return out, seen
+
+
+async def test_obligations_reach_the_dd_and_c_contract():
+    """Round 2 H02, H04, H09: three questions on N00024-15-C-2114 had no tool."""
+    out, seen = await _obligations(
+        {"contract": "N00024-15-C-2114", "fiscal_year": 2018}
+    )
+    assert out["contract"] == "N00024-15-C-2114"
+    assert all("aircarrier_src_2114_contract_transactions" in sql for sql, _ in seen)
+    assert not any("aircarrier_src_2116" in sql for sql, _ in seen)
+
+
+async def test_largest_first_puts_the_largest_action_on_top():
+    """Round 2 H03: models paged through actions by date and named the wrong one."""
+    out, seen = await _obligations(
+        {"contract": "N00024-09-C-2116", "order": "largest_first", "limit": 1}
+    )
+    rows_sql = seen[1][0]
+    assert "ORDER BY CAST(" in rows_sql and "DECIMAL(20,2)) DESC" in rows_sql
+    assert out["order"] == "largest_first"
+    _, by_date = await _obligations({"contract": "N00024-09-C-2116"})
+    assert "DESC" not in by_date[1][0]
+
+
+async def test_the_contract_is_required_and_closed():
+    from mcp_aircarrier_ops.app import mcp as app
+
+    tool = (await app.get_tools())["carrier_search_obligations"]
+    schema = tool.parameters
+    assert "contract" in schema.get("required", [])
+    text = str(schema)
+    assert "N00024-09-C-2116" in text and "N00024-15-C-2114" in text
+
+
+async def test_variances_are_searchable_by_text():
+    """Round 2 H08: the FPDS-NG figure lived only in variance E-16."""
+    from mcp_aircarrier_ops.tools import mcp_search_variances as va
+
+    seen: list[tuple[str, list]] = []
+
+    def fake(sql, params):
+        seen.append((sql, list(params)))
+        if "COUNT(*)" in sql:
+            return [{"total": 1}]
+        return [
+            {"id": "E-16", "title": "FPDS-NG and USAspending differ by $583,963.00"}
+        ]
+
+    original = va.run_query
+    va.run_query = fake
+    try:
+        server = FastMCP("t")
+        va.register(server)
+        tool = (await server.get_tools())["carrier_search_variances"]
+        out = (
+            await tool.run({"query": "FPDS", "status": "resolved"})
+        ).structured_content
+    finally:
+        va.run_query = original
+    sql, params = seen[1]
+    assert "aircarrier_variances" in sql and "LIKE ?" in sql
+    assert params[0] == "resolved" and "%fpds%" in params
+    assert out["items"][0]["id"] == "E-16" and out["total"] == 1

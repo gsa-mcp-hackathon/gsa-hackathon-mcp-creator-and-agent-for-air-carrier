@@ -1,9 +1,11 @@
-"""Search USAspending prime transactions, N00024-09-C-2116 (CVN-79 construction prep).
+"""Search USAspending prime transactions on either CVN-79 prime contract.
 
-Find USAspending prime transactions, N00024-09-C-2116 (CVN-79 construction prep) records
-whose text mentions something.
+N00024-09-C-2116 (construction preparation) and N00024-15-C-2114 (detail design
+and construction). The module keeps its original name; the tool was
+carrier_search_obligations_2116 until round 2 of the delegation evaluation
+found three questions on the second contract with no tool to answer them.
 
-Source: obligations_2116 (uc_table).
+Source: obligations_2116 and obligations_2114 (uc_table).
 """
 
 from __future__ import annotations
@@ -20,17 +22,26 @@ from mcp_aircarrier_ops.data.warehouse import (
     qualified,
     run_query,
 )
-from mcp_aircarrier_ops.models import DetailValue
+from mcp_aircarrier_ops.models import ContractValue, DetailValue, OrderValue
 
 TABLE = qualified(
     sources.OBLIGATIONS_2116_CATALOG,
     sources.OBLIGATIONS_2116_SCHEMA,
     sources.OBLIGATIONS_2116_TABLE,
 )
+TABLE_2114 = qualified(
+    sources.OBLIGATIONS_2114_CATALOG,
+    sources.OBLIGATIONS_2114_SCHEMA,
+    sources.OBLIGATIONS_2114_TABLE,
+)
+TABLES = {
+    ContractValue.CONSTRUCTION_PREPARATION: TABLE,
+    ContractValue.DETAIL_DESIGN_AND_CONSTRUCTION: TABLE_2114,
+}
 COLUMNS = sources.OBLIGATIONS_2116_COLUMNS
 AS_OF = sources.OBLIGATIONS_2116_AS_OF
 
-TOOL_NAME = "carrier_search_obligations_2116"
+TOOL_NAME = "carrier_search_obligations"
 
 # detail=summary returns these instead of all ~300 USAspending columns
 # (12.9 KB per row measured 2026-11-18). Enough to identify the action, its
@@ -53,14 +64,14 @@ SUMMARY_FIELDS = [
 
 
 def register(mcp: FastMCP) -> None:
-    """Register the carrier_search_obligations_2116 tool with the MCP server."""
+    """Register the carrier_search_obligations tool with the MCP server."""
 
     @mcp.tool(
         name=TOOL_NAME,
         annotations={
             "title": (
-                "Search USAspending prime transactions, N00024-09-C-2116 "
-                "(CVN-79 construction prep)"
+                "Search contract actions on the CVN-79 prime contracts "
+                "(N00024-09-C-2116, N00024-15-C-2114)"
             ),
             "readOnlyHint": True,
             "destructiveHint": False,
@@ -68,7 +79,17 @@ def register(mcp: FastMCP) -> None:
             "openWorldHint": True,
         },
     )
-    def carrier_search_obligations_2116(
+    def carrier_search_obligations(
+        contract: Annotated[
+            ContractValue,
+            Field(
+                description=(
+                    "Which prime contract: N00024-09-C-2116 is construction "
+                    "preparation; N00024-15-C-2114 is the Kennedy's detail "
+                    "design and construction (DD&C) contract."
+                ),
+            ),
+        ],
         query: Annotated[
             str,
             Field(
@@ -100,6 +121,17 @@ def register(mcp: FastMCP) -> None:
                 le=2100,
             ),
         ] = 0,
+        order: Annotated[
+            OrderValue,
+            Field(
+                description=(
+                    "action_date (default) lists actions in date order; "
+                    "largest_first puts the largest obligation first, so the "
+                    "largest single action is the first row; smallest_first "
+                    "puts deobligations first."
+                ),
+            ),
+        ] = OrderValue.ACTION_DATE,
         limit: Annotated[
             int,
             Field(
@@ -127,11 +159,12 @@ def register(mcp: FastMCP) -> None:
             ),
         ] = DetailValue.SUMMARY,
     ) -> dict[str, Any]:
-        """Find contract actions (FPDS/USAspending prime transactions) on
-        N00024-09-C-2116,
-        the CVN-79 construction preparation contract: by keyword, by exact modification
-        number (e.g. '0' for the base award) or by fiscal year. Results are ordered by
-        action date, so offset paging is stable.
+        """Find contract actions (FPDS/USAspending prime transactions) on a CVN-79
+        prime contract, N00024-09-C-2116 (construction preparation) or
+        N00024-15-C-2114 (detail design and construction): by keyword, by exact
+        modification number (e.g. '0' for the base award) or by fiscal year, in date
+        order or largest obligation first. Every order is stable, so offset paging is
+        stable.
 
         One record is one contract action (modification) row; federal_action_obligation
         is that action's obligation. The source refreshes manual re-download from
@@ -210,11 +243,24 @@ def register(mcp: FastMCP) -> None:
             else:
                 joined = f" WHERE {search_clause}"  # nosemgrep
                 bound = list(params) + [probe] * len(text_columns)
-            order_by = " ORDER BY " + ", ".join(
-                column(c, COLUMNS)
-                for c in ("action_date", "modification_number", "transaction_number")
-            )
+            table = TABLES[contract]
             obligation = column("federal_action_obligation", COLUMNS)
+            by_amount = {
+                OrderValue.LARGEST_FIRST: f"CAST({obligation} AS DECIMAL(20,2)) DESC, ",
+                OrderValue.SMALLEST_FIRST: f"CAST({obligation} AS DECIMAL(20,2)) ASC, ",
+            }.get(order, "")
+            order_by = (
+                " ORDER BY "
+                + by_amount
+                + ", ".join(
+                    column(c, COLUMNS)
+                    for c in (
+                        "action_date",
+                        "modification_number",
+                        "transaction_number",
+                    )
+                )
+            )
             action_date = column("action_date", COLUMNS)
             # data_as_of is the latest action in the whole table (not just the
             # filtered rows), so as_of says how fresh the source is.
@@ -222,8 +268,8 @@ def register(mcp: FastMCP) -> None:
                 "SELECT COUNT(*) AS total, "  # nosemgrep # nosec B608
                 f"CAST(SUM(CAST({obligation} AS DECIMAL(20,2))) AS STRING) "
                 f"AS obligation_total, "
-                f"(SELECT CAST(MAX({action_date}) AS STRING) FROM {TABLE}) "
-                f"AS data_as_of FROM {TABLE}{joined}",
+                f"(SELECT CAST(MAX({action_date}) AS STRING) FROM {table}) "
+                f"AS data_as_of FROM {table}{joined}",
                 bound,
             )
             total = int(totals[0]["total"]) if totals else 0
@@ -541,7 +587,7 @@ def register(mcp: FastMCP) -> None:
                 ]
             )
             rows = run_query(
-                f"SELECT {select_list} FROM {TABLE}{joined}{order_by} "  # nosemgrep # nosec B608
+                f"SELECT {select_list} FROM {table}{joined}{order_by} "  # nosemgrep # nosec B608
                 "LIMIT ? OFFSET ?",
                 bound + [limit, offset],
             )
@@ -552,6 +598,8 @@ def register(mcp: FastMCP) -> None:
             }
         next_offset = offset + len(rows)
         return {
+            "contract": contract.value,
+            "order": order.value,
             "as_of": data_as_of,
             "total": total,
             "obligation_total": obligation_total,

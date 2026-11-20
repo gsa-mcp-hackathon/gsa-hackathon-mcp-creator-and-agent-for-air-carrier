@@ -76,6 +76,30 @@ class StateValue(str, Enum):
 TERMINAL_STATES = ("closed", "promoted")
 
 
+class ContractValue(str, Enum):
+    """The two CVN-79 prime contracts whose USAspending actions are loaded."""
+
+    CONSTRUCTION_PREPARATION = "N00024-09-C-2116"
+    DETAIL_DESIGN_AND_CONSTRUCTION = "N00024-15-C-2114"
+
+
+class OrderValue(str, Enum):
+    """Row order. largest_first answers "the largest single action" in one call."""
+
+    ACTION_DATE = "action_date"
+    LARGEST_FIRST = "largest_first"
+    SMALLEST_FIRST = "smallest_first"
+
+
+class VarianceStatusValue(str, Enum):
+    """Variance statuses in aircarrier_variances; ANY means no filter."""
+
+    ANY = "any"
+    LIVE = "live"
+    RECORDED = "recorded"
+    RESOLVED = "resolved"
+
+
 def state_clause(state_column: str, state: "StateValue") -> tuple[str, list]:
     """SQL predicate and parameters for a state filter; ('', []) for ANY."""
     if state is StateValue.ANY:

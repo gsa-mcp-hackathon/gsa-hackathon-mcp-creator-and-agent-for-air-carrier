@@ -27,12 +27,13 @@ the question.
 |---|---|---|
 | `carrier_get_exhibit_cells` | Return every cell (untrimmed) of one PDF exhibit table id, in page/row/column order, paged with `limit` (default 500, max 2000) and `offset`. For the printed table with units and tie-outs, use the docs server's `docs_get_table`. | exhibit_cells |
 | `carrier_search_exhibit_cells` | Find PDF exhibit table cells whose text mentions something. Long cell text and headers are clipped to 400 characters, flagged with `*_truncated`. | exhibit_cells |
-| `carrier_search_obligations_2116` | Find USAspending prime transactions on N00024-09-C-2116 (CVN-79 construction prep). Returns 13 key fields per action by default; `detail=full` returns all ~300 columns. | obligations_2116 |
+| `carrier_search_obligations` | Find USAspending prime transactions on either CVN-79 prime contract (`contract`: N00024-09-C-2116 construction preparation, or N00024-15-C-2114 detail design and construction), by keyword, modification or fiscal year, in date order or `largest_first`. Returns the server-side count and exact obligation total, and 13 key fields per action by default; `detail=full` returns all ~300 columns. | obligations_2116, obligations_2114 |
+| `carrier_search_variances` | Find variances: where two public sources disagree about a figure, both figures, the difference, and which to use. | variances |
 | `carrier_search_graph_edges` | Find knowledge graph edges whose text mentions something. | graph_edges |
 | `carrier_search_work_register` | Find work items, filterable by kind (claim, gap, variance, artifact), state and owner agent. | work_register |
 | `carrier_work_register_counts` | Count work items by kind, state and owner agent. Reports dollar exposure only when a row carries it; today none does. | work_register |
 
-Tools were renamed from the generic `mcp_` prefix on 2026-11-18; the module file names are unchanged.
+Tools were renamed from the generic `mcp_` prefix on 2026-11-18; the module file names are unchanged. On 2026-11-20, after round 2 of the delegation evaluation, `carrier_search_obligations_2116` became `carrier_search_obligations` with a `contract` choice and an `order` choice, and `carrier_search_variances` was added.
 
 ## Data sources
 
@@ -40,6 +41,8 @@ Tools were renamed from the generic `mcp_` prefix on 2026-11-18; the module file
 |---|---|---|---|---|
 | `exhibit_cells` | uc_table | one cell of one PDF table on one page; value verbatim, value_num exact decimal string, with row_header, col_header chain and page legends | rebuilt on demand when the corpus changes | 2026-11-08 |
 | `obligations_2116` | uc_table | one contract action (modification) row; federal_action_obligation is that action's obligation | manual re-download from USAspending | 2026-06-10 |
+| `obligations_2114` | uc_table | one contract action (modification) row on N00024-15-C-2114, same columns as obligations_2116 | manual re-download from USAspending | 2026-07-20 |
+| `variances` | uc_table | one variance (E-1 to E-17): where two public sources disagree, and why | published from the front center register | 2026-11-19 |
 | `graph_edges` | uc_table | one directed edge src -rel-> dst between typed node ids (type:key) | rebuilt by the Knowledge Graph Build notebook | 2026-11-08 |
 | `work_register` | uc_table | one work item (kind + ref_id) with its current state and owner_agent | each dispatcher tick | 2026-11-08 |
 

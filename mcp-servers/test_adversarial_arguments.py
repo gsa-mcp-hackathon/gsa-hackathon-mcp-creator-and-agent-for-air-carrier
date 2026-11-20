@@ -1,7 +1,7 @@
 """Every Air Carrier tool, called with hostile arguments, refuses them or answers safely.
 
 The servers' own suites test each tool's validation one by one. This sweep
-asks one question of all 29 tools at once, the way an attacker or a confused
+asks one question of all 30 tools at once, the way an attacker or a confused
 model would: send SQL fragments, path traversal, oversized values, wrong
 enum members and control characters into every parameter, and check that
 
@@ -164,7 +164,7 @@ def _strings_in(value) -> list[str]:
 
 def test_the_sweep_covers_every_tool():
     tools = {(s, t) for s, t, _ in CASES}
-    assert len(tools) == 29, sorted(tools)
+    assert len(tools) == 30, sorted(tools)
 
 
 @pytest.mark.parametrize(
