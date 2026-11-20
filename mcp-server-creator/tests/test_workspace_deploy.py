@@ -117,6 +117,17 @@ async def _call(name: str, **arguments) -> dict:
     return result.structured_content or {}
 
 
+async def _deploy(spec_json: str) -> dict:
+    """Approve exactly what the plan showed, as a user saying yes would."""
+    plan = await _call("creator_deploy_server", spec_json=spec_json)
+    return await _call(
+        "creator_deploy_server",
+        spec_json=spec_json,
+        approve=True,
+        approval_token=plan["approval"]["token"],
+    )
+
+
 async def _write(spec_json: str, **arguments) -> dict:
     return await _call(
         "creator_write_project",
@@ -182,21 +193,21 @@ async def test_deploy_walks_from_approval_to_live(fake, designed_spec):
     assert not fake.api_client.calls, "planning must not touch apps"
 
     name = plan["app_name"]
-    step = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    step = await _deploy(spec_json)
     assert step["status"] == "creating" and name in fake.api_client.apps
 
-    step = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    step = await _deploy(spec_json)
     assert step["status"] == "creating"
 
     fake.api_client.apps[name]["compute_status"] = {"state": "ACTIVE"}
-    step = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    step = await _deploy(spec_json)
     assert step["status"] == "deploying" and step["deployment_id"] == "dep_1"
 
-    step = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    step = await _deploy(spec_json)
     assert step["status"] == "deploying"
 
     fake.api_client.finish_deployment(name)
-    live = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    live = await _deploy(spec_json)
     assert live["status"] == "live"
     assert live["mcp_url"].endswith("/mcp") and name in live["connect"]
     deployments = [c for c in fake.api_client.calls if c[1].endswith("/deployments")]
@@ -213,12 +224,12 @@ async def test_redeploy_refreshes_the_description_and_keeps_resources(
     assert plan["plan"]["description"].endswith("Built with MCP A Creator.")
     assert len(plan["plan"]["description"]) <= 500
 
-    await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    await _deploy(spec_json)
     app = fake.api_client.apps[name]
     resources = list(app["resources"])
     app["description"] = "stale description"
     app["compute_status"] = {"state": "ACTIVE"}
-    step = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    step = await _deploy(spec_json)
     assert step["status"] == "deploying"
     assert ("PATCH", f"/api/2.0/apps/{name}") in fake.api_client.calls
     assert app["description"] == plan["plan"]["description"]
@@ -236,8 +247,8 @@ async def test_deploy_never_touches_someone_elses_app(fake, designed_spec):
     spec_json = designed_spec.model_dump_json()
     await _write(spec_json, dry_run=False)
     fake.api_client.owner = "other@agency.gov"
-    await _call("creator_deploy_server", spec_json=spec_json, approve=True)
-    out = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    await _deploy(spec_json)
+    out = await _deploy(spec_json)
     assert out["status"] == "failed" and "belongs to" in out["error"]
     assert not [c for c in fake.api_client.calls if c[1].endswith("/deployments")]
 
@@ -262,3 +273,48 @@ async def test_a_blocked_review_stops_the_deploy(fake, designed_spec, monkeypatc
 async def test_without_a_user_token_nothing_is_written(designed_spec):
     out = await _write(designed_spec.model_dump_json(), dry_run=False)
     assert "no user token" in out["error"]
+
+
+async def test_approve_without_the_token_changes_nothing(fake, designed_spec):
+    spec_json = designed_spec.model_dump_json()
+    await _write(spec_json, dry_run=False)
+    out = await _call("creator_deploy_server", spec_json=spec_json, approve=True)
+    assert out["status"] == "needs_approval"
+    assert "No approval token" in out["approval"]["why_again"]
+    assert not fake.api_client.calls
+
+
+async def test_an_approval_covers_only_the_design_it_was_given_for(fake, designed_spec):
+    spec_json = designed_spec.model_dump_json()
+    await _write(spec_json, dry_run=False)
+    plan = await _call("creator_deploy_server", spec_json=spec_json)
+    token = plan["approval"]["token"]
+
+    changed = designed_spec.model_copy(deep=True)
+    changed.purpose = changed.purpose + " Also exports every row."
+    out = await _call(
+        "creator_deploy_server",
+        spec_json=changed.model_dump_json(),
+        approve=True,
+        approval_token=token,
+    )
+    assert out["status"] == "needs_approval"
+    assert "changed after this was reviewed" in out["approval"]["why_again"]
+    assert out["approval"]["token"] != token
+    assert not fake.api_client.calls
+
+
+async def test_a_file_added_after_review_needs_a_fresh_yes(fake, designed_spec):
+    spec_json = designed_spec.model_dump_json()
+    written = await _write(spec_json, dry_run=False)
+    plan = await _call("creator_deploy_server", spec_json=spec_json)
+    folder = plan["plan"]["source_path"].removeprefix("/Workspace")
+    fake.workspace.files[f"{folder}/extra_tool.py"] = "import os"
+    out = await _call(
+        "creator_deploy_server",
+        spec_json=spec_json,
+        approve=True,
+        approval_token=plan["approval"]["token"],
+    )
+    assert written and out["status"] == "needs_approval"
+    assert not fake.api_client.calls
