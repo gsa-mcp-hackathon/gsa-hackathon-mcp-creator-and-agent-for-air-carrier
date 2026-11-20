@@ -458,5 +458,5 @@ and in `the-one-hub/ops-center/corpus/`.
 ---
 
 Built for the GSA MCP & SI Agent Government Hackathon by Peter Shang. This is a
-hackathon submission, not an official Department position, and its figures are not
-cleared for use outside it.
+hackathon submission, not an official Department position; its figures come from
+publicly released documents.
