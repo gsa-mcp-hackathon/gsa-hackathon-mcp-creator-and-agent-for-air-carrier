@@ -19,6 +19,15 @@ every number is an exact decimal with its document, page, row header, column hea
 * **On-request parse.** Reads a PDF from an allowed UC volume (Files API) and returns map, tables and tie-outs
   without storing anything.
 
+## Beyond CVN-79
+
+The reader has no CVN-79 logic in it. Exhibit formats (P-40, P-5c, P-27, P-8a, P-35, P-10)
+are standard across DoD procurement books, and SAR sections follow one template, so the same
+structure map, table rebuild and tie-outs apply to any appropriation's justification books
+and any program's SAR. Today 33 PDFs are loaded; `docs_parse_pdf` reads any other PDF from an
+allowed volume on request. Users: budget analysts, cost estimators, congressional and GAO
+staff, and auditors who now retype exhibits into spreadsheets.
+
 ## Tools
 
 `docs_status`, `docs_list_documents`, `docs_document_map`, `docs_read_page`, `docs_get_table`,

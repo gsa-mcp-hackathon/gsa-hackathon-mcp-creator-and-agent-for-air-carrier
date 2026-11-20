@@ -24,6 +24,14 @@ figure), it works the way an analyst does:
 Cases: `CVN-79`, `CVN-78`, `CVN-80/81`, `CLASS_SHARED` (Ford-class common cost), `OTHER_CARRIER`
 (Nimitz class, CV-67, CVN-65), `NOT_CARRIER`.
 
+## Beyond CVN-79
+
+Researching one record with missing data elements is the slowest step in audit remediation:
+unsupported transactions, abnormal balances and Universe of Transactions gaps all start
+there. The investigator's method (profile, plan, chase, weigh, decide, with human review on
+weak answers) does not depend on the program. A new program supplies its contracts, File C,
+sub-awards and key set; the six cases become that program's hulls or lots.
+
 ## Skills and what they read
 
 | Skill | Runs on | Reads |
