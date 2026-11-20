@@ -21,7 +21,7 @@ to run on every major defense acquisition program.
 
 | GSA criterion | Open this | What it shows |
 | --- | --- | --- |
-| Mission alignment | [Who uses it](#who-uses-it-and-what-changes-for-them) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor, the DoD audit and acquisition problem they share, and the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
+| Mission alignment | [Who uses it](#who-uses-it-and-what-changes-for-them), [the stack](#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
 | Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 1,021 tests, lint, on Python 3.11 and 3.12 |
 | Technical quality | [Delegation results](eval/delegation/RESULTS.md) and [round 2](eval/delegation/round2/README.md) | With all 29 tools, models answer 83.3% of strict held-out questions against 25.0% without tools. A second held-out set of 12 questions is sealed by SHA-256 before any run |
 | Technical quality | [Evaluation report](docs/submission/evaluation-report.pdf), [addendum](docs/submission/EVALUATION_ADDENDUM.md), [claim map](#claim-to-artifact-map) | Seven-day probe at 99.83%, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
@@ -174,6 +174,77 @@ variance or gap register with its evidence.
 - Assets move between hulls by memorandum, with no procurement transaction: one AAG
   engine set moved from CVN-78 to CVN-79 this way (Ring 0, J.4).
 
+### The stack: seven capabilities, each useful on its own
+
+Each layer below answers a problem that federal financial management and acquisition
+offices carry today. They were built for CVN-79, and none of them depends on CVN-79 to
+work. Stacked, each one makes the layer above it trustworthy.
+
+```mermaid
+flowchart TB
+  subgraph Build["Build"]
+    CR["MCP A Creator<br/>question + table to a governed server"]
+  end
+  subgraph Read["Read and query"]
+    DOC["Docs server<br/>budget books, SARs, GAO as verified tables"]
+    OPS["Ops server and generated servers<br/>governed Unity Catalog access"]
+  end
+  subgraph Reason["Investigate"]
+    AN["Analyst server<br/>a record with missing data to its contract, hull and account"]
+  end
+  subgraph Govern["Govern"]
+    HUB["One Hub server<br/>gate, falsification, tie-out, gaps, collection requests"]
+  end
+  subgraph Watch["Watch"]
+    PR["Probe<br/>known-answer checks, hourly"]
+  end
+  subgraph Deliver["Deliver"]
+    FC["Front center, six agents, Genie Code skills"]
+  end
+  CR --> DOC & OPS
+  DOC --> AN
+  OPS --> AN
+  AN --> HUB
+  DOC --> HUB
+  HUB --> FC
+  PR -. checks .-> DOC & AN & OPS
+```
+
+| Capability | The problem it solves on its own | Who needs it beyond CVN-79 | Where it stands today |
+| --- | --- | --- | --- |
+| **MCP A Creator** (10 tools) | Turning a dataset into a tool an agent can use takes a developer and weeks, and an improvised server is untested and different every time. The Creator profiles the table, designs one tool per question, reviews meaning as well as shape, and generates a tested project that deploys as the requester's own app | Every office with a Unity Catalog table and a question. GSA's stated aim for this hackathon is an internal library of MCP server prototypes for the government workforce ([event page](https://www.gsa.gov/artificial-intelligence/si-community-of-practice/events-and-training/mcp-server-and-ai-agent-government-hackathon)); the Creator is how a non-developer adds to that library | Works on any table today. It built the ops server inside this hub, plus `mcp-bakehouse-sales` and `weather-mcp` |
+| **Docs server** (11 tools) | Budget justification books and SARs run to hundreds of pages each, and analysts retype exhibits into spreadsheets. The docs server reads them deterministically, with no model: it maps each book by exhibit and P-1 line item, rebuilds tables with exact decimals, ties out every subtotal and total, and says whether a figure appears in an authoritative source (J-book, SAR) or only a secondary one (CRS, GAO) | Budget analysts, cost estimators, congressional and GAO staff, and auditors, on every appropriation's J-books and every program's SAR. Exhibit formats (P-40, P-5c, P-8a, P-10) are standard across DoD | The reader has no CVN-79 logic in it. 33 PDFs and 7,555 pages are loaded; 814 of 818 tie-out checks pass. `docs_parse_pdf` reads any other PDF from a volume on request |
+| **Analyst server** (12 tools) | The slowest work in audit remediation is researching a single record that is missing data elements: a GL line, an obligation or an invoice with no contract, no line of accounting or no hull. The analyst profiles what is missing, chases clues across FPDS, File C, sub-awards, the knowledge graph and every document, weighs the evidence, and returns ranked cases with citations, recovered data elements, a collection request for each missing one, and a human-review flag when the answer is weak | Component reconciliation teams, DFAS, FIAR teams and the auditors they support, on unsupported transactions, abnormal balances and Universe of Transactions gaps behind material weaknesses such as Fund Balance with Treasury and contractor-held property | Its skills read the two CVN-79 prime contracts today. A new program adds its contracts, File C and key set; the investigator's method does not change |
+| **Ops server** (6 tools) | Agents need governed, paged, read-only access to exhibit cells, obligations, the knowledge graph and the work register, without raw SQL | Any team that keeps its facts in Unity Catalog | Generated by the Creator; golden set of 17 items with independent answers |
+| **One Hub server** (16 tools) | An AI agent can put a wrong figure in a leadership brief or a financial statement in one sentence. This server is the control: `check_claim` routes any candidate figure through policy and the gate and never promotes on its own; `challenge_text` falsifies text against recorded error classes; `tie_out` and `check_anchor_chain` close totals without a model; `rank_gaps`, `plan_gap`, `next_work` and `collection_requirement` turn every unknown into an owned request to a named office | Any office that lets an agent draft numbers: comptrollers, audit liaisons, budget shops. The gap queue works like an auditor's request list, ranked by exposure, ignorance and closability | Runs over stdio, and ships an `app.yaml` for hosting; it is not among the eight deployed apps. The agents and the front center call the same functions directly |
+| **Probe** | When a user's agent says "Failed to generate OAuth token", nobody can tell whether the server or the connector broke. The probe calls every server hourly as a non-human caller, through initialize, tools/list and one known-answer check, and logs which step failed | Any agency running MCP servers in production, as continuous monitoring evidence for an authority to operate | 238 hourly sweeps over seven days: 99.83% of 3,568 checks ok, 709 of 709 known answers right |
+| **Delivery: front center, six agents, Genie Code skills** | Leaders and analysts need the answer, not the tools. 23 pages answer one question each; six agents hand work to each other only through the work register; three Genie Code skills let an analyst verify a figure, investigate a gap or draft a collection request in their own workspace | Program offices, comptroller staff, auditors | Live as a Databricks App; also runs locally from the bundled data with two commands |
+
+**One record through the stack.** A GL line reads "$454,765,071.00, SCN progress CVN 79",
+with no contract and no modification. This is development question Q2 in the delegation
+evaluation: both models answer it in all six runs with the tools, and miss it in both runs
+without them.
+
+1. **Analyst.** `analyst_investigate_record` matches the amount in the FPDS record to
+   modification P00067 on N00024-15-C-2114, and the key set confirms that contract is the
+   Kennedy's detail design and construction contract. It returns the case, its evidence and
+   the data elements it recovered.
+2. **Docs.** The budget line and exhibit behind that contract, SCN line 2001 and the P-5c,
+   come back as tied-out tables with page numbers.
+3. **One Hub server.** `check_claim` routes the figure: promoted only if it ties to a source
+   record, otherwise held as a lead or sent to human review with the reason. If an element
+   is still missing, `collection_requirement` names the document, the system and the office
+   that hold it.
+4. **Probe.** The same hour, the probe has already confirmed that each server answered a
+   known question correctly, so a wrong answer is a finding about the data, not about a
+   broken transport.
+
+Repeat that for every unsupported transaction in a component's ledger, and the result is
+the audit trail that the General PP&E and contractor-held property weaknesses say is
+missing.
+
+---
+
 ## Background: one ship, four numbers
 
 CVN-79 is the second ship of the Gerald R. Ford class, built by HII Newport News
@@ -303,6 +374,11 @@ including Genie Code, and the front center and the agents use the same ones.
 | [`mcp-aircarrier-docs`](mcp-servers/mcp-aircarrier-docs/) | 11 | Reads the source PDFs (J-books, SARs, GAO, CRS) to the page, table and figure; runs tie-outs; flags a false premise in a search before the model spends tokens on it |
 | [`mcp-aircarrier-analyst`](mcp-servers/mcp-aircarrier-analyst/) | 12 | Investigates incomplete cost records, infers lines of accounting, explains File C residuals, ranks leads; one gated write that labels an outcome |
 | [`mcp-aircarrier-ops`](mcp-servers/mcp-aircarrier-ops/) | 6 | Exhibit cells, contract obligations by modification and fiscal year, the knowledge graph and the work register |
+
+**The One Hub's own MCP server** ([`the-one-hub/ops-center/mcp/`](the-one-hub/ops-center/mcp/)), 16 tools
+that expose the gate, the falsification checks, the tie-outs and the gap queue to any agent,
+and **a probe** that calls every deployed server hourly with a known question. Their
+standalone value is in [the stack](#the-stack-seven-capabilities-each-useful-on-its-own).
 
 **A front center** ([`the-one-hub/ops-center/app/`](the-one-hub/ops-center/app/)): a
 FastAPI application with server-rendered pages and charts and a JSON API, described above.
