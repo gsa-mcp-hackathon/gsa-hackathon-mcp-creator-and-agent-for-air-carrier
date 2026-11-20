@@ -17,6 +17,20 @@ class DocsError(ValueError):
     pass
 
 
+_CYCLE = re.compile(r"(?<![A-Za-z0-9])(?:PB|FY)[ _-]?(?:20)?(\d{2})(?!\d)", re.IGNORECASE)
+
+
+def budget_cycle(text: str) -> str:
+    """The President's Budget cycle a document or a request names, as PB2024.
+
+    J-book filenames say PB24 or PB 2024; people ask for "the PB 2024 book" or
+    "FY2024". Keyword search cannot join those spellings, which is how a model
+    lands on the wrong year's P-5c (evaluation finding F7). Empty when none.
+    """
+    m = _CYCLE.search(text or "")
+    return f"PB20{m.group(1)}" if m else ""
+
+
 def _doc(c: Corpus, artifact_id: str):
     try:
         return c.doc(artifact_id)
@@ -40,6 +54,7 @@ def list_documents(c: Corpus, kind: str = "") -> list[dict]:
         if kind and d.kind != kind:
             continue
         out.append({"artifact_id": d.artifact_id, "filename": d.filename, "kind": d.kind,
+                    "budget_cycle": budget_cycle(d.filename),
                     "pages": len(d.pages), "tables": len(d.tables)})
     return out
 
@@ -83,12 +98,19 @@ def get_table(c: Corpus, table_id: str, include_continuations: bool = True, max_
             "grade": GRADE}
 
 
-def find_line_item(c: Corpus, line_item: str, exhibit: str = "") -> dict:
+def find_line_item(c: Corpus, line_item: str, exhibit: str = "", cycle: str = "") -> dict:
     if not re.fullmatch(r"\d{4}", line_item or ""):
         raise DocsError("line_item is the four-digit P-1 line item number, e.g. 2001")
+    wanted = budget_cycle(cycle) if cycle else ""
+    if cycle and not wanted:
+        raise DocsError("budget_cycle names a President's Budget year, e.g. PB2024, PB 2024 or FY2024")
     hits = []
+    loaded = sorted({budget_cycle(d.filename) for d in c.docs.values()
+                     if d.kind == "budget_justification"} - {""})
     for d in c.docs.values():
         if d.kind != "budget_justification":
+            continue
+        if wanted and budget_cycle(d.filename) != wanted:
             continue
         for x in structure.document_map(d.kind, sorted(d.pages.items())):
             if x.get("line_item") != line_item or (exhibit and x.get("exhibit", "").lower() != exhibit.lower()):
@@ -96,10 +118,15 @@ def find_line_item(c: Corpus, line_item: str, exhibit: str = "") -> dict:
             lo, hi = x["pages"]
             tabs = [t for t in d.tables if lo <= c.tables[t].page <= hi]
             heads = sorted({c.chain(t)[0].table_id for t in tabs})
-            hits.append({**x, "artifact_id": d.artifact_id, "filename": d.filename, "tables": tabs,
+            hits.append({**x, "artifact_id": d.artifact_id, "filename": d.filename,
+                         "budget_cycle": budget_cycle(d.filename), "tables": tabs,
                          "table_chains": heads})
-    return {"line_item": line_item, "exhibit": exhibit or None, "sections": hits,
-            "note": "Call docs_get_table on a table_chains id for the cells and their tie-outs."}
+    note = "Call docs_get_table on a table_chains id for the cells and their tie-outs."
+    if wanted and not hits:
+        note = (f"No loaded J-book is {wanted}. Loaded cycles: {', '.join(loaded) or 'none'}. "
+                "Say the book is not loaded rather than answering from another year.")
+    return {"line_item": line_item, "exhibit": exhibit or None, "budget_cycle": wanted or None,
+            "loaded_cycles": loaded, "sections": hits, "note": note}
 
 
 def premise_flags(query: str, terms) -> list[dict]:

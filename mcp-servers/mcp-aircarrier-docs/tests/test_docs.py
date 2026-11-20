@@ -161,6 +161,25 @@ def test_line_item_and_table(corpus):
     assert gt["tieout_status"] == "pass" and gt["pages"] == [95, 96]
 
 
+@pytest.mark.parametrize("text,cycle", [
+    ("SCN_Book PB27.pdf", "PB2027"), ("SCN Book PB 2024.pdf", "PB2024"),
+    ("the PB 2024 SCN book", "PB2024"), ("FY2024", "PB2024"), ("pb24", "PB2024"),
+    ("CVN_78_MSAR_FY2027_PBv2.pdf", "PB2027"), ("RS20643 CRS.pdf", ""), ("PB2024x9", "PB2024"),
+])
+def test_budget_cycle_joins_the_spellings(text, cycle):
+    assert service.budget_cycle(text) == cycle
+
+
+def test_line_item_by_budget_cycle(corpus):
+    li = service.find_line_item(corpus, "2001", "P-5c", "PB 2027")
+    assert li["sections"] and all(s["budget_cycle"] == "PB2027" for s in li["sections"])
+    other = service.find_line_item(corpus, "2001", "P-5c", "PB2024")
+    assert other["sections"] == [] and "not loaded" in other["note"]
+    assert other["loaded_cycles"] == ["PB2027"]
+    with pytest.raises(service.DocsError):
+        service.find_line_item(corpus, "2001", "P-5c", "next year")
+
+
 def test_service_rejects_bad_input(corpus):
     with pytest.raises(service.DocsError):
         service.find_figure(corpus, "abc")
