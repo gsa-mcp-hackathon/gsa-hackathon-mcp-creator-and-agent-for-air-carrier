@@ -60,7 +60,7 @@ def file_c_tieout(fc_rows: list[dict], tx_rows: list[dict]) -> list[dict]:
     for p in sorted(by_p):
         try:
             fy, mon = T.period_bounds(p)
-        except Exception:  # noqa: BLE001 - not a period this method reads
+        except Exception:  # noqa: BLE001, S112 - not a period this method reads
             continue
         end = T._fm_end(fy, mon).isoformat()
         wins = {"3 months": T._fm_start(fy, max(mon - 2, 1)).isoformat(),

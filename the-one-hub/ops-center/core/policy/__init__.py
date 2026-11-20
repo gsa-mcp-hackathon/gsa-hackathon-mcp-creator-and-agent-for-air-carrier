@@ -1,4 +1,4 @@
-from .decisions import POLICIES, evaluate, PolicyViolation
-from .gate import route, GateRoute, Decision
+from .decisions import POLICIES, PolicyViolation, evaluate
+from .gate import Decision, GateRoute, route
 
-__all__ = ["POLICIES", "evaluate", "PolicyViolation", "route", "GateRoute", "Decision"]
+__all__ = ["POLICIES", "Decision", "GateRoute", "PolicyViolation", "evaluate", "route"]

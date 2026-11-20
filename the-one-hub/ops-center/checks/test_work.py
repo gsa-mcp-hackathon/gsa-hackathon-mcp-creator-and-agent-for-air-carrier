@@ -21,13 +21,12 @@ import pytest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "app"))
 
-from fastapi.testclient import TestClient  # noqa: E402
-
-import main  # noqa: E402
-from api import envelopes as E  # noqa: E402
-from api import harness as work  # noqa: E402
-from api import harness_sql as H  # noqa: E402
-from api import identity  # noqa: E402
+import main
+from api import envelopes as E
+from api import harness as work
+from api import harness_sql as H
+from api import identity
+from fastapi.testclient import TestClient
 
 
 # ----------------------------------------------------------------- envelopes
@@ -61,8 +60,8 @@ def test_figure_staleness_is_a_window_on_as_of():
 # --------------------------------------------------------- provenance IDs (A-13)
 def test_provenance_id_is_deterministic_and_stable():
     """Same inputs → same provenance_id, different inputs → different id."""
-    kw = dict(figure_id="x", label="L", value="1", unit="USD", as_of="2026-11-11T03:00:00Z",
-              record_ids=["r1", "r2"], computation="c", source="s")
+    kw = {"figure_id": "x", "label": "L", "value": "1", "unit": "USD", "as_of": "2026-11-11T03:00:00Z",
+              "record_ids": ["r1", "r2"], "computation": "c", "source": "s"}
     f1 = E.figure(**kw)
     f2 = E.figure(**kw)
     assert f1["provenance"]["provenance_id"] == f2["provenance"]["provenance_id"]
@@ -74,8 +73,8 @@ def test_provenance_id_is_deterministic_and_stable():
 
 def test_provenance_id_ignores_record_order():
     """record_ids [a,b] and [b,a] produce the same provenance_id."""
-    kw = dict(figure_id="x", label="L", value="1", unit="USD", as_of=None,
-              computation="c", source="s")
+    kw = {"figure_id": "x", "label": "L", "value": "1", "unit": "USD", "as_of": None,
+              "computation": "c", "source": "s"}
     f1 = E.figure(**kw, record_ids=["b", "a"])
     f2 = E.figure(**kw, record_ids=["a", "b"])
     assert f1["provenance"]["provenance_id"] == f2["provenance"]["provenance_id"]
@@ -558,9 +557,10 @@ def test_preview_refuses_derived_rule_while_source_inactive_a29():
 
 def test_preview_cache_and_added_endpoint(client):
     """GET /preview/{id}/added returns cached data from a preview."""
-    from api import harness as W
     # Manually cache a preview
-    from datetime import datetime, timezone, timedelta
+    from datetime import datetime, timedelta, timezone
+
+    from api import harness as W
     pid = "test-preview-id"
     W._preview_cache[pid] = {
         "rule_id": "CC-02", "preview_id": pid,
@@ -585,8 +585,9 @@ def test_preview_cache_and_added_endpoint(client):
 
 def test_preview_expired_returns_404(client):
     """GET /preview/{id}/added returns 404 for expired preview."""
+    from datetime import datetime, timedelta, timezone
+
     from api import harness as W
-    from datetime import datetime, timezone, timedelta
     pid = "expired-preview"
     W._preview_cache[pid] = {
         "added": [], "removed": [],
@@ -730,7 +731,7 @@ def test_confirm_then_post_sends_sorted_records_and_redirects(client):
     r = c.post("/work/proposals/p1/apply", follow_redirects=False, headers={"origin": "http://testserver"},
                data={"confirmed_record_ids": ["rec-2", "rec-1"], "request_id": rid, "exception_id": "e1"})
     assert r.status_code == 303 and r.headers["location"] == f"/work/exceptions/e1?req={rid}"
-    [(sql, params)] = [(s, p) for s, p in fake.calls if "BEGIN ATOMIC" in s]
+    [(_sql, params)] = [(s, p) for s, p in fake.calls if "BEGIN ATOMIC" in s]
     assert params["confirmed_records"] == '["rec-1","rec-2"]' and params["request_id"] == rid
 
 
@@ -918,8 +919,8 @@ def test_rules_page_falls_back_to_snapshot_and_says_why(rules_page):
 
 def test_rules_page_si_rulebook_is_the_code(rules_page):
     """The SI text on the page is the text the specialist is given, not a copy."""
-    from markupsafe import escape        # what Jinja autoescape writes
     from api.si import sdk, tasks
+    from markupsafe import escape  # what Jinja autoescape writes
     page = rules_page(CATALOG_ROWS).text
     for code, text in tasks.RULEBOOK.items():
         assert str(escape(text)) in page, code

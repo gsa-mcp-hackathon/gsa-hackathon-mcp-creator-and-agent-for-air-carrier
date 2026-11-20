@@ -30,14 +30,13 @@ from typing import Any
 
 from . import catalog as C
 from ._common import call_model as _call_model
-from ._common import message_text as _text  # noqa: F401  (kept: module API)
+from ._common import message_text as _text
 from ._common import role_chain
 from ._common import spark_session as _spark
 from .checker import check_proposal
 from .precheck import precheck as _precheck
 from .specialists import get_specialist
-from .tools import TOOL_SCHEMAS, TOOL_DISPATCH, argument_error
-
+from .tools import TOOL_DISPATCH, TOOL_SCHEMAS, argument_error
 
 MAX_STEPS = 8
 
@@ -368,7 +367,7 @@ def run_exception(
 
             break  # Success — don't try the next model
 
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - try the next model; the reason is kept
             error_msg = f"{model}: {type(exc).__name__}: {str(exc)[:300]}"
             continue
 
@@ -412,7 +411,7 @@ def run_exception(
                 continue
             try:
                 verdicts.append(check_proposal(proposal_id, call=checker_call))
-            except Exception as exc:  # one bad check must not lose the run
+            except Exception as exc:  # noqa: BLE001 - one bad check must not lose the run
                 verdicts.append({"proposal_id": proposal_id, "verdict": "error",
                                  "block_reason": f"{type(exc).__name__}: {str(exc)[:200]}",
                                  "model": None})

@@ -22,12 +22,11 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from core.contracts import Claim, Coordinate, Tag, Zone          # noqa: E402
-from core.policy.decisions import evaluate                       # noqa: E402
-from core.policy.gate import route                               # noqa: E402
-from ops.agents.challenger.run import challenge                  # noqa: E402
-from ops.agents.tieout.run import (anchor_chain, residual_is_finding,  # noqa: E402
-                                   two_axis_close)
+from core.contracts import Claim, Coordinate, Tag, Zone
+from core.policy.decisions import evaluate
+from core.policy.gate import route
+from ops.agents.challenger.run import challenge
+from ops.agents.tieout.run import anchor_chain, residual_is_finding, two_axis_close
 
 DATA = ROOT / "app" / "data"
 SEED = ROOT / "seed"
@@ -342,6 +341,7 @@ def search_corpus(query: str, k: int = 6, authoritative_only: bool = True,
 def corpus_status() -> dict:
     """What the knowledge base actually holds, and what it does not."""
     import json as _json
+
     from ops.ingest.search import KnowledgeBase
     out = {"index": KnowledgeBase().stats()}
     man = ROOT / "corpus" / "MANIFEST.json"

@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import json
 import uuid
-from typing import Callable
+from collections.abc import Callable
 
 from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel, ConfigDict, Field
@@ -792,7 +792,7 @@ def api_rule(request: Request, rule_id: str):
 # -------------------------------------------------------------------- preview
 
 from collections import OrderedDict as _OD
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 _PREVIEW_TTL = timedelta(minutes=10)
 _PREVIEW_CACHE_MAX = 50

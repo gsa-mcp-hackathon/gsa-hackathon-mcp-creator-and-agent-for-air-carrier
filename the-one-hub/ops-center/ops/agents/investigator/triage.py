@@ -68,7 +68,7 @@ def open_gaps_from_log(log_text: str, status: dict[str, str]) -> dict[str, str]:
     """G-number -> question, from LOG.md Part II headings '## G<n>. <question>', open ones only."""
     part = log_text.split("# Part II", 1)[-1]
     out = {}
-    for m in re.finditer(r"^## (G\d+)\.\s+(.+)$", part, re.M):
+    for m in re.finditer(r"^## (G\d+)\.\s+(.+)$", part, re.MULTILINE):
         if status.get(m[1]) in ("open", "narrowed", "reframed"):
             out[m[1]] = m[2].strip()
     return out

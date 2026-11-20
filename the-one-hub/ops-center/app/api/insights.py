@@ -15,7 +15,7 @@ Each item: severity, what, so_what, now_what, and the evidence it stands on.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 
 
 @dataclass
@@ -182,8 +182,8 @@ def derive(d: dict) -> list[Item]:
                   "question about a transaction worse than a WHERE clause does, and "
                   "embedding them swamps the index with rows. Ask the corpus for "
                   "meaning and the tables for numbers."),
-            evidence=[f"{corpus.get('count', corpus.get('artifacts', 0))} artifacts, "
-                      f"{corpus.get('bytes', 0) / 1048576:.0f}MB catalogued"],
+            evidence=[(f"{corpus.get('count', corpus.get('artifacts', 0))} artifacts, "
+                      f"{corpus.get('bytes', 0) / 1048576:.0f}MB catalogued")],
             rule="corpus manifest routing", link="/knowledge"))
 
     order = {"high": 0, "medium": 1, "low": 2}

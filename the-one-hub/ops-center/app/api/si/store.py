@@ -28,7 +28,7 @@ import re
 import threading
 import uuid
 from collections import OrderedDict, deque
-from typing import Callable
+from collections.abc import Callable
 
 from ..sqlsafe import Fragment, compose
 from .sdk import Run, now_iso
@@ -85,7 +85,7 @@ def _table_to_verdict(v: str) -> str:
 
 
 def load_sql(t: dict[str, str]) -> dict[str, str]:
-    from ..harness_sql import iso                  # the one ISO-8601 UTC formatter
+    from ..harness_sql import iso  # the one ISO-8601 UTC formatter
     return {
         "run": compose("""SELECT run_id, trigger, triggered_by, {started} AS started_at,
   {ended} AS ended_at, subject_kind, subject_id, specialist, outcome

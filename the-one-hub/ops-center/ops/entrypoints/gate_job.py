@@ -56,10 +56,10 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core import catalog, ledger                     # noqa: E402
-from core.contracts import RiskFlag, State, Zone     # noqa: E402
-from core.policy.decisions import evaluate           # noqa: E402
-from core.policy.gate import Decision, route         # noqa: E402
+from core import catalog, ledger
+from core.contracts import RiskFlag, State, Zone
+from core.policy.decisions import evaluate
+from core.policy.gate import Decision, route
 
 GATE_LOG = catalog.STORE_SCHEMA + ".aircarrier_gate"
 REVIEW_QUEUE = catalog.STORE_SCHEMA + ".aircarrier_v_review_queue"

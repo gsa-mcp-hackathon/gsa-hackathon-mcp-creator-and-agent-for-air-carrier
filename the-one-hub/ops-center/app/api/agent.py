@@ -199,7 +199,7 @@ def t_search_documents(kb, query: str, k: int = 6):
     return {"hits": out}, cites
 
 
-_EXH = re.compile(r"^P-\d{1,2}[a-z]?$", re.I)
+_EXH = re.compile(r"^P-\d{1,2}[a-z]?$", re.IGNORECASE)
 _D4 = re.compile(r"^\d{4}$")
 
 
@@ -436,4 +436,4 @@ def _done(text, model, cites, trace, t0) -> dict:
             "data_mode": "live" if live.status()["live"] else "extract"}
 
 
-__all__ = ["ask", "run_tool", "models", "TOOLS", "Decimal", "mask_figures"]
+__all__ = ["TOOLS", "Decimal", "ask", "mask_figures", "models", "run_tool"]

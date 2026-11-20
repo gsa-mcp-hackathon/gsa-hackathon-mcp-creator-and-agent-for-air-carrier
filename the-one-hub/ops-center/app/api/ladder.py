@@ -21,9 +21,7 @@ A rung whose data source is absent says so and links to the gap.
 """
 from __future__ import annotations
 
-import json
 import pathlib
-from collections import OrderedDict
 from decimal import Decimal, InvalidOperation
 
 from api import data, explore
@@ -227,4 +225,4 @@ def summary(ladder: list[dict] | None = None) -> dict:
             "error": c.get("error", 0), "coverage_pct": coverage_pct}
 
 
-__all__ = ["layers", "build", "summary", "RUNGS"]
+__all__ = ["RUNGS", "build", "layers", "summary"]

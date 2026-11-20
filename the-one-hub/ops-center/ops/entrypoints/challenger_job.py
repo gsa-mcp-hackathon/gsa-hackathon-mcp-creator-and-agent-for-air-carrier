@@ -46,12 +46,12 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core import catalog, ledger                 # noqa: E402
-from core.contracts import State                 # noqa: E402
-from core.policy.decisions import evaluate       # noqa: E402
-from core.policy.gate import route               # noqa: E402
-from ops.agents.challenger.run import challenge  # noqa: E402
-from ops.dispatcher.routing import next_action   # noqa: E402
+from core import catalog, ledger
+from core.contracts import State
+from core.policy.decisions import evaluate
+from core.policy.gate import route
+from ops.agents.challenger.run import challenge
+from ops.dispatcher.routing import next_action
 
 DDL = f"""CREATE TABLE IF NOT EXISTS {catalog.CHALLENGE_LOG} (
   claim_id STRING NOT NULL, version_sha STRING NOT NULL, earned_flags ARRAY<STRING>, tells ARRAY<STRING>,

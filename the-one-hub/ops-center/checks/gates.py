@@ -128,8 +128,8 @@ def main() -> int:
         line("A", "Databricks Apps enabled", "pass",
              [f"Apps API reachable. {len(apps)} app(s) in the workspace.",
               "Existing: " + (", ".join(a.name for a in apps[:6]) or "none yet"),
-              "First-app onboarding still needs a service principal and Unity "
-              "Catalog grants; budget calendar for it."])
+              ("First-app onboarding still needs a service principal and Unity "
+              "Catalog grants; budget calendar for it.")])
     except Exception as exc:
         fails += 1
         line("A", "Databricks Apps enabled", "fail",
@@ -200,33 +200,33 @@ def main() -> int:
                       if drops else
                       "no denials recorded. Either egress is unrestricted or nothing "
                       "has tried yet, and those look identical here.",
-                      "Only denials are logged by default, so an empty table is not "
-                      "proof that a destination is reachable."])
+                      ("Only denials are logged by default, so an empty table is not "
+                      "proof that a destination is reachable.")])
             except Exception as exc:
                 msg = str(exc)
                 if "TABLE_OR_VIEW_NOT_FOUND" in msg or "not found" in msg.lower():
                     line("B", "Serverless egress", "manual",
                          ["system.access.outbound_network is not available.",
-                          "The system catalog's access schema has to be enabled by an "
-                          "account admin before the table exists.",
-                          "Ask instead: which network policy is bound to this workspace, "
-                          "and is its restriction mode full or restricted."])
+                          ("The system catalog's access schema has to be enabled by an "
+                          "account admin before the table exists."),
+                          ("Ask instead: which network policy is bound to this workspace, "
+                          "and is its restriction mode full or restricted.")])
                     done_b = True
 
     # B-3. Neither route. Say what to ask and of whom.
     if not done_b:
         line("B", "Serverless egress policy", "manual",
              ["Account-level read, and this profile has no account access.",
-              "Ask an account admin for the workspace's network policy restriction "
-              "mode and its allowlist.",
+              ("Ask an account admin for the workspace's network policy restriction "
+              "mode and its allowlist."),
               "If restricted, these must be on it for the product to work: "
               + ", ".join(EGRESS_NEEDED)])
 
     # ---- Gate C. Can the sponsor open the app? -----------------------------
     line("C", "Sponsor can open the app", "manual",
          ["Apps are reachable only by authenticated users in the same Databricks account.",
-          "Confirm the sponsor has a workspace identity. If not, plan a screen "
-          "share and use the static export at app/_preview/ as the fallback."])
+          ("Confirm the sponsor has a workspace identity. If not, plan a screen "
+          "share and use the static export at app/_preview/ as the fallback.")])
 
     checking("D", "looking for budget execution data")
     # ---- Gate D. Advana budget execution for this hull's lines -------------
@@ -236,8 +236,8 @@ def main() -> int:
         line("D", "Budget execution reachable", "warn" if not hits else "pass",
              [f"{len(cats)} catalog(s) visible to this identity.",
               "Candidates: " + (", ".join(hits[:8]) if hits else "none that look like FM data"),
-              "The real check is whether SCN line 2001 and the RDT&E lines "
-              "funding this hull are queryable, not general Advana access."])
+              ("The real check is whether SCN line 2001 and the RDT&E lines "
+              "funding this hull are queryable, not general Advana access.")])
     except Exception as exc:
         line("D", "Budget execution reachable", "manual",
              [f"catalog list not readable: {type(exc).__name__}"])

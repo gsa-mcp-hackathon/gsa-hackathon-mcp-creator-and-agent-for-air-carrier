@@ -28,7 +28,6 @@ from typing import Any
 from . import catalog as C
 from ._common import spark_session as _spark
 
-
 # ---- table-name placeholders the expression_sql may contain -----------------
 _TABLE_MAP = {
     "{EXCEPTIONS}": C.EXCEPTIONS,
@@ -206,7 +205,7 @@ def evaluate(
                     """, args=exc_args)
                 rows_written += 1
 
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - the run is recorded as an error, not lost
             status = "error"
             error_msg = str(exc)[:500]
 

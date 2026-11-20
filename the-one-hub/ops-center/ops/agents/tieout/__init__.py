@@ -17,4 +17,4 @@ Checks, in checks/:
   tx.py         transaction history aggregation
   faf.py        federal account funding aggregation
 """
-from .run import two_axis_close, anchor_chain, residual_is_finding  # noqa: F401
+from .run import anchor_chain, residual_is_finding, two_axis_close  # noqa: F401

@@ -38,7 +38,7 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from ops.harness.evaluate import evaluate  # noqa: E402
+from ops.harness.evaluate import evaluate
 
 
 def main():

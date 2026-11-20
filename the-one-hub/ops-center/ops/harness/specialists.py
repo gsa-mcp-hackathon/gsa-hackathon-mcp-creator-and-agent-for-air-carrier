@@ -34,7 +34,7 @@ _PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 def load_prompt(agent_name: str) -> str:
     """Return the system prompt for one agent from prompts/<agent_name>.md."""
     text = (_PROMPTS_DIR / f"{agent_name}.md").read_text(encoding="utf-8")
-    return text[:-1] if text.endswith("\n") else text
+    return text.removesuffix("\n")
 
 
 _COST_CAPTURE_SYSTEM = load_prompt("cost_capture_specialist")

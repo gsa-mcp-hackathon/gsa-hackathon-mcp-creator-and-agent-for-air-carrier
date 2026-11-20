@@ -38,9 +38,9 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core import catalog                      # noqa: E402
-from core.contracts import State              # noqa: E402
-from ops.dispatcher.routing import ROUTES     # noqa: E402
+from core import catalog
+from core.contracts import State
+from ops.dispatcher.routing import ROUTES
 
 MANIFEST = os.environ.get("AIRCARRIER_MANIFEST",
                           "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/MANIFEST.json")
@@ -73,10 +73,10 @@ def candidates(spark) -> tuple[list[dict], list[str]]:
         if st is None:
             skipped.append(f"{n.node_id}: unmapped status {status!r}")
             continue
-        rows.append(dict(kind=n.node_type, ref_id=n.node_id.split(":", 1)[1], state=st))
-    for a in json.load(open(MANIFEST))["rows"]:
+        rows.append({"kind": n.node_type, "ref_id": n.node_id.split(":", 1)[1], "state": st})
+    for a in json.loads(pathlib.Path(MANIFEST).read_text())["rows"]:
         if a["route"] in ARTIFACT_ROUTES:
-            rows.append(dict(kind="artifact", ref_id=a["artifact_id"], state=State.MATERIAL_IN_HAND))
+            rows.append({"kind": "artifact", "ref_id": a["artifact_id"], "state": State.MATERIAL_IN_HAND})
     return rows, skipped
 
 

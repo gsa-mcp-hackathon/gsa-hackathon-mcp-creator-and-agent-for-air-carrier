@@ -29,15 +29,16 @@ sys.dont_write_bytecode = True
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from pyspark.sql import Row, SparkSession                                  # noqa: E402
+from pyspark.sql import Row, SparkSession
 
-from ops.harness import catalog as C                                       # noqa: E402
-from ops.harness import checker                                            # noqa: E402
-from ops.harness import evaluate as ev                                     # noqa: E402
-from ops.harness import orchestrator as orch                               # noqa: E402
-from ops.harness import specialists as sp                                  # noqa: E402
-from ops.harness import tools                                              # noqa: E402
-
+from ops.harness import catalog as C
+from ops.harness import (
+    checker,
+    tools,
+)
+from ops.harness import evaluate as ev
+from ops.harness import orchestrator as orch
+from ops.harness import specialists as sp
 
 # ---- fakes ------------------------------------------------------------------
 
@@ -862,10 +863,10 @@ def test_bind():
 
 
 def rule_row(**kw):
-    base = dict(rule_id="CC-02", version=4, area="cost_capture", owner_role="PMS379",
-                owner_office="PEO Carriers", required_action="Escalate",
-                expression_sql="SELECT e.exception_id, e.dollar_amount FROM {EXCEPTIONS} e WHERE x = :p",
-                params={"p": "v"})
+    base = {"rule_id": "CC-02", "version": 4, "area": "cost_capture", "owner_role": "PMS379",
+                "owner_office": "PEO Carriers", "required_action": "Escalate",
+                "expression_sql": "SELECT e.exception_id, e.dollar_amount FROM {EXCEPTIONS} e WHERE x = :p",
+                "params": {"p": "v"}}
     base.update(kw)
     return Row(**base)
 
@@ -1031,7 +1032,7 @@ def test_derived_rule_skipped_while_source_inactive_a29():
         if dry:
             assert r["hits"] == [] and fake.inserts_with_args(C.RULE_EVALS) == []
         else:
-            [(s, sa)] = fake.inserts_with_args(C.RULE_EVALS)        # the skip is recorded
+            [(_s, sa)] = fake.inserts_with_args(C.RULE_EVALS)        # the skip is recorded
             assert "skipped_parent_inactive" in sa.values()
     # source current: runs as before
     cur2 = cur + [Row(rule_id="CC-01", params={"t": "1"})]
@@ -1059,7 +1060,7 @@ def test_window_from_rule_window_days_a31():
     fake = FakeSpark(eval_handler(rule, hits=[Row(exception_id="exc-0", dollar_amount=1.0)]))
     with with_spark(fake):
         ev.evaluate()
-    [(q, a)] = fake.inserts_with_args(C.EXCEPTIONS)
+    [(q, _args)] = fake.inserts_with_args(C.EXCEPTIONS)
     det, win = _re.findall(r"TIMESTAMP '([^']+)'", q)
     assert (_dt.fromisoformat(win) - _dt.fromisoformat(det)).days == 45
     detect_q = [x for x, xa in zip(fake.queries, fake.args) if "SELECT e.exception_id" in x]
@@ -1069,7 +1070,7 @@ def test_window_from_rule_window_days_a31():
     fake = FakeSpark(eval_handler(rule_row(), hits=[Row(exception_id="exc-0", dollar_amount=1.0)]))
     with with_spark(fake):
         ev.evaluate()
-    [(q, a)] = fake.inserts_with_args(C.EXCEPTIONS)
+    [(q, _a)] = fake.inserts_with_args(C.EXCEPTIONS)
     assert len(_re.findall(r"TIMESTAMP '", q)) == 1 and "NULL, 'open'" in q
     # dry run reports it
     fake = FakeSpark(eval_handler(rule, hits=[Row(exception_id="exc-0")]))
@@ -1098,7 +1099,7 @@ def test_precheck_blocks_without_model_a34():
         out = orch.run_exception("5657", call=model)
     assert out["status"] == "precheck_blocked" and out["lane"] == "System"
     assert model.calls == [] and fake.inserts(C.AGENT_STEPS) == [] and out["steps"] == 0
-    [(q, a)] = fake.inserts_with_args(C.AGENT_RUNS)
+    [(_q, a)] = fake.inserts_with_args(C.AGENT_RUNS)
     assert a["outcome"].startswith("precheck_blocked: System: open: status is void_test_data")
     for part in ("G-a not test: test data: subject test-wbs-001",
                  "G-b rule live: rule CC-02 v4 is not the version in effect (v6)",
@@ -1116,9 +1117,9 @@ def test_precheck_blocks_without_model_a34():
         out = orch.run_exception("exc-1", call=model)
     assert (out["status"], out["lane"]) == ("precheck_blocked", "Unblock")
     assert out["precheck"]["reasons"] == [
-        "G-c parent rule live: source rule CC-01 has no version in effect (latest v1, "
+        ("G-c parent rule live: source rule CC-01 has no version in effect (latest v1, "
         "blocked_no_source: no feeds); CC-02 escalates CC-01 exceptions, so it does not "
-        "run until CC-01 does"]
+        "run until CC-01 does")]
     # parent rule live, parent exception closed or missing -> System
     cur2 = cur + [Row(rule_id="CC-01", version=1, params={})]
     for parents, text in (([Row(exception_id="p1", status="void_test_data")], "p1 is void_test_data"),
@@ -1140,8 +1141,8 @@ def test_precheck_owner_g_e_a34():
         (dict(EXC, owner_role="AUDITOR"), {"actions": ()},
          "G-e owner: role AUDITOR holds no apply on proposals in authority"),
         (dict(EXC, owner_role="DFAS"), {"actions": ("reject",), "holders": ()},
-         "G-e owner: role DFAS holds no apply on proposals in authority; "
-         "no one holds role DFAS in role_map now"),
+         ("G-e owner: role DFAS holds no apply on proposals in authority; "
+         "no one holds role DFAS in role_map now")),
         (EXC, {"owner_error": True},
          "G-e owner: could not read role_map/authority: RuntimeError: PERMISSION_DENIED"),
     ]
@@ -1159,7 +1160,7 @@ def test_precheck_owner_g_e_a34():
     fake = FakeSpark(precheck_handler(EXC, cur, holders=("pms379-fm-group",)))
     with with_spark(fake):
         pc = orch._precheck(fake, EXC)
-    assert pc["admit"] and [c for c in pc["checks"] if c["gate"] == "G-e owner"][0]["ok"]
+    assert pc["admit"] and next(c for c in pc["checks"] if c["gate"] == "G-e owner")["ok"]
 
 
 def test_precheck_admits_and_can_be_bypassed_a34():
@@ -1492,7 +1493,7 @@ def run_all() -> int:
             continue
         try:
             res = fn()
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             failed += 1
             print(f"  [FAIL] {name}: {type(exc).__name__}: {exc}")
             continue

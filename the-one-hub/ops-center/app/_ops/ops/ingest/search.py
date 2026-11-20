@@ -62,8 +62,8 @@ class KnowledgeBase:
         if embedder is not None:
             try:
                 ranked.append(self._semantic(query, embedder, wide))
-            except Exception:
-                pass  # retrieval degrades to lexical rather than failing
+            except Exception:  # noqa: BLE001, S110 - retrieval degrades to lexical rather than failing
+                pass
 
         order = fuse(*ranked, k=wide) if len(ranked) > 1 else lexical
 

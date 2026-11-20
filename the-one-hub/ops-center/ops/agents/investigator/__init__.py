@@ -18,4 +18,4 @@ Worked examples of this agent's output, produced by hand, are Part M (the clue
 map) and Part F (collection requirements mapped to the gap register) of
 ../../../ring0/RING0_CVN79.md.
 """
-from .run import run, rank  # noqa: F401
+from .run import rank, run  # noqa: F401

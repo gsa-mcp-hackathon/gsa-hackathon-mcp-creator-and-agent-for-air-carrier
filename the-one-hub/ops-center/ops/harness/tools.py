@@ -22,7 +22,6 @@ from typing import Any
 from . import catalog as C
 from ._common import spark_session as _spark
 
-
 # ---- helpers ----------------------------------------------------------------
 
 def _call_uc(fn_fqn: str, args: dict[str, Any]) -> str:

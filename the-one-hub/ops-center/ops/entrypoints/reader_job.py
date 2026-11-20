@@ -56,12 +56,12 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core import catalog, ledger, mechanisms              # noqa: E402
-from core.contracts import State                          # noqa: E402
-from core.policy.decisions import evaluate                # noqa: E402
-from core.policy.gate import route                        # noqa: E402
-from ops.agents.reader.handlers import exhibit, prose, transaction  # noqa: E402
-from ops.dispatcher.routing import next_action            # noqa: E402
+from core import catalog, ledger, mechanisms
+from core.contracts import State
+from core.policy.decisions import evaluate
+from core.policy.gate import route
+from ops.agents.reader.handlers import exhibit, prose, transaction
+from ops.dispatcher.routing import next_action
 
 MANIFEST = os.environ.get("AIRCARRIER_MANIFEST",
                           "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/MANIFEST.json")

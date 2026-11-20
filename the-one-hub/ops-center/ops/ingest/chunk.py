@@ -10,13 +10,13 @@ loses its column header, and an overlap is cheaper than the error.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 
 TARGET = 1400      # characters. Roughly a page of prose or half a dense table.
 OVERLAP = 220
 MIN_CHUNK = 160    # below this a chunk is a page number and a footer
 
-HEADING = re.compile(r"^\s{0,3}(#{1,6}\s+\S|[A-Z][A-Z0-9 ,.&/()-]{6,80}$)", re.M)
+HEADING = re.compile(r"^\s{0,3}(#{1,6}\s+\S|[A-Z][A-Z0-9 ,.&/()-]{6,80}$)", re.MULTILINE)
 
 
 @dataclass

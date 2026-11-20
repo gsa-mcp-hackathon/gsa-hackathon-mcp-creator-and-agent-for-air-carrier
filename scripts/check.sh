@@ -47,6 +47,8 @@ one_hub() {
   (
     cd "$ROOT/the-one-hub/ops-center" || exit 1
     uv sync --group dev --quiet || exit 1
+    # Lint is enforced here too (finding F12), pinned like the other projects.
+    uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
     PYTHONPATH=. uv run --no-sync pytest "${PYTEST_FLAGS[@]}" --assert=plain \
       checks/test_analyst.py checks/test_si.py checks/test_work.py \
       checks/test_harness.py checks/test_mcp_server.py || exit 1
