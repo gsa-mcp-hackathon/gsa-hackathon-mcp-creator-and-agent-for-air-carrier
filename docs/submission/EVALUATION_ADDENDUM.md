@@ -15,7 +15,7 @@ re-run with [`scripts/check.sh`](../../scripts/check.sh).
 | F4 | Medium | Stale `as_of` on the obligations tool | Fixed before this addendum (org commit 72cb4d6) | `as_of` is derived from the data |
 | F5 | Medium | Work register snapshot seven days old | Mitigated | `carrier_work_register_counts` now adds a `freshness_note` with the snapshot date when the newest row is more than two days old, so a model reports the date instead of implying the counts are current (`mcp-aircarrier-ops/src/.../mcp_work_register_totals.py`, test in `tests/test_server.py`). Restarting the dispatcher tick in the workspace is still an operations task |
 | F6 | Medium | Creator designed "how much ... by fiscal year" as a count | Fixed before this addendum (72cb4d6) | Semantic check in the review, with a test |
-| F7 | Low | All four tool-mode delegation misses are question F4 (P-5c, PB2024) | Fix in place, re-run prepared (2026-11-20) | J-book filenames say PB24; questions say "the PB 2024 book", and keyword search cannot join them. `docs_list_documents` and `docs_find_line_item` now carry a normalized `budget_cycle`, and `docs_find_line_item` filters on it and says when the named book is not loaded (`mcp-aircarrier-docs/src/.../service.py`, tests in `tests/test_docs.py`). The tool catalog changes, so the fix counts only after the round 2 run in [eval/delegation/round2/](../../eval/delegation/round2/README.md), which re-runs all 14 questions plus 12 sealed new ones |
+| F7 | Low | All four tool-mode delegation misses are question F4 (P-5c, PB2024) | First fix failed in round 2 (F4 0 of 6); fixed again 2026-11-20, re-run pending | J-book filenames say PB24; questions say "the PB 2024 book", and keyword search cannot join them. `docs_list_documents` and `docs_find_line_item` now carry a normalized `budget_cycle`, and `docs_find_line_item` filters on it and says when the named book is not loaded (`mcp-aircarrier-docs/src/.../service.py`, tests in `tests/test_docs.py`). The tool catalog changes, so the fix counts only after the round 2 run in [eval/delegation/round2/](../../eval/delegation/round2/README.md), which re-runs all 14 questions plus 12 sealed new ones. **Round 2 result:** F4 went 0 of 6. The cycle reader required a separator before `PB`; the real names (`SCN_BookPB2024.pdf`, `SCN_Bookpb2006.pdf`) have none, so 21 of 22 books got no cycle, and the tests had used invented names with a space. The reader now matches the real names, falls back to the most frequent `PB 20xx` page header, and the tests use the real names |
 | F8 | Low | Two readings of the 2114 obligation | Fixed | `checks/verify.py` prints the award-level total (4,584.484 $M) and the transaction sum (4,578.603 $M, 927 actions) with their basis and the 5.881 $M difference. The README quotes the transaction sum with its basis |
 | F9 | Low | README linked a report that did not exist | Fixed before this addendum (72cb4d6) | The report is committed |
 | F10 | Info | Tracing check not runnable in the evaluation sandbox | Fixed | `scripts/check.sh one-hub` runs `checks/test_llm_tracing.py` in the project's own uv environment; it passes there and in CI |
@@ -94,3 +94,31 @@ Question F1 is excluded from the strict held-out row because its earlier failure
 a fix to the tools (0/4 before, 4/4 after). All four remaining misses are question F4
 (P-5c, PB2024), finding F7 above. The intervals are wide because the question set is
 small; a larger set is the next step for this evaluation.
+
+## Round 2: the sealed held-out set (2026-11-20)
+
+Twelve questions, sealed by SHA-256 before the run, on the 29-tool catalog
+`1143a3c17536b7bd` (runs `rpt-cde6da6d` and `166621165979`):
+
+| Slice | With the 29 tools | Without tools |
+| --- | --- | --- |
+| Sealed held out (12 questions) | 31/72, 43.1% (32.3 to 54.6) | 3/24, 12.5% (4.3 to 31.0) |
+| F4 after the first F7 fix | 0/6, 0% (0 to 39.0) | 0/2 |
+| Every question in the run | 109/156, 69.9% (62.3 to 76.5) | 4/52, 7.7% (3.0 to 18.2) |
+
+Round 1's 83.3% rested on four questions; on twelve new ones the rate is about half.
+The gap to no tools stays wide. Every miss was read and assigned a cause in
+[eval/delegation/round2/README.md](../../eval/delegation/round2/README.md): 28 of 41
+needed a tool or option that did not exist (obligations on the DD&C contract, a sort by
+amount, a search of the variance register), 7 were P-5c column reads, 5 were a decoy
+pattern that rejected "cannot find", and 1 was an incomplete answer. The fixes are on
+branch `fix/round2-findings`: the ops server gains `carrier_search_variances` (30
+tools) and a required `contract` and an `order` on `carrier_search_obligations`, and
+`docs_get_table` labels P-5c cells with ship fiscal year, hull and share. The official
+score is not regraded. A run of the same 12 questions on the fixed tools is a post-fix
+re-run, reported apart; a new sealed set,
+[round 3](../../eval/delegation/round3/README.md), tests the fixes on questions no model
+has seen.
+
+After these fixes `scripts/check.sh` passes from a clean clone with 1,052 tests (ops 40,
+docs 41, the adversarial sweep 422) and 14 skipped.

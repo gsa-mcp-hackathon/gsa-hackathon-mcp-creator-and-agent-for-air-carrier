@@ -28,11 +28,27 @@ Every miss with tools: F4 P-5c (databricks-claude-sonnet-4-5); F4 P-5c (databric
 With each server's instructions in the system prompt (run `fcb4cba76cf4`): 28/28 = 100.0% (95% CI 87.9 to 100.0).
 F1 FY10 total before the fiscal-year filter (run `01eb115e567a`): 0/4; after (run `fcb4cba76cf4`): 4/4.
 
-## Round 2, sealed held-out set (run `rpt-cde6da6d`, catalog `1143a3c17536b7bd`)
+## Round 2, sealed held-out set (catalog `1143a3c17536b7bd`, runs `166621165979`, `rpt-cde6da6d`)
 
-| Split | With the 29 tools (3 repeats) | No tools (baseline) |
+| Split | With tools (3 repeats) | No tools (baseline) |
 |---|---|---|
-| Sealed held-out (12 questions) | 31/72 = 43.1% (95% CI 32.3 to 54.6) | 3/24 = 12.5% (95% CI 4.3 to 31.0) |
-| F4 P-5c after the F7 fix | 0/6 = 0.0% (95% CI 0.0 to 39.0) | 0/2 = 0.0% (95% CI 0.0 to 65.8) |
+| Round 2 questions | 31/72 = 43.1% (95% CI 32.3 to 54.6) | 3/24 = 12.5% (95% CI 4.3 to 31.0) |
+| F4 P-5c | 0/6 = 0.0% (95% CI 0.0 to 39.0) | 0/2 = 0.0% (95% CI 0.0 to 65.8) |
 | All questions in this run | 109/156 = 69.9% (95% CI 62.3 to 76.5) | 4/52 = 7.7% (95% CI 3.0 to 18.2) |
+
+| Question | With tools | No tools |
+|---|---|---|
+| H01 2116 FY15 | 6/6 | 0/2 |
+| H02 2114 FY18 | 0/6 | 0/2 |
+| H03 2116 largest | 1/6 | 0/2 |
+| H04 P00154 | 0/6 | 0/2 |
+| H05 propulsion | 3/6 | 0/2 |
+| H06 basic construction | 2/6 | 0/2 |
+| H07 EMALS contract | 5/6 | 0/2 |
+| H08 FPDS vs USAspending | 0/6 | 0/2 |
+| H09 award summary | 1/6 | 0/2 |
+| H10 decoy rework | 1/6 | 0/2 |
+| H11 exclusion 2117 | 6/6 | 2/2 |
+| H12 GAO estimate | 6/6 | 1/2 |
+
 

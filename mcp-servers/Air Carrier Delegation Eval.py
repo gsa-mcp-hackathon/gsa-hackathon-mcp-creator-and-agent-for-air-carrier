@@ -3,7 +3,7 @@
 # MAGIC %md
 # MAGIC # Air Carrier MCP delegation eval
 # MAGIC
-# MAGIC Tests whether an LLM agent, handed all 29 tools from **mcp-aircarrier-docs**, **mcp-aircarrier-analyst** and **mcp-aircarrier-ops**, picks the right tools and returns the right answer.
+# MAGIC Tests whether an LLM agent, handed all 30 tools (29 before 2026-11-20) from **mcp-aircarrier-docs**, **mcp-aircarrier-analyst** and **mcp-aircarrier-ops**, picks the right tools and returns the right answer.
 # MAGIC
 # MAGIC * **Tools run in-process** through `mcp-servers/mcp_local.py`, reading Unity Catalog as the person running the notebook. The deployed apps and the connectors are not involved, so a connector auth failure cannot mask a tool defect. It also means grant gaps on an app's service principal are **not** tested here: the probe app covers those.
 # MAGIC * **Models** are called through the serving-endpoint `invocations` route with OpenAI-style tool calling.
@@ -42,11 +42,16 @@ MAX_TOOL_CHARS = 60000 # longest tool result passed back to the model
 QUESTION_SETS = ["dev", "fresh"]  # dev = the 9 questions the fixes were found on; fresh = held out
 SAVE_RESULTS = True    # append every run to RESULTS_TABLE
 RESULTS_TABLE = "users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs"
-# Round 2: a sealed held-out file (eval/delegation/round2/README.md in the repository).
-# Its SHA-256 was committed before any run; the notebook refuses any other file.
-# Leave QUESTION_FILE empty to run only the dev and fresh sets above.
-QUESTION_FILE = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/questions_h2.json"  # empty = dev + fresh only
-SEALED_SHA256 = "4a742955ff78983dd4f1eebe267ff06d45fce1c566c4c6211ac3e42ae281eee0"
+# Sealed held-out files (eval/delegation/round2/README.md and round3/README.md).
+# Each SHA-256 was committed before any run; the notebook refuses any other file.
+# h2 is public since its first run, so a run of it now is a post-fix re-run and
+# analyze.py reports it apart. Leave QUESTION_FILES empty to run only dev and fresh.
+ARTIFACTS = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts"
+QUESTION_FILES = [f"{ARTIFACTS}/questions_h2.json", f"{ARTIFACTS}/questions_h3.json"]
+SEALED_SHA256 = {
+    "h2": "4a742955ff78983dd4f1eebe267ff06d45fce1c566c4c6211ac3e42ae281eee0",
+    "h3": "0dc6bdf52665a101d79ebf85aba4126e95f7a3c246c17c3c601d9bcf04df5ec1",
+}
 VERIFY_SCHEMA = "users.xiaobing_shang1_civ"  # where the source tables for verify_sql live
 
 import os
@@ -172,14 +177,14 @@ QS = [
 QUESTION_SET = {qid: ("fresh" if qid.startswith("F") else "dev") for qid, _, _ in QS}
 QS = [x for x in QS if QUESTION_SET[x[0]] in QUESTION_SETS]
 
-# Round 2: load the sealed held-out file, check its hash, then check its answer key
+# Sealed sets: load each file, check its hash, then check its answer key
 # against the warehouse. Any mismatch stops the notebook before a model is called.
-if QUESTION_FILE:
-    import hashlib
-    raw = open(QUESTION_FILE, "rb").read()
+import hashlib
+for question_file in QUESTION_FILES:
+    raw = open(question_file, "rb").read()
     got = hashlib.sha256(raw).hexdigest()
-    assert got == SEALED_SHA256, f"{QUESTION_FILE} is not the sealed file (sha256 {got})"
     sealed = json.loads(raw)
+    assert got == SEALED_SHA256.get(sealed["question_set"]), f"{question_file} is not the sealed file (sha256 {got})"
     for item in sealed["questions"]:
         if item.get("verify_sql"):
             row = spark.sql(item["verify_sql"].format(schema=VERIFY_SCHEMA)).first().asDict()
@@ -187,8 +192,8 @@ if QUESTION_FILE:
             assert found == item["expect"], f"{item['qid']}: key {item['expect']} but warehouse says {found}"
         QS.append((item["qid"], item["question"], item["patterns"]))
         QUESTION_SET[item["qid"]] = sealed["question_set"]
-    print("sealed file verified:", got[:16], len(sealed["questions"]), "questions, key checked against SQL")
-print(len(QS), "questions:", {s: sum(QUESTION_SET[q] == s for q, _, _ in QS) for s in QUESTION_SETS})
+    print("sealed file verified:", sealed["question_set"], got[:16], len(sealed["questions"]), "questions, key checked against SQL")
+print(len(QS), "questions:", {s: sum(QUESTION_SET[q] == s for q, _, _ in QS) for s in sorted(set(QUESTION_SET[q] for q, _, _ in QS))})
 
 # COMMAND ----------
 

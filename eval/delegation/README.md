@@ -1,10 +1,13 @@
 # Delegation evaluation: do real models pick the right tools?
 
-All 29 One Hub tools (docs 11, analyst 12, ops 6) are offered to a model at once, with
+All the Air Carrier tools are offered to a model at once (29 in rounds 1 and 2: docs 11,
+analyst 12, ops 6; 30 from 2026-11-20, when ops gained `carrier_search_variances`), with
 no hint about which server answers which question. A run passes when the model's final
 answer matches the expected answer for that question.
 
-**Results with 95% confidence intervals: [RESULTS.md](RESULTS.md).** The headline:
+**Results with 95% confidence intervals: [RESULTS.md](RESULTS.md).** Round 2, 12 sealed
+questions: 31/72 = 43.1% (32.3 to 54.6) with the tools, 3/24 = 12.5% without
+([round2/](round2/README.md)). Round 1:
 
 | | With the 29 tools | No tools |
 |---|---|---|

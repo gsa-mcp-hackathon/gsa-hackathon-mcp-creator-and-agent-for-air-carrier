@@ -149,31 +149,91 @@ def report() -> str:
         "",
     ]
 
-    # Round 2: the sealed held-out set (eval/delegation/round2/README.md).
-    h2 = [r for r in rows if r["question_set"] == "h2"]
-    if h2:
-        latest = max(h2, key=lambda r: r["run_at"])["run_id"]
-        run2 = [r for r in rows if r["run_id"] == latest]
+    # Round 2 and later: sealed sets (eval/delegation/round2/README.md). The first
+    # run of a set is its sealed result. A later run of the same set on a new tool
+    # catalog is a post-fix re-run: by then the questions are public, so it
+    # measures the fixes, not held-out generalization, and is reported apart.
+    for qset, title in (("h2", "Round 2"), ("h3", "Round 3")):
+        out += sealed_sections(rows, qset, title)
+    return "\n".join(out)
+
+
+def sealed_sections(rows: list[dict], qset: str, title: str) -> list[str]:
+    # Group by tool catalog: one catalog is one version of the tools, and a report
+    # can span two run ids (the repeats and the instructions ablation).
+    first: dict[str, str] = {}
+    for r in rows:
+        if r["question_set"] == qset:
+            sha = r["tool_catalog_sha"]
+            first[sha] = min(first.get(sha, r["run_at"]), r["run_at"])
+    out: list[str] = []
+    for i, sha in enumerate(sorted(first, key=first.get)):
+        run = [
+            r
+            for r in rows
+            if r["tool_catalog_sha"] == sha and r["run_at"] >= first[sha]
+        ]
+        ids = ", ".join(f"`{x}`" for x in sorted({r["run_id"] for r in run}))
+        head = (
+            "sealed held-out set" if i == 0 else "post-fix re-run of the same questions"
+        )
+        out += [f"## {title}, {head} (catalog `{sha}`, runs {ids})", ""]
+        if i:
+            out += [
+                "These questions were public when this ran. The result measures the",
+                "fixes made after the sealed run. It is not a held-out score.",
+                "",
+            ]
         out += [
-            (
-                f"## Round 2, sealed held-out set (run `{latest}`, catalog "
-                f"`{run2[0]['tool_catalog_sha']}`)"
-            ),
-            "",
-            "| Split | With the 29 tools (3 repeats) | No tools (baseline) |",
+            "| Split | With tools (3 repeats) | No tools (baseline) |",
             "|---|---|---|",
         ]
         for label, match in (
-            ("Sealed held-out (12 questions)", {"question_set": "h2"}),
-            ("F4 P-5c after the F7 fix", {"qid": "F4 P-5c"}),
+            (f"{title} questions", {"question_set": qset}),
+            ("F4 P-5c", {"qid": "F4 P-5c"}),
             ("All questions in this run", {}),
         ):
-            k, n = tally(run2, mode=tools, **match)
-            kb, nb = tally(run2, mode="no_tools", **match)
+            k, n = tally(run, mode=tools, **match)
+            kb, nb = tally(run, mode="no_tools", **match)
             if n:
                 out.append(f"| {label} | {fmt(k, n)} | {fmt(kb, nb)} |")
-        out.append("")
-    return "\n".join(out)
+        out += ["", "| Question | With tools | No tools |", "|---|---|---|"]
+        for qid in sorted({r["qid"] for r in run if r["question_set"] == qset}):
+            k, n = tally(run, mode=tools, qid=qid)
+            kb, nb = tally(run, mode="no_tools", qid=qid)
+            out.append(f"| {qid} | {k}/{n} | {kb}/{nb} |")
+        out += ["", *hand_grades({r["run_id"] for r in run}), ""]
+    return out
+
+
+def hand_grades(run_ids: set[str]) -> list[str]:
+    """Lines for answers a person re-read after the regex grader ran.
+
+    eval/delegation/round2/hand_grades.csv holds one row per re-read answer:
+    run_id, model, mode, qid, regex_passed, hand_passed, note. The official score
+    above is never changed; this is reported beside it, labelled.
+    """
+    path = HERE / "round2" / "hand_grades.csv"
+    if not path.exists():
+        return []
+    with path.open(newline="", encoding="utf-8") as f:
+        rows = [r for r in csv.DictReader(f) if r["run_id"] in run_ids]
+    if not rows:
+        return []
+    flipped = [r for r in rows if r["regex_passed"] != r["hand_passed"]]
+    out = [
+        (
+            f"Hand reading, reported apart from the official score: {len(rows)} answers "
+            f"re-read, {len(flipped)} graded differently by a person than by the regex."
+        ),
+        "",
+    ]
+    for r in flipped:
+        verdict = "pass" if r["hand_passed"] == "1" else "fail"
+        out.append(
+            f"- {r['qid']}, {r['model']}, {r['mode']}: read as a {verdict}. {r['note']}"
+        )
+    return out
 
 
 if __name__ == "__main__":
