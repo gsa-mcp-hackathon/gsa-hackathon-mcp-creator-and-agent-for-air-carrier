@@ -284,7 +284,7 @@ pilot for doing it across the fleet.
 | How it was funded | Advance procurement FY2007-FY2012 $3,327.1M (24.8%); full funding FY2014-FY2018 $7,504.7M (56.0%); cost to complete FY2022-FY2027 $2,087.3M (15.6%) |
 | Prime contracts | N00024-09-C-2116, construction preparation, cost plus fixed fee, $4,519.3M obligated over 948 actions; N00024-15-C-2114, detail design and construction, fixed price incentive, $4,578.6M summed over 927 actions (the award record reads $4,584.5M; the hub quotes each with its basis) |
 | Attribution | 75.8% of the hull attributed to a named contract, up from 42.2% in one pass by replacing an announcement-derived figure with the obligation record |
-| Open questions | 65 registered gaps, 59 still open and 6 closed or resolved, each typed and assigned to a named executor; 17 variances where public sources disagree, kept with provenance |
+| Open questions | 65 registered gaps, 55 still open and 10 closed, resolved, narrowed or reframed, each typed and assigned to a named executor; 17 variances where public sources disagree, kept with provenance |
 | Evidence base | Docs MCP server: 33 source PDFs, 7,555 pages, 19,917 chunks. Front center knowledge base: 43 catalogued artifacts, 2,765 chunks from 22 indexed documents. Every hit cited to a page |
 
 One small example of why provenance matters: FPDS-NG reports $4,518,716,360.83 obligated
