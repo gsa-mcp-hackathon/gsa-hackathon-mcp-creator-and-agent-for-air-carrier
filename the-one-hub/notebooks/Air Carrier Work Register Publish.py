@@ -190,7 +190,13 @@ for zid in [r["artifact_id"] for r in wm["rows"] if r["artifact_id"] not in vol_
     print("=====")
 for needle in ['"bytes": 191763,', '"bytes": 22620,', '"721d39f9237e6944', '"b36f08e3a240b632']:
     print(needle, raw.count(needle))
-print("new editions:", [(s["filename"], [r["sha256"] for r in vm["rows"] if r["artifact_id"] == s["superseded_by"]][0]) for s in vm["superseded"]])
+cur_sha = {r["artifact_id"]: r["sha256"] for r in vm["rows"]}
+next_id = {s["artifact_id"]: s["superseded_by"] for s in vm["superseded"]}
+def current_sha(aid):
+    while aid not in cur_sha:             # an edition can itself be superseded later
+        aid = next_id[aid]
+    return cur_sha[aid]
+print("new editions:", [(s["filename"], current_sha(s["superseded_by"])) for s in vm["superseded"]])
 print("new header values:", vm["count"], vm["bytes"], vm["by_bucket"], vm["by_route"])
 
 # COMMAND ----------
