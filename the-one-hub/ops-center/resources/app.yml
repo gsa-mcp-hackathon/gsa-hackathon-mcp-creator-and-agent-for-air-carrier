@@ -3,7 +3,21 @@ resources:
     aircarrier_front_center:
       name: "aircarrier-front-center-${bundle.target}"
       description: "Air Carrier front center. CVN-79 pilot."
-      source_code_path: ../app
+
+      # Deployed from GitHub, not from the bundle's workspace files (2026-11-19).
+      # The app reads only app/, so source_code_path below is that folder in
+      # the repo. The repo is public: the app SP needs no Git credential.
+      # auto_deploy stays off on purpose: a deploy that skips config.env
+      # starts the app on app.yaml defaults (files backend, no warehouse)
+      # and still reports SUCCEEDED. Always deploy with bundle deploy, then
+      # bundle run aircarrier_front_center. Rollback: restore
+      # source_code_path: ../app and remove these two blocks.
+      git_repository:
+        url: https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn
+        provider: gitHub
+      git_source:
+        branch: main
+        source_code_path: the-one-hub/ops-center/app
 
       # On-behalf-of user authorization (B28.4, gap A-15). With the sql scope
       # the app receives the signed-in user's token in x-forwarded-access-token
