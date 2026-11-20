@@ -45,7 +45,7 @@ RESULTS_TABLE = "users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs"
 # Round 2: a sealed held-out file (eval/delegation/round2/README.md in the repository).
 # Its SHA-256 was committed before any run; the notebook refuses any other file.
 # Leave QUESTION_FILE empty to run only the dev and fresh sets above.
-QUESTION_FILE = ""     # e.g. "/Volumes/users/xiaobing_shang1_civ/eval/questions_h2.json"
+QUESTION_FILE = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/questions_h2.json"  # empty = dev + fresh only
 SEALED_SHA256 = "4a742955ff78983dd4f1eebe267ff06d45fce1c566c4c6211ac3e42ae281eee0"
 VERIFY_SCHEMA = "users.xiaobing_shang1_civ"  # where the source tables for verify_sql live
 
