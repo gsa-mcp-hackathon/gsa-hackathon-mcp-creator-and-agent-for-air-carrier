@@ -1,16 +1,16 @@
 {
  "generated_from": "corpus/, by tools/build_corpus_manifest.py",
  "rule": "artifact_id is the first 16 of the sha256. A claim's coordinate points at an artifact_id, so replacing a document changes the id and the supersession becomes visible instead of silent.",
- "count": 43,
- "bytes": 40120556,
+ "count": 44,
+ "bytes": 65284313,
  "by_bucket": {
   "dossier": 3,
   "durable": 7,
-  "reference": 21,
+  "reference": 22,
   "imagery": 12
  },
  "by_route": {
-  "embed": 22,
+  "embed": 23,
   "table": 9,
   "asset": 12
  },
@@ -629,6 +629,20 @@
    "suffix": "jpg",
    "establishes": "",
    "route": "asset"
+  },
+  {
+   "artifact_id": "f9afddd66fcaefe7",
+   "sha256": "f9afddd66fcaefe7c6f91dcf644a836a6b971fb792217c601cbc3d37adaac610",
+   "path": "reference/gao-26-108457 Weapon Systems Annual Assessment 2026.pdf",
+   "filename": "gao-26-108457 Weapon Systems Annual Assessment 2026.pdf",
+   "bucket": "reference",
+   "grade": "AUTHORITATIVE",
+   "zone": "R",
+   "bucket_note": "primary and official secondary sources",
+   "bytes": 25163757,
+   "suffix": "pdf",
+   "establishes": "GAO Weapon Systems Annual Assessment, July 2026: DOD portfolio of costliest weapon programs (>$2.4 trillion, 104 programs, 72 MDAP cost changes) and the CVN 78 class program assessment (p.133); retrieved via web.archive.org copy of gao.gov/assets/gao-26-108457.pdf",
+   "route": "embed"
   }
  ]
 }

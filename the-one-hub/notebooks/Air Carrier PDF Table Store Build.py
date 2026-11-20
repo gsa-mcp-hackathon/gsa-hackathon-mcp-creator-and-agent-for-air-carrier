@@ -120,6 +120,12 @@ for r in m['rows']:
 # COMMAND ----------
 
 # DBTITLE 1,Write tables
+# Snapshot ruled-table counts per document BEFORE overwriting, for the fallback gate. Time travel cannot be used
+# for this: the store is rebuilt rarely, and a previous version older than the 7-day file retention is unreadable.
+try:
+    RULED_BEFORE={r.artifact_id:r.n for r in spark.sql("SELECT artifact_id, count(*) n FROM users.xiaobing_shang1_civ.aircarrier_pdf_tables WHERE extractor='pdfplumber-lines/v1' GROUP BY 1").collect()}
+except Exception:
+    RULED_BEFORE=None  # first build: no table yet
 def save(rows,name,schema,comment):
     full=f'{SCH}.aircarrier_pdf_{name}'
     cols=[c.split()[0] for c in schema.split(', ')]
@@ -183,9 +189,19 @@ rows=spark.sql("""SELECT row_header, col_idx, value, extractor FROM users.xiaobi
  WHERE artifact_id='91d338a069b1b0c9' AND page=14 AND extractor='pdfplumber-text/v1' AND col_idx=3 AND row_header IN ('FY19','FY26')""").collect()
 got={r.row_header:[x.value for x in rows if x.row_header==r.row_header] for r in rows}
 assert got=={'FY19':['11,341.4'],'FY26':['13,196.0']}, f'CRS fallback gate FAILED: {got}'
-lines=spark.sql("SELECT count(*) n FROM users.xiaobing_shang1_civ.aircarrier_pdf_tables WHERE extractor='pdfplumber-lines/v1'").first().n
-assert lines==700, f'ruled-table count moved: {lines} (was 700). The fallback must not change ruled extraction.'
-print('Fallback gate PASSED: FY19 11,341.4 and FY26 13,196.0 recovered; ruled tables unchanged at 700')
+# Ruled extraction must not move. Was a fixed total (700), which went stale when the corpus grew (21 J-books on
+# 2026-11-10, GAO-26-108457 on 2026-11-20). Now: per document, the ruled-table count must equal the count in the
+# table as it stood before this run (RULED_BEFORE, snapshotted in Write tables). New documents are listed, not failed.
+now={r.artifact_id:r.n for r in spark.sql("SELECT artifact_id, count(*) n FROM users.xiaobing_shang1_civ.aircarrier_pdf_tables WHERE extractor='pdfplumber-lines/v1' GROUP BY 1").collect()}
+if RULED_BEFORE is None:
+    print(f'First build: no earlier table, ruled-table comparison skipped ({sum(now.values())} ruled tables)')
+else:
+    was=RULED_BEFORE
+    moved={a:(was[a],now[a]) for a in now.keys() & was.keys() if now[a]!=was[a]}
+    lost=sorted(was.keys()-now.keys())
+    assert not moved and not lost, f'ruled-table counts moved: {moved}; documents lost: {lost}. The fallback must not change ruled extraction.'
+    print(f'Fallback gate PASSED: FY19 11,341.4 and FY26 13,196.0 recovered; ruled tables unchanged for '
+          f'{len(now.keys() & was.keys())} documents ({sum(now.values())} total); new documents: {sorted(now.keys()-was.keys())}')
 
 # COMMAND ----------
 
