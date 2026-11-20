@@ -206,7 +206,7 @@ def sample_spec(
         deployment=DeploymentPlan(
             workspace_host="https://dbc-aae0ba16-8727.cloud.databricks.com",
         ),
-        repo_url="https://github.com/icetonges/contract-triage-mcp",
+        repo_url="https://github.com/example-agency/contract-triage-mcp",
     )
 
 
