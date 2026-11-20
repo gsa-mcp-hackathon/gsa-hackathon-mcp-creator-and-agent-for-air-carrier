@@ -196,4 +196,7 @@ resources:
           environment_key: default
           spark_python_task:
             python_file: ../etl/publish_serving_docs.py
-            parameters: ["--root", "${workspace.file_path}"]
+            # --grant-select-to: the app SP needs SELECT on each view, and a
+            # replaced view can lose it (2026-11-20 outage).
+            parameters: ["--root", "${workspace.file_path}",
+                         "--grant-select-to", "${var.app_sp}"]

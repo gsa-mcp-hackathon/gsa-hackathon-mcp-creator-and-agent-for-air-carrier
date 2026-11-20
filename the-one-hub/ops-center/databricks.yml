@@ -111,6 +111,14 @@ variables:
       own copy, so an ingest job writing there would either fail or update a
       copy the app never reads.
     default: /Volumes/${var.catalog}/${var.schema}/${var.store_prefix}extracted/kb
+  app_sp:
+    description: >
+      Application ID of the front-center app's service principal. The ingest
+      job's publish_serving_docs task grants it SELECT on every v_doc_ view
+      after recreating them, because a replaced view can lose its grants.
+      Known only once the app exists: databricks apps get <app> ->
+      service_principal_client_id. Empty means no grant (the task warns).
+    default: ""
   serverless_env_version:
     description: >
       Serverless Python environment version for job tasks. Each version pins a
@@ -167,6 +175,8 @@ targets:
     variables:
       catalog: users
       schema: xiaobing_shang1_civ
+      # app-2vrjmx aircarrier-front-center-dev (2026-11-20)
+      app_sp: 7e1ec6c0-bbe4-43db-a519-1c1fcd99f9c9
 
   il5:
     # Placeholder. Host, catalog and model services are supplied at transfer time.
