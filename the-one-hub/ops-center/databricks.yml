@@ -160,6 +160,13 @@ targets:
     workspace:
       host: https://dbc-aae0ba16-8727.cloud.databricks.com
       root_path: ${var.ops_root}/.bundle/${bundle.name}/${bundle.target}
+    # Where the dev stores actually live (2026-11-19). Before this, the
+    # values came only from --var on the command line; a deploy without them
+    # resolved to aircarrier/default and sent the app to a catalog that does
+    # not exist here. --var still overrides these.
+    variables:
+      catalog: users
+      schema: xiaobing_shang1_civ
 
   il5:
     # Placeholder. Host, catalog and model services are supplied at transfer time.
