@@ -2,7 +2,7 @@
  "generated_from": "corpus/, by tools/build_corpus_manifest.py",
  "rule": "artifact_id is the first 16 of the sha256. A claim's coordinate points at an artifact_id, so replacing a document changes the id and the supersession becomes visible instead of silent.",
  "count": 43,
- "bytes": 40093241,
+ "bytes": 40120556,
  "by_bucket": {
   "dossier": 3,
   "durable": 7,
@@ -17,15 +17,15 @@
  "unclassified_reference": [],
  "rows": [
   {
-   "artifact_id": "c153f3c5c2c3f133",
-   "sha256": "c153f3c5c2c3f133ad65b89c4dfffcdf6e9bd2ccb607dfbe5294f96b052845d7",
+   "artifact_id": "02a57ce120b0dd9d",
+   "sha256": "02a57ce120b0dd9d14e247322a6af41dd92567c6748d304f458446232ccce49c",
    "path": "dossier/RING0_CVN79.md",
    "filename": "RING0_CVN79.md",
    "bucket": "dossier",
    "grade": "WORKING",
    "zone": "L",
    "bucket_note": "the analyst's assembled account. Lead-grade by design",
-   "bytes": 192511,
+   "bytes": 193318,
    "suffix": "md",
    "establishes": "",
    "route": "embed"
@@ -101,15 +101,15 @@
    "route": "embed"
   },
   {
-   "artifact_id": "11f858c166f2e31d",
-   "sha256": "11f858c166f2e31d32172f636da2b313ab7478977d5f578185ab1e15f05c7a39",
+   "artifact_id": "fd82ccc22232b402",
+   "sha256": "fd82ccc22232b402eb4b715e79128db63a2cf31e3ef205f494193cd6388a5b20",
    "path": "durable/LOG.md",
    "filename": "LOG.md",
    "bucket": "durable",
    "grade": "WORKING",
    "zone": "L",
    "bucket_note": "design and decision record for this build, not evidence",
-   "bytes": 67079,
+   "bytes": 93587,
    "suffix": "md",
    "establishes": "",
    "route": "embed"
