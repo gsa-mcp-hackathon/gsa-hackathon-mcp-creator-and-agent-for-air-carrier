@@ -19,11 +19,31 @@ LINK = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
 SKIP = ("http://", "https://", "mailto:", "#")
 
 
+SKIP_DIRS = {".git", ".venv", "node_modules", "__pycache__"}
+
+
 def markdown_files() -> list[Path]:
-    out = subprocess.run(
-        ["git", "ls-files", "*.md"], cwd=ROOT, capture_output=True, text=True, check=True
-    ).stdout.split()
-    return [ROOT / p for p in out]
+    """Tracked Markdown files; every Markdown file when there is no Git checkout.
+
+    A judge may download the repository as a ZIP, which has no .git folder.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "ls-files", "*.md"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.split()
+    except (OSError, subprocess.CalledProcessError):
+        out = []
+    if out:
+        return [ROOT / p for p in out]
+    return sorted(
+        p
+        for p in ROOT.rglob("*.md")
+        if not SKIP_DIRS.intersection(p.relative_to(ROOT).parts)
+    )
 
 
 def main() -> int:
