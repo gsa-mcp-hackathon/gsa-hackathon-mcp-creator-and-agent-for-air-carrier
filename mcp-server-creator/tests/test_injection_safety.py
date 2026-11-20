@@ -16,6 +16,7 @@ from __future__ import annotations
 import ast
 import json
 import tomllib
+import warnings
 import xml.etree.ElementTree as ElementTree
 
 import pytest
@@ -73,15 +74,19 @@ def _spec(payload: str) -> ServerSpec:
     return spec
 
 
-@pytest.mark.parametrize("payload", PAYLOADS)
-def test_free_text_never_becomes_code_or_breaks_a_file(payload):
-    manifest = generate_full_project(_spec(payload))
+def _check_project(spec: ServerSpec) -> list[str]:
+    manifest = generate_full_project(spec)
     problems: list[str] = []
     for generated in manifest.files:
         path, content = generated.path, generated.content
         try:
             if path.endswith(".py"):
                 tree = ast.parse(content, filename=path)
+                # An invalid escape sequence is a warning today and a syntax
+                # error in a future Python; either way the file is broken.
+                with warnings.catch_warnings():
+                    warnings.simplefilter("error")
+                    compile(content, path, "exec")
                 code_only = ast.unparse(_StripStrings().visit(tree))
                 if MARKER in code_only:
                     problems.append(f"{path}: marker outside a string")
@@ -95,6 +100,27 @@ def test_free_text_never_becomes_code_or_breaks_a_file(payload):
                 ElementTree.fromstring(content)
         except Exception as error:  # any parse failure is a finding
             problems.append(f"{path}: {type(error).__name__}: {error}")
+    return problems
+
+
+@pytest.mark.parametrize("payload", PAYLOADS)
+def test_free_text_never_becomes_code_or_breaks_a_file(payload):
+    problems = _check_project(_spec(payload))
+    assert not problems, problems
+
+
+@pytest.mark.parametrize("payload", PAYLOADS)
+def test_source_descriptions_never_become_code_or_break_a_file(payload):
+    # Grain, cadence, as-of and title come from the user's description of
+    # the source and land in constants, comments and docstrings.
+    spec = _spec("plain")
+    source = spec.data_sources[0]
+    source.title = f"Sales {payload}"
+    source.grain = f"one sale {payload}"
+    source.update_cadence = f"daily {payload}"
+    source.as_of = f"2026-11-19 {payload}"
+    spec.tools, _ = design_tools(spec)
+    problems = _check_project(spec)
     assert not problems, problems
 
 

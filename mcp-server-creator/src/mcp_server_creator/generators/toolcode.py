@@ -215,6 +215,11 @@ def _lit(value: object) -> str:
     return json.dumps(str(value))
 
 
+def _one_line_literal(text: str) -> str:
+    """Text safe inside one double-quoted Python string on one line."""
+    return docstring_safe(text).replace('"', "'")
+
+
 def _string_literal(text: str, indent: str, width: int = 0) -> list[str]:
     """Render text as wrapped, implicitly concatenated string literals.
 
@@ -1590,7 +1595,7 @@ def tool_module(spec: ServerSpec, plan: ToolPlan) -> str:
         "    @mcp.tool(",
         f'        name="{plan.name}",',
         "        annotations={",
-        f'            "title": "{docstring_safe(plan.title or plan.name)}",',
+        f'            "title": "{_one_line_literal(plan.title or plan.name)}",',
         f'            "readOnlyHint": {plan.read_only},',
         f'            "destructiveHint": {not plan.read_only},',
         f'            "idempotentHint": {plan.idempotent},',

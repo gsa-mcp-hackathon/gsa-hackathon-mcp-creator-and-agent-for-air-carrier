@@ -164,9 +164,14 @@ def docstring_safe(text: str) -> str:
 
     Both triple-quote forms are neutralized, because generated code is
     itself held in triple-quoted templates and either sentinel would
-    terminate one early.
+    terminate one early. Whitespace is collapsed, because the same text also
+    lands in one-line constants and comments, where a newline would end the
+    literal and start a statement.
     """
-    cleaned = text.replace("\\\\", "\\\\\\\\")
+    text = " ".join(str(text).split())
+    # One backslash becomes two, so the rendered text keeps it and it can
+    # never escape the closing quotes or form an invalid escape sequence.
+    cleaned = text.replace("\\", "\\\\")
     cleaned = cleaned.replace('"""', '" " "')
     cleaned = cleaned.replace("'''", '" " "')
     return cleaned.strip()
