@@ -70,7 +70,14 @@ run() {
     analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests ;;
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
     mcp-local) (cd "$ROOT/mcp-servers" && uv run --quiet --no-project --with pytest \
-                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${PYTEST_FLAGS[@]}") ;;
+                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${PYTEST_FLAGS[@]}" \
+               && echo "-- adversarial arguments against all 29 Air Carrier tools" \
+               && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
+                 --with "mcp>=1.24,<2" \
+                 --with-requirements mcp-aircarrier-docs/requirements.txt \
+                 --with-requirements mcp-aircarrier-analyst/requirements.txt \
+                 --with-requirements mcp-aircarrier-ops/requirements.txt \
+                 python -m pytest test_adversarial_arguments.py "${PYTEST_FLAGS[@]}") ;;
     one-hub)   one_hub ;;
     evidence)  (cd "$ROOT" && python3 scripts/check_links.py \
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \
