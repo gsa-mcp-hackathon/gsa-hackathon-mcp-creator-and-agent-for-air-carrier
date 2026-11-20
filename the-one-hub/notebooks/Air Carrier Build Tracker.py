@@ -15,7 +15,7 @@
 # MAGIC   * The bundle source in the Git folder at `gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center` (GitHub main is the source of truth since 2026-11-20; the old `the-ops-center/.bundle/aircarrier/dev/files` copy was removed).
 # MAGIC   * The volumes `aircarrier_artifacts` and `aircarrier_extracted`.
 # MAGIC   * The app `aircarrier-front-center-dev`.
-# MAGIC   * The 4 bundle jobs.
+# MAGIC   * The 6 bundle jobs (tieout, ingest, events, dispatcher, rule eval, harness).
 
 # COMMAND ----------
 
@@ -32,12 +32,14 @@ import pandas as pd
 from databricks.sdk import WorkspaceClient
 
 w = WorkspaceClient()
-FILES = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center"
+REPO = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn"  # Git folder
+FILES = f"{REPO}/the-one-hub/ops-center"
 VOL = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts"
 KB = "/Volumes/users/xiaobing_shang1_civ/aircarrier_extracted/kb"
 APP = "aircarrier-front-center-dev"
 JOBS = {"tieout": 23948629990745, "ingest": 869549480050872,
-        "events": 1095446053930907, "dispatcher": 955907313845753}
+        "events": 1095446053930907, "dispatcher": 955907313845753,
+        "rule_eval": 661637569762117, "harness": 926377078634937}
 TRACKER = "users.xiaobing_shang1_civ.aircarrier_build_tracker"
 BRIEF = dt.date(2026, 11, 18)   # PLAN.md: brief window 18-21 Nov 2026
 RUN_TS = dt.datetime.now(dt.timezone.utc).replace(tzinfo=None)
@@ -59,14 +61,38 @@ add("app", "App compute and status",
     "PASS" if a.app_status.state.value == "RUNNING" and dep.status.state.value == "SUCCEEDED" else "FAIL",
     f"{a.app_status.state.value}; deployment {dep.deployment_id} {dep.status.state.value} at {dep.update_time}")
 
-snap = dep.deployment_artifacts.source_code_path
-tpl = [o.path for o in w.workspace.list(f"{snap}/templates") if o.path.endswith(".html")]
+# Git-sourced deployments have no workspace snapshot (deployment_artifacts is None); the code is
+# the resolved commit. Check the Git folder's app/ instead, and prove it equals that commit.
+gs = dep.git_source
+if gs and gs.resolved_commit:
+    snap = f"{REPO}/{gs.source_code_path}"
+    git = lambda *a: subprocess.run(["git", "-C", REPO, *a], capture_output=True, text=True)
+    committed = git("diff", "--name-only", gs.resolved_commit, "HEAD", "--", gs.source_code_path)
+    local = git("status", "--porcelain", "--", gs.source_code_path)
+    if committed.returncode or local.returncode:
+        status, obs = "WARN", f"git check failed: {(committed.stderr or local.stderr).strip()[:200]}"
+    else:
+        changed = committed.stdout.split() + local.stdout.splitlines()
+        status = "PASS" if not changed else "WARN"
+        obs = f"{gs.branch}@{gs.resolved_commit[:7]}; Git folder app/ " + ("identical" if not changed else f"differs: {changed[:5]}")
+    add("app", "Deployed commit matches the Git folder app/", status, obs,
+        "DEPLOYMENT.md: front center deploys from GitHub main",
+        "" if status == "PASS" else "Commit/push, then redeploy with all 15 env_vars")
+    ls = lambda p: [f"{p}/{n}" for n in os.listdir(p)]
+elif dep.deployment_artifacts and dep.deployment_artifacts.source_code_path:
+    snap = dep.deployment_artifacts.source_code_path
+    ls = lambda p: [o.path for o in w.workspace.list(p)]
+else:
+    snap, ls = None, None
+    add("app", "Deployed code location", "FAIL", "deployment has neither git_source nor a snapshot")
+
+tpl = [p for p in ls(f"{snap}/templates") if p.endswith(".html")] if snap else []
 add("app", "Templates present in the deployed snapshot", "PASS" if len(tpl) >= 18 else "FAIL",
     f"{len(tpl)} .html files in the snapshot",
     "APP-500-HANDOFF: TemplateNotFound on every page",
     "Open <app-url>/api/_diag in a browser to confirm the pages render")
 
-top = sorted(pathlib.Path(o.path).name for o in w.workspace.list(snap))
+top = sorted(pathlib.Path(p).name for p in ls(snap)) if snap else []
 add("app", "Retrieval code shipped with the app (/api/search)", "PASS" if "_ops" in top else "FAIL",
     f"snapshot top level: {top}",
     "HANDOFF: /knowledge has live search with citations",
@@ -93,7 +119,9 @@ add("app", "App service principal can read the KB volume",
 CLAIM = {"tieout": "HANDOFF/TRANSFER: implemented, scheduled daily 11:00 ET",
          "ingest": "on demand; builds the KB in the volume",
          "events": "PAUSED until the reader has a body",
-         "dispatcher": "PAUSED until the dispatcher has a body"}
+         "dispatcher": "PAUSED until the dispatcher has a body",
+         "rule_eval": "resources/jobs.yml: daily 12:00 ET (dev mode pauses it)",
+         "harness": "resources/jobs.yml: daily 12:30 ET (dev mode pauses it)"}
 for name, jid in JOBS.items():
     j = w.jobs.get(jid)
     sched = j.settings.schedule.pause_status.value if j.settings.schedule else "no schedule"

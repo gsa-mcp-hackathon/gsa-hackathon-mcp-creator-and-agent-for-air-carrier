@@ -92,7 +92,7 @@ class Corpus:
     fc: list[FCRow]
     hidden: frozenset = field(default_factory=frozenset)
 
-    def without_period(self, label: str) -> Corpus:
+    def without_period(self, label: str) -> "Corpus":
         return Corpus(self.tx, [r for r in self.fc if r.period != label], self.hidden | {label})
 
     def periods(self, piid: str) -> list[str]:

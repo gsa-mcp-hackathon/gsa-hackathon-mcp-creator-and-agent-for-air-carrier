@@ -95,8 +95,8 @@ def fit(cases: list[tuple[dict, str | None]], prior: dict[str, float] | None = N
                 for k, v in feats[c].items():
                     g[k] = g.get(k, 0.0) - p * v
             g["none_bias"] -= none
-        for k, wk in w.items():
-            w[k] = wk + lr * (g.get(k, 0.0) - lam * (wk - w0[k])) / len(cases)
+        for k in w:
+            w[k] += lr * (g.get(k, 0.0) - lam * (w[k] - w0[k])) / len(cases)
     return {k: round(v, 4) for k, v in w.items()}
 
 
