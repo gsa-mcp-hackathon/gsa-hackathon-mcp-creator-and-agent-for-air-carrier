@@ -148,6 +148,31 @@ def report() -> str:
         ),
         "",
     ]
+
+    # Round 2: the sealed held-out set (eval/delegation/round2/README.md).
+    h2 = [r for r in rows if r["question_set"] == "h2"]
+    if h2:
+        latest = max(h2, key=lambda r: r["run_at"])["run_id"]
+        run2 = [r for r in rows if r["run_id"] == latest]
+        out += [
+            (
+                f"## Round 2, sealed held-out set (run `{latest}`, catalog "
+                f"`{run2[0]['tool_catalog_sha']}`)"
+            ),
+            "",
+            "| Split | With the 29 tools (3 repeats) | No tools (baseline) |",
+            "|---|---|---|",
+        ]
+        for label, match in (
+            ("Sealed held-out (12 questions)", {"question_set": "h2"}),
+            ("F4 P-5c after the F7 fix", {"qid": "F4 P-5c"}),
+            ("All questions in this run", {}),
+        ):
+            k, n = tally(run2, mode=tools, **match)
+            kb, nb = tally(run2, mode="no_tools", **match)
+            if n:
+                out.append(f"| {label} | {fmt(k, n)} | {fmt(kb, nb)} |")
+        out.append("")
     return "\n".join(out)
 
 
