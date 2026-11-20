@@ -1,35 +1,45 @@
 # MCP A Creator and the One Hub for CVN-79
 
-[![CI](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml/badge.svg)](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml)
+[![CI](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml/badge.svg)](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml)
 
 **GSA MCP & SI Agent Government Hackathon, Data track.**
 
+DoD plans to spend more than $2.4 trillion on its costliest weapon programs, and it has
+failed its financial statement audit eight years running. The two facts meet in one place.
+No office can trace what a major weapon system costs, from the budget request through the
+contracts to the asset on the balance sheet, in a form that a program office, a cost
+estimator, a budget analyst and an auditor will all accept.
+
 **MCP A Creator turns a question and a Unity Catalog table into a tested, governed MCP
-server.** The One Hub is the proof: three MCP servers built the same way reconcile the
-four published costs of the aircraft carrier USS John F. Kennedy (CVN-79) from public
-records, with every figure cited to its page and every unknown named and owned.
+server.** The One Hub is the pilot. It is three servers built the same way, and they
+reconcile the four published costs of the aircraft carrier USS John F. Kennedy (CVN-79)
+from public records. Every figure is cited to its page, and every unknown is named,
+ranked and assigned. CVN-79 is hull one. The method, the servers and the gate are built
+to run on every major defense acquisition program.
 
 ## For judges: five minutes
 
 | GSA criterion | Open this | What it shows |
 | --- | --- | --- |
-| Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 600 tests, lint and format, on Python 3.11 and 3.12 |
-| Technical quality | [Delegation results](eval/delegation/RESULTS.md) | With all 29 tools, models answer 83.3% of strict held-out questions (95% CI 64.1 to 93.3) against 25.0% without tools; re-derived from 224 logged runs |
-| Technical quality | [Evaluation report](docs/submission/evaluation-report.pdf) and [addendum](docs/submission/EVALUATION_ADDENDUM.md) | Seven-day probe at 99.83%, independent answer keys, tie-outs to the cent; every finding and what happened to it |
-| Innovation | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation |
-| Mission alignment | [Background](#background-one-ship-four-numbers) | DoD's PP&E audit material weakness, made concrete for one $13.4B hull, and a pattern any agency can reuse |
-| Presentation | [Deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
+| Mission alignment | [Who uses it](#who-uses-it-and-what-changes-for-them) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor, the DoD audit and acquisition problem they share, and the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
+| Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 1,021 tests, lint, on Python 3.11 and 3.12 |
+| Technical quality | [Delegation results](eval/delegation/RESULTS.md) and [round 2](eval/delegation/round2/README.md) | With all 29 tools, models answer 83.3% of strict held-out questions against 25.0% without tools. A second held-out set of 12 questions is sealed by SHA-256 before any run |
+| Technical quality | [Evaluation report](docs/submission/evaluation-report.pdf), [addendum](docs/submission/EVALUATION_ADDENDUM.md), [claim map](#claim-to-artifact-map) | Seven-day probe at 99.83%, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
+| Technical quality | [Security](#security) | 399 hostile calls against all 29 tools: 317 refused, none wrote, none pasted an argument into SQL; generated code fuzzed with warnings as errors |
+| Innovation | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
+| Presentation | [Deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [video notes](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
 
 ## Results at a glance
 
-| Measure | Result |
-| --- | --- |
-| Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), all 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools (7.1%, CI 2.0 to 22.6) |
-| Strict held-out questions, with vs without tools | 20/24 (83.3%) vs 2/8 (25.0%) |
-| Code suites from a clean clone | 600 passed, 0 failed; 14 skipped because they need a live Spark session, the deployed data bundle or bandit |
-| Creator determinism | Same specification, byte-identical files: 58 of 58 |
-| Availability of the deployed servers | 99.83% of 3,568 checks in 238 hourly probe sweeps over seven days; 709 of 709 known-answer checks right |
-| Data integrity | $13,409.970M Total Ship Estimate closes to 0.000 on two independent axes |
+| Measure | Result | What it does not show |
+| --- | --- | --- |
+| Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), all 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools (7.1%, CI 2.0 to 22.6) | 14 questions only; answer quality beyond the expected value was not scored |
+| Strict held-out questions, with vs without tools | 20/24 (83.3%) vs 2/8 (25.0%) | 4 questions; the interval is wide (64.1 to 93.3). Round 2 adds 12 sealed questions and is not run yet |
+| Code suites from a clean clone | 1,021 passed, 0 failed; 14 skipped because they need a live Spark session, the deployed data bundle or bandit | Unit and contract tests show the code does what it says, not that it helps a user |
+| Adversarial arguments, all 29 tools | 399 calls: 317 refused by validation, 82 answered; 154 statements reached the warehouse, all read-only; 40 carried a hostile value as a bound parameter, none pasted into SQL text | Runs in-process against a recording fake warehouse, not the deployed apps |
+| Creator determinism | Same specification, byte-identical files: 58 of 58 | Determinism is not correctness; the review checks meaning separately |
+| Availability of the deployed servers | 99.83% of 3,568 checks in 238 hourly probe sweeps over seven days; 709 of 709 known-answer checks right | One workspace, one week |
+| Data integrity | $13,409.970M Total Ship Estimate closes to 0.000 on two independent axes | The exhibit ties to itself; it is a budget estimate, not an audited cost |
 
 It holds two things that depend on each other: the product, and the proof that it works.
 
@@ -55,6 +65,7 @@ It holds two things that depend on each other: the product, and the proof that i
 
 ## Contents
 
+- [Why this matters beyond one ship](#why-this-matters-beyond-one-ship)
 - [Background: one ship, four numbers](#background-one-ship-four-numbers)
 - [Open the front center](#open-the-front-center)
 - [What the One Hub shows](#what-the-one-hub-shows)
@@ -69,6 +80,99 @@ It holds two things that depend on each other: the product, and the proof that i
 - [Sources](#sources)
 
 ---
+
+## Why this matters beyond one ship
+
+### Four ledgers that never meet
+
+Every major weapon system's cost is recorded four times, by four communities, for four
+purposes. None of the four records carries the keys needed to join it to the others.
+
+| Ledger | Kept by | What it says | Where CVN-79 shows the break |
+| --- | --- | --- | --- |
+| **Budget** (J-book P-5c, P-40) | The comptroller chain: Navy FMB, NAVSEA 01, OUSD(C), and the congressional committees | What was requested and appropriated, by hull and cost category, in then-year dollars | $13,409.970M Total Ship Estimate. Each SCN year stays available for five years, so one hull is funded by many appropriation years at once |
+| **Acquisition** (SAR, MSAR) | The PEO and USD(A&S) | Baseline, estimate at completion, contracts under cost reporting | The Ford-class SAR reports cost for the class, not per hull (GAO-17-575). Only seven contract numbers appear for a $13.4 billion ship. DCARC rates the program's contractor cost reporting **Red** |
+| **Contract** (FPDS-NG, USAspending) | Contracting officers and SUPSHIP | Obligations by action and modification | A $54M action described as "detail design and construction CVN 79" is Nimitz defueling work. Award-level outlays reach USAspending for 0.8% of prime obligations, and account linkage covers 36.1% of the DD&C contract |
+| **Accounting** (CIP, then General PP&E) | Service financial management and the auditors | The asset's cost on the balance sheet | The hull sits in construction in progress, with no decided date to relieve it. GFE installed on the hull risks being counted twice or not at all. General PP&E and Government Property in the Possession of Contractors are both open material weaknesses |
+
+### The scale
+
+- DoD plans to invest over **$2.4 trillion** to develop and acquire its costliest weapon
+  programs ([GAO-26-108457](https://www.gao.gov/products/GAO-26-108457)).
+- The FY2026 budget carries **72 active MDAPs**: 15 Army, **35 Navy**, 21 Air Force
+  ([OUSD(C), Program Acquisition Cost by Weapon System, FY2026](https://comptroller.defense.gov/Portals/45/Documents/defbudget/FY2026/FY2026_Weapons.pdf)).
+- FY2025 was DoD's **eighth disclaimer of opinion**, covering $4.65 trillion in reported
+  assets ([CRS IF12627](https://www.everycrsreport.com/files/2026-04-28_IF12627_a0aaa98fa9bd10c7d612eaea7793e46ec9b96ed0.html)).
+  The auditors reported **26 material weaknesses**, among them General PP&E, Government
+  Property in the Possession of Contractors, and the Joint Strike Fighter program
+  ([DoD FY2025 AFR, Other Information](https://comptroller.war.gov/Portals/45/Documents/afr/fy2025/5_Other_Information.pdf)).
+- The FY2024 NDAA requires a clean opinion by **December 31, 2028**
+  ([GAO-25-108052](https://www.gao.gov/assets/gao-25-108052-highlights.pdf)).
+- The Navy alone carries **$503.1 billion** of General PP&E net book value, 55.9% of its
+  assets, and vessels and aircraft make up over 90% of its construction in progress
+  ([DON FY2025 AFR](https://www.secnav.navy.mil/fmc/FR/FY25_NavyAFR_12.8.25_FINAL.pdf)).
+- For the F-35, DoD has estimated parts in contractor possession at over **$220 billion**,
+  a figure GAO calls likely significantly understated
+  ([GAO-23-106098](https://www.gao.gov/assets/gao-23-106098.pdf)).
+
+A ship or an aircraft is a multi-billion dollar asset that spends a decade or more in
+construction in progress, funded by many appropriation years, built under contracts
+that also serve other hulls. Getting its cost right is the general PP&E problem at its
+largest, and it decides whether the 2028 opinion is reachable.
+
+### Who uses it, and what changes for them
+
+| User | The question they ask | What the One Hub gives them | What it replaces |
+| --- | --- | --- | --- |
+| **Senior leaders**: ASN(FM&C), OUSD(C), the service acquisition executive, anyone briefing a ship's cost | "What does this ship cost, and can I stand behind the number?" | The four published figures side by side, each with its basis and page. A gate that will not show an unverified figure as fact: the December 2025 baseline (E-17) is shown both ways until a person confirms it | One number lifted into a briefing, with its definition lost on the way |
+| **PEO and program office**: PEO Carriers and PMS 379 today, any PEO next | "Where did the money go, and why did the estimate move?" | The anchor chain from appropriation to contract to action. 17 variances where public sources disagree, each with provenance. Attribution to named contracts raised from 42.2% to 75.8% in one pass | Manual reconciliation across J-books, SARs and contract files, redone for every review |
+| **CAPE and cost estimators**: CAPE, NCCA, NAVSEA 05C | "Is there a traceable actuals baseline for the next estimate?" | Actuals by cost category and by funding stream, each closing to zero. The learning-curve variance between the 18% contract man-hour target and what was realized. The per-hull cut GAO asked the class SAR to carry | GAO found the CVN-79 estimate met one of four characteristics of a reliable estimate (GAO-17-575). CAPE's independent estimate was higher, and its figure is redacted |
+| **Budget analysts**: Navy FMB, NAVSEA 01, comptroller and congressional staff | "What is funded, by year, and how does it stand against the cap?" | Funding by stream from FY2007 to FY2027, the cap history under 10 U.S.C. 8692, cost to complete, and execution from the transaction record | Spreadsheets rebuilt from PDF exhibits each budget cycle |
+| **Accountants and auditors**: service FM offices, IPA auditors, DoD OIG, GAO | "Can the asset's value be traced to transactions?" | Every figure to its page or row hash. Open questions the audit will ask, already registered and owned: when CIP is relieved (G14), whether GFE is counted twice (G15), and the GFP position report that answers the contractor-held property question (G16) | Sampling and tracing that starts from nothing every audit cycle |
+| **Any analyst with a table**, through MCP A Creator | "Can I put a governed tool over my own data without a developer?" | A question and a Unity Catalog table become a tested MCP server, deployed as the analyst's own app after an approval that covers exactly what was reviewed | A ticket to a development team, or a model improvising SQL |
+
+### From one hull to every major weapon system
+
+What carries to the next program unchanged, and what each program adds:
+
+| Carries over unchanged | Each new program supplies |
+| --- | --- |
+| The three servers and their 29 tools; the agents; the work register | A key set: appropriation, line item, program element, contracts, CAGE, PSC and acquisition program code. Part G of the [Ring 0 dossier](the-one-hub/ops-center/corpus/dossier/RING0_CVN79.md) is the CVN-79 template |
+| The gate. Its materiality floor is a share of the subject's total, so it moves between programs ([seed/gate.yaml](the-one-hub/ops-center/seed/gate.yaml)) | A source catalog: its J-book exhibits, SAR or MSAR, contract records and GAO reports |
+| The variance and gap registers, typed and ranked the same way | The subject total the reconciliation must close to |
+| MCP A Creator, which builds the per-program servers from tables | Owners for its gaps |
+
+The order we would take, each step reusing the last:
+
+1. **CVN-80 and CVN-81.** Same class, same budget line (SCN 2001), same builder, and a
+   shared contract (N00024-16-C-2116) that the hub already excludes from CVN-79.
+2. **The Ford class and the carrier fleet.** The class SAR reports cost for the class,
+   so the per-hull split is the product.
+3. **The F-35.** The Joint Strike Fighter is its own DoD-wide material weakness, and its
+   contractor-held parts are the largest instance of the property problem the hub
+   already registers for CVN-79 (Ring 0, Part J).
+4. **The 35 Navy MDAPs, then the 72 in the FY2026 budget.** Each adds a key set and a
+   source catalog, not a new system.
+
+Today the method has run on one hull. The steps above are a plan, not a result.
+
+**Findings from the pilot that will recur on every program.** Each one is in the
+variance or gap register with its evidence.
+
+- A contract number is not a hull key. One EASR radar contract serves six ships, and a
+  $54M action carries the wrong ship in its own description (Ring 0, N.4 and N.6a).
+- USAspending obligations are usable for a weapon system. Its award-level outlays are
+  not: they cover 0.8% of CVN-79's prime obligations (Ring 0, N.4).
+- The class SAR does not give a per-hull cost (GAO-17-575).
+- Capitalized value will never equal program cost, for three structural reasons: scope,
+  timing and boundary. The $1 million Navy capitalization threshold alone expenses
+  installed components (Ring 0, I.3).
+- The date construction in progress is relieved is undecided between preliminary
+  acceptance, delivery and commissioning, and the candidates straddle a fiscal year (G14).
+- Contractor cost reporting can be formally deficient: the MSAR rates CVN-79's CSDR
+  compliance Red (Ring 0, D.9).
+- Assets move between hulls by memorandum, with no procurement transaction: one AAG
+  engine set moved from CVN-78 to CVN-79 this way (Ring 0, J.4).
 
 ## Background: one ship, four numbers
 
@@ -172,6 +276,19 @@ what is on the page (for example "Explain File C FY2021P03").
 | ![Variance register](docs/screenshots/variances.jpg) | ![Knowledge base](docs/screenshots/knowledge.jpg) |
 | **Variance register.** 17 places where public sources disagree. | **Knowledge base.** 43 catalogued artifacts, every search hit cited to a page. |
 
+### Demo video
+
+The 14:28 demo video was submitted with the entry. Two lines in its narration were
+recorded before later corrections, and this README is the current record:
+
+- Where the narration says the budget total is "+$473.97M over the adjusted limit", that
+  reading holds against the $12,936M baseline in force. The FY2027 MSAR reports a December
+  2025 baseline of $13,529M, under human review as [E-17](#e-17-the-baseline-under-review).
+  If it is confirmed, the total sits $119.03M under the baseline.
+- Where it says "43 documents", it means the front center knowledge base: 43 catalogued
+  artifacts, 2,765 chunks from 22 indexed documents. The docs MCP server holds a separate
+  corpus of 33 PDFs, 7,555 pages and 19,917 chunks.
+
 ---
 
 ## What the One Hub shows
@@ -198,6 +315,14 @@ specialist harness adds cost-cap, cost-capture, earned-value and valuation speci
 **A gate.** No figure reaches a product without passing deterministic checks that use no
 model. A figure that ties to a source record is shown as verified; anything else is shown
 as a lead. Proposals that would change the record wait in the work queue for a person.
+The routes are in [`seed/gate.yaml`](the-one-hub/ops-center/seed/gate.yaml); the first match decides.
+
+| Outcome | When | Example in the record |
+| --- | --- | --- |
+| **Promote** | Verified, unflagged, and for a material figure, tied out on both axes (R5, R6) | $13,409.970M Total Ship Estimate, closing to 0.000 by cost category and by funding stream |
+| **Human review** | Any premise, method or key flag, a material interpretation, or a material figure below verified (R1, R2, R4), and any policy violation (R-1) | E-17: the $13.529B baseline comes from an MSAR sentence, and is also CVN 80's figure. Both readings are shown until a person confirms one under rule CAP-05 |
+| **Gap** | The value is unknown (R0) | 65 registered gaps, such as G14, the date construction in progress is relieved |
+| **Hold as a lead** | Below the materiality floor and not verified (R3, R7) | A contribution through `/insight`, recorded with its author and basis, never as a certified figure |
 
 The rules that shape the build are written into the code:
 
@@ -227,7 +352,7 @@ It walks a person through seven phases, each ending in something reviewable:
 | 3 Design | `creator_design_tools` | One tool per question, at most 8, and a list of what cannot be answered |
 | 4 Review | `creator_review_server` | A score on 11 dimensions, including whether each tool computes what its question means |
 | 5 Generate | `creator_generate_project`, `creator_write_project` | Server, tests, a Phoenix evaluation harness and a Databricks App kit |
-| 6 Deploy | `creator_deploy_server` | The person's own app, after their approval |
+| 6 Deploy | `creator_deploy_server` | The person's own app, after an approval bound to exactly what they reviewed |
 
 Two more tools, `creator_list_library` and `creator_load_document`, serve the skills and
 reference material, which are also exposed as MCP resources and prompts.
@@ -312,9 +437,10 @@ The evaluation has four layers, one question each. Full method and results are i
 
 | Layer | Question | Result |
 | --- | --- | --- |
-| Code suites | Does the code do what it says? | **600 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
+| Code suites | Does the code do what it says? | **1,021 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
+| Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 29 tools gets SQL fragments, path traversal, oversized values, wrong enum members and control characters: **399 calls, 317 refused, 82 answered safely, 0 writes, 0 arguments pasted into SQL** ([test](mcp-servers/test_adversarial_arguments.py)) |
 | Delegation | Given all 29 tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, 14 questions (9 development, 5 held out), three repeats each: **80 of 84 runs correct with the servers (95.2%, 95% CI 88.4 to 98.1), 2 of 28 with no tools (7.1%)**. Strict held-out: 20/24 (83.3%, CI 64.1 to 93.3). With each server's instructions in the prompt, 28 of 28. Raw runs and the script that re-derives every number: [eval/delegation/](eval/delegation/) |
 
 Every delegation run is logged to Delta with a SHA-256 of the tool catalog, so a result
@@ -326,6 +452,25 @@ could break out of a string in a generated evaluation file. They are listed in
 happened to each of the report's twelve findings is in the
 [evaluation addendum](docs/submission/EVALUATION_ADDENDUM.md).
 
+**Round 2 is sealed and waiting to run.** Twelve new held-out questions, with their
+answer key, are fixed by a SHA-256 committed before any model sees them. The notebook
+refuses any other file and checks every SQL-backed answer against the warehouse before
+it calls a model. The same run measures the fix for finding F7, the one question all
+four round 1 misses came from. Protocol: [eval/delegation/round2/](eval/delegation/round2/README.md).
+
+### Claim-to-artifact map
+
+| Claim | The file that proves it | The command that re-runs it |
+| --- | --- | --- |
+| 1,021 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
+| 83.3% strict held-out with tools, 25.0% without | [`eval/delegation/runs.csv`](eval/delegation/runs.csv), [`RESULTS.md`](eval/delegation/RESULTS.md) | `python3 eval/delegation/analyze.py` (CI fails if it disagrees with RESULTS.md) |
+| No tool accepts a hostile argument | [`mcp-servers/test_adversarial_arguments.py`](mcp-servers/test_adversarial_arguments.py) | `scripts/check.sh mcp-local` |
+| Free text never becomes code in a generated project | [`mcp-server-creator/tests/test_injection_safety.py`](mcp-server-creator/tests/test_injection_safety.py) | `scripts/check.sh creator` |
+| Byte-identical generation, 58 of 58 files | [evaluation report](docs/submission/evaluation-report.pdf), section 10 | The command in the report's section 14 |
+| $13,409.970M closes to zero on two axes | [`checks/verify.py`](the-one-hub/ops-center/checks/verify.py) | `scripts/check.sh one-hub` |
+| 99.83% availability over seven days | [evaluation report](docs/submission/evaluation-report.pdf), section 4 | The probe app, [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/) |
+| Round 2 questions were fixed before the run | [`eval/delegation/round2/README.md`](eval/delegation/round2/README.md) | `sha256sum questions_h2.json` after it is published |
+
 ---
 
 ## Security
@@ -336,11 +481,12 @@ documents. The controls are in code, not in prompts:
 | Risk | Control |
 | --- | --- |
 | SQL injection | Identifiers are allow-listed and quoted; values are bound as parameters. The One Hub's `sqlsafe.compose` refuses anything that is not a vetted fragment or identifier |
-| Code injection into generated projects | Free text is made inert before it enters any generated literal (`utils.inert_text`); a fuzz test with eight payloads checks every generated Python, TOML, JSON, YAML and XML file |
+| Code injection into generated projects | Free text is made inert before it enters any generated literal, docstring, comment or constant (`utils.inert_text`, `utils.docstring_safe`). A fuzz test sends eight payloads through the purpose, user, questions, out-of-scope list and every source description, and compiles every generated Python file with warnings as errors; every TOML, JSON, YAML and XML file must parse |
+| Hostile tool arguments | Every parameter of all 29 Air Carrier tools is attacked in one sweep: 399 calls, 317 refused by validation, every statement that reached the warehouse read-only, and hostile values only ever bound as parameters |
 | Path traversal | Volume reads are confined to configured roots; the One Hub MCP server reads only its own data folder |
-| Unwanted writes | Air Carrier tools are read-only except one gated label write that needs an authoritative document locator and a confirming office. Creator writes are dry runs by default; deployment asks for approval and never touches another owner's app |
+| Unwanted writes | Air Carrier tools are read-only except one gated label write that needs an authoritative document locator and a confirming office. Creator writes are dry runs by default. Deployment returns an approval token, a hash of the design, the app name, the grants and the folder's files; a deploy needs that token, so a yes covers exactly what was reviewed. It never touches another owner's app |
 | Identity and grants | Per-user OAuth through Databricks Apps; tables read as the caller under Unity Catalog; no credentials in code, only `.env.example` files are committed |
-| Prompt injection | Retrieved text is data, never instructions; the golden set carries a direct injection case |
+| Prompt injection | Retrieved text is data, never instructions. The golden set carries a direct injection case (q17) and an indirect one (q16), a planted record in a scratch copy of the store |
 
 ---
 
@@ -359,6 +505,9 @@ documents. The controls are in code, not in prompts:
 | `the-one-hub/notebooks/` | Build notebooks: knowledge graph, PDF and source table stores, work register, tracker | - |
 | `genie-code-skills/` | Genie Code skills for analysts: verify a figure, investigate a gap, draft a collection request | - |
 | `eval/delegation/` | Delegation evaluation: questions, 224 logged runs, analysis with confidence intervals | - |
+| `eval/delegation/round2/` | Round 2 protocol: 12 sealed held-out questions, the seal, and how the notebook checks it | - |
+| `mcp-servers/test_adversarial_arguments.py` | Hostile arguments against every parameter of all 29 Air Carrier tools | - |
+| `LICENSE`, `SECURITY.md` | MIT license from the GSA template; repository-wide security posture and where each control is tested | - |
 | `docs/` | Deployment guide, review, evaluation report and addendum, deck, screenshots | - |
 | `scripts/` | `check.sh` (every suite, one command), `check_links.py` (no broken links) | - |
 | `.github/workflows/ci.yml` | CI: `scripts/check.sh` per project on Python 3.11 and 3.12 | - |
@@ -397,9 +546,9 @@ scripts/check.sh creator      # or one: creator ops bakehouse weather docs analy
 ```
 
 Each project installs its own dependencies into its own environment. Expected (checked
-2026-11-19): Creator 247 passed, 1 skipped; ops 36; bakehouse 21; weather 19; docs 27;
-analyst 31 passed, 8 skipped; probe 9; mcp_local 23; One Hub 187 passed, 5 skipped, plus six
-script suites. The skips need a live Spark session (5 in the One Hub), the deployed data bundle (8 in analyst) or bandit (1 in the Creator). CI runs the same script.
+2026-11-20): Creator 258 passed, 1 skipped; ops 36; bakehouse 21; weather 20; docs 36;
+analyst 31 passed, 8 skipped; probe 9; mcp_local 23 plus the adversarial sweep 400; One Hub
+187 passed, 5 skipped, plus six script suites and lint. The skips need a live Spark session (5 in the One Hub), the deployed data bundle (8 in analyst) or bandit (1 in the Creator). CI runs the same script.
 
 The [checks README](the-one-hub/ops-center/checks/README.md) lists every One Hub suite
 and how it runs. Inside a Databricks Git folder, also set `PYTHONDONTWRITEBYTECODE=1` and
@@ -431,8 +580,13 @@ to repository, so it would overwrite newer edits made here.
   but not a confident tool mapped to a different question; two of 14 questions in the
   end-to-end run showed this.
 - **Small evaluation sets.** 14 delegation questions, 17 golden items and 5 Creator
-  prompts, so the confidence intervals are wide (strict held-out 64.1 to 93.3). The
-  planted-record injection case (q16) needs a data change and is still open.
+  prompts, so the confidence intervals are wide (strict held-out 64.1 to 93.3). Round 2
+  adds 12 sealed held-out questions; it is prepared and not yet run. The planted-record
+  injection case (q16) is built as a scratch-schema script and not yet run.
+- **One hull.** The method has run on CVN-79 only. CVN-80, CVN-81, the F-35 and the other
+  MDAPs are a plan with named inputs, not results.
+- **No measured time saved.** The hub reconciles in one pass what is done by hand today;
+  analyst hours before and after have not been measured.
 - **The Cost Limitation Baseline is under review** (E-17). The hub keeps $12,936M in force
   until a person confirms the December 2025 figure.
 - **Figures are the app's reading of the register, not a cleared position.** The front
@@ -451,6 +605,17 @@ All data is public. The main sources are:
 - GAO-26-108457 and earlier GAO reviews of the program
 - USAspending and FPDS-NG transaction records for N00024-09-C-2116 and N00024-15-C-2114
 - 10 U.S.C. 8692, Ford-class aircraft carriers: cost limitation baselines
+
+For the portfolio and audit context in [Why this matters](#why-this-matters-beyond-one-ship):
+
+- GAO-26-108457, *Weapon Systems Annual Assessment*, July 2026
+- OUSD(C), *Program Acquisition Cost by Weapon System*, FY2026 budget request
+- DoD FY2025 Agency Financial Report, Independent Auditor's Report and Other Information
+- CRS IF12627, *Defense Primer: FY2025 Department of Defense Audit Results*
+- GAO-25-108052, *Insights into the Auditability of DOD's Fiscal Year 2024 Balance Sheet*
+- Department of the Navy FY2025 Agency Financial Report
+- GAO-23-106098, *F-35 Program: DOD Needs Better Accountability for Global Spare Parts*
+- GAO-17-575, *Ford-Class Aircraft Carrier: Follow-On Ships Need More Frequent and Accurate Cost Estimates to Avoid Pitfalls of Lead Ship*
 
 The full source list, with each document's role, is on the front center's Sources page
 and in `the-one-hub/ops-center/corpus/`.
