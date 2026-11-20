@@ -51,6 +51,17 @@ def test_routes_register_without_error():
     register_routes(FastMCP("test"))
 
 
+def test_root_and_health_answer_over_http():
+    """Opening the app URL must not return 404 Not Found."""
+    from starlette.testclient import TestClient
+
+    with TestClient(mcp.http_app(transport="streamable-http")) as client:
+        root = client.get("/")
+        assert root.status_code == 200
+        assert root.json()["mcp_endpoint"] == "/mcp"
+        assert client.get("/health").json()["status"] == "healthy"
+
+
 async def test_every_planned_tool_is_discoverable():
     """The tools the specification planned are the tools the server exposes."""
     tools = await mcp.list_tools()

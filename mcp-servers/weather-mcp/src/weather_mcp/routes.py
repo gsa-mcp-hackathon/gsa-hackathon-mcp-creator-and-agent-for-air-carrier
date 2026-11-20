@@ -17,6 +17,20 @@ from weather_mcp import __version__
 def register_routes(mcp: FastMCP) -> None:
     """Register custom HTTP routes with the server."""
 
+    @mcp.custom_route("/", methods=["GET"])
+    async def index(request: Request) -> JSONResponse:
+        # Opening the app URL in a browser lands here. Without this route the
+        # root answered 404 "Not Found", which read as a broken deployment.
+        return JSONResponse(
+            {
+                "service": "weather-mcp",
+                "version": __version__,
+                "mcp_endpoint": "/mcp",
+                "health": "/health",
+                "note": "MCP server: connect an MCP client to /mcp.",
+            }
+        )
+
     @mcp.custom_route("/health", methods=["GET"])
     async def health_check(request: Request) -> JSONResponse:
         return JSONResponse({"status": "healthy", "service": "weather-mcp"})
