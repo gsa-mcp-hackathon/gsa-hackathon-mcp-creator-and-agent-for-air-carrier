@@ -19,7 +19,7 @@
 import json, datetime as dt
 import pandas as pd
 
-FILES = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files"
+FILES = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center"
 NS = "users.xiaobing_shang1_civ"
 NOW = dt.datetime.now(dt.timezone.utc).replace(tzinfo=None)
 

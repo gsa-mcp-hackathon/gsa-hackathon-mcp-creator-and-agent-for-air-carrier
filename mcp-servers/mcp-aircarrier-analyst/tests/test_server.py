@@ -196,8 +196,8 @@ def test_window_residual_backtest_status(fake_store):
 
 # ------------------------------------------------------------ vendoring
 
-BUNDLE = Path(os.getenv("AIRCARRIER_BUNDLE_CORE", "/Workspace/Users/xiaobing.shang1.civ@mail.mil/the-one-hub/"
-                    "the-ops-center/.bundle/aircarrier/dev/files/core"))
+BUNDLE = Path(os.getenv("AIRCARRIER_BUNDLE_CORE", "/Workspace/Users/xiaobing.shang1.civ@mail.mil/"
+                    "gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center/core"))
 VENDORED = ("catalog.py", "analyst/__init__.py", "analyst/loa.py", "analyst/engine.py", "analyst/learn.py",
             "analyst/backtest.py", "analyst/residual.py", "analyst/sources.py")
 

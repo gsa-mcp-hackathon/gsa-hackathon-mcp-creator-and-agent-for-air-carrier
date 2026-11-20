@@ -18,7 +18,7 @@ No figure enters a product without passing this. The gate is permanent, not tran
 | `exhibit_hazards(exhibit)` | `seed/exhibits.yaml` under the bundle root |
 | obligation figures | Sum `federal_action_obligation` over the transaction CSVs in `/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts`, and state the as-of date (the last `action_date`) |
 
-Bundle root: `/Workspace/Users/xiaobing.shang1.civ@mail.mil/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files`.
+Bundle root: `/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center`.
 
 ## Run the check
 

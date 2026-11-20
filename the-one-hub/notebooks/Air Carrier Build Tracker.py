@@ -12,7 +12,7 @@
 # MAGIC   * FAIL: broken, or contradicts a claim.
 # MAGIC   * INFO: a count.
 # MAGIC * Sources:
-# MAGIC   * The bundle at `the-ops-center/.bundle/aircarrier/dev`. This workspace copy is the source of truth as of 2026-11-08: the build is no longer synced from a local repo.
+# MAGIC   * The bundle source in the Git folder at `gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center` (GitHub main is the source of truth since 2026-11-20; the old `the-ops-center/.bundle/aircarrier/dev/files` copy was removed).
 # MAGIC   * The volumes `aircarrier_artifacts` and `aircarrier_extracted`.
 # MAGIC   * The app `aircarrier-front-center-dev`.
 # MAGIC   * The 4 bundle jobs.
@@ -32,7 +32,7 @@ import pandas as pd
 from databricks.sdk import WorkspaceClient
 
 w = WorkspaceClient()
-FILES = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files"
+FILES = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center"
 VOL = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts"
 KB = "/Volumes/users/xiaobing_shang1_civ/aircarrier_extracted/kb"
 APP = "aircarrier-front-center-dev"

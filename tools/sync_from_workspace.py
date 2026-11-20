@@ -1,7 +1,10 @@
-"""Copy the live workspace sources into this Git folder (one-way snapshot).
+"""Copy the live Genie Code skills into this Git folder (one-way snapshot).
 
-The apps keep deploying from the original workspace folders. This script only
-refreshes the copy that is committed to GitHub. Run it from a Databricks
+Since 2026-11-20 the apps and jobs deploy from this repo, and the old workspace
+copies (mcp-server-creator, mcp-servers, the bundle files, the hub notebooks)
+were moved to trash; edit those here. Only the skills still live elsewhere
+(~/.assistant/skills, where Genie Code reads them), so this script now copies
+just those. Run it from a Databricks
 notebook or Python session, then review and commit in the Git folder UI.
 
     exec(open("/Workspace/Users/<you>/gsa-hackathon-mcp-creator-and-agent-for-cvn/tools/sync_from_workspace.py").read())
@@ -30,17 +33,12 @@ REPO = f"{HOME}/gsa-hackathon-mcp-creator-and-agent-for-cvn"
 
 # source (workspace) -> destination (relative to REPO)
 MAPPINGS = [
-    (f"{HOME}/mcp-server-creator", "mcp-server-creator"),
-    (f"{HOME}/mcp-servers", "mcp-servers"),
-    (f"{HOME}/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files", "the-one-hub/ops-center"),
     (f"{HOME}/.assistant/skills/aircarrier-collection-request", "genie-code-skills/aircarrier-collection-request"),
     (f"{HOME}/.assistant/skills/aircarrier-verify-figure", "genie-code-skills/aircarrier-verify-figure"),
     (f"{HOME}/.assistant/skills/aircarrier-investigate", "genie-code-skills/aircarrier-investigate"),
 ]
 # notebooks that sit directly in a folder whose other files are not copied
-NOTEBOOK_MAPPINGS = [
-    (f"{HOME}/the-one-hub", "the-one-hub/notebooks"),
-]
+NOTEBOOK_MAPPINGS: list = []
 
 EXCLUDE_DIRS = {
     ".git", ".databricks", ".bundle", ".ruff_cache", ".pytest_cache", "__pycache__",

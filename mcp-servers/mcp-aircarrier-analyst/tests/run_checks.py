@@ -11,7 +11,7 @@ import subprocess  # nosec B404 - runs pytest only
 import sys
 import time
 
-ROOT = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/mcp-servers/mcp-aircarrier-analyst"
+ROOT = "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-servers/mcp-aircarrier-analyst"
 shutil.rmtree("/tmp/mca", ignore_errors=True)
 shutil.copytree(ROOT, "/tmp/mca", ignore=shutil.ignore_patterns("__pycache__", ".git"))
 

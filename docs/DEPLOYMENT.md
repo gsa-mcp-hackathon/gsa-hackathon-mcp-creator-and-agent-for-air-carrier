@@ -75,14 +75,13 @@ so a job runs whatever the Git folder has checked out, including uncommitted edi
 job writes under `--root` (for example `app/data/rules.json` from `etl/build_rules.py`) shows up
 as a change in the Git folder; commit it.
 
-Do not run `bundle deploy` from the old workspace copy
-(`~/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files`). It shares the same bundle state
-and would point the jobs back at those files and the app back at a workspace source.
+The old workspace copy (`~/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files`) was moved
+to trash on 2026-11-20; this Git folder is the only source. The bundle state still lives at
+`~/the-one-hub/the-ops-center/.bundle/aircarrier/dev/state` (`root_path` comes from `ops_root`).
+Do not delete it: without it the next `bundle deploy` creates duplicate jobs.
 
-Rollback: a REST deployment with `source_code_path`
-`~/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files/app` and all 15 `env_vars` (the
-source of `01f1e3d515d1`). To make it permanent, restore `source_code_path: ../app` in
-`resources/app.yml` and remove the two Git blocks.
+Rollback: a REST deployment with `git_source` pinned to an earlier `commit` (same
+`source_code_path` `the-one-hub/ops-center/app`) and all 15 `env_vars`.
 
 ### Environment variables
 

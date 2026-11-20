@@ -11,7 +11,7 @@ Discovery is the phase this project is in. The binding constraint is unknowns, n
 
 ## Adapter: where each tool lives in this workspace
 
-Bundle root: `/Workspace/Users/xiaobing.shang1.civ@mail.mil/the-one-hub/the-ops-center/.bundle/aircarrier/dev/files`. In the table, "bundle root" means that path.
+Bundle root: `/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center`. In the table, "bundle root" means that path.
 
 | Skill step | Use |
 |---|---|
