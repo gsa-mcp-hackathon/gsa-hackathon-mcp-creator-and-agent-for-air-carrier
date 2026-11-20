@@ -122,3 +122,25 @@ has seen.
 
 After these fixes `scripts/check.sh` passes from a clean clone with 1,052 tests (ops 40,
 docs 41, the adversarial sweep 422) and 14 skipped.
+
+## Round 3: new sealed questions after the fixes (2026-11-20)
+
+Twelve questions written after the round 2 fixes, sealed by SHA-256 before the run, on
+the 30-tool catalog `7e0d0a2a69214945` (run `rpt-5153ac3f`):
+
+| Slice | With the 30 tools | Without tools |
+| --- | --- | --- |
+| Round 3 sealed held out (12 questions) | 50/72, 69.4% (58.0 to 78.9) | 1/24, 4.2% (0.7 to 20.2) |
+| Round 2 questions, re-run after the fixes | 45/72, 62.5% (51.0 to 72.8) | 3/24, 12.5% |
+| F4 after the second F7 fix | 4/6, 66.7% (30.0 to 90.3) | 0/2 |
+| Every question in the run | 174/228, 76.3% (70.4 to 81.4) | 6/76, 7.9% (3.7 to 16.2) |
+
+Three grading defects are kept in the official score and reported apart in
+[`hand_grades.csv`](../../eval/delegation/hand_grades.csv): an answer-key error in G07
+(the key rounded 13,195.970 to 13,196), a pattern in H06 that cannot match 63.11%, and
+the H10 pattern that does not accept "cannot find". Read by hand, round 3 and the round 2
+re-run are each 55/72 (76.4%). The real misses left are counting deobligations by sign
+(G04), the P00154 contamination that no tool exposes (H04), and figures that live only
+in the variance register (G09, part of G08). Both sealed sets were written by the person
+who built the tools; an independent author would make a stronger test.
+

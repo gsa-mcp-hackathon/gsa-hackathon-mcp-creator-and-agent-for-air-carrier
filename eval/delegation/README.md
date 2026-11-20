@@ -5,9 +5,12 @@ analyst 12, ops 6; 30 from 2026-11-20, when ops gained `carrier_search_variances
 no hint about which server answers which question. A run passes when the model's final
 answer matches the expected answer for that question.
 
-**Results with 95% confidence intervals: [RESULTS.md](RESULTS.md).** Round 2, 12 sealed
-questions: 31/72 = 43.1% (32.3 to 54.6) with the tools, 3/24 = 12.5% without
-([round2/](round2/README.md)). Round 1:
+**Results with 95% confidence intervals: [RESULTS.md](RESULTS.md).** Round 3, 12 sealed
+questions after the fixes: 50/72 = 69.4% (58.0 to 78.9) with the 30 tools, 1/24 = 4.2%
+without ([round3/](round3/README.md)). Round 2, 12 sealed questions before the fixes:
+31/72 = 43.1% (32.3 to 54.6), 3/24 = 12.5% without ([round2/](round2/README.md)).
+Grading defects are kept in these scores and listed in [hand_grades.csv](hand_grades.csv).
+Round 1:
 
 | | With the 29 tools | No tools |
 |---|---|---|
@@ -19,7 +22,7 @@ questions: 31/72 = 43.1% (32.3 to 54.6) with the tools, 3/24 = 12.5% without
 | File | What it is |
 |---|---|
 | [questions.csv](questions.csv) | The 14 questions: 9 development (`dev`), 5 held-out (`fresh`) |
-| [runs.csv](runs.csv) | Every logged run (224 rows), exported from the Delta table `users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs`; trace and answer columns omitted |
+| [runs.csv](runs.csv) | Every logged run (992 rows), exported from the Delta table `users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs`; trace and answer columns omitted |
 | [analyze.py](analyze.py) | Re-derives every number in RESULTS.md from runs.csv. CI fails if they disagree |
 | [RESULTS.md](RESULTS.md) | Generated output |
 

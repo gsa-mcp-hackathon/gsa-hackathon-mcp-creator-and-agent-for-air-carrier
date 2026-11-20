@@ -74,7 +74,7 @@ first 60 pages.
 ### The H10 hand reading
 
 The regex grade stands. A person's reading of the same answers is recorded apart, in
-`hand_grades.csv` beside this file, and `analyze.py` prints it under the official table
+`eval/delegation/hand_grades.csv`, and `analyze.py` prints it under the official table
 with its own label. To fill it, read the six tool-mode answers and two baselines:
 
 ```sql
@@ -84,7 +84,7 @@ WHERE qid = 'H10 decoy rework' AND run_id IN ('rpt-cde6da6d', '166621165979')
 ORDER BY model, mode
 ```
 
-and write one row per answer:
+and add one row per answer:
 
 ```csv
 run_id,model,mode,qid,regex_passed,hand_passed,note
@@ -122,3 +122,15 @@ In the workspace:
   failure in the notebook's inspect cell before quoting a pass rate.
 - H02 asks for a cut that no tool exposes by name. A miss there is a coverage finding
   about the tools, and is reported as one.
+
+## Post-fix re-run (2026-11-20)
+
+The same 12 questions, now public, on the fixed 30-tool catalog `7e0d0a2a69214945`
+(run `rpt-5153ac3f`): 45 of 72 with the tools (62.5%), against 31 of 72 before. H02 went
+0/6 to 6/6, H03 1/6 to 6/6, H05 3/6 to 6/6, H08 0/6 to 3/6, and F4 0/6 to 4/6.
+
+H06 went to 0/6 while every answer was right: the pattern `63(\.1)?\s?%` accepts 63%
+or 63.1% but not 63.11%, the value the server now computes. H10 stayed at 1/6 because
+the pattern does not accept "cannot find"; four answers refused correctly. Read by hand,
+55/72. H04 (0/6) is a real miss: no tool exposes that P00154 is Nimitz work.
+

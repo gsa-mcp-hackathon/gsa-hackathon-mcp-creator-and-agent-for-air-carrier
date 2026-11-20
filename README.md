@@ -23,7 +23,7 @@ to run on every major defense acquisition program.
 | --- | --- | --- |
 | Mission alignment | [Who uses it](#who-uses-it-and-what-changes-for-them), [the stack](#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
 | Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 1,052 tests, lint, on Python 3.11 and 3.12 |
-| Technical quality | [Delegation results](eval/delegation/RESULTS.md) and [round 2](eval/delegation/round2/README.md) | Round 1, 4 strict held-out questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions sealed by SHA-256 before the run: 43.1% with, 12.5% without. Every miss was read and given a cause; 28 of 41 needed a tool or option that did not exist, and it is now built. Round 3 is sealed for the re-run |
+| Technical quality | [Delegation results](eval/delegation/RESULTS.md) and [round 2](eval/delegation/round2/README.md) | Three held-out rounds, each sealed by SHA-256 before its run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Every miss is read and its cause published, grader defects included |
 | Technical quality | [Evaluation report](docs/submission/evaluation-report.pdf), [addendum](docs/submission/EVALUATION_ADDENDUM.md), [claim map](#claim-to-artifact-map) | Seven-day probe at 99.83%, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
 | Technical quality | [Security](#security) | 421 hostile calls against all 30 tools: 330 refused, none wrote, none pasted an argument into SQL; generated code fuzzed with warnings as errors |
 | Innovation | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
@@ -36,6 +36,8 @@ to run on every major defense acquisition program.
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), all 29 tools at once, round 1 | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools (7.1%, CI 2.0 to 22.6) | 14 questions only; answer quality beyond the expected value was not scored |
 | Strict held-out questions, round 1, with vs without tools | 20/24 (83.3%) vs 2/8 (25.0%) | 4 questions; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog before the fixes below. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
+| Sealed held-out questions, round 3 (after the fixes), with vs without tools | 50/72 (69.4%, CI 58.0 to 78.9) vs 1/24 (4.2%) | Questions written by the same author as the fixes. 5 misses are an answer-key error of mine (G07); read by hand, 55/72. Real misses remain on counting by sign, a contamination recorded only in the dossier, and multi-source figures |
+| Round 2 questions re-run on the fixed tools | 45/72 (62.5%) vs 31/72 before; F4 4/6 vs 0/6 | Public questions by then, so this measures the fixes, not generalization |
 | Code suites from a clean clone | 1,052 passed, 0 failed; 14 skipped because they need a live Spark session, the deployed data bundle or bandit | Unit and contract tests show the code does what it says, not that it helps a user |
 | Adversarial arguments, all 30 tools | 421 calls: 330 refused by validation, 91 answered; 172 statements reached the warehouse, all read-only; 40 carried a hostile value as a bound parameter, none pasted into SQL text | Runs in-process against a recording fake warehouse, not the deployed apps |
 | Creator determinism | Same specification, byte-identical files: 58 of 58 | Determinism is not correctness; the review checks meaning separately |
@@ -518,7 +520,7 @@ The evaluation has four layers, one question each. Full method and results are i
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 tools gets SQL fragments, path traversal, oversized values, wrong enum members and control characters: **421 calls, 330 refused, 91 answered safely, 0 writes, 0 arguments pasted into SQL** ([test](mcp-servers/test_adversarial_arguments.py)) |
-| Delegation | Given all 29 tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, 14 questions (9 development, 5 held out), three repeats each: **80 of 84 runs correct with the servers (95.2%, 95% CI 88.4 to 98.1), 2 of 28 with no tools (7.1%)**. Strict held-out: 20/24 (83.3%, CI 64.1 to 93.3). With each server's instructions in the prompt, 28 of 28. Round 2, 12 questions sealed before the run: **31 of 72 (43.1%, CI 32.3 to 54.6) with the tools, 3 of 24 without**; causes below. Raw runs and the script that re-derives every number: [eval/delegation/](eval/delegation/) |
+| Delegation | Given all 29 tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, 14 questions (9 development, 5 held out), three repeats each: **80 of 84 runs correct with the servers (95.2%, 95% CI 88.4 to 98.1), 2 of 28 with no tools (7.1%)**. Strict held-out: 20/24 (83.3%, CI 64.1 to 93.3). With each server's instructions in the prompt, 28 of 28. Round 2, 12 questions sealed before the run: **31 of 72 (43.1%, CI 32.3 to 54.6) with the tools, 3 of 24 without**. Round 3, 12 new sealed questions after the fixes, all 30 tools: **50 of 72 (69.4%, CI 58.0 to 78.9), 1 of 24 without**; causes below. Raw runs and the script that re-derives every number: [eval/delegation/](eval/delegation/) |
 
 Every delegation run is logged to Delta with a SHA-256 of the tool catalog, so a result
 is tied to the exact tool surface it measured. The evaluation also found defects, each
@@ -545,10 +547,38 @@ Every miss was read and given a cause:
 
 The F7 fix also failed (F4: 0 of 6). The budget-cycle reader needed a separator before
 "PB", and the real J-book file names have none. Its tests used made-up names, so they
-passed. The tests now use the real names. Round 2's questions are public now, so a
-re-run of them measures the fixes and is reported under its own heading. Round 3, 12
-new questions written after the fixes, is sealed for the next run. Details:
-[round 2](eval/delegation/round2/README.md), [round 3](eval/delegation/round3/README.md).
+passed. The tests now use the real names.
+
+**Round 3: 12 new sealed questions, after the fixes.** Written after the fixes, sealed
+by SHA-256 before the run, and run on the 30-tool catalog `7e0d0a2a69214945` (run
+`rpt-5153ac3f`, 2026-11-20): **50 of 72 with the tools (69.4%, CI 58.0 to 78.9), 1 of
+24 without (4.2%)**. Sonnet 4.5 scored 28/36 and GPT-5 mini 22/36. The same run
+re-asked round 2's now-public questions: 45/72 (62.5%) against 31/72 before the fixes,
+and F4 went from 0/6 to 4/6.
+
+Every miss was read again. Three were grading defects, not model errors, and the scores
+above keep them as graded:
+
+| Defect | Answers affected | Read by hand |
+| --- | --- | --- |
+| G07: my answer key used 13,196 (rounded, from the estimate history); the PB 2026 P-5c prints 13,195.970 | 5 of 6 gave 13,195.970 | Pass |
+| H06: the pattern `63(\.1)?\s?%` cannot match 63.11%, the value the server now computes | 6 of 6 gave 8,463.156 and 63.11% | Pass |
+| H10: the pattern did not accept "cannot find" | 4 of 6 refused and gave no figure | Pass |
+
+Read by hand, round 3 is 55/72 (76.4%) and the round 2 re-run 55/72 (76.4%). The real
+misses that remain:
+
+| Question | With tools | Cause |
+| --- | --- | --- |
+| G04, count of deobligations on 2116 | 0/6 | No tool counts by sign. Sonnet paged a list sorted smallest first and counted by eye (71 or 73 against 68); GPT-5 mini ran out of turns |
+| H04, P00154 is Nimitz work, not CVN-79 | 0/6 | The contamination is recorded in the One Hub's exhibit seed and the Ring 0 dossier, which none of the 30 tools read. Every model said the $54M is CVN-79 cost |
+| G09, two life-cycle savings figures | 1/6 | The $5B figure is only in variance E-6; GPT-5 mini found $4B in CRS and stopped, and two Sonnet runs ran out of turns |
+| G12, multi-platform contract share | 3/6 | GPT-5 mini did not search the knowledge graph in two runs |
+| H09, which award figure to use | 1/6 | Five runs named the transaction sum but did not state its value |
+
+Details and every answer's verdict: [RESULTS.md](eval/delegation/RESULTS.md),
+[round 2](eval/delegation/round2/README.md), [round 3](eval/delegation/round3/README.md),
+[hand_grades.csv](eval/delegation/hand_grades.csv).
 
 ### Claim-to-artifact map
 
@@ -562,7 +592,7 @@ new questions written after the fixes, is sealed for the next run. Details:
 | $13,409.970M closes to zero on two axes | [`checks/verify.py`](the-one-hub/ops-center/checks/verify.py) | `scripts/check.sh one-hub` |
 | 99.83% availability over seven days | [evaluation report](docs/submission/evaluation-report.pdf), section 4 | The probe app, [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/) |
 | 43.1% on 12 sealed questions, fixed before the run | [`eval/delegation/round2/README.md`](eval/delegation/round2/README.md), [`questions_h2.json`](eval/delegation/round2/questions_h2.json), [`RESULTS.md`](eval/delegation/RESULTS.md) | `sha256sum eval/delegation/round2/questions_h2.json`, then `python3 eval/delegation/analyze.py` |
-| Round 3 questions are fixed before their run | [`eval/delegation/round3/README.md`](eval/delegation/round3/README.md) | `sha256sum questions_h3.json` after it is published |
+| 69.4% on 12 new sealed questions after the fixes | [`eval/delegation/round3/README.md`](eval/delegation/round3/README.md), [`questions_h3.json`](eval/delegation/round3/questions_h3.json), [`RESULTS.md`](eval/delegation/RESULTS.md) | `sha256sum eval/delegation/round3/questions_h3.json`, then `python3 eval/delegation/analyze.py` |
 
 ---
 
@@ -599,7 +629,7 @@ documents. The controls are in code, not in prompts:
 | `genie-code-skills/` | Genie Code skills for analysts: verify a figure, investigate a gap, draft a collection request | - |
 | `eval/delegation/` | Delegation evaluation: questions, 224 logged runs, analysis with confidence intervals | - |
 | `eval/delegation/round2/` | Round 2: 12 sealed held-out questions (published after the run), the seal, the result and the cause of every miss | - |
-| `eval/delegation/round3/` | Round 3 protocol: 12 more sealed questions, written after the round 2 fixes | - |
+| `eval/delegation/round3/` | Round 3: 12 more sealed questions written after the round 2 fixes (published after the run), and the result | - |
 | `mcp-servers/test_adversarial_arguments.py` | Hostile arguments against every parameter of all 30 Air Carrier tools | - |
 | `LICENSE`, `SECURITY.md` | MIT license from the GSA template; repository-wide security posture and where each control is tested | - |
 | `docs/` | Deployment guide, review, evaluation report and addendum, deck, screenshots | - |
@@ -675,8 +705,10 @@ to repository, so it would overwrite newer edits made here.
   end-to-end run showed this.
 - **Small evaluation sets.** 14 delegation questions, 17 golden items and 5 Creator
   prompts, so the confidence intervals are wide (strict held-out 64.1 to 93.3). Round 2's
-  12 sealed questions scored 43.1% (CI 32.3 to 54.6), run before the fixes it prompted;
-  the round 3 set that tests those fixes is sealed and not yet run. The planted-record
+  12 sealed questions scored 43.1% (CI 32.3 to 54.6) before the fixes it prompted, and
+  round 3's 12 new ones 69.4% (CI 58.0 to 78.9) after. Both sets were written by the
+  person who built the tools, and round 3 carried one answer-key error; an independent
+  author would make a stronger test. The planted-record
   injection case (q16) is built as a scratch-schema script and not yet run.
 - **One hull.** The method has run on CVN-79 only. CVN-80, CVN-81, the F-35 and the other
   MDAPs are a plan with named inputs, not results.

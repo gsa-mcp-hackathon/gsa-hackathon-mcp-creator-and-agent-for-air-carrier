@@ -16,7 +16,8 @@ is **not** in this repository. Its SHA-256 is:
 The same four checks as round 2 apply ([`../round2/README.md`](../round2/README.md)):
 this line predates every `h3` row in the runs table; the notebook refuses any file with
 another hash (`SEALED_SHA256["h3"]`); it recomputes every SQL-backed answer from the
-warehouse before calling a model; and the file is committed here after the run.
+warehouse before calling a model; and the file is committed here after the run. It was
+published with the results, after run `rpt-5153ac3f`.
 
 ## What the 12 questions test
 
@@ -41,6 +42,29 @@ questions did not change after the run. It does not make the author independent.
 held-out set written by someone who did not build the tools would be a stronger test,
 and the protocol takes one without changes: seal it the same way and add its hash to
 `SEALED_SHA256`.
+
+## Result (2026-11-20)
+
+Run `rpt-5153ac3f` (and the instructions ablation `58dba7511ddc`), tool catalog
+`7e0d0a2a69214945`, 30 tools, both models, three repeats and one no-tool baseline.
+
+**50 of 72 with the tools (69.4%, CI 58.0 to 78.9), 1 of 24 without (4.2%).** Sonnet 4.5
+28/36, GPT-5 mini 22/36. This is the official score.
+
+| Question | With tools | Notes |
+| --- | --- | --- |
+| G01, G02, G03, G05, G06, G10, G11 | 6/6 each | Both prime contracts, sorting by amount, P-5c shares, the decoy, the MSAR |
+| G08 announced mods | 4/6 | GPT-5 mini summed the obligations instead of reading variance E-13 in two runs |
+| G12 EASR share | 3/6 | GPT-5 mini did not search the knowledge graph in two runs; one gave 110.075 without saying the contract is multi-platform |
+| G09 life-cycle savings | 1/6 | $5B is only in variance E-6; GPT-5 mini stopped at the $4B in CRS, two Sonnet runs ended without an answer |
+| G04 deobligations | 0/6 | No tool counts by sign; Sonnet counted a page by eye (71, 73 against 68), GPT-5 mini ended without an answer |
+| G07 PB2026 estimate | 0/6 | **Answer-key error.** The key used 13,196 from the estimate history. The PB 2026 P-5c prints 13,195.970, and 5 of 6 answers gave exactly that |
+
+The key error is the author's. The official score keeps it as graded. Read by hand, with
+G07 corrected, the score is 55/72 (76.4%); the per-answer verdicts are in
+[`../hand_grades.csv`](../hand_grades.csv), and `analyze.py` prints them under the
+official table.
+
 
 ## Run it
 

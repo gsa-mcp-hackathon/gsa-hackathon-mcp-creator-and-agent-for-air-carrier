@@ -202,37 +202,47 @@ def sealed_sections(rows: list[dict], qset: str, title: str) -> list[str]:
             k, n = tally(run, mode=tools, qid=qid)
             kb, nb = tally(run, mode="no_tools", qid=qid)
             out.append(f"| {qid} | {k}/{n} | {kb}/{nb} |")
-        out += ["", *hand_grades({r["run_id"] for r in run}), ""]
+        out += ["", *hand_grades(run, qset), ""]
     return out
 
 
-def hand_grades(run_ids: set[str]) -> list[str]:
+def hand_grades(run: list[dict], qset: str) -> list[str]:
     """Lines for answers a person re-read after the regex grader ran.
 
-    eval/delegation/round2/hand_grades.csv holds one row per re-read answer:
-    run_id, model, mode, qid, regex_passed, hand_passed, note. The official score
-    above is never changed; this is reported beside it, labelled.
+    eval/delegation/hand_grades.csv holds one row per re-read answer: run_id,
+    model, mode, qid, regex_passed, hand_passed, note. The official score above
+    is never changed; the hand reading is reported beside it, labelled.
     """
-    path = HERE / "round2" / "hand_grades.csv"
+    path = HERE / "hand_grades.csv"
     if not path.exists():
         return []
+    ids = {r["run_id"] for r in run}
     with path.open(newline="", encoding="utf-8") as f:
-        rows = [r for r in csv.DictReader(f) if r["run_id"] in run_ids]
-    if not rows:
+        hand = {
+            (h["run_id"], h["model"], h["mode"], h["qid"]): h
+            for h in csv.DictReader(f)
+            if h["run_id"] in ids
+        }
+    rows = [r for r in run if r["question_set"] == qset and tools(r["mode"])]
+    keyed = [hand.get((r["run_id"], r["model"], r["mode"], r["qid"])) for r in rows]
+    if not any(keyed):
         return []
-    flipped = [r for r in rows if r["regex_passed"] != r["hand_passed"]]
+    k = sum(int(h["hand_passed"] if h else r["passed"]) for r, h in zip(rows, keyed))
+    flipped: dict[tuple[str, str, str], int] = defaultdict(int)
+    for h in keyed:
+        if h and h["regex_passed"] != h["hand_passed"]:
+            flipped[(h["qid"], h["hand_passed"], h["note"])] += 1
     out = [
         (
-            f"Hand reading, reported apart from the official score: {len(rows)} answers "
-            f"re-read, {len(flipped)} graded differently by a person than by the regex."
+            f"Read by hand, reported apart from the official score: {fmt(k, len(rows))} "
+            f"with tools. Answers re-read: {sum(1 for h in keyed if h)}; graded "
+            f"differently from the regex: {sum(flipped.values())}."
         ),
         "",
     ]
-    for r in flipped:
-        verdict = "pass" if r["hand_passed"] == "1" else "fail"
-        out.append(
-            f"- {r['qid']}, {r['model']}, {r['mode']}: read as a {verdict}. {r['note']}"
-        )
+    for (qid, passed, note), n in sorted(flipped.items()):
+        verdict = "pass" if passed == "1" else "fail"
+        out.append(f"- {qid}: {n} read as a {verdict}. {note}")
     return out
 
 
