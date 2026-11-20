@@ -96,7 +96,9 @@ def register_tools(mcp: FastMCP) -> None:
         exact decimal with its row and column header and its value in $M, and the tie-outs: totals
         and subtotals against their rows and, for a P-5c, total ship estimate less prior funding
         against net P-1. Continuation pages are joined. Use the cells as arithmetic only when
-        tieout_status is pass."""
+        tieout_status is pass. On a ship cost exhibit (P-5, P-5c) each cell also carries ship_fy,
+        hull (the column's hull: the columns are headed by funding year, not by hull name) and
+        share_of_total_ship_estimate_pct; read the hull's column and quote the share as given."""
         return _guard(service.get_table, _c(), table_id, include_continuations, max_rows)
 
     @mcp.tool(name="docs_find_line_item", annotations={**READ, "title": "Find a budget line item"})

@@ -6,6 +6,7 @@ from decimal import Decimal, InvalidOperation
 
 from docs_core import extract, structure
 from docs_core.corpus import Corpus
+from mcp_aircarrier_docs import config
 
 GRADE = ("Every value is read verbatim from the PDF with its page, row and column. A table is usable as "
          "arithmetic only when its tie-outs pass; a figure found in one document is a citation, not a fact "
@@ -17,7 +18,11 @@ class DocsError(ValueError):
     pass
 
 
-_CYCLE = re.compile(r"(?<![A-Za-z0-9])(?:PB|FY)[ _-]?(?:20)?(\d{2})(?!\d)", re.IGNORECASE)
+# No left boundary: the books are named SCN_BookPB2024.pdf and SCN_Bookpb2006.pdf, with the
+# cycle fused to the word before it. Requiring a separator there read no cycle from 21 of the
+# 22 SCN books, so a filter on PB2024 found nothing (round 2, question F4: 0 of 6).
+_CYCLE = re.compile(r"(?:PB|FY)[ _-]?(?:20)?(\d{2})(?!\d)", re.IGNORECASE)
+_PAGE_CYCLE = re.compile(r"\bPB\s?(20\d{2})\b")
 
 
 def budget_cycle(text: str) -> str:
@@ -29,6 +34,52 @@ def budget_cycle(text: str) -> str:
     """
     m = _CYCLE.search(text or "")
     return f"PB20{m.group(1)}" if m else ""
+
+
+def doc_cycle(d) -> str:
+    """A document's budget cycle: from its filename, else from its exhibit headers.
+
+    Every modern exhibit header prints the cycle ("Exhibit P-5c, Ship Cost Analysis: PB 2024
+    Navy"), so a book with an uninformative filename still gets one. The most frequent value in
+    the first 60 pages wins.
+    """
+    found = budget_cycle(d.filename)
+    if found:
+        return found
+    counts: dict[str, int] = {}
+    for page in sorted(d.pages)[:60]:
+        for year in _PAGE_CYCLE.findall(d.pages[page] or ""):
+            counts[year] = counts.get(year, 0) + 1
+    return f"PB{max(counts, key=counts.get)}" if counts else ""
+
+
+def _ship_cost_labels(parts: list[dict]) -> None:
+    """On a ship cost exhibit (P-5, P-5c), name each column's hull and each cost's share.
+
+    The columns are headed by the hull's full-funding year, so a model reading "FY 2018" has to
+    know that is CVN-80; in round 2 one took Propulsion Equipment from that column for CVN-79.
+    Each cost category also gets its share of the same column's Total Ship Estimate, computed
+    here so no model does the division (another round 2 miss: 63.09% for 63.11%).
+    """
+    title = " ".join(x for part in parts for x in part.get("title_block") or [])
+    if not re.search(r"P-5c?\b", title) or "Ship Cost" not in title:
+        return
+    cells = [c for part in parts for c in part["numeric_cells"]]
+    totals = {}
+    for c in cells:
+        if (c.get("row_header") or "").strip().lower().startswith("total ship estimate") and c.get("value_musd"):
+            totals[c["col_header"]] = Decimal(c["value_musd"])
+    for c in cells:
+        year = re.search(r"FY\s?(20\d{2}|19\d{2})", c.get("col_header") or "")
+        if year:
+            c["ship_fy"] = year.group(1)
+            if year.group(1) in config.SHIP_FY_HULLS:
+                c["hull"] = config.SHIP_FY_HULLS[year.group(1)]
+        total = totals.get(c.get("col_header"))
+        head = (c.get("row_header") or "").strip().lower()
+        if total and c.get("value_musd") and not head.startswith(("total", "less", "net")):
+            share = Decimal(c["value_musd"]) / total * 100
+            c["share_of_total_ship_estimate_pct"] = str(share.quantize(Decimal("0.01")))
 
 
 def _doc(c: Corpus, artifact_id: str):
@@ -54,7 +105,7 @@ def list_documents(c: Corpus, kind: str = "") -> list[dict]:
         if kind and d.kind != kind:
             continue
         out.append({"artifact_id": d.artifact_id, "filename": d.filename, "kind": d.kind,
-                    "budget_cycle": budget_cycle(d.filename),
+                    "budget_cycle": doc_cycle(d),
                     "pages": len(d.pages), "tables": len(d.tables)})
     return out
 
@@ -91,6 +142,7 @@ def get_table(c: Corpus, table_id: str, include_continuations: bool = True, max_
                       "continuation_of": t.continuation_of, "link_inferred": t.link_inferred,
                       "title_block": t.title_block, "legends": sorted(set(t.legends)),
                       "column_headers": t.col_headers, "markdown": t.markdown(max_rows), "numeric_cells": cells})
+    _ship_cost_labels(parts)
     ties = c.tieouts(chain[0].table_id)
     return {"filename": chain[0].filename, "artifact_id": chain[0].artifact_id, "pages": [t.page for t in chain],
             "tables": parts, "tieouts": ties,
@@ -105,12 +157,12 @@ def find_line_item(c: Corpus, line_item: str, exhibit: str = "", cycle: str = ""
     if cycle and not wanted:
         raise DocsError("budget_cycle names a President's Budget year, e.g. PB2024, PB 2024 or FY2024")
     hits = []
-    loaded = sorted({budget_cycle(d.filename) for d in c.docs.values()
+    loaded = sorted({doc_cycle(d) for d in c.docs.values()
                      if d.kind == "budget_justification"} - {""})
     for d in c.docs.values():
         if d.kind != "budget_justification":
             continue
-        if wanted and budget_cycle(d.filename) != wanted:
+        if wanted and doc_cycle(d) != wanted:
             continue
         for x in structure.document_map(d.kind, sorted(d.pages.items())):
             if x.get("line_item") != line_item or (exhibit and x.get("exhibit", "").lower() != exhibit.lower()):
@@ -119,7 +171,7 @@ def find_line_item(c: Corpus, line_item: str, exhibit: str = "", cycle: str = ""
             tabs = [t for t in d.tables if lo <= c.tables[t].page <= hi]
             heads = sorted({c.chain(t)[0].table_id for t in tabs})
             hits.append({**x, "artifact_id": d.artifact_id, "filename": d.filename,
-                         "budget_cycle": budget_cycle(d.filename), "tables": tabs,
+                         "budget_cycle": doc_cycle(d), "tables": tabs,
                          "table_chains": heads})
     note = "Call docs_get_table on a table_chains id for the cells and their tie-outs."
     if wanted and not hits:

@@ -165,6 +165,8 @@ def test_line_item_and_table(corpus):
     ("SCN_Book PB27.pdf", "PB2027"), ("SCN Book PB 2024.pdf", "PB2024"),
     ("the PB 2024 SCN book", "PB2024"), ("FY2024", "PB2024"), ("pb24", "PB2024"),
     ("CVN_78_MSAR_FY2027_PBv2.pdf", "PB2027"), ("RS20643 CRS.pdf", ""), ("PB2024x9", "PB2024"),
+    # The real SCN file names, with the cycle fused to the word before it.
+    ("SCN_BookPB2024.pdf", "PB2024"), ("SCN_Bookpb2006.pdf", "PB2006"), ("SCN_BOOKpb2014.pdf", "PB2014"),
 ])
 def test_budget_cycle_joins_the_spellings(text, cycle):
     assert service.budget_cycle(text) == cycle
@@ -178,6 +180,27 @@ def test_line_item_by_budget_cycle(corpus):
     assert other["loaded_cycles"] == ["PB2027"]
     with pytest.raises(service.DocsError):
         service.find_line_item(corpus, "2001", "P-5c", "next year")
+
+
+def test_cycle_falls_back_to_the_exhibit_headers():
+    pages, tables = rows()
+    for r in pages + tables:
+        if r["artifact_id"] == AID:
+            r["filename"] = "carrier_book.pdf"
+    c = Corpus(pages, tables)
+    assert service.doc_cycle(c.docs[AID]) == "PB2027"
+    li = service.find_line_item(c, "2001", "P-5c", "PB2027")
+    assert li["sections"] and li["loaded_cycles"] == ["PB2027"]
+
+
+def test_ship_cost_cells_carry_hull_and_share(corpus):
+    cells = service.get_table(corpus, f"{AID}:0095:00")["tables"][0]["numeric_cells"]
+    by_row = {c["row_header"]: c for c in cells if c["col_header"].endswith("Total Cost ($ M)")}
+    assert by_row["Propulsion Equipment"]["hull"] == "CVN-79"
+    assert by_row["Propulsion Equipment"]["ship_fy"] == "2013"
+    assert by_row["Basic Construction/Conversion"]["share_of_total_ship_estimate_pct"] == "63.11"
+    assert by_row["Propulsion Equipment"]["share_of_total_ship_estimate_pct"] == "15.22"
+    assert "share_of_total_ship_estimate_pct" not in by_row["Total Ship Estimate"]
 
 
 def test_service_rejects_bad_input(corpus):
