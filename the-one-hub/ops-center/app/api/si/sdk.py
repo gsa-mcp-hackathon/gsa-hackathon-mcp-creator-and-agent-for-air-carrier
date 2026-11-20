@@ -37,10 +37,11 @@ import json
 import re
 import threading
 import uuid
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
-from typing import Any, Callable
+from typing import Any
 
 QueryFn = Callable[[str, dict], list[dict]]
 SDK_VERSION = "si/1.0"
@@ -310,7 +311,7 @@ _IDENT = re.compile(
     r"[A-Z]{1,8}(?:\([A-Z]+\))?[- ]?\d+[A-Za-z0-9-]*|[a-f0-9]{8,}|\d{3}-\d{4}/\d{4}-\d{4})")
 _NUMBER = re.compile(
     r"(?<![\w.])(\(?-?\$?\(?-?)(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)\)?"
-    r"(\s?(?:billion|million|thousand|bn|[BMK])\b)?(\s?%|\s?percent\b)?", re.I)
+    r"(\s?(?:billion|million|thousand|bn|[BMK])\b)?(\s?%|\s?percent\b)?", re.IGNORECASE)
 _SCALE = {"billion": Decimal(10) ** 9, "bn": Decimal(10) ** 9, "b": Decimal(10) ** 9,
           "million": Decimal(10) ** 6, "m": Decimal(10) ** 6,
           "thousand": Decimal(10) ** 3, "k": Decimal(10) ** 3}
@@ -330,9 +331,9 @@ def numbers_in(text: str) -> list[dict]:
         is_money = "$" in lead
         scale = _SCALE.get((suffix or "").strip().lower())
         # Plain small integers and years are dates, step numbers and ordinals.
-        if not is_money and not scale and not pct and dec == 0 and "," not in digits:
-            if v <= 31 or Decimal(1990) <= v <= Decimal(2040):
-                continue
+        plain = not is_money and not scale and not pct and dec == 0 and "," not in digits
+        if plain and (v <= 31 or Decimal(1990) <= v <= Decimal(2040)):
+            continue
         out.append({"raw": m.group(0).strip(), "value": v, "decimals": dec, "scale": scale,
                     "percent": bool(pct), "money": is_money})
     return out

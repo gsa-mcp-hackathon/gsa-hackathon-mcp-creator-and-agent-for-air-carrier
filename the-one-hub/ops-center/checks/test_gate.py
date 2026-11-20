@@ -19,11 +19,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from core.contracts import Claim, Coordinate, Tag, Zone                    # noqa: E402
-from core.policy.decisions import evaluate                                 # noqa: E402
-from core.policy.gate import Decision, route                               # noqa: E402
-from ops.agents.challenger.run import challenge                            # noqa: E402
-from ops.agents.tieout.run import anchor_chain, residual_is_finding, two_axis_close  # noqa: E402
+from core.contracts import Claim, Coordinate, Tag, Zone
+from core.policy.decisions import evaluate
+from core.policy.gate import Decision, route
+from ops.agents.challenger.run import challenge
+from ops.agents.tieout.run import anchor_chain, residual_is_finding, two_axis_close
 
 NOW = datetime.datetime(2026, 11, 8)
 FAILURES: list[str] = []

@@ -13,8 +13,7 @@ read without the legend that defines it.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field, asdict
-
+from dataclasses import asdict, dataclass, field
 
 # A legend is a line that defines a symbol or an abbreviation used elsewhere
 # on the page. Catching these is worth more than catching prose.
@@ -26,7 +25,7 @@ LEGEND = re.compile(
     r"|legend\s*[:\-]"
     r"|source\s*[:\-]"
     r"|[A-Z]{2,8}\s*[=–—-]\s*[A-Z]"                        # ACRONYM = Expansion
-    r")", re.I | re.M)
+    r")", re.IGNORECASE | re.MULTILINE)
 
 # Money, so a page that carries figures can be told from a page that does not.
 MONEY = re.compile(r"\$\s?[\d,]+(?:\.\d+)?|\b\d{1,3}(?:,\d{3})+(?:\.\d+)?\b")
@@ -81,7 +80,7 @@ def extract_pdf(path, artifact_id: str, filename: str) -> list[Page]:
     for n, pg in enumerate(reader.pages, start=1):
         try:
             text = pg.extract_text() or ""
-        except Exception:
+        except Exception:  # noqa: BLE001 - an unreadable page is kept as an empty page
             text = ""
         pages.append(Page(
             artifact_id=artifact_id,
@@ -89,7 +88,7 @@ def extract_pdf(path, artifact_id: str, filename: str) -> list[Page]:
             page=n,
             text=text,
             legends=legends_on(text),
-            exhibits=sorted(set(m.group(1) for m in EXHIBIT.finditer(text)))[:8],
+            exhibits=sorted({m.group(1) for m in EXHIBIT.finditer(text)})[:8],
             money_count=len(MONEY.findall(text)),
             chars=len(text),
         ))
@@ -108,7 +107,7 @@ def extract_text_file(path, artifact_id: str, filename: str,
         pages.append(Page(
             artifact_id=artifact_id, filename=filename, page=n, text=text,
             legends=legends_on(text),
-            exhibits=sorted(set(m.group(1) for m in EXHIBIT.finditer(text)))[:8],
+            exhibits=sorted({m.group(1) for m in EXHIBIT.finditer(text)})[:8],
             money_count=len(MONEY.findall(text)), chars=len(text),
         ))
     return pages

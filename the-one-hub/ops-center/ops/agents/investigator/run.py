@@ -15,7 +15,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 
-from core.contracts import Gap, GapType, CollectionRequirement, Mechanism
+from core.contracts import CollectionRequirement, Gap, GapType, Mechanism
 
 CLOSABILITY_WEIGHT = {
     "zero_access": 1.00,     # readable today with nothing but effort

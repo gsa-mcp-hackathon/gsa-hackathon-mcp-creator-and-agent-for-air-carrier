@@ -10,9 +10,9 @@ and this one is pointed at a sponsor.
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import re
-import os
 import subprocess
 import sys
 
@@ -76,7 +76,7 @@ def count_tests() -> list[dict]:
                    [sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider",
                     "-k", "not live", str(p)])
             r = subprocess.run(cmd, capture_output=True, text=True, timeout=300,
-                               cwd=ROOT, env=env)
+                               cwd=ROOT, env=env, check=False)
             if kind == "script":
                 ok = len(re.findall(r"\[ok\s*\]", r.stdout))
                 bad = len(re.findall(r"\[FAIL\]", r.stdout))
@@ -100,11 +100,11 @@ def main() -> int:
     corpus = json.loads(read(ROOT / "corpus" / "MANIFEST.json") or "{}")
     kb = json.loads(read(ROOT / "app" / "data" / "kb" / "summary.json") or "{}")
 
-    d_nums = sorted({int(m) for m in re.findall(r"^\*\*D(\d+)\.", log, re.M)})
-    b_nums = sorted({int(m) for m in re.findall(r"^\*\*B(\d+)\.", decisions, re.M)})
+    d_nums = sorted({int(m) for m in re.findall(r"^\*\*D(\d+)\.", log, re.MULTILINE)})
+    b_nums = sorted({int(m) for m in re.findall(r"^\*\*B(\d+)\.", decisions, re.MULTILINE)})
     e_nums = sorted({int(m) for m in re.findall(r"\bE-(\d+)\b", log + read(ROOT / "seed" / "variances.index.yaml"))})
     changelog = re.findall(r"^- \*\*(\d{4}-\d{2}-\d{2})[,.]?\s*([^*]*?)\*\*\s*(.+?)(?=\n- \*\*|\Z)",
-                           log, re.M | re.S)
+                           log, re.MULTILINE | re.DOTALL)
 
     # The four gates, and whether anything has verified them.
     gate_titles = re.findall(r"\*\*Gate ([A-D])\.\s*(.+?)\*\*", plan)
@@ -132,43 +132,43 @@ def main() -> int:
         ("Challenger", "ops/agents/challenger", "done",
          "Catches all three recorded errors from their own text. Tells, not scores"),
         ("Investigator", "ops/agents/investigator", "done",
-         "Ranked queue, plans with no model, D16 enforced in code. Triages prose questions into "
-         "existing gaps, proposed gaps and collection requirements"),
+         ("Ranked queue, plans with no model, D16 enforced in code. Triages prose questions into "
+         "existing gaps, proposed gaps and collection requirements")),
         ("Analyst engine", "core/analyst", "partial",
          # Figures from core/analyst/backtest.run on N0002415C2114, rerun 2026-11-12.
          # N0002409C2116 has no labels yet (n=0), so it has no backtest.
-         "Deterministic LOA leads with three options and calibrated confidence, plus a backtest "
+         ("Deterministic LOA leads with three options and calibrated confidence, plus a backtest "
          "on N00024-15-C-2114 (N00024-09-C-2116 has no labels yet). Top-1 ties the "
          "dominant-account baseline (6/8 periods). Split error 0.337 vs 0.349 favours the engine "
          "only through the two missed periods. Log loss 1.02 vs 1.18 (smoothed baseline) favours "
          "it in the six hit periods too, because it is more confident when right. No proven "
-         "skill at n=8"),
+         "skill at n=8")),
         ("Knowledge base", "ops/ingest/", "done",
-         f"{kb.get('chunks', 0):,} chunks from {corpus.get('by_route', {}).get('embed', 0)} documents, "
-         f"every hit cited to a page"),
+         (f"{kb.get('chunks', 0):,} chunks from {corpus.get('by_route', {}).get('embed', 0)} documents, "
+         f"every hit cited to a page")),
         ("Front center", "app/", "done",
          "FastAPI and Jinja2, server-side SVG, no CDN and no build step"),
         ("Agent surface", "mcp/", "done",
-         "Deployed as mcp-aircarrier-ops (read-only stores) and mcp-aircarrier-analyst (LOA "
-         "investigator). mcp/mcp_server.py is the in-bundle reference and is not deployed"),
+         ("Deployed as mcp-aircarrier-ops (read-only stores) and mcp-aircarrier-analyst (LOA "
+         "investigator). mcp/mcp_server.py is the in-bundle reference and is not deployed")),
         ("Reader", "ops/agents/reader", "partial",
          # Unit counts from aircarrier_claim (current exhibit claims), 2026-11-12.
-         "Transaction, exhibit and prose handlers turn documents into claims and mechanisms. "
+         ("Transaction, exhibit and prose handlers turn documents into claims and mechanisms. "
          "Tables with no handler are deferred. Exhibit units are read from the row, column, "
          "title and page legend; 1,778 of 11,632 active exhibit claims stay UNKNOWN because "
          "their page prints no unit (1,556 on twelve P-29/P-30 pages), and the reader does not "
          "guess. 397 Hull Number cells, ship identifiers rather than quantities, were withdrawn "
-         "as ledger versions on 2026-11-12 (exhibit/0.4 no longer reads them)"),
+         "as ledger versions on 2026-11-12 (exhibit/0.4 no longer reads them)")),
         ("Attributor", "ops/agents/attributor", "not started",
          "Assigns a claim to a layer and a cause category"),
         ("Briefer", "ops/agents/briefer", "not started",
          "Assembles the account with its trust states intact"),
         ("Unity Catalog backend", "app/api/data.py", "partial",
          # docs/UC_SERVING_VIEWS.md. Live on uc since deployment 01f1dea94286, 2026-11-12.
-         "The app reads its 23 page documents from Unity Catalog views (v_doc_<name>), "
+         ("The app reads its 23 page documents from Unity Catalog views (v_doc_<name>), "
          "byte-identical to the files backend, which stays as the fallback. "
          "The ingest job publishes them last (etl/publish_serving_docs.py); relational "
-         "views over the source tables are phase 2"),
+         "views over the source tables are phase 2")),
         ("IL5 adapters", "core/adapters/il5", "by design",
          "Every method raises NotImplementedError. That is the transfer checklist"),
     ]

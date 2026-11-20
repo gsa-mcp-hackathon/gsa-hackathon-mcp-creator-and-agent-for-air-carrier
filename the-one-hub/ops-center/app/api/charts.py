@@ -166,7 +166,7 @@ def _nice_ticks(vmax: float, n: int = 5) -> list[float]:
     raw = vmax / n
     mag = 10 ** math.floor(math.log10(raw))
     step = next(m * mag for m in (1, 2, 2.5, 5, 10) if m * mag >= raw)
-    return [i * step for i in range(int(math.ceil(vmax / step)) + 1)]
+    return [i * step for i in range(math.ceil(vmax / step) + 1)]
 
 
 def _wrap(text: str, width: int, lines: int) -> list[str]:
@@ -419,8 +419,8 @@ def sparkline(values, *, w=140, h=34, fill=True, cls="") -> str:
     step = (w - 4) / (len(vals) - 1)
     pts = [(2 + i * step, h - 3 - (v - lo) / rng * (h - 8)) for i, v in enumerate(vals)]
     line = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-    out = [f'<svg class="spark {cls}" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
-           f'preserveAspectRatio="none" aria-hidden="true">']
+    out = [(f'<svg class="spark {cls}" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
+           f'preserveAspectRatio="none" aria-hidden="true">')]
     if fill:
         out.append(f'<polygon class="spk-f" points="2,{h-1} {line} {w-2},{h-1}"/>')
     out.append(f'<polyline class="spk-l" points="{line}" fill="none"/>')
@@ -515,8 +515,8 @@ def gauge(pct, *, w=150, h=92, label="", sub="", show_value=True) -> str:
     # Explicit width and height, not just a viewBox. Inside a flex KPI tile a
     # viewBox-only SVG stretches to the container and the 19px label scales
     # with it, which overflowed the card. Pinning both stops that.
-    out = [f'<svg class="chart gauge" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
-           f'role="img" xmlns="http://www.w3.org/2000/svg">']
+    out = [(f'<svg class="chart gauge" viewBox="0 0 {w} {h}" width="{w}" height="{h}" '
+           f'role="img" xmlns="http://www.w3.org/2000/svg">')]
     out.append(f'<path d="M{x0:.1f} {y0:.1f} A{r} {r} 0 {big} 1 {x1:.1f} {y1:.1f}" class="gg-bg"/>')
     out.append(f'<path d="M{x0:.1f} {y0:.1f} A{r} {r} 0 {big} 1 {xa:.1f} {ya:.1f}" class="gg-fg"/>')
     # Inside a KPI tile the number is already the headline beside it, and

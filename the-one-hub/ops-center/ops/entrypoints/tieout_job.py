@@ -57,8 +57,9 @@ def _root() -> pathlib.Path:
 ROOT = _root()
 sys.path.insert(0, str(ROOT))
 
-from ops.agents.tieout.run import (  # noqa: E402
-    anchor_chain, two_axis_close,
+from ops.agents.tieout.run import (
+    anchor_chain,
+    two_axis_close,
 )
 
 DATA = ROOT / "app" / "data"

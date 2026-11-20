@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from core.adapters.commercial import llm as L                             # noqa: E402
+from core.adapters.commercial import llm as L
 
 FAILURES: list[str] = []
 
@@ -94,7 +94,7 @@ def main() -> int:
         logging.disable(logging.NOTSET)
 
     reset()
-    import databricks.sdk as sdk
+    from databricks import sdk
     real_wc = sdk.WorkspaceClient
 
     class WC:

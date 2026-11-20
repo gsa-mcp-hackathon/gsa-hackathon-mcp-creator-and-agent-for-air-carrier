@@ -4,7 +4,7 @@ Written for a workspace that has nothing yet. Every step says what it does,
 what it needs, and what it looks like when it fails. Run from the repo root.
 
 ```powershell
-cd C:\Users\Peter-HP\git\AirCarrier\dbrepo
+cd the-one-hub\ops-center          # from the root of your clone
 ```
 
 ---

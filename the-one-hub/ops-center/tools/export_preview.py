@@ -15,8 +15,8 @@ APP = pathlib.Path(__file__).resolve().parents[1] / "app"
 OUT = APP / "_preview"
 sys.path.insert(0, str(APP))
 
-from fastapi.testclient import TestClient  # noqa: E402
-import main  # noqa: E402
+import main
+from fastapi.testclient import TestClient
 
 FILE = {p: ("index.html" if p == "/" else p.strip("/") + ".html") for p, _ in main.NAV}
 

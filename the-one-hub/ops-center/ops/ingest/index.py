@@ -64,7 +64,7 @@ class Lexical:
             self.df[t] += 1
             self.postings[t].append(i)
 
-    def finalize(self) -> "Lexical":
+    def finalize(self) -> Lexical:
         self.avg = (sum(self.len) / len(self.len)) if self.len else 0.0
         return self
 
@@ -92,7 +92,7 @@ class Lexical:
                 "postings": {t: v for t, v in self.postings.items()}}
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Lexical":
+    def from_dict(cls, d: dict) -> Lexical:
         x = cls()
         x.docs = d["docs"]
         x.len = d["len"]

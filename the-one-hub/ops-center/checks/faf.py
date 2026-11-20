@@ -1,9 +1,12 @@
-import csv,sys,collections
+import collections
+import csv
+import sys
+
 p=sys.argv[1]
 rows=list(csv.DictReader(open(p,newline='',encoding='utf-8-sig')))
 def f(x):
     try: return float(x) if x not in ('','None') else 0.0
-    except: return 0.0
+    except ValueError: return 0.0
 print(f"rows: {len(rows)}")
 tas=collections.defaultdict(float); fed=collections.defaultdict(float)
 oc=collections.defaultdict(float); pa=collections.defaultdict(float)

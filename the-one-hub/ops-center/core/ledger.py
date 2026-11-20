@@ -63,16 +63,16 @@ def _enum(x):
 def to_row(c: Claim, *, gate=None, violations=(), work_id: str | None = None, run_id: str = "") -> dict:
     coord = asdict(c.coordinate) if c.coordinate else None
     flags = sorted(_enum(f) for f in c.risk_flags)
-    row = dict(claim_id=c.claim_id, hull=c.hull, layer=c.layer, element=c.element, period=c.period,
-               value=None if c.value is None else repr(float(c.value)), unit=c.unit,
-               discovered_at=c.discovered_at, coordinate=coord, tag=_enum(c.tag), confidence=float(c.confidence),
-               zone=_enum(c.zone), source_system=c.source_system, extraction_method=c.extraction_method,
-               prompt_version=c.prompt_version, mlflow_trace_id=c.mlflow_trace_id, risk_flags=flags,
-               lineage=list(c.lineage), superseded_by=None, state=c.state, notes=c.notes,
-               gate_decision=_enum(gate.decision) if gate else None, gate_rule=gate.rule if gate else None,
-               gate_reason=gate.reason if gate else None,
-               policy_violations=[f"{getattr(v, 'decision', '?')}: {v}" for v in violations],
-               work_id=work_id, run_id=run_id)
+    row = {"claim_id": c.claim_id, "hull": c.hull, "layer": c.layer, "element": c.element, "period": c.period,
+               "value": None if c.value is None else repr(float(c.value)), "unit": c.unit,
+               "discovered_at": c.discovered_at, "coordinate": coord, "tag": _enum(c.tag), "confidence": float(c.confidence),
+               "zone": _enum(c.zone), "source_system": c.source_system, "extraction_method": c.extraction_method,
+               "prompt_version": c.prompt_version, "mlflow_trace_id": c.mlflow_trace_id, "risk_flags": flags,
+               "lineage": list(c.lineage), "superseded_by": None, "state": c.state, "notes": c.notes,
+               "gate_decision": _enum(gate.decision) if gate else None, "gate_rule": gate.rule if gate else None,
+               "gate_reason": gate.reason if gate else None,
+               "policy_violations": [f"{getattr(v, 'decision', '?')}: {v}" for v in violations],
+               "work_id": work_id, "run_id": run_id}
     # version identity is content only: discovered_at, run_id and gate text do not make a new version
     row["version_sha"] = hashlib.sha256(json.dumps({k: row[k] for k in _CONTENT}, sort_keys=True,
                                                    default=str).encode()).hexdigest()[:16]

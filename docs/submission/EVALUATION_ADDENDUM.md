@@ -15,12 +15,12 @@ re-run with [`scripts/check.sh`](../../scripts/check.sh).
 | F4 | Medium | Stale `as_of` on the obligations tool | Fixed before this addendum (org commit 72cb4d6) | `as_of` is derived from the data |
 | F5 | Medium | Work register snapshot seven days old | Mitigated | `carrier_work_register_counts` now adds a `freshness_note` with the snapshot date when the newest row is more than two days old, so a model reports the date instead of implying the counts are current (`mcp-aircarrier-ops/src/.../mcp_work_register_totals.py`, test in `tests/test_server.py`). Restarting the dispatcher tick in the workspace is still an operations task |
 | F6 | Medium | Creator designed "how much ... by fiscal year" as a count | Fixed before this addendum (72cb4d6) | Semantic check in the review, with a test |
-| F7 | Low | All four tool-mode delegation misses are question F4 (P-5c, PB2024) | Open, by choice | Tightening the exhibit tool description would change the tool catalog and its SHA-256, which every logged run is tied to. The fix belongs with a fresh run of all 14 questions, so the comparison stays clean |
+| F7 | Low | All four tool-mode delegation misses are question F4 (P-5c, PB2024) | Fix in place, re-run prepared (2026-11-20) | J-book filenames say PB24; questions say "the PB 2024 book", and keyword search cannot join them. `docs_list_documents` and `docs_find_line_item` now carry a normalized `budget_cycle`, and `docs_find_line_item` filters on it and says when the named book is not loaded (`mcp-aircarrier-docs/src/.../service.py`, tests in `tests/test_docs.py`). The tool catalog changes, so the fix counts only after the round 2 run in [eval/delegation/round2/](../../eval/delegation/round2/README.md), which re-runs all 14 questions plus 12 sealed new ones |
 | F8 | Low | Two readings of the 2114 obligation | Fixed | `checks/verify.py` prints the award-level total (4,584.484 $M) and the transaction sum (4,578.603 $M, 927 actions) with their basis and the 5.881 $M difference. The README quotes the transaction sum with its basis |
 | F9 | Low | README linked a report that did not exist | Fixed before this addendum (72cb4d6) | The report is committed |
 | F10 | Info | Tracing check not runnable in the evaluation sandbox | Fixed | `scripts/check.sh one-hub` runs `checks/test_llm_tracing.py` in the project's own uv environment; it passes there and in CI |
-| F11 | Info | Golden-set injection item q16 needs a planted record | Open | Needs an agreed planted row in a scratch copy of a source table. q17, the direct injection case, passes |
-| F12 | Info | Lint on hand-written projects | Mostly fixed | Docs, analyst and probe are clean under ruff 0.17.5, pinned in `scripts/check.sh`; weather is clean under its own ruff pin. CI enforces both. The changes are behaviour-preserving (regex flag names, import order, unused `noqa`), plus one silent `except: pass` in the analyst investigator that now logs a warning. The One Hub front center is not yet enforced |
+| F11 | Info | Golden-set injection item q16 needs a planted record | Built, not yet run (2026-11-20) | `mcp-aircarrier-ops/eval/q16_planted_record.sql` copies the four ops tables into a scratch schema and plants gap G99 with an instruction in its `last_error`; `answer_key.py q16` reads the copy, and the dataset carries the real question. The source tables are never written. q17, the direct injection case, passes |
+| F12 | Info | Lint on hand-written projects | Fixed (2026-11-20) | Docs, analyst and probe are clean under ruff 0.17.5, pinned in `scripts/check.sh`; weather is clean under its own pin. The One Hub went from 285 findings to 0 and is now enforced in `scripts/check.sh one-hub` and CI. Deliberate broad catches carry their reason on the line; jobs, ETL, tools and checks keep BLE001 off by a per-file rule explained in `pyproject.toml` |
 
 ## Fresh clone
 
@@ -64,7 +64,15 @@ Three generator tests pin the fix. Each fails on the old code:
 | One Hub | 187 passed, 5 skipped (need a live Spark session); six script suites pass |
 | Evidence | No broken relative links; `eval/delegation/RESULTS.md` matches the logged runs |
 
-Total: 600 passed, 14 skipped, 0 failed. CI (`.github/workflows/ci.yml`) runs the same
+Total: 600 passed, 14 skipped, 0 failed.
+
+**Update, 2026-11-20.** After the round of fixes on branch `enhance/mission-and-eval`:
+Creator 258 passed, 1 skipped; ops 36; bakehouse 21; weather 20; docs 36; analyst 31 passed,
+8 skipped; probe 9; `mcp_local.py` 23 plus the adversarial sweep 400; One Hub 187 passed,
+5 skipped, six script suites and lint. Total: 1,021 passed, 14 skipped, 0 failed. The new
+tests cover free text in source descriptions (the Creator's `docstring_safe` doubled pairs
+of backslashes instead of each one and kept newlines), the deploy approval token, the
+budget-cycle filter, and hostile arguments against all 29 tools. CI (`.github/workflows/ci.yml`) runs the same
 script per project on Python 3.11 and 3.12.
 
 ## Delegation evaluation with confidence intervals

@@ -46,11 +46,12 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core import catalog                                  # noqa: E402
-from core.contracts import Gap, GapType, Mechanism, State  # noqa: E402
-from ops.agents.investigator import triage                # noqa: E402
-from ops.agents.investigator.run import PROMPT_VERSION, run as plan_gap  # noqa: E402
-from ops.dispatcher.routing import next_action            # noqa: E402
+from core import catalog
+from core.contracts import Gap, GapType, Mechanism, State
+from ops.agents.investigator import triage
+from ops.agents.investigator.run import PROMPT_VERSION
+from ops.agents.investigator.run import run as plan_gap
+from ops.dispatcher.routing import next_action
 
 S = catalog.STORE_SCHEMA
 TRIAGE, PROPOSED, CRS = S + ".aircarrier_question_triage", S + ".aircarrier_proposed_gaps", S + ".aircarrier_collection_requirements"

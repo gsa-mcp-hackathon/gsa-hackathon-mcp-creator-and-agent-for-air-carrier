@@ -19,6 +19,7 @@ Run:
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import sys
@@ -31,8 +32,8 @@ if str(APP) not in sys.path:
     sys.path.insert(0, str(APP))
 os.environ.setdefault("AIRCARRIER_SI_PERSIST", "memory")
 
-from api import data  # noqa: E402
-from api.si import sdk, store, tasks  # noqa: E402
+from api import data
+from api.si import sdk, store, tasks
 
 T2116 = ("$4,519,300,323.83", 948)
 T2114 = ("$4,578,603,345.77", 927)
@@ -494,7 +495,7 @@ def _spark():
     try:
         from pyspark.sql import SparkSession
         return SparkSession.getActiveSession()
-    except Exception:  # noqa: BLE001
+    except Exception:
         return None
 
 
@@ -503,7 +504,7 @@ def live_q(spark):
         df = spark.sql(sql, args=params or {}).toPandas()
         out = []
         for rec in df.to_dict("records"):
-            out.append({k: (None if v is None or (isinstance(v, float) and v != v)
+            out.append({k: (None if v is None or (isinstance(v, float) and math.isnan(v))
                             else v if isinstance(v, (int, str)) else str(v)) for k, v in rec.items()})
         return out
     return q
@@ -541,7 +542,7 @@ if __name__ == "__main__":
             try:
                 fn()
                 print("PASS", name)
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 fails += 1
                 print("FAIL", name, type(exc).__name__, exc)
     sp = _spark()
@@ -551,7 +552,7 @@ if __name__ == "__main__":
         try:
             test_live(sp)
             print("PASS test_live")
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             fails += 1
             print("FAIL test_live", type(exc).__name__, exc)
     print("failures:", fails)

@@ -13,12 +13,20 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from core.contracts import Claim, Coordinate, Gap, GapType, Tag, Zone, RiskFlag
-from ops.agents.investigator.run import (CLOSABILITY_WEIGHT, Hypothesis, WorkPlan,
-                                         CollectionRequirement, free_now, postmortem,
-                                         rank, run, validate)
+from core.contracts import Claim, Coordinate, Gap, GapType, RiskFlag, Tag, Zone
 from ops.agents.challenger.run import challenge
-from ops.agents.tieout.run import two_axis_close, anchor_chain, residual_is_finding
+from ops.agents.investigator.run import (
+    CLOSABILITY_WEIGHT,
+    CollectionRequirement,
+    Hypothesis,
+    WorkPlan,
+    free_now,
+    postmortem,
+    rank,
+    run,
+    validate,
+)
+from ops.agents.tieout.run import anchor_chain, residual_is_finding, two_axis_close
 
 OK, FAIL = 0, 0
 
@@ -206,6 +214,7 @@ check("a rounding residual does not", residual_is_finding(0.0004).passed)
 print()
 print("reader: exhibit identifier columns")
 from ops.agents.reader.handlers.exhibit import is_identifier_column, resolve_unit
+
 check("a Hull Number cell is not a claim", is_identifier_column(["Hull Number"], ""))
 check("nor when only the table header names it", is_identifier_column([], "Hull No."))
 check("a money column still is", not is_identifier_column(["FY 2027"], "Total Cost ($ M)"))
@@ -216,7 +225,8 @@ check("a unit is still never guessed",
 
 print()
 print("ledger: a withdrawal is a version, never a delete")
-from core.ledger import withdrawal_row, WITHDRAWN  # noqa: E402
+from core.ledger import WITHDRAWN, withdrawal_row
+
 _live = {"claim_id": "c1", "version_sha": "aaaa", "hull": "UNATTRIBUTED", "layer": None, "element": "P-29",
          "period": None, "value": 1714.0, "unit": "UNKNOWN", "tag": "REPORTED", "zone": "RAW",
          "source_system": "pdf", "extraction_method": "exhibit/0.3", "prompt_version": None,

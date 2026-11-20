@@ -20,7 +20,7 @@ PowerShell 5.1 has no `&&`. Use `;` or separate lines. That is what broke the
 first install attempt, not the package.
 
 ```powershell
-cd C:\Users\Peter-HP\git\AirCarrier\dbrepo
+cd the-one-hub\ops-center          # from the root of your clone
 pip install databricks-sdk fastapi uvicorn jinja2 httpx pyyaml
 ```
 

@@ -7,8 +7,8 @@ claim at admission time, so that a rule is enforced rather than remembered.
 Every rejection names its D-number. A reviewer reading a rejection sees which
 decision it violated and can go read the reasoning.
 """
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from ..contracts import Claim, Tag, Zone
 from ..contracts.risk import RiskFlag
@@ -59,9 +59,7 @@ def _d3(c: Claim) -> bool:
 def _d4(c: Claim) -> bool:
     # A lead may never occupy a figure position. Leads contribute selectors,
     # structure and hypotheses. Measures come from authoritative sources only.
-    if c.zone is Zone.LEADS and c.value is not None and c.tag in (Tag.VERIFIED, Tag.DERIVED):
-        return False
-    return True
+    return not (c.zone is Zone.LEADS and c.value is not None and c.tag in (Tag.VERIFIED, Tag.DERIVED))
 
 
 def _d27(c: Claim) -> bool:
@@ -134,7 +132,7 @@ def evaluate(claim: Claim, *, raise_on_fail: bool = False) -> list[PolicyViolati
     for p in POLICIES:
         try:
             ok = p.predicate(claim)
-        except Exception as exc:                      # a policy must never crash the pipeline
+        except Exception as exc:  # noqa: BLE001 - a policy must never crash the pipeline
             ok = False
             out.append(PolicyViolation(p.decision, f"policy error: {exc}"))
             continue

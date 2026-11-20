@@ -47,6 +47,8 @@ one_hub() {
   (
     cd "$ROOT/the-one-hub/ops-center" || exit 1
     uv sync --group dev --quiet || exit 1
+    # Lint is enforced here too (finding F12), pinned like the other projects.
+    uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
     PYTHONPATH=. uv run --no-sync pytest "${PYTEST_FLAGS[@]}" --assert=plain \
       checks/test_analyst.py checks/test_si.py checks/test_work.py \
       checks/test_harness.py checks/test_mcp_server.py || exit 1
@@ -70,7 +72,14 @@ run() {
     analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests ;;
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
     mcp-local) (cd "$ROOT/mcp-servers" && uv run --quiet --no-project --with pytest \
-                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${PYTEST_FLAGS[@]}") ;;
+                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${PYTEST_FLAGS[@]}" \
+               && echo "-- adversarial arguments against all 29 Air Carrier tools" \
+               && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
+                 --with "mcp>=1.24,<2" \
+                 --with-requirements mcp-aircarrier-docs/requirements.txt \
+                 --with-requirements mcp-aircarrier-analyst/requirements.txt \
+                 --with-requirements mcp-aircarrier-ops/requirements.txt \
+                 python -m pytest test_adversarial_arguments.py "${PYTEST_FLAGS[@]}") ;;
     one-hub)   one_hub ;;
     evidence)  (cd "$ROOT" && python3 scripts/check_links.py \
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \

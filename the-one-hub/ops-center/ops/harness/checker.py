@@ -41,7 +41,6 @@ from ._common import spark_session as _spark
 from .specialists import load_prompt
 from .tools import TOOL_DISPATCH, argument_error
 
-
 MAX_TOOL_CHARS = 5000
 
 
@@ -205,7 +204,7 @@ def check_proposal(
                 verdict, block_reason = _parse_verdict(text)
 
             break
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - try the next model; the reason is kept
             block_reason = f"{model}: {type(exc).__name__}: {str(exc)[:200]}"
             continue
 

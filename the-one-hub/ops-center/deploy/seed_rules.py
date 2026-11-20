@@ -325,7 +325,7 @@ def seed(spark):
         bound: dict[str, str] = {"rule_id": r["rule_id"], "actor": ACTOR,
                                  "audit_id": str(uuid.uuid4())}
 
-        def sq(v):
+        def sq(v, bound=bound):
             if v is None:
                 return "NULL"
             name = f"b{len(bound)}"

@@ -705,7 +705,7 @@ def _text_constant(name: str, text: str) -> list[str]:
     so they can be a full sentence. Ruff cannot split a long string literal,
     which would fail the generated project's own lint on its first commit.
     """
-    one_line = f'{name} = "{docstring_safe(text)}"'
+    one_line = f'{name} = "{docstring_safe(text).replace(chr(34), chr(39))}"'
     if len(one_line) <= 88:
         return [one_line]
     return [f"{name} = (", *_string_literal(text, "    "), ")"]

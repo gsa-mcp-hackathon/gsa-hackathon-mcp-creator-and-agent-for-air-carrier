@@ -104,8 +104,7 @@ def query(sql: str, params: dict | None = None, row_limit: int = 5000,
     if not WAREHOUSE:
         raise LiveError("no SQL warehouse is bound to this app "
                         "(DATABRICKS_WAREHOUSE_ID is unset)")
-    from databricks.sdk.service.sql import (StatementParameterListItem,
-                                            StatementState)
+    from databricks.sdk.service.sql import StatementParameterListItem, StatementState
     w = client or _w()
     plist = [StatementParameterListItem(name=k, value=None if v is None else str(v))
              for k, v in (params or {}).items()]
@@ -179,7 +178,7 @@ def cached(key: str, ttl_s: int, fn):
 _FORBID = re.compile(
     r"\b(insert|update|delete|merge|drop|create|alter|grant|revoke|truncate|copy|"
     r"optimize|vacuum|refresh|call|use|set|reset|msck|analyze|cache|uncache|"
-    r"restore|clone|undrop|execute|declare|put|get|remove|list)\b", re.I)
+    r"restore|clone|undrop|execute|declare|put|get|remove|list)\b", re.IGNORECASE)
 _STR = re.compile(r"'(?:[^'\\]|\\.)*'")
 _FROMFN = re.compile(r"(?i)\b(extract|trim|substring|position|overlay)\s*\([^()]*\)")
 

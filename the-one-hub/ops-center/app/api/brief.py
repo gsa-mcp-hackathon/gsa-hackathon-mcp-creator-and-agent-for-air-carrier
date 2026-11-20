@@ -29,12 +29,12 @@ from decimal import Decimal, InvalidOperation
 from api import data, explore
 
 # Only these two prime contracts are in the transaction extract.
-_PIID = re.compile(r"N0*0024-?(\d{2})-?C-?(\d{4})", re.I)
+_PIID = re.compile(r"N0*0024-?(\d{2})-?C-?(\d{4})", re.IGNORECASE)
 _KEYWORDS = {
     "N0002409C2116": ("preparation contract", "construction preparation", "09-c-2116"),
     "N0002415C2114": ("dd&c", "detail design", "15-c-2114"),
 }
-_CACHE: "OrderedDict[str, dict]" = OrderedDict()
+_CACHE: OrderedDict[str, dict] = OrderedDict()
 _CACHE_MAX = 128
 
 SYSTEM = """You write a short brief about one open question in the CVN-79 (USS John F.
@@ -143,7 +143,7 @@ def _fallback(ev: dict, reason: str) -> dict:
 
 
 def _parse(text: str) -> dict | None:
-    m = re.search(r"\{.*\}", text or "", re.S)
+    m = re.search(r"\{.*\}", text or "", re.DOTALL)
     if not m:
         return None
     try:

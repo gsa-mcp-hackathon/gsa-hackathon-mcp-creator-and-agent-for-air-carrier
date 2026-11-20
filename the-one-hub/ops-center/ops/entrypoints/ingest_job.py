@@ -57,9 +57,9 @@ def _root() -> pathlib.Path:
 ROOT = _root()
 sys.path.insert(0, str(ROOT))
 
-from ops.ingest.extract import extract_pdf, extract_text_file, scanned  # noqa: E402
-from ops.ingest.chunk import chunk_pages  # noqa: E402
-from ops.ingest import index as idx  # noqa: E402
+from ops.ingest import index as idx
+from ops.ingest.chunk import chunk_pages
+from ops.ingest.extract import extract_pdf, extract_text_file, scanned
 
 CORPUS = ROOT / "corpus"
 OUT = ROOT / "app" / "data" / "kb"

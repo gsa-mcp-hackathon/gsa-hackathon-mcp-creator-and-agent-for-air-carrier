@@ -95,7 +95,7 @@ def pq_to_g(log_text: str) -> dict[str, str]:
     """PQ- id to adopted G id, read from the LOG headings rather than typed."""
     out = {}
     for g, body in re.findall(r"^#+\s*(G\d+)\b[^\n]*\n(.*?)(?=^#+\s*G\d+\b|\Z)",
-                              log_text, re.M | re.S):
+                              log_text, re.MULTILINE | re.DOTALL):
         m = re.search(r"PQ-[0-9a-f]{8}", body)
         if m and re.fullmatch(r"G\d+", g):
             out[m[0]] = g
@@ -120,7 +120,7 @@ def main() -> int:
     def rows(sql):
         return [r.asDict(recursive=True) for r in spark.sql(sql).collect()]
 
-    counts, written = {}, {}
+    counts = {}
 
     def write(name, obj, n):
         (out / f"{name}.json").write_text(json.dumps(obj, default=str, indent=1))

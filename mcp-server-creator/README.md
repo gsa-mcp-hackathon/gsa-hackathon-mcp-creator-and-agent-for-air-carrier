@@ -69,9 +69,12 @@ and the client's own model does the reasoning.
    not exist, the dry run returns an `approval` question (default yes).
 3. `creator_deploy_server` returns a security summary (blockers, write
    tools, tables read, refusals) and a plan, and asks for approval
-   (default yes). With `approve=true` it creates the app as you, starts
-   it, deploys the folder, and on the last call returns the MCP URL to add
-   in Genie Code. It never touches an app owned by someone else.
+   (default yes), with an approval token. The token is a hash of the design,
+   the app name, the grants and the folder's files, so a yes covers exactly
+   what was reviewed. With `approve=true` and that token it creates the app
+   as you, starts it, deploys the folder, and on the last call returns the
+   MCP URL to add in Genie Code. A changed design, grant or folder needs a
+   fresh review. It never touches an app owned by someone else.
 
 ### Evaluating with the traces
 

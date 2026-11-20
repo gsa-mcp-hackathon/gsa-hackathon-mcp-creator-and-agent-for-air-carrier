@@ -47,7 +47,7 @@ class Lexical:
         return [(self.docs[i], s) for i, s in top]
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Lexical":
+    def from_dict(cls, d: dict) -> Lexical:
         x = cls()
         x.docs = d["docs"]
         x.len = d["len"]

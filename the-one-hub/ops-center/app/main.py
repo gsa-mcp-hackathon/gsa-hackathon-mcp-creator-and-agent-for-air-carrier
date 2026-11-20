@@ -17,19 +17,22 @@ from __future__ import annotations
 import os
 import pathlib
 
-from fastapi import FastAPI, Query, Request
-from fastapi.responses import (HTMLResponse, JSONResponse, PlainTextResponse,
-                               RedirectResponse, Response)
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-
-from api import charts, data, explore, live, rulebook
-from api.sqlsafe import compose
+from api import charts, data, explore, identity, live, rulebook
 from api import harness as work
-from api import identity
 from api.si import router as si_router
 from api.si import store as si_store
 from api.si import tasks as si_tasks
+from api.sqlsafe import compose
+from fastapi import FastAPI, Query, Request
+from fastapi.responses import (
+    HTMLResponse,
+    JSONResponse,
+    PlainTextResponse,
+    RedirectResponse,
+    Response,
+)
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 HERE = pathlib.Path(__file__).resolve().parent
 
@@ -583,7 +586,7 @@ def dashboard(request: Request):
     """The executive view. One screen that answers: where does the ship stand,
     what is the position against the ceilings, how much is explained, what is
     unresolved, and what should happen next."""
-    from api.insights import derive, by_kind
+    from api.insights import by_kind, derive
 
     names = ["program", "cost_categories", "funding_streams", "anchor_chain",
              "attribution", "contracts", "obligations", "gaps", "variances",
@@ -652,7 +655,7 @@ OFFICES = [
 
 def offices_for(executor: str) -> list[str]:
     import re as _re
-    hit = [name for name, pat in OFFICES if _re.search(pat, executor or "", _re.I)]
+    hit = [name for name, pat in OFFICES if _re.search(pat, executor or "", _re.IGNORECASE)]
     return hit or ["Unrecognised office"]
 
 
@@ -1054,8 +1057,8 @@ def insight(request: Request):
     # is for the reader, so it says what kind of knowledge is wanted rather
     # than repeating the internal type name.
     ASK = {
-        "SME":      ("Someone who was there", "You remember how it worked. "
-                     "No document needs to exist."),
+        "SME":      ("Someone who was there", ("You remember how it worked. "
+                     "No document needs to exist.")),
         "DOCUMENT": ("Someone who knows where it is written",
                      "A report, instruction or exhibit that answers it."),
         "DATA":     ("Someone with the system open",
@@ -1105,8 +1108,8 @@ async def api_gap_brief(gap_id: str, fresh: bool = False):
     Evidence (register row, variances, unattributed blocks, transactions) is
     read by code; the four-field summary is the agent model's reading of it,
     or a code-built summary when no model answers. Always a lead."""
-    from api import brief as _brief
     import anyio
+    from api import brief as _brief
     out = await anyio.to_thread.run_sync(lambda: _brief.brief(gap_id, fresh=fresh))
     if out is None:
         return JSONResponse({"error": f"no gap {gap_id}"}, status_code=404)

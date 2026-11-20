@@ -33,11 +33,10 @@ os.environ.update(AIRCARRIER_CATALOG="users", AIRCARRIER_SCHEMA="xiaobing_shang1
                   DATABRICKS_WAREHOUSE_ID=WAREHOUSE)
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "app"))
 
-from databricks.sdk.runtime import spark  # noqa: E402
-
-from api import harness as work  # noqa: E402
-from api import harness_sql as H  # noqa: E402
-from api import live  # noqa: E402
+from api import harness as work
+from api import harness_sql as H
+from api import live
+from databricks.sdk.runtime import spark
 
 S = "users.xiaobing_shang1_civ"
 T = H.tables()

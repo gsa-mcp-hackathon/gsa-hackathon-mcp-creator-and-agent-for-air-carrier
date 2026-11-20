@@ -1,10 +1,13 @@
-import csv,sys,collections
+import collections
+import csv
+import sys
+
 p=sys.argv[1]
 rows=list(csv.DictReader(open(p,newline='',encoding='utf-8-sig')))
 print(f"transactions: {len(rows)}")
 def f(x):
     try: return float(x) if x not in ('','None') else 0.0
-    except: return 0.0
+    except ValueError: return 0.0
 tot_obl=sum(f(r['federal_action_obligation']) for r in rows)
 rows.sort(key=lambda r:r['action_date'])
 last=rows[-1]

@@ -1,7 +1,7 @@
 # Deploy
 
 ```powershell
-cd C:\Users\Peter-HP\git\AirCarrier\dbrepo
+cd the-one-hub\ops-center          # from the root of your clone
 .\deploy\Deploy-ToDatabricks.ps1 -Mode Bundle            # prints the plan, changes nothing
 .\deploy\Deploy-ToDatabricks.ps1 -Mode Bundle -Execute   # applies it
 ```

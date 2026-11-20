@@ -9,6 +9,14 @@ This is the seam that makes the ops center a platform rather than a pipeline.
 The agents in `ops/agents/` call the same functions directly; everything
 outside this repository calls them through here.
 
+## Beyond CVN-79
+
+Any office that lets an agent draft numbers needs a control between the draft and the
+record. `check_claim` is that control for any figure on any program: it returns the routing
+decision and the reason and never promotes on its own. The gate's materiality floor is a
+share of the subject total, so the same rules move to another hull or program. The gap
+queue works like an auditor's request list, ranked by exposure, ignorance and closability.
+
 ## Run
 
 ```

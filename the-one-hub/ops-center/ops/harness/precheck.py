@@ -59,7 +59,7 @@ def _owner_check(spark, role) -> dict:
         actions = {r.action for r in spark.sql(
             f"SELECT action FROM {C.AUTHORITY} WHERE role = :role AND target_table = 'proposals'",
             args={"role": str(role)}).collect()}
-    except Exception as exc:  # unreadable is not the same as resolved
+    except Exception as exc:  # noqa: BLE001 - unreadable is not the same as resolved
         return _check(gate, False, f"could not read role_map/authority: "
                       f"{type(exc).__name__}: {str(exc)[:200]}", "System")
     problems = []

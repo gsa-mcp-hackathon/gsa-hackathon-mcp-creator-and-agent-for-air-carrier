@@ -25,7 +25,7 @@ from collections import defaultdict
 from decimal import Decimal
 
 from ..sqlsafe import Fragment, compose
-from .sdk import (Agent, Ctx, Pack, Proposal, Refused, TaskTemplate, check, money)
+from .sdk import Agent, Ctx, Pack, Proposal, Refused, TaskTemplate, check, money
 
 RULEBOOK: dict[str, str] = {
     "OB-01": "A contract's obligations are federal_action_obligation summed per action in "
@@ -214,22 +214,22 @@ def pack_reconcile(ctx: Ctx, subject: str, params: dict) -> Pack:
 
 def steps_reconcile(p: Pack) -> list[tuple[str, str]]:
     f = p.facts
-    out = [(f"Summed federal_action_obligation over {f['count'].display()} actions in exact "
-            f"decimal: {f['total'].display()}. total_dollars_obligated was not read.", "OB-01"),
-           (f"Actions run from {f['first_date'].display()} to {f['last_date'].display()} "
+    out = [((f"Summed federal_action_obligation over {f['count'].display()} actions in exact "
+            f"decimal: {f['total'].display()}. total_dollars_obligated was not read."), "OB-01"),
+           ((f"Actions run from {f['first_date'].display()} to {f['last_date'].display()} "
             f"across {f['fy_count'].display()} fiscal years. The largest is "
             f"{f['largest'].display()} (mod {p.context['largest_mod']}, "
-            f"{f['largest_date'].display()}).", "OB-01"),
-           (f"Found {f['deob_count'].display()} deobligations totalling "
-            f"{f['deob_total'].display()}.", "OB-01")]
+            f"{f['largest_date'].display()})."), "OB-01"),
+           ((f"Found {f['deob_count'].display()} deobligations totalling "
+            f"{f['deob_total'].display()}."), "OB-01")]
     if "reported" in f:
-        out.append((f"Tested the reported {f['reported'].display()}, labelled "
+        out.append(((f"Tested the reported {f['reported'].display()}, labelled "
                     f"{p.context['reported_label']}, against {f['total'].display()} for "
-                    f"{p.context['contract']}: the difference is {f['delta'].display()}.",
+                    f"{p.context['contract']}: the difference is {f['delta'].display()}."),
                     "OB-02"))
         if "label_total" in f:
-            out.append((f"The contract it was labelled with, {p.context['reported_label']}, "
-                        f"recomputes to {f['label_total'].display()}.", "OB-02"))
+            out.append(((f"The contract it was labelled with, {p.context['reported_label']}, "
+                        f"recomputes to {f['label_total'].display()}."), "OB-02"))
     return out
 
 
@@ -309,8 +309,8 @@ ACCOUNT_ANALYST = Agent(
     "account_analyst", "Account Analyst", "SPECIALIST",
     "Ties a File C submission period to the contract's transactions under each window, "
     "names the residual and drafts the lead and the request that would explain it.",
-    ("Never treats a residual as an error", "Never attributes an account the records "
-     "do not name"), ("File C tie-out", "Evidence and citation discipline"))
+    ("Never treats a residual as an error", ("Never attributes an account the records "
+     "do not name")), ("File C tie-out", "Evidence and citation discipline"))
 
 
 def _fm_start(fy: int, m: int) -> dt.date:
@@ -408,16 +408,16 @@ def pack_residual(ctx: Ctx, subject: str, params: dict) -> Pack:
 
 def steps_residual(p: Pack) -> list[tuple[str, str]]:
     f = p.facts
-    out = [(f"Summed {f['file_c_rows'].display()} File C rows for {p.subject_id}: "
-            f"{f['file_c'].display()}.", "TO-01")]
+    out = [((f"Summed {f['file_c_rows'].display()} File C rows for {p.subject_id}: "
+            f"{f['file_c'].display()}."), "TO-01")]
     for w in p.series["windows"]:
-        out.append((f"Transactions, {w['label']} to {f['period_end'].display()}: "
-                    f"{w['display']}.", "TO-01"))
+        out.append(((f"Transactions, {w['label']} to {f['period_end'].display()}: "
+                    f"{w['display']}."), "TO-01"))
     if f["ties"].value == "yes":
         out.append((f"The {f['best_window'].display()} window ties to the cent.", "TO-01"))
     else:
-        out.append((f"No window ties. The closest, {f['best_window'].display()}, leaves "
-                    f"{f['residual'].display()} to explain.", "TO-02"))
+        out.append(((f"No window ties. The closest, {f['best_window'].display()}, leaves "
+                    f"{f['residual'].display()} to explain."), "TO-02"))
     return out
 
 
@@ -526,10 +526,10 @@ def pack_gap(ctx: Ctx, subject: str, params: dict) -> Pack:
 
 def steps_gap(p: Pack) -> list[tuple[str, str]]:
     g, f = p.context["gap"], p.facts
-    return [(f"{g['id']} is {g['status']}: {g['title'].rstrip('.?')}. The register names "
-             f"{g['executor'] or 'no executor'} as the one who can close it.", "GP-01"),
-            (f"Read {f['cr_count'].display()} collection requirements; they name "
-             f"{f['office_count'].display()} offices and {f['unnamed'].display()} name none.",
+    return [((f"{g['id']} is {g['status']}: {g['title'].rstrip('.?')}. The register names "
+             f"{g['executor'] or 'no executor'} as the one who can close it."), "GP-01"),
+            ((f"Read {f['cr_count'].display()} collection requirements; they name "
+             f"{f['office_count'].display()} offices and {f['unnamed'].display()} name none."),
              "GP-01")]
 
 
@@ -630,10 +630,10 @@ def pack_brief(ctx: Ctx, subject: str, params: dict) -> Pack:
 
 def steps_brief(p: Pack) -> list[tuple[str, str]]:
     f = p.facts
-    return [(f"{f['promoted'].display()} of {f['claims'].display()} CVN-79 claims are promoted "
-             "and can be stated at the brief; the rest are leads.", "BR-01"),
-            (f"{f['live_variances'].display()} variances are live and {f['open_gaps'].display()} "
-             "gaps are open.", "BR-02"),
+    return [((f"{f['promoted'].display()} of {f['claims'].display()} CVN-79 claims are promoted "
+             "and can be stated at the brief; the rest are leads."), "BR-01"),
+            ((f"{f['live_variances'].display()} variances are live and {f['open_gaps'].display()} "
+             "gaps are open."), "BR-02"),
             (f"The brief is on {f['brief_date'].display()}.", "BR-02")]
 
 

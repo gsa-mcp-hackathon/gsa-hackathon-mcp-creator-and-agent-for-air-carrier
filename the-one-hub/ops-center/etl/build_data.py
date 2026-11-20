@@ -15,13 +15,13 @@ applied to the front end.
 
     python3 etl/build_data.py
 """
-import csv
 import collections
+import csv
 import json
 import pathlib
 import re
-import zipfile
 import tempfile
+import zipfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REF = ROOT.parent / "ring0" / "reference"
@@ -558,16 +558,16 @@ write("industrial", {
    "command": "NAVSEA"},
  ],
  "consequences": [
-  "The two HII contracts buy construction and integration, not content. Electronics, "
+  ("The two HII contracts buy construction and integration, not content. Electronics, "
   "Propulsion Equipment and Ordnance are substantially government furnished, bought on other "
-  "contracts by other commands.",
-  "Neither roll-up method is sufficient alone. A contract roll-up anchored on CAGE 43689 captures "
+  "contracts by other commands."),
+  ("Neither roll-up method is sufficient alone. A contract roll-up anchored on CAGE 43689 captures "
   "the hull and misses the systems. A category roll-up from the P-5 captures the systems but "
-  "cannot see the contracts beneath them.",
-  "Cross-command GFE is where hull attribution breaks. An EMALS shipset bought by NAVAIR on an "
+  "cannot see the contracts beneath them."),
+  ("Cross-command GFE is where hull attribution breaks. An EMALS shipset bought by NAVAIR on an "
   "aviation contract and installed by HII on a NAVSEA ship under a NAVSEA contract has no single "
   "line of accounting that says CVN-79 from end to end. That, not the ledger seam, is the hardest "
-  "attribution problem in this program.",
+  "attribution problem in this program."),
  ],
 })
 
@@ -811,6 +811,7 @@ print("remaining tables written")
 
 # ----------------------------------------- gaps, projected from seed + LOG text
 import yaml
+
 SEED = ROOT / "seed"
 gi = yaml.safe_load((SEED / "gaps.index.yaml").read_text())["gaps"]
 TITLES = {

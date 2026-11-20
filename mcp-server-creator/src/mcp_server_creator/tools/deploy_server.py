@@ -5,9 +5,14 @@ again until the server is live:
 
 1. Security gate. The design is reviewed; any blocker stops here.
 2. Plan and approval. With approve=false (the default) nothing changes: the
-   tool returns what it would create, what the new app could reach, and a
-   question to put to the user, whose default answer is yes.
-3. With approve=true it creates the app as the caller, then on later calls
+   tool returns what it would create, what the new app could reach, a
+   question to put to the user, whose default answer is yes, and an
+   approval token.
+3. The token is a hash of exactly what was reviewed: the design, the app
+   name, the resources it would be granted, the source folder and the files
+   in it. A yes counts only for that, so approve=true must carry the token,
+   and a design, grant or folder that changed after review needs a fresh
+   review. With a matching token it creates the app as the caller, then on later calls
    starts it, deploys the folder, and finally reports the MCP URL to add
    in Genie Code. Each call moves one step and says what happens next.
 
@@ -17,6 +22,8 @@ An existing app owned by someone else is never touched.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from typing import Annotated, Any
 
 from fastmcp import FastMCP
@@ -107,6 +114,23 @@ def security_summary(spec: ServerSpec) -> dict[str, Any]:
     }
 
 
+def reviewed_token(spec: ServerSpec, plan: dict[str, Any], entries: list[str]) -> str:
+    """Hash of exactly what the user is asked to approve.
+
+    A model that confirms on the user's behalf, or a design edited after the
+    review, cannot reuse an earlier yes: any change to the design, the app
+    name, the resources the app would be granted, the source folder or the
+    files in it produces a different token.
+    """
+    reviewed = {
+        "spec": spec.model_dump(mode="json"),
+        "plan": plan,
+        "files": sorted(entries),
+    }
+    canonical = json.dumps(reviewed, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:16]
+
+
 def _api(method: str, path: str, body: dict | None = None) -> Any:
     return user_workspace.client().api_client.do(method, path, body=body)
 
@@ -158,12 +182,22 @@ def register(mcp: FastMCP) -> None:
             bool,
             Field(
                 description=(
-                    "False returns the security review and the plan and "
-                    "changes nothing. Show both to the user and ask; set true "
-                    "only after they agree (the default answer is yes)."
+                    "False returns the security review, the plan and an "
+                    "approval token, and changes nothing. Show the review and "
+                    "plan to the user and ask; set true only after they agree "
+                    "(the default answer is yes), and pass the token with it."
                 )
             ),
         ] = False,
+        approval_token: Annotated[
+            str,
+            Field(
+                description=(
+                    "The `approval.token` from the approve=false answer the "
+                    "user agreed to. Required with approve=true."
+                )
+            ),
+        ] = "",
         grant_tables: Annotated[
             bool,
             Field(
@@ -182,8 +216,9 @@ def register(mcp: FastMCP) -> None:
         """Security-review, then create and deploy the server as your app.
 
         Call with approve=false first and show the user `security` and
-        `plan`. After they agree, call with approve=true, then call again
-        while `status` is creating, starting or deploying.
+        `plan`. After they agree, call with approve=true and the
+        `approval.token` from that answer, then call again with the same
+        token while `status` is creating, starting or deploying.
 
         Returns: `status` (needs_approval, blocked, creating, starting,
         deploying, live, or failed), `app_name`, `security`, `plan`,
@@ -240,8 +275,9 @@ def register(mcp: FastMCP) -> None:
                 "connect it in Genie Code",
             ],
         }
-        if not approve:
-            return {
+        token = reviewed_token(spec, plan, entries)
+        if not approve or approval_token != token:
+            answer = {
                 "status": "needs_approval",
                 "app_name": name,
                 "security": security,
@@ -252,9 +288,22 @@ def register(mcp: FastMCP) -> None:
                         "that you own? (default: yes)"
                     ),
                     "default": "yes",
-                    "if_yes": "Call again with approve=true.",
+                    "token": token,
+                    "if_yes": (
+                        "Call again with approve=true and approval_token set "
+                        "to this token."
+                    ),
                 },
             }
+            if approve:
+                answer["approval"]["why_again"] = (
+                    "No approval token was given."
+                    if not approval_token
+                    else "The design, the grants or the project folder changed "
+                    "after this was reviewed, so the earlier yes does not "
+                    "cover it. Show the review again and ask."
+                )
+            return answer
 
         try:
             return _advance(name, source, plan, redeploy)
@@ -274,7 +323,7 @@ def register(mcp: FastMCP) -> None:
 
 def _advance(name: str, source: str, plan: dict, redeploy: bool) -> dict[str, Any]:
     """Move the deployment one step forward and say where it stands."""
-    again = "Call again with approve=true in about a minute."
+    again = "Call again with approve=true and the same token in about a minute."
     app = _get_app(name)
     if app is None:
         _api(

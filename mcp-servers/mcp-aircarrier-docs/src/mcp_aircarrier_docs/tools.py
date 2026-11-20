@@ -62,7 +62,8 @@ def register_tools(mcp: FastMCP) -> None:
     @mcp.tool(name="docs_list_documents", annotations={**READ, "title": "List documents"})
     def docs_list_documents(kind: Kind = Kind.any) -> list[dict[str, Any]]:
         """Every loaded PDF with its artifact_id, kind (budget_justification = J-book,
-        selected_acquisition_report = SAR/MSAR, crs_report, gao_report ...), pages and tables."""
+        selected_acquisition_report = SAR/MSAR, crs_report, gao_report ...), budget_cycle (PB2024
+        for a J-book named PB24 or PB 2024), pages and tables."""
         return service.list_documents(_c(), kind.value)
 
     @mcp.tool(name="docs_document_map", annotations={**READ, "title": "Map a document's structure"})
@@ -105,9 +106,17 @@ def register_tools(mcp: FastMCP) -> None:
                                                      "Program). If you only know the title, "
                                                      "docs_search it first; hits carry labels.line_item."))],
         exhibit: Annotated[str, Field(max_length=6, description="Optional exhibit, e.g. P-5c, P-8a, P-40.")] = "",
+        budget_cycle: Annotated[str, Field(max_length=12, description=(
+            "Optional President's Budget cycle of the book, e.g. PB2024 (PB 2024, PB24 and FY2024 "
+            "also work). Empty means every loaded J-book."))] = "",
     ) -> dict[str, Any]:
-        """Where a P-1 line item sits in every loaded J-book: page ranges per exhibit and its tables."""
-        return _guard(service.find_line_item, _c(), line_item, exhibit)
+        """Where a P-1 line item sits in every loaded J-book: page ranges per exhibit and its tables.
+
+        Each J-book is one budget cycle, so the same exhibit appears once per book with different
+        figures. When a question names a book ("the PB 2024 SCN book"), pass budget_cycle; each
+        section carries its book's budget_cycle and printed page numbers. On a P-5c each hull is
+        a column headed by its fiscal year: CVN 79 is the FY 2013 ship."""
+        return _guard(service.find_line_item, _c(), line_item, exhibit, budget_cycle)
 
     @mcp.tool(name="docs_search", annotations={**READ, "title": "Search the documents"})
     def docs_search(

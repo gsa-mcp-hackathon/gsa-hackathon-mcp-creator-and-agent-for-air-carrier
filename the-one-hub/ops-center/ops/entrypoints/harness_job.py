@@ -38,8 +38,8 @@ ROOT = _root()
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from ops.harness.orchestrator import run_exception  # noqa: E402
-from ops.harness import catalog as C                # noqa: E402
+from ops.harness import catalog as C
+from ops.harness.orchestrator import run_exception
 
 
 def main():
@@ -88,7 +88,7 @@ def main():
             print(f"\n--- Checker: {check_result.get('proposal_id')} ---")
             print(json.dumps(check_result, indent=2, default=str))
 
-    print(f"\n=== Summary ===")
+    print("\n=== Summary ===")
     print(f"Exceptions processed: {len(results)}")
     print(f"Completed: {sum(1 for r in results if r['status'] == 'completed')}")
     print(f"Errors: {sum(1 for r in results if r['status'] == 'error')}")

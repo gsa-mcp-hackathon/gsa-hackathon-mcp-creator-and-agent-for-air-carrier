@@ -28,6 +28,23 @@ dev = [
 [tool.ruff]
 line-length = 100
 
+[tool.ruff.lint]
+# Databricks Git folders and Windows checkouts do not keep the executable bit,
+# so a shebang on a script run as `python script.py` is not an error here.
+ignore = ["EXE001"]
+
+[tool.ruff.lint.per-file-ignores]
+# Jobs, ETL, operator tools and check scripts run one item after another: a
+# broad catch reports the failure and moves on instead of stopping the batch.
+# The rule stays on for core/, ops/ (outside entrypoints) and app/, where every
+# broad catch carries its reason on the line.
+"tools/*" = ["BLE001", "S110"]
+"etl/*" = ["BLE001"]
+"ops/entrypoints/*" = ["BLE001", "SIM115"]
+# Checks load serverless entrypoints with exec, as the job runner does, and
+# open small fixture files inline.
+"checks/*" = ["BLE001", "S102", "SIM115"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

@@ -54,11 +54,11 @@ def _pattern(term: str) -> re.Pattern:
     """
     term = term.strip()
     if re.search(r"\d", term) or "/" in term or "-" in term and " " not in term:
-        return re.compile(re.escape(term).replace(r"\-", "[-‐-― ]?"), re.I)
+        return re.compile(re.escape(term).replace(r"\-", "[-‐-― ]?"), re.IGNORECASE)
     words = [re.escape(w) for w in term.split()]
     gap = _SEP + r"(?:\w+" + _SEP + r"){0," + str(_MAX_GAP_WORDS) + r"}"
     body = gap.join(w + _PLURAL for w in words)
-    return re.compile(r"\b" + body + r"\b", re.I)
+    return re.compile(r"\b" + body + r"\b", re.IGNORECASE)
 
 
 _CACHE: dict[str, list[tuple[re.Pattern, dict]]] = {}
@@ -113,12 +113,12 @@ def challenge(claim: Claim, *, subject: str = "CVN-79") -> list[tuple[RiskFlag, 
     if co and co.exhibit:
         if not co.column_header_chain:
             found.append((RiskFlag.PREMISE,
-                          "exhibit cell with no captured column header chain: "
-                          "the population it belongs to was inferred, not read"))
+                          ("exhibit cell with no captured column header chain: "
+                          "the population it belongs to was inferred, not read")))
         if not co.page_legends:
             found.append((RiskFlag.INTERPRETATION,
-                          "no page legends captured with an exhibit value: a legend on the "
-                          "page can change what the cell means and cannot be recovered later"))
+                          ("no page legends captured with an exhibit value: a legend on the "
+                          "page can change what the cell means and cannot be recovered later")))
         if co.page is None:
             found.append((RiskFlag.INTERPRETATION,
                           "no page number: the cell cannot be returned to"))

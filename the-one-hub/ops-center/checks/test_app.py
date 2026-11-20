@@ -16,8 +16,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 APP = ROOT / "app"
 sys.path.insert(0, str(APP))
 
-from fastapi.testclient import TestClient  # noqa: E402
-import main  # noqa: E402
+import main
+from fastapi.testclient import TestClient
 
 FAIL: list[str] = []
 
@@ -79,6 +79,7 @@ def main_() -> int:
     # behind it.
     import json as _json
     import time as _time
+
     from api import data as _data
     probe = _data.DATA / "_cache_probe.json"
     try:
@@ -100,6 +101,7 @@ def main_() -> int:
     # alone left eleven of them stacked against the frame with their labels
     # printed over each other.
     import math as _math
+
     from api.charts import bubble as _bubble
     g = _data.get("gaps")
     rows = [{"id": r["id"], "x": main.CLOS_W.get(r["closability"], 0.5),
@@ -179,7 +181,7 @@ def main_() -> int:
     reg("no warehouse bound: live is false and says why",
         lv["live"] is False and "warehouse" in lv["reason"].lower(), lv.get("reason", "")[:80])
 
-    from api import agent, live  # noqa: E402
+    from api import agent, live
     t = live.fqn("transactions_2114")
     bad = {"DROP TABLE x": "keyword", f"SELECT 1 FROM {t}; SELECT 2": "one statement",
            "SELECT * FROM system.access.audit": "allowlist", f"UPDATE {t} SET a=1": "SELECT",
@@ -324,7 +326,8 @@ def main_() -> int:
     reg("asks: every open gap appears at least once",
         len({gid for a in asks for gid in a["gaps"]}) == n_open)
 
-    from contrast import palette, ratio as cratio  # noqa: E402
+    from contrast import palette
+    from contrast import ratio as cratio
     css = (Path(__file__).resolve().parents[1] / "app/static/css/app.css").read_text()
     worst, worst_pair = 99.0, ""
     for theme, sel in [("light", ":root {"), ("dark", 'html[data-theme="dark"] {')]:

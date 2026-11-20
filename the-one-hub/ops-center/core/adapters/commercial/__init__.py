@@ -13,10 +13,10 @@ Model services in gsa-mcp-hackathon that Air Carrier uses, live-probed
 
 Role to model binding lives in seed/models.yaml, not here.
 """
-from .llm import make_llm
-from .embed import make_embedder
-from .vector import make_vector
 from .blob import make_blob
+from .embed import make_embedder
+from .llm import make_llm
 from .secrets import make_secrets
+from .vector import make_vector
 
-__all__ = ["make_llm", "make_embedder", "make_vector", "make_blob", "make_secrets"]
+__all__ = ["make_blob", "make_embedder", "make_llm", "make_secrets", "make_vector"]
