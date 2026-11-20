@@ -1,14 +1,14 @@
 {
- "built_at": "2026-11-08T19:37:41",
- "source": "/sessions/rcw-01t9teaufhtsaucwwffepo1h/mnt/AirCarrier/dbrepo/corpus",
- "chunks": 2765,
- "terms": 24555,
- "avg_tokens": 149.6,
+ "built_at": "2026-11-20T01:26:45",
+ "source": "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts",
+ "chunks": 2796,
+ "terms": 24683,
+ "avg_tokens": 151.2,
  "by_grade": {
-  "WORKING": 447,
+  "WORKING": 478,
   "AUTHORITATIVE": 2318
  },
- "not_embedded": 23,
+ "not_embedded": 21,
  "missing": [],
  "scanned": []
 }
