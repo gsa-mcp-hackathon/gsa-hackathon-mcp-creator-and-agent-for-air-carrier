@@ -46,7 +46,7 @@ MAX_TOOL_CHARS = 60000 # longest tool result passed back to the model
 QUESTION_SETS = ["dev", "fresh"]  # dev = the 9 questions the fixes were found on; fresh = held out
 SAVE_RESULTS = True    # append every run to RESULTS_TABLE
 RESULTS_TABLE = "users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs"
-# Sealed held-out files (eval/delegation/round2/README.md and round3/README.md).
+# Sealed held-out files (eval/delegation/README.md, "The seals").
 # Each SHA-256 was committed before any run; the notebook refuses any other file.
 # h2 is public since its first run, so a run of it now is a post-fix re-run and
 # analyze.py reports it apart. Leave QUESTION_FILES empty to run only dev and fresh.

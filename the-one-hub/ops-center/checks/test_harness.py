@@ -2,8 +2,8 @@
 """Characterization tests for the harness (ops/harness). Cleanup batch 0.
 
 Written against the code as it stood on 2026-11-10, including behaviour that
-docs/cleanup-inventory.md section 9 records as suspect. A test pinned to a
-suspect behaviour says CHARACTERIZES Fn. If a later change makes one of those
+the cleanup review recorded as suspect. A test pinned to a suspect behaviour
+says CHARACTERIZES Fn. If a later change makes one of those
 fail, that change altered behaviour and is not a cleanup.
 
 Spark and the model endpoints are faked. The LIVE tests run the seeded

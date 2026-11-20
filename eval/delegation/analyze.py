@@ -149,7 +149,7 @@ def report() -> str:
         "",
     ]
 
-    # Round 2 and later: sealed sets (eval/delegation/round2/README.md). The first
+    # Round 2 and later: sealed sets (eval/delegation/README.md, "The seals"). The first
     # run of a set is its sealed result. A later run of the same set on a new tool
     # catalog is a post-fix re-run: by then the questions are public, so it
     # measures the fixes, not held-out generalization, and is reported apart.
