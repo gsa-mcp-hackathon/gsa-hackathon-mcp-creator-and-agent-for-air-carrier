@@ -17,9 +17,16 @@ working folder: the deploy uses what is on GitHub, so push first.
     python tools/deploy_from_github.py --app mcp-aircarrier-docs
     python tools/deploy_from_github.py -p databricks-dev   # CLI profile
 
+In a Databricks notebook cell (uses the SDK and signs in as you):
+
+    import runpy, sys
+    sys.argv = ["deploy", "--dry-run"]        # or [] to deploy
+    runpy.run_path("/Workspace/Users/<you>/gsa-hackathon-mcp-creator-and-agent-for-cvn/tools/deploy_from_github.py", run_name="__main__")
+
 Needs the Databricks CLI (0.250 or later) signed in with a full user token,
-on your machine or in the workspace web terminal. The Genie Code serverless
-CLI cannot update apps (docs/DEPLOYMENT.md). Standard library only.
+on your machine or in the workspace web terminal, or the databricks-sdk package
+(preinstalled in Databricks notebooks). The Genie Code serverless CLI cannot
+update apps (docs/DEPLOYMENT.md). No other dependencies.
 
 Two things stay outside an app deployment, and the script says when either
 changed: job code (the dev jobs run from the workspace Git folder, so Pull it)
@@ -30,9 +37,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 
@@ -117,9 +127,78 @@ def _cli(profile: str | None, *args: str, timeout: int = 1500):
     return json.loads(r.stdout) if r.stdout.strip() else {}
 
 
-def _apps(profile):
-    data = _cli(profile, "apps", "list")
-    return data if isinstance(data, list) else data.get("apps", [])
+class CliBackend:
+    """The Databricks CLI on your machine or in the workspace web terminal."""
+
+    name = "Databricks CLI"
+
+    def __init__(self, profile):
+        self.profile = profile
+
+    def list_apps(self):
+        data = _cli(self.profile, "apps", "list")
+        return data if isinstance(data, list) else data.get("apps", [])
+
+    def deploy(self, name, body):
+        return _cli(self.profile, "apps", "deploy", name, "--json", json.dumps(body))
+
+
+class SdkBackend:
+    """The Databricks SDK, for a Databricks notebook (it signs in as you there)
+    or any machine without the CLI. Calls the Apps REST API directly, so an
+    older SDK without Git deployment types still works."""
+
+    name = "Databricks SDK"
+
+    def __init__(self, profile):
+        from databricks.sdk import WorkspaceClient
+        self.w = WorkspaceClient(profile=profile) if profile else WorkspaceClient()
+
+    def list_apps(self):
+        out, token = [], None
+        while True:
+            r = self.w.api_client.do("GET", "/api/2.0/apps",
+                                     query={"page_token": token} if token else None) or {}
+            out += r.get("apps", [])
+            token = r.get("next_page_token")
+            if not token:
+                return out
+
+    def deploy(self, name, body, timeout_s=1500):
+        d = self.w.api_client.do("POST", f"/api/2.0/apps/{name}/deployments", body=body) or {}
+        dep, start = d.get("deployment_id"), time.monotonic()
+        while dep and ((d.get("status") or {}).get("state") in (None, "IN_PROGRESS", "PENDING")):
+            if time.monotonic() - start > timeout_s:
+                raise RuntimeError(f"still in progress after {timeout_s}s (deployment {dep})")
+            time.sleep(10)
+            d = self.w.api_client.do("GET", f"/api/2.0/apps/{name}/deployments/{dep}") or {}
+        return d
+
+
+def _backend(profile, via):
+    has_cli = bool(shutil.which("databricks"))
+    in_databricks = bool(os.environ.get("DATABRICKS_RUNTIME_VERSION"))
+    if via == "cli" or (via == "auto" and has_cli and not in_databricks):
+        if not has_cli:
+            sys.exit("The Databricks CLI is not on PATH. Install it, then `databricks auth login`.")
+        return CliBackend(profile)
+    try:
+        return SdkBackend(profile)
+    except ImportError:
+        sys.exit("Neither the Databricks CLI nor the databricks-sdk package is available. "
+                 "Install one: https://docs.databricks.com/dev-tools/cli/install.html")
+
+
+def _auth_help(err: str, profile) -> str:
+    low = err.lower()
+    if "refresh token is invalid" in low or "auth login" in low or "unauthenticated" in low \
+            or "invalid access token" in low or "401" in low:
+        p = f" --profile {profile}" if profile else ""
+        m = re.search(r"databricks auth login[^\n]*", err)
+        cmd = m.group(0).strip() if m else f"databricks auth login{p}"
+        return ("Your Databricks sign-in has expired. Sign in again, then rerun:\n"
+                f"  {cmd}\n  python tools/deploy_from_github.py{p}")
+    return f"Could not list apps: {err}"
 
 
 def _under(path: str, folder: str) -> bool:
@@ -127,22 +206,33 @@ def _under(path: str, folder: str) -> bool:
     return not folder or path == folder or path.startswith(folder + "/")
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("-p", "--profile", help="Databricks CLI profile")
+    ap.add_argument("--via", choices=("auto", "cli", "sdk"), default="auto",
+                    help="auto: the CLI on a machine, the SDK inside Databricks")
     ap.add_argument("--app", action="append", help="only this app (repeatable)")
     ap.add_argument("--all", action="store_true", help="redeploy even if unchanged")
     ap.add_argument("--dry-run", action="store_true", help="show the plan, deploy nothing")
     ap.add_argument("--branch", default=BRANCH)
-    a = ap.parse_args()
+    # In a notebook the kernel passes its own arguments (-f connection.json);
+    # ignore what is not ours rather than stop.
+    a, _unknown = ap.parse_known_args(argv)
 
-    if not shutil.which("databricks"):
-        sys.exit("The Databricks CLI is not on PATH. Install it, then `databricks auth login`.")
-
+    api = _backend(a.profile, a.via)
     src = Source(a.branch)
     print(f"GitHub {REPO} {a.branch} is at {src.head[:7]} (read via {src.mode}).")
 
-    ours = [x for x in _apps(a.profile) if _norm((x.get("git_repository") or {}).get("url")) == REPO]
+    try:
+        apps = api.list_apps()
+    except (RuntimeError, subprocess.TimeoutExpired, OSError) as e:
+        print(_auth_help(str(e), a.profile))
+        return 2
+    except Exception as e:  # noqa: BLE001 - SDK errors: say what failed, no traceback
+        print(_auth_help(f"{type(e).__name__}: {e}", a.profile))
+        return 2
+    print(f"Using the {api.name}.")
+    ours = [x for x in apps if _norm((x.get("git_repository") or {}).get("url")) == REPO]
     if a.app:
         ours = [x for x in ours if x["name"] in a.app]
     if not ours:
@@ -199,9 +289,13 @@ def main() -> int:
         print(f"\nDeploying {name} from {branch}:{folder} ...", flush=True)
         body = {"git_source": {"branch": branch, "source_code_path": folder}}
         try:
-            d = _cli(a.profile, "apps", "deploy", name, "--json", json.dumps(body))
+            d = api.deploy(name, body)
         except (RuntimeError, subprocess.TimeoutExpired) as e:
             print(f"  FAILED: {e}")
+            failed.append(name)
+            continue
+        except Exception as e:  # noqa: BLE001 - SDK errors name themselves
+            print(f"  FAILED: {type(e).__name__}: {e}")
             failed.append(name)
             continue
         state = ((d.get("status") or {}).get("state")) or "?"

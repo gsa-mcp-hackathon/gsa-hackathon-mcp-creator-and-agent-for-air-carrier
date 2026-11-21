@@ -18,6 +18,10 @@ command after the push. `~` below means `/Workspace/Users/xiaobing.shang1.civ@ma
    with `main` on GitHub for that app's own source folder, deploys only the apps whose folder
    changed, waits, and checks each new deployment succeeded at the pushed commit.
    `--dry-run` shows the plan; `--all` redeploys every app; `--app <name>` limits it.
+   If the CLI's sign-in has expired, the script says so and prints the
+   `databricks auth login` command to run. Inside a Databricks notebook it uses the
+   Databricks SDK and your notebook sign-in instead of the CLI; the script's docstring has the
+   two-line cell to run it there.
 3. If the script reports job code changed, open the workspace Git folder
    `~/gsa-hackathon-mcp-creator-and-agent-for-cvn` and Pull (the dev jobs run from it). If it
    reports bundle files changed, then also run `databricks bundle deploy -t dev` from
