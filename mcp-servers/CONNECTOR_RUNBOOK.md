@@ -82,7 +82,7 @@ app: resolve, initialize, tools/list, and one known-answer read tool:
 | mcp-aircarrier-docs | docs_find_figure(13529) finds "$13.529 billion" on CVN_78_MSAR_FY2027_PBv2.pdf p. 8 (guards the 3-decimal fix) |
 | mcp-aircarrier-analyst | analyst_model_status returns an analyst/ engine |
 | mcp-aircarrier-ops | carrier_work_register_counts returns more than 0 records |
-| mcp-bakehouse-sales | mcp_describe_sales returns the sales data dictionary (added 2026-11-21; needs the CAN_USE grant below) |
+| mcp-aircarrier-hub | hub_check_claim on the held $13,529M baseline returns human_review (added 2026-11-21, in the slot the bakehouse app held) |
 | mcp-a-creator | tools/list only; it writes and deploys, so no tool is called |
 
 Each sweep is one JSON-lines file in
@@ -105,7 +105,7 @@ the app > Permissions > add `app-2vrjmx aircarrier-mcp-probe` with Can Use > Sav
 with the CLI (update-permissions adds; set-permissions would replace the whole list):
 
 ```
-databricks apps update-permissions mcp-bakehouse-sales --json '{"access_control_list":
+databricks apps update-permissions mcp-aircarrier-hub --json '{"access_control_list":
   [{"service_principal_name": "89a35bc5-a29a-44ca-b483-2f648114d2a3", "permission_level": "CAN_USE"}]}'
 ```
 

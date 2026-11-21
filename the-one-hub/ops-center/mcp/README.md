@@ -1,6 +1,6 @@
 # mcp/: the One Hub as tools (`mcp-aircarrier-hub`)
 
-> **Scorecard:** 16 read-only tools · 25 server tests (schema portability, refusals, tie-out, gate, HTTP behind the Apps proxy) · 193 hostile arguments, none leaked · ready to deploy, probe target added. Every server's row: [SCORECARD.md](../../../SCORECARD.md).
+> **Scorecard:** 16 read-only tools · 25 server tests (schema portability, refusals, tie-out, gate, HTTP behind the Apps proxy) · 193 hostile arguments, none leaked · deployed as a Databricks App and probed from 2026-11-21. Every server's row: [SCORECARD.md](../../../SCORECARD.md).
 
 A custom MCP server exposing the four stores and the deterministic checks, so
 any agent can use the ops center without reimplementing it: Claude Code at the

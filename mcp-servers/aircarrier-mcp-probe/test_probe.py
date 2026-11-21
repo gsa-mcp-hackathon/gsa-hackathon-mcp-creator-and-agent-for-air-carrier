@@ -102,7 +102,8 @@ def test_run_summarizes_failing_targets_and_creator_lists_only():
                                            "source": "sales", "fields": [{"name": "transactionID"}],
                                            "decision": "human_review", **DOCS_OK})
     out = sweep(post).run()
-    assert out["ok"] and out["failing"] == [] and out["targets"] == 6
+    assert out["ok"] and out["failing"] == [] and out["targets"] == 5
+    assert P.BAKEHOUSE not in P.TARGETS    # its slot runs mcp-aircarrier-hub since 2026-11-21
     creator = [c for c in calls if "mcp-a-creator" in c[0]]
     assert [c[1] for c in creator] == ["initialize", "tools/list"]       # never calls a creator tool
 

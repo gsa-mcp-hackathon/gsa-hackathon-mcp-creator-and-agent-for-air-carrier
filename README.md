@@ -96,7 +96,7 @@ number above.
 | **Score per server** | [SCORECARD.md](SCORECARD.md): tools, tests, sweep, accuracy, probe and what is open, one row per server |
 | **Defects found by testing** | [docs/submission/FINDINGS.md](docs/submission/FINDINGS.md) |
 | **Deployment** | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
-| **Data** | The One Hub uses public records only: budget justification books, Selected Acquisition Reports, GAO and CRS reports, FPDS and USAspending. One server reads other data on purpose: `mcp-bakehouse-sales`, the Creator's second build, reads Databricks' `samples.bakehouse` table to show the Creator works on a dataset unrelated to CVN-79. It is not government data, and none of the CVN-79 evidence rests on it |
+| **Data** | The One Hub uses public records only: budget justification books, Selected Acquisition Reports, GAO and CRS reports, FPDS and USAspending. One server reads other data on purpose: `mcp-bakehouse-sales`, the Creator's second build, reads Databricks' `samples.bakehouse` table to show the Creator works on a dataset unrelated to CVN-79. It is not government data, and none of the CVN-79 evidence rests on it. Its code and 21 tests stay in the repository; its app was deleted on 2026-11-21 so the One Hub server could take the slot in the shared workspace, which is capped at 100 apps |
 
 ---
 
@@ -258,9 +258,10 @@ including Genie Code, and the front center and the agents use the same ones.
 **The One Hub's own MCP server**, `mcp-aircarrier-hub` ([`the-one-hub/ops-center/mcp/`](the-one-hub/ops-center/mcp/)),
 16 read-only `hub_` tools with Pydantic-validated inputs that expose the gate, the
 falsification checks, the tie-outs and the gap queue to any agent. It runs over stdio for a
-local agent and as stateless HTTP for a Databricks App; the app is ready to create
-([DEPLOYMENT.md](docs/DEPLOYMENT.md#first-deployment-of-mcp-aircarrier-hub)). With [MCP A Creator](#mcp-a-creator) (10 tools) and the
-bakehouse server it generated (4 tools), that makes six servers and 60 tools;
+local agent and as the Databricks App `mcp-aircarrier-hub` (stateless HTTP), deployed on
+2026-11-21 and watched by the probe. With [MCP A Creator](#mcp-a-creator) (10 tools) and the
+bakehouse server it generated (4 tools, in the repository; its app slot now runs the hub),
+that makes six servers and 60 tools;
 [SCORECARD.md](SCORECARD.md) has one row per server. **A probe** calls every deployed server
 every 15 minutes with a known question. Their standalone value is in
 [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own).
@@ -379,7 +380,9 @@ example prompts. It has built two servers in this repository, on two unrelated d
 [`mcp-bakehouse-sales`](mcp-servers/mcp-bakehouse-sales/) over Databricks'
 `samples.bakehouse` sales table, chosen because every workspace has it. The second build is
 the proof that the Creator is not tied to the carrier: same tool, different table, a tested
-and deployed server. Both are probe targets (the bakehouse from 2026-11-21).
+server. Ops is deployed and probed. The bakehouse app ran until 2026-11-21, when it was
+deleted so the One Hub server could take its slot (the shared workspace is capped at 100
+apps); it redeploys from `mcp-servers/mcp-bakehouse-sales/` whenever a slot is free.
 
 ---
 
@@ -652,12 +655,13 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
   named "Total ..." read as totals ("Total Ship Test Program", "TOTAL SHIP COMPUTING
   ENVIRONMENT (TSCE)"); on the PB2027 book locally, 790 of 790 checks now pass. The probe
   and `docs_tieout_document` will show both after the redeploy.
-- **The One Hub server is deploy-ready, not yet deployed.** Its HTTP form refused every
-  request behind the Apps proxy (421 Invalid Host header, the SDK's localhost guard); that
-  is fixed and tested. It runs from `the-one-hub/ops-center` (`app.yaml`), needs one create
-  command ([DEPLOYMENT.md](docs/DEPLOYMENT.md#first-deployment-of-mcp-aircarrier-hub)), and
-  the probe already lists it, with the held $13,529M baseline as its known answer. Its 16
-  tools take 193 hostile arguments in its own suite: 131 refused, 62 answered, none leaked.
+- **The One Hub server was deployed on 2026-11-21, so it has no probe history yet.** Its
+  HTTP form had refused every request behind the Apps proxy (421 Invalid Host header, the
+  SDK's localhost guard); that is fixed and tested. It runs from `the-one-hub/ops-center`
+  (`app.yaml`), and the probe's known answer is the held $13,529M baseline routed to human
+  review. The shared workspace is capped at 100 apps, so it took the slot of the bakehouse
+  demo, whose code and tests stay in the repository. Its 16 tools take 193 hostile
+  arguments in its own suite: 131 refused, 62 answered, none leaked.
 - **The Cost Limitation Baseline is under review** (E-17). $12,936M is the baseline the
   Secretary of the Navy notified to Congress in August 2023. It is the $11,398.0M statutory
   cap (10 U.S.C. 8692, FY2020 NDAA), plus the $1,300M the Navy added in August 2021 for

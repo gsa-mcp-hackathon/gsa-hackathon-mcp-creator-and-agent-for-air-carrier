@@ -16,14 +16,14 @@ For each target app, in order, as the probe's own service principal:
 
 The known answers: the docs server finds $13,529M printed on page 8 of the FY2027 MSAR (a
 regression check on a fixed defect); the analyst reports its engine; the ops server counts
-work register records above zero; the bakehouse server, the Creator's build on a non-CVN
-table, returns its sales data dictionary. MCP A Creator is checked through `tools_list`
+work register records above zero. MCP A Creator is checked through `tools_list`
 only, because its other tools write and deploy. The One Hub server (`mcp-aircarrier-hub`)
 must route the held $13,529M baseline to `human_review` through `hub_check_claim`.
 
-Each target app must grant the probe's service principal `CAN_USE`. The bakehouse and hub
-targets were added on 2026-11-21: until the hub app is created and each grant is made, its
-`resolve` or `initialize` row fails and the sweep reports it by name.
+Each target app must grant the probe's service principal `CAN_USE`. The hub became a target
+on 2026-11-21. The bakehouse server was a target that day too, until its app was deleted to
+free the slot for the hub (the shared workspace is capped at 100 apps); its check is kept as
+`BAKEHOUSE` in `probe.py`.
 
 A failed step stops that target's sweep, and every step is one row in the results volume,
 so a failure says where it broke. No token, header or payload is written.

@@ -115,13 +115,16 @@ TARGETS = [
     Target("mcp-aircarrier-docs", 11, "docs_find_figure", {"value_musd": "13529"}, _docs),
     Target("mcp-aircarrier-analyst", 12, "analyst_model_status", {}, _analyst),
     Target("mcp-aircarrier-ops", 7, "carrier_work_register_counts", {}, _ops),
-    Target("mcp-bakehouse-sales", 4, "mcp_describe_sales", {}, _bakehouse),
     Target("mcp-aircarrier-hub", 16, "hub_check_claim",
            {"hull": "CVN-79", "layer": "budget", "element": "Total Ship Estimate",
             "period": "FY2027 PB", "value_musd": "13529", "tag": "VERIFIED", "confidence": 0.9},
            _hub),
     Target("mcp-a-creator", 10),   # writes and deploys; listing its tools is the whole check
 ]
+
+# Not a target: the bakehouse app was deleted on 2026-11-21 so the hub could take its
+# slot (the shared workspace is capped at 100 apps). Add BAKEHOUSE back if it returns.
+BAKEHOUSE = Target("mcp-bakehouse-sales", 4, "mcp_describe_sales", {}, _bakehouse)
 
 
 def _clip(s: Any) -> str:

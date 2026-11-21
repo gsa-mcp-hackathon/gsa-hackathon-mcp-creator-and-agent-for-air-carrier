@@ -39,7 +39,7 @@ Code serverless CLI, app updates fail with `Invalid delegation claim present in 
 | `mcp-aircarrier-analyst` | `mcp-servers/mcp-aircarrier-analyst/` | SQL warehouse | - |
 | `mcp-aircarrier-ops` | `mcp-servers/mcp-aircarrier-ops/` | SQL warehouse, 6 UC tables (2114 transactions and the variance register added 2026-11-20; see its `deploy/databricks/grants.sql`) | - |
 | `aircarrier-mcp-probe` | `mcp-servers/aircarrier-mcp-probe/` | none (UC volume grant on the SP) | - |
-| `mcp-bakehouse-sales` | `mcp-servers/mcp-bakehouse-sales/` | SQL warehouse, 1 UC table | - |
+| `mcp-bakehouse-sales` (app deleted 2026-11-21 for the hub's slot) | `mcp-servers/mcp-bakehouse-sales/` | SQL warehouse, 1 UC table | - |
 | `aircarrier-front-center-dev` | `the-one-hub/ops-center/app/` | SQL warehouse, 4 serving endpoints (agent, reasoning, checker, fallback) | sql |
 | `mcp-aircarrier-hub` | `the-one-hub/ops-center/` (its `app.yaml` runs `mcp/mcp_server.py`) | none: it reads the shipped files in `app/data`, `seed` and `core` | - |
 
@@ -48,6 +48,10 @@ reference, not configuration. App names that start with `mcp-` appear in the Gen
 connector picker; the probe is named without the prefix on purpose.
 
 ### First deployment of `mcp-aircarrier-hub`
+
+Done on 2026-11-21. The shared workspace is capped at 100 apps and was full, so the
+`mcp-bakehouse-sales` app was deleted and the hub created in the same notebook cell, so the
+slot was never left open. In a workspace with room, the steps are:
 
 The script deploys apps that already exist. The hub is created once, with its Git source,
 then `deploy_from_github.py` keeps it current like the others:
@@ -60,9 +64,8 @@ databricks apps deploy mcp-aircarrier-hub --json '{"git_source": {"branch": "mai
 ```
 
 Then grant the probe's service principal `CAN_USE` on the app (Apps, `mcp-aircarrier-hub`,
-Permissions), as for the bakehouse server. The probe already lists it as a target, with
-`hub_check_claim` on the held $13,529M baseline as its known answer (it must come back
-`human_review`). Until the app exists, the probe reports the target as failing at `resolve`.
+Permissions). The probe lists it as a target, with `hub_check_claim` on the held $13,529M
+baseline as its known answer (it must come back `human_review`).
 
 Notes:
 

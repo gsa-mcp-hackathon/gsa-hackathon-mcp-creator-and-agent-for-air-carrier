@@ -92,7 +92,7 @@
    "problem": "An AI agent can put a wrong figure in a leadership brief or a financial statement in one sentence.",
    "does": "hub_check_claim routes any candidate figure through policy and the gate and never promotes on its own; hub_challenge_text falsifies text against recorded error classes; hub_tie_out closes totals in exact decimals without a model; the gap tools turn every unknown into an owned request.",
    "beyond": "Any office that lets an agent draft numbers: comptrollers, audit liaisons, budget shops.",
-   "today": "Runs over stdio and as stateless HTTP for a Databricks App; ready to deploy, and the probe lists it. Pydantic-validated inputs, tool errors with the reason, a schema every model can read (25 server tests; 193 hostile arguments, none leaked). The agents and this front center call the same checks directly.",
+   "today": "Deployed as a Databricks App (stateless HTTP) on 2026-11-21 and watched by the probe; also runs over stdio for a local agent. Pydantic-validated inputs, tool errors with the reason, a schema every model can read (25 server tests; 193 hostile arguments, none leaked). The agents and this front center call the same checks directly.",
    "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/the-one-hub/ops-center/mcp"
   },
   {
