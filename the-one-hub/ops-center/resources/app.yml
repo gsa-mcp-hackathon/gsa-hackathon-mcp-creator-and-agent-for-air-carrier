@@ -7,11 +7,14 @@ resources:
       # Deployed from GitHub, not from the bundle's workspace files (2026-11-19).
       # The app reads only app/, so source_code_path below is that folder in
       # the repo. The repo is public: the app SP needs no Git credential.
-      # auto_deploy stays off on purpose: a deploy that skips config.env
-      # starts the app on app.yaml defaults (files backend, no warehouse)
-      # and still reports SUCCEEDED. Always deploy with bundle deploy, then
-      # bundle run aircarrier_front_center. Rollback: restore
-      # source_code_path: ../app and remove these two blocks.
+      # Since 2026-11-20 app/app.yaml holds the full deployed env (equal to
+      # config.env below for dev; checks/test_deploy_config.py), so a plain
+      # Git deployment is safe: tools/deploy_from_github.py, the Apps UI
+      # Deploy button, or databricks apps deploy. bundle deploy and bundle run
+      # still work and are needed only when jobs or resources change.
+      # auto_deploy stays off: Databricks supports it only for private repos
+      # with the Databricks GitHub app, and this repo is public.
+      # Rollback: restore source_code_path: ../app and remove these two blocks.
       git_repository:
         url: https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn
         provider: gitHub

@@ -181,6 +181,9 @@ def build(q_app, data_get, store: Store = STORE, today: dt.date | None = None) -
 
     brief = dt.date.fromisoformat(T.BRIEF_DATE)
     days = max((brief - today).days, 0)
+    # A countdown to a date that has passed is noise; the page says so once.
+    brief_passed = brief < today
+    ledger_unread = any(f["source"] == "claim ledger" for f in reads.failed)
     n_claims, n_prom = len(claims), len(promoted)
     pct = (Decimal(n_prom) * 100 / n_claims).quantize(Decimal("0.1")) if n_claims else None
 
@@ -194,10 +197,14 @@ def build(q_app, data_get, store: Store = STORE, today: dt.date | None = None) -
                        "live claim versions, hull CVN-79", "aircarrier_claim"),
         "percent": _fig("claims.percent", "Share that ties", pct, "PERCENT",
                         "promoted / claims x 100, one decimal", "aircarrier_claim"),
-        "brief_date": T.BRIEF_DATE, "days_to_brief": days,
-        "text": (f"{n_prom} of {n_claims} CVN-79 figures tie to source records, "
-                 f"{days} days before the DCFO brief." if n_claims else
-                 "The claim ledger could not be read, so the headline is unknown."),
+        "brief_date": T.BRIEF_DATE, "days_to_brief": days, "brief_passed": brief_passed,
+        "ledger_unread": ledger_unread,
+        "text": (f"{n_prom} of {n_claims} CVN-79 figures tie to source records"
+                 + ("." if brief_passed else f", {days} days before the DCFO brief.")
+                 if n_claims else
+                 "Brief readiness needs the claim ledger, which lives in the workspace."
+                 if ledger_unread else
+                 "The claim ledger holds no CVN-79 figures yet."),
         "task": {"task_id": "brief_readiness", "subject": "CVN-79"},
     }
     kpis = [
@@ -223,12 +230,13 @@ def build(q_app, data_get, store: Store = STORE, today: dt.date | None = None) -
          "of": len(gaps_all), "sub": f"top owner: {max(by_exec, key=by_exec.get)}"
                                     if by_exec else "",
          "tone": "warn", "href": "/gaps"},
-        {"id": "days", "label": "Days to the DCFO brief",
-         "figure": _fig("brief.days", "Days to the brief", days, "COUNT",
-                        f"{T.BRIEF_DATE} - today", "AIRCARRIER_BRIEF_DATE"),
-         "of": None, "sub": f"brief on {T.BRIEF_DATE}", "tone": "bad" if days <= 7 else "warn",
-         "href": "#brief"},
     ]
+    if not brief_passed:
+        kpis.append({"id": "days", "label": "Days to the DCFO brief",
+                     "figure": _fig("brief.days", "Days to the brief", days, "COUNT",
+                                    f"{T.BRIEF_DATE} - today", "AIRCARRIER_BRIEF_DATE"),
+                     "of": None, "sub": f"brief on {T.BRIEF_DATE}",
+                     "tone": "bad" if days <= 7 else "warn", "href": "#brief"})
     waiting = []
     for (role, office), n in sorted(pend.items(), key=lambda kv: -kv[1]):
         waiting.append({"what": "SI proposals to review", "who": office, "role": role,

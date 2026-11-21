@@ -95,3 +95,23 @@
 {% macro section_error(err) -%}
 {% if err %}<div class="note bad"><b>This section could not be read.</b> {{ err }}</div>{% endif %}
 {%- endmacro %}
+
+{#- A code as a chip with its plain-word definition (api/glossary.py). The
+    definition shows on hover and on keyboard focus, and the chip links to the
+    row or page that defines it. -#}
+{% macro code(c, label="") -%}
+{%- set d = define(c) -%}
+<a class="code {{ d.kind }}"{% if d.href %} href="{{ d.href }}"{% endif %}{% if d.text %} data-def="{{ d.text }}" aria-label="{{ c }}: {{ d.text }}"{% endif %}>{{ label or c }}</a>
+{%- endmacro %}
+
+{#- Every page opens the same way: menu eyebrow, the question as the h1, one
+    line on who uses the page and the decision it supports, then a short lede. -#}
+{% macro page_head(eyebrow, question, who, decision, lede="") -%}
+<div class="phead">
+ <div class="eyebrow">{{ eyebrow }}</div>
+ <h1>{{ question }}</h1>
+ <p class="for"><span><b>For</b> {{ who }}</span><span><b>Decision</b> {{ decision }}</span></p>
+ {% if lede %}<p class="lede">{{ lede }}</p>{% endif %}
+ {{ caller() if caller else "" }}
+</div>
+{%- endmacro %}

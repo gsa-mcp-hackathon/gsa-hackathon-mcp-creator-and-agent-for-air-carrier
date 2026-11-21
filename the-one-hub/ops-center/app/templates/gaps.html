@@ -1,12 +1,16 @@
 {% extends "base.html" %}
+{% import "_ui.html" as ui %}
 {% block body %}
 <div class="phead">
- <div class="eyebrow">Register</div>
- <h1>Gap register</h1>
- <p class="lede">Every unknown carries a type and the type determines who works it. A gap is never
-  assigned back to the sponsor: an unknown is work to be executed, not a question to hand upward.
-  Closing gaps opens gaps, and that is the register working rather than failing.</p>
+ <div class="eyebrow">Audit · Gap register</div>
+ <h1>Which open questions block the number, and who can close them?</h1>
+ <p class="for"><span><b>For</b> accountants, auditors, and the offices that hold the records</span>
+  <span><b>Decision</b> what to work now with no access, and which access to ask for</span></p>
+ <p class="lede">Every unknown carries a type, and the type decides who works it. A gap is never
+  handed back to the sponsor: it is work to be done. Closing one often opens another, and that is
+  the register working.</p>
  <p class="cap" style="margin-top:.4rem"><a href="#who-can-close">Who can close what</a> ·
+  <a href="#gtable">the full register</a> ·
   <a href="/coverage">which evidence layers exist and what access would change them</a> ·
   <a href="/insight">answer one</a></p>
 </div>
@@ -17,6 +21,31 @@
  <div class="stat good"><div class="k">Closed or resolved</div><div class="v">{{ g.closed }}</div><div class="n">most by document research needing no access</div></div>
  <div class="stat acc"><div class="k">Workable now, no access</div><div class="v">{{ g.free_now|length }}</div>
   <div class="n">{{ g.free_now|join(", ") }}</div></div>
+</div>
+
+{% set work_now = ranked|rejectattr('closed')|selectattr('closability', 'in', ['zero_access', 'query'])|list %}
+{% set ask_for = ranked|rejectattr('closed')|selectattr('closability', 'equalto', 'access_required')|sort(attribute='exposure_usd_m', reverse=true)|list %}
+<div class="brief-cols" style="margin:0 0 1rem">
+ <section class="card" aria-labelledby="now-h">
+  <h2 id="now-h">Work these now, no access needed</h2>
+  <p class="cap">The highest-ranked of {{ work_now|length }} gaps that public documents or one query can close.</p>
+  <ul class="brief-list brief-ok">
+   {% for r in work_now[:3] %}
+   <li><span class="say">{{ ui.code(r.id) }} {{ r.title }}</span>
+    <p>{{ r.executor }}{% if r.exposure_usd_m %} · ${{ "{:,.0f}".format(r.exposure_usd_m) }}M exposure{% endif %}</p></li>
+   {% endfor %}
+  </ul>
+ </section>
+ <section class="card" aria-labelledby="ask-h">
+  <h2 id="ask-h">Ask for this access</h2>
+  <p class="cap">The largest dollar exposure among {{ ask_for|length }} gaps that only an office with the records can close.</p>
+  <ul class="brief-list brief-hold">
+   {% for r in ask_for[:3] %}
+   <li><span class="say">{{ ui.code(r.id) }} {{ r.title }}</span>
+    <p>{{ r.executor }}{% if r.exposure_usd_m %} · ${{ "{:,.0f}".format(r.exposure_usd_m) }}M exposure{% endif %}</p></li>
+   {% endfor %}
+  </ul>
+ </section>
 </div>
 
 <div class="card">
@@ -72,7 +101,7 @@
     <th class="num" data-sort>Exposure $M</th><th>Closability</th><th class="num" data-sort>Priority</th></tr></thead>
    <tbody>
    {% for r in ranked %}
-   <tr data-row data-tags="{{ 'open' if not r.closed else 'closed' }} {{ r.type }} {{ r.closability }}">
+   <tr id="{{ r.id }}" data-row data-tags="{{ 'open' if not r.closed else 'closed' }} {{ r.type }} {{ r.closability }}">
     <td><span class="b {% if r.closed %}b-ok{% else %}b-warn{% endif %}">{{ r.id }}</span></td>
     <td><b style="font-size:.85rem">{{ r.title }}</b>
      {% if r.note %}<div class="muted" style="font-size:.78rem;max-width:62ch">{{ r.note }}</div>{% endif %}</td>

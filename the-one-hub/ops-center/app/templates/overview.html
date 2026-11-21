@@ -1,93 +1,110 @@
 {% extends "base.html" %}
+{% import "_ui.html" as ui %}
 {% block body %}
+{% set total = program.total_ship_estimate_usd_m %}
+{% set clb = program.cost_limitation_baseline_usd_m %}
 
 <section class="hero">
- <img src="/static/img/hero-atlantic.jpg" alt="PCU John F. Kennedy (CVN 79) transits the Atlantic during aircraft compatibility testing">
+ <img src="/static/img/hero-atlantic.jpg" alt="{{ img_alt('hero-atlantic') }}">
  <div class="scrim"></div>
  <div class="inner">
-  <h1>What has CVN-79 cost?</h1>
-  <p>The data exists. What is missing is the connection between how the cost is reported and how it
-     was recorded. This is a defensible account of where those diverge, and why.</p>
+  <h1>What can we say about CVN-79's cost today?</h1>
+  <p>What a briefing can state now, with its basis, what it should hold back and why, and which
+     decisions are waiting on whom. Every line links to the record it rests on.</p>
  </div>
  <span class="credit">PCU John F. Kennedy, Atlantic Ocean, October 2026</span>
 </section>
 
+<p class="for brief-for"><span><b>For</b> senior leaders, the PEO, the comptroller, anyone briefing the ship</span>
+ <span><b>Decision</b> what goes in the brief, what is held, and who acts next</span></p>
+
 <div class="grid g4" style="margin-bottom:1rem">
  <div class="stat acc"><div class="k">Total Ship Estimate</div>
-  <div class="v">${{ "{:,.0f}".format(program.total_ship_estimate_usd_m) }}M</div>
-  <div class="n">FY2027 President's Budget, Exhibit P-5c</div></div>
+  <div class="v">${{ "{:,.0f}".format(total) }}M</div>
+  <div class="n">FY2027 President's Budget, Exhibit {{ ui.code("P-5c") }}</div></div>
  <div class="stat up"><div class="k">Above the statutory cap</div>
   <div class="v">+{{ program.above_cap_pct }}%</div>
-  <div class="n">${{ "{:,.0f}".format(program.above_cap_usd_m) }}M over $11,398.0M. Fully attributable to four dated movements</div></div>
- <div class="stat"><div class="k">Attributed to a named contract</div>
+  <div class="n">${{ "{:,.0f}".format(program.above_cap_usd_m) }}M over $11,398.0M, all of it traced to four dated movements</div></div>
+ <div class="stat"><div class="k">Traced to a named contract</div>
   <div class="v">{{ attribution.attributed_pct }}%</div>
-  <div class="n">Up from {{ attribution.improved_from_pct }}% in one pass, by replacing an announcement-derived figure with the obligation record</div></div>
+  <div class="n">Up from {{ attribution.improved_from_pct }}% in one pass, by using the obligation record in place of announcements</div></div>
  <div class="stat"><div class="k">Schedule variance</div>
   <div class="v">{{ program.schedule_variance_months }} mo</div>
-  <div class="n">FY2013 submission showed Sep 2022 delivery. FY2026 shows Mar 2027</div></div>
+  <div class="n">FY2013 budget showed September 2022 delivery. FY2026 shows March 2027</div></div>
 </div>
 
-<div class="grid g-2-1">
- <div class="card">
-  <h2>Start here</h2>
-  <p class="cap">Four ways in, depending on what you need.</p>
-  <table class="ledger">
-   <tr><td><a href="/position"><b>Position</b></a></td>
-    <td style="font-size:.84rem">The four published cost figures side by side, why each pair differs,
-     and the one difference nobody can explain yet.</td></tr>
-   <tr><td><a href="/gaps"><b>Gap register</b></a></td>
-    <td style="font-size:.84rem">Every open question, ranked, with the office that can close it and
-     what to ask them for.</td></tr>
-   <tr><td><a href="/explore"><b>Detail table</b></a></td>
-    <td style="font-size:.84rem">Every contract action, exhibit table, collection request and lead.
-     Filter, total and export.</td></tr>
-   <tr><td><a href="/ask"><b>Ask the evidence</b></a></td>
-    <td style="font-size:.84rem">A question in plain language, answered from the same records, with
-     citations. Answers are leads.</td></tr>
-  </table>
-  <div class="src">The ship decomposes exactly two ways (<a href="/cost">cost composition</a>). <b>Source</b> {{ cost.source }} · residual {{ "%.3f"|format(cost.residual + 0) }}</div>
- </div>
+<div class="brief-cols">
+ <section class="card" aria-labelledby="say-h">
+  <h2 id="say-h">What you can say today</h2>
+  <p class="cap">Each statement ties to a published source and the page that shows the working.</p>
+  <ul class="brief-list brief-ok">
+   <li><span class="say">The FY2027 budget puts CVN-79 at ${{ "{:,.3f}".format(total) }}M.</span>
+    <p>It decomposes exactly two ways: by cost category and by funding stream, each closing to a
+     residual of {{ "%.3f"|format(cost.residual + 0) }}.</p>
+    <span class="brief-basis">Basis: {{ program.total_source }} · <a href="/position">Position</a> · <a href="/cost">Cost composition</a></span></li>
+   <li><span class="say">That is ${{ "{:,.0f}".format(program.above_cap_usd_m) }}M ({{ program.above_cap_pct }}%) above the
+     $11,398.0M statutory cap, and four dated movements account for all of it.</span>
+    <p>Only one of the four, the $1.3 billion August 2021 contract overrun, is cost growth in the
+     ordinary sense.</p>
+    <span class="brief-basis">Basis: 10 U.S.C. 8692 and the cap history · <a href="/baseline">Estimate history and caps</a></span></li>
+   <li><span class="say">Delivery moved {{ program.schedule_variance_months }} months, from September 2022 to {{ program.delivery }}.</span>
+    <p>Preliminary acceptance was on {{ program.preliminary_acceptance }}; delivery is planned for {{ program.delivery }} and completion of fitting out for {{ program.cfo }}.</p>
+    <span class="brief-basis">Basis: FY2013 and FY2026 budget submissions, as stated by CRS RS20643 · <a href="/kennedy">The ship</a></span></li>
+   <li><span class="say">{{ attribution.attributed_pct }}% of the hull traces to a named contract record.</span>
+    <p>The two HII prime contracts alone are {{ contracts.combined_share_of_hull }}% of the hull
+     (${{ "{:,.0f}".format(contracts.combined_usd_m) }}M obligated). The other
+     {{ attribution.residual_pct }}% has no public contract record; the largest block is the nuclear
+     propulsion plant ({{ ui.code("G22") }}).</p>
+    <span class="brief-basis">Basis: {{ ui.code("FPDS") }} obligation records · <a href="/cost">Cost composition</a></span></li>
+  </ul>
+ </section>
 
- <div class="card">
-  <h3>What the hull is made of</h3>
-  <p class="cap">Two contract numbers with one company.</p>
-  <dl class="kv">
-   <dt>Two HII primes</dt><dd>${{ "{:,.0f}".format(contracts.combined_usd_m) }}M · {{ contracts.combined_share_of_hull }}% of the hull</dd>
-   <dt>Of shipbuilder-side categories</dt><dd>{{ contracts.combined_share_of_shipbuilder_side }}%</dd>
-   <dt>Prime transactions</dt><dd>{{ contracts.primes[0].n + contracts.primes[1].n }}</dd>
-   <dt>Outlay coverage</dt><dd><span class="b b-bad">{{ contracts.outlay_coverage_pct }}%</span> of obligations</dd>
-   <dt>Supplier base</dt><dd>{{ "{:,}".format(program.industrial_base.supplier_firms) }} firms in {{ program.industrial_base.states }} states</dd>
-   <dt>Builder</dt><dd>{{ program.builder }}, CAGE {{ program.cage }}</dd>
-  </dl>
-  <div class="note bad"><b>The audit finding visible in public data.</b> Award-level outlay reporting
-   covers {{ contracts.outlay_coverage_pct }} per cent of ${{ "{:,.0f}".format(contracts.combined_usd_m) }}M obligated, and
-   the detail design contract reports zero. The shipbuilder has plainly been paid billions. This is
-   the Fund Balance with Treasury weakness appearing in the public record rather than in an audit
-   report. <a href="/gaps">G25</a>.</div>
- </div>
+ <section class="card" aria-labelledby="hold-h">
+  <h2 id="hold-h">What not to say yet</h2>
+  <p class="cap">Figures that are printed somewhere but not confirmed, or that public data cannot carry.</p>
+  <ul class="brief-list brief-hold">
+   <li><span class="say">Do not call ${{ "{:,.0f}".format(held_clb) }}M the new cost baseline.</span>
+    <p>The FY2027 {{ ui.code("MSAR") }} prints it as a December 2025 increase, but the notification itself
+     is not in hand and the same figure has been CVN-80's baseline since August 2023. Until a person
+     confirms it, ${{ "{:,.0f}".format(clb) }}M stands. The answer decides whether the ship is
+     ${{ "{:,.2f}".format(total - clb) }}M over its baseline or ${{ "{:,.2f}".format(held_clb - total) }}M under it.</p>
+    <span class="brief-basis">Held: {{ ui.code("E-17") }} · rule {{ ui.code("CAP-05") }} · request with OUSD(C) FMO</span></li>
+   <li><span class="say">Do not quote one number as "the cost cap".</span>
+    <p>Three ceilings are current and each is right for its purpose: the $11,398.0M statutory cap, the
+     ${{ "{:,.0f}".format(clb) }}M SECNAV Cost Limitation Baseline, and the ${{ "{:,.3f}".format(total) }}M budget
+     total. A brief that shows one as "the cap" is wrong for the other two readers.</p>
+    <span class="brief-basis">Variance {{ ui.code("E-1") }} · <a href="/position">Position</a></span></li>
+   <li><span class="say">Do not state what the shipbuilder has been paid.</span>
+    <p>Award-level outlays cover {{ contracts.outlay_coverage_pct }}% of the
+     ${{ "{:,.0f}".format(contracts.combined_usd_m) }}M obligated on the two primes, so public data
+     cannot show payments. This is the {{ ui.code("FBwT") }} weakness showing in the public record.</p>
+    <span class="brief-basis">Gap {{ ui.code("G25") }} · needs DFAS Columbus or Navy FMO</span></li>
+  </ul>
+ </section>
 </div>
 
-<div class="grid g3" style="margin-top:1rem">
- <div class="card">
-  <h3>Unattributed</h3>
-  <div class="v" style="font-size:1.5rem;font-weight:600">${{ "{:,.0f}".format(attribution.residual_usd_m) }}M</div>
-  <p class="cap">{{ attribution.residual_pct }}% of the hull has no public contract record. The largest
-   block is the nuclear propulsion plant, <a href="/gaps">G22</a>.
-   <a href="/cost">The breakdown</a>.</p>
- </div>
- <div class="card">
-  <h3>Coverage</h3>
-  <div class="v" style="font-size:1.5rem;font-weight:600">{{ layers.layers|selectattr('status', 'equalto', 'rich')|list|length }} of {{ layers.layers|length }}</div>
-  <p class="cap">evidence layers rich today. Each layer added increases resolution; none is a
-   precondition. <a href="/coverage">The map</a>.</p>
- </div>
- <div class="card">
-  <h3>Open questions</h3>
-  <div class="v" style="font-size:1.5rem;font-weight:600">{{ gaps.open }}</div>
-  <p class="cap">of {{ gaps.total }} registered, {{ gaps.free_now|length }} closable with no access.
-   <a href="/gaps">The register</a> · <a href="/insight">answer one</a>.</p>
- </div>
-</div>
+<section class="card" style="margin-top:1rem" aria-labelledby="dec-h">
+ <h2 id="dec-h">Decisions waiting, and who can close them</h2>
+ <p class="cap">The top three of {{ gaps.open }} open questions, ranked by dollar exposure, how little is
+  known, and how easily it can be closed. {{ gaps.free_now|length }} open questions need no access at all.</p>
+ <table class="decide">
+  <thead><tr><th>Gap</th><th>Question</th><th>Who can close it</th><th class="num">Exposure</th><th>How</th></tr></thead>
+  <tbody>
+  {% for r in decide %}
+  <tr>
+   <td>{{ ui.code(r.id) }}</td>
+   <td><a href="/gaps#{{ r.id }}">{{ r.title }}</a></td>
+   <td>{{ r.executor }}</td>
+   <td class="num">{% if r.exposure_usd_m %}${{ "{:,.0f}".format(r.exposure_usd_m) }}M{% else %}-{% endif %}</td>
+   <td>{{ how.get(r.closability, r.closability) }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+ </table>
+ <p class="cap" style="margin-top:.6rem"><a href="/gaps#who-can-close">Every office and what it can close</a> ·
+  agent proposals and exceptions wait for the named role in the <a href="/work">Work queue</a> ·
+  <a href="/mission">Brief readiness</a> counts the figures that tie to source.</p>
+</section>
 
 {# ------------------------------------------------------------ AI panel #}
 <section class="card" style="margin-top:1rem">
@@ -116,23 +133,25 @@
  </div>
 </section>
 
-<div class="card" style="margin-top:1rem">
- <h3>The three sentences</h3>
- <div class="grid g3">
-  <div><h4>One</h4><p>The ship is <b>${{ "{:,.3f}".format(program.total_ship_estimate_usd_m) }}M</b> and it
-   decomposes exactly, two different ways. By category it is 63.1% basic construction, 15.2%
-   propulsion equipment, 8.6% ordnance, 6.7% plans. By funding stream it is 24.8% advance
-   procurement bought before the ship was authorised, 56.0% subsequent full funding, 15.6% cost to
-   complete still running, and 3.7% in the procurement year itself.</p></div>
-  <div><h4>Two</h4><p>Two contracts with one company are <b>{{ contracts.combined_share_of_hull }}%</b>
-   of the ship and {{ contracts.combined_share_of_shipbuilder_side }}% of everything the shipbuilder is
-   paid out of. They are sequential rather than parallel and cross in FY2017.
-   "Construction Preparation" built the ship: $2.49 billion of it is described as advance
-   construction, not planning.</p></div>
-  <div><h4>Three</h4><p>The ship is <b>${{ "{:,.0f}".format(program.above_cap_usd_m) }}M above its
-   statutory cost cap</b>, {{ program.above_cap_pct }}%, and that overage is fully attributable to four dated
-   movements, of which the $1.3 billion August 2021 contract overrun is the only one that is cost
-   growth in the ordinary sense.</p></div>
+<section class="card" style="margin-top:1rem" aria-labelledby="doors-h">
+ <h2 id="doors-h">Start from your question</h2>
+ <p class="cap">Six user groups, the question each brings, and the two pages that answer it first.</p>
+ <div class="doors">
+  {% for d in doors %}
+  <article class="door">
+   <img src="/static/img/{{ d.img }}-thumb.jpg" data-full="/static/img/{{ d.img }}.jpg" data-lightbox
+       
+        alt="{{ img_alt(d.img) }}">
+   <div class="body">
+    <h3>{{ d.who }}</h3>
+    <p class="q">"{{ d.q }}"</p>
+    <div class="links">{% for href, label in d.links %}<a href="{{ href }}">{{ label }}</a>{% endfor %}</div>
+   </div>
+  </article>
+  {% endfor %}
  </div>
-</div>
+</section>
+
+<div class="note" style="margin-top:1rem">The ship decomposes exactly two ways (<a href="/cost">cost composition</a>).
+ <b>Source</b> {{ cost.source }} · residual {{ "%.3f"|format(cost.residual + 0) }} · Builder {{ program.builder }}, CAGE {{ program.cage }}.</div>
 {% endblock %}

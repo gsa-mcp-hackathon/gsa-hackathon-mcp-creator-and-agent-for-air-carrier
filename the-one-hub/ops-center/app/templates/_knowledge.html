@@ -42,8 +42,8 @@
   <tr>
    <td><b style="font-size:.83rem">{{ r.filename }}</b>
     <div class="muted mono" style="font-size:.73rem">{{ r.artifact_id }}</div></td>
-   <td style="font-size:.81rem">{{ r.establishes or "—" }}</td>
-   <td class="num">{{ r.pages or "—" }}</td>
+   <td style="font-size:.81rem">{{ r.establishes or "-" }}</td>
+   <td class="num">{{ r.pages or "-" }}</td>
    <td>{% if r.grade == "AUTHORITATIVE" %}<span class="b b-ok">authoritative</span>
        {% else %}<span class="b b-mut">working</span>{% endif %}</td>
   </tr>

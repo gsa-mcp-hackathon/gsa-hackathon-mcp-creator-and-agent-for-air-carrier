@@ -1,32 +1,50 @@
 command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-# Local-run defaults only.
+# Deployed values for the dev workspace (2026-11-20).
 #
-# Every name below is overridden at deploy time by config.env in
-# resources/app.yml, which binds them to the bundle variables so they follow
-# -Catalog, -Schema and -StorePrefix instead of being typed here. Keep these
-# as the values a laptop run should see, and change deployed values in the
-# bundle, not in this file.
+# The app deploys from GitHub. A Git deployment without env_vars runs on this
+# file, so this file holds the full deployed set: a deploy from the Apps UI,
+# from `databricks apps deploy`, or from tools/deploy_from_github.py starts the
+# app on the live backend with the warehouse, the models and the volumes bound.
+# Before 2026-11-20 this file held laptop defaults, and any deploy that skipped
+# the bundle started the app in files mode while reporting SUCCEEDED.
+#
+# The bundle still works: config.env in resources/app.yml overrides these
+# names on `bundle run`. checks/test_deploy_config.py resolves config.env with
+# the dev target's variables and fails if this file says anything different,
+# so the two cannot drift. At transfer (il5 or another schema), change the
+# bundle variables and the values below together; the test names the line.
+#
+# A laptop run does not read this file. `uvicorn main:app` with no variables
+# set uses the code defaults: files backend, shipped extracts, no warehouse.
 env:
   - name: AIRCARRIER_CATALOG
-    value: aircarrier
-  - name: AIRCARRIER_ADAPTER
-    value: commercial
+    value: users
   - name: AIRCARRIER_SCHEMA
-    value: default
+    value: xiaobing_shang1_civ
   - name: AIRCARRIER_STORE_PREFIX
     value: aircarrier_
   - name: AIRCARRIER_DATA_BACKEND
-    value: files
-
-# AIRCARRIER_KB_DIR is deliberately absent.
-#
-# It used to be pinned here to /Volumes/aircarrier/source/extracted/kb, a
-# path that exists in no deployment anyone has made. The effect was not an
-# error: the knowledge base simply reported no index, which reads as "the
-# ingest job has not run yet" rather than "this path is wrong".
-#
-# Unset, the search layer falls back to the index that ships beside the app
-# in app/data/kb, so a local run and a workspace with no ingest run yet both
-# have working retrieval on the smaller index. The deployed value comes from
-# var.kb_dir through config.env in resources/app.yml.
+    value: uc
+  - name: AIRCARRIER_ADAPTER
+    value: commercial
+  - name: AIRCARRIER_KB_DIR
+    value: /Volumes/users/xiaobing_shang1_civ/aircarrier_extracted/kb
+  - name: DATABRICKS_WAREHOUSE_ID
+    valueFrom: sql-warehouse
+  - name: AIRCARRIER_AGENT_MODEL
+    value: databricks-gpt-5-5
+  - name: AIRCARRIER_AGENT_FALLBACKS
+    value: databricks-gemini-3-8-flash,databricks-grok-4-7
+  - name: AIRCARRIER_REASONING_MODEL
+    value: databricks-gpt-6-1-sol
+  - name: AIRCARRIER_REASONING_FALLBACKS
+    value: databricks-grok-4-7,databricks-gemini-3-8-flash
+  - name: AIRCARRIER_CHECKER_MODEL
+    value: databricks-gemini-3-8-flash
+  - name: AIRCARRIER_CHECKER_FALLBACKS
+    value: databricks-grok-4-7
+  - name: AIRCARRIER_SI_PERSIST
+    value: delta
+  - name: AIRCARRIER_CAPTURE_VOLUME
+    value: /Volumes/users/xiaobing_shang1_civ/aircarrier_captures

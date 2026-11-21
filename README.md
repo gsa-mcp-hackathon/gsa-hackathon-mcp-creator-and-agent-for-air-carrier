@@ -327,7 +327,7 @@ in this workspace can:
 
 | Menu | Page | The question it answers |
 | --- | --- | --- |
-| Brief | `/` | What has CVN-79 cost, what can be said today, and the rule-derived risks and next steps |
+| Brief | `/` | What a briefing can say today with its basis, what to hold back and why (the held baseline, E-17), the top decisions waiting and who can close them, the rule-derived risks, and a door for each user group |
 | Cost | `/position`, `/cost`, `/baseline`, `/execution` | The four published figures and why they differ; cost by category and funding stream; estimate and cap history; obligations by year |
 | Audit | `/gaps`, `/variances`, `/asset`, `/industrial` | Open questions ranked with who can close each; where sources disagree; the asset's accounting; who builds what, including GFE |
 | Impact | `/impact` | From CVN-79 to the Ford class, the F-35 and the 59 PB2027 MSAR programs: the agent workflow traced for five users, MCP A Creator's phases, eight onboarding steps and a phased build-out; 24 figures each with its document, page and quote |
@@ -338,7 +338,11 @@ in this workspace can:
 Retired pages redirect: `/dashboard` to `/`, `/knowledge` to `/sources`, `/program` (and `/delivery`, `/progress`) to `/stack`.
 
 Every page that can start a specialist run shows the runs it offers at the top, scoped to
-what is on the page (for example "Explain File C FY2021P03").
+what is on the page (for example "Explain File C FY2021P03"). Each page opens with the
+question it answers, who uses it and the decision it supports. Codes such as G14, E-17,
+CAP-05 or P-5c are chips that show their definition on hover or focus, read from the
+register row or rule they name. Run locally on the shipped extracts, the four agent pages
+(`/mission`, `/work`, `/runs`, `/ask`) carry one banner saying what needs the workspace.
 
 ### Screenshots
 
@@ -643,16 +647,17 @@ the run fails with `OSError: [Errno 95] Operation not supported`.
 
 ## Deploy and maintain
 
-The apps deploy by hand from their original workspace folders; this repository is the
-version-controlled copy. [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) has the app map,
-resources, environment variables and grants.
+Every app deploys from this GitHub repository, branch `main`. A release is a push and one
+command:
 
-1. Change code in the workspace folder and deploy as usual.
-2. Run `tools/sync_from_workspace.py` (see its docstring) to copy the change here.
-3. Review and commit in the Databricks Git folder, then push.
+```
+git push
+python tools/deploy_from_github.py
+```
 
-Run the sync only after the workspace folders hold the latest code: it copies workspace
-to repository, so it would overwrite newer edits made here.
+The script redeploys only the apps whose source folder changed, waits, and checks each runs
+the pushed commit. [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) has the app map, resources,
+environment variables, grants and rollback.
 
 ---
 

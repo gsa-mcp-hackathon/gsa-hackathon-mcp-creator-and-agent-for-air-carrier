@@ -2,7 +2,7 @@
 {% block body %}
 
 <section class="hero imp-hero">
- <img src="/static/img/cvn79-008.jpg" alt="CVN-79 under construction in dry dock at Newport News Shipbuilding">
+ <img src="/static/img/cvn79-008.jpg" alt="{{ img_alt('cvn79-008') }}">
  <div class="scrim"></div>
  <div class="inner">
   <div class="eyebrow" style="color:rgba(255,255,255,.8)">The stack</div>
@@ -13,6 +13,9 @@
  </div>
  <span class="credit">CVN-79 in dry dock, Newport News Shipbuilding</span>
 </section>
+
+<p class="for brief-for"><span><b>For</b> engineers, reviewers, and any office with a table and a question</span>
+ <span><b>Decision</b> which capability to reuse, and what its tests do and do not show</span></p>
 
 <section class="imp-band" id="layers">
  <div class="eyebrow">How the parts fit</div>
@@ -36,7 +39,7 @@
  <div class="stack-grid">
   {% for c in st.capabilities %}
   <article class="card stack-cap{% if c.img %} with-img{% endif %}">
-   {% if c.img %}<img src="/static/img/{{ c.img }}-thumb.jpg" data-full="/static/img/{{ c.img }}.jpg" data-lightbox alt="{{ c.name }}: CVN-79 construction" loading="lazy">{% endif %}
+   {% if c.img %}<img src="/static/img/{{ c.img }}-thumb.jpg" data-full="/static/img/{{ c.img }}.jpg" data-lightbox alt="{{ img_alt(c.img) }}" loading="lazy">{% endif %}
    <div class="stack-body">
     <div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">{{ c.name }}</h3><span class="b b-info">{{ c.tools }}</span></div>
     <p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> {{ c.problem }}</p>

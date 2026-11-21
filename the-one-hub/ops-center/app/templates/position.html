@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_ui.html" as ui %}
 {% block body %}
 {# PLAN section 4: the one screen. Four published figures side by side, why
    each pair differs, and the difference that cannot yet be explained, with
@@ -6,13 +7,16 @@
    the app's selection from the variance register (E-1 and E-2); PLAN does
    not name them. Every value is read from the data bundle, none is typed. #}
 <div class="phead">
- <div class="eyebrow">Position</div>
- <h1>Four published figures for CVN-79, and none of them agree</h1>
- <p class="lede">Each is current, sourced and correct for its own purpose. The disagreement is real,
-  most of it is explained below, and the part that is not is named, with what it would take to
-  close it.</p>
- <p class="muted" style="font-size:.76rem">Selection: the three ceilings in variance E-1 and the
-  FY2019 estimate in E-2. This is the app's reading of the register, not a figure cleared for use.</p>
+ <div class="eyebrow">Cost · Position</div>
+ <h1>Which CVN-79 cost figure do I quote, and for what?</h1>
+ <p class="for"><span><b>For</b> senior leaders, the PEO, budget analysts</span>
+  <span><b>Decision</b> which figure goes in the brief, in what words, and which to leave out</span></p>
+ <p class="lede">Four figures are published for CVN-79 and none of them agree. Each is current,
+  sourced and correct for its own purpose. Most of the disagreement is explained below; the part
+  that is not is named, with what it would take to close it.</p>
+ <p class="muted" style="font-size:.76rem">Selection: the three ceilings in variance {{ ui.code("E-1") }} and the
+  FY2019 estimate in {{ ui.code("E-2") }}. The December 2025 baseline in {{ ui.code("E-17") }} is held for review and
+  is not one of the four. This is the app's reading of the register, not a figure cleared for use.</p>
 </div>
 
 <div class="grid g4" style="margin-bottom:1rem">
@@ -22,12 +26,28 @@
   <div class="v">${{ "{:,}".format(f.value) }}M</div>
   {% if f.kind %}<div style="margin:.15rem 0 .3rem"><span class="b b-info">{{ f.kind }}</span></div>{% endif %}
   <div class="n">{{ f.basis }}{% if f.what %}. {{ f.what }}{% endif %}
-   <br><a href="/variances#{{ f.var }}">{{ f.var }}</a> · <a href="#kinds">what kind of number</a></div>
+   <br>{{ ui.code(f.var) }} · <a href="#kinds">what kind of number</a></div>
  </div>
  {% endfor %}
 </div>
 
-<section class="card">
+<section class="card" id="kinds">
+ <h2>The short answer: four different kinds of number</h2>
+ <p class="sub">They disagree mostly because they are not the same object. An estimate, a limit in
+  law, an adjusted limit and a budget request answer four different questions.</p>
+ <div class="tscroll"><table class="ledger">
+  <thead><tr><th></th>{% for f in figs %}<th>{{ f.name }}<div class="muted num" style="font-weight:500">${{ "{:,.2f}".format(f.value) }}M</div></th>{% endfor %}</tr></thead>
+  {% for key, lab in [('kind', 'What it is'), ('set_by', 'Set by'), ('basis', 'Basis'), ('binds', 'What it binds'),
+                      ('use', 'Quote it for'), ('avoid', 'Never quote it as')] %}
+  <tr><td class="muted" style="white-space:nowrap">{{ lab }}</td>
+   {% for f in figs %}<td style="font-size:.8rem">{{ f[key] or '' }}</td>{% endfor %}</tr>
+  {% endfor %}
+ <tr><td class="muted" style="white-space:nowrap">Register entry</td>
+   {% for f in figs %}<td style="font-size:.8rem">{% if var.get(f.var) %}<a href="/variances#{{ f.var }}"><span class="b b-info">{{ f.var }}</span></a> {{ var[f.var].title }}{% endif %}</td>{% endfor %}</tr>
+  </table></div>
+</section>
+
+<section class="card" style="margin-top:1rem">
  <h2>Where they sit</h2>
  <p class="sub">One axis, then-year dollars in millions. The shaded span is everything above the
   statutory cap; the dashed tick is the most the Secretary may raise the cap on his own authority.</p>
@@ -42,21 +62,6 @@
  </div>
 </section>
 
-<section class="card" style="margin-top:1rem" id="kinds">
- <h2>Four different kinds of number</h2>
- <p class="sub">They disagree mostly because they are not the same object. An estimate, a limit in
-  law, an adjusted limit and a budget request answer four different questions.</p>
- <div class="tscroll"><table class="ledger">
-  <thead><tr><th></th>{% for f in figs %}<th>{{ f.name }}<div class="muted num" style="font-weight:500">${{ "{:,.2f}".format(f.value) }}M</div></th>{% endfor %}</tr></thead>
-  {% for key, lab in [('kind', 'What it is'), ('set_by', 'Set by'), ('basis', 'Basis'), ('binds', 'What it binds'),
-                      ('use', 'Quote it for'), ('avoid', 'Never quote it as')] %}
-  <tr><td class="muted" style="white-space:nowrap">{{ lab }}</td>
-   {% for f in figs %}<td style="font-size:.8rem">{{ f[key] or '' }}</td>{% endfor %}</tr>
-  {% endfor %}
- <tr><td class="muted" style="white-space:nowrap">Register entry</td>
-   {% for f in figs %}<td style="font-size:.8rem">{% if var.get(f.var) %}<a href="/variances#{{ f.var }}"><span class="b b-info">{{ f.var }}</span></a> {{ var[f.var].title }}{% endif %}</td>{% endfor %}</tr>
-  </table></div>
-</section>
 
 <section class="card" style="margin-top:1rem">
  <h2>Every pair</h2>
@@ -135,29 +140,6 @@
  {% endif %}
 </section>
 
-{# 2026-11-11: the estimate-history chart lived here and on /baseline. Its home
-   is /baseline; the Go deeper card links to it.
-<section class="card" style="margin-top:1rem">
- <h2>How the estimate moved, {{ hist_rows|length }} published points</h2>
- <p class="sub">Coloured by mechanism. Net movement {{ net_movement_pct }}% from first to last. The
-  FY2019 figure is one point on this line, which is why it is never the cost of the ship.</p>
- {{ C.line_series(points, mark_key="mech", mark_colors=mech_color) }}
- <div class="chips" style="margin:.4rem 0">{% for m in mechanisms %}<span class="chip"><span class="sw" style="background:{{ mech_color.get(m.id, 'var(--mut)') }}"></span> {{ m.label }}</span>{% endfor %}</div>
- <details class="fig-drill"><summary>Every point, against the statutory cap</summary>
-  <table class="ledger" style="margin-top:.4rem">
-   <thead><tr><th>As of</th><th>Authority</th><th class="num">Estimate</th><th class="num">Against the cap</th><th>What changed</th><th>Mechanism</th></tr></thead>
-   {% for r in hist_rows %}
-   <tr><td>{{ r.as_of }}</td><td style="font-size:.8rem">{{ r.authority }}</td>
-    <td class="num">{{ "{:,.2f}".format(r.value) }}</td>
-    <td class="num" style="color:{{ 'var(--bad)' if r.vs_cap and r.vs_cap > 0 else 'var(--ok)' }}">{{ '+' if r.vs_cap and r.vs_cap > 0 else '' }}{{ "{:,.2f}".format(r.vs_cap) }}</td>
-    <td style="font-size:.8rem">{{ r.what }}</td>
-    <td style="font-size:.8rem"><span class="sw" style="background:{{ mech_color.get(r.mech, 'var(--mut)') }}"></span> {{ r.mech }}</td></tr>
-   {% endfor %}
-  </table>
-  <p class="muted" style="font-size:.76rem">"Against the cap" compares every point with today's statutory cap, including points published before the cap took its current value.</p>
- </details>
-</section>
-#}
 
 <section class="card" style="margin-top:1rem">
  <h2>The difference that cannot yet be explained</h2>
@@ -214,7 +196,7 @@
  </table>
 </section>
 
-{# 2026-11-12: reconciliation ladder — the six evidence layers and every
+{# 2026-11-12: reconciliation ladder: the six evidence layers and every
    rung between them. Data rungs show the figure; placeholder rungs name
    the source, the office and the gap. This is the accounting spine. #}
 <section class="card" id="ladder" style="margin-top:1rem">
@@ -224,6 +206,8 @@
   the gaps are. Each rung is a level at which two sources can be compared.
   <b>{{ ladder_summary.present }}</b> present, <b>{{ ladder_summary.partial }}</b> partial,
   <b>{{ ladder_summary.placeholder }}</b> placeholder (data not yet ingested).</p>
+ <details class="more">
+ <summary>Show every rung ({{ ladder|length }})</summary>
  <div class="lad">
   {% for r in ladder %}
   <div class="lad-rung {{ r.status }}">
@@ -242,12 +226,13 @@
     {% if r.get('breakdown') %}
     <div class="muted" style="font-size:.76rem">{{ r.breakdown.accounts }} accounts · {{ r.breakdown.object_classes }} object classes · {{ r.breakdown.program_activities }} program activities</div>
     {% endif %}
-    {% if r.get('office') %}<div class="muted" style="font-size:.76rem">→ {{ r.office }}{% if r.gap_id %} · <a href="/gaps#{{ r.gap_id }}">{{ r.gap_id }}</a>{% endif %}</div>{% endif %}
+    {% if r.get('office') %}<div class="muted" style="font-size:.76rem">→ {{ r.office }}{% if r.gap_id %} · {{ ui.code(r.gap_id) }}{% endif %}</div>{% endif %}
     {% for d in r.get('drills', []) %}<a class="btn sm ghost" href="{{ d.href }}">{{ d.label }}</a> {% endfor %}
    </div>
   </div>
   {% endfor %}
  </div>
+ </details>
  <p class="muted" style="font-size:.76rem;margin-top:.5rem">Each placeholder names the office that holds the source and the gap that tracks it.
   As data is ingested, the rung fills in and the ladder extends downward.
   <a href="/coverage">Full coverage map</a> · <a href="/api/ladder">JSON</a></p>
@@ -265,50 +250,4 @@
   <a class="note" href="/ask"><b>Ask the evidence</b><br><span class="muted">A cited answer about any figure on this page</span></a>
  </div>
 </section>
-{% if false %}
-<section class="card" style="margin-top:1rem">
- <h2>What the budget total is made of</h2>
- <p class="sub">{{ attr.attributed_pct }}% of ${{ "{:,.2f}".format(attr.total) }}M is tied to a public contract-level
-  record; {{ attr.residual_pct }}% is not. {{ attr.note }}</p>
- <div class="grid g2">
-  <div>
-   <h3 style="font-size:.9rem">Attributed, ${{ "{:,.2f}".format(attr.attributed_usd_m) }}M</h3>
-   {{ C.hbar(attr.components, value="usd_m", label="label", pad_left=220, w=620) }}
-  </div>
-  <div>
-   <h3 style="font-size:.9rem">Not attributed, ${{ "{:,.2f}".format(attr.residual_usd_m) }}M</h3>
-   <table class="ledger">
-    {% for r in attr.residual_contents %}<tr><td style="font-size:.8rem">{{ r.label }}</td>
-     <td class="num">{{ "{:,.2f}".format(r.usd_m) if r.usd_m is not none else 'not sized' }}</td>
-     <td>{% if r.gap %}<span class="b b-warn">{{ r.gap }}</span>{% endif %}</td></tr>{% endfor %}
-   </table>
-  </div>
- </div>
-</section>
-
-<section class="card" style="margin-top:1rem">
- <h2>Drill down by figure</h2>
- {% for f in figs %}
- <details class="fig-drill" id="drill-{{ f.n }}"{% if loop.last %} open{% endif %}>
-  <summary>{{ f.name }} · ${{ "{:,.2f}".format(f.value) }}M{% if f.kind %} · {{ f.kind }}{% endif %}</summary>
-  <dl class="kv" style="margin-top:.5rem">
-   <dt>Basis</dt><dd>{{ f.basis }}</dd>
-   {% if f.what %}<dt>Note</dt><dd>{{ f.what }}</dd>{% endif %}
-   {% if f.set_by %}<dt>Set by</dt><dd>{{ f.set_by }}</dd><dt>Binds</dt><dd>{{ f.binds }}</dd>
-   <dt>Quote it for</dt><dd>{{ f.use }}</dd><dt>Never as</dt><dd>{{ f.avoid }}</dd>{% endif %}
-   {% if var.get(f.var) %}<dt>Register</dt><dd><span class="b b-info">{{ f.var }}</span> {{ var[f.var].title }}: {{ var[f.var].detail }}</dd>{% endif %}
-   {% set into = bridge|selectattr('cum', 'equalto', f.value)|list %}
-   {% if into %}<dt>Arrived by</dt><dd>{% for s in into %}+{{ "{:,.2f}".format(s.delta) }} from {{ "{:,.2f}".format(s['from']) }},
-    <span class="b {{ 'b-ok' if s.tag == 'VERIFIED' else 'b-warn' }}">{{ s.tag }}</span>, {{ s.mech_label|lower }}{% endfor %}</dd>{% endif %}
-   {% if anchor.steps and f.value != anchor.steps[0].cum and f.var != 'E-2' %}<dt>Above the cap</dt>
-    <dd>${{ "{:,.2f}".format(f.value - anchor.steps[0].cum) }}M</dd>{% endif %}
-   {% set same = hist_rows|selectattr('value', 'equalto', f.value)|list %}
-   {% if same %}<dt>Also published as</dt><dd>{% for r in same %}{{ r.as_of }} ({{ r.authority }}){% if not loop.last %}; {% endif %}{% endfor %}</dd>{% endif %}
-  </dl>
- </details>
- {% endfor %}
- <p style="margin-top:.8rem;font-size:.84rem"><a href="/variances">Variance register</a> ·
-  <a href="/baseline">Baseline and caps</a> · <a href="/gaps">Gap register</a> · <a href="/ask">Ask the evidence</a></p>
-</section>
-{% endif %}
 {% endblock %}

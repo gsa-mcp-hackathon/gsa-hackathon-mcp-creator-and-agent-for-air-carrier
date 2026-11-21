@@ -1,0 +1,25 @@
+{
+ "_note": "Plain-word definitions for codes and acronyms shown as chips. Register codes (G14, E-17) and rule codes (CAP-05, BR-01) are defined from their own registers at render time, not here.",
+ "terms": {
+  "P-5c": {"text": "Budget exhibit P-5c, Ship Cost Analysis: the Navy's line-by-line cost of one ship in the President's Budget", "href": "/sources"},
+  "MSAR": {"text": "Major Defense Acquisition Program Selected Acquisition Report: the annual cost, schedule and performance report to Congress", "href": "/impact"},
+  "SAR": {"text": "Selected Acquisition Report, the annual report to Congress on a major acquisition program", "href": "/sources"},
+  "SCN": {"text": "Shipbuilding and Conversion, Navy: the appropriation that funds new ships", "href": "/execution"},
+  "PB": {"text": "President's Budget request for a fiscal year", "href": "/sources"},
+  "CIP": {"text": "Construction in progress: the asset account that holds a ship's cost until it is placed in service", "href": "/asset"},
+  "GFE": {"text": "Government-furnished equipment: equipment the government buys and provides to the shipbuilder", "href": "/industrial"},
+  "GFP": {"text": "Government-furnished property held by a contractor", "href": "/industrial"},
+  "FBwT": {"text": "Fund Balance with Treasury: an agency's cash account at Treasury, a long-standing DoD audit weakness", "href": "/gaps"},
+  "FMO": {"text": "Financial Management Operations office (Navy FMO, OUSD(C) FMO)", "href": "/gaps#who-can-close"},
+  "FMB": {"text": "Office of Budget, Navy (FMB)", "href": "/gaps#who-can-close"},
+  "PEO": {"text": "Program Executive Officer: the acquisition executive over a portfolio of programs (PEO Carriers for the Ford class)", "href": "/gaps#who-can-close"},
+  "CAPE": {"text": "Cost Assessment and Program Evaluation, the OSD office that makes independent cost estimates", "href": "/baseline"},
+  "DCFO": {"text": "Deputy Chief Financial Officer, Department of Defense", "href": "/mission"},
+  "HII": {"text": "Huntington Ingalls Industries, owner of Newport News Shipbuilding, CVN-79's builder", "href": "/industrial"},
+  "FPDS": {"text": "Federal Procurement Data System: the government's record of contract actions", "href": "/execution"},
+  "File C": {"text": "USAspending File C: award-level obligations and outlays reported by the agency each period", "href": "/execution"},
+  "Zone V": {"text": "A figure tied to a source record and released for use; anything else is shown as a lead (rule BR-01)", "href": "/method"},
+  "MCP": {"text": "Model Context Protocol: the standard way an AI agent calls a governed tool", "href": "/stack"},
+  "UC": {"text": "Unity Catalog, the Databricks governance layer for tables, volumes and models", "href": "/stack"}
+ }
+}

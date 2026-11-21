@@ -51,7 +51,7 @@ one_hub() {
     uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
     PYTHONPATH=. uv run --no-sync pytest "${PYTEST_FLAGS[@]}" --assert=plain \
       checks/test_analyst.py checks/test_si.py checks/test_work.py \
-      checks/test_harness.py checks/test_mcp_server.py checks/test_impact.py || exit 1
+      checks/test_harness.py checks/test_mcp_server.py checks/test_impact.py checks/test_deploy_config.py || exit 1
     # Script suites print their own summary and exit non-zero on failure.
     for suite in test_agents test_gate test_llm_tracing test_app test_serverless_entrypoints verify; do
       echo "-- checks/$suite.py"

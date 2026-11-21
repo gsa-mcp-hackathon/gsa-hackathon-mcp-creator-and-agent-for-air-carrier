@@ -18,7 +18,7 @@ import json
 import os
 import pathlib
 
-from api import charts, data, explore, identity, live, rulebook
+from api import charts, data, explore, glossary, identity, live, rulebook
 from api import harness as work
 from api.si import router as si_router
 from api.si import store as si_store
@@ -47,6 +47,31 @@ app = FastAPI(
 )
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")
 tpl = Jinja2Templates(directory=str(HERE / "templates"))
+# Chips for codes (G14, E-17, CAP-05, P-5c) read one glossary; see api/glossary.py.
+tpl.env.globals["define"] = glossary.define
+IMAGE_ALT = json.loads((HERE / "data" / "curated" / "images.json").read_text())["alt"]
+tpl.env.globals["img_alt"] = lambda name: IMAGE_ALT.get(name, "CVN-79")
+
+# Pages whose working half lives in the workspace. Run locally on the shipped
+# extracts (files backend), each says so once, in one banner, with the reason
+# that applies to it. The deployed app (uc backend) shows no banner.
+SNAPSHOT_PAGES = {
+    "/mission": "Brief readiness counts the claim ledger and saves each run; both are in the "
+                "workspace, so the counts here start at zero.",
+    "/work": "Decisions are written to the harness tables under the signed-in person's "
+             "identity, so the queue is read only here.",
+    "/runs": "Runs started here are kept in this process until it stops; the deployment "
+             "keeps them in Delta tables.",
+    "/ask": "With no model endpoint reachable the agent answers by search alone, from the "
+            "same records.",
+}
+
+
+def _snapshot(path: str) -> dict | None:
+    if data.BACKEND != "files" or path not in SNAPSHOT_PAGES:
+        return None
+    built = str((explore.meta() or {}).get("built_at") or "")[:10]
+    return {"as_of": built or "the build date", "why": SNAPSHOT_PAGES[path]}
 
 
 # ------------------------------------------------------- deployment inventory
@@ -265,7 +290,7 @@ def page(request: Request, name: str, title: str, **ctx) -> HTMLResponse:
                  "active_group": _group_for(request.url.path),
                  "page_title": title,
                  "backend": data.backend_info(), "C": charts, "fmt": charts.fmt,
-                 "gallery": GALLERY,
+                 "gallery": GALLERY, "snapshot": _snapshot(request.url.path),
                  "si_triggers": SI_TRIGGERS.get(request.url.path, []), **ctx})
 
 
@@ -491,11 +516,47 @@ def overview(request: Request):
              "attribution", "contracts", "obligations", "gaps", "variances",
              "cap_history", "estimate_history", "corpus", "subawards"]
     items = by_kind(derive({n: data.get(n) for n in names}))
-    return page(request, "overview.html", "Overview", items=items,
+    g = data.get("gaps")
+    by_id = {r["id"]: r for r in g.get("rows", [])}
+    decide = [by_id[i] for i in g.get("ranked", []) if i in by_id][:3]
+    return page(request, "overview.html", "Brief", items=items,
                 program=data.get("program"), attribution=data.get("attribution"),
-                layers=data.get("layers"), gaps=data.get("gaps"),
+                gaps=g, decide=decide, how=CLOSE_HOW, held_clb=HELD_CLB_USD_M,
                 cost=data.get("cost_categories"), contracts=data.get("contracts"),
-                industrial=data.get("industrial"))
+                doors=BRIEF_DOORS)
+
+
+# The December 2025 Cost Limitation Baseline printed in the FY2027 MSAR (p.8),
+# held for human review under CAP-05 (variance E-17). The Brief shows what
+# changes if it is confirmed; nothing else uses it until a person does.
+HELD_CLB_USD_M = 13529.0
+
+CLOSE_HOW = {"zero_access": "No access needed", "query": "One query",
+             "access_required": "Needs access", "sme": "Needs an expert",
+             "unknown": "Not yet scored"}
+
+# One door per user group in the README's "Who uses it" table: the question
+# they bring and the two pages that answer it first.
+BRIEF_DOORS = [
+    {"who": "Senior leaders", "img": "cvn79-047",
+     "q": "What does this ship cost, and can I stand behind the number?",
+     "links": [("/position", "Four published figures"), ("/impact", "From one hull to 59 programs")]},
+    {"who": "PEO and program office", "img": "cvn79-004",
+     "q": "Where did the money go, and why did the estimate move?",
+     "links": [("/variances", "Where sources disagree"), ("/execution", "Budget execution")]},
+    {"who": "CAPE and cost estimators", "img": "cvn79-008",
+     "q": "Is there a traceable actuals baseline for the next estimate?",
+     "links": [("/cost", "Cost composition"), ("/baseline", "Estimate history and caps")]},
+    {"who": "Budget analysts", "img": "cvn79-049",
+     "q": "What is funded, by year, and how does it stand against the cap?",
+     "links": [("/execution", "Funding and obligations by year"), ("/baseline", "Cap history")]},
+    {"who": "Accountants and auditors", "img": "cvn79-051",
+     "q": "Can the asset's value be traced to transactions?",
+     "links": [("/gaps", "Gap register"), ("/asset", "Asset and accounting")]},
+    {"who": "Any analyst with a table", "img": "cvn79-002",
+     "q": "Can I put a governed tool over my own data without a developer?",
+     "links": [("/stack", "MCP A Creator and the stack"), ("/explore", "Detail table")]},
+]
 
 
 @app.get("/kennedy", response_class=HTMLResponse)

@@ -68,6 +68,13 @@
 
 <main class="wrap">
 {{ si_ui.strip(si_triggers or [], active) }}
+{% if snapshot %}
+<aside class="snapshot" role="note" aria-label="Snapshot copy">
+ <b>Snapshot copy.</b> This app is running on the extracts shipped with it (as of {{ snapshot.as_of }}),
+ with no Databricks workspace behind it. {{ snapshot.why }}
+ <a href="/stack">How the deployed version runs</a>.
+</aside>
+{% endif %}
 {% block body %}{% endblock %}
 <footer class="foot">
  <strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.

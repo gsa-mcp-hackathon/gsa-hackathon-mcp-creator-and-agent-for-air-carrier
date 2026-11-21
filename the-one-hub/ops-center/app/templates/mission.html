@@ -4,8 +4,10 @@
 {% block body %}
 {% set H = P.headline %}
 <div class="phead si-head">
- <div class="eyebrow">Kennedy picture · CVN-79 · as of {{ P.as_of }}</div>
+ <div class="eyebrow">Agents · Brief readiness · CVN-79 · as of {{ P.as_of }}</div>
  <h1>{{ H.text }}</h1>
+ <p class="for"><span><b>For</b> the comptroller and whoever briefs the DCFO</span>
+  <span><b>Decision</b> whether the brief can stand on these figures, and what access is still needed</span></p>
  <p class="lede">{{ H.question }} Every number below is recomputed from the records each time the
   page is read. A specialist run starts from the button that names what it works on; nothing is
   saved until a person applies it.</p>
@@ -52,7 +54,9 @@
   <h2 id="b-h">What the brief can stand on</h2>
   <div class="si-bigfig">{{ ui.figure(H.promoted, "fig-lg") }}<span>of</span>{{ ui.figure(H.claims) }}</div>
   <p class="small">CVN-79 figures in the claim ledger that tie to a source record (zone V). The rest are
-   leads and are shown as leads (BR-01). Brief on {{ H.brief_date }}, {{ H.days_to_brief }} days from today.</p>
+   leads and are shown as leads ({{ ui.code("BR-01") }}).
+   {% if H.brief_passed %}The brief set for {{ H.brief_date }} has passed; the next date is set in
+   AIRCARRIER_BRIEF_DATE.{% else %}Brief on {{ H.brief_date }}, {{ H.days_to_brief }} days from today.{% endif %}</p>
   {% set zt = (P.zones|sum(attribute="count")) or 1 %}
   <svg class="si-zones" viewBox="0 0 300 22" role="img" aria-label="Claims by zone">
    {% set ns = namespace(x=0) %}

@@ -152,6 +152,35 @@ def main_() -> int:
         "What this says, and what to do about it" in c.get("/").text)
     reg("the gap register says who can close what", 'id="who-can-close"' in c.get("/gaps").text)
     reg("sources carries the corpus search", 'id="kbq"' in c.get("/sources").text)
+    # 2026-11-20 phase 2: the Brief is a decision brief.
+    home = c.get("/").text
+    reg("brief: says, holds, decisions and six doors",
+        all(t in home for t in ("What you can say today", "What not to say yet",
+                                "Decisions waiting, and who can close them",
+                                "Start from your question"))
+        and home.count('class="door"') == 6, str(home.count('class="door"')))
+    reg("brief: the held baseline is shown both ways, never as fact",
+        "$13,529M the new cost baseline" in home and "$473.97M over" in home
+        and "$119.03M under" in home)
+    reg("brief: codes carry their register definition",
+        'href="/variances#E-17"' in home and "Variance E-17 (live)" in home
+        and 'href="/gaps#G14"' in home)
+    reg("gaps: every row is linkable by its id", 'tr id="G14"' in c.get("/gaps").text)
+    from api import data as _data
+    from api import glossary as _gl
+    reg("glossary: register, rule and term codes all define",
+        all(_gl.define(x)["text"] for x in ("G14", "E-17", "CAP-05", "P-5c", "FBwT")))
+    reg("glossary: an unknown code renders with no definition", _gl.define("ZZ-99")["text"] == "")
+    if _data.BACKEND == "files":
+        m = c.get("/mission").text
+        reg("files mode: one snapshot banner on agent pages, none on the Brief",
+            all('class="snapshot"' in c.get(u).text for u in ("/mission", "/work", "/runs", "/ask"))
+            and 'class="snapshot"' not in home)
+        reg("files mode: brief readiness explains itself and drops a past countdown",
+            "needs the claim ledger" in m and "Days to the DCFO brief" not in m)
+    reg("every page with a header line says who it is for",
+        all('<b>For</b>' in c.get(u).text for u in
+            ("/", "/position", "/gaps", "/impact", "/stack", "/mission", "/work", "/runs", "/ask")))
 
     html = c.get("/position").text
     seen = [m for m in ("$11,341.4M", "$11,398.0M", "$12,936.0M", "$13,409.97M") if m in html]
