@@ -23,9 +23,9 @@ to run on every major defense acquisition program.
 
 [![Two-minute demo: the MCP servers, the agents and the front center](docs/demo/air-carrier-two-minute-demo.jpg)](docs/demo/air-carrier-two-minute-demo.mp4)
 
-1:44, 1080p, narrated and subtitled: the seven apps on Databricks, the six MCP servers, MCP A
+1:55, 1080p, narrated and subtitled: the seven apps on Databricks, the six MCP servers, MCP A
 Creator, the stack, Impact, Ask the evidence, a specialist run with role-based approval, the
-work queue, Answer a question and the evaluation. The full 13:56 walkthrough is described
+work queue, Answer a question and the evaluation. The full 15:21 walkthrough is described
 under [Demo video](#demo-video).
 
 ## For judges: five minutes
@@ -403,23 +403,23 @@ workspace; the rest are from the app run locally on the shipped extracts.
 
 ### Demo video
 
-The 13:56 demo video (1080p, narrated, subtitled) was recorded on 2026-11-21 from the deployed
+The 15:21 demo video (1080p, narrated, subtitled) was recorded on 2026-11-21 from the deployed
 apps and submitted with the entry. Waiting time while an agent works is cut and marked on screen.
 Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-demo.srt).
 
 | Time | Chapter |
 | --- | --- |
 | 0:00 | The problem, the five layers, the seven apps on Databricks deployed from GitHub |
-| 2:19 | Six servers and 60 tools; MCP A Creator; the evaluation |
-| 4:22 | The stack and Impact; carrying the build to the next program |
-| 5:50 | Brief, Ask the evidence, the ship, Position |
-| 7:03 | The agent workflow, and role-based approval in a live specialist run |
-| 8:41 | Cost, estimate history, budget execution, the gap register and a Gap Investigator run |
-| 9:54 | Variance, asset valuation, industrial base |
-| 10:19 | Ask the evidence, the work queue, brief readiness and an Obligation Reconciler run |
-| 11:24 | Run log, detail table, sources and method |
-| 11:48 | Answer a question: experts at headquarters and in the field |
-| 12:40 | Beyond DoD, production posture, close |
+| 2:39 | Six servers and 60 tools; MCP A Creator; the evaluation |
+| 5:04 | The stack and Impact; carrying the build to the next program |
+| 6:37 | Brief, Ask the evidence, the ship, Position |
+| 7:54 | The agent workflow, and role-based approval in a live specialist run |
+| 9:46 | Cost, estimate history, budget execution, the gap register and a Gap Investigator run |
+| 10:59 | Variance, asset valuation, industrial base |
+| 11:27 | Ask the evidence, the work queue, brief readiness and an Obligation Reconciler run |
+| 12:32 | Run log, detail table, sources and method |
+| 12:56 | Answer a question: experts at headquarters and in the field |
+| 13:30 | Community expertise, beyond DoD, production posture, close |
 
 ---
 
