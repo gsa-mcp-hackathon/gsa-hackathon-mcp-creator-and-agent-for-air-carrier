@@ -128,8 +128,10 @@ The controls are in code, not in prompts.
 Scope: sandbox workspace, publicly released documents only, apps reachable only by
 authenticated users of the same Databricks account; nothing is publicly deployed.
 
-Known weaknesses: some analyst tools described as read-only write to the analyst's own leads
-table, and the tool descriptions do not yet say so. No run
+Known weaknesses: four analyst tools annotated read-only (`analyst_investigate_record`,
+`analyst_investigate_transaction`, `analyst_investigate_window`, `analyst_explain_residual`) append their
+answer to the analyst's own leads table. They never change source data, and the server
+instructions now say so, but the MCP `readOnlyHint` alone does not. No run
 flagged an injected instruction to the user.
 
 ## 4. Lessons learned and recommendations

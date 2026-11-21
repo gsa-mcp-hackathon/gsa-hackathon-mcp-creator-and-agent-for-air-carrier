@@ -1,9 +1,16 @@
-"""MCP tools. Thin wrappers: validate, call service, log the lead, return.
+"""MCP tools. Each validates its arguments (Pydantic types and Field
+constraints), calls the service, investigator or engine, and returns the
+answer with its evidence. The investigate and explain tools chain several
+sources and score cases; they are not pass-throughs to a single query.
 
-Read tools are marked read-only from the client's point of view, but each
-answer is appended to aircarrier_analyst_leads so it can later be scored
-against the truth. analyst_record_outcome is the one tool that changes what
-the engine believes, and it accepts only an authoritative document.
+Writes. The read tools never change source data and are annotated read-only,
+but four of them append their answer to aircarrier_analyst_leads so it can
+later be scored against the truth: analyst_investigate_record,
+analyst_investigate_transaction, analyst_investigate_window and
+analyst_explain_residual (see _wrap and store.log_lead). That table is the
+analyst's own audit log, append-only from these tools. analyst_record_outcome
+is the one tool that changes what the engine believes, and it accepts only an
+authoritative document.
 """
 from __future__ import annotations
 
