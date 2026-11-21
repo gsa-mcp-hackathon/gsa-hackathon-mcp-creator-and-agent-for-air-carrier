@@ -6,18 +6,18 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 ## Where it stands
 
 `scripts/check.sh` from a clean clone, on Python 3.11 and 3.12 in CI:
-**1,151 passed, 6 skipped, 0 failed** (checked 2026-11-21).
+**1,191 passed, 6 skipped, 0 failed** (checked 2026-11-21).
 
 | Project | Result |
 | --- | --- |
-| Creator | 258 passed, 1 skipped (bandit not installed) |
+| Creator | 263 passed, 1 skipped (bandit not installed) |
 | Air Carrier ops | 40 passed |
-| Air Carrier docs | 42 passed |
+| Air Carrier docs | 47 passed |
 | Air Carrier analyst | 39 passed |
-| Probe | 10 passed |
+| Probe | 11 passed |
 | Bakehouse (generated) | 21 passed (the generated weather server was removed 2026-11-21) |
-| `mcp_local.py` and the adversarial sweep | 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
-| One Hub | 296 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
+| `mcp_local.py`, source notice and the adversarial sweep | 23, 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
+| One Hub | 302 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
 | Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 36 round 4 grader and runner tests pass |
 
 Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with the tools
@@ -28,10 +28,11 @@ Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with th
 
 | Item | Why it matters |
 | --- | --- |
-| Cost model is a placeholder (`ops/harness/tools.run_cost_model_scenario`) | The cost-model specialist cannot produce an EAC range; the largest functional gap in the cost-capture story |
-| No run flagged the injected instruction in q16 to the user | The models ignored it (see F11) but did not warn that the record carried one |
+| Cost model runs top-down only (`ops/harness/cost_model.py`, fixed 2026-11-21 from a placeholder) | EAC range from the budget revisions now computed; the earned value method waits for IPMDAR figures |
+| Injection notice not yet re-measured with models (fixed 2026-11-21: `source_notice` on every server) | The servers now flag the q16 record; how often a model passes the notice on is not measured |
+| Docs latency and 4 of 818 tie-outs (fixed 2026-11-21 in code) | Background corpus refresh and the "Total ..." cost-element reading; both re-measured after the next docs deploy |
 | No tool counts obligations by sign, and none exposes transaction-description contamination (P00154) | The two delegation questions still at 0 of 6 (G04, H04) |
-| Creator maps "most negative reviews" to a count | Nothing records sentiment, so the honest answer is "not answerable without a sentiment column" |
+| Creator maps "most negative reviews" to a count | Now flagged by the review (`tool_computes_its_question`); the designer still proposes the count, and the honest answer is "not answerable without a sentiment column" |
 | Demo video narration and deck | The video still says "+$473.97M over the adjusted limit" without the E-17 qualifier, and quotes the knowledge-base corpus without naming it |
 
 ## Evaluation report findings, F1 to F12

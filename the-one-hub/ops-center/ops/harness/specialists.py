@@ -82,7 +82,7 @@ SPECIALISTS: dict[str, Specialist] = {
         area="cost_model",
         system_prompt=_COST_MODEL_SYSTEM,
         tool_allowlist=_COMMON_READ | _PROPOSAL | frozenset(["run_cost_model_scenario"]),
-        prompt_version="specialist/cost_model@1",
+        prompt_version="specialist/cost_model@2",
     ),
 }
 

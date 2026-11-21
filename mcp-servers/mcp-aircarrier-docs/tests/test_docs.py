@@ -120,6 +120,37 @@ def test_subtotals_roll_up():
     assert res[-1]["computed"] == "12.0"  # subtotals, not subtotals plus their items
 
 
+def test_a_cost_element_named_total_is_read_as_an_item():
+    # SCN PB27 p.357 (LHA 3041 P-8a): "Total Ship Test Program" is a cost element
+    # inside Other Cost Elements. Read as a total it failed, the 4 of 818 failures.
+    g = [["Item", "Cost ($ M)"], ["A", "136.028"], ["P-35 Items Subtotal", "136.028"],
+         ["B", "10.485"], ["Major Items Subtotal", "10.485"], ["Aviation Support", "8.202"],
+         ["Miscellaneous Ordnance", "2.964"], ["Total Ship Test Program", "11.063"],
+         ["Other Cost Elements Subtotal", "22.229"], ["Total Ordnance", "168.742"]]
+    res = tieout.check_totals(grid.build("t", AID, "f", 1, g))
+    assert all(r["passed"] for r in res)
+    assert "Total Ship Test Program" not in {r["row"] for r in res}
+    assert res[-1]["row"] == "Total Ordnance" and res[-1]["computed"] == "168.742"
+
+
+def test_a_real_total_followed_by_a_subtotal_is_kept():
+    # Two exhibits joined over pages: the first exhibit's total ties, so it stays a total.
+    g = [["Item", "Cost ($ M)"], ["A", "1.0"], ["P-35 Items Subtotal", "1.0"], ["B", "2.0"],
+         ["Major Items Subtotal", "2.0"], ["Total Electronics", "3.0"], ["C", "4.0"],
+         ["P-35 Items Subtotal", "4.0"], ["D", "5.0"], ["Major Items Subtotal", "5.0"],
+         ["Total Ordnance", "9.0"]]
+    res = tieout.check_totals(grid.build("t", AID, "f", 1, g))
+    assert "Total Electronics" in {r["row"] for r in res} and all(r["passed"] for r in res)
+
+
+def test_a_wrong_total_is_not_hidden_by_the_item_reading():
+    # Reading a failing total as an item must not just move the failure elsewhere.
+    g = [["Item", "Cost ($ M)"], ["A", "1.0"], ["B", "2.0"], ["Total Widgets", "4.0"],
+         ["Subtotal", "8.0"], ["Total", "8.0"]]
+    res = tieout.check_totals(grid.build("t", AID, "f", 1, g))
+    assert [r["row"] for r in res if not r["passed"]] == ["Total Widgets"]
+
+
 def test_continuation_inferred_and_flagged():
     c = Corpus(*rows(link=False))
     t = c.tables[f"{AID}:0096:00"]
@@ -298,3 +329,47 @@ def test_hull_label_needs_the_carrier_line():
     assert cvn81[0]["numeric_cells"][1]["hull"] == "CVN-81"
     assert all("hull" not in c for c in unknown[0]["numeric_cells"])
     assert service._p1_line("P-1 Line Item Number / Title:\n2001 / Carrier Replacement Program") == "2001"
+
+
+# ------------------------------------------------------------- corpus cache
+def _reset_store(monkeypatch, ttl=0):
+    monkeypatch.setattr(store.config, "CACHE_TTL_S", ttl)
+    store._refreshing.clear()
+    store._state.update(corpus=None, loaded=0.0, as_of=None)
+
+
+def test_a_stale_corpus_is_served_while_it_refreshes(monkeypatch):
+    # The reload used to run inside the request after the TTL: the slow mode of the
+    # docs known-answer latency. Now the caller gets the copy in hand at once.
+    import threading
+    _reset_store(monkeypatch)
+    calls, gate = [], threading.Event()
+
+    def loader():
+        calls.append(1)
+        if len(calls) > 1:
+            gate.wait(5)
+        return rows()
+
+    first = store.corpus(loader)
+    store._state["loaded"] = 0.0          # past the TTL
+    second = store.corpus(loader)          # returns at once; refresh waits on the gate
+    assert second is first and len(calls) == 2
+    gate.set()
+    for _ in range(100):
+        if not store._refreshing.is_set():
+            break
+        threading.Event().wait(0.02)
+    assert not store._refreshing.is_set() and store._state["corpus"] is not first
+
+
+def test_a_failed_refresh_keeps_the_corpus(monkeypatch):
+    _reset_store(monkeypatch)
+    first = store.corpus(lambda: rows())
+    store._state["loaded"] = 0.0
+
+    def broken():
+        raise RuntimeError("warehouse down")
+
+    assert store.corpus(broken, background=False) is first
+    assert not store._refreshing.is_set()  # the next stale call tries again

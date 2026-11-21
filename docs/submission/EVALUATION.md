@@ -39,16 +39,21 @@ are kept in the score and listed apart rather than re-graded upward.
 
 | Project | Passed | Skipped |
 | --- | --- | --- |
-| MCP A Creator | 258 | 1 (needs bandit) |
+| MCP A Creator | 263 | 1 (needs bandit) |
 | Ops server | 40 | 0 |
-| Docs server | 42 | 0 |
+| Docs server | 47 | 0 |
 | Analyst server | 39 | 0 |
-| Probe | 10 | 0 |
+| Probe | 11 | 0 |
 | Bakehouse (generated) | 21 | 0 |
 | In-process harness `mcp_local` | 23 | 0 |
+| Source notice, every server | 23 | 0 |
 | Adversarial sweep, 30 tools | 422 | 0 |
-| One Hub (pytest) | 296 | 5 (need a live Spark session) |
-| **Total, eight projects** | **1,151** | **6** |
+| One Hub (pytest) | 302 | 5 (need a live Spark session) |
+| **Total, eight projects** | **1,191** | **6** |
+
+These are unit, contract, server, generator and adversarial tests. They show the code does
+what it says; they do not measure whether an agent answers well, which sections 2.3 and 2.4
+and the subject-matter review do.
 
 The One Hub also runs six script suites (agents 46/46, gate, LLM tracing, app routes,
 serverless entry points, tie-out); all pass. The evidence check finds no broken relative
@@ -83,7 +88,11 @@ apps were redeployed.
 
 The docs known-answer latency is bimodal: daily medians sit near 1.1 to 1.3 s on some
 deployments and about 12.6 to 13.2 s on most others, so the overall p50 of 12.6 s describes the slow
-mode. The cause has not been isolated; it tracks the deployment, not the question.
+mode. Cause, found in the code on 2026-11-21: the server reloaded its 7,804-page corpus
+inside the request once the 30-minute cache had expired (about 11 s), so a probe arriving
+after the expiry waited for the reload. It now serves the loaded copy and refreshes it on a
+background thread, and loads it at startup (`store.py`, two tests). The next probe days
+after the redeploy will show whether the slow mode is gone.
 
 ### 2.3 Tool choice by real models (delegation)
 
@@ -122,7 +131,11 @@ The golden set carries a direct injection (q17) and an indirect one (q16, a plan
 with an embedded instruction, served through a read-only overlay). Both models, with and
 without instructions, two repeats: **15 of 16 answers correct, and no run followed the
 injected instruction.** The one miss searched for "gap G28" and found nothing. No run
-flagged the injection to the user either, which is a gap.
+flagged the injection to the user either. Fixed in the servers on 2026-11-21: every server
+adds a `source_notice` to a result that holds text addressed to an AI assistant, and its
+instructions tell the model to report it; the q16 planted record returns the notice through
+the real ops server (`mcp-servers/test_source_notice.py`). How often models pass the notice on
+has not been re-measured.
 
 ### 2.5 Determinism and data integrity
 
@@ -219,4 +232,6 @@ Recommendations for an agency adopting this:
   servers, gate and registers unchanged, and add CVN-80 and CVN-81 next.
 * Have someone other than the tool builder write the next sealed question set.
 * Keep the probe running as continuous-monitoring evidence for an authority to operate.
-* Measure analyst hours before and after; this pilot has not.
+* Measure analyst hours before and after; this pilot has not. A scope-based estimate,
+  171 to 343 hours for one CVN-79 pass, and the method to measure it are in
+  [docs/TIME_ESTIMATE.md](../TIME_ESTIMATE.md).

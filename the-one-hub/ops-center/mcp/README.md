@@ -1,6 +1,6 @@
 # mcp/: the One Hub as tools (`mcp-aircarrier-hub`)
 
-> **Scorecard:** 16 read-only tools · 23 server tests (schema portability, refusals, tie-out, gate) · not yet deployed or probed. Every server's row: [SCORECARD.md](../../../SCORECARD.md).
+> **Scorecard:** 16 read-only tools · 25 server tests (schema portability, refusals, tie-out, gate, HTTP behind the Apps proxy) · 193 hostile arguments, none leaked · ready to deploy, probe target added. Every server's row: [SCORECARD.md](../../../SCORECARD.md).
 
 A custom MCP server exposing the four stores and the deterministic checks, so
 any agent can use the ops center without reimplementing it: Claude Code at the
@@ -21,13 +21,23 @@ queue works like an auditor's request list, ranked by exposure, ignorance and cl
 
 ## Run
 
+From `the-one-hub/ops-center`:
+
 ```
 # stdio, for a local agent
-python -m mcp_server
+python mcp/mcp_server.py
 
-# streamable HTTP, for hosting as a Databricks App
-uvicorn mcp_server:http_app --host 0.0.0.0 --port 8000
+# stateless streamable HTTP at /mcp, as the Databricks App (set the port to try it locally)
+DATABRICKS_APP_PORT=8000 python mcp/mcp_server.py
 ```
+
+The app's source folder is `the-one-hub/ops-center`, not `mcp/`, because the server reads
+`core/`, `ops/agents/`, `seed/` and `app/data/`; its `app.yaml` and `requirements.txt` are in
+that folder. First deployment: [docs/DEPLOYMENT.md](../../../docs/DEPLOYMENT.md#first-deployment-of-mcp-aircarrier-hub).
+Before 2026-11-21 the HTTP form used the SDK's default host, 127.0.0.1, which turns on a
+localhost-only Host check: behind the Apps proxy every request got 421 Invalid Host header.
+`checks/test_mcp_server.py` now posts `initialize` and `tools/list` with a Databricks Apps
+host. Every result that holds text addressed to an AI assistant carries a `source_notice`.
 
 Hosting it as a Databricks App puts it behind Unity Catalog permissions and
 Unity Gateway governance, which is how an MCP server becomes available to the

@@ -88,6 +88,10 @@ run() {
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
     mcp-local) (cd "$ROOT/mcp-servers" && next_flags && uv run --quiet --no-project --with pytest \
                  --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${FLAGS[@]}" \
+               && echo "-- instruction text in results is reported (source_notice)" \
+               && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
+                 --with-requirements mcp-aircarrier-ops/requirements.txt \
+                 python -m pytest test_source_notice.py "${FLAGS[@]}" \
                && echo "-- adversarial arguments against all 30 Air Carrier tools" \
                && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
                  --with "mcp>=1.24,<2" \

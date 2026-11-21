@@ -909,6 +909,100 @@ def _stems(text: str) -> set[str]:
     return {w[:4] for w in name_words(text) if len(w) >= 3}
 
 
+# Words that narrow what a question counts. A tool mapped to such a question
+# needs a filter on a field that records the state.
+_QUALIFIERS = frozenset(
+    "negative positive complaint complaints urgent open closed late overdue "
+    "cancelled canceled failed rejected approved pending unpaid active inactive "
+    "expired refunded returned fraudulent flagged delinquent disputed".split()
+)
+
+
+def _misread(spec: ServerSpec, plan) -> list[str]:
+    """Ways a computed tool answers a different question from the one it is
+    mapped to, read from the question's own words. Each is a confident tool
+    that returns a well-formed number for the wrong question."""
+    import re
+
+    q = plan.goal.lower()
+    out: list[str] = []
+    wants_avg = bool(re.search(r"\b(average|avg|mean)\b", q))
+    wants_count = bool(re.search(r"\b(how many|number of|count of|count)\b", q))
+    wants_amount = bool(
+        re.search(r"\b(how much|total|sum|revenue|sales|spend|spent|amount|"
+                  r"dollars?|cost|value|obligated|obligations?)\b", q)
+    )  # fmt: skip
+    agg = plan.aggregation
+    takes = {"sum": "a sum", "avg": "an average", "count": "a count"}[agg]
+    if wants_avg and agg != "avg":
+        out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks for an average")
+    elif wants_count and not wants_amount and agg != "count":
+        out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks how many")
+    elif agg == "count" and wants_amount and not wants_count:
+        out.append(f"{plan.name} counts rows; '{plan.goal}' asks for an amount")
+    elif agg == "avg" and not wants_avg:
+        out.append(f"{plan.name} averages; '{plan.goal}' does not ask for an average")
+
+    ratio = re.search(
+        r"\bper\s+(miles?|km|kilometers?|gallons?|pounds?|kg|units?|items?|seats?|"
+        r"passengers?|persons?|people|capita|employees?|square\s+f(?:oo|ee)t)\b",
+        q,
+    )
+    if ratio and agg in ("sum", "avg"):
+        out.append(
+            f"{plan.name} takes {takes} of one column; '{plan.goal}' asks for "
+            f"a ratio (per {ratio.group(1)})"
+        )
+
+    # A qualifier on what is counted ("negative reviews", "open orders")
+    # needs a filter on a field that records it; without one the tool counts
+    # every row and answers a broader question.
+    covered = " ".join(
+        [plan.group_field]
+        + [p.source_field for p in plan.params]
+        + [v for p in plan.params for v in p.enum_values]
+    ).lower()
+    stateful = re.search(
+        r"status|state|flag|priority|type|category|sentiment|rating|score|label",
+        covered,
+    )
+    for word in re.findall(r"[a-z]+", q):
+        if word in _QUALIFIERS and word[:4] not in covered and not stateful:
+            out.append(
+                f"{plan.name} has no filter for '{word}' in '{plan.goal}', so it "
+                "counts every row"
+            )
+            break
+
+    source = spec.source_by_name(plan.source)
+    if source is not None and agg in ("sum", "avg") and plan.measure_field:
+        named = [
+            f.name
+            for f in source.fields
+            if f.role is FieldRole.MEASURE
+            and f.name != plan.measure_field
+            and _stems(f.name) & _stems(plan.goal)
+        ]
+        if named and not _stems(plan.measure_field) & _stems(plan.goal):
+            out.append(
+                f"{plan.name} adds up {plan.measure_field}; '{plan.goal}' names "
+                f"{', '.join(named)}"
+            )
+
+    if plan.pattern is QueryPattern.TREND:
+        grain = {"daily": "day", "per day": "day", "by day": "day", "weekly": "week",
+                 "per week": "week", "by week": "week", "monthly": "month",
+                 "per month": "month", "by month": "month", "each month": "month",
+                 "each day": "day", "each week": "week"}  # fmt: skip
+        asked = {g for cue, g in grain.items() if cue in q}
+        if len(asked) == 1 and plan.granularity not in asked:
+            out.append(
+                f"{plan.name} is by {plan.granularity}; '{plan.goal}' asks by "
+                f"{asked.pop()}"
+            )
+    return out
+
+
 def _check_semantics(
     spec: ServerSpec,
     findings: list[Finding],
@@ -945,6 +1039,7 @@ def _check_semantics(
     computed = {QueryPattern.RANK, QueryPattern.AGGREGATE, QueryPattern.TREND}
     id_measures: list[str] = []
     off_groups: list[str] = []
+    misread: list[str] = []
     repeated: list[str] = []
     for plan in spec.tools:
         words = plan.name.split("_")
@@ -969,6 +1064,8 @@ def _check_semantics(
             )
         ):
             off_groups.append(f"{plan.name} groups by {plan.group_field}")
+        if plan.goal in spec.jobs_to_be_done:
+            misread.extend(_misread(spec, plan))
 
     # A question counts as answered only if the designer, asked again, maps
     # it to a tool that is still on the design. Golden-question seeds are not
@@ -1036,6 +1133,29 @@ def _check_semantics(
     else:
         passed.append("grouping_matches_question")
 
+    if misread:
+        findings.append(
+            Finding(
+                check="tool_computes_its_question",
+                severity=Severity.HIGH,
+                summary=(
+                    "A tool is mapped to a question but computes something else: "
+                    "a different total, measure or time step."
+                ),
+                evidence="; ".join(misread),
+                fix=(
+                    "Change the aggregation, measure or granularity to what the "
+                    "question says, or map the question to no tool and tell the "
+                    "user the server will not answer it."
+                ),
+                criterion="honesty",
+            )
+        )
+        _penalize(scores, "honesty", min(3, len(misread)))
+        _penalize(scores, "goal_orientation", 1)
+    else:
+        passed.append("tool_computes_its_question")
+
     if unanswered:
         findings.append(
             Finding(
@@ -1067,7 +1187,7 @@ def _check_semantics(
         )
         _penalize(scores, "goal_orientation", 1)
 
-    if id_measures or unanswered:
+    if id_measures or unanswered or misread:
         # A design that computes the wrong thing cannot score as honest.
         scores["honesty"] = min(scores["honesty"], 2)
 

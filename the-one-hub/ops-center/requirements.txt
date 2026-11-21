@@ -1,0 +1,6 @@
+# mcp-aircarrier-hub (app.yaml in this folder). The ops-center jobs and the
+# front center do not read this file; their dependencies are in pyproject.toml
+# and app/requirements.txt.
+mcp>=1.10,<2
+uvicorn[standard]==0.34.0
+pyyaml==6.0.2

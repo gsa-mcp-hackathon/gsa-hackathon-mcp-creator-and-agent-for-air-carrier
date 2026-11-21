@@ -6,7 +6,8 @@ gets a free SQL tool.
 
 Two write tools run as orchestrator-side Python:
   stage_proposal  — the ONLY write tool in the agent loop (invariant 6).
-  run_cost_model_scenario — writes model_runs and returns a model_run_id.
+  run_cost_model_scenario — runs the deterministic EAC model (cost_model.py),
+                            writes model_runs and returns a model_run_id.
 
 Every tool function returns a JSON string (or dict for the write tools) so
 the orchestrator can pass it directly into the model’s tool-result message.
@@ -189,24 +190,28 @@ def run_cost_model_scenario(
     model_run_id = str(uuid.uuid4())
     spark = _spark()
 
-    # Placeholder: the actual model computation goes here when the model is
-    # built. For now it returns a skeleton so the harness loop is end-to-end
-    # testable and the model_runs row is written.
-    outputs = json.dumps({
-        "status": "placeholder",
-        "message": "Cost model not yet implemented. Replace this with the "
-                   "deterministic EAC range computation.",
-        "scenario_params": scenario_params,
-    })
+    # The deterministic model (ops/harness/cost_model.py): an estimate-growth
+    # range from the published budget submissions today, or the earned value
+    # range when contract figures are passed. Unusable params become warnings.
+    from . import cost_model
+    try:
+        result, model_warnings = cost_model.run(scenario_params)
+    except Exception as e:  # noqa: BLE001 - the run row is still written, with the reason
+        result = {"status": "error", "model_version": cost_model.MODEL_VERSION,
+                  "message": f"cost model failed: {type(e).__name__}",
+                  "scenario_params": scenario_params}
+        model_warnings = [result["message"]]
+    outputs = json.dumps(result, default=str)
 
     # scenario_params is MAP<STRING,STRING>, so convert all values to strings.
     sp_map = {str(k): str(v) for k, v in scenario_params.items()}
-    bound = {"model_run_id": model_run_id, "outputs": outputs}
+    bound = {"model_run_id": model_run_id, "outputs": outputs,
+             "model_version": cost_model.MODEL_VERSION}
     for i, (k, v) in enumerate(sp_map.items()):
         bound[f"k{i}"], bound[f"v{i}"] = k, v
     sp_sql = "MAP(" + ", ".join(f":k{i}, :v{i}" for i in range(len(sp_map))) + ")"
 
-    warnings: list[str] = []
+    warnings: list[str] = list(model_warnings)
     vintage = _vintage_map(inputs_vintage, warnings)
     for i, (feed, ts) in enumerate(vintage.items()):
         bound[f"f{i}"], bound[f"t{i}"] = feed, ts
@@ -238,7 +243,7 @@ def run_cost_model_scenario(
             :model_run_id, {sp_sql},
             {iv_sql}, {rv_sql},
             {as_sql}, :outputs,
-            'placeholder-v0', TIMESTAMP '{now}', 'harness-agent',
+            :model_version, TIMESTAMP '{now}', 'harness-agent',
             {rec_sql}, {_array_sql("w", warnings, bound)}
         )
     """, args=bound)

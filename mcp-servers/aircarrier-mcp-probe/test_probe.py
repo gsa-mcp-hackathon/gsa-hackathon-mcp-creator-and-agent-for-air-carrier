@@ -98,13 +98,19 @@ def test_resolve_and_transport_errors_are_rows_not_crashes():
 
 
 def test_run_summarizes_failing_targets_and_creator_lists_only():
-    post, calls = server(tools=12, answer={"engine": "analyst/0.1", "totals": {"record_count": 5},
+    post, calls = server(tools=16, answer={"engine": "analyst/0.1", "totals": {"record_count": 5},
                                            "source": "sales", "fields": [{"name": "transactionID"}],
-                                           **DOCS_OK})
+                                           "decision": "human_review", **DOCS_OK})
     out = sweep(post).run()
-    assert out["ok"] and out["failing"] == [] and out["targets"] == 5
+    assert out["ok"] and out["failing"] == [] and out["targets"] == 6
     creator = [c for c in calls if "mcp-a-creator" in c[0]]
     assert [c[1] for c in creator] == ["initialize", "tools/list"]       # never calls a creator tool
+
+
+def test_hub_known_answer_holds_the_unconfirmed_baseline():
+    assert P._hub({"decision": "human_review"}) is None
+    assert P._hub({"decision": "promote"})
+    assert P._hub({})
 
 
 def test_bakehouse_known_answer_needs_the_sales_dictionary():

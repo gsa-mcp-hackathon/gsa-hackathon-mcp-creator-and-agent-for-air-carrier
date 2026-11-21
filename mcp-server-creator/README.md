@@ -194,10 +194,11 @@ each tool computes what its question asks.
 | `measure_is_not_identifier` | blocker | A total, ranking or trend adds up or averages a key or a personal field (`SUM(l_orderkey)`) | honesty -3, goal orientation -2 |
 | `grouping_matches_question` | high | A tool groups by a column its question never names (`l_shipinstruct` for "ship mode") | goal orientation -2 |
 | `every_question_has_a_tool` | high | A recorded question that needs a number has no tool that computes it. The designer is asked again; a golden-question seed does not count as an answer | honesty -1 per question, up to -3 |
+| `tool_computes_its_question` | high | A tool mapped to a question computes something else: a sum where it asks how many, an average where it asks for a ratio ("fare per mile"), a count that ignores its qualifier ("most negative reviews"), a trend at the wrong step | honesty -1 per tool, up to -3; goal orientation -1 |
 | `tool_names_read_cleanly` | medium | A tool name repeats a word (`supply_count_count`) | goal orientation -1 |
 
-If any tool uses an identifier as a measure, or any question has no tool,
-honesty is capped at 2, whatever else passes. A design that computes the
+If any tool uses an identifier as a measure, computes a different question, or any
+question has no tool, honesty is capped at 2, whatever else passes. A design that computes the
 wrong thing cannot score as honest.
 
 The designer applies the same rules before the review sees the design:

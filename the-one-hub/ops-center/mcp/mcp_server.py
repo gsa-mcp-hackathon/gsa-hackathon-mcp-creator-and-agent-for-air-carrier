@@ -1,8 +1,10 @@
 """Air Carrier ops center, exposed over the Model Context Protocol.
 
-Runnable two ways:
-  python -m mcp_server                                   stdio, for a local agent
-  uvicorn mcp_server:http_app --host 0.0.0.0 --port 8000 HTTP, as a Databricks App
+Runnable two ways, from the ops-center folder:
+  python mcp/mcp_server.py   stdio, for a local agent
+  python mcp/mcp_server.py   stateless streamable HTTP at /mcp when DATABRICKS_APP_PORT
+                             (or PORT) is set: the Databricks App mcp-aircarrier-hub,
+                             deployed from the-one-hub/ops-center (app.yaml there)
 
 Design rules carried from the ops center and enforced here:
   - every figure returned carries its tag, confidence and source
@@ -28,6 +30,7 @@ except ImportError:  # pragma: no cover
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))  # source_notice
 
 from core.contracts import Claim, Coordinate, Tag, Zone
 from core.policy.decisions import evaluate
@@ -602,22 +605,60 @@ TOOLS = [hub_search_corpus, hub_corpus_status,
 
 
 # ------------------------------------------------------------------ servers
-def build():
+def build(http: bool = False):
     """Build the FastMCP server. Imported lazily so the module stays testable
-    without the mcp package installed."""
+    without the mcp package installed.
+
+    http=True is the hosted form: stateless streamable HTTP, like the other
+    servers, and bound to all interfaces. The SDK turns on DNS-rebinding
+    protection for its default host 127.0.0.1 and then refuses any Host header
+    but localhost, so behind the Databricks Apps proxy every request failed.
+    The proxy authenticates every request before it reaches the app."""
     from mcp.server.fastmcp import FastMCP
     from mcp.types import ToolAnnotations
-    srv = FastMCP(SERVER_NAME, instructions=INSTRUCTIONS)
+    from source_notice import INSTRUCTION
+    kw = {"host": "0.0.0.0", "stateless_http": True} if http else {}  # nosec B104
+    srv = FastMCP(SERVER_NAME, instructions=INSTRUCTIONS + INSTRUCTION, **kw)
     for fn in TOOLS:
         title = fn.__name__.removeprefix("hub_").replace("_", " ").capitalize()
         srv.tool(name=fn.__name__,
-                 annotations=ToolAnnotations(title=title, **READ_ONLY))(fn)
+                 annotations=ToolAnnotations(title=title, **READ_ONLY))(_noticed(fn))
+    if http:
+        from starlette.responses import JSONResponse
+
+        @srv.custom_route("/health", methods=["GET"])
+        async def health(request):
+            return JSONResponse({"status": "healthy", "service": SERVER_NAME,
+                                 "tools": len(TOOLS)})
     return srv
 
 
+def _noticed(fn):
+    """The tool, with source_notice added to its result when the result holds
+    text addressed to an AI assistant (mcp-servers/test_source_notice.py)."""
+    import functools
+
+    from source_notice import annotate_dict
+
+    @functools.wraps(fn)
+    def wrapped(*args, **kwargs):
+        return annotate_dict(fn(*args, **kwargs))
+    return wrapped
+
+
 def http_app():
-    return build().streamable_http_app()
+    return build(http=True).streamable_http_app()
+
+
+def main() -> None:
+    import os
+    port = os.getenv("DATABRICKS_APP_PORT") or os.getenv("PORT")
+    if not port:
+        build().run()
+        return
+    import uvicorn
+    uvicorn.run(http_app(), host="0.0.0.0", port=int(port))  # nosec B104 - behind the Apps proxy
 
 
 if __name__ == "__main__":
-    build().run()
+    main()

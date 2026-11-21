@@ -561,3 +561,97 @@ def test_how_much_is_never_answered_with_a_row_count():
     job = "How many actions were there by fiscal year?"
     plan, _ = _job_tool(_spec([stale], [job]), stale, job)
     assert plan is not None and plan.aggregation == "count"
+
+
+# Creator end to end, 2026-11-21: two of 14 questions got a confident tool that
+# answers a different question. The review now names both.
+def _taxi() -> DataSourceProfile:
+    return DataSourceProfile(
+        name="trips",
+        kind=SourceKind.UC_TABLE,
+        modality=DataModality.STRUCTURED,
+        catalog="samples",
+        schema_name="nyctaxi",
+        table="trips",
+        grain="one taxi trip",
+        fields=[
+            _field("tpep_pickup_datetime", "timestamp"),
+            _field("trip_distance", "double"),
+            _field("fare_amount", "double"),
+            _field("pickup_zip", "int"),
+        ],
+    )
+
+
+def _reviews() -> DataSourceProfile:
+    return DataSourceProfile(
+        name="reviews",
+        kind=SourceKind.UC_TABLE,
+        modality=DataModality.STRUCTURED,
+        catalog="samples",
+        schema_name="bakehouse",
+        table="media_customer_reviews",
+        grain="one review",
+        fields=[
+            _field("new_id", "bigint"),
+            _field("review", "string"),
+            _field("franchiseID", "bigint"),
+            _field("review_date", "timestamp"),
+        ],
+    )
+
+
+def _misread(spec):
+    report = review_spec(spec)
+    found = [f for f in report.findings if f.check == "tool_computes_its_question"]
+    return (found[0] if found else None), report
+
+
+def test_review_flags_an_average_where_the_question_asks_for_a_ratio():
+    job = "What was the average fare per mile by pickup ZIP in January 2016?"
+    spec = _spec([_taxi()], [job])
+    spec.tools, _ = design_tools(spec)
+    finding, report = _misread(spec)
+    assert finding is not None and "per mile" in finding.evidence
+    assert finding.severity is Severity.HIGH and report.scores["honesty"] <= 2
+
+
+def test_review_flags_a_count_that_ignores_the_questions_qualifier():
+    job = "Which franchise has the most negative reviews?"
+    spec = _spec([_reviews()], [job])
+    spec.tools, _ = design_tools(spec)
+    finding, _ = _misread(spec)
+    assert finding is not None and "'negative'" in finding.evidence
+
+
+def test_review_flags_a_sum_where_the_question_asks_how_many():
+    job = "How many orders were placed each month?"
+    spec = _spec([_sales()], [job])
+    spec.tools, _ = design_tools(spec)
+    plan = next(p for p in spec.tools if p.goal == job)
+    plan.aggregation, plan.measure_field = "sum", "totalPrice"
+    finding, _ = _misread(spec)
+    assert finding is not None and "asks how many" in finding.evidence
+
+
+def test_review_flags_a_trend_at_the_wrong_step():
+    job = "What were daily sales for one franchise?"
+    spec = _spec([_sales()], [job])
+    spec.tools, _ = design_tools(spec)
+    plan = next(p for p in spec.tools if p.goal == job)
+    assert plan.granularity == "day"
+    plan.granularity = "month"
+    finding, _ = _misread(spec)
+    assert finding is not None and "asks by day" in finding.evidence
+
+
+def test_review_passes_tools_that_compute_their_questions():
+    jobs = [
+        "Which franchise had the most revenue from May 1 to May 17, 2024?",
+        "What are the top 5 products by revenue?",
+        "What were daily sales for one franchise?",
+    ]
+    spec = _spec([_sales()], jobs)
+    spec.tools, _ = design_tools(spec)
+    finding, report = _misread(spec)
+    assert finding is None and "tool_computes_its_question" in report.passed_checks

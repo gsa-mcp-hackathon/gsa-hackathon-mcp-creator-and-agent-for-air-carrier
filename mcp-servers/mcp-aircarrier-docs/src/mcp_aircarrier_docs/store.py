@@ -11,6 +11,8 @@ from mcp_aircarrier_docs import config, warehouse
 from mcp_aircarrier_docs.warehouse import render as Q
 
 _lock = threading.Lock()
+_first = threading.Lock()  # one first load at a time
+_refreshing = threading.Event()
 _state: dict = {"corpus": None, "loaded": 0.0, "as_of": None}
 _premise: dict = {"terms": None, "loaded": 0.0, "fixed": False}
 log = logging.getLogger(__name__)
@@ -61,15 +63,57 @@ def load_rows() -> tuple[list[dict], list[dict]]:
     return pages, tables
 
 
-def corpus(loader=load_rows) -> Corpus:
+def _load(loader) -> None:
+    pages, tables = loader()
+    c = Corpus(pages, tables)
     with _lock:
-        stale = time.time() - _state["loaded"] > config.CACHE_TTL_S and _state["as_of"] != "fixture"
-        if _state["corpus"] is None or stale:
-            pages, tables = loader()
-            _state["corpus"] = Corpus(pages, tables)
-            _state["loaded"] = time.time()
-            _state["as_of"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        _state.update(corpus=c, loaded=time.time(),
+                      as_of=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+
+
+def _refresh(loader) -> None:
+    try:
+        _load(loader)
+    except Exception as e:  # noqa: BLE001 - keep serving the corpus already loaded
+        log.warning("corpus refresh failed (%s); serving the copy loaded at %s",
+                    type(e).__name__, _state["as_of"])
+    finally:
+        _refreshing.clear()
+
+
+def corpus(loader=load_rows, background: bool = True) -> Corpus:
+    """The corpus. The first call loads it (about 11 s for 7,804 pages). After
+    the TTL a call returns the copy in hand and refreshes it on a background
+    thread, so no request waits on the reload. Before 2026-11-21 the reload ran
+    inside the request: a caller arriving after the TTL waited for it, which is
+    the slow mode of the docs known-answer latency (p50 12.6 s)."""
+    with _lock:
+        c, fixture = _state["corpus"], _state["as_of"] == "fixture"
+        stale = time.time() - _state["loaded"] > config.CACHE_TTL_S and not fixture
+    if c is None:
+        with _first:
+            if _state["corpus"] is None:
+                _load(loader)
         return _state["corpus"]
+    if stale and not _refreshing.is_set():
+        _refreshing.set()
+        if background:
+            threading.Thread(target=_refresh, args=(loader,), name="corpus-refresh",
+                             daemon=True).start()
+        else:
+            _refresh(loader)
+    return c
+
+
+def warm(loader=load_rows) -> None:
+    """Load the corpus on a background thread at startup, so the first caller
+    after a deployment does not wait either."""
+    def _go():
+        try:
+            corpus(loader)
+        except Exception as e:  # noqa: BLE001 - the first request will retry and report it
+            log.warning("corpus warm-up failed (%s)", type(e).__name__)
+    threading.Thread(target=_go, name="corpus-warm", daemon=True).start()
 
 
 def as_of() -> str | None:

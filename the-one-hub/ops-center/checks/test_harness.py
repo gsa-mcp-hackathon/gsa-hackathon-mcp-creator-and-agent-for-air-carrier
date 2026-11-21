@@ -381,7 +381,7 @@ ROSTER = {
     "evm": ("evm_specialist", "specialist/evm@1", "get_evm_control_account", "a8d8e6f663f8c6d3"),
     "cost_cap": ("cost_cap_specialist", "specialist/cost_cap@1", "get_cap_ledger", "f5725b311a1dbfa6"),
     "valuation": ("valuation_specialist", "specialist/valuation@1", "get_cip_transactions", "e5ef8cc41426f082"),
-    "cost_model": ("cost_model_specialist", "specialist/cost_model@1", "run_cost_model_scenario", "5ecf41e7382b5112"),
+    "cost_model": ("cost_model_specialist", "specialist/cost_model@2", "run_cost_model_scenario", "23f599b0d8a64bfa"),
 }
 
 
@@ -485,7 +485,7 @@ def test_stage_proposal_ignores_model_supplied_lineage():
     assert (a["run_id"], a["rule_id"], a["rule_version"], a["rec0"]) == ("run-9", "CC-02", 4, "w1")
 
 
-def test_run_cost_model_scenario_placeholder():
+def test_run_cost_model_scenario_stores_the_run():
     """F4 fixed: inputs_vintage, rule_version, assumptions, input_record_ids are stored."""
     lineage = {"exception_id": "exc-1", "rule_id": "CM-02", "rule_version": 1, "record_ids": ["mr-1"]}
     fake = FakeSpark()
@@ -495,14 +495,62 @@ def test_run_cost_model_scenario_placeholder():
             inputs_vintage={"IPMDAR": "2026-09-30T00:00:00Z", "CCDR": "2026-06-30"},
             rule_version=1, assumptions=["A1", "A'2"])
     [(q, a)] = fake.inserts_with_args(C.MODEL_RUNS)
-    assert r["outputs"]["status"] == "placeholder" and r["warnings"] == []
-    assert "'placeholder-v0'" in q and "MAP(:k0, :v0)" in q and (a["k0"], a["v0"]) == ("x", "1")
+    assert r["outputs"]["status"] == "computed" and r["outputs"]["method"] == "estimate_growth"
+    assert r["warnings"] == ["scenario_params['x'] is not a model input and was not used"]
+    assert ":model_version" in q and a["model_version"] == "eac/v1"
+    assert "MAP(:k0, :v0)" in q and (a["k0"], a["v0"]) == ("x", "1")
     assert "MAP(:f0, CAST(:t0 AS TIMESTAMP), :f1, CAST(:t1 AS TIMESTAMP))" in q
     assert (a["f0"], a["t0"], a["f1"], a["t1"]) == ("IPMDAR", "2026-09-30T00:00:00Z", "CCDR", "2026-06-30")
     assert "MAP(:rv_rule, CAST(:rv_version AS INT))" in q and (a["rv_rule"], a["rv_version"]) == ("CM-02", 1)
     assert "ARRAY(:as0, :as1)" in q and (a["as0"], a["as1"]) == ("A1", "A'2") and "A'2" not in q
     assert "ARRAY(:rec0)" in q and a["rec0"] == "mr-1"
-    assert "w0" not in a and ":w0" not in q                         # warnings NULL when none
+    assert "ARRAY(:w0)" in q and a["w0"] == r["warnings"][0]
+
+
+def test_cost_model_estimate_growth_range():
+    """The EAC range from the published budget submissions, FY2013 on (eac/v1)."""
+    from ops.harness import cost_model
+    o, w = cost_model.run({"as_of": "2026-11-21"})
+    assert w == [] and o["status"] == "computed" and o["point_usd_m"] == "13409.970"
+    assert (o["eac_low_usd_m"], o["eac_mid_usd_m"], o["eac_high_usd_m"]) == (
+        "13356.434", "13761.137", "13964.677")
+    assert [r["to"] for r in o["revisions_used"]] == [
+        "FY2017 PB", "FY2019 PB", "FY2022 PB", "FY2026 PB", "FY2027 PB"]
+    clb = next(c for c in o["against_ceilings"] if c["ceiling"].startswith("SECNAV"))
+    assert clb["value_usd_m"] == "12936.000" and clb["reading"] == "whole range above"
+    assert "13,529" in o["held_for_review"]          # E-17 is never used as a ceiling
+    # Nearer milestone, smaller range; a fixed rate collapses it to one figure.
+    d, _ = cost_model.run({"as_of": "2026-11-21", "milestone": "delivery"})
+    assert d["eac_high_usd_m"] < o["eac_high_usd_m"] and d["milestone_date"] == "2027-03-31"
+    f, _ = cost_model.run({"as_of": "2026-11-21", "annual_growth_pct": "0"})
+    assert f["eac_low_usd_m"] == f["eac_high_usd_m"] == "13409.970"
+
+
+def test_cost_model_evm_range_and_its_block():
+    from ops.harness import cost_model
+    o, _ = cost_model.run({"method": "evm", "bac_usd_m": "5000", "bcwp_usd_m": "4500",
+                           "acwp_usd_m": "4800", "cpi": "0.94", "spi": "0.97"})
+    assert o["formulas"] == {"cpi_1": "5300.000", "cpi": "5331.915", "cpi_x_spi": "5348.366"}
+    assert (o["eac_low_usd_m"], o["eac_high_usd_m"]) == ("5300.000", "5348.366")
+    b, _ = cost_model.run({"method": "evm", "cpi": "0"})
+    assert b["status"] == "blocked_no_source" and "bac_usd_m" in b["missing"] and "cpi" in b["missing"]
+
+
+def test_cost_model_never_raises_on_bad_params():
+    from ops.harness import cost_model
+    o, w = cost_model.run({"x' OR 1=1": "q", "as_of": "nope", "milestone": "moon",
+                           "since_fy": "soon", "annual_growth_pct": "lots", "method": "magic"})
+    assert o["status"] == "computed" and len(w) == 6
+    assert o["milestone"] == "owld" and o["since_fy"] == 2013
+
+
+def test_run_cost_model_scenario_warnings_null_when_none():
+    fake = FakeSpark()
+    with with_spark(fake):
+        r = tools.run_cost_model_scenario(scenario_params={"as_of": "2026-11-21"},
+                                          inputs_vintage={}, rule_version=1, assumptions=[])
+    [(q, _)] = fake.inserts_with_args(C.MODEL_RUNS)
+    assert r["warnings"] == [] and ":w0" not in q and r["outputs"]["eac_mid_usd_m"] == "13761.137"
 
 
 def test_run_cost_model_scenario_bad_inputs_become_warnings():

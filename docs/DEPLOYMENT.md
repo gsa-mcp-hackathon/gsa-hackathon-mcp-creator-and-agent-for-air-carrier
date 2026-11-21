@@ -41,10 +41,28 @@ Code serverless CLI, app updates fail with `Invalid delegation claim present in 
 | `aircarrier-mcp-probe` | `mcp-servers/aircarrier-mcp-probe/` | none (UC volume grant on the SP) | - |
 | `mcp-bakehouse-sales` | `mcp-servers/mcp-bakehouse-sales/` | SQL warehouse, 1 UC table | - |
 | `aircarrier-front-center-dev` | `the-one-hub/ops-center/app/` | SQL warehouse, 4 serving endpoints (agent, reasoning, checker, fallback) | sql |
+| `mcp-aircarrier-hub` | `the-one-hub/ops-center/` (its `app.yaml` runs `mcp/mcp_server.py`) | none: it reads the shipped files in `app/data`, `seed` and `core` | - |
 
 The script reads each app's source folder from its active deployment, so the table is a
 reference, not configuration. App names that start with `mcp-` appear in the Genie Code MCP
 connector picker; the probe is named without the prefix on purpose.
+
+### First deployment of `mcp-aircarrier-hub`
+
+The script deploys apps that already exist. The hub is created once, with its Git source,
+then `deploy_from_github.py` keeps it current like the others:
+
+```
+databricks apps create mcp-aircarrier-hub --json '{
+  "description": "One Hub: the CVN-79 gate, policy checks, gap queue and cited corpus search as 16 read-only MCP tools",
+  "git_repository": {"url": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn", "provider": "gitHub"}}'
+databricks apps deploy mcp-aircarrier-hub --json '{"git_source": {"branch": "main", "source_code_path": "the-one-hub/ops-center"}}'
+```
+
+Then grant the probe's service principal `CAN_USE` on the app (Apps, `mcp-aircarrier-hub`,
+Permissions), as for the bakehouse server. The probe already lists it as a target, with
+`hub_check_claim` on the held $13,529M baseline as its known answer (it must come back
+`human_review`). Until the app exists, the probe reports the target as failing at `resolve`.
 
 Notes:
 

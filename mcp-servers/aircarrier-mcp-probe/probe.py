@@ -95,6 +95,13 @@ def _bakehouse(r: dict) -> str | None:
         "describe_sales did not return the sales dictionary"
 
 
+def _hub(r: dict) -> str | None:
+    # E-17: the December 2025 baseline of $13,529M is held for review; the gate
+    # must route it to a person and never promote it.
+    d = r.get("decision")
+    return None if d == "human_review" else f"hub_check_claim(13529) returned {d!r}, not human_review"
+
+
 @dataclass(frozen=True)
 class Target:
     app: str
@@ -109,6 +116,10 @@ TARGETS = [
     Target("mcp-aircarrier-analyst", 12, "analyst_model_status", {}, _analyst),
     Target("mcp-aircarrier-ops", 7, "carrier_work_register_counts", {}, _ops),
     Target("mcp-bakehouse-sales", 4, "mcp_describe_sales", {}, _bakehouse),
+    Target("mcp-aircarrier-hub", 16, "hub_check_claim",
+           {"hull": "CVN-79", "layer": "budget", "element": "Total Ship Estimate",
+            "period": "FY2027 PB", "value_musd": "13529", "tag": "VERIFIED", "confidence": 0.9},
+           _hub),
     Target("mcp-a-creator", 10),   # writes and deploys; listing its tools is the whole check
 ]
 

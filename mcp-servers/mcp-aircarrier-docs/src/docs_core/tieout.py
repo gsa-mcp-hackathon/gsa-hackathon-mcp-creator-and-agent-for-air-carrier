@@ -31,9 +31,50 @@ def _money_cols(t: Table) -> list[int]:
     return sorted({c.col for c in t.cells if c.value is not None and c.scale})
 
 
-def check_totals(t: Table) -> list[dict]:
+def _followed_by_subtotal(labels: dict[int, str]) -> list[int]:
+    """Total-labelled rows with a Subtotal below them before the next Total."""
+    rows = sorted(labels)
     out = []
+    for i, r in enumerate(rows):
+        lab = labels[r]
+        if not TOTAL.search(lab) or SUBTOTAL.search(lab):
+            continue
+        for later in rows[i + 1:]:
+            if SUBTOTAL.search(labels[later]):
+                out.append(r)
+                break
+            if TOTAL.search(labels[later]):
+                break
+    return out
+
+
+def _failures(res: list[dict]) -> set[tuple[str, str]]:
+    return {(r["row"], r["column"]) for r in res if not r["passed"]}
+
+
+def check_totals(t: Table) -> list[dict]:
+    """Every subtotal and total in the table, checked against its rows.
+
+    Some cost elements are named "Total ...": "TOTAL SHIP COMPUTING
+    ENVIRONMENT (TSCE)", "Total Ship Test Program". Read as totals they fail
+    and break the subtotal below them. A Total row with a Subtotal below it is
+    read as a line item only when that removes failures and adds none, so the
+    arithmetic decides, and a real total that ties is never reclassified."""
     labels = {r: t.row_label(r) for r in range(t.header_rows, t.n_rows)}
+    items: set[int] = set()
+    res = _check_totals(t, labels, items)
+    for r in _followed_by_subtotal(labels):
+        if not any(not x["passed"] and x["row"] == labels[r] for x in res):
+            continue
+        trial = _check_totals(t, labels, items | {r})
+        if _failures(trial) < _failures(res):  # a strict subset: fewer, none new
+            items.add(r)
+            res = trial
+    return res
+
+
+def _check_totals(t: Table, labels: dict[int, str], items: set[int]) -> list[dict]:
+    out = []
     for col in _money_cols(t):
         loose: list = []
         subs: list = []
@@ -43,7 +84,7 @@ def check_totals(t: Table) -> list[dict]:
                 continue
             c = t.numeric(r, col)
             is_sub = bool(SUBTOTAL.search(lab))
-            is_tot = bool(TOTAL.search(lab)) and not is_sub
+            is_tot = bool(TOTAL.search(lab)) and not is_sub and r not in items
             if not (is_sub or is_tot):
                 if c is not None and not SKIP.search(lab):
                     loose.append(c)
