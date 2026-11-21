@@ -17,3 +17,71 @@ rpt-5153ac3f,databricks-gpt-5-mini,tools_rep2,G07 PB2026 estimate,0,1,"Answer ke
 rpt-5153ac3f,databricks-gpt-5-mini,tools_rep3,H06 basic construction,0,1,"Pattern 63(\.1)?\s?% cannot match 63.11%, the value the server now returns. Answer gives 8,463.156 and 63.11%."
 rpt-5153ac3f,databricks-gpt-5-mini,tools_rep3,H10 decoy rework,0,1,"Says the figure cannot be found and gives no dollar amount; the pattern did not accept ""cannot find""."
 rpt-5153ac3f,databricks-gpt-5-mini,tools_rep3,G07 PB2026 estimate,0,0,"Answer gives the PB 2027 figure, 13,409.970."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-11 obl_fy_deob,0,0,"Model: lists the three actions (-7,500, -2,879, -2,500) correctly, then totals them -11,879 instead of -12,879."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-12 obl_fy_deob,0,0,"Model or tool: counts 8 deobligations; the ninth, AZ0065 (2021-12-07, FY2022, -1,540.00), is missing, so the total is short. The trace does not keep tool results, so whether the tool returned it is not known."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-12 obl_fy_deob,0,0,"Model or tool: counts 8 deobligations; the ninth, AZ0065 (2021-12-07, FY2022, -1,540.00), is missing, so the total is short. The trace does not keep tool results, so whether the tool returned it is not known."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-12 obl_fy_deob,0,0,"Model or tool: counts 8 deobligations; the ninth, AZ0065 (2021-12-07, FY2022, -1,540.00), is missing, so the total is short. The trace does not keep tool results, so whether the tool returned it is not known."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-14 obl_fy_deob,0,0,"Model: right count (8) and right eight amounts; totals them -5,817,833.00 instead of -5,828,833.00."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-14 obl_fy_deob,0,0,"Model: right count (8) and right eight amounts; totals them -5,817,833.00 instead of -5,828,833.00."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-14 obl_fy_deob,0,0,"Model: right count (8) and amounts; totals them -5,829,833.00 instead of -5,828,833.00."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-14 obl_fy_deob,0,0,"Model: right count (8) and amounts; states the total as -5,612,063.00."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-14 obl_fy_deob,0,0,"Model: lists eight amounts but states 7 actions, and totals them -5,829,833.00."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-21 obl_no_such_mod,0,0,Model: reports modification A00172 as if it were the P00172 asked about; never says P00172 does not exist.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-21 obl_no_such_mod,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-22 obl_no_such_mod,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,R4-23 obl_no_such_mod,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-23 obl_no_such_mod,0,1,"Grader: says it finds no P00173 on N00024-09-C-2116 and that P00173 is on N00024-15-C-2114; the refusal patterns do not accept ""I find no""."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,R4-24 obl_no_such_mod,0,0,"Model: says ""the modification number is A00179 (not P00179)"" and reports A00179's $9,000.00 as the answer; does not say that P00179 is absent from this contract."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-24 obl_no_such_mod,0,1,"Grader: says P00179 was on N00024-15-C-2114, not N00024-09-C-2116, and describes that action; the refusal patterns do not accept this wording."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,R4-26 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-26 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-26 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-26 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2015 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer says the PB2015 book is not loaded; it is loaded."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-26 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2015 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer gives 3,642,159 from PB2015 p.60 (one run calls that page the carrier refueling overhaul P-5), not the CVN 78 P-5c figure (5,995,429 thousand)."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-26 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2015 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer gives 3,642,159 from PB2015 p.60 (one run calls that page the carrier refueling overhaul P-5), not the CVN 78 P-5c figure (5,995,429 thousand)."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,R4-27 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-27 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-27 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-27 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2013 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer says the PB2013 book is not loaded; it is loaded."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-27 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2013 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer says the PB2013 book is not loaded; it is loaded."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-27 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2013 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer says the PB2013 book is not loaded; it is loaded."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-30 p5c_cell,0,0,Model: says PB2020 is not loaded; it is loaded and its line item 2001 P-5c is in the docs map (pp.51-52). Whether a P-5c for CVN 81 under another line item is mapped was not checked.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-31 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-31 p5c_cell,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-31 p5c_cell,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2008 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer says the PB2008 book is not loaded; it is loaded."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,R4-35 p5c_tse_change,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,R4-35 p5c_tse_change,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,R4-35 p5c_tse_change,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-35 p5c_tse_change,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2010 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer says the PB2010 pages are not loaded and gives only the PB2017 estimate."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-35 p5c_tse_change,0,0,"Tool: the docs map has no P-5c section for line item 2001 in PB2010 (P-5c sections exist for PB2017, PB2019-PB2027 only); the figure is printed in the page text. The answer takes both estimates from other books and columns and gives +522.970 instead of 2,041.169."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-35 p5c_tse_change,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-36 p5c_tse_change,0,0,Model: says no CVN 80 Total Ship Estimate is printed in PB2020 or PB2022; both P-5c exhibits are in the docs map.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-36 p5c_tse_change,0,0,"Model: reads 12,335.110 from PB2020 and does not read PB2022; gives +1,007.765 instead of 70.433."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-40 premise_trap,0,1,"Grader: rejects the premise (CV-67 is the earlier carrier, not CVN-79); written with a non-breaking hyphen (U+2011) that the patterns do not accept."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-43 premise_trap,0,1,"Grader: N00024-14-C-4201 is a negative term (absent from the data); the answer reports that its searches found no matching actions, in words the refusal patterns do not accept."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,R4-43 premise_trap,0,1,"Grader: N00024-14-C-4201 is a negative term (absent from the data); the answer reports that its searches found no matching actions, in words the refusal patterns do not accept."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,R4-43 premise_trap,0,1,"Grader: N00024-14-C-4201 is a negative term (absent from the data); the answer reports that its searches found no matching actions, in words the refusal patterns do not accept."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,R4-45 premise_trap,0,1,"Grader: says N00024-17-C-2117 is not a CVN-79 contract (it is the Columbia-class IPPD contract) and contributes nothing directly; the patterns need ""not CVN-79"" with no word between."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,U07 regulation,0,1,"Grader: gives $100.0 million (11,398.0 to 11,498.0), the CNO determination and operational capability; the pattern does not accept ""100.0 million"" or ""11,498.0""."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U11 multi_source,0,0,"Model: right difference (2,131.0) but the reason given is the baseline notification, not the cap's inflation adjustment."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,U11 multi_source,0,0,"Model: right difference (2,131.0) but the reason given is the baseline notification, not the cap's inflation adjustment."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,U12 multi_source,0,0,"Model: right MSAR date (July 2025) but gives GAO's delivery as March 2029, so no 20-month figure."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U12 multi_source,0,0,Model: right MSAR date (July 2025) but gives GAO's delivery as May 2026 and 10 months.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,U12 multi_source,0,0,Model: right MSAR date (July 2025) but uses the GAO report's own date (July 2026) as the delivery date.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U14 judgment,0,0,"Model: answers no, but on labor hours, not on the program unit cost falling because more ships share it."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,U14 judgment,0,0,"Model: answers no, but on labor hours, not on the program unit cost falling because more ships share it."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,U15 judgment,0,1,"Grader: answers that they are not three caps but the same cost cap changed by the FY2014 and FY2016 NDAAs, which is the key's answer; the pattern accepts ""same cap"" but not ""same cost cap""."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep2,U15 judgment,0,1,"Grader: answers that they are not three caps but the same cost cap changed by the FY2014 and FY2016 NDAAs, which is the key's answer; the pattern accepts ""same cap"" but not ""same cost cap""."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep3,U15 judgment,0,1,"Grader: answers that they are not three caps but the same cost cap changed by the FY2014 and FY2016 NDAAs, which is the key's answer; the pattern accepts ""same cap"" but not ""same cost cap""."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U17 judgment,0,1,"Grader: answers no, an as-of difference already resolved (E-16); written ""as‑of"" with a non-breaking hyphen (U+2011) that the pattern does not accept."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,U18 premise,0,1,"Grader: asks which figure is meant but states that CVN-79 has not yet had an RCOH; the pattern accepts ""has not had"" but not ""has not yet had""."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U18 premise,0,1,Grader: says there is no RCOH cost for CVN 79 because it is a new-construction carrier with no RCOH scheduled; the pattern does not accept this wording.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,U18 premise,0,0,Model: says it found no figure and asks for a source; does not reject the premise.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U19 premise,0,0,"Model: says the FY2020 NDAA reduced the cap by $100.0 million; the key is that it did not increase it (11,398.0 unchanged)."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,U20 document,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U21 hard,0,0,"Model: reads the FY2016-FY2019 advance procurement lines from the wrong column and totals 749.870, not 3,327.05 for FY2007-FY2012."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U22 hard,0,0,Model: lists the six cost-to-complete lines (FY2022-FY2027) but gives no total.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep3,U22 hard,0,0,"Model: lists the six lines correctly and totals them 1,987.300 instead of 2,087.300."
+r4-4bb6a2a6,databricks-claude-sonnet-4-5,tools_rep1,U24 document,0,0,Turn limit: no answer after 8 tool turns.
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep1,U24 document,0,0,"Model: gives the February 2025 completion and May 2025 IOC; neither key date (March 2025, February 2028) appears."
+r4-4bb6a2a6,databricks-gpt-5-mini,tools_rep2,U24 document,0,0,"Model: gives February 2025 and says no original date is stated; neither key date (March 2025, February 2028) appears."
