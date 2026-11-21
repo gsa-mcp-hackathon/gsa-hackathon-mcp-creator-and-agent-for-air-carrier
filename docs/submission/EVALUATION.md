@@ -2,8 +2,10 @@
 
 GSA MCP & SI Agent Government Hackathon. Track: **Dataset Access Server**.
 
-This document follows the four headings of the GSA evaluation template. It replaces the
-earlier `evaluation-report.pdf` (602 tests, written before delegation round 3). Every number
+This document follows the four headings of the GSA evaluation template. The same results
+are laid out on the template itself in [evaluation-report.docx](evaluation-report.docx)
+([PDF](evaluation-report.pdf)), which replaces the earlier report written before delegation
+round 3. Every number
 below was re-run or re-queried on 2026-11-20 against commit `31f3409`, or on 2026-11-21 where
 it says so (code suites, delegation round 4), and each one names the file or command that
 reproduces it.
@@ -128,6 +130,23 @@ flagged the injection to the user either, which is a gap.
 * CVN-79 Total Ship Estimate, $13,409.970M (PB2027 P-5c, p.95), closes to 0.000 by cost
   category and by funding stream.
 * Impact page: 24 of 24 figures found verbatim on the cited page of the cited artifact.
+
+### 2.6 Agent workflows and human authority in the front center
+
+The front center is where agent output meets a person with authority. Its controls are
+tested in the One Hub suite counted in 2.1.
+
+| Part | Control tested | Suite |
+| --- | --- | --- |
+| Four specialist workflows (Obligation Reconciler, Account Analyst, Gap Investigator, Brief Composer) | Six stages in `app/api/si/sdk.py`: an unknown task and subject pair is refused; code packs the evidence in exact decimals; one model explains and cannot add, re-amount or re-route a proposal; code grounds every number and a second model family checks the answer | `checks/test_si.py`, 24 |
+| Decisions under the user's own identity | Unity Catalog decides authority under the signed-in user's on-behalf-of token against a dated role map; only the owning role can apply; a refusal names its reason | `checks/test_work.py` 78, `checks/test_harness.py` 68 |
+| Answer a question | Enters as a lead, attributed to the signed-in user, typed and size-capped, same-origin posts only | `checks/test_capture_ask.py`, 32 |
+| The gate | Deterministic promote, hold or review; no model | `checks/test_gate.py`; agents suite 46 of 46 |
+| One Hub MCP server `mcp-aircarrier-hub` | 16 read-only `hub_` tools; inputs validated before the call | `checks/test_mcp_server.py`, 23 |
+
+The 2026-11-21 demo shows the role check in a live run: the user holds PMS 379, the residual
+lead belongs to the Office of Financial Operations and is refused, and the request for
+obligation detail, owned by PMS 379, is applied and recorded with the role and the run number.
 
 ## 3. Security considerations
 

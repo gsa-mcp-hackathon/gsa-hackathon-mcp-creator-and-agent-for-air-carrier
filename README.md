@@ -60,7 +60,7 @@ It holds two things that depend on each other: the product, and the proof that i
 | | |
 | --- | --- |
 | **Live front center** | <https://aircarrier-front-center-dev-7474654188777746.aws.databricksapps.com/> (Databricks sign-in required, see [below](#open-the-front-center)) |
-| **Evaluation** | [docs/submission/EVALUATION.md](docs/submission/EVALUATION.md) (current; the older [evaluation-report.pdf](docs/submission/evaluation-report.pdf) predates round 3) |
+| **Evaluation** | [docs/submission/EVALUATION.md](docs/submission/EVALUATION.md), and the same results on the GSA template: [evaluation report (Word)](docs/submission/evaluation-report.docx) · [PDF](docs/submission/evaluation-report.pdf) |
 | **Slide deck** | [PowerPoint](docs/submission/mcp-a-creator-one-hub-deck.pptx) · [PDF](docs/submission/mcp-a-creator-one-hub-deck.pdf) |
 | **No account needed** | [Run the front center locally](#run-the-front-center-locally) in two commands, or see the [screenshots](#screenshots) |
 | **Score per server** | [SCORECARD.md](SCORECARD.md): tools, tests, sweep, accuracy, probe and what is open, one row per server |
@@ -348,27 +348,43 @@ register row or rule they name. Run locally on the shipped extracts, the four ag
 
 ### Screenshots
 
+Taken on 2026-11-21 from the app run locally on the shipped extracts, except the last row,
+which is from the deployed app in the Databricks workspace.
+
 | | |
 | --- | --- |
-| ![Overview: what has CVN-79 cost](docs/screenshots/home.jpg) | ![Cost composition: two axes, zero residual](docs/screenshots/cost.jpg) |
-| **Overview.** Four headline numbers, each with its source. | **Cost composition.** Exhibit P-5c by category and by funding stream, both closing to zero. |
-| ![Budget execution from the transaction record](docs/screenshots/execution.jpg) | ![Gap register](docs/screenshots/gaps.jpg) |
-| **Budget execution.** 1,875 prime actions on two HII contracts, from USAspending. | **Gap register.** 65 unknowns ranked on exposure x ignorance x closability. |
-| ![Variance register](docs/screenshots/variances.jpg) | ![Knowledge base](docs/screenshots/knowledge.jpg) |
-| **Variance register.** 17 places where public sources disagree. | **Knowledge base.** 43 catalogued artifacts, every search hit cited to a page. |
+| ![The stack: seven capabilities](docs/screenshots/stack.jpg) | ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) |
+| **The stack.** The seven capabilities, how they fit, how each was tested and what the tests do not show. | **Impact.** From CVN-79 to the Ford class, 29 Navy ship lines, the F-35 and the 59 PB2027 MSAR programs. |
+| ![Brief: a guided start](docs/screenshots/brief.jpg) | ![Position: which figure to quote](docs/screenshots/position.jpg) |
+| **Brief.** Four steps: pick your question, check what the evidence supports, act on what is open, use the tools. | **Position.** The four published figures, what kind of number each is, and what not to call it. |
+| ![Cost composition: two axes, zero residual](docs/screenshots/cost.jpg) | ![Budget execution from the transaction record](docs/screenshots/execution.jpg) |
+| **Cost composition.** Exhibit P-5c by category and by funding stream, both closing to zero. | **Budget execution.** 1,875 prime actions on two HII contracts, from USAspending. |
+| ![Gap register](docs/screenshots/gaps.jpg) | ![Variance register](docs/screenshots/variances.jpg) |
+| **Gap register.** 59 open questions ranked, each with the office that can close it. | **Variance register.** 17 places where public sources disagree, and why. |
+| ![Answer a question](docs/screenshots/insight.jpg) | ![The ship](docs/screenshots/kennedy.jpg) |
+| **Answer a question.** Experts at headquarters and in the field record what they know; it enters as a lead with their name. | **The ship.** Identity, key dates and construction photographs. |
+| ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) | ![Ask the evidence: a cited answer, marked as a lead](docs/screenshots/live-ask.jpg) |
+| **Role-based approval, live.** The user holds PMS 379; the residual lead belongs to the Office of Financial Operations, so the app refuses to apply it. | **Ask the evidence, live.** One tool call, the total, the largest action and every modification it rests on. |
 
 ### Demo video
 
-The 14:28 demo video was submitted with the entry. Two lines in its narration were
-recorded before later corrections, and this README is the current record:
+The 13:56 demo video (1080p, narrated, subtitled) was recorded on 2026-11-21 from the deployed
+apps and submitted with the entry. Waiting time while an agent works is cut and marked on screen.
+Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-demo.srt).
 
-- Where the narration says the budget total is "+$473.97M over the adjusted limit", that
-  reading holds against the $12,936M baseline in force. The FY2027 MSAR reports a December
-  2025 baseline of $13,529M, under human review as [E-17](#e-17-the-baseline-under-review).
-  If it is confirmed, the total sits $119.03M under the baseline.
-- Where it says "43 documents", it means the front center knowledge base: 43 catalogued
-  artifacts, 2,765 chunks from 22 indexed documents. The docs MCP server holds a separate
-  corpus, now 34 PDFs, 7,804 pages and 20,829 chunks.
+| Time | Chapter |
+| --- | --- |
+| 0:00 | The problem, the five layers, the seven apps on Databricks deployed from GitHub |
+| 2:19 | Six servers and 60 tools; MCP A Creator; the evaluation |
+| 4:22 | The stack and Impact; carrying the build to the next program |
+| 5:50 | Brief, Ask the evidence, the ship, Position |
+| 7:03 | The agent workflow, and role-based approval in a live specialist run |
+| 8:41 | Cost, estimate history, budget execution, the gap register and a Gap Investigator run |
+| 9:54 | Variance, asset valuation, industrial base |
+| 10:19 | Ask the evidence, the work queue, brief readiness and an Obligation Reconciler run |
+| 11:24 | Run log, detail table, sources and method |
+| 11:48 | Answer a question: experts at headquarters and in the field |
+| 12:40 | Beyond DoD, production posture, close |
 
 ---
 
@@ -558,7 +574,7 @@ happened to each finding is in the
 | 83.3% strict held-out with tools, 25.0% without | [`eval/delegation/runs.csv`](eval/delegation/runs.csv), [`RESULTS.md`](eval/delegation/RESULTS.md) | `python3 eval/delegation/analyze.py` (CI fails if it disagrees with RESULTS.md) |
 | No tool accepts a hostile argument | [`mcp-servers/test_adversarial_arguments.py`](mcp-servers/test_adversarial_arguments.py) | `scripts/check.sh mcp-local` |
 | Free text never becomes code in a generated project | [`mcp-server-creator/tests/test_injection_safety.py`](mcp-server-creator/tests/test_injection_safety.py) | `scripts/check.sh creator` |
-| Byte-identical generation, 58 of 58 files | [evaluation report](docs/submission/evaluation-report.pdf), section 10 | The command in the report's section 14 |
+| Byte-identical generation, 58 of 58 files | [evaluation](docs/submission/EVALUATION.md), section 2.5 | `scripts/check.sh creator` |
 | $13,409.970M closes to zero on two axes | [`checks/verify.py`](the-one-hub/ops-center/checks/verify.py) | `scripts/check.sh one-hub` |
 | 99.90% availability over eight days | [evaluation](docs/submission/EVALUATION.md), section 2.2 | The probe app, [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/) |
 | 43.1% and 69.4% on sealed questions fixed before each run | [`eval/delegation/README.md`](eval/delegation/README.md) (the seals), [`questions_h2.json`](eval/delegation/questions_h2.json), [`questions_h3.json`](eval/delegation/questions_h3.json) | `sha256sum eval/delegation/questions_h*.json`, then `python3 eval/delegation/analyze.py` |
