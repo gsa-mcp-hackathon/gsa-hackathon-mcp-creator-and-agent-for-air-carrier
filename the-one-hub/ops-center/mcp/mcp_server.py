@@ -15,9 +15,16 @@ from __future__ import annotations
 import json
 import pathlib
 import sys
-from typing import Any
+from typing import Annotated, Any, Literal
 
 import yaml
+from pydantic import Field
+
+try:  # the tool bodies run without the mcp package; only the MCP surface needs it
+    from mcp.server.fastmcp.exceptions import ToolError
+except ImportError:  # pragma: no cover
+    class ToolError(Exception):
+        """Stand-in so the module imports where mcp is not installed."""
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -205,9 +212,10 @@ def tie_out(total: float, axis_a: dict, axis_b: dict) -> dict:
 def check_anchor_chain(steps: list, expected_total: float) -> dict:
     """Each increment named and attributable, ending at the published total.
 
-    steps: [[label, delta], ...]
+    steps: [[label, delta], ...]. Deltas may be strings as printed; the check
+    keeps them as exact decimals.
     """
-    res = anchor_chain([(s[0], float(s[1])) for s in steps], expected_total)
+    res = anchor_chain([(s[0], s[1]) for s in steps], expected_total)
     return {"passed": res.passed, "detail": res.detail, "residual": round(res.residual, 6)}
 
 
@@ -360,10 +368,237 @@ def corpus_status() -> dict:
     return out
 
 
-TOOLS = [search_corpus, corpus_status,
-         list_tables, get_table, search_mechanisms, get_keyset, exhibit_hazards,
-         rank_gaps, get_gap, plan_gap, next_work, check_claim, challenge_text,
-         tie_out, check_anchor_chain, collection_requirement]
+# ------------------------------------------------------------- MCP surface
+# The functions above are the Python API: the agents, the front center and the
+# tests call them directly. The MCP surface below is what an agent sees. Each
+# tool validates its arguments with Pydantic before the body runs, takes only
+# scalars, enums and lists of strings (no dicts, no nullable unions: the
+# Creator's portability rule, which keeps the schema readable by every model
+# behind an AI gateway), raises ToolError instead of returning an error dict,
+# and is marked read-only. Names carry a hub_ prefix so they cannot collide with
+# another server's list_tables or get_table in a multi-server client.
+
+SERVER_NAME = "mcp-aircarrier-hub"
+INSTRUCTIONS = (
+    "The CVN-79 One Hub: the governed stores, the gap queue and the deterministic checks. "
+    "Start a cost question with hub_search_mechanisms and hub_get_keyset (read the "
+    "collisions section before any contract query). Check a candidate figure with "
+    "hub_check_claim before treating it as a figure: it returns a routing decision, never "
+    "a promotion. Reconcile with hub_tie_out and hub_check_anchor_chain; they use exact "
+    "decimals and no model. A lead's only output is a Collection Requirement "
+    "(hub_collection_requirement or hub_plan_gap). No tool writes anything."
+)
+READ_ONLY = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True,
+             "openWorldHint": False}
+
+NUMBER = r"^-?\d{1,12}(\.\d{1,6})?$"
+NUMBER_OR_EMPTY = r"^$|^-?\d{1,12}(\.\d{1,6})?$"
+TableName = Annotated[str, Field(min_length=1, max_length=64, pattern=r"^[a-z0-9_]+$",
+                                 description="A table name from hub_list_tables, e.g. gaps.")]
+GapId = Annotated[str, Field(min_length=2, max_length=4, pattern=r"^[Gg]\d{1,3}$",
+                             description="A gap id, e.g. G14.")]
+Amount = Annotated[str, Field(min_length=1, max_length=20, pattern=NUMBER,
+                              description="An amount in $M as printed, e.g. 13409.970.")]
+Labels = Annotated[list[Annotated[str, Field(max_length=120)]],
+                   Field(min_length=1, max_length=40, description="One label per line.")]
+Amounts = Annotated[list[Annotated[str, Field(max_length=20, pattern=NUMBER)]],
+                    Field(min_length=1, max_length=40,
+                          description="One amount in $M per label, in the same order.")]
+Short = Annotated[str, Field(max_length=200)]
+KeysetSection = Literal["", "ship", "budget", "contracts", "collisions", "vendor", "ledger",
+                        "scope_boundary"]
+TagName = Literal["VERIFIED", "DERIVED", "ESTIMATE", "UNKNOWN", "REJECTED"]
+
+
+def _ok(result: dict) -> dict:
+    """An answer, or a ToolError when the body reported one."""
+    if isinstance(result, dict) and "error" in result:
+        extra = {k: v for k, v in result.items() if k != "error"}
+        raise ToolError(result["error"] + (f" {json.dumps(extra, default=str)}" if extra else ""))
+    return result
+
+
+def _pairs(labels: list[str], amounts: list[str], what: str) -> dict[str, str]:
+    if len(labels) != len(amounts):
+        raise ToolError(f"{what}: {len(labels)} labels but {len(amounts)} amounts; give one amount "
+                        "per label, in the same order.")
+    if len(set(labels)) != len(labels):
+        raise ToolError(f"{what}: each label must be unique.")
+    return dict(zip(labels, amounts, strict=True))
+
+
+def hub_list_tables() -> dict:
+    """Every table the One Hub serves: program, cost_categories, funding_streams,
+    obligations, contracts, gaps, variances, cap_history and more. Each carries a
+    'source' field naming the document and section it comes from."""
+    return list_tables()
+
+
+def hub_get_table(name: TableName) -> dict:
+    """One table with its rows and its source attribution, e.g. cost_categories
+    (the P-5c decomposition) or cap_history (the statutory cap and its increments)."""
+    return _ok(get_table(name))
+
+
+def hub_search_mechanisms(
+    query: Annotated[str, Field(min_length=2, max_length=200,
+                                description="A word or phrase, e.g. 'outlay' or 'change orders'.")],
+    limit: Annotated[int, Field(ge=1, le=50)] = 8,
+) -> dict:
+    """Rules about how carrier money works: where to look, when a value is
+    impossible, why two layers differ. Not figures. Query before interpreting
+    a document you have not read before."""
+    return search_mechanisms(query, limit)
+
+
+def hub_get_keyset(section: KeysetSection = "") -> dict:
+    """The identifiers that isolate CVN-79: hull, budget lines, contracts, vendor,
+    ledger, scope boundary. Read 'collisions' before building any contract query:
+    some contract numbers differ from CVN-79's by one digit and belong to other hulls."""
+    return get_keyset(section)
+
+
+def hub_exhibit_hazards(
+    exhibit: Annotated[str, Field(max_length=32, pattern=r"^[A-Za-z0-9 .\-]*$",
+                                  description="An exhibit, e.g. P-5 or P-8a; empty for all.")] = "",
+) -> dict:
+    """Known traps for a budget or acquisition exhibit (P-1, P-5, P-8a, P-10, P-21,
+    the MSAR contract table, USAspending transactions). Every extraction from that
+    exhibit inherits them."""
+    return exhibit_hazards(exhibit)
+
+
+def hub_rank_gaps(
+    limit: Annotated[int, Field(ge=1, le=100)] = 10,
+    free_only: Annotated[bool, Field(description="Only gaps that need no access to close.")] = False,
+) -> dict:
+    """The open questions blocking the CVN-79 number, ranked by exposure,
+    ignorance and closability. High-exposure gaps that need access are the
+    access ask; the free ones are the work queue."""
+    return rank_gaps(limit, free_only)
+
+
+def hub_get_gap(gap_id: GapId) -> dict:
+    """One gap: its question, type, the office that can close it, its dollar
+    exposure and what it blocks."""
+    return _ok(get_gap(gap_id))
+
+
+def hub_plan_gap(gap_id: GapId) -> dict:
+    """What to do about one gap: candidate explanations and, for each, a Collection
+    Requirement naming the document, system or office that settles it. Never a figure."""
+    return _ok(plan_gap(gap_id))
+
+
+def hub_next_work(limit: Annotated[int, Field(ge=1, le=20)] = 5) -> dict:
+    """The top of the gap queue with a first step for each, split into work that
+    needs no access and the access to ask for."""
+    return next_work(limit)
+
+
+def hub_check_claim(
+    hull: Annotated[str, Field(min_length=3, max_length=16, pattern=r"^[A-Za-z]{2,4}[- ]?\d{1,3}$",
+                               description="The hull, e.g. CVN-79.")],
+    layer: Annotated[str, Field(min_length=1, max_length=60,
+                                description="The layer, e.g. budget, obligation, outlay, asset.")],
+    element: Annotated[str, Field(min_length=1, max_length=120,
+                                  description="What the figure measures, e.g. Total Ship Estimate.")],
+    period: Annotated[str, Field(min_length=1, max_length=40, description="e.g. FY2027 PB.")],
+    value_musd: Annotated[str, Field(max_length=20, pattern=NUMBER_OR_EMPTY,
+                                     description="The figure in $M as printed; empty if none.")] = "",
+    tag: TagName = "UNKNOWN",
+    confidence: Annotated[float, Field(ge=0.0, le=1.0)] = 0.0,
+    source_system: Short = "",
+    exhibit: Annotated[str, Field(max_length=40)] = "",
+    column_header_chain: Annotated[list[Annotated[str, Field(max_length=200)]],
+                                   Field(max_length=12, description="Column headers, outermost first.")] = (),
+    page_legends: Annotated[list[Annotated[str, Field(max_length=200)]],
+                            Field(max_length=12, description="Every legend printed on the page, "
+                                                             "e.g. 'Dollars in Millions'.")] = (),
+    neighborhood: Annotated[str, Field(max_length=4000, description="The text around the figure.")] = "",
+    notes: Annotated[str, Field(max_length=2000)] = "",
+) -> dict:
+    """Check a candidate figure against the decision log and the gate before it is
+    treated as a figure. Returns the policy violations (each naming its D-number),
+    the risk flags and the routing decision with its reason. Never promotes: a
+    person or a deterministic rule acts on the decision."""
+    return check_claim(hull, layer, element, period,
+                       value=float(value_musd) if value_musd else None, tag=tag,
+                       confidence=confidence, source_system=source_system or None,
+                       exhibit=exhibit or None, column_header_chain=list(column_header_chain),
+                       page_legends=list(page_legends), neighborhood=neighborhood, notes=notes)
+
+
+def hub_challenge_text(
+    text: Annotated[str, Field(min_length=1, max_length=20000,
+                               description="A passage to test before trusting it.")],
+    subject: Annotated[str, Field(min_length=3, max_length=16)] = "CVN-79",
+) -> dict:
+    """Run the falsification vocabulary over a passage: wrong platform, wrong hull,
+    identifier collision, announcement-derived figures, unusable outlay fields."""
+    return challenge_text(text, subject)
+
+
+def hub_tie_out(
+    total: Amount,
+    axis_a_labels: Labels, axis_a_amounts: Amounts,
+    axis_b_labels: Labels, axis_b_amounts: Amounts,
+) -> dict:
+    """Close one total on two independent decompositions, e.g. the P-5c by cost
+    category (axis a) and by funding stream (axis b). Exact decimals, no model;
+    passes only when both close to the exhibit's rounding ($500 on a $M exhibit)."""
+    return tie_out(total, _pairs(axis_a_labels, axis_a_amounts, "axis a"),
+                   _pairs(axis_b_labels, axis_b_amounts, "axis b"))
+
+
+def hub_check_anchor_chain(step_labels: Labels, step_amounts: Amounts,
+                           expected_total: Amount) -> dict:
+    """Check that named increments, starting from an anchor such as the statutory
+    cap, add up exactly to a published total."""
+    pairs = _pairs(step_labels, step_amounts, "steps")
+    return check_anchor_chain([[k, v] for k, v in pairs.items()], expected_total)
+
+
+def hub_collection_requirement(
+    lead: Annotated[str, Field(min_length=3, max_length=2000,
+                               description="What to retrieve, in one instruction.")],
+    gap_id: Annotated[str, Field(max_length=4, pattern=r"^$|^[Gg]\d{1,3}$")] = "",
+    target_document: Short = "", target_system: Short = "", target_office: Short = "",
+    period: Annotated[str, Field(max_length=40)] = "",
+    account: Annotated[str, Field(max_length=60)] = "",
+) -> dict:
+    """Draft a Collection Requirement from a lead: what to retrieve, from which
+    document, system or office, for which period and account. At least one target
+    is required. Drafts only; nothing is stored."""
+    return _ok(collection_requirement(lead, gap_id, target_document, target_system,
+                                      target_office, period, account))
+
+
+def hub_search_corpus(
+    query: Annotated[str, Field(min_length=2, max_length=300)],
+    k: Annotated[int, Field(ge=1, le=20)] = 6,
+    authoritative_only: Annotated[bool, Field(description=(
+        "Keep true for anything that could become a figure: with it off, summaries "
+        "outrank the documents they summarise."))] = True,
+    artifact_id: Annotated[str, Field(max_length=64, pattern=r"^[A-Za-z0-9_.\-]*$")] = "",
+    figures_only: Annotated[bool, Field(description="Only passages that contain dollar amounts.")] = False,
+) -> dict:
+    """Search the document knowledge base. Every hit carries its page citation; a
+    passage is a lead until it is read in place on the cited page."""
+    return _ok(search_corpus(query, k, authoritative_only, artifact_id or None, figures_only))
+
+
+def hub_corpus_status() -> dict:
+    """What the knowledge base holds and what it leaves out by design (structured
+    tables and images)."""
+    return corpus_status()
+
+
+TOOLS = [hub_search_corpus, hub_corpus_status,
+         hub_list_tables, hub_get_table, hub_search_mechanisms, hub_get_keyset,
+         hub_exhibit_hazards, hub_rank_gaps, hub_get_gap, hub_plan_gap, hub_next_work,
+         hub_check_claim, hub_challenge_text, hub_tie_out, hub_check_anchor_chain,
+         hub_collection_requirement]
 
 
 # ------------------------------------------------------------------ servers
@@ -371,9 +606,12 @@ def build():
     """Build the FastMCP server. Imported lazily so the module stays testable
     without the mcp package installed."""
     from mcp.server.fastmcp import FastMCP
-    srv = FastMCP("aircarrier-ops")
+    from mcp.types import ToolAnnotations
+    srv = FastMCP(SERVER_NAME, instructions=INSTRUCTIONS)
     for fn in TOOLS:
-        srv.tool()(fn)
+        title = fn.__name__.removeprefix("hub_").replace("_", " ").capitalize()
+        srv.tool(name=fn.__name__,
+                 annotations=ToolAnnotations(title=title, **READ_ONLY))(fn)
     return srv
 
 

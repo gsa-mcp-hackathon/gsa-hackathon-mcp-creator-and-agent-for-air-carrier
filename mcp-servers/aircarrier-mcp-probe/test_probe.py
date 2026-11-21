@@ -99,11 +99,18 @@ def test_resolve_and_transport_errors_are_rows_not_crashes():
 
 def test_run_summarizes_failing_targets_and_creator_lists_only():
     post, calls = server(tools=12, answer={"engine": "analyst/0.1", "totals": {"record_count": 5},
+                                           "source": "sales", "fields": [{"name": "transactionID"}],
                                            **DOCS_OK})
     out = sweep(post).run()
-    assert out["ok"] and out["failing"] == [] and out["targets"] == 4
+    assert out["ok"] and out["failing"] == [] and out["targets"] == 5
     creator = [c for c in calls if "mcp-a-creator" in c[0]]
     assert [c[1] for c in creator] == ["initialize", "tools/list"]       # never calls a creator tool
+
+
+def test_bakehouse_known_answer_needs_the_sales_dictionary():
+    assert P._bakehouse({"source": "sales", "fields": [{"name": "transactionID"}]}) is None
+    assert P._bakehouse({"source": "sales", "fields": []})
+    assert P._bakehouse({})
 
 
 def test_safe_mcp_url_allows_only_apps_hosts():

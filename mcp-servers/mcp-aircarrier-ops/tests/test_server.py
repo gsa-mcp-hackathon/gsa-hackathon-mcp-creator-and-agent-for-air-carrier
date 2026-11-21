@@ -164,7 +164,7 @@ def test_counts_freshness_note_names_the_snapshot_date():
 
 
 async def test_obligation_search_defaults_to_summary_fields():
-    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+    from mcp_aircarrier_ops.tools import mcp_search_obligations as ob
 
     seen: list[str] = []
 
@@ -203,7 +203,7 @@ async def test_obligation_search_defaults_to_summary_fields():
 
 async def test_obligation_search_finds_the_base_award_by_filter():
     """An agent asked for 'modification 0' must not guess a keyword (eval Q4)."""
-    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+    from mcp_aircarrier_ops.tools import mcp_search_obligations as ob
 
     seen: list[tuple[str, list]] = []
 
@@ -234,7 +234,7 @@ async def test_obligation_search_finds_the_base_award_by_filter():
 
 async def test_obligation_search_returns_the_server_side_sum():
     """Fresh eval F1: models counted 28 FY2010 actions right but mis-added them."""
-    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+    from mcp_aircarrier_ops.tools import mcp_search_obligations as ob
 
     seen: list[str] = []
 
@@ -264,7 +264,7 @@ async def test_obligation_search_returns_the_server_side_sum():
 
 async def test_obligation_as_of_comes_from_the_data_not_a_constant():
     """Eval F4: as_of said 2026-06-10 while the latest action was 2026-07-20."""
-    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+    from mcp_aircarrier_ops.tools import mcp_search_obligations as ob
 
     seen: list[str] = []
 
@@ -350,7 +350,7 @@ def test_store_schema_env_moves_every_table():
     src = pathlib.Path(__file__).resolve().parents[1] / "src"
     code = (
         "from mcp_aircarrier_ops.tools import mcp_get_exhibit_cells as a, "
-        "mcp_search_exhibit_cells as b, mcp_search_obligations_2116 as c, "
+        "mcp_search_exhibit_cells as b, mcp_search_obligations as c, "
         "mcp_search_graph_edges as d, mcp_search_work_register as e, "
         "mcp_work_register_totals as f, mcp_search_variances as g\n"
         "from mcp_aircarrier_ops.routes import LANDING\n"
@@ -412,7 +412,7 @@ async def test_every_tool_documents_itself():
 
 
 async def _obligations(arguments: dict) -> tuple[dict, list[tuple[str, list]]]:
-    from mcp_aircarrier_ops.tools import mcp_search_obligations_2116 as ob
+    from mcp_aircarrier_ops.tools import mcp_search_obligations as ob
 
     seen: list[tuple[str, list]] = []
 

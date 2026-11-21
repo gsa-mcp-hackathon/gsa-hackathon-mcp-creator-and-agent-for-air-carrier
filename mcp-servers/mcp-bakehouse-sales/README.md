@@ -1,4 +1,6 @@
-# Mcp Bakehouse Sales
+# mcp-bakehouse-sales
+
+> **Scorecard:** 4 tools, built by MCP A Creator on Databricks' `samples.bakehouse` table, to show the Creator on a dataset unrelated to CVN-79 · 21 tests · probed from 2026-11-21. It is a demonstration, not government data, and not part of the CVN-79 evidence. Every server's row: [SCORECARD.md](../../SCORECARD.md).
 
 Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.
 

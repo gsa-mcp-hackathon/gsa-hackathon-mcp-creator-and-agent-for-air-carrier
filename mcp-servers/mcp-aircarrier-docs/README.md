@@ -1,5 +1,7 @@
 # mcp-aircarrier-docs
 
+> **Scorecard:** 11 tools · 42 tests · in the 422-call adversarial sweep · 814 of 818 tie-out checks pass · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+
 Deterministic reading of the CVN-79 PDF corpus (SCN J-book exhibits, SAR/MSAR, CRS, GAO). No model in the loop:
 every number is an exact decimal with its document, page, row header, column header and unit.
 

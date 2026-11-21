@@ -1,9 +1,10 @@
 """Search USAspending prime transactions on either CVN-79 prime contract.
 
 N00024-09-C-2116 (construction preparation) and N00024-15-C-2114 (detail design
-and construction). The module keeps its original name; the tool was
-carrier_search_obligations_2116 until round 2 of the delegation evaluation
-found three questions on the second contract with no tool to answer them.
+and construction). The tool was carrier_search_obligations_2116, and this
+module mcp_search_obligations_2116, until round 2 of the delegation evaluation
+found three questions on the second contract with no tool to answer them; the
+module was renamed to match on 2026-11-21.
 
 Source: obligations_2116 and obligations_2114 (uc_table).
 """

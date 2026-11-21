@@ -87,7 +87,7 @@
    "v": "69.4% vs 4.2%",
    "k": "Sealed questions, with vs without the tools",
    "n": "Round 3, 72 answers by two models, questions fixed by SHA-256 before the run",
-   "href": "https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/eval/delegation/README.md"
+   "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/README.md"
   },
   {
    "v": "GAPS",
@@ -105,7 +105,7 @@
    "v": "1,234 of 1,234",
    "k": "Known answers right, hourly probe",
    "n": "99.90% of 6,193 checks ok, 2026-11-12 to 2026-11-20",
-   "href": "https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/mcp-servers/aircarrier-mcp-probe/README.md"
+   "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/mcp-servers/aircarrier-mcp-probe/README.md"
   }
  ],
  "flow": [
@@ -283,7 +283,7 @@
    ],
    "gets": "Their own MCP server, tested, evaluated and owned, in one session",
    "replaces": "A ticket to a development team, or a model improvising SQL",
-   "href": "https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/mcp-server-creator/README.md"
+   "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/mcp-server-creator/README.md"
   }
  ],
  "creator": [

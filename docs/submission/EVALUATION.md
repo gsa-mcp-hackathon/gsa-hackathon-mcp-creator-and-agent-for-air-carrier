@@ -41,12 +41,12 @@ are kept in the score and listed apart rather than re-graded upward.
 | Ops server | 40 | 0 |
 | Docs server | 42 | 0 |
 | Analyst server | 39 | 0 |
-| Probe | 9 | 0 |
+| Probe | 10 | 0 |
 | Bakehouse (generated) | 21 | 0 |
 | In-process harness `mcp_local` | 23 | 0 |
 | Adversarial sweep, 30 tools | 422 | 0 |
-| One Hub (pytest) | 281 | 5 (need a live Spark session) |
-| **Total, eight projects** | **1,135** | **6** |
+| One Hub (pytest) | 296 | 5 (need a live Spark session) |
+| **Total, eight projects** | **1,151** | **6** |
 
 The One Hub also runs six script suites (agents 46/46, gate, LLM tracing, app routes,
 serverless entry points, tie-out); all pass. The evidence check finds no broken relative

@@ -16,16 +16,23 @@ For each target app, in order, as the probe's own service principal:
 
 The known answers: the docs server finds $13,529M printed on page 8 of the FY2027 MSAR (a
 regression check on a fixed defect); the analyst reports its engine; the ops server counts
-work register records above zero. MCP A Creator is checked through `tools_list` only,
-because its other tools write and deploy.
+work register records above zero; the bakehouse server, the Creator's build on a non-CVN
+table, returns its sales data dictionary. MCP A Creator is checked through `tools_list`
+only, because its other tools write and deploy. The One Hub server (`mcp-aircarrier-hub`)
+is not a target until it is deployed as an app.
+
+Each target app must grant the probe's service principal `CAN_USE`. The bakehouse target
+was added on 2026-11-21: until that grant is made on `mcp-bakehouse-sales`, its `resolve` or
+`initialize` row fails and the sweep reports it by name.
 
 A failed step stops that target's sweep, and every step is one row in the results volume,
 so a failure says where it broke. No token, header or payload is written.
 
 ## Results
 
-238 sweeps over seven days: 99.83% of 3,568 checks ok, and 709 of 709 known-answer checks
-right ([evaluation report](../../docs/submission/evaluation-report.pdf), section 4).
+413 sweeps from 2026-11-12 to 2026-11-20, four targets: 99.90% of 6,193 checks ok, and
+1,234 of 1,234 known-answer checks right, with latency per server and step in
+[EVALUATION.md](../../docs/submission/EVALUATION.md), section 2.2.
 
 ## Why it matters beyond this hub
 

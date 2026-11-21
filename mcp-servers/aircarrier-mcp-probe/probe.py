@@ -86,6 +86,15 @@ def _ops(r: dict) -> str | None:
     return None if int(n) > 0 else "work register totals returned 0 records"
 
 
+def _bakehouse(r: dict) -> str | None:
+    # The Creator's second build, on a non-CVN table (samples.bakehouse). Its
+    # describe tool ships the data dictionary and needs no warehouse, so a wrong
+    # answer means the generated server itself is broken.
+    names = {f.get("name") for f in r.get("fields") or []}
+    return None if r.get("source") == "sales" and "transactionID" in names else \
+        "describe_sales did not return the sales dictionary"
+
+
 @dataclass(frozen=True)
 class Target:
     app: str
@@ -98,7 +107,8 @@ class Target:
 TARGETS = [
     Target("mcp-aircarrier-docs", 11, "docs_find_figure", {"value_musd": "13529"}, _docs),
     Target("mcp-aircarrier-analyst", 12, "analyst_model_status", {}, _analyst),
-    Target("mcp-aircarrier-ops", 6, "carrier_work_register_counts", {}, _ops),
+    Target("mcp-aircarrier-ops", 7, "carrier_work_register_counts", {}, _ops),
+    Target("mcp-bakehouse-sales", 4, "mcp_describe_sales", {}, _bakehouse),
     Target("mcp-a-creator", 10),   # writes and deploys; listing its tools is the whole check
 ]
 

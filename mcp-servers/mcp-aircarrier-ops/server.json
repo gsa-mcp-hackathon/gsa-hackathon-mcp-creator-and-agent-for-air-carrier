@@ -1,16 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-  "name": "local.example/mcp-aircarrier-ops",
+  "name": "io.github.llmlocalai/mcp-aircarrier-ops",
   "description": "Let an agent answer CVN-79 cost-reconciliation questions from the Air Carrier lossless stores, returning every figure with its page or row coordinate, legends, tag and source, and never promoting a figure on its own.",
   "repository": {
-    "url": "https://github.com/OWNER/mcp-aircarrier-ops",
-    "source": "github"
+    "url": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn",
+    "source": "github",
+    "subfolder": "mcp-servers/mcp-aircarrier-ops"
   },
   "version": "0.1.0",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp-aircarrier-ops.databricksapps.com/mcp"
+      "url": "https://mcp-aircarrier-ops-7474654188777746.aws.databricksapps.com/mcp"
     }
   ]
 }

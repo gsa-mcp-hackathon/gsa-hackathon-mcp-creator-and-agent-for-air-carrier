@@ -1,0 +1,48 @@
+# Scorecard: every server, one row
+
+One row per MCP server in this repository: what it is for, how it was tested, what the
+tests show and what is still missing. Every figure names the file or command behind it.
+Updated 2026-11-21.
+
+| Server | Tools | Unit and contract tests | Adversarial sweep | Accuracy evidence | Probe (8 days) | Deployed | Open |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [MCP A Creator](mcp-server-creator/) | 10 | 258 passed, 1 skipped | Fuzzed generated code; injection-safety tests | 15 of 15 generated projects pass their own tests and lint; 58 of 58 files byte-identical from the same specification | `tools/list` 412 of 412 | Yes | No measured time from question to deployed server |
+| [Docs](mcp-servers/mcp-aircarrier-docs/) | 11 | 42 passed | In the 422-call sweep | 814 of 818 tie-out checks pass on 34 PDFs (7,804 pages) | Known answer 411 of 411, p50 12.6 s | Yes | Known-answer latency is bimodal by deployment; cause not isolated |
+| [Analyst](mcp-servers/mcp-aircarrier-analyst/) | 12 | 39 passed | In the 422-call sweep | Delegation, shared with docs and ops (below) | Known answer 411 of 411, p50 4.5 s | Yes | No per-server delegation split |
+| [Ops](mcp-servers/mcp-aircarrier-ops/) (built by the Creator) | 7 | 40 passed | In the 422-call sweep | Injection cases q16 and q17: 15 of 16 answers correct, none followed the injected instruction; 17-item golden set with independent SQL keys | Known answer 412 of 412, p50 0.9 s | Yes | Golden set not scored as a whole |
+| [One Hub](the-one-hub/ops-center/mcp/) (`mcp-aircarrier-hub`) | 16 | 23 server tests (schema portability, read-only, refusals, tie-out, gate) within the One Hub's 296 | Bad-argument refusals in its own tests; not in the 422-call sweep | `hub_check_claim` routes the held $13,529M baseline to human review; `hub_tie_out` refuses a $970,000 gap | Not a target | No (stdio) | Deploy as an app, then add to the probe and the sweep |
+| [Bakehouse](mcp-servers/mcp-bakehouse-sales/) (built by the Creator) | 4 | 21 passed | No | Shows the Creator on a second, non-CVN dataset (`samples.bakehouse`); answer key still has the generated TODOs | Target added 2026-11-21 (needs the probe's `CAN_USE` grant) | Yes | Fill the answer key; not government data, so it is a demonstration, not part of the CVN-79 evidence |
+
+**Delegation across the three read servers** (docs, analyst, ops: 30 tools offered at once),
+round 4, 69 sealed questions, three repeats, question-bootstrap 95% intervals
+([`eval/delegation/round4/RESULTS.md`](eval/delegation/round4/RESULTS.md)):
+
+| Model | With tools | No tools |
+| --- | --- | --- |
+| Claude Sonnet 4.5 | 183/207 = 88.4% (81.2 to 94.7) | 10/69 = 14.5% |
+| GPT-5 mini | 163/207 = 78.7% (70.0 to 86.5) | 1/69 = 1.4% |
+
+By area for Claude: obligations 96.7% (mostly ops), document reading 93.3% (docs), printed
+exhibit figures 71.8% (docs and ops; the weakest area, concentrated in older books printed
+in thousands).
+
+## How each row is reproduced
+
+| Row | Command |
+| --- | --- |
+| Tests, every server | `scripts/check.sh` (or `scripts/check.sh <project>`) |
+| Adversarial sweep | `scripts/check.sh mcp-local` |
+| Probe | [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/); results in [EVALUATION.md](docs/submission/EVALUATION.md) section 2.2 |
+| Delegation | `python3 eval/delegation/round4/analyze_round4.py` |
+| Creator determinism and end to end | [EVALUATION.md](docs/submission/EVALUATION.md) section 2.5 |
+
+## Mission user and what the server changes for them
+
+| Server | User | What changes |
+| --- | --- | --- |
+| MCP A Creator | Any office with a Unity Catalog table and a question | A governed, tested MCP server without a developer; ops and bakehouse are two builds on different data |
+| Docs | Budget analysts, cost estimators, GAO and congressional staff | Exhibits read to the page and tied out, instead of retyped into spreadsheets |
+| Analyst | Reconciliation and audit teams | Incomplete cost records investigated and ranked as leads, with one gated, attributed write |
+| Ops | Cost analysts | Exhibit cells, obligations, the variance register and the work register through paged, read-only tools |
+| One Hub | Comptrollers, audit liaisons | A figure is checked against policy and the gate before it reaches a brief; unknowns become owned requests |
+| Bakehouse | Demonstration | The Creator's output on a dataset unrelated to CVN-79 |

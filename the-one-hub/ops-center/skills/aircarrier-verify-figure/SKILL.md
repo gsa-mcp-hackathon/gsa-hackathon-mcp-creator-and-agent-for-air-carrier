@@ -10,7 +10,7 @@ transitional.
 
 ## Run the check
 
-`check_claim(...)` through the ops MCP server with everything you have: hull,
+`hub_check_claim(...)` through the One Hub MCP server (`mcp-aircarrier-hub`) with everything you have: hull,
 layer, element, period, value, tag, confidence, source_system, and the
 coordinate chain (exhibit, column header chain, page legends, surrounding
 text). It returns the routing decision, the policy violations each naming its
@@ -36,9 +36,9 @@ strength.
 
 ## Reconcile on two axes
 
-`tie_out(total, axis_a, axis_b)`. One axis closing is arithmetic. Two
+`hub_tie_out(total, axis_a_labels, axis_a_amounts, axis_b_labels, axis_b_amounts)`. One axis closing is arithmetic. Two
 independent decompositions closing on the same total is evidence. Then
-`check_anchor_chain(...)` if the figure sits on a baseline chain.
+`hub_check_anchor_chain(...)` if the figure sits on a baseline chain.
 
 ## Exhibit traps
 

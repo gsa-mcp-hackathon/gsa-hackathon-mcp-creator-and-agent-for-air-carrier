@@ -7,7 +7,7 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 ## Where it stands
 
 `scripts/check.sh` from a clean clone, on Python 3.11 and 3.12 in CI:
-**1,135 passed, 6 skipped, 0 failed** (checked 2026-11-21).
+**1,151 passed, 6 skipped, 0 failed** (checked 2026-11-21).
 
 | Project | Result |
 | --- | --- |
@@ -15,10 +15,10 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 | Air Carrier ops | 40 passed |
 | Air Carrier docs | 42 passed |
 | Air Carrier analyst | 39 passed |
-| Probe | 9 passed |
+| Probe | 10 passed |
 | Bakehouse (generated) | 21 passed (the generated weather server was removed 2026-11-21) |
 | `mcp_local.py` and the adversarial sweep | 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
-| One Hub | 281 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
+| One Hub | 296 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
 | Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 36 round 4 grader and runner tests pass |
 
 Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with the tools
@@ -71,6 +71,10 @@ pinned by a test that fails on the old code.
 | 9 | Low | `creator_write_project` wrote a design with no tools | Refused, like `creator_generate_project` |
 | 10 | Low | Live harness tests returned `"skip"`, which pytest counts as a pass | They call `pytest.skip` |
 | 11 | Low | Delegation found a missing fiscal-year filter, an ambiguous "open", and a decoy that burned 255k tokens | Each fixed in the ops and docs servers with a regression test |
+| 12 | High | Docs server labelled every P-5c column with a carrier hull by fiscal year alone, so a DDG-51 or refueling-overhaul column headed FY 2013 came back as CVN-79 (2026-11-20) | The hull map is keyed by P-1 line and fiscal year; `test_hull_label_needs_the_carrier_line` |
+| 13 | High | One Hub tie-outs used floats and a $1.0M floor, so a $970,000 residual on $13,409.970M passed (2026-11-20) | Exact decimals, closing only to the exhibit's rounding ($500); `test_tie_out_closes_only_to_the_exhibit_rounding` |
+| 14 | Medium | The One Hub MCP server was named `aircarrier-ops`, the same as the ops server, with generic tool names, no input constraints, dictionary inputs some models receive empty, no read-only hints, and errors returned as results (2026-11-21) | `mcp-aircarrier-hub`: 16 `hub_` tools, Pydantic-validated scalar and list inputs, read-only annotations, ToolError with the reason; 15 new tests in `checks/test_mcp_server.py` |
+| 15 | Low | A clean clone skipped the analyst's eight vendoring checks (they pointed at one workspace path), so it reported 31 passed where the docs said 39 (2026-11-21) | The checks compare against the One Hub core in the same clone |
 
 ## Fresh clone
 

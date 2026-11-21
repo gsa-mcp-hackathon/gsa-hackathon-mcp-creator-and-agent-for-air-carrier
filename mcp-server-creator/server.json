@@ -1,10 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-  "name": "io.github.icetonges/mcp-a-creator",
+  "name": "io.github.llmlocalai/mcp-a-creator",
   "description": "MCP A Creator: an MCP server that builds custom MCP servers on Databricks from a user's intent and their own structured or unstructured data. Ships the skills, the code generators, the Databricks deployment kit, and the review rubric.",
   "repository": {
-    "url": "https://github.com/icetonges/petershang_gsa_hackathon",
-    "source": "github"
+    "url": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn",
+    "source": "github",
+    "subfolder": "mcp-server-creator"
   },
   "version": "0.1.0",
   "remotes": [

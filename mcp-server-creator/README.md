@@ -1,5 +1,7 @@
 # MCP A Creator
 
+> **Scorecard:** 10 tools · 258 tests · 15 of 15 generated projects pass their own tests · 58 of 58 files byte-identical from one specification · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
+
 An MCP server whose domain is building MCP servers.
 
 A person brings an intent and their own data, structured or unstructured.
