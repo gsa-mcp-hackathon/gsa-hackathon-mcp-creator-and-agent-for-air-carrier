@@ -84,6 +84,8 @@ run() {
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \
                  && diff -u eval/delegation/RESULTS.md /tmp/delegation_results.md \
                  && echo "eval/delegation/RESULTS.md matches runs.csv" \
+                 && uvx --quiet pytest -q -p no:cacheprovider eval/delegation/round4/test_grade.py \
+                      eval/delegation/round4/test_runner.py \
                  && python3 -B eval/delegation/round4/analyze_round4.py > /tmp/delegation_results_r4.md \
                  && diff -u eval/delegation/round4/RESULTS.md /tmp/delegation_results_r4.md \
                  && echo "eval/delegation/round4/RESULTS.md matches runs_r4.csv") ;;

@@ -34,8 +34,9 @@ jobs:
         run: scripts/check.sh ${{ matrix.project }}
 
   evidence:
-    name: links resolve and published results match the raw runs
+    name: links resolve, published results match the raw runs, round 4 grader tests pass
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
       - run: scripts/check.sh evidence

@@ -635,7 +635,8 @@ scripts/check.sh creator      # or one: creator ops bakehouse docs analyst probe
 Each project installs its own dependencies into its own environment. Expected (checked
 2026-11-21): Creator 258 passed, 1 skipped; ops 40; bakehouse 21; docs 42;
 analyst 39; probe 9; mcp_local 23 plus the adversarial sweep 422; One Hub 281 passed,
-5 skipped, plus six script suites and lint. Total 1,135 passed, 6 skipped. The skips need a
+5 skipped, plus six script suites and lint. Total 1,135 passed, 6 skipped, plus the 36 round 4
+grader and runner tests in the evidence step. The skips need a
 live Spark session (5 in the One Hub) or bandit (1 in the Creator). Inside a Databricks
 notebook, run with `env -i PATH=$PATH HOME=/tmp bash scripts/check.sh` so the notebook's Spark
 variables do not turn the 4 live harness skips into failures. CI runs the same script.

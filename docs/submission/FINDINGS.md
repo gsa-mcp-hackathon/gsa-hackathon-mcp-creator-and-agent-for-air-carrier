@@ -19,7 +19,7 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 | Bakehouse (generated) | 21 passed (the generated weather server was removed 2026-11-21) |
 | `mcp_local.py` and the adversarial sweep | 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
 | One Hub | 281 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
-| Evidence | No broken relative links; `eval/delegation/RESULTS.md` matches the logged runs |
+| Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 36 round 4 grader and runner tests pass |
 
 Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with the tools
 (69.4%), 1 of 24 without. Full account, including the misses that remain:

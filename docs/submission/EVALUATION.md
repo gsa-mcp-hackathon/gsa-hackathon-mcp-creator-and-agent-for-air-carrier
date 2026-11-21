@@ -4,8 +4,9 @@ GSA MCP & SI Agent Government Hackathon. Track: **Dataset Access Server**.
 
 This document follows the four headings of the GSA evaluation template. It replaces the
 earlier `evaluation-report.pdf` (602 tests, written before delegation round 3). Every number
-below was re-run or re-queried on 2026-11-20 against commit `31f3409` unless it says
-otherwise, and each one names the file or command that reproduces it.
+below was re-run or re-queried on 2026-11-20 against commit `31f3409`, or on 2026-11-21 where
+it says so (code suites, delegation round 4), and each one names the file or command that
+reproduces it.
 
 ## 1. Testing methodology
 
@@ -32,27 +33,28 @@ are kept in the score and listed apart rather than re-graded upward.
 
 ## 2. Performance metrics
 
-### 2.1 Code suites (fresh clone of `31f3409`, 2026-11-20)
+### 2.1 Code suites (`scripts/check.sh` on a fresh clone, 2026-11-21)
 
 | Project | Passed | Skipped |
 | --- | --- | --- |
 | MCP A Creator | 258 | 1 (needs bandit) |
 | Ops server | 40 | 0 |
-| Docs server | 41 | 0 |
+| Docs server | 42 | 0 |
 | Analyst server | 39 | 0 |
 | Probe | 9 | 0 |
 | Bakehouse (generated) | 21 | 0 |
 | In-process harness `mcp_local` | 23 | 0 |
 | Adversarial sweep, 30 tools | 422 | 0 |
-| One Hub (pytest) | 187 | 5 (need a live Spark session) |
-| **Total** | **1,040** | **6** |
+| One Hub (pytest) | 281 | 5 (need a live Spark session) |
+| **Total, eight projects** | **1,135** | **6** |
 
 The One Hub also runs six script suites (agents 46/46, gate, LLM tracing, app routes,
-serverless entry points, tie-out); all pass, and the evidence check finds 0 broken links in
-115 and `RESULTS.md` equal to `runs.csv`. The Impact page added after this run brings the
-One Hub to 241 passed (54 new tests). Input-validation tests for the capture and ask endpoints (2026-11-21) and later
-additions bring it to 281, and docs to 42, so the working tree totals 1,135 passed, 6 skipped. (A generated weather server, 20 tests,
-was removed from the repository on 2026-11-21 and is excluded from these totals.)
+serverless entry points, tie-out); all pass. The evidence check finds no broken relative
+links, finds both `RESULTS.md` files equal to their raw runs, and runs the 36 round 4 grader
+and runner tests. The analyst's eight vendoring checks compare its copy of the One Hub core
+with the core in the same clone; until 2026-11-21 they pointed at one workspace path and
+were skipped everywhere else. A generated weather server (20 tests) was removed from the
+repository on 2026-11-21 and is not in these totals.
 
 One environment caveat: run inside a Databricks serverless notebook, four live harness tests
 fail with `PySparkImportError`, most likely because the notebook's Spark environment

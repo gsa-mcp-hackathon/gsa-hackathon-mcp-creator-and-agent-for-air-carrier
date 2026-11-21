@@ -196,8 +196,12 @@ def test_window_residual_backtest_status(fake_store):
 
 # ------------------------------------------------------------ vendoring
 
-BUNDLE = Path(os.getenv("AIRCARRIER_BUNDLE_CORE", "/Workspace/Users/xiaobing.shang1.civ@mail.mil/"
-                    "gsa-hackathon-mcp-creator-and-agent-for-cvn/the-one-hub/ops-center/core"))
+# The One Hub core this server vendors. In a clone it sits in the same repo, so
+# the check runs everywhere (it used to point at one workspace path and skip
+# elsewhere). AIRCARRIER_BUNDLE_CORE overrides it, for example with the deployed
+# bundle in the workspace.
+BUNDLE = Path(os.getenv("AIRCARRIER_BUNDLE_CORE",
+                        str(Path(__file__).resolve().parents[3] / "the-one-hub" / "ops-center" / "core")))
 VENDORED = ("catalog.py", "analyst/__init__.py", "analyst/loa.py", "analyst/engine.py", "analyst/learn.py",
             "analyst/backtest.py", "analyst/residual.py", "analyst/sources.py")
 
