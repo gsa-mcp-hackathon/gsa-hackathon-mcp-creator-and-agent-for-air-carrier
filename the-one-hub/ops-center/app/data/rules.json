@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-20T01:27:17+00:00",
+  "built_at": "2026-11-20T23:14:30+00:00",
   "source": {
     "register": "users.xiaobing_shang1_civ.aircarrier_app_rule_register",
     "gate_routes": "seed/gate.yaml"
@@ -57,7 +57,7 @@
     }
   ],
   "register_snapshot": {
-    "built_at": "2026-11-20T01:27:17+00:00",
+    "built_at": "2026-11-20T23:14:30+00:00",
     "areas": [
       {
         "area": "Cost capture",
