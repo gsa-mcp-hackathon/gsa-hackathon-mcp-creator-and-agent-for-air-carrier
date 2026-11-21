@@ -102,8 +102,8 @@ whose subjects a seeded generator drew from the source tables, plus 24 drafted f
 documents by Genie Code and reviewed and edited by the project owner. Grader v2 reads
 numbers with their units, dates and refusals instead of matching regexes; on round 3's 144
 saved answers it agrees with the hand grades on 140 (144 if the G07 key error is applied to
-all six modes; see [SEAL.md](../../eval/delegation/round4/SEAL.md)), against 135 for the old
-regex grader. Round 4 intervals resample questions,
+all six modes, where the old regex grader gets 135; see
+[SEAL.md](../../eval/delegation/round4/SEAL.md)). Round 4 intervals resample questions,
 because the three repeats of a question are not independent; the Wilson interval over runs
 used above is narrower (83.3 to 92.1 for Claude). Claude leads GPT-5 mini by 9.7 points
 (CI +1.4 to +17.9). Weakest areas: P-5c figures from older books printed in thousands
