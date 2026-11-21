@@ -140,7 +140,7 @@ def main_() -> int:
     # ---- 2026-11-09: position, detail table, live guard, agent, program ----
     # 2026-11-20: retired pages redirect to where their content now lives.
     for old, new in (("/delivery", "/stack"), ("/progress", "/stack"), ("/program", "/stack"),
-                     ("/dashboard", "/"), ("/knowledge", "/sources#search")):
+                     ("/dashboard", "/brief"), ("/knowledge", "/sources#search")):
         r = c.get(old, follow_redirects=False)
         reg(f"{old} redirects to {new}", r.status_code == 308
             and r.headers.get("location") == new, f"{r.status_code} {r.headers.get('location')}")
@@ -148,12 +148,15 @@ def main_() -> int:
         r = c.get(hidden)
         reg(f"{hidden} renders outside the menu", r.status_code == 200
             and len(re.findall(r"<h1[ >]", r.text)) == 1, str(r.status_code))
+    r = c.get("/", follow_redirects=False)
+    reg("the start page is The stack", r.status_code == 307
+        and r.headers.get("location") == "/stack", f"{r.status_code} {r.headers.get('location')}")
     reg("the Brief carries the rule-derived risks and next steps",
-        "What this says, and what to do about it" in c.get("/").text)
+        "What this says, and what to do about it" in c.get("/brief").text)
     reg("the gap register says who can close what", 'id="who-can-close"' in c.get("/gaps").text)
     reg("sources carries the corpus search", 'id="kbq"' in c.get("/sources").text)
     # 2026-11-20 phase 2: the Brief is a decision brief.
-    home = c.get("/").text
+    home = c.get("/brief").text
     reg("brief: says, holds, decisions and six doors",
         all(t in home for t in ("What you can say today", "What not to say yet",
                                 "Decisions waiting, and who can close them",
@@ -193,7 +196,7 @@ def main_() -> int:
         f"/static/css/app.css?v={main.ASSET_V}" in home and f"/static/js/app.js?v={main.ASSET_V}" in home)
     reg("every page with a header line says who it is for",
         all('<b>For</b>' in c.get(u).text for u in
-            ("/", "/position", "/gaps", "/impact", "/stack", "/mission", "/work", "/runs", "/ask")))
+            ("/brief", "/position", "/gaps", "/impact", "/stack", "/mission", "/work", "/runs", "/ask")))
 
     html = c.get("/position").text
     seen = [m for m in ("$11,341.4M", "$11,398.0M", "$12,936.0M", "$13,409.97M") if m in html]
@@ -205,7 +208,7 @@ def main_() -> int:
     # ---- 2026-11-19: evaluation findings F1 and F2 ----
     # F2: the cap is 10 U.S.C. 8692 (Ford-class cost limitation baselines);
     # 8691 is carrier dismantlement and disposal. Two screens cited 8691.
-    wrong = [p for p in ("/position", "/", "/baseline", "/rules")
+    wrong = [p for p in ("/position", "/brief", "/baseline", "/rules")
              if "8691" in c.get(p).text]
     reg("no screen cites 10 U.S.C. 8691 for the cost cap", not wrong, f"found on {wrong}")
     reg("/position cites 10 U.S.C. 8692 for the statutory cap", "U.S.C. 8692" in html)

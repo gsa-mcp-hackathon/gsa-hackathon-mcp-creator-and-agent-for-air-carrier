@@ -702,7 +702,7 @@ TASKS: dict[str, TaskTemplate] = {t.task_id: t for t in (
     TaskTemplate("brief_readiness", "Brief readiness for {subject}",
                  "Can we stand behind the CVN-79 number at the brief, and what access do we "
                  "need?", BRIEF_COMPOSER, "hull", ("BR-01", "BR-02", "EC-02", "EC-03"),
-                 ("/mission", "/"), pack_brief, steps_brief, draft_brief, canvas_brief,
+                 ("/mission", "/brief", "/"), pack_brief, steps_brief, draft_brief, canvas_brief,
                  validate_subject=lambda s: (s or "").upper() == "CVN-79",
                  examples=("CVN-79",)),
 )}

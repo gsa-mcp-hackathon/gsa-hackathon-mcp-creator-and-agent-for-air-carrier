@@ -329,14 +329,14 @@ in this workspace can:
 | --- | --- | --- |
 | The stack | `/stack` | The seven capabilities (MCP servers, Creator, agents, probe, front center), how they fit, how they were tested and what the tests do not show |
 | Impact | `/impact` | From CVN-79 to the Ford class, the F-35 and the 59 PB2027 MSAR programs: the agent workflow traced for five users, MCP A Creator's phases, eight onboarding steps and a phased build-out; 24 figures each with its document, page and quote |
-| Brief | `/` | What a briefing can say today with its basis, what to hold back and why (the held baseline, E-17), the top decisions waiting and who can close them, the rule-derived risks, and a door for each user group |
+| Brief | `/brief` | What a briefing can say today with its basis, what to hold back and why (the held baseline, E-17), the top decisions waiting and who can close them, the rule-derived risks, and a door for each user group |
 | The ship | `/kennedy` | USS John F. Kennedy (CVN-79): identity, timeline and photographs |
 | Cost | `/position`, `/cost`, `/baseline`, `/execution` | The four published figures and why they differ; cost by category and funding stream; estimate and cap history; obligations by year |
 | Audit | `/gaps`, `/variances`, `/asset`, `/industrial` | Open questions ranked with who can close each; where sources disagree; the asset's accounting; who builds what, including GFE |
 | Dive deeper | `/ask`, `/work`, `/mission`, `/runs`, `/explore`, `/sources`, `/method` | Cited answers; decisions waiting for a person; brief readiness with page-started agent runs; every run and action; every record, filterable; document families and the searchable corpus; the method, with links to `/rules` and `/coverage` |
 | Answer a question | `/insight` | Answer one of the open questions; it is recorded as a lead with your name and how you knew it, never as a certified figure |
 
-Retired pages redirect: `/dashboard` to `/`, `/knowledge` to `/sources`, `/program` (and `/delivery`, `/progress`) to `/stack`.
+The app opens on The stack (`/` redirects to `/stack`). Retired pages redirect: `/dashboard` to `/brief`, `/knowledge` to `/sources`, `/program` (and `/delivery`, `/progress`) to `/stack`.
 
 Every page that can start a specialist run shows the runs it offers at the top, scoped to
 what is on the page (for example "Explain File C FY2021P03"). Each page opens with the

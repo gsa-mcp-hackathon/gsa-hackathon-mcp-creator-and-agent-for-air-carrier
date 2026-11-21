@@ -189,7 +189,7 @@ def api_diag():
 NAV_GROUPS = [
     ("The stack", "/stack", []),
     ("Impact", "/impact", []),
-    ("Brief", "/", []),
+    ("Brief", "/brief", []),
     ("The ship", "/kennedy", []),
     ("Cost", None, [
         ("/position", "Position: four published figures"),
@@ -249,7 +249,7 @@ def si_t(task_id: str, subject: str, params: dict | None = None, label: str | No
 # The specialist runs each page offers, in the page's own terms. The E-16
 # trigger tests the figure the variance register records as mislabelled.
 SI_TRIGGERS = {
-    "/": [si_t("brief_readiness", "CVN-79", label="Check brief readiness for CVN-79")],
+    "/brief": [si_t("brief_readiness", "CVN-79", label="Check brief readiness for CVN-79")],
     "/variances": [
         si_t("reconcile_obligations", "N0002409C2116",
              {"reported_total": "4519300323.83", "reported_label": "N00024-15-C-2114"},
@@ -513,7 +513,15 @@ async def work_act(request: Request, proposal_id: str, action: str):
 
 
 # --------------------------------------------------------------------- pages
-@app.get("/", response_class=HTMLResponse)
+# The start page is The stack (2026-11-20): a first-time reader meets the MCP
+# servers and agents before the CVN-79 detail. 307, not 308, so the choice of
+# start page can change without browsers having cached it for good.
+@app.get("/", include_in_schema=False)
+def start_page():
+    return RedirectResponse("/stack", status_code=307)
+
+
+@app.get("/brief", response_class=HTMLResponse)
 def overview(request: Request):
     from api.insights import by_kind, derive
     names = ["program", "cost_categories", "funding_streams", "anchor_chain",
@@ -669,7 +677,7 @@ def gaps(request: Request):
 # rule-derived "what this says, and what to do" card on the overview.
 @app.get("/dashboard", include_in_schema=False)
 def dashboard_moved():
-    return RedirectResponse("/", status_code=308)
+    return RedirectResponse("/brief", status_code=308)
 
 
 # The register's executor field is free text, one phrasing per gap (57
