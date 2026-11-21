@@ -1,0 +1,1049 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Gap register · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a aria-current="page" class="on" href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div aria-label="Specialist runs for this page" class="si-strip" role="region">
+<span class="si-strip-lab">Specialist runs for this page</span>
+<button class="btn si-go" data-si-page="/gaps" data-si-subject="G46" data-si-task="investigate_gap" title="Which office can close this gap, and what exactly do we ask for?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G46</span>
+</button><button class="btn si-go" data-si-page="/gaps" data-si-subject="G52" data-si-task="investigate_gap" title="Which office can close this gap, and what exactly do we ask for?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G52</span>
+</button><button class="btn si-go" data-si-page="/gaps" data-si-subject="G14" data-si-task="investigate_gap" title="Which office can close this gap, and what exactly do we ask for?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G14</span>
+</button>
+<a class="si-strip-log" href="../runs/">Run log</a>
+</div>
+<div class="phead">
+<div class="eyebrow">Audit · Gap register</div>
+<h1>Which open questions block the number, and who can close them?</h1>
+<p class="for"><span><b>For</b> accountants, auditors, and the offices that hold the records</span>
+<span><b>Decision</b> what to work now with no access, and which access to ask for</span></p>
+<p class="lede">Every unknown carries a type, and the type decides who works it. A gap is never
+  handed back to the sponsor: it is work to be done. Closing one often opens another, and that is
+  the register working.</p>
+<p class="cap" style="margin-top:.4rem"><a href="#who-can-close">Who can close what</a> ·
+  <a href="#gtable">the full register</a> ·
+  <a href="../coverage/">which evidence layers exist and what access would change them</a> ·
+  <a href="../insight/">answer one</a></p>
+</div>
+<div class="grid g4" style="margin-bottom:1rem">
+<div class="stat"><div class="k">Registered</div><div class="v">65</div><div class="n">G1 through G65</div></div>
+<div class="stat up"><div class="k">Open</div><div class="v">59</div><div class="n">each with a named executor</div></div>
+<div class="stat good"><div class="k">Closed or resolved</div><div class="v">6</div><div class="n">most by document research needing no access</div></div>
+<div class="stat acc"><div class="k">Workable now, no access</div><div class="v">14</div>
+<div class="n">G14, G23, G24, G6, G9, G12, G16, G26, G18, G30, G42, G53, G64, G28</div></div>
+</div>
+<div class="brief-cols" style="margin:0 0 1rem">
+<section aria-labelledby="now-h" class="card">
+<h2 id="now-h">Work these now, no access needed</h2>
+<p class="cap">The highest-ranked of 14 gaps that public documents or one query can close.</p>
+<ul class="brief-list brief-ok">
+<li><span class="say"><a aria-label="G14: Gap G14 (open): When construction in progress is relieved for this hull" class="code register" data-def="Gap G14 (open): When construction in progress is relieved for this hull" href="../gaps/#G14">G14</a> When construction in progress is relieved for this hull</span>
+<p>Navy FMO or NAVSEA · $13,410M exposure</p></li>
+<li><span class="say"><a aria-label="G23: Gap G23 (open): Outfitting and post delivery attributable to this hull" class="code register" data-def="Gap G23 (open): Outfitting and post delivery attributable to this hull" href="../gaps/#G23">G23</a> Outfitting and post delivery attributable to this hull</span>
+<p>Navy FMB, PEO Carriers · $1,767M exposure</p></li>
+<li><span class="say"><a aria-label="G24: Gap G24 (open): Obligations on the preparation contract after its period of performance ended" class="code register" data-def="Gap G24 (open): Obligations on the preparation contract after its period of performance ended" href="../gaps/#G24">G24</a> Obligations on the preparation contract after its period of performance ended</span>
+<p>SUPSHIP Newport News, NAVSEA 02 · $133M exposure</p></li>
+</ul>
+</section>
+<section aria-labelledby="ask-h" class="card">
+<h2 id="ask-h">Ask for this access</h2>
+<p class="cap">The largest dollar exposure among 39 gaps that only an office with the records can close.</p>
+<ul class="brief-list brief-hold">
+<li><span class="say"><a aria-label="G25: Gap G25 (open): Award level outlay reporting covers under one per cent of obligations" class="code register" data-def="Gap G25 (open): Award level outlay reporting covers under one per cent of obligations" href="../gaps/#G25">G25</a> Award level outlay reporting covers under one per cent of obligations</span>
+<p>DFAS Columbus, Navy FMO, OUSD(C) · $9,025M exposure</p></li>
+<li><span class="say"><a aria-label="G22: Gap G22 (open): Vendor level attribution of the propulsion equipment category" class="code register" data-def="Gap G22 (open): Vendor level attribution of the propulsion equipment category" href="../gaps/#G22">G22</a> Vendor level attribution of the propulsion equipment category</span>
+<p>Naval Reactors, NAVSEA, Department of Energy · $1,643M exposure</p></li>
+<li><span class="say"><a aria-label="G20: Gap G20 (open): Shipset prices for the weapons elevators and remaining ordnance" class="code register" data-def="Gap G20 (open): Shipset prices for the weapons elevators and remaining ordnance" href="../gaps/#G20">G20</a> Shipset prices for the weapons elevators and remaining ordnance</span>
+<p>PEO Carriers, NSWC Philadelphia, NAVAIR · $319M exposure</p></li>
+</ul>
+</section>
+</div>
+<div class="card">
+<h2>The discovery queue</h2>
+<p class="cap">exposure x ignorance x closability. Discovery ranks differently from publication: high closability gets worked because it is free, high exposure with low closability becomes the access ask. Bubble area is dollar exposure. Green is free to work now, red is
+  high exposure waiting on access.</p>
+<svg class="chart bubble" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 900 400" xmlns="http://www.w3.org/2000/svg"><line class="grid" x1="66" x2="890" y1="358.0" y2="358.0"></line><text class="ax" text-anchor="end" x="58" y="362.0">0.00</text><line class="grid" x1="66.0" x2="66.0" y1="14" y2="358"></line><text class="ax" text-anchor="middle" x="66.0" y="388">0.00</text><line class="grid" x1="66" x2="890" y1="272.0" y2="272.0"></line><text class="ax" text-anchor="end" x="58" y="276.0">0.25</text><line class="grid" x1="259.5" x2="259.5" y1="14" y2="358"></line><text class="ax" text-anchor="middle" x="259.5" y="388">0.25</text><line class="grid" x1="66" x2="890" y1="186.0" y2="186.0"></line><text class="ax" text-anchor="end" x="58" y="190.0">0.50</text><line class="grid" x1="453.0" x2="453.0" y1="14" y2="358"></line><text class="ax" text-anchor="middle" x="453.0" y="388">0.50</text><line class="grid" x1="66" x2="890" y1="100.0" y2="100.0"></line><text class="ax" text-anchor="end" x="58" y="104.0">0.75</text><line class="grid" x1="646.5" x2="646.5" y1="14" y2="358"></line><text class="ax" text-anchor="middle" x="646.5" y="388">0.75</text><line class="grid" x1="66" x2="890" y1="14.0" y2="14.0"></line><text class="ax" text-anchor="end" x="58" y="18.0">1.00</text><line class="grid" x1="840.0" x2="840.0" y1="14" y2="358"></line><text class="ax" text-anchor="middle" x="840.0" y="388">1.00</text><circle class="bub free" cx="869.7" cy="145.6" r="33.0"><title>G14 When construction in progress is relieved for this hull · $13,410M · zero_access</title></circle><circle class="bub hot" cx="337.9" cy="20.0" r="28.3"><title>G25 Award level outlay reporting covers under one per cent of obligations · $9,025M · access_required</title></circle><circle class="bub free" cx="872.3" cy="64.7" r="16.4"><title>G23 Outfitting and post delivery attributable to this hull · $1,767M · zero_access</title></circle><circle class="bub hot" cx="371.9" cy="20.0" r="16.1"><title>G22 Vendor level attribution of the propulsion equipment category · $1,643M · access_required</title></circle><circle class="bub" cx="337.9" cy="113.2" r="11.0"><title>G20 Shipset prices for the weapons elevators and remaining ordnance · $319M · access_required</title></circle><circle class="bub free" cx="841.2" cy="110.2" r="9.6"><title>G24 Obligations on the preparation contract after its period of performance ended · $133M · zero_access</title></circle><circle class="bub" cx="277.5" cy="151.6" r="8.4"><title>G2 Whether SABRS is in scope for this program · $0M · sme</title></circle><circle class="bub" cx="371.9" cy="137.5" r="8.4"><title>G4 Hull-level cost and the shared class R&amp;D allocation method · $0M · access_required</title></circle><circle class="bub" cx="368.4" cy="49.3" r="8.4"><title>G5 Full inventory of systems feeding the Advana financial management environment · $0M · access_required</title></circle><circle class="bub free" cx="854.7" cy="39.3" r="8.4"><title>G6 NSMA, the fourth Navy general ledger · $0M · zero_access</title></circle><circle class="bub" cx="342.9" cy="142.2" r="8.4"><title>G7 Construction in progress for NAVSEA shipbuilding uses manual adjustments · $0M · access_required</title></circle><circle class="bub" cx="282.1" cy="63.2" r="8.4"><title>G8 The Navy ERP subhead to NWA/WBS mapping that isolates this hull · $0M · sme</title></circle><circle class="bub free" cx="843.8" cy="73.6" r="8.4"><title>G9 Whether the payment path changed when MOCAS entitlement moved to Navy ERP · $0M · zero_access</title></circle><circle class="bub" cx="371.9" cy="108.0" r="8.4"><title>G11 Cost and software data reporting submissions for this hull · $0M · access_required</title></circle><circle class="bub free" cx="866.7" cy="95.5" r="8.4"><title>G12 Which costs the FY2016 authorization act excluded from the cost caps · $0M · zero_access</title></circle><circle class="bub" cx="337.9" cy="60.8" r="8.4"><title>G13 Rework cost from the 2024 welding deviations · $0M · access_required</title></circle><circle class="bub" cx="273.3" cy="35.1" r="8.4"><title>G15 Whether installed GFE is capitalized separately or inside the hull · $0M · sme</title></circle><circle class="bub free" cx="703.2" cy="48.4" r="8.4"><title>G16 Government furnished property held by the shipbuilder for this hull · $0M · query</title></circle><circle class="bub free" cx="858.0" cy="220.4" r="8.4"><title>G18 The cost analysis column for this hull, every year it was published · $0M · zero_access</title></circle><circle class="bub" cx="351.3" cy="87.0" r="8.4"><title>G19 Content expensed rather than capitalized under the capitalization threshold · $0M · access_required</title></circle><circle class="bub free" cx="703.2" cy="117.2" r="8.4"><title>G26 Full enumeration of contracts carrying scope for this hull · $0M · query</title></circle><circle class="bub free" cx="858.0" cy="323.6" r="8.4"><title>G28 The 2116 contract number collision, registered as a hard exclusion · $0M · zero_access</title></circle><text class="bub-lab" text-anchor="middle" x="869.7" y="149.6">G14</text><text class="bub-lab" text-anchor="middle" x="337.9" y="24.0">G25</text><text class="bub-lab" text-anchor="middle" x="872.3" y="68.7">G23</text><text class="bub-lab" text-anchor="middle" x="371.9" y="24.0">G22</text><text class="bub-lab" text-anchor="middle" x="337.9" y="117.2">G20</text><text class="bub-lab" text-anchor="middle" x="841.2" y="114.2">G24</text><text class="bub-lab" text-anchor="middle" x="277.5" y="155.6">G2</text><text class="bub-lab" text-anchor="middle" x="371.9" y="141.5">G4</text><text class="bub-lab" text-anchor="middle" x="368.4" y="53.3">G5</text><text class="bub-lab" text-anchor="middle" x="854.7" y="43.3">G6</text><text class="bub-lab" text-anchor="middle" x="342.9" y="146.2">G7</text><text class="bub-lab" text-anchor="middle" x="282.1" y="67.2">G8</text><text class="bub-lab" text-anchor="middle" x="843.8" y="77.6">G9</text><text class="bub-lab" text-anchor="middle" x="371.9" y="112.0">G11</text><text class="bub-lab" text-anchor="middle" x="866.7" y="99.5">G12</text><text class="bub-lab" text-anchor="middle" x="337.9" y="64.8">G13</text><text class="bub-lab" text-anchor="middle" x="273.3" y="39.1">G15</text><text class="bub-lab" text-anchor="middle" x="703.2" y="52.4">G16</text><text class="bub-lab" text-anchor="middle" x="858.0" y="224.4">G18</text><text class="bub-lab" text-anchor="middle" x="351.3" y="91.0">G19</text><text class="bub-lab" text-anchor="middle" x="703.2" y="121.2">G26</text><text class="bub-lab" text-anchor="middle" x="858.0" y="327.6">G28</text><text class="ax-title" text-anchor="middle" x="453" y="370">closability, right is free to work now</text><text class="ax-title" text-anchor="middle" transform="rotate(-90 16 186)" x="16" y="186">ignorance</text></svg>
+<p class="cap"><b>37 open gaps are not plotted</b> because nobody has
+  scored their ignorance yet (G29 to G65).
+  They are in the table below. Scoring a gap in seed/gaps.index.yaml is what puts it on this chart.</p>
+<div class="note ok"><b>Read it top-right first.</b> High ignorance and high closability is where
+  the next hour pays. High exposure sitting on the left is the access ask, not the work queue.</div>
+</div>
+<section class="card" id="who-can-close" style="margin-top:1rem">
+<h2>Who can close what</h2>
+<p class="sub">Open gaps grouped by the office the register names as able to close them, most
+   gaps first. This is the sponsor's list: an introduction to one of these offices moves every gap
+   in its row. A gap that names two offices appears under both, so rows overlap and do not sum.
+   Exposure counts only gaps whose dollar exposure has been sized.</p>
+<table class="ledger">
+<thead><tr><th>Office</th><th class="num">Open</th><th class="num">Needs access</th>
+<th class="num">Requests</th><th class="num">Sized $M</th></tr></thead>
+<tr><td style="font-size:.82rem"><b>PEO Aircraft Carriers (PMS 378)</b>
+<div class="muted" style="font-size:.74rem">G15, G20, G23, G31, G32, G35, G36, G37 +14</div></td>
+<td class="num">22</td>
+<td class="num"><span class="b b-bad">16</span></td>
+<td class="num">133</td>
+<td class="num">2,086</td></tr>
+<tr><td style="font-size:.82rem"><b>NAVSEA</b>
+<div class="muted" style="font-size:.74rem">G2, G4, G8, G9, G13, G14, G16, G22 +11</div></td>
+<td class="num">19</td>
+<td class="num"><span class="b b-bad">12</span></td>
+<td class="num">70</td>
+<td class="num">15,186</td></tr>
+<tr><td style="font-size:.82rem"><b>ASN(FM&amp;C) / FMB / FMO</b>
+<div class="muted" style="font-size:.74rem">G7, G12, G14, G15, G19, G23, G25, G49 +4</div></td>
+<td class="num">12</td>
+<td class="num"><span class="b b-bad">7</span></td>
+<td class="num">35</td>
+<td class="num">24,202</td></tr>
+<tr><td style="font-size:.82rem"><b>Shipbuilder (HII)</b>
+<div class="muted" style="font-size:.74rem">G9, G13, G16, G24, G33, G34, G41, G56</div></td>
+<td class="num">8</td>
+<td class="num"><span class="b b-bad">5</span></td>
+<td class="num">28</td>
+<td class="num">133</td></tr>
+<tr><td style="font-size:.82rem"><b>DFAS</b>
+<div class="muted" style="font-size:.74rem">G2, G8, G9, G25, G39, G43, G48</div></td>
+<td class="num">7</td>
+<td class="num"><span class="b b-bad">4</span></td>
+<td class="num">21</td>
+<td class="num">9,025</td></tr>
+<tr><td style="font-size:.82rem"><b>ASN(RD&amp;A)</b>
+<div class="muted" style="font-size:.74rem">G40, G51, G55, G63, G65</div></td>
+<td class="num">5</td>
+<td class="num"><span class="b b-bad">5</span></td>
+<td class="num">35</td>
+<td class="num"><span class="muted">-</span></td></tr>
+<tr><td style="font-size:.82rem"><b>NCCA / OPNAV</b>
+<div class="muted" style="font-size:.74rem">G4, G38, G45, G52, G57</div></td>
+<td class="num">5</td>
+<td class="num"><span class="b b-bad">5</span></td>
+<td class="num">28</td>
+<td class="num"><span class="muted">-</span></td></tr>
+<tr><td style="font-size:.82rem"><b>OSD CAPE</b>
+<div class="muted" style="font-size:.74rem">G4, G11, G42, G54, G65</div></td>
+<td class="num">5</td>
+<td class="num"><span class="b b-bad">4</span></td>
+<td class="num">21</td>
+<td class="num"><span class="muted">-</span></td></tr>
+<tr><td style="font-size:.82rem"><b>USD(A&amp;S) / MDA</b>
+<div class="muted" style="font-size:.74rem">G29, G35, G37, G47, G58</div></td>
+<td class="num">5</td>
+<td class="num"><span class="b b-bad">5</span></td>
+<td class="num">35</td>
+<td class="num"><span class="muted">-</span></td></tr>
+<tr><td style="font-size:.82rem"><b>OUSD(Comptroller)</b>
+<div class="muted" style="font-size:.74rem">G25, G31, G33, G53</div></td>
+<td class="num">4</td>
+<td class="num"><span class="b b-bad">3</span></td>
+<td class="num">21</td>
+<td class="num">9,025</td></tr>
+</table>
+<p style="margin-top:.5rem;font-size:.82rem">19 offices in all;
+   3 gaps name an office the map does not recognise (G6, G18, G26).
+   <a href="../explore/">Every collection request</a>.</p>
+</section>
+<div class="card" style="margin-top:1rem">
+<div class="toolbar" data-filter-scope="">
+<button class="btn ghost on" data-filter="*" data-target="#gtable">All</button>
+<button class="btn ghost" data-filter="open" data-target="#gtable">Open</button>
+<button class="btn ghost" data-filter="DOCUMENT" data-target="#gtable">DOCUMENT</button>
+<button class="btn ghost" data-filter="DATA" data-target="#gtable">DATA</button>
+<button class="btn ghost" data-filter="SME" data-target="#gtable">SME</button>
+<button class="btn ghost" data-filter="CATALOG" data-target="#gtable">CATALOG</button>
+<button class="btn ghost" data-filter="zero_access" data-target="#gtable">Zero access</button>
+<input data-count="#gn" data-search="#gtable" placeholder="Search gaps…" style="min-width:240px;margin-left:auto" type="search"/>
+<span class="pill"><b id="gn">65</b> shown</span>
+</div>
+<div class="tscroll" id="gtable" style="max-height:none">
+<table>
+<thead><tr><th data-sort="">ID</th><th>Question</th><th>Type</th><th>Executor</th>
+<th class="num" data-sort="">Exposure $M</th><th>Closability</th><th class="num" data-sort="">Priority</th></tr></thead>
+<tbody>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G14">
+<td><span class="b b-warn">G14</span></td>
+<td><b style="font-size:.85rem">When construction in progress is relieved for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">CIP relief trigger. Decides which fiscal year a roughly 13.4 billion dollar asset lands on the balance sheet.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Navy FMO or NAVSEA</td>
+<td class="num" data-v="13409.97">13,410</td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="9386.98">9,387</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G25">
+<td><span class="b b-warn">G25</span></td>
+<td><b style="font-size:.85rem">Award level outlay reporting covers under one per cent of obligations</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">THE AUDIT FINDING VISIBLE IN PUBLIC DATA. Outlay reporting covers 0.80 per cent of 9,097.9M obligated and 2114 reports zero. This is the Fund Balance with Treasury weakness appearing in the public record rather than in an audit report. Standing consequence until closed: no cost product may take outlays for this hull from the public spending record.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">DFAS Columbus, Navy FMO, OUSD(C)</td>
+<td class="num" data-v="9025.3">9,025</td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="3000.91">3,001</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G23">
+<td><span class="b b-warn">G23</span></td>
+<td><b style="font-size:.85rem">Outfitting and post delivery attributable to this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Outfitting and post-delivery, published only as an informational row for the whole line item. The CVN-79 share is not separable from it.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Navy FMB, PEO Carriers</td>
+<td class="num" data-v="1766.73">1,767</td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="1413.38">1,413</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G22">
+<td><span class="b b-warn">G22</span></td>
+<td><b style="font-size:.85rem">Vendor level attribution of the propulsion equipment category</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">LARGEST SINGLE UNATTRIBUTED BLOCK. Propulsion equipment, 15.2 per cent of the hull, with no public vendor line item anywhere.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">Naval Reactors, NAVSEA, Department of Energy</td>
+<td class="num" data-v="1643.073">1,643</td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="517.57">518</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G20">
+<td><span class="b b-warn">G20</span></td>
+<td><b style="font-size:.85rem">Shipset prices for the weapons elevators and remaining ordnance</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">AWE shipset plus the residual Ordnance after EMALS and AAG.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">PEO Carriers, NSWC Philadelphia, NAVAIR</td>
+<td class="num" data-v="319.213">319</td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="94.97">95</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G24">
+<td><span class="b b-warn">G24</span></td>
+<td><b style="font-size:.85rem">Obligations on the preparation contract after its period of performance ended</b>
+</td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">SUPSHIP Newport News, NAVSEA 02</td>
+<td class="num" data-v="133.4">133</td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="93.38">93</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G6">
+<td><span class="b b-warn">G6</span></td>
+<td><b style="font-size:.85rem">NSMA, the fourth Navy general ledger</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">NSMA, the fourth Navy general ledger.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">AI research then SME</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="0.9">1</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G12">
+<td><span class="b b-warn">G12</span></td>
+<td><b style="font-size:.85rem">Which costs the FY2016 authorization act excluded from the cost caps</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">FY2016 NDAA cap exclusions. Governs the meaning of the E-1 three-ceiling spread the product intends to lead with.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Navy FMB or OGC</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="0.8">1</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G9">
+<td><span class="b b-warn">G9</span></td>
+<td><b style="font-size:.85rem">Whether the payment path changed when MOCAS entitlement moved to Navy ERP</b>
+</td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">DFAS Columbus or SUPSHIP Newport News</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="0.8">1</td>
+</tr>
+<tr data-row="" data-tags="open DATA query" id="G16">
+<td><span class="b b-warn">G16</span></td>
+<td><b style="font-size:.85rem">Government furnished property held by the shipbuilder for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">BEST RATIO IN THE REGISTER. Existing report, defined key (CAGE 43689 scoped to both PIIDs), mandated seven-business-day cadence, no new access path. GAO-25-106868 names SUPSHIP as not consistently verifying contractor property records, so this is the local test of a department-wide weakness standing since FY2001.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">PIEE GFP Module role holder or SUPSHIP Newport News</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-info">query</span>
+</td>
+<td class="num" data-v="0.72">1</td>
+</tr>
+<tr data-row="" data-tags="open DATA query" id="G26">
+<td><span class="b b-warn">G26</span></td>
+<td><b style="font-size:.85rem">Full enumeration of contracts carrying scope for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Full contract population, built outward from the ship rather than inward from the documents. PSC 1901, acquisition program code 223, funding office N30270.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">anyone with FPDS-NG or USAspending access</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-info">query</span>
+</td>
+<td class="num" data-v="0.56">1</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT zero_access" id="G18">
+<td><span class="b b-warn">G18</span></td>
+<td><b style="font-size:.85rem">The cost analysis column for this hull, every year it was published</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">RESIDUAL IS LIVE AND FREE. Repeat the column read for each prior budget year to build the category-by-year variance series. That is the first real deliverable of the variance ledger and it needs no access at all.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem"></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="0.4">0</td>
+</tr>
+<tr data-row="" data-tags="open CATALOG query" id="G30">
+<td><span class="b b-warn">G30</span></td>
+<td><b style="font-size:.85rem">Records retention for this hull's payment records</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-1d2ba631. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">CATALOG</span></td>
+<td style="font-size:.79rem">DCMA records management / agency records officer</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-info">query</span>
+</td>
+<td class="num" data-v="0.4">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT query" id="G42">
+<td><span class="b b-warn">G42</span></td>
+<td><b style="font-size:.85rem">Whether an independent cost estimate was ever made for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-74429161. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">GAO published reports / Navy CAPE and program office independent cost estimate file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-info">query</span>
+</td>
+<td class="num" data-v="0.4">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT query" id="G53">
+<td><span class="b b-warn">G53</span></td>
+<td><b style="font-size:.85rem">The FY2026 budget submission's full funding, AP and cost-to-complete lines</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-bfcb40e8. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Office of the Assistant Secretary of the Navy (Financial Management and Comptroller), FMB - SCN budget justification books</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-info">query</span>
+</td>
+<td class="num" data-v="0.4">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT query" id="G64">
+<td><span class="b b-warn">G64</span></td>
+<td><b style="font-size:.85rem">The FY2007 split-funding authority and its scope</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-f0037537. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Public statute text / Navy Office of Legislative Affairs</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-info">query</span>
+</td>
+<td class="num" data-v="0.4">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G13">
+<td><span class="b b-warn">G13</span></td>
+<td><b style="font-size:.85rem">Rework cost from the 2024 welding deviations</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">2024 weld rework cost. A named dated public event with no public cost attached, which makes it the cleanest end-to-end test of the event stream feeding cause evidence.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">NAVSEA or SUPSHIP Newport News</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.32">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G19">
+<td><span class="b b-warn">G19</span></td>
+<td><b style="font-size:.85rem">Content expensed rather than capitalized under the capitalization threshold</b>
+</td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">Navy FMO</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.32">0</td>
+</tr>
+<tr data-row="" data-tags="open CATALOG access_required" id="G5">
+<td><span class="b b-warn">G5</span></td>
+<td><b style="font-size:.85rem">Full inventory of systems feeding the Advana financial management environment</b>
+</td>
+<td><span class="b b-mut">CATALOG</span></td>
+<td style="font-size:.79rem">someone inside Advana</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.32">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G11">
+<td><span class="b b-warn">G11</span></td>
+<td><b style="font-size:.85rem">Cost and software data reporting submissions for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">DCARC CSDR compliance for this program is rated Red. Expect the pull to be late or incomplete, and ask for the compliance assessment alongside the data.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">OSD CAPE DCARC via CADE</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.3">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G4">
+<td><span class="b b-warn">G4</span></td>
+<td><b style="font-size:.85rem">Hull-level cost and the shared class R&amp;D allocation method</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Highest dollar materiality in the register. Governs every hull-level figure the product produces.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">NAVSEA 05C, NCCA, CAPE</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.28">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G7">
+<td><span class="b b-warn">G7</span></td>
+<td><b style="font-size:.85rem">Construction in progress for NAVSEA shipbuilding uses manual adjustments</b>
+</td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">Navy FMO</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.28">0</td>
+</tr>
+<tr data-row="" data-tags="open SME sme" id="G15">
+<td><span class="b b-warn">G15</span></td>
+<td><b style="font-size:.85rem">Whether installed GFE is capitalized separately or inside the hull</b>
+</td>
+<td><span class="b b-mut">SME</span></td>
+<td style="font-size:.79rem">Navy FMO, PEO Carriers, NAVAIR PMA-251</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-warn">SME</span>
+</td>
+<td class="num" data-v="0.23">0</td>
+</tr>
+<tr data-row="" data-tags="open SME sme" id="G8">
+<td><span class="b b-warn">G8</span></td>
+<td><b style="font-size:.85rem">The Navy ERP subhead to NWA/WBS mapping that isolates this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Navy ERP subhead to NWA/WBS node isolating CVN-79 from CVN-80/81 within BLI 2001. Until answered the budget layer cannot be split by hull, which blocks the hull answer rather than delaying it.</div></td>
+<td><span class="b b-mut">SME</span></td>
+<td style="font-size:.79rem">NAVSEA 01 or DFAS</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-warn">SME · low decay</span>
+</td>
+<td class="num" data-v="0.23">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G29">
+<td><span class="b b-warn">G29</span></td>
+<td><b style="font-size:.85rem">The 2004 CVN 21 acquisition decision memorandum and its quantity basis</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-1a85a2d3. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Milestone Decision Authority / USD(A&amp;S) acquisition document repository</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G31">
+<td><span class="b b-warn">G31</span></td>
+<td><b style="font-size:.85rem">Reimbursable and project orders for this hull, and who records them</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-2114e407. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">SUPSHIP Comptroller and PEO Aircraft Carriers (reimbursable order register / Navy ERP)</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G32">
+<td><span class="b b-warn">G32</span></td>
+<td><b style="font-size:.85rem">Test scope in the DOT&amp;E reports and the CVN 78 and Enterprise TEMPs</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-21555673. Exposure not yet sized. Overlaps G36.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">DOT&amp;E and the CVN-78 program office test and evaluation master plan library</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G33">
+<td><span class="b b-warn">G33</span></td>
+<td><b style="font-size:.85rem">Transaction-level support for this hull's funding and payment actions</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-28d0c320. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">SUPSHIP Newport News Comptroller (document request via NAVSEA FM)</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G34">
+<td><span class="b b-warn">G34</span></td>
+<td><b style="font-size:.85rem">Ship acceptance records and SUPSHIP's certification role</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-35b8c6a7. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">SUPSHIP Newport News; GAO report source files</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G35">
+<td><span class="b b-warn">G35</span></td>
+<td><b style="font-size:.85rem">EMALS baseline change 3 and its cost scope</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-3d37c3fb. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">NAVAIR PMA 251 program office / Milestone Decision Authority baseline files</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G36">
+<td><span class="b b-warn">G36</span></td>
+<td><b style="font-size:.85rem">Systems on this hull that differ from the lead ship's tested configuration</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-518fc9b3. Exposure not yet sized. Overlaps G32.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">DOT&amp;E / PEO Aircraft Carriers test and evaluation office</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G37">
+<td><span class="b b-warn">G37</span></td>
+<td><b style="font-size:.85rem">What the Ford-class acquisition program baseline covers for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-5665638c. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">PEO Aircraft Carriers (PMS 378) program office / Milestone Decision Authority baseline file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G38">
+<td><span class="b b-warn">G38</span></td>
+<td><b style="font-size:.85rem">The per-ship assumptions behind the Navy O&amp;S estimate</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-60482249. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">NCCA (Naval Center for Cost Analysis) and OPNAV N43/N98 maintenance notice holders</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G39">
+<td><span class="b b-warn">G39</span></td>
+<td><b style="font-size:.85rem">Contractor debts and collections against this hull's contracts</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-6172e5ba. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">Responsible DCMA ACO; DFAS Columbus debt management</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G40">
+<td><span class="b b-warn">G40</span></td>
+<td><b style="font-size:.85rem">Whether any hull-level or sub-program baseline exists</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-69390d94. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">PEO Aircraft Carriers (PMS 378) acquisition program baseline records / ASN(RDA) baseline repository</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G41">
+<td><span class="b b-warn">G41</span></td>
+<td><b style="font-size:.85rem">The shipbuilder's integrated master schedule as a deliverable</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-6b0e0de0. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">NAVSEA PMS 378 / shipbuilder contract data requirements list</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G43">
+<td><span class="b b-warn">G43</span></td>
+<td><b style="font-size:.85rem">ACO-approved versus disbursed financing payments</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-79adb445. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">Responsible DCMA ACO and DFAS Columbus contract pay</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G45">
+<td><span class="b b-warn">G45</span></td>
+<td><b style="font-size:.85rem">The 2015 Service Cost Position and the O&amp;S cost-element structures</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-8c81891f. Exposure not yet sized. Overlaps G54.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">NAVSEA 05C / NCCA (Naval Center for Cost Analysis)</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G46">
+<td><span class="b b-warn">G46</span></td>
+<td><b style="font-size:.85rem">What CLIN 0001 covers, against the contract performance report</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-9c84f959. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">PEO Aircraft Carriers (PMS 378) contracting file / NAVSEA 02 contracts office</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G47">
+<td><span class="b b-warn">G47</span></td>
+<td><b style="font-size:.85rem">The program deviation report and the baseline change that followed</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-a62e3390. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">PEO Aircraft Carriers program office / Milestone Decision Authority correspondence file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open CATALOG access_required" id="G48">
+<td><span class="b b-warn">G48</span></td>
+<td><b style="font-size:.85rem">MOCAS field definitions and the contracts' payment clauses</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-a8652d97. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">CATALOG</span></td>
+<td style="font-size:.79rem">DFAS Columbus MOCAS system documentation office; contract file holder</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G49">
+<td><span class="b b-warn">G49</span></td>
+<td><b style="font-size:.85rem">Class development funded in shipbuilding rather than RDT&amp;E</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-ac29b248. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">NAVSEA FMB / PMS 378 budget execution records for SCN line 1611N and the RDT&amp;E-to-SCN strategy change file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G50">
+<td><span class="b b-warn">G50</span></td>
+<td><b style="font-size:.85rem">The prescribed equipment valuation and CIP relief record formats</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-ba0bdc8d. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">ASN (FM&amp;C) Office of Financial Operations</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G51">
+<td><span class="b b-warn">G51</span></td>
+<td><b style="font-size:.85rem">Which program of record carries each capability modification</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-bebcd323. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">ASN(RD&amp;A) acquisition policy office / PEO Aircraft Carriers program documentation</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G52">
+<td><span class="b b-warn">G52</span></td>
+<td><b style="font-size:.85rem">The sources behind the antecedent carrier O&amp;S estimate</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-bf51ebc4. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">OPNAV N9 / NAVSEA cost engineering (VAMOSC program office)</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G54">
+<td><span class="b b-warn">G54</span></td>
+<td><b style="font-size:.85rem">CAPE O&amp;S cost-element structures, 2014 and 2020</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-c8684acc. Exposure not yet sized. Overlaps G45.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">OSD Cost Assessment and Program Evaluation (CAPE)</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G55">
+<td><span class="b b-warn">G55</span></td>
+<td><b style="font-size:.85rem">The approved acquisition strategy and its review tailoring</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-d09f38c9. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">PEO Aircraft Carriers program office; ASN(RD&amp;A) acquisition strategy approval file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G56">
+<td><span class="b b-warn">G56</span></td>
+<td><b style="font-size:.85rem">Estimate-at-completion documentation held by DCMA</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-d0b14fc4. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">DCMA contract management office / Program Support Team for the shipbuilder, via the responsible ACO</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G57">
+<td><span class="b b-warn">G57</span></td>
+<td><b style="font-size:.85rem">The new-construction berthing adjustment in the O&amp;M estimate</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-d331ac6b. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">OPNAV N9 / ASN (FM&amp;C) budget policy</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G58">
+<td><span class="b b-warn">G58</span></td>
+<td><b style="font-size:.85rem">The November 2018 two-ship buy certification and its exclusions</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-d4890327. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">OUSD(A&amp;S) / PEO Aircraft Carriers (PEO CVN) certification file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G59">
+<td><span class="b b-warn">G59</span></td>
+<td><b style="font-size:.85rem">Whether the EMALS long-lead and shipset contracts overlap</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-d6a755ff. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">NAVAIR PMA 251 contracting officer / contract files</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA access_required" id="G60">
+<td><span class="b b-warn">G60</span></td>
+<td><b style="font-size:.85rem">The budget submitting office's quarterly asset submissions</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-d7b5136e. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">NAVSEA Budget Submitting Office financial reporting / ASN (FM&amp;C) quarterly submission repository</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G63">
+<td><span class="b b-warn">G63</span></td>
+<td><b style="font-size:.85rem">What the governing authorities require at ship versus class level</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-efe41def. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">ASN(RDA)/Navy acquisition policy office and the CVN-78 program office APB/statutory reference file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT access_required" id="G65">
+<td><span class="b b-warn">G65</span></td>
+<td><b style="font-size:.85rem">The Section 121(b) certification against CAPE's two-ship savings estimate</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-f124b1bc. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">OSD CAPE and ASN(RDA) two-ship-buy certification file</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-bad">access</span>
+</td>
+<td class="num" data-v="0.17">0</td>
+</tr>
+<tr data-row="" data-tags="open SME sme" id="G2">
+<td><span class="b b-warn">G2</span></td>
+<td><b style="font-size:.85rem">Whether SABRS is in scope for this program</b>
+</td>
+<td><span class="b b-mut">SME</span></td>
+<td style="font-size:.79rem">NAVSEA 01 or DFAS</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-warn">SME · moderate decay</span>
+</td>
+<td class="num" data-v="0.15">0</td>
+</tr>
+<tr data-row="" data-tags="open DATA sme" id="G44">
+<td><span class="b b-warn">G44</span></td>
+<td><b style="font-size:.85rem">Cost for this hull carried in other programs of record</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-7dc2992b. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">PMS 378 government-furnished-equipment cost sponsor list and the responsible other-program offices</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-warn">SME</span>
+</td>
+<td class="num" data-v="0.12">0</td>
+</tr>
+<tr data-row="" data-tags="open DOCUMENT sme" id="G61">
+<td><span class="b b-warn">G61</span></td>
+<td><b style="font-size:.85rem">Whether the EMALS subprogram estimates sit inside the CVN 78 estimates</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-dd15e896. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">CVN-78 Class MSAR preparer (PMS 378 business financial manager) and the EMALS program office</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-warn">SME</span>
+</td>
+<td class="num" data-v="0.12">0</td>
+</tr>
+<tr data-row="" data-tags="open SME sme" id="G62">
+<td><span class="b b-warn">G62</span></td>
+<td><b style="font-size:.85rem">Which office is accountable for this hull's equipment</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Adopted 2026-11-09 from PQ-e7aa6f1a. Exposure not yet sized.</div></td>
+<td><span class="b b-mut">SME</span></td>
+<td style="font-size:.79rem">PEO Aircraft Carriers (PMS 378) with NAVSEA Command Property Officer</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-warn">SME</span>
+</td>
+<td class="num" data-v="0.12">0</td>
+</tr>
+<tr data-row="" data-tags="open CATALOG zero_access" id="G28">
+<td><span class="b b-warn">G28</span></td>
+<td><b style="font-size:.85rem">The 2116 contract number collision, registered as a hard exclusion</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Register the 2116 collision pair as a hard exclusion in every query template and Advana view. Catalogue work rather than a question. Already enforced in core/policy/decisions.py and seed/keyset.yaml.</div></td>
+<td><span class="b b-mut">CATALOG</span></td>
+<td style="font-size:.79rem">this repo, then the Advana FM data product owner</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="0.1">0</td>
+</tr>
+<tr data-row="" data-tags="closed DOCUMENT unknown" id="G1">
+<td><span class="b b-ok">G1</span></td>
+<td><b style="font-size:.85rem">Which accounting systems carried this program's postings, and when</b>
+</td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">AI research</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="muted">-</span></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+</tr>
+<tr data-row="" data-tags="closed DOCUMENT unknown" id="G10">
+<td><span class="b b-ok">G10</span></td>
+<td><b style="font-size:.85rem">The established obligation work limiting date for this hull</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">OWLD Jun 2028, CFO Jul 2027. Resolves E-3 in favour of OPNAVINST 4700.8M.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem"></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="muted">-</span></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+</tr>
+<tr data-row="" data-tags="closed DOCUMENT unknown" id="G17">
+<td><span class="b b-ok">G17</span></td>
+<td><b style="font-size:.85rem">What the dagger footnote marks on three cost analysis rows</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">The dagger marks the presence of a P-8a, not government furnished content. E-12.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem"></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="muted">-</span></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+</tr>
+<tr data-row="" data-tags="closed DOCUMENT unknown" id="G21">
+<td><span class="b b-ok">G21</span></td>
+<td><b style="font-size:.85rem">Base award value of the January 2009 construction preparation contract</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Base award 111,803,875 on 2009-01-15. Never unpriced; it was below the departmental announcement threshold.</div></td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem"></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="muted">-</span></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+</tr>
+<tr data-row="" data-tags="closed DATA zero_access" id="G27">
+<td><span class="b b-ok">G27</span></td>
+<td><b style="font-size:.85rem">Two contracts carried as General Atomics. Neither is this hull, one is not that vendor</b>
+<div class="muted" style="font-size:.78rem;max-width:62ch">Two PIIDs carried as General Atomics. Neither attribution held. N00024-18-C-4100 is VERICOR POWER SYSTEMS LLC, 19,169,760 FFP signed 2017-11-22, for an ETF40B power producer group assembly on LCAC 86, a landing craft and not this hull. N00024-14-C-4201 is absent from both the awardfull and IDV indexes. A control query on N0002409C2116 returned a complete record from the same feed in the same session, which is what makes the absence a finding rather than a feed failure. The gap had stood open on an inherited vendor label that no one had tested.</div></td>
+<td><span class="b b-mut">DATA</span></td>
+<td style="font-size:.79rem">FPDS-NG PIID search or USAspending award page</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="b b-ok">zero access</span>
+</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+</tr>
+<tr data-row="" data-tags="closed DOCUMENT unknown" id="G3">
+<td><span class="b b-ok">G3</span></td>
+<td><b style="font-size:.85rem">Whether FMR Volume 11B Chapter 12 governs program office overhead and travel</b>
+</td>
+<td><span class="b b-mut">DOCUMENT</span></td>
+<td style="font-size:.79rem">AI research</td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+<td><span class="muted">-</span></td>
+<td class="num" data-v="0.0"><span class="muted">-</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="src"><b>Source</b> LOG.md Part II, projected through seed/gaps.index.yaml · ranking is exposure x ignorance x closability, and
+  the three terms stay visible on the row so a reader sees why a gap is where it is.</div>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

@@ -3,9 +3,10 @@ constraints), calls the service, investigator or engine, and returns the
 answer with its evidence. The investigate and explain tools chain several
 sources and score cases; they are not pass-throughs to a single query.
 
-Writes. The read tools never change source data and are annotated read-only,
-but four of them append their answer to aircarrier_analyst_leads so it can
-later be scored against the truth: analyst_investigate_record,
+Writes. No tool changes source data. Seven tools only read and are annotated
+read-only. Four append their answer to aircarrier_analyst_leads so it can
+later be scored against the truth, and are annotated LOGS_LEAD (readOnlyHint
+false, destructiveHint false): analyst_investigate_record,
 analyst_investigate_transaction, analyst_investigate_window and
 analyst_explain_residual (see _wrap and store.log_lead). That table is the
 analyst's own audit log, append-only from these tools. analyst_record_outcome
@@ -85,6 +86,8 @@ class DocCategory(str, Enum):
 PIID = Annotated[Piid, Field(description="Contract PIID, exact. N0002415C2114 = CVN-79 detail design and "
                                          "construction; N0002409C2116 = CVN-78/79 construction preparation.")]
 READ = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}
+# Appends one row to the analyst's own leads table; never touches source data.
+LOGS_LEAD = {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}
 
 
 def _guard(fn, *a, **k):
@@ -135,7 +138,7 @@ def _loa_fn(tx_key: str) -> dict | None:
 
 def register_tools(mcp: FastMCP) -> None:
 
-    @mcp.tool(name="analyst_investigate_record", annotations={**READ, "title": "Investigate an incomplete record"})
+    @mcp.tool(name="analyst_investigate_record", annotations={**LOGS_LEAD, "title": "Investigate an incomplete record"})
     def analyst_investigate_record(
         record: RECORD,
         max_hops: Annotated[int, Field(ge=1, le=6, description="How many rounds of clue-chasing (default 4).")] = 4,
@@ -157,6 +160,7 @@ def register_tools(mcp: FastMCP) -> None:
         the clue chain with citations, recovered data elements, a collection requirement for each
         element still missing, and human_review.required with reasons when the answer is weak, close
         or rests on secondary material. Grade LEAD. Keep lead_id to record the confirmed answer.
+        Saves the answer as one row in the analyst's own leads table; source data is never changed.
         """
         def go():
             r = investigator.investigate(record, library.knowledge(), library.SqlSources(), max_hops, _loa_fn)
@@ -238,7 +242,7 @@ def register_tools(mcp: FastMCP) -> None:
             return r
         return _guard(go)
 
-    @mcp.tool(name="analyst_investigate_transaction", annotations={**READ, "title": "Investigate a transaction's line of accounting"})
+    @mcp.tool(name="analyst_investigate_transaction", annotations={**LOGS_LEAD, "title": "Investigate a transaction's line of accounting"})
     def analyst_investigate_transaction(
         piid: PIID,
         modification_number: Annotated[str, Field(description="FPDS modification number, e.g. P00067. Leave empty if giving transaction_key.", max_length=40)] = "",
@@ -250,6 +254,7 @@ def register_tools(mcp: FastMCP) -> None:
         availability, description cues), and a collection requirement naming the office and
         document that can confirm it. Grade is always LEAD: never quote an option as a fact.
         Keep the returned lead_id; it is needed to record the confirmed answer.
+        Saves the answer as one row in the analyst's own leads table; source data is never changed.
         """
         def go():
             c = store.corpus()
@@ -259,7 +264,7 @@ def register_tools(mcp: FastMCP) -> None:
             return _wrap(r, piid.value, t.key, c.period_of(t), info)
         return _guard(go)
 
-    @mcp.tool(name="analyst_investigate_window", annotations={**READ, "title": "Investigate a fiscal window"})
+    @mcp.tool(name="analyst_investigate_window", annotations={**LOGS_LEAD, "title": "Investigate a fiscal window"})
     def analyst_investigate_window(
         piid: PIID,
         fiscal_year: Annotated[int, Field(ge=2009, le=2035, description="Federal fiscal year (FY2021 starts 1 Oct 2020).")],
@@ -269,6 +274,7 @@ def register_tools(mcp: FastMCP) -> None:
         """Estimate which accounts carry a contract's obligations in a span of fiscal periods:
         the amount-weighted vote of every transaction's posterior, top three with expected
         share, plus none-of-these. Use for months no File C submission covers. Grade LEAD.
+        Saves the answer as one row in the analyst's own leads table; source data is never changed.
         """
         def go():
             w, info = store.weights()
@@ -276,7 +282,7 @@ def register_tools(mcp: FastMCP) -> None:
             return _wrap(r, piid.value, None, f"FY{fiscal_year}P{first_period:02d}-P{last_period:02d}", info)
         return _guard(go)
 
-    @mcp.tool(name="analyst_explain_residual", annotations={**READ, "title": "Explain a File C vs FPDS residual"})
+    @mcp.tool(name="analyst_explain_residual", annotations={**LOGS_LEAD, "title": "Explain a File C vs FPDS residual"})
     def analyst_explain_residual(
         piid: PIID,
         submission_period: Annotated[str, Field(pattern=r"^FY\d{4}(Q[1-4]|P(0[1-9]|1[0-2]))$", description="File C submission period, e.g. FY2021P03 or FY2019Q4.")],
@@ -286,6 +292,7 @@ def register_tools(mcp: FastMCP) -> None:
         three causes (timing, unmirrored ledger posting, restatement) with a none-of-these
         share, lists rejected tests (e.g. no exact-cent subset), and names who can settle it.
         Scores are stated heuristics until residual outcomes are recorded. Grade LEAD.
+        Saves the answer as one row in the analyst's own leads table; source data is never changed.
         """
         def go():
             r = service.explain_residual(store.corpus(), piid.value, submission_period)

@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Ask the evidence · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a aria-current="page" class="on" href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<aside aria-label="Snapshot copy" class="snapshot" role="note">
+<b>Snapshot copy.</b> This app is running on the extracts shipped with it (as of 2026-11-09),
+ with no Databricks workspace behind it. With no model endpoint reachable the agent answers by search alone, from the same records.
+ <a href="../stack/">How the deployed version runs</a>.
+</aside>
+<div class="phead">
+<div class="eyebrow">Analyze</div>
+<h1>Ask the evidence</h1>
+<p class="for"><span><b>For</b> anyone with a question about CVN-79 cost, contracts, exhibits or gaps</span>
+<span><b>Decision</b> where to look next; an answer is a lead with its citations, not a reported figure</span></p>
+<p class="lede">Ask in plain language. The agent answers only from the same records and documents
+  the pages use, shows which tools it called, and cites what each figure rests on.</p>
+<div class="note warn" style="margin-top:.6rem"><b>Answers are leads, not reported figures.</b>
+  Each one is a starting point to verify against the cited record, under the same trust model as
+  everything else here (D16). The agent cannot change any data.</div>
+<p class="muted" style="font-size:.76rem;margin-top:.5rem">Model: databricks-gpt-5-5 then databricks-gemini-3-8-flash then databricks-grok-4-7.
+  Data: shipped extracts and documents
+  (No SQL warehouse is bound to the app, so tables are read from the extracts shipped with it.).</p>
+</div>
+<section class="card">
+<div aria-label="Example questions" class="chips" id="ask-starters">
+<button class="chip" data-ask="" type="button">Why are there three different cost caps, and which applies to what?</button>
+<button class="chip" data-ask="" type="button">What was obligated on the DD&amp;C contract in FY2022, and what was the largest action?</button>
+<button class="chip" data-ask="" type="button">Which File C periods fail to tie to the transactions, and by how much?</button>
+<button class="chip" data-ask="" type="button">What does gap G22 block, and who could close it?</button>
+</div>
+<div aria-live="polite" class="chat" id="ask-log"></div>
+<form class="askform" id="ask-form">
+<textarea aria-label="Question" id="ask-q" placeholder="Ask about CVN-79 cost, contracts, exhibits or open gaps" required="" rows="2"></textarea>
+<button class="btn" id="ask-go" type="submit">Ask</button>
+</form>
+</section>
+<script>
+ /* /ask?q=... fills the question box (from the Brief's sample questions); the person presses Ask. */
+ (function(){try{var q=new URLSearchParams(location.search).get("q"),t=document.getElementById("ask-q");
+ if(q&&t){t.value=q;t.focus();}}catch(e){}})();
+</script>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

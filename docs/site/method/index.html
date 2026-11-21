@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Method · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a aria-current="page" class="on" href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead">
+<div class="eyebrow">Method</div>
+<h1>How this is built, and why it can be challenged</h1>
+<p class="lede">The goal is not a single authoritative number. A single number tied to one declared
+  source of truth is worth less than a defensible account of how the number is reported, how it is
+  recorded, where those diverge, and why. The divergence with its cause attached is the product.</p>
+<p class="cap" style="margin-top:.4rem">Reference: <a href="../rules/">every rule code</a> ·
+  <a href="../coverage/">the evidence coverage map</a> · <a href="../stack/">the stack and its evaluation</a></p>
+</div>
+<div class="grid g3">
+<div class="card accent"><h3>The design premise</h3>
+<p style="font-size:.87rem">The data is messy and the picture is never complete. That is the
+   normal condition rather than an exception, and treating it otherwise is how this kind of effort
+   fails. The architecture is an investigation apparatus before it is a reporting apparatus.</p></div>
+<div class="card accent"><h3>Completeness is never a gate</h3>
+<p style="font-size:.87rem">No component may require that a layer be present, that a system
+   inventory be finished, or that a question be settled before it produces output. The system
+   produces its three artifacts at every access level, including zero.</p></div>
+<div class="card accent"><h3>Conflicts are retained</h3>
+<p style="font-size:.87rem">When two sources give different figures for the same cell, both are
+   kept with their provenance and no winner is picked. A pipeline that cleans conflicting values
+   destroys the raw material the product is made of.</p></div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Three trust zones and a one-way door</h2>
+<p class="cap">A single confidence column is a label and can be ignored. This is a firewall.</p>
+<div class="grid g3">
+<div class="card bad" style="box-shadow:none"><h3>Zone L · Leads</h3>
+<p style="font-size:.86rem">Everything from public or secondary sourcing lives here and only
+    here, graded on two independent Admiralty axes. <b>A lead's only legitimate output is a
+    Collection Requirement.</b> Zone L has no join path into the canonical tables. That is
+    structural rather than procedural.</p></div>
+<div class="card flag" style="box-shadow:none"><h3>Zone R · Raw authoritative</h3>
+<p style="font-size:.86rem">Only primary material actually collected, with full chain of custody.
+    Ingested, not yet trusted for arithmetic.</p></div>
+<div class="card" style="box-shadow:none;border-left:3px solid var(--ok)"><h3>Zone V · Validated</h3>
+<p style="font-size:.86rem">A record enters only when a named person or a documented
+    deterministic rule validates it against the source or ties it to a control total. Only this zone
+    feeds anything presented as a figure.</p></div>
+</div>
+<div class="note"><b>Weakest-link aggregation.</b> Any total inherits the weakest trust state among
+  its inputs. If one period's contribution is lead-grade, the whole total displays as lead-grade.
+  That prevents a good-looking aggregate from concealing a weak input, and it is what makes it safe
+  to show partial work to an audience that will not read footnotes.</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>What the method got wrong, kept on purpose</h2>
+<p class="cap">All three share a shape: a structural pattern was real, the interpretation laid over
+  it was invented, and the result was coherent. Coherence is not evidence.</p>
+<div class="grid g3">
+<div class="card bad" style="box-shadow:none">
+<span class="b b-bad">PREMISE</span>
+<h3 style="margin-top:.4rem">Wrong platform</h3>
+<p style="font-size:.85rem">Cost category proportions were taken from exhibit columns assumed to
+    be carrier columns. They were Columbia-class submarine columns. The row structure is identical
+    on every line of that appropriation, which is why the extract passed inspection. The model had
+    the two largest categories almost exactly inverted and would have been published with an
+    ESTIMATE tag and a confidence score of 0.55.</p></div>
+<div class="card bad" style="box-shadow:none">
+<span class="b b-bad">INTERPRETATION</span>
+<h3 style="margin-top:.4rem">Inferring a footnote</h3>
+<p style="font-size:.85rem">A dagger on three cost rows was read as marking government furnished
+    content, because those are the GFE-heavy categories and the pattern fit. The exhibit defines it
+    in place: it indicates the presence of a further exhibit. Plausible, convenient, consistent with
+    everything else, and wrong.</p></div>
+<div class="card bad" style="box-shadow:none">
+<span class="b b-bad">METHOD</span>
+<h3 style="margin-top:.4rem">Summing announcements</h3>
+<p style="font-size:.85rem">A contract was reconstructed by adding up announced modifications and
+    carried at roughly a quarter of its real value. Announcements have a dollar threshold, omit
+    incremental funding, and cannot net deobligations. The error was knowable without new data: the
+    residual it created had been written down and given a narrative label instead of a test.</p></div>
+</div>
+<div class="note bad"><b>The rule taken from all three.</b> A press release is an announcement,
+  never a record. And the corollary that matters more: <b>a large unexplained residual is a finding,
+  not a remainder.</b> When a reconciliation leaves a gap and the gap gets a narrative label, the
+  label is a hypothesis that needs a test.</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Where AI sits, and the one rule everything follows</h2>
+<div class="note warn" style="font-size:.95rem"><b>No AI output writes directly to a trusted
+  table.</b> Every role writes to a candidate location with a confidence grade and full provenance:
+  what it looked at, what rule or model produced the output, and when. A person, or a deterministic
+  rule for mechanical checks, promotes a candidate. More AI roles means more candidates arriving at
+  the gate, never a looser gate.</div>
+<div class="grid g3" style="margin-top:.8rem">
+<div><h4>Investigator</h4><p style="font-size:.85rem">Unknowns in, hypotheses and collection
+   requirements out. Never asserts a value.</p></div>
+<div><h4>Reader</h4><p style="font-size:.85rem">Documents in, typed knowledge out. Never extracts
+   a cell without its coordinate chain and every legend on its page.</p></div>
+<div><h4>Tie-out</h4><p style="font-size:.85rem">Deterministic. No model, ever. If a check needs
+   judgment it emits a flag and stops.</p></div>
+<div><h4>Challenger</h4><p style="font-size:.85rem">Tries to break a claim. Sets the risk flags.
+   Never promotes anything.</p></div>
+<div><h4>Attributor</h4><p style="font-size:.85rem">Identity across systems with no shared key.
+   Scored candidates only, never a silent merge.</p></div>
+<div><h4>Briefer</h4><p style="font-size:.85rem">Audience-specific explanation. Never introduces a
+   figure that is not in the ledger.</p></div>
+</div>
+<div class="note"><b>The honest limit, stated as a design property.</b> The gate catches the error
+  classes already seen, and a novel one only where the negative vocabulary reaches. The miss log is
+  the mechanism by which that limit moves: when something gets through and is caught later, it
+  becomes a row recording what the gate saw, what it allowed, and which flag should have fired.</div>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

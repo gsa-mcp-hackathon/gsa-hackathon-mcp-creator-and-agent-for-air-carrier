@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Kennedy picture · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body data-si-recompute=""><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a aria-current="page" class="on" href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<aside aria-label="Snapshot copy" class="snapshot" role="note">
+<b>Snapshot copy.</b> This app is running on the extracts shipped with it (as of 2026-11-09),
+ with no Databricks workspace behind it. Brief readiness counts the claim ledger and saves each run; both are in the workspace, so the counts here start at zero.
+ <a href="../stack/">How the deployed version runs</a>.
+</aside>
+<div class="phead si-head">
+<div class="eyebrow">Dive deeper · Brief readiness · CVN-79 · as of 2026-11-21T18:48:31Z</div>
+<h1>Brief readiness needs the claim ledger, which lives in the workspace.</h1>
+<p class="for"><span><b>For</b> the comptroller and whoever briefs the DCFO</span>
+<span><b>Decision</b> whether the brief can stand on these figures, and what access is still needed</span></p>
+<p class="lede">Can we stand behind the CVN-79 number at the brief, and what access do we need? Every number below is recomputed from the records each time the
+  page is read. A specialist run starts from the button that names what it works on; nothing is
+  saved until a person applies it.</p>
+<div class="si-headacts">
+<button class="btn si-go primary" data-si-page="/mission" data-si-subject="CVN-79" data-si-task="brief_readiness" title="Can we stand behind the CVN-79 number at the brief, and what access do we need?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Check brief readiness for CVN-79</span>
+</button>
+<span class="pill" title="claim ledger: no SQL warehouse is bound to this app File C: no SQL warehouse is bound to this app variance register: no SQL warehouse is bound to this app exceptions: no SQL warehouse is bound to this app collection requirements: no SQL warehouse is bound to this app ">
+   Records: read from 2 of 7 sources at 18:48:31Z. <b>5 could not be read.</b></span>
+</div>
+<div class="si-toast" hidden="" id="si-toast" role="status"></div>
+</div>
+<div class="kpi-row si-kpis">
+<a class="kpi warn si-kpi" href="#contracts">
+<div class="k">Contract totals that stand</div>
+<div class="v">0<span class="si-of"> of 2</span></div>
+<div class="n">FPDS recomputed to the cent against the claim ledger</div>
+</a>
+<a class="kpi bad si-kpi" href="#filec">
+<div class="k">File C periods that tie</div>
+<div class="v">4<span class="si-of"> of 8</span></div>
+<div class="n">N00024-15-C-2114, three windows tried per period</div>
+</a>
+<a class="kpi warn si-kpi" href="../variances/">
+<div class="k">Live variances</div>
+<div class="v">12<span class="si-of"> of 17</span></div>
+<div class="n">sources that disagree, each with a named cause or not</div>
+</a>
+<a class="kpi warn si-kpi" href="../gaps/">
+<div class="k">Open gaps</div>
+<div class="v">59<span class="si-of"> of 65</span></div>
+<div class="n">top owner: NAVSEA 01 or DFAS</div>
+</a>
+</div>
+<div class="grid g-2-1">
+<section aria-labelledby="w-h" class="card" id="waiting">
+<h2 id="w-h">Waiting on a decision</h2>
+<p class="small">Who has to act, on what. A row that names a role can only be decided by a person
+   who holds it; the server checks that at the moment of the decision.</p>
+<ul class="si-wait">
+<li>
+<div class="si-wait-what"><a href="../gaps/">G14: When construction in progress is relieved for this hull</a>
+</div>
+<div class="si-wait-who">Navy FMO or NAVSEA</div>
+<div class="si-wait-n">
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G14" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G14</span>
+</button></div>
+</li>
+<li>
+<div class="si-wait-what"><a href="../gaps/">G25: Award level outlay reporting covers under one per cent of obligations</a>
+</div>
+<div class="si-wait-who">DFAS Columbus, Navy FMO, OUSD(C)</div>
+<div class="si-wait-n">
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G25" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G25</span>
+</button></div>
+</li>
+<li>
+<div class="si-wait-what"><a href="../gaps/">G23: Outfitting and post delivery attributable to this hull</a>
+</div>
+<div class="si-wait-who">Navy FMB, PEO Carriers</div>
+<div class="si-wait-n">
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G23" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G23</span>
+</button></div>
+</li>
+</ul>
+</section>
+<section aria-labelledby="b-h" class="card" id="brief">
+<h2 id="b-h">What the brief can stand on</h2>
+<div class="si-bigfig"><details class="fig fig-known fig-lg" data-figure="picture.claims.promoted">
+<summary aria-label="CVN-79 figures that tie to source records: 0. Open provenance."><span class="fig-v">0</span>
+<span class="fig-asof">no as-of time</span>
+</summary>
+<div aria-label="Provenance of CVN-79 figures that tie to source records" class="prov" role="group">
+<dl class="kv">
+<dt>Figure</dt><dd>CVN-79 figures that tie to source records</dd>
+<dt>Value as stored</dt><dd class="mono">0 COUNT</dd>
+<dt>As of</dt><dd>not recorded</dd>
+<dt>Current until</dt><dd>no window</dd>
+<dt>Rule</dt><dd>none</dd>
+<dt>Computation</dt><dd>live claim versions, hull CVN-79, zone V (BR-01)</dd>
+<dt>Source</dt><dd class="mono">aircarrier_claim</dd>
+<dt>Evidence layer</dt><dd>The rule register does not record an evidence layer for this rule.</dd>
+<dt>Provenance</dt><dd class="mono"><a href="/api/v1/provenance/146cd09d28a39923/records">146cd09d28a39923</a></dd>
+<dt>Records (0)</dt>
+<dd>none</dd>
+</dl>
+</div>
+</details><span>of</span><details class="fig fig-known" data-figure="picture.claims.total">
+<summary aria-label="CVN-79 figures in the claim ledger: 0. Open provenance."><span class="fig-v">0</span>
+<span class="fig-asof">no as-of time</span>
+</summary>
+<div aria-label="Provenance of CVN-79 figures in the claim ledger" class="prov" role="group">
+<dl class="kv">
+<dt>Figure</dt><dd>CVN-79 figures in the claim ledger</dd>
+<dt>Value as stored</dt><dd class="mono">0 COUNT</dd>
+<dt>As of</dt><dd>not recorded</dd>
+<dt>Current until</dt><dd>no window</dd>
+<dt>Rule</dt><dd>none</dd>
+<dt>Computation</dt><dd>live claim versions, hull CVN-79</dd>
+<dt>Source</dt><dd class="mono">aircarrier_claim</dd>
+<dt>Evidence layer</dt><dd>The rule register does not record an evidence layer for this rule.</dd>
+<dt>Provenance</dt><dd class="mono"><a href="/api/v1/provenance/1dd298ed42ec7d4e/records">1dd298ed42ec7d4e</a></dd>
+<dt>Records (0)</dt>
+<dd>none</dd>
+</dl>
+</div>
+</details></div>
+<p class="small">CVN-79 figures in the claim ledger that tie to a source record (zone V). The rest are
+   leads and are shown as leads (<a class="code rule" href="../rules/">BR-01</a>).
+   The brief set for 2026-11-18 has passed; the next date is set in
+   AIRCARRIER_BRIEF_DATE.</p>
+<svg aria-label="Claims by zone" class="si-zones" role="img" viewbox="0 0 300 22">
+<rect class="si-z-ok" height="22" width="0.0" x="0" y="0"><title>Tie to source (zone V): 0</title></rect>
+<rect class="si-z-warn" height="22" width="0.0" x="0.0" y="0"><title>Leads (zone R): 0</title></rect>
+</svg>
+<ul class="si-legend"><li><i class="si-z-ok"></i>Tie to source (zone V) <b>0</b></li><li><i class="si-z-warn"></i>Leads (zone R) <b>0</b></li></ul>
+</section>
+</div>
+<section aria-labelledby="c-h" class="card" id="contracts">
+<h2 id="c-h">Obligations by contract</h2>
+<p class="small">Recomputed from every FPDS action, federal_action_obligation in exact decimal (OB-01).
+  Click a fiscal year to read it; shift-click a second year to read the range. The server sums it.</p>
+<div class="grid g2">
+<div class="si-contract">
+<div class="si-c-h">
+<div><b class="mono">N00024-09-C-2116</b> <span class="small">construction preparation</span></div>
+<span class="b b-mut">no claim</span>
+</div>
+<details class="fig fig-known fig-lg" data-figure="picture.N0002409C2116.total">
+<summary aria-label="Obligations, N00024-09-C-2116: $4,519,300,323.83. Open provenance."><span class="fig-v">$4,519,300,323.83</span>
+<span class="fig-asof">as of 2026-11-21T18:48:31Z</span>
+</summary>
+<div aria-label="Provenance of Obligations, N00024-09-C-2116" class="prov" role="group">
+<dl class="kv">
+<dt>Figure</dt><dd>Obligations, N00024-09-C-2116</dd>
+<dt>Value as stored</dt><dd class="mono">4519300323.83 USD</dd>
+<dt>As of</dt><dd>2026-11-21T18:48:31Z</dd>
+<dt>Current until</dt><dd>2026-11-22T20:48:31Z</dd>
+<dt>Rule</dt><dd>none</dd>
+<dt>Computation</dt><dd>sum of federal_action_obligation over 948 actions, last action 2026-07-20 (OB-01)</dd>
+<dt>Source</dt><dd class="mono">FPDS prime transactions N00024-09-C-2116</dd>
+<dt>Evidence layer</dt><dd>The rule register does not record an evidence layer for this rule.</dd>
+<dt>Provenance</dt><dd class="mono"><a href="/api/v1/provenance/b70764a26abb4080/records">b70764a26abb4080</a></dd>
+<dt>Records (0)</dt>
+<dd>none</dd>
+</dl>
+</div>
+</details>
+<div class="small">948 actions · last action 2026-07-20</div>
+<svg aria-label="Obligations by fiscal year, N00024-09-C-2116" class="si-bars" role="img" viewbox="0 0 560 138">
+<line class="si-axis" x1="0" x2="560" y1="120.0" y2="120.0"></line>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2009" data-si-bar="" height="26.46" tabindex="0" width="22.4" x="4.36" y="93.54"><title>FY2009: $195,278,713.00 (12 actions)</title></rect>
+<text text-anchor="middle" x="15.559999999999999" y="134">09</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2010" data-si-bar="" height="28.72" tabindex="0" width="22.4" x="35.47" y="91.28"><title>FY2010: $211,984,118.00 (28 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2011" data-si-bar="" height="44.36" tabindex="0" width="22.4" x="66.58" y="75.64"><title>FY2011: $327,387,977.00 (41 actions)</title></rect>
+<text text-anchor="middle" x="77.78" y="134">11</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2012" data-si-bar="" height="75.77" tabindex="0" width="22.4" x="97.69" y="44.23"><title>FY2012: $559,185,595.00 (28 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2013" data-si-bar="" height="53.94" tabindex="0" width="22.4" x="128.8" y="66.06"><title>FY2013: $398,066,461.00 (32 actions)</title></rect>
+<text text-anchor="middle" x="140.0" y="134">13</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2014" data-si-bar="" height="92.96" tabindex="0" width="22.4" x="159.91" y="27.04"><title>FY2014: $686,032,744.00 (24 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2015" data-si-bar="" height="120.0" tabindex="0" width="22.4" x="191.02" y="0.0"><title>FY2015: $885,627,057.00 (32 actions)</title></rect>
+<text text-anchor="middle" x="202.22" y="134">15</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2016" data-si-bar="" height="86.03" tabindex="0" width="22.4" x="222.13" y="33.97"><title>FY2016: $634,914,344.00 (57 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2017" data-si-bar="" height="42.33" tabindex="0" width="22.4" x="253.24" y="77.67"><title>FY2017: $312,402,673.93 (57 actions)</title></rect>
+<text text-anchor="middle" x="264.44" y="134">17</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2018" data-si-bar="" height="1.42" tabindex="0" width="22.4" x="284.36" y="118.58"><title>FY2018: $10,473,263.51 (63 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2019" data-si-bar="" height="1.0" tabindex="0" width="22.4" x="315.47" y="119.0"><title>FY2019: $2,767,142.00 (66 actions)</title></rect>
+<text text-anchor="middle" x="326.67" y="134">19</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2020" data-si-bar="" height="1.05" tabindex="0" width="22.4" x="346.58" y="118.95"><title>FY2020: $7,729,052.50 (46 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2021" data-si-bar="" height="2.37" tabindex="0" width="22.4" x="377.69" y="117.63"><title>FY2021: $17,474,054.00 (73 actions)</title></rect>
+<text text-anchor="middle" x="388.89" y="134">21</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2022" data-si-bar="" height="7.69" tabindex="0" width="22.4" x="408.8" y="112.31"><title>FY2022: $56,739,562.02 (96 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2023" data-si-bar="" height="3.96" tabindex="0" width="22.4" x="439.91" y="116.04"><title>FY2023: $29,226,444.39 (85 actions)</title></rect>
+<text text-anchor="middle" x="451.11" y="134">23</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2024" data-si-bar="" height="6.16" tabindex="0" width="22.4" x="471.02" y="113.84"><title>FY2024: $45,437,438.50 (71 actions)</title></rect>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2025" data-si-bar="" height="1.0" tabindex="0" width="22.4" x="502.13" y="119.0"><title>FY2025: $5,130,354.98 (87 actions)</title></rect>
+<text text-anchor="middle" x="513.33" y="134">25</text>
+</g>
+<g>
+<rect class="" data-contract="N0002409C2116" data-fy="2026" data-si-bar="" height="18.08" tabindex="0" width="22.4" x="533.24" y="101.92"><title>FY2026: $133,443,329.00 (50 actions)</title></rect>
+</g>
+</svg>
+<div class="si-range" data-si-range="N0002409C2116"><p class="small">Select a year to read its actions.</p></div>
+<div class="si-c-acts">
+<button class="btn si-go" data-si-page="/mission" data-si-subject="N00024-09-C-2116" data-si-task="reconcile_obligations" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Reconcile N00024-09-C-2116</span>
+</button>
+<form class="si-test" data-si-page="/mission" data-si-subject="N00024-09-C-2116" data-si-test="">
+<label>Test a reported figure <input inputmode="decimal" name="reported_total" placeholder="e.g. 4,519,300,323.83" required=""/></label>
+<label>labelled <select name="reported_label">
+<option selected="" value="N00024-09-C-2116">N00024-09-C-2116</option><option value="N00024-15-C-2114">N00024-15-C-2114</option>
+</select></label>
+<button class="btn ghost sm" type="submit">Test it</button>
+</form>
+</div>
+</div>
+<div class="si-contract">
+<div class="si-c-h">
+<div><b class="mono">N00024-15-C-2114</b> <span class="small">detail design and construction</span></div>
+<span class="b b-mut">no claim</span>
+</div>
+<details class="fig fig-known fig-lg" data-figure="picture.N0002415C2114.total">
+<summary aria-label="Obligations, N00024-15-C-2114: $4,578,603,345.77. Open provenance."><span class="fig-v">$4,578,603,345.77</span>
+<span class="fig-asof">as of 2026-11-21T18:48:31Z</span>
+</summary>
+<div aria-label="Provenance of Obligations, N00024-15-C-2114" class="prov" role="group">
+<dl class="kv">
+<dt>Figure</dt><dd>Obligations, N00024-15-C-2114</dd>
+<dt>Value as stored</dt><dd class="mono">4578603345.77 USD</dd>
+<dt>As of</dt><dd>2026-11-21T18:48:31Z</dd>
+<dt>Current until</dt><dd>2026-11-22T20:48:31Z</dd>
+<dt>Rule</dt><dd>none</dd>
+<dt>Computation</dt><dd>sum of federal_action_obligation over 927 actions, last action 2026-07-20 (OB-01)</dd>
+<dt>Source</dt><dd class="mono">FPDS prime transactions N00024-15-C-2114</dd>
+<dt>Evidence layer</dt><dd>The rule register does not record an evidence layer for this rule.</dd>
+<dt>Provenance</dt><dd class="mono"><a href="/api/v1/provenance/9fbea4f8884c6c70/records">9fbea4f8884c6c70</a></dd>
+<dt>Records (0)</dt>
+<dd>none</dd>
+</dl>
+</div>
+</details>
+<div class="small">927 actions · last action 2026-07-20</div>
+<svg aria-label="Obligations by fiscal year, N00024-15-C-2114" class="si-bars" role="img" viewbox="0 0 560 138">
+<line class="si-axis" x1="0" x2="560" y1="120.0" y2="120.0"></line>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2015" data-si-bar="" height="30.88" tabindex="0" width="33.6" x="6.53" y="89.12"><title>FY2015: $196,462,646.00 (16 actions)</title></rect>
+<text text-anchor="middle" x="23.330000000000002" y="134">15</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2016" data-si-bar="" height="53.8" tabindex="0" width="33.6" x="53.2" y="66.2"><title>FY2016: $342,279,729.00 (51 actions)</title></rect>
+<text text-anchor="middle" x="70.0" y="134">16</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2017" data-si-bar="" height="96.94" tabindex="0" width="33.6" x="99.87" y="23.06"><title>FY2017: $616,695,414.05 (62 actions)</title></rect>
+<text text-anchor="middle" x="116.67" y="134">17</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2018" data-si-bar="" height="120.0" tabindex="0" width="33.6" x="146.53" y="0.0"><title>FY2018: $763,382,574.00 (79 actions)</title></rect>
+<text text-anchor="middle" x="163.33" y="134">18</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2019" data-si-bar="" height="101.96" tabindex="0" width="33.6" x="193.2" y="18.04"><title>FY2019: $648,638,113.75 (80 actions)</title></rect>
+<text text-anchor="middle" x="210.0" y="134">19</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2020" data-si-bar="" height="79.03" tabindex="0" width="33.6" x="239.87" y="40.97"><title>FY2020: $502,746,961.66 (68 actions)</title></rect>
+<text text-anchor="middle" x="256.67" y="134">20</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2021" data-si-bar="" height="38.22" tabindex="0" width="33.6" x="286.53" y="81.78"><title>FY2021: $243,137,614.22 (95 actions)</title></rect>
+<text text-anchor="middle" x="303.33" y="134">21</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2022" data-si-bar="" height="47.25" tabindex="0" width="33.6" x="333.2" y="72.75"><title>FY2022: $300,550,618.22 (109 actions)</title></rect>
+<text text-anchor="middle" x="350.0" y="134">22</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2023" data-si-bar="" height="58.42" tabindex="0" width="33.6" x="379.87" y="61.58"><title>FY2023: $371,621,156.02 (109 actions)</title></rect>
+<text text-anchor="middle" x="396.67" y="134">23</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2024" data-si-bar="" height="56.73" tabindex="0" width="33.6" x="426.53" y="63.27"><title>FY2024: $360,880,455.46 (90 actions)</title></rect>
+<text text-anchor="middle" x="443.33" y="134">24</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2025" data-si-bar="" height="18.87" tabindex="0" width="33.6" x="473.2" y="101.13"><title>FY2025: $120,044,143.24 (108 actions)</title></rect>
+<text text-anchor="middle" x="490.0" y="134">25</text>
+</g>
+<g>
+<rect class="" data-contract="N0002415C2114" data-fy="2026" data-si-bar="" height="17.63" tabindex="0" width="33.6" x="519.87" y="102.37"><title>FY2026: $112,163,920.15 (60 actions)</title></rect>
+<text text-anchor="middle" x="536.67" y="134">26</text>
+</g>
+</svg>
+<div class="si-range" data-si-range="N0002415C2114"><p class="small">Select a year to read its actions.</p></div>
+<div class="si-c-acts">
+<button class="btn si-go" data-si-page="/mission" data-si-subject="N00024-15-C-2114" data-si-task="reconcile_obligations" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Reconcile N00024-15-C-2114</span>
+</button>
+<form class="si-test" data-si-page="/mission" data-si-subject="N00024-15-C-2114" data-si-test="">
+<label>Test a reported figure <input inputmode="decimal" name="reported_total" placeholder="e.g. 4,578,603,345.77" required=""/></label>
+<label>labelled <select name="reported_label">
+<option value="N00024-09-C-2116">N00024-09-C-2116</option><option selected="" value="N00024-15-C-2114">N00024-15-C-2114</option>
+</select></label>
+<button class="btn ghost sm" type="submit">Test it</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<section aria-labelledby="f-h" class="card" id="filec">
+<h2 id="f-h">File C against the transactions</h2>
+<p class="small">Each File C submission period for N00024-15-C-2114 against the contract's FPDS actions
+  under three windows; the window that matches is reported, never assumed (TO-01). A period that does
+  not tie is a residual to explain (TO-02).</p>
+<div class="si-tiles">
+<div class="si-tile ok">
+<div class="si-tile-h"><b class="mono">FY2019Q1</b><span class="b b-ok">ties</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$12,053,869.00</dd>
+<dt>3 months</dt><dd class="mono">$12,053,869.00</dd>
+<dt>Difference</dt><dd class="mono">$0.00</dd></dl>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="FY2019Q1" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Confirm FY2019Q1</span>
+</button>
+</div>
+<div class="si-tile ok">
+<div class="si-tile-h"><b class="mono">FY2019Q2</b><span class="b b-ok">ties</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$3,590,948.00</dd>
+<dt>3 months</dt><dd class="mono">$3,590,948.00</dd>
+<dt>Difference</dt><dd class="mono">$0.00</dd></dl>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="FY2019Q2" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Confirm FY2019Q2</span>
+</button>
+</div>
+<div class="si-tile ok">
+<div class="si-tile-h"><b class="mono">FY2019Q3</b><span class="b b-ok">ties</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$627,850,638.00</dd>
+<dt>3 months</dt><dd class="mono">$627,850,638.00</dd>
+<dt>Difference</dt><dd class="mono">$0.00</dd></dl>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="FY2019Q3" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Confirm FY2019Q3</span>
+</button>
+</div>
+<div class="si-tile ok">
+<div class="si-tile-h"><b class="mono">FY2019Q4</b><span class="b b-ok">ties</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$5,142,658.75</dd>
+<dt>3 months</dt><dd class="mono">$5,142,658.75</dd>
+<dt>Difference</dt><dd class="mono">$0.00</dd></dl>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="FY2019Q4" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Confirm FY2019Q4</span>
+</button>
+</div>
+<div class="si-tile bad">
+<div class="si-tile-h"><b class="mono">FY2020P09</b><span class="b b-bad">residual</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$14,766,111.00</dd>
+<dt>3 months</dt><dd class="mono">$13,951,350.28</dd>
+<dt>Difference</dt><dd class="mono">$814,760.72</dd></dl>
+<button class="btn si-go sm" data-si-page="/mission" data-si-subject="FY2020P09" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Explain FY2020P09</span>
+</button>
+</div>
+<div class="si-tile bad">
+<div class="si-tile-h"><b class="mono">FY2020P12</b><span class="b b-bad">residual</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$5,612,309.00</dd>
+<dt>3 months</dt><dd class="mono">$6,790,090.38</dd>
+<dt>Difference</dt><dd class="mono">-$1,177,781.38</dd></dl>
+<button class="btn si-go sm" data-si-page="/mission" data-si-subject="FY2020P12" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Explain FY2020P12</span>
+</button>
+</div>
+<div class="si-tile bad">
+<div class="si-tile-h"><b class="mono">FY2020Q1</b><span class="b b-bad">residual</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$13,833,275.40</dd>
+<dt>3 months</dt><dd class="mono">$15,032,810.00</dd>
+<dt>Difference</dt><dd class="mono">-$1,199,534.60</dd></dl>
+<button class="btn si-go sm" data-si-page="/mission" data-si-subject="FY2020Q1" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Explain FY2020Q1</span>
+</button>
+</div>
+<div class="si-tile bad">
+<div class="si-tile-h"><b class="mono">FY2021P03</b><span class="b b-bad">residual</span></div>
+<dl class="kv"><dt>File C</dt><dd class="mono">$973,836,673.00</dd>
+<dt>3 months</dt><dd class="mono">$203,429,405.00</dd>
+<dt>Difference</dt><dd class="mono">$770,407,268.00</dd></dl>
+<button class="btn si-go sm" data-si-page="/mission" data-si-subject="FY2021P03" data-si-task="explain_residual" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Explain FY2021P03</span>
+</button>
+</div>
+</div>
+</section>
+<div class="grid g2">
+<section aria-labelledby="g-h" class="card">
+<h2 id="g-h">Gaps that block the most</h2>
+<ul class="si-gaps">
+<li><span class="b b-info">G14</span> When construction in progress is relieved for this hull
+    <div class="small">Navy FMO or NAVSEA · open</div>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G14" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G14</span>
+</button></li>
+<li><span class="b b-info">G25</span> Award level outlay reporting covers under one per cent of obligations
+    <div class="small">DFAS Columbus, Navy FMO, OUSD(C) · open</div>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G25" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G25</span>
+</button></li>
+<li><span class="b b-info">G23</span> Outfitting and post delivery attributable to this hull
+    <div class="small">Navy FMB, PEO Carriers · open</div>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G23" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G23</span>
+</button></li>
+<li><span class="b b-info">G22</span> Vendor level attribution of the propulsion equipment category
+    <div class="small">Naval Reactors, NAVSEA, Department of Energy · open</div>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G22" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G22</span>
+</button></li>
+<li><span class="b b-info">G20</span> Shipset prices for the weapons elevators and remaining ordnance
+    <div class="small">PEO Carriers, NSWC Philadelphia, NAVAIR · narrowed</div>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G20" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G20</span>
+</button></li>
+<li><span class="b b-info">G24</span> Obligations on the preparation contract after its period of performance ended
+    <div class="small">SUPSHIP Newport News, NAVSEA 02 · open</div>
+<button class="btn si-go sm ghost" data-si-page="/mission" data-si-subject="G24" data-si-task="investigate_gap" title="" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Work gap G24</span>
+</button></li>
+</ul>
+<a href="../gaps/">All 65 gaps</a>
+</section>
+<section aria-labelledby="r-h" class="card">
+<h2 id="r-h">Recent runs</h2>
+<p class="empty">No runs in this app process yet. Start one from any button that names its subject.</p>
+<a href="../runs/">Run log and activity</a>
+</section>
+</div>
+<div class="src"><b>Source</b> FPDS prime transactions (both contracts), File C (N00024-15-C-2114), the claim
+ ledger, the variance register, the gap register, the work queue and the collection requirements, read at
+ 2026-11-21T18:48:31Z. Computed in api/si/picture.py.</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

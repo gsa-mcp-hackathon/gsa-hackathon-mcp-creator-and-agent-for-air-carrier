@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Contribute · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a aria-current="page" class="navlink on navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead" style="margin-bottom:.6rem">
+<div class="eyebrow">Contribute</div>
+<h1>59 open questions. Two sentences from the right person closes one.</h1>
+<p class="lede">Pick a question in your area, read the brief, and tell us what you know or attach
+  the document that answers it. A rough answer with how you know it is worth more than a precise
+  one we never get.</p>
+<div class="cx-stats">
+<span><b>40</b> answerable from knowledge or a document</span>
+<span><b>19</b> need a system or an access approval</span>
+<span><b>6</b> already closed</span>
+</div>
+</div>
+<div class="cx">
+<section aria-live="polite" class="card cx-panel" id="form-card">
+<div class="cx-brief" hidden="" id="cx-brief">
+<div class="qtop"><span class="b b-info" id="cb-id"></span><span class="b b-mut" id="cb-type"></span>
+<span class="muted" id="cb-exp" style="font-size:.78rem"></span></div>
+<h2 id="cb-title" style="margin:.35rem 0 .2rem"></h2>
+<div id="cb-body"><p class="muted">Reading the register…</p></div>
+</div>
+<div id="cx-intro">
+<h2 id="form-title" style="margin-top:0">Tell us what you know</h2>
+<p class="sub">Choose a question on the right for its brief, or write here about anything that
+   bears on the cost of CVN-79.</p>
+</div>
+<form autocomplete="off" id="capture">
+<input id="f-gap" name="gap_id" type="hidden"/>
+<div class="note" id="f-context" style="display:none"></div>
+<label class="fl" for="f-body">What do you know?</label>
+<textarea id="f-body" name="body" placeholder="Plain words are fine. If you are not certain, say so." rows="4"></textarea>
+<label class="fl" for="f-source">How do you know it?</label>
+<input id="f-source" name="source" placeholder="I ran the interface for four years · SUPSHIP manual Ch4 · I would have to check" type="text"/>
+<label class="fl" for="f-files">Attach a document <span class="muted">(optional, up to 3, 10 MB each)</span></label>
+<div class="cx-drop" id="f-drop">
+<input accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.txt,.pptx,.png,.jpg,.jpeg,.msg,.eml" id="f-files" multiple="" type="file"/>
+<span>Drop a file here or <u>browse</u>. An instruction, exhibit, spreadsheet or e-mail.</span>
+</div>
+<ul class="cx-files" id="f-filelist"></ul>
+<label class="fl" for="f-conf">How sure are you?</label>
+<div aria-labelledby="f-conf" class="chips" role="radiogroup">
+<label class="chip"><input name="reliability" type="radio" value="certain"/> Certain</label>
+<label class="chip"><input checked="" name="reliability" type="radio" value="fairly"/> Fairly sure</label>
+<label class="chip"><input name="reliability" type="radio" value="think"/> I think so</label>
+<label class="chip"><input name="reliability" type="radio" value="who"/> Not sure, but I know who is</label>
+</div>
+<details style="margin:.6rem 0">
+<summary>Who else, and how to reach you <span class="muted">(optional)</span></summary>
+<label class="fl" for="f-who">Who else should we ask?</label>
+<input id="f-who" name="refer" placeholder="An office, a role, a name" type="text"/>
+<label class="fl" for="f-contact">Can we come back to you?</label>
+<input id="f-contact" name="contact" placeholder="Email, or leave blank" type="text"/>
+</details>
+<div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
+<button class="btn primary" type="submit">Send it</button>
+<button class="btn" type="reset">Clear</button>
+<span class="muted" id="f-status"></span>
+</div>
+<p class="fhint">Recorded as a lead with your name and how you knew it, never as a certified
+   figure. <b>This deployment does not store submissions yet</b>; the reply
+   will say so.</p>
+</form>
+</section>
+<section class="card cx-list">
+<div class="cx-filter">
+<input aria-label="Filter questions" id="q-search" placeholder="Filter 59 questions: ERP, GFE, payroll, G22…" type="search"/>
+<div class="chips" id="q-types">
+<button class="chip on" data-type="" type="button">All</button>
+<button class="chip" data-type="easy" type="button">Answerable now</button>
+<button class="chip" data-type="CATALOG" type="button">Catalog</button><button class="chip" data-type="DATA" type="button">Data</button><button class="chip" data-type="DOCUMENT" type="button">Document</button><button class="chip" data-type="SME" type="button">Sme</button>
+</div>
+<div class="muted" style="font-size:.76rem"><span id="q-count">59</span> shown. Easiest to answer first.</div>
+</div>
+<ul class="cx-q" id="q-list">
+<li>
+<button class="cx-qbtn" data-answer="G8" data-easy="1" data-q="The Navy ERP subhead to NWA/WBS mapping that isolates this hull" data-text="g8 the navy erp subhead to nwa/wbs mapping that isolates this hull navy erp subhead to nwa/wbs node isolating cvn-79 from cvn-80/81 within bli 2001. until answered the budget layer cannot be split by hull, which blocks the hull answer rather than delaying it. navsea 01 or dfas" data-type="SME" type="button">
+<span class="b b-ok">G8</span>
+<span class="cx-qt">The Navy ERP subhead to NWA/WBS mapping that isolates this hull<small>Someone who was there · NAVSEA 01 or DFAS</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G15" data-easy="1" data-q="Whether installed GFE is capitalized separately or inside the hull" data-text="g15 whether installed gfe is capitalized separately or inside the hull  navy fmo, peo carriers, navair pma-251" data-type="SME" type="button">
+<span class="b b-ok">G15</span>
+<span class="cx-qt">Whether installed GFE is capitalized separately or inside the hull<small>Someone who was there · Navy FMO, PEO Carriers, NAVAIR PMA-251</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G2" data-easy="1" data-q="Whether SABRS is in scope for this program" data-text="g2 whether sabrs is in scope for this program  navsea 01 or dfas" data-type="SME" type="button">
+<span class="b b-ok">G2</span>
+<span class="cx-qt">Whether SABRS is in scope for this program<small>Someone who was there · NAVSEA 01 or DFAS</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G62" data-easy="1" data-q="Which office is accountable for this hull's equipment" data-text="g62 which office is accountable for this hull's equipment adopted 2026-11-09 from pq-e7aa6f1a. exposure not yet sized. peo aircraft carriers (pms 378) with navsea command property officer" data-type="SME" type="button">
+<span class="b b-ok">G62</span>
+<span class="cx-qt">Which office is accountable for this hull's equipment<small>Someone who was there · PEO Aircraft Carriers (PMS 378) with NAVSEA Command Property Officer</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G14" data-easy="1" data-q="When construction in progress is relieved for this hull" data-text="g14 when construction in progress is relieved for this hull cip relief trigger. decides which fiscal year a roughly 13.4 billion dollar asset lands on the balance sheet. navy fmo or navsea" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G14</span>
+<span class="cx-qt">When construction in progress is relieved for this hull<small>Someone who knows where it is written · Navy FMO or NAVSEA</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G23" data-easy="1" data-q="Outfitting and post delivery attributable to this hull" data-text="g23 outfitting and post delivery attributable to this hull outfitting and post-delivery, published only as an informational row for the whole line item. the cvn-79 share is not separable from it. navy fmb, peo carriers" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G23</span>
+<span class="cx-qt">Outfitting and post delivery attributable to this hull<small>Someone who knows where it is written · Navy FMB, PEO Carriers</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G24" data-easy="1" data-q="Obligations on the preparation contract after its period of performance ended" data-text="g24 obligations on the preparation contract after its period of performance ended  supship newport news, navsea 02" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G24</span>
+<span class="cx-qt">Obligations on the preparation contract after its period of performance ended<small>Someone who knows where it is written · SUPSHIP Newport News, NAVSEA 02</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G6" data-easy="1" data-q="NSMA, the fourth Navy general ledger" data-text="g6 nsma, the fourth navy general ledger nsma, the fourth navy general ledger. ai research then sme" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G6</span>
+<span class="cx-qt">NSMA, the fourth Navy general ledger<small>Someone who knows where it is written · AI research then SME</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G9" data-easy="1" data-q="Whether the payment path changed when MOCAS entitlement moved to Navy ERP" data-text="g9 whether the payment path changed when mocas entitlement moved to navy erp  dfas columbus or supship newport news" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G9</span>
+<span class="cx-qt">Whether the payment path changed when MOCAS entitlement moved to Navy ERP<small>Someone who knows where it is written · DFAS Columbus or SUPSHIP Newport News</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G12" data-easy="1" data-q="Which costs the FY2016 authorization act excluded from the cost caps" data-text="g12 which costs the fy2016 authorization act excluded from the cost caps fy2016 ndaa cap exclusions. governs the meaning of the e-1 three-ceiling spread the product intends to lead with. navy fmb or ogc" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G12</span>
+<span class="cx-qt">Which costs the FY2016 authorization act excluded from the cost caps<small>Someone who knows where it is written · Navy FMB or OGC</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G18" data-easy="1" data-q="The cost analysis column for this hull, every year it was published" data-text="g18 the cost analysis column for this hull, every year it was published residual is live and free. repeat the column read for each prior budget year to build the category-by-year variance series. that is the first real deliverable of the variance ledger and it needs no access at all. " data-type="DOCUMENT" type="button">
+<span class="b b-ok">G18</span>
+<span class="cx-qt">The cost analysis column for this hull, every year it was published<small>Someone who knows where it is written</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G42" data-easy="1" data-q="Whether an independent cost estimate was ever made for this hull" data-text="g42 whether an independent cost estimate was ever made for this hull adopted 2026-11-09 from pq-74429161. exposure not yet sized. gao published reports / navy cape and program office independent cost estimate file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G42</span>
+<span class="cx-qt">Whether an independent cost estimate was ever made for this hull<small>Someone who knows where it is written · GAO published reports / Navy CAPE and program office independent cost estimate file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G53" data-easy="1" data-q="The FY2026 budget submission's full funding, AP and cost-to-complete lines" data-text="g53 the fy2026 budget submission's full funding, ap and cost-to-complete lines adopted 2026-11-09 from pq-bfcb40e8. exposure not yet sized. office of the assistant secretary of the navy (financial management and comptroller), fmb - scn budget justification books" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G53</span>
+<span class="cx-qt">The FY2026 budget submission's full funding, AP and cost-to-complete lines<small>Someone who knows where it is written · Office of the Assistant Secretary of the Navy (Financial Management and Comptroller), FMB - SCN budget justification books</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G64" data-easy="1" data-q="The FY2007 split-funding authority and its scope" data-text="g64 the fy2007 split-funding authority and its scope adopted 2026-11-09 from pq-f0037537. exposure not yet sized. public statute text / navy office of legislative affairs" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G64</span>
+<span class="cx-qt">The FY2007 split-funding authority and its scope<small>Someone who knows where it is written · Public statute text / Navy Office of Legislative Affairs</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G29" data-easy="1" data-q="The 2004 CVN 21 acquisition decision memorandum and its quantity basis" data-text="g29 the 2004 cvn 21 acquisition decision memorandum and its quantity basis adopted 2026-11-09 from pq-1a85a2d3. exposure not yet sized. milestone decision authority / usd(a&amp;s) acquisition document repository" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G29</span>
+<span class="cx-qt">The 2004 CVN 21 acquisition decision memorandum and its quantity basis<small>Someone who knows where it is written · Milestone Decision Authority / USD(A&amp;S) acquisition document repository</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G32" data-easy="1" data-q="Test scope in the DOT&amp;E reports and the CVN 78 and Enterprise TEMPs" data-text="g32 test scope in the dot&amp;e reports and the cvn 78 and enterprise temps adopted 2026-11-09 from pq-21555673. exposure not yet sized. overlaps g36. dot&amp;e and the cvn-78 program office test and evaluation master plan library" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G32</span>
+<span class="cx-qt">Test scope in the DOT&amp;E reports and the CVN 78 and Enterprise TEMPs<small>Someone who knows where it is written · DOT&amp;E and the CVN-78 program office test and evaluation master plan library</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G33" data-easy="1" data-q="Transaction-level support for this hull's funding and payment actions" data-text="g33 transaction-level support for this hull's funding and payment actions adopted 2026-11-09 from pq-28d0c320. exposure not yet sized. supship newport news comptroller (document request via navsea fm)" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G33</span>
+<span class="cx-qt">Transaction-level support for this hull's funding and payment actions<small>Someone who knows where it is written · SUPSHIP Newport News Comptroller (document request via NAVSEA FM)</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G34" data-easy="1" data-q="Ship acceptance records and SUPSHIP's certification role" data-text="g34 ship acceptance records and supship's certification role adopted 2026-11-09 from pq-35b8c6a7. exposure not yet sized. supship newport news; gao report source files" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G34</span>
+<span class="cx-qt">Ship acceptance records and SUPSHIP's certification role<small>Someone who knows where it is written · SUPSHIP Newport News; GAO report source files</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G35" data-easy="1" data-q="EMALS baseline change 3 and its cost scope" data-text="g35 emals baseline change 3 and its cost scope adopted 2026-11-09 from pq-3d37c3fb. exposure not yet sized. navair pma 251 program office / milestone decision authority baseline files" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G35</span>
+<span class="cx-qt">EMALS baseline change 3 and its cost scope<small>Someone who knows where it is written · NAVAIR PMA 251 program office / Milestone Decision Authority baseline files</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G36" data-easy="1" data-q="Systems on this hull that differ from the lead ship's tested configuration" data-text="g36 systems on this hull that differ from the lead ship's tested configuration adopted 2026-11-09 from pq-518fc9b3. exposure not yet sized. overlaps g32. dot&amp;e / peo aircraft carriers test and evaluation office" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G36</span>
+<span class="cx-qt">Systems on this hull that differ from the lead ship's tested configuration<small>Someone who knows where it is written · DOT&amp;E / PEO Aircraft Carriers test and evaluation office</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G37" data-easy="1" data-q="What the Ford-class acquisition program baseline covers for this hull" data-text="g37 what the ford-class acquisition program baseline covers for this hull adopted 2026-11-09 from pq-5665638c. exposure not yet sized. peo aircraft carriers (pms 378) program office / milestone decision authority baseline file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G37</span>
+<span class="cx-qt">What the Ford-class acquisition program baseline covers for this hull<small>Someone who knows where it is written · PEO Aircraft Carriers (PMS 378) program office / Milestone Decision Authority baseline file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G38" data-easy="1" data-q="The per-ship assumptions behind the Navy O&amp;S estimate" data-text="g38 the per-ship assumptions behind the navy o&amp;s estimate adopted 2026-11-09 from pq-60482249. exposure not yet sized. ncca (naval center for cost analysis) and opnav n43/n98 maintenance notice holders" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G38</span>
+<span class="cx-qt">The per-ship assumptions behind the Navy O&amp;S estimate<small>Someone who knows where it is written · NCCA (Naval Center for Cost Analysis) and OPNAV N43/N98 maintenance notice holders</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G39" data-easy="1" data-q="Contractor debts and collections against this hull's contracts" data-text="g39 contractor debts and collections against this hull's contracts adopted 2026-11-09 from pq-6172e5ba. exposure not yet sized. responsible dcma aco; dfas columbus debt management" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G39</span>
+<span class="cx-qt">Contractor debts and collections against this hull's contracts<small>Someone who knows where it is written · Responsible DCMA ACO; DFAS Columbus debt management</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G40" data-easy="1" data-q="Whether any hull-level or sub-program baseline exists" data-text="g40 whether any hull-level or sub-program baseline exists adopted 2026-11-09 from pq-69390d94. exposure not yet sized. peo aircraft carriers (pms 378) acquisition program baseline records / asn(rda) baseline repository" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G40</span>
+<span class="cx-qt">Whether any hull-level or sub-program baseline exists<small>Someone who knows where it is written · PEO Aircraft Carriers (PMS 378) acquisition program baseline records / ASN(RDA) baseline repository</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G41" data-easy="1" data-q="The shipbuilder's integrated master schedule as a deliverable" data-text="g41 the shipbuilder's integrated master schedule as a deliverable adopted 2026-11-09 from pq-6b0e0de0. exposure not yet sized. navsea pms 378 / shipbuilder contract data requirements list" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G41</span>
+<span class="cx-qt">The shipbuilder's integrated master schedule as a deliverable<small>Someone who knows where it is written · NAVSEA PMS 378 / shipbuilder contract data requirements list</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G45" data-easy="1" data-q="The 2015 Service Cost Position and the O&amp;S cost-element structures" data-text="g45 the 2015 service cost position and the o&amp;s cost-element structures adopted 2026-11-09 from pq-8c81891f. exposure not yet sized. overlaps g54. navsea 05c / ncca (naval center for cost analysis)" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G45</span>
+<span class="cx-qt">The 2015 Service Cost Position and the O&amp;S cost-element structures<small>Someone who knows where it is written · NAVSEA 05C / NCCA (Naval Center for Cost Analysis)</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G46" data-easy="1" data-q="What CLIN 0001 covers, against the contract performance report" data-text="g46 what clin 0001 covers, against the contract performance report adopted 2026-11-09 from pq-9c84f959. exposure not yet sized. peo aircraft carriers (pms 378) contracting file / navsea 02 contracts office" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G46</span>
+<span class="cx-qt">What CLIN 0001 covers, against the contract performance report<small>Someone who knows where it is written · PEO Aircraft Carriers (PMS 378) contracting file / NAVSEA 02 contracts office</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G47" data-easy="1" data-q="The program deviation report and the baseline change that followed" data-text="g47 the program deviation report and the baseline change that followed adopted 2026-11-09 from pq-a62e3390. exposure not yet sized. peo aircraft carriers program office / milestone decision authority correspondence file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G47</span>
+<span class="cx-qt">The program deviation report and the baseline change that followed<small>Someone who knows where it is written · PEO Aircraft Carriers program office / Milestone Decision Authority correspondence file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G50" data-easy="1" data-q="The prescribed equipment valuation and CIP relief record formats" data-text="g50 the prescribed equipment valuation and cip relief record formats adopted 2026-11-09 from pq-ba0bdc8d. exposure not yet sized. asn (fm&amp;c) office of financial operations" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G50</span>
+<span class="cx-qt">The prescribed equipment valuation and CIP relief record formats<small>Someone who knows where it is written · ASN (FM&amp;C) Office of Financial Operations</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G51" data-easy="1" data-q="Which program of record carries each capability modification" data-text="g51 which program of record carries each capability modification adopted 2026-11-09 from pq-bebcd323. exposure not yet sized. asn(rd&amp;a) acquisition policy office / peo aircraft carriers program documentation" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G51</span>
+<span class="cx-qt">Which program of record carries each capability modification<small>Someone who knows where it is written · ASN(RD&amp;A) acquisition policy office / PEO Aircraft Carriers program documentation</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G52" data-easy="1" data-q="The sources behind the antecedent carrier O&amp;S estimate" data-text="g52 the sources behind the antecedent carrier o&amp;s estimate adopted 2026-11-09 from pq-bf51ebc4. exposure not yet sized. opnav n9 / navsea cost engineering (vamosc program office)" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G52</span>
+<span class="cx-qt">The sources behind the antecedent carrier O&amp;S estimate<small>Someone who knows where it is written · OPNAV N9 / NAVSEA cost engineering (VAMOSC program office)</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G54" data-easy="1" data-q="CAPE O&amp;S cost-element structures, 2014 and 2020" data-text="g54 cape o&amp;s cost-element structures, 2014 and 2020 adopted 2026-11-09 from pq-c8684acc. exposure not yet sized. overlaps g45. osd cost assessment and program evaluation (cape)" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G54</span>
+<span class="cx-qt">CAPE O&amp;S cost-element structures, 2014 and 2020<small>Someone who knows where it is written · OSD Cost Assessment and Program Evaluation (CAPE)</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G55" data-easy="1" data-q="The approved acquisition strategy and its review tailoring" data-text="g55 the approved acquisition strategy and its review tailoring adopted 2026-11-09 from pq-d09f38c9. exposure not yet sized. peo aircraft carriers program office; asn(rd&amp;a) acquisition strategy approval file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G55</span>
+<span class="cx-qt">The approved acquisition strategy and its review tailoring<small>Someone who knows where it is written · PEO Aircraft Carriers program office; ASN(RD&amp;A) acquisition strategy approval file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G56" data-easy="1" data-q="Estimate-at-completion documentation held by DCMA" data-text="g56 estimate-at-completion documentation held by dcma adopted 2026-11-09 from pq-d0b14fc4. exposure not yet sized. dcma contract management office / program support team for the shipbuilder, via the responsible aco" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G56</span>
+<span class="cx-qt">Estimate-at-completion documentation held by DCMA<small>Someone who knows where it is written · DCMA contract management office / Program Support Team for the shipbuilder, via the responsible ACO</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G57" data-easy="1" data-q="The new-construction berthing adjustment in the O&amp;M estimate" data-text="g57 the new-construction berthing adjustment in the o&amp;m estimate adopted 2026-11-09 from pq-d331ac6b. exposure not yet sized. opnav n9 / asn (fm&amp;c) budget policy" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G57</span>
+<span class="cx-qt">The new-construction berthing adjustment in the O&amp;M estimate<small>Someone who knows where it is written · OPNAV N9 / ASN (FM&amp;C) budget policy</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G58" data-easy="1" data-q="The November 2018 two-ship buy certification and its exclusions" data-text="g58 the november 2018 two-ship buy certification and its exclusions adopted 2026-11-09 from pq-d4890327. exposure not yet sized. ousd(a&amp;s) / peo aircraft carriers (peo cvn) certification file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G58</span>
+<span class="cx-qt">The November 2018 two-ship buy certification and its exclusions<small>Someone who knows where it is written · OUSD(A&amp;S) / PEO Aircraft Carriers (PEO CVN) certification file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G59" data-easy="1" data-q="Whether the EMALS long-lead and shipset contracts overlap" data-text="g59 whether the emals long-lead and shipset contracts overlap adopted 2026-11-09 from pq-d6a755ff. exposure not yet sized. navair pma 251 contracting officer / contract files" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G59</span>
+<span class="cx-qt">Whether the EMALS long-lead and shipset contracts overlap<small>Someone who knows where it is written · NAVAIR PMA 251 contracting officer / contract files</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G63" data-easy="1" data-q="What the governing authorities require at ship versus class level" data-text="g63 what the governing authorities require at ship versus class level adopted 2026-11-09 from pq-efe41def. exposure not yet sized. asn(rda)/navy acquisition policy office and the cvn-78 program office apb/statutory reference file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G63</span>
+<span class="cx-qt">What the governing authorities require at ship versus class level<small>Someone who knows where it is written · ASN(RDA)/Navy acquisition policy office and the CVN-78 program office APB/statutory reference file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G65" data-easy="1" data-q="The Section 121(b) certification against CAPE's two-ship savings estimate" data-text="g65 the section 121(b) certification against cape's two-ship savings estimate adopted 2026-11-09 from pq-f124b1bc. exposure not yet sized. osd cape and asn(rda) two-ship-buy certification file" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G65</span>
+<span class="cx-qt">The Section 121(b) certification against CAPE's two-ship savings estimate<small>Someone who knows where it is written · OSD CAPE and ASN(RDA) two-ship-buy certification file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G61" data-easy="1" data-q="Whether the EMALS subprogram estimates sit inside the CVN 78 estimates" data-text="g61 whether the emals subprogram estimates sit inside the cvn 78 estimates adopted 2026-11-09 from pq-dd15e896. exposure not yet sized. cvn-78 class msar preparer (pms 378 business financial manager) and the emals program office" data-type="DOCUMENT" type="button">
+<span class="b b-ok">G61</span>
+<span class="cx-qt">Whether the EMALS subprogram estimates sit inside the CVN 78 estimates<small>Someone who knows where it is written · CVN-78 Class MSAR preparer (PMS 378 business financial manager) and the EMALS program office</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G30" data-easy="0" data-q="Records retention for this hull's payment records" data-text="g30 records retention for this hull's payment records adopted 2026-11-09 from pq-1d2ba631. exposure not yet sized. dcma records management / agency records officer" data-type="CATALOG" type="button">
+<span class="b b-mut">G30</span>
+<span class="cx-qt">Records retention for this hull's payment records<small>Someone inside the environment · DCMA records management / agency records officer</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G5" data-easy="0" data-q="Full inventory of systems feeding the Advana financial management environment" data-text="g5 full inventory of systems feeding the advana financial management environment  someone inside advana" data-type="CATALOG" type="button">
+<span class="b b-mut">G5</span>
+<span class="cx-qt">Full inventory of systems feeding the Advana financial management environment<small>Someone inside the environment · someone inside Advana</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G48" data-easy="0" data-q="MOCAS field definitions and the contracts' payment clauses" data-text="g48 mocas field definitions and the contracts' payment clauses adopted 2026-11-09 from pq-a8652d97. exposure not yet sized. dfas columbus mocas system documentation office; contract file holder" data-type="CATALOG" type="button">
+<span class="b b-mut">G48</span>
+<span class="cx-qt">MOCAS field definitions and the contracts' payment clauses<small>Someone inside the environment · DFAS Columbus MOCAS system documentation office; contract file holder</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G28" data-easy="0" data-q="The 2116 contract number collision, registered as a hard exclusion" data-text="g28 the 2116 contract number collision, registered as a hard exclusion register the 2116 collision pair as a hard exclusion in every query template and advana view. catalogue work rather than a question. already enforced in core/policy/decisions.py and seed/keyset.yaml. this repo, then the advana fm data product owner" data-type="CATALOG" type="button">
+<span class="b b-mut">G28</span>
+<span class="cx-qt">The 2116 contract number collision, registered as a hard exclusion<small>Someone inside the environment · this repo, then the Advana FM data product owner</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G25" data-easy="0" data-q="Award level outlay reporting covers under one per cent of obligations" data-text="g25 award level outlay reporting covers under one per cent of obligations the audit finding visible in public data. outlay reporting covers 0.80 per cent of 9,097.9m obligated and 2114 reports zero. this is the fund balance with treasury weakness appearing in the public record rather than in an audit report. standing consequence until closed: no cost product may take outlays for this hull from the public spending record. dfas columbus, navy fmo, ousd(c)" data-type="DATA" type="button">
+<span class="b b-mut">G25</span>
+<span class="cx-qt">Award level outlay reporting covers under one per cent of obligations<small>Someone with the system open · DFAS Columbus, Navy FMO, OUSD(C)</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G22" data-easy="0" data-q="Vendor level attribution of the propulsion equipment category" data-text="g22 vendor level attribution of the propulsion equipment category largest single unattributed block. propulsion equipment, 15.2 per cent of the hull, with no public vendor line item anywhere. naval reactors, navsea, department of energy" data-type="DATA" type="button">
+<span class="b b-mut">G22</span>
+<span class="cx-qt">Vendor level attribution of the propulsion equipment category<small>Someone with the system open · Naval Reactors, NAVSEA, Department of Energy</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G20" data-easy="0" data-q="Shipset prices for the weapons elevators and remaining ordnance" data-text="g20 shipset prices for the weapons elevators and remaining ordnance awe shipset plus the residual ordnance after emals and aag. peo carriers, nswc philadelphia, navair" data-type="DATA" type="button">
+<span class="b b-mut">G20</span>
+<span class="cx-qt">Shipset prices for the weapons elevators and remaining ordnance<small>Someone with the system open · PEO Carriers, NSWC Philadelphia, NAVAIR</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G16" data-easy="0" data-q="Government furnished property held by the shipbuilder for this hull" data-text="g16 government furnished property held by the shipbuilder for this hull best ratio in the register. existing report, defined key (cage 43689 scoped to both piids), mandated seven-business-day cadence, no new access path. gao-25-106868 names supship as not consistently verifying contractor property records, so this is the local test of a department-wide weakness standing since fy2001. piee gfp module role holder or supship newport news" data-type="DATA" type="button">
+<span class="b b-mut">G16</span>
+<span class="cx-qt">Government furnished property held by the shipbuilder for this hull<small>Someone with the system open · PIEE GFP Module role holder or SUPSHIP Newport News</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G26" data-easy="0" data-q="Full enumeration of contracts carrying scope for this hull" data-text="g26 full enumeration of contracts carrying scope for this hull full contract population, built outward from the ship rather than inward from the documents. psc 1901, acquisition program code 223, funding office n30270. anyone with fpds-ng or usaspending access" data-type="DATA" type="button">
+<span class="b b-mut">G26</span>
+<span class="cx-qt">Full enumeration of contracts carrying scope for this hull<small>Someone with the system open · anyone with FPDS-NG or USAspending access</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G13" data-easy="0" data-q="Rework cost from the 2024 welding deviations" data-text="g13 rework cost from the 2024 welding deviations 2024 weld rework cost. a named dated public event with no public cost attached, which makes it the cleanest end-to-end test of the event stream feeding cause evidence. navsea or supship newport news" data-type="DATA" type="button">
+<span class="b b-mut">G13</span>
+<span class="cx-qt">Rework cost from the 2024 welding deviations<small>Someone with the system open · NAVSEA or SUPSHIP Newport News</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G19" data-easy="0" data-q="Content expensed rather than capitalized under the capitalization threshold" data-text="g19 content expensed rather than capitalized under the capitalization threshold  navy fmo" data-type="DATA" type="button">
+<span class="b b-mut">G19</span>
+<span class="cx-qt">Content expensed rather than capitalized under the capitalization threshold<small>Someone with the system open · Navy FMO</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G11" data-easy="0" data-q="Cost and software data reporting submissions for this hull" data-text="g11 cost and software data reporting submissions for this hull dcarc csdr compliance for this program is rated red. expect the pull to be late or incomplete, and ask for the compliance assessment alongside the data. osd cape dcarc via cade" data-type="DATA" type="button">
+<span class="b b-mut">G11</span>
+<span class="cx-qt">Cost and software data reporting submissions for this hull<small>Someone with the system open · OSD CAPE DCARC via CADE</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G4" data-easy="0" data-q="Hull-level cost and the shared class R&amp;D allocation method" data-text="g4 hull-level cost and the shared class r&amp;d allocation method highest dollar materiality in the register. governs every hull-level figure the product produces. navsea 05c, ncca, cape" data-type="DATA" type="button">
+<span class="b b-mut">G4</span>
+<span class="cx-qt">Hull-level cost and the shared class R&amp;D allocation method<small>Someone with the system open · NAVSEA 05C, NCCA, CAPE</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G7" data-easy="0" data-q="Construction in progress for NAVSEA shipbuilding uses manual adjustments" data-text="g7 construction in progress for navsea shipbuilding uses manual adjustments  navy fmo" data-type="DATA" type="button">
+<span class="b b-mut">G7</span>
+<span class="cx-qt">Construction in progress for NAVSEA shipbuilding uses manual adjustments<small>Someone with the system open · Navy FMO</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G31" data-easy="0" data-q="Reimbursable and project orders for this hull, and who records them" data-text="g31 reimbursable and project orders for this hull, and who records them adopted 2026-11-09 from pq-2114e407. exposure not yet sized. supship comptroller and peo aircraft carriers (reimbursable order register / navy erp)" data-type="DATA" type="button">
+<span class="b b-mut">G31</span>
+<span class="cx-qt">Reimbursable and project orders for this hull, and who records them<small>Someone with the system open · SUPSHIP Comptroller and PEO Aircraft Carriers (reimbursable order register / Navy ERP)</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G43" data-easy="0" data-q="ACO-approved versus disbursed financing payments" data-text="g43 aco-approved versus disbursed financing payments adopted 2026-11-09 from pq-79adb445. exposure not yet sized. responsible dcma aco and dfas columbus contract pay" data-type="DATA" type="button">
+<span class="b b-mut">G43</span>
+<span class="cx-qt">ACO-approved versus disbursed financing payments<small>Someone with the system open · Responsible DCMA ACO and DFAS Columbus contract pay</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G49" data-easy="0" data-q="Class development funded in shipbuilding rather than RDT&amp;E" data-text="g49 class development funded in shipbuilding rather than rdt&amp;e adopted 2026-11-09 from pq-ac29b248. exposure not yet sized. navsea fmb / pms 378 budget execution records for scn line 1611n and the rdt&amp;e-to-scn strategy change file" data-type="DATA" type="button">
+<span class="b b-mut">G49</span>
+<span class="cx-qt">Class development funded in shipbuilding rather than RDT&amp;E<small>Someone with the system open · NAVSEA FMB / PMS 378 budget execution records for SCN line 1611N and the RDT&amp;E-to-SCN strategy change file</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G60" data-easy="0" data-q="The budget submitting office's quarterly asset submissions" data-text="g60 the budget submitting office's quarterly asset submissions adopted 2026-11-09 from pq-d7b5136e. exposure not yet sized. navsea budget submitting office financial reporting / asn (fm&amp;c) quarterly submission repository" data-type="DATA" type="button">
+<span class="b b-mut">G60</span>
+<span class="cx-qt">The budget submitting office's quarterly asset submissions<small>Someone with the system open · NAVSEA Budget Submitting Office financial reporting / ASN (FM&amp;C) quarterly submission repository</small></span>
+</button>
+</li>
+<li>
+<button class="cx-qbtn" data-answer="G44" data-easy="0" data-q="Cost for this hull carried in other programs of record" data-text="g44 cost for this hull carried in other programs of record adopted 2026-11-09 from pq-7dc2992b. exposure not yet sized. pms 378 government-furnished-equipment cost sponsor list and the responsible other-program offices" data-type="DATA" type="button">
+<span class="b b-mut">G44</span>
+<span class="cx-qt">Cost for this hull carried in other programs of record<small>Someone with the system open · PMS 378 government-furnished-equipment cost sponsor list and the responsible other-program offices</small></span>
+</button>
+</li>
+</ul>
+</section>
+</div>
+<div class="grid2" style="margin-top:1rem">
+<section class="card">
+<h2>What happens to your answer</h2>
+<ol class="steps">
+<li><b>It is recorded as a lead, not as a fact.</b> Everything from a person enters the
+    same way, including from people who are certainly right. What you said and how you knew
+    it are stored together and never separated.</li>
+<li><b>It is graded on two axes</b>, how reliable the source is and how credible the
+    content is, the way an intelligence report is. Nothing is thrown away for scoring low.</li>
+<li><b>It contributes a direction, not a number.</b> A lead tells us where to look and
+    what to rule out. The figure itself still has to come from the record, which is what
+    stops anyone's recollection becoming a reported cost.</li>
+<li><b>You are told when it closes something.</b> If your answer closes a question or
+    opens a better one, you hear about it. Contributions are attributed to you internally
+    and never published with your name without asking.</li>
+</ol>
+</section>
+<section class="card">
+<h2>Why your answer matters</h2>
+<ol class="steps">
+<li><b>One answer can move a large block.</b> The brief for each question shows the exposure
+    the register records for it and the transactions behind it.</li>
+<li><b>Your name stays with your answer.</b> Internally, so the answer can be traced back to
+    how it was known; never published without asking.</li>
+<li><b>A pointer is enough.</b> "It is in chapter 4 of the manual" or "ask the budget office"
+    closes as many questions as a full answer.</li>
+<li><b>We will not ask twice.</b> An answer is recorded once with its source.</li>
+</ol>
+</section>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

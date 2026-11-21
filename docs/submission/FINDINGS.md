@@ -1,7 +1,6 @@
 # Findings and fixes
 
-Every defect found by testing, by the [evaluation report](evaluation-report.pdf)
-(section 12) and by the delegation evaluation, with what changed and what is still open.
+Every defect found by testing, by the earlier evaluation report and by the delegation evaluation, with what changed and what is still open.
 Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 
 ## Where it stands
@@ -75,6 +74,7 @@ pinned by a test that fails on the old code.
 | 13 | High | One Hub tie-outs used floats and a $1.0M floor, so a $970,000 residual on $13,409.970M passed (2026-11-20) | Exact decimals, closing only to the exhibit's rounding ($500); `test_tie_out_closes_only_to_the_exhibit_rounding` |
 | 14 | Medium | The One Hub MCP server was named `aircarrier-ops`, the same as the ops server, with generic tool names, no input constraints, dictionary inputs some models receive empty, no read-only hints, and errors returned as results (2026-11-21) | `mcp-aircarrier-hub`: 16 `hub_` tools, Pydantic-validated scalar and list inputs, read-only annotations, ToolError with the reason; 15 new tests in `checks/test_mcp_server.py` |
 | 15 | Low | A clean clone skipped the analyst's eight vendoring checks (they pointed at one workspace path), so it reported 31 passed where the docs said 39 (2026-11-21) | The checks compare against the One Hub core in the same clone |
+| 16 | Medium | Four analyst tools that append to the analyst's own leads table carried `readOnlyHint: true` (2026-11-21) | Annotated `readOnlyHint: false`, `destructiveHint: false`; descriptions say what they save; `test_tools_listed` checks every analyst tool |
 
 ## Fresh clone
 

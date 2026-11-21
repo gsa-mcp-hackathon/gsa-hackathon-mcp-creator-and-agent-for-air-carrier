@@ -188,10 +188,12 @@ def brief(gap_id: str, call=None, fresh: bool = False) -> dict | None:
         except Exception as exc:  # noqa: BLE001 - next model, reason kept
             errors.append(f"{m}: {str(exc)[:160]}")
     if summary is None:
-        summary = _fallback(ev, "No model answered, so this summary is assembled from the "
-                                "register by code. " + " | ".join(errors)[:400])
+        # The reader sees a plain sentence; the model errors go in their own field for the log.
+        summary = _fallback(ev, "No model answered, so this summary is assembled from the register by code.")
     out = {"gap_id": key, "evidence": ev, "summary": summary, "model": model,
            "grade": "lead", "seconds": round(time.time() - t0, 1), "cached": False}
+    if errors and model is None:
+        out["model_errors"] = " | ".join(errors)[:400]
     # Only a model brief is cached. A code fallback is cheap to rebuild, and
     # caching it would keep serving it after the model is reachable again.
     if model:

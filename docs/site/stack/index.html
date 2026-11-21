@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>The stack · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a aria-current="page" class="navlink on" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<section class="hero imp-hero">
+<img alt="CVN-79 under construction in dry dock as a crane lowers a module" src="../static/img/cvn79-008.jpg"/>
+<div class="scrim"></div>
+<div class="inner">
+<div class="eyebrow" style="color:rgba(255,255,255,.8)">The stack</div>
+<h1>Seven capabilities, each useful on its own</h1>
+<p>MCP servers that read, investigate and govern; a server that builds servers; agents that hand
+   work to each other only through a register; and a probe that checks every server every 15 minutes.
+   CVN-79 is the first ship they were assembled for. None of them is specific to it.</p>
+</div>
+<span class="credit">CVN-79 in dry dock, Newport News Shipbuilding</span>
+</section>
+<p class="for brief-for"><span><b>For</b> engineers, reviewers, and any office with a table and a question</span>
+<span><b>Decision</b> which capability to reuse, and what its tests do and do not show</span></p>
+<section class="imp-band" id="layers">
+<div class="eyebrow">How the parts fit</div>
+<h2>Build, read, investigate, govern, deliver, watch</h2>
+<div class="imp-flow">
+<div class="node user"><div class="who">1 · Build</div><div class="what">MCP A Creator</div><div class="detail">Turns a question and a Unity Catalog table into a tested, governed MCP server</div></div>
+<div class="node server"><div class="who">2 · Read</div><div class="what">Docs and Ops servers</div><div class="detail">Budget books, SARs and contract records rebuilt as exact, cited tables</div></div>
+<div class="node server"><div class="who">3 · Investigate</div><div class="what">Analyst server</div><div class="detail">Researches a record that is missing data elements and names what to ask for</div></div>
+<div class="node gate"><div class="who">4 · Govern</div><div class="what">One Hub server and gate</div><div class="detail">No figure reaches a product without deterministic checks; no model decides</div></div>
+<div class="node agent"><div class="who">5 · Deliver</div><div class="what">Front center, six agents, Genie Code skills</div><div class="detail">Pages that answer one question each; agents hand off through the work register</div></div>
+<div class="node server"><div class="who">6 · Watch</div><div class="what">Probe</div><div class="detail">Calls every deployed server every 15 minutes with a known question</div></div>
+</div>
+<div class="imp-legend">
+<span><i style="background:var(--accent)"></i>Where a person starts</span>
+<span><i style="background:var(--c2)"></i>MCP server</span>
+<span><i style="background:var(--warn)"></i>The gate, no model</span>
+<span><i style="background:var(--c3)"></i>Agents and pages</span>
+</div>
+</section>
+<section class="imp-band" id="capabilities">
+<div class="eyebrow">The seven capabilities</div>
+<h2>What each solves, for whom, and where it stands today</h2>
+<div class="stack-grid">
+<article class="card stack-cap with-img">
+<img alt="Shipyard workers watch a superlift module lowered into CVN-79's dry dock at Newport News" data-full="../static/img/cvn79-002.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-002-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">MCP A Creator</h3><span class="b b-info">10 tools, 8 skills</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> Turning a dataset into a tool an agent can use takes a developer and weeks, and an improvised server is untested and different every time.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">Profiles the table, designs one tool per question, reviews meaning as well as shape, and generates a tested project that deploys as the requester's own app after an approval bound to what was reviewed.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Every office with a Unity Catalog table and a question; GSA's stated aim of an internal library of MCP server prototypes.</dd>
+<dt>Today</dt><dd>Built the ops server in this hub and, to show it is not tied to the carrier, mcp-bakehouse-sales on an unrelated sales table. 15 of 15 generated projects pass their own tests; 58 of 58 files byte-identical from the same specification.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/mcp-server-creator" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+<article class="card stack-cap with-img">
+<img alt="CVN-79 hull modules erected in the dry dock at Newport News Shipbuilding" data-full="../static/img/cvn79-004.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-004-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">Docs server</h3><span class="b b-info">11 tools</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> Budget justification books and SARs run to hundreds of pages, and analysts retype exhibits into spreadsheets.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">Maps each book by exhibit and budget line, rebuilds tables with exact decimals, ties out every subtotal and total, and says whether a figure appears in an authoritative or only a secondary source. No model.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Budget analysts, cost estimators, congressional and GAO staff and auditors, on every appropriation's books and every program's SAR.</dd>
+<dt>Today</dt><dd>34 PDFs and 7,804 pages loaded; 814 of 818 tie-out checks pass. The reader has no CVN-79 logic.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/mcp-servers/mcp-aircarrier-docs" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+<article class="card stack-cap with-img">
+<img alt="CVN-79 dressed in bunting for its christening at Newport News, December 2019" data-full="../static/img/cvn79-028.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-028-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">Analyst server</h3><span class="b b-info">12 tools</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> The slowest work in audit remediation is researching one record that is missing data elements: no contract, no line of accounting, no hull.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">Profiles what is missing, chases clues across FPDS, File C, sub-awards, the knowledge graph and the documents, weighs the evidence, and returns ranked cases with citations and a collection request for each missing element.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Component reconciliation teams, DFAS, FIAR teams and auditors, on unsupported transactions and Universe of Transactions gaps.</dd>
+<dt>Today</dt><dd>Reads the two CVN-79 prime contracts; attribution raised from 42.2% to 75.8% of the hull in one pass.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/mcp-servers/mcp-aircarrier-analyst" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+<article class="card stack-cap with-img">
+<img alt="Crowds at the CVN-79 christening beneath the Newport News Shipbuilding gantry crane" data-full="../static/img/cvn79-029.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-029-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">Ops server</h3><span class="b b-info">7 tools</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> Agents need governed, paged, read-only access to facts without raw SQL.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">Exhibit cells, obligations on both prime contracts, the variance register, the knowledge graph and the work register, each through a validated tool.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Any team that keeps its facts in Unity Catalog.</dd>
+<dt>Today</dt><dd>Generated by the Creator; golden set of 17 items with independent answers.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/mcp-servers/mcp-aircarrier-ops" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+<article class="card stack-cap with-img">
+<img alt="CVN-79's island with the hull number 79" data-full="../static/img/cvn79-049.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-049-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">One Hub server (mcp-aircarrier-hub)</h3><span class="b b-info">16 read-only tools</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> An AI agent can put a wrong figure in a leadership brief or a financial statement in one sentence.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">hub_check_claim routes any candidate figure through policy and the gate and never promotes on its own; hub_challenge_text falsifies text against recorded error classes; hub_tie_out closes totals in exact decimals without a model; the gap tools turn every unknown into an owned request.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Any office that lets an agent draft numbers: comptrollers, audit liaisons, budget shops.</dd>
+<dt>Today</dt><dd>Runs over stdio, not yet deployed as an app. Pydantic-validated inputs, tool errors with the reason, a schema every model can read (23 server tests). The agents and this front center call the same checks directly.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/the-one-hub/ops-center/mcp" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+<article class="card stack-cap with-img">
+<img alt="CVN-79 underway at sea" data-full="../static/img/cvn79-047.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-047-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">Probe</h3><span class="b b-info">every 15 minutes</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> When an agent reports a failed connection, nobody can tell whether the server or the connector broke.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">Calls each server as a non-human caller through initialize, tools/list and one known-answer check, and logs which step failed.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Any agency running MCP servers in production, as continuous monitoring evidence for an authority to operate.</dd>
+<dt>Today</dt><dd>413 sweeps, 2026-11-12 to 2026-11-20: 99.90% of 6,193 checks ok; 1,234 of 1,234 known answers right.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/mcp-servers/aircarrier-mcp-probe" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+<article class="card stack-cap with-img">
+<img alt="Tugboats move CVN-79 at Newport News" data-full="../static/img/cvn79-051.jpg" data-lightbox="" loading="lazy" src="../static/img/cvn79-051-thumb.jpg"/>
+<div class="stack-body">
+<div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">Front center, agents, skills</h3><span class="b b-info">6 agents, 3 skills</span></div>
+<p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> Leaders and analysts need the answer, not the tools.</p>
+<p style="font-size:.86rem;margin:0 0 .5rem">Pages that each answer one question; six agents (investigator, reader, tie-out, challenger, attributor, briefer) that hand work to each other only through the work register; three Genie Code skills.</p>
+<dl class="kv" style="font-size:.8rem">
+<dt>Beyond CVN-79</dt><dd style="font-weight:400">Program offices, comptroller staff, auditors.</dd>
+<dt>Today</dt><dd>Live as a Databricks App; also runs locally from the bundled data with two commands.</dd>
+</dl>
+<p style="margin:.5rem 0 0;font-size:.8rem"><a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/the-one-hub/ops-center" rel="noopener" target="_blank">Source and README</a></p>
+</div>
+</article>
+</div>
+</section>
+<section class="imp-band" id="evaluation">
+<div class="eyebrow">Evidence</div>
+<h2>How it was tested, and what each result does not show</h2>
+<div class="card" style="margin:0"><div class="tscroll"><table>
+<thead><tr><th>Measure</th><th>Result</th><th>What it does not show</th></tr></thead>
+<tbody><tr><td>Sealed held-out questions, round 3, with vs without tools</td><td><b>50/72 (69.4%) vs 1/24 (4.2%)</b></td><td class="muted">Questions written by the same author as the fixes; read by hand, 55/72</td></tr><tr><td>Sealed held-out questions, round 2, with vs without tools</td><td><b>31/72 (43.1%) vs 3/24 (12.5%)</b></td><td class="muted">Run before the fixes it prompted; 28 of 41 misses needed a tool that did not exist yet</td></tr><tr><td>Tool choice, round 1: 14 questions, 29 tools at once</td><td><b>80/84 runs (95.2%) vs 2/28 without tools</b></td><td class="muted">Only 4 questions strictly held out</td></tr><tr><td>Hostile arguments against all 30 tools</td><td><b>421 calls: 330 refused, none wrote, none pasted into SQL</b></td><td class="muted">In-process against a recording fake warehouse</td></tr><tr><td>Creator determinism</td><td><b>58 of 58 files byte-identical</b></td><td class="muted">Determinism is not correctness; the review checks meaning</td></tr><tr><td>Deployed servers, eight days</td><td><b>99.90% of 6,193 checks; 1,234 of 1,234 known answers</b></td><td class="muted">One workspace</td></tr><tr><td>Data integrity</td><td><b>$13,409.970M closes to 0.000 on two axes</b></td><td class="muted">A budget estimate, not an audited cost</td></tr><tr><td>Code suites from a clean clone</td><td><b>1,094 passed, 0 failed (README, 8 projects)</b></td><td class="muted">Tests show the code does what it says, not that it helps a user</td></tr></tbody>
+</table></div></div>
+</section>
+<section class="imp-band" id="security">
+<div class="eyebrow">Controls</div>
+<h2>Security, by risk</h2>
+<div class="imp-split">
+<figure>
+<img alt="CVN-79 alongside at Newport News with tugs" src="../static/img/cvn79-052.jpg"/>
+<figcaption>Read-only by default. Every write is gated, every figure is checked, every decision is a person's.</figcaption>
+</figure>
+<div class="card" style="margin:0"><table class="ledger"><tbody>
+<tr><td><b>SQL injection</b></td><td style="font-size:.86rem">Identifiers allow-listed and quoted; values bound as parameters</td></tr><tr><td><b>Code injection into generated projects</b></td><td style="font-size:.86rem">Free text made inert; eight payloads fuzzed; every generated file compiled with warnings as errors</td></tr><tr><td><b>Unwanted writes</b></td><td style="font-size:.86rem">Read-only tools except one gated label write; Creator writes are dry runs; deploy needs an approval token bound to the reviewed design</td></tr><tr><td><b>Identity and grants</b></td><td style="font-size:.86rem">Per-user OAuth through Databricks Apps; tables read as the caller under Unity Catalog; no credentials in code</td></tr><tr><td><b>Prompt injection</b></td><td style="font-size:.86rem">Retrieved text is data, never instructions; direct and indirect injection cases in the golden set</td></tr>
+</tbody></table></div>
+</div>
+</section>
+<p class="cap" style="margin-top:1.2rem">Figures as reported in the repository README and evaluation documents, as of 2026-11-20.
+ Full evaluation: <a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/docs/submission/EVALUATION.md" rel="noopener" target="_blank">EVALUATION.md</a>.</p>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

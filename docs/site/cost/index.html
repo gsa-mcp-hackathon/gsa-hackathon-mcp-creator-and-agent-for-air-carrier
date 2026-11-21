@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Cost decomposition · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup on">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a aria-current="page" class="on" href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead">
+<div class="eyebrow">Cost</div>
+<h1>Decomposition</h1>
+<p class="lede">The authoritative figure is <b>$13,409.970M</b> from the FY2027
+  submission. It decomposes to zero residual on two independent axes: by cost category and by
+  funding stream. One axis closing is arithmetic. Two is evidence.</p>
+</div>
+<div class="grid g2">
+<div class="card">
+<h2>By cost category</h2>
+<p class="cap">Exhibit P-5c, 1611N / BA 02 / line item 2001, FY2013 column. The FY2013 column is
+   CVN-79: its procurement year.</p>
+<div class="donut-wrap"><svg class="chart donut" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 320 320" xmlns="http://www.w3.org/2000/svg"><path class="seg" d="M160.00,6.00 A154.00,154.00 0 0 1 222.96,19.46 L204.15,61.44 A108.00,108.00 0 0 0 160.00,52.00 Z" fill="var(--c1)"><title>Plan Costs: 898.9 (6.7%)</title></path><path class="seg" d="M222.96,19.46 A154.00,154.00 0 1 1 14.10,209.30 L57.68,194.57 A108.00,108.00 0 1 0 204.15,61.44 Z" fill="var(--c2)"><title>Basic Construction/Conversion: 8,463 (63.1%)</title></path><path class="seg" d="M14.10,209.30 A154.00,154.00 0 0 1 7.17,178.96 L52.82,173.29 A108.00,108.00 0 0 0 57.68,194.57 Z" fill="var(--c3)"><title>Change Orders: 432.1 (3.2%)</title></path><path class="seg" d="M7.17,178.96 A154.00,154.00 0 0 1 6.00,160.00 L52.00,160.00 A108.00,108.00 0 0 0 52.82,173.29 Z" fill="var(--c4)"><title>Electronics: 263.4 (2.0%)</title></path><path class="seg" d="M6.00,160.00 A154.00,154.00 0 0 1 71.24,34.15 L97.76,71.74 A108.00,108.00 0 0 0 52.00,160.00 Z" fill="var(--c5)"><title>Propulsion Equipment: 2,042 (15.2%)</title></path><path class="seg" d="M71.24,34.15 A154.00,154.00 0 0 1 73.04,32.90 L99.02,70.87 A108.00,108.00 0 0 0 97.76,71.74 Z" fill="var(--c6)"><title>Hull, Mechanical, and Electrical: 30.3 (0.2%)</title></path><path class="seg" d="M73.04,32.90 A154.00,154.00 0 0 1 150.55,6.29 L153.38,52.20 A108.00,108.00 0 0 0 99.02,70.87 Z" fill="var(--c7)"><title>Ordnance: 1,150 (8.6%)</title></path><path class="seg" d="M150.55,6.29 A154.00,154.00 0 0 1 160.00,6.00 L160.00,52.00 A108.00,108.00 0 0 0 153.38,52.20 Z" fill="var(--c8)"><title>Other Cost: 131.0 (1.0%)</title></path><text class="donut-top" text-anchor="middle" x="160.0" y="156.0">0.000</text><text class="donut-sub" text-anchor="middle" x="160.0" y="178.0">residual</text></svg><ul class="legend"><li><span class="sw" style="background:var(--c1)"></span><span class="lg-name">Plan Costs</span><span class="lg-val">898.9</span><span class="lg-pct">6.7%</span></li><li><span class="sw" style="background:var(--c2)"></span><span class="lg-name">Basic Construction/Conversion</span><span class="lg-val">8,463</span><span class="lg-pct">63.1%</span></li><li><span class="sw" style="background:var(--c3)"></span><span class="lg-name">Change Orders</span><span class="lg-val">432.1</span><span class="lg-pct">3.2%</span></li><li><span class="sw" style="background:var(--c4)"></span><span class="lg-name">Electronics</span><span class="lg-val">263.4</span><span class="lg-pct">2.0%</span></li><li><span class="sw" style="background:var(--c5)"></span><span class="lg-name">Propulsion Equipment</span><span class="lg-val">2,042</span><span class="lg-pct">15.2%</span></li><li><span class="sw" style="background:var(--c6)"></span><span class="lg-name">Hull, Mechanical, and Electrical</span><span class="lg-val">30.3</span><span class="lg-pct">0.2%</span></li><li><span class="sw" style="background:var(--c7)"></span><span class="lg-name">Ordnance</span><span class="lg-val">1,150</span><span class="lg-pct">8.6%</span></li><li><span class="sw" style="background:var(--c8)"></span><span class="lg-name">Other Cost</span><span class="lg-val">131.0</span><span class="lg-pct">1.0%</span></li></ul></div>
+<div class="note warn"><b>Two things here are counter-intuitive.</b> EASR is budgeted under
+   <b>Ordnance</b>, not Electronics: the P-40 systems list puts EMALS, EASR, AAG and MOVLAS under
+   Ordnance and only SSDS under Electronics. Reading "Electronics 263.359" as the
+   ship's electronics content understates it by a factor of five. And the dagger on three rows marks
+   the presence of a P-8a exhibit, not government furnished content.</div>
+<div class="src"><b>Source</b> PB2027 Exhibit P-5c, FY2013 column. VERIFIED c=0.98</div>
+</div>
+<div class="card">
+<h2>By funding stream</h2>
+<p class="cap">The deduction block beneath the categories, in the same exhibit.</p>
+<svg class="chart cols" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 820 300" xmlns="http://www.w3.org/2000/svg"><line class="grid" x1="56" x2="814" y1="264.0" y2="264.0"></line><text class="ax" text-anchor="end" x="48" y="268.0">0</text><line class="grid" x1="56" x2="814" y1="179.3" y2="179.3"></line><text class="ax" text-anchor="end" x="48" y="183.3">1,000</text><line class="grid" x1="56" x2="814" y1="94.7" y2="94.7"></line><text class="ax" text-anchor="end" x="48" y="98.7">2,000</text><line class="grid" x1="56" x2="814" y1="10.0" y2="10.0"></line><text class="ax" text-anchor="end" x="48" y="14.0">3,000</text><rect class="col" fill="var(--c1)" height="4.5" width="27.4" x="63.0" y="259.5"><title>FY2007 Advance Procurement: 52.8 $M</title></rect><text class="ax" text-anchor="middle" x="76.7" y="288">07</text><rect class="col" fill="var(--c1)" height="10.5" width="27.4" x="104.5" y="253.5"><title>FY2008 Advance Procurement: 123.5 $M</title></rect><text class="ax" text-anchor="middle" x="118.2" y="288">08</text><rect class="col" fill="var(--c1)" height="102.5" width="27.4" x="145.9" y="161.5"><title>FY2009 Advance Procurement: 1,211 $M</title></rect><text class="ax" text-anchor="middle" x="159.6" y="288">09</text><rect class="col" fill="var(--c1)" height="40.9" width="27.4" x="187.4" y="223.1"><title>FY2010 Advance Procurement: 482.9 $M</title></rect><text class="ax" text-anchor="middle" x="201.1" y="288">10</text><rect class="col" fill="var(--c1)" height="76.4" width="27.4" x="228.8" y="187.6"><title>FY2011 Advance Procurement: 902.5 $M</title></rect><text class="ax" text-anchor="middle" x="242.5" y="288">11</text><rect class="col" fill="var(--c1)" height="47.0" width="27.4" x="270.3" y="217.0"><title>FY2012 Advance Procurement: 554.8 $M</title></rect><text class="ax" text-anchor="middle" x="283.9" y="288">12</text><rect class="col" fill="var(--c4)" height="41.6" width="27.4" x="311.7" y="222.4"><title>FY2013 Net P-1 Funding: 491.0 $M</title></rect><text class="ax" text-anchor="middle" x="325.4" y="288">13</text><rect class="col" fill="var(--c2)" height="77.7" width="27.4" x="353.2" y="186.3"><title>FY2014 Subsequent Full Funding: 917.6 $M</title></rect><text class="ax" text-anchor="middle" x="366.8" y="288">14</text><rect class="col" fill="var(--c2)" height="103.2" width="27.4" x="394.6" y="160.8"><title>FY2015 Subsequent Full Funding: 1,219 $M</title></rect><text class="ax" text-anchor="middle" x="408.3" y="288">15</text><rect class="col" fill="var(--c2)" height="132.9" width="27.4" x="436.0" y="131.1"><title>FY2016 Subsequent Full Funding: 1,570 $M</title></rect><text class="ax" text-anchor="middle" x="449.7" y="288">16</text><rect class="col" fill="var(--c2)" height="105.1" width="27.4" x="477.5" y="158.9"><title>FY2017 Subsequent Full Funding: 1,242 $M</title></rect><text class="ax" text-anchor="middle" x="491.2" y="288">17</text><rect class="col" fill="var(--c2)" height="216.4" width="27.4" x="518.9" y="47.6"><title>FY2018 Subsequent Full Funding: 2,556 $M</title></rect><text class="ax" text-anchor="middle" x="532.6" y="288">18</text><rect class="col" fill="var(--c3)" height="24.6" width="27.4" x="560.4" y="239.4"><title>FY2022 Cost to Complete: 291.0 $M</title></rect><text class="ax" text-anchor="middle" x="574.1" y="288">22</text><rect class="col" fill="var(--c3)" height="39.1" width="27.4" x="601.8" y="224.9"><title>FY2023 Cost to Complete: 461.7 $M</title></rect><text class="ax" text-anchor="middle" x="615.5" y="288">23</text><rect class="col" fill="var(--c3)" height="52.9" width="27.4" x="643.3" y="211.1"><title>FY2024 Cost to Complete: 624.6 $M</title></rect><text class="ax" text-anchor="middle" x="656.9" y="288">24</text><rect class="col" fill="var(--c3)" height="20.0" width="27.4" x="684.7" y="244.0"><title>FY2025 Cost to Complete: 236.0 $M</title></rect><text class="ax" text-anchor="middle" x="698.4" y="288">25</text><rect class="col" fill="var(--c3)" height="12.7" width="27.4" x="726.2" y="251.3"><title>FY2026 Cost to Complete: 150.0 $M</title></rect><text class="ax" text-anchor="middle" x="739.8" y="288">26</text><rect class="col" fill="var(--c3)" height="27.4" width="27.4" x="767.6" y="236.6"><title>FY2027 Cost to Complete: 324.0 $M</title></rect><text class="ax" text-anchor="middle" x="781.3" y="288">27</text></svg><ul class="legend inline"><li><span class="sw" style="background:var(--c1)"></span>Advance Procurement</li><li><span class="sw" style="background:var(--c2)"></span>Subsequent Full Funding</li><li><span class="sw" style="background:var(--c3)"></span>Cost to Complete</li><li><span class="sw" style="background:var(--c4)"></span>Net P-1 Funding</li></ul>
+<table style="margin-top:.8rem">
+<thead><tr><th>Stream</th><th>Years</th><th class="num">$M</th><th class="num">%</th></tr></thead>
+<tbody>
+<tr><td><b>Advance Procurement</b><div class="muted" style="font-size:.78rem">A quarter of the hull was bought before the ship was authorized</div></td>
+<td class="mono">FY2007-FY2012</td><td class="num">3,327.050</td><td class="num">24.8%</td></tr>
+<tr><td><b>Subsequent Full Funding</b></td>
+<td class="mono">FY2014-FY2018</td><td class="num">7,504.668</td><td class="num">56.0%</td></tr>
+<tr><td><b>Cost to Complete</b><div class="muted" style="font-size:.78rem">Still running in FY2027 for a ship that reached preliminary acceptance in Sep 2026</div></td>
+<td class="mono">FY2022-FY2027</td><td class="num">2,087.300</td><td class="num">15.6%</td></tr>
+<tr><td><b>Net P-1 Funding</b><div class="muted" style="font-size:.78rem">The procurement year itself carried 3.7%. An accounting label, not an economic event</div></td>
+<td class="mono">FY2013</td><td class="num">490.952</td><td class="num">3.7%</td></tr>
+<tr><td><b>Total</b></td><td></td><td class="num"><b>13,409.970</b></td><td class="num">100.0%</td></tr>
+</tbody>
+</table>
+<div class="note"><b>A quarter of the hull was bought before the ship was authorised.</b>
+   Advance procurement ran FY2007 to FY2012; the procurement year was FY2013 and carried 3.7%.
+   Any timeline that starts at authorisation misses about $3.3 billion.</div>
+</div>
+</div>
+<div class="card" id="attribution" style="margin-top:1rem">
+<h2>Attribution: what a named contract or vendor line accounts for</h2>
+<p class="cap">Attribution improved from 42.2% to 75.8% in one pass, entirely by replacing an announcement-derived figure with the obligation record. The residual is not a budget gap: the budget closes to zero twice over. It is the portion of the hull that no public contract-level record attributes to CVN-79.</p>
+<div class="grid g-2-1">
+<div>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 700 164" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="250" y="26.6">CP contract N00024-09-C-2116</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="339.54" x="260" y="13"><title>CP contract N00024-09-C-2116: 4,519 $M</title></rect><text class="bar-val" x="607.544441830838" y="26.6">4,519</text><text class="bar-lab" text-anchor="end" x="250" y="56.6">DD&amp;C contract N00024-15-C-2114</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="344.00" x="260" y="43"><title>DD&amp;C contract N00024-15-C-2114: 4,579 $M</title></rect><text class="bar-val" x="612.0" y="56.6">4,579</text><text class="bar-lab" text-anchor="end" x="250" y="86.6">EMALS, N00019-14-C-0037</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="45.93" x="260" y="73"><title>EMALS, N00019-14-C-0037: 611.3 $M</title></rect><text class="bar-val" x="313.92877084997326" y="86.6">611.3</text><text class="bar-lab" text-anchor="end" x="250" y="116.6">AAG, N00019-14-C-0037</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="16.46" x="260" y="103"><title>AAG, N00019-14-C-0037: 219.1 $M</title></rect><text class="bar-val" x="284.4637694073935" y="116.6">219.1</text><text class="bar-lab" text-anchor="end" x="250" y="146.6">Other equipment line items</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="17.22" x="260" y="133"><title>Other equipment line items: 229.3 $M</title></rect><text class="bar-val" x="285.2241061301886" y="146.6">229.3</text></svg>
+<h4 style="margin-top:1.1rem">What the residual must contain</h4>
+<table>
+<thead><tr><th>Component</th><th class="num">$M</th><th>Tag</th><th class="num">c</th><th>Gap</th></tr></thead>
+<tbody>
+<tr><td>Nuclear propulsion plant, Naval Reactors furnished</td>
+<td class="num">1,643.073</td>
+<td><span class="b b-mut">UNKNOWN</span></td><td class="num">0.1</td>
+<td><a href="../gaps/">G22</a></td></tr>
+<tr><td>Ordnance less EMALS, AAG and EASR</td>
+<td class="num">319.213</td>
+<td><span class="b b-mut">UNKNOWN</span></td><td class="num">0.15</td>
+<td><a href="../gaps/">G20</a></td></tr>
+<tr><td>Government plans, engineering, program management</td>
+<td class="num"><span class="muted">n/a</span></td>
+<td><span class="b b-mut">UNKNOWN</span></td><td class="num">0.15</td>
+<td></td></tr>
+<tr><td>Outfitting and post-delivery, this hull's share</td>
+<td class="num"><span class="muted">n/a</span></td>
+<td><span class="b b-mut">UNKNOWN</span></td><td class="num">0.2</td>
+<td><a href="../gaps/">G23</a></td></tr>
+<tr><td>Unobligated ceiling and cost to complete FY26-27</td>
+<td class="num"><span class="muted">n/a</span></td>
+<td><span class="b b-mut">UNKNOWN</span></td><td class="num">0.3</td>
+<td></td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<div class="stat acc" style="margin-bottom:.7rem"><div class="k">Attributed</div>
+<div class="v">75.8%</div>
+<div class="n">$10,157.592M to a named contract or vendor line</div></div>
+<div class="stat up"><div class="k">Unattributed residual</div>
+<div class="v">24.2%</div>
+<div class="n">$3,252.378M that no public contract-level record attributes to this hull</div></div>
+<div class="note bad" style="margin-top:.7rem"><b>Not a budget gap.</b> The budget closes to zero
+    twice over. This is a visibility gap in the public contract record.</div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Equipment line items, by vendor</h2>
+<p class="cap">22 items totalling $1,059.688M,
+  which is 30.4% of the four GFE-bearing categories.</p>
+<div class="grid g2">
+<div><svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 620 314" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="160" y="26.6">General Atomics</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="354.00" x="170" y="13"><title>General Atomics: 830.4 $M</title></rect><text class="bar-val" x="532.0" y="26.6">830.4</text><text class="bar-lab" text-anchor="end" x="160" y="56.6">Raytheon</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="46.92" x="170" y="43"><title>Raytheon: 110.1 $M</title></rect><text class="bar-val" x="224.92288888514253" y="56.6">110.1</text><text class="bar-lab" text-anchor="end" x="160" y="86.6">Lockheed Martin</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="25.86" x="170" y="73"><title>Lockheed Martin: 60.7 $M</title></rect><text class="bar-val" x="203.86460398006835" y="86.6">60.7</text><text class="bar-lab" text-anchor="end" x="160" y="116.6">Various</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="9.24" x="170" y="103"><title>Various: 21.7 $M</title></rect><text class="bar-val" x="187.24262618040117" y="116.6">21.7</text><text class="bar-lab" text-anchor="end" x="160" y="146.6">General Dynamics</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="5.23" x="170" y="133"><title>General Dynamics: 12.3 $M</title></rect><text class="bar-val" x="183.22535336774087" y="146.6">12.3</text><text class="bar-lab" text-anchor="end" x="160" y="176.6">NAWCAD</text><rect class="bar" fill="var(--c6)" height="17" rx="3" width="3.15" x="170" y="163"><title>NAWCAD: 7.4 $M</title></rect><text class="bar-val" x="181.1497908332711" y="176.6">7.4</text><text class="bar-lab" text-anchor="end" x="160" y="206.6">BAE Systems</text><rect class="bar" fill="var(--c7)" height="17" rx="3" width="2.52" x="170" y="193"><title>BAE Systems: 5.9 $M</title></rect><text class="bar-val" x="180.51633716183508" y="206.6">5.9</text><text class="bar-lab" text-anchor="end" x="160" y="236.6">Laurel Technologies</text><rect class="bar" fill="var(--c8)" height="17" rx="3" width="1.92" x="170" y="223"><title>Laurel Technologies: 4.5 $M</title></rect><text class="bar-val" x="179.9203962246429" y="236.6">4.5</text><text class="bar-lab" text-anchor="end" x="160" y="266.6">DRS</text><rect class="bar" fill="var(--c9)" height="17" rx="3" width="1.72" x="170" y="253"><title>DRS: 4.0 $M</title></rect><text class="bar-val" x="179.71535502951454" y="266.6">4.0</text><text class="bar-lab" text-anchor="end" x="160" y="296.6">Bowhead</text><rect class="bar" fill="var(--c10)" height="17" rx="3" width="1.50" x="170" y="283"><title>Bowhead: 2.7 $M</title></rect><text class="bar-val" x="179.5" y="296.6">2.7</text></svg></div>
+<div class="tscroll">
+<table>
+<thead><tr><th class="num" data-sort="">$M</th><th data-sort="">Vendor</th><th>Type</th><th>Award</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td class="num" data-v="611.307">611.307</td><td>GENERAL ATOMICS</td>
+<td class="mono">SS/FFP</td><td class="mono">May 2014</td><td>EMALS</td></tr>
+<tr><td class="num" data-v="219.131">219.131</td><td>GENERAL ATOMICS</td>
+<td class="mono">SS/FFP</td><td class="mono">May 2014</td><td>AAG</td></tr>
+<tr><td class="num" data-v="44.937">44.937</td><td>RAYTHEON</td>
+<td class="mono">C/CPIF</td><td class="mono">Dec 2019</td><td></td></tr>
+<tr><td class="num" data-v="39.607">39.607</td><td>RAYTHEON</td>
+<td class="mono">C/FFP</td><td class="mono">Nov 2019</td><td></td></tr>
+<tr><td class="num" data-v="39.423">39.423</td><td>LOCKHEED MARTIN</td>
+<td class="mono">SS/FFP</td><td class="mono">Dec 2022</td><td></td></tr>
+<tr><td class="num" data-v="12.305">12.305</td><td>VARIOUS</td>
+<td class="mono">C/FFP</td><td class="mono">Mar 2017</td><td></td></tr>
+<tr><td class="num" data-v="11.135">11.135</td><td>LOCKHEED MARTIN</td>
+<td class="mono">C/FFP</td><td class="mono">Apr 2019</td><td></td></tr>
+<tr><td class="num" data-v="10.117">10.117</td><td>LOCKHEED MARTIN</td>
+<td class="mono">C/FFP</td><td class="mono">Jan 2020</td><td></td></tr>
+<tr><td class="num" data-v="9.162">9.162</td><td>RAYTHEON</td>
+<td class="mono">C/FFP</td><td class="mono">Nov 2021</td><td></td></tr>
+<tr><td class="num" data-v="7.73">7.730</td><td>GENERAL DYNAMICS</td>
+<td class="mono">C/FFP</td><td class="mono">Sep 2014</td><td></td></tr>
+<tr><td class="num" data-v="7.389">7.389</td><td>NAWCAD</td>
+<td class="mono">Various</td><td class="mono">Dec 2016</td><td></td></tr>
+<tr><td class="num" data-v="6.092">6.092</td><td>RAYTHEON</td>
+<td class="mono">C/FFP</td><td class="mono">Jun 2019</td><td>qty 2</td></tr>
+<tr><td class="num" data-v="5.903">5.903</td><td>BAE SYSTEMS</td>
+<td class="mono">C/FFP</td><td class="mono">May 2016</td><td></td></tr>
+<tr><td class="num" data-v="5.186">5.186</td><td>RAYTHEON</td>
+<td class="mono">C/FFP</td><td class="mono">Mar 2020</td><td>qty 3</td></tr>
+<tr><td class="num" data-v="5.091">5.091</td><td>RAYTHEON</td>
+<td class="mono">C/FFP</td><td class="mono">Jun 2014</td><td></td></tr>
+<tr><td class="num" data-v="4.528">4.528</td><td>GENERAL DYNAMICS</td>
+<td class="mono">C/FFP</td><td class="mono">Feb 2019</td><td></td></tr>
+<tr><td class="num" data-v="4.505">4.505</td><td>LAUREL TECHNOLOGIES</td>
+<td class="mono">SS/FFP</td><td class="mono">Mar 2020</td><td></td></tr>
+<tr><td class="num" data-v="4.024">4.024</td><td>DRS</td>
+<td class="mono">C/FFP</td><td class="mono">May 2020</td><td></td></tr>
+<tr><td class="num" data-v="3.771">3.771</td><td>VARIOUS</td>
+<td class="mono">Various</td><td class="mono">Apr 2020</td><td></td></tr>
+<tr><td class="num" data-v="2.863">2.863</td><td>VARIOUS</td>
+<td class="mono">Various</td><td class="mono">Jan 2020</td><td></td></tr>
+<tr><td class="num" data-v="2.743">2.743</td><td>VARIOUS</td>
+<td class="mono">Various</td><td class="mono">Jan 2020</td><td></td></tr>
+<tr><td class="num" data-v="2.739">2.739</td><td>BOWHEAD</td>
+<td class="mono">C/FFP</td><td class="mono">Jul 2016</td><td>option</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="note bad">Propulsion Equipment, the second largest category in the ship at $2,041.582M, has no captured line items at all. The reactor plant is not itemised by vendor in any public exhibit. That is the largest single unattributed block in the hull.</div>
+<div class="src"><b>Source</b> ring0/RING0_CVN79.md Part N.6, PB2027 P-5a and P-8a equipment pages, FY2013 / CVN 79 rows</div>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

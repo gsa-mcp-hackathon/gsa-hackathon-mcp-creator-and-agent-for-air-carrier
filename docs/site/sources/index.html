@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Sources · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a aria-current="page" class="on" href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead">
+<div class="eyebrow">Evidence</div>
+<h1>Sources</h1>
+<p class="lede">The document families this product reads, what each uniquely carries, the limit
+  on each, and the searchable corpus behind every citation. A source's limit is as important as its content: most of the recorded errors came from
+  reading a document for something it does not contain.</p>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">Modernized Selected Acquisition Report</h3><span class="b b-info">MSAR / SAR</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">contract numbers, CAGE codes, percent complete, EVM variances, funding by appropriation and line item, Cost Limitation Baseline history</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Reports aggregate program cost for all ships in the class, not broken out by hull. Genuine CVN-79 detail at contract and subprogram level; no clean hull-allocated total.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">CVN 78 MSAR FY2027 PB</span><span class="pill mono" style="font-size:.73rem">CVN 78 MSAR Dec 2023</span><span class="pill mono" style="font-size:.73rem">CVN 78 SAR Dec 2022</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">SCN Justification Book</h3><span class="b b-info">J-Book</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">P-1 total obligational authority, P-40 funding profile, P-5/P-5a/P-5c cost analysis by category, P-10 advance procurement, P-21 production schedule and OWLD</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Printed P-1 line number is renumbered between budget years while the BLI stays 2001.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">SCN Book PB27</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">Congressional Research Service</h3><span class="b b-info">CRS</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">Table 1 procurement funding for CVNs 78-82 by fiscal year; Table 2 the estimate in each successive budget submission; Table 3 congressional action</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Secondary. Good citations, written for Congress.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">RS20643 current</span><span class="pill mono" style="font-size:.73rem">RS20643.302 (2007)</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">Government Accountability Office</h3><span class="b b-info">GAO</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">independent assessment, cost estimate reliability, post-delivery and OWLD policy, shipbuilding financing payments</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Findings about other layers, which is a free head start on variance causes.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">GAO-17-575 Ford-class cost estimates</span><span class="pill mono" style="font-size:.73rem">GAO-15-22 cost cap legislation</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">DoD Inspector General</h3><span class="b b-info">DODIG</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">material weakness findings, shipbuilding CIP, government property in contractor possession</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">—</p></div>
+<div><h4>Held in the repository</h4>
+<p class="muted" style="font-size:.86rem;margin:0">Cited, not held locally</p></div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">Policy and standards</h3><span class="b b-info">FMR / OPNAVINST / FASAB</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">the rules that make a figure mean something</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Produces mechanisms, not figures.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">SUPSHIP Operations Manual Ch 4 Financial Management</span><span class="pill mono" style="font-size:.73rem">DCMA MAN 2101-02 Payment</span><span class="pill mono" style="font-size:.73rem">DoN 5200.45A General Equipment Accountability</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">Federal spending transaction record</h3><span class="b b-info">USAspending / FPDS</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">1,875 prime transactions, 2,990 sub-awards, 39 federal account funding rows</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Obligations usable. Outlays are not: award-level outlay reporting covers 0.80% of obligations on this hull. Account linkage covers a third of the DD&amp;C contract.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">CONT_N0002415C2114 bundle</span><span class="pill mono" style="font-size:.73rem">PrimeAwardSummariesAndTransactions bundle</span></div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-bottom:.8rem">
+<div style="display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap">
+<h3 style="margin:0">Academic and industry</h3><span class="b b-info">other</span>
+</div>
+<div class="grid g3" style="margin-top:.6rem;gap:.8rem">
+<div><h4>Carries</h4><p style="font-size:.86rem;margin:0">method and context</p></div>
+<div><h4>Limit</h4><p style="font-size:.86rem;margin:0">Lead grade.</p></div>
+<div><h4>Held in the repository</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.3rem">
+<span class="pill mono" style="font-size:.73rem">NPS-AM-26-055</span></div>
+</div>
+</div>
+</div>
+<div class="card accent">
+<h3>The grading legend applied throughout</h3>
+<div class="grid g4">
+<div><span class="b b-ok">VERIFIED</span><p style="font-size:.83rem;margin-top:.4rem">Read from a
+   primary document or the obligation record.</p></div>
+<div><span class="b b-info">DERIVED</span><p style="font-size:.83rem;margin-top:.4rem">Arithmetic
+   from verified inputs.</p></div>
+<div><span class="b b-warn">ESTIMATE</span><p style="font-size:.83rem;margin-top:.4rem">Modelled.
+   Never reportable.</p></div>
+<div><span class="b b-mut">UNKNOWN</span><p style="font-size:.83rem;margin-top:.4rem">No public
+   value. Never promotes; becomes a typed gap.</p></div>
+</div>
+<div class="note bad">A confidence score attached to a mis-populated model does not warn a reader,
+  it reassures one. Tagging is necessary and not sufficient, which is why every figure also carries
+  a coordinate chain back to the exhibit, column and page that produced it.</div>
+</div>
+<h2 id="search" style="margin-top:1.6rem">The corpus, and searching it</h2>
+<div class="kpi-row">
+<div class="kpi acc"><div class="k">Artifacts catalogued</div>
+<div class="v">43</div>
+<div class="n">38MB, each addressed by sha256</div></div>
+<div class="kpi"><div class="k">Searchable chunks</div>
+<div class="v">2,796</div>
+<div class="n">from 22 documents, every hit cited to a page</div></div>
+<div class="kpi"><div class="k">Distinct terms</div>
+<div class="v">24,683</div>
+<div class="n">BM25 index. No model and no network required</div></div>
+<div class="kpi"><div class="k">Not embedded, by design</div>
+<div class="v">21</div>
+<div class="n">9 structured, 12 images</div></div>
+</div>
+<section class="card">
+<h2>Search it</h2>
+<p class="sub">Lexical retrieval over the indexed documents. Authoritative sources only by
+  default: without that filter the analyst's own dossier outranks the documents it summarises
+  on nearly every query, because a summary written in your vocabulary always out-matches its
+  source. Citing the summary is how a lead silently becomes a figure.</p>
+<div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:.6rem 0">
+<input aria-label="Search the knowledge base" id="kbq" placeholder="e.g. what does the cost cap exclude" style="flex:1;min-width:280px" type="search"/>
+<label style="display:flex;align-items:center;gap:.35rem;font-size:.85rem">
+<input checked="" id="kbauth" type="checkbox"/> authoritative only</label>
+<button class="btn" id="kbgo" type="button">Search</button>
+</div>
+<div id="kbres"></div>
+</section>
+<section class="card" style="margin-top:1rem">
+<h2>Indexed documents <span class="muted">(22)</span></h2>
+<p class="sub">Prose and the tables printed inside documents. Chunked with the page number
+  and every legend on that page attached, because a legend changes what a figure means and
+  cannot be recovered later.</p>
+<table class="ledger">
+<thead><tr><th>Document</th><th>Establishes</th><th class="num">Pages</th><th>Grade</th></tr></thead>
+<tr>
+<td><b style="font-size:.83rem">RING0_CVN79.md</b>
+<div class="muted mono" style="font-size:.73rem">02a57ce120b0dd9d</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">ring0_research_notes.md</b>
+<div class="muted mono" style="font-size:.73rem">c2d32445ace92420</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">BACKGROUND.md</b>
+<div class="muted mono" style="font-size:.73rem">addbaf2038fcf765</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">BLUEPRINT.md</b>
+<div class="muted mono" style="font-size:.73rem">77ffea5d8049dc37</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">HANDOFF.md</b>
+<div class="muted mono" style="font-size:.73rem">22c2b625d0a92aed</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">LOG.md</b>
+<div class="muted mono" style="font-size:.73rem">fd82ccc22232b402</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">PLAN.md</b>
+<div class="muted mono" style="font-size:.73rem">a28489fb197d7ca8</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">README.md</b>
+<div class="muted mono" style="font-size:.73rem">9960a7ba14f38f51</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">TRANSFER.md</b>
+<div class="muted mono" style="font-size:.73rem">9ba5a2b2f4aba2cf</div></td>
+<td style="font-size:.81rem">-</td>
+<td class="num">-</td>
+<td><span class="b b-mut">working</span></td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">CVN 78 MSAR Dec 2023.pdf</b>
+<div class="muted mono" style="font-size:.73rem">1d2450069f21d572</div></td>
+<td style="font-size:.81rem">programme status and contract tables, Dec 2023</td>
+<td class="num">81</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">CVN 78 _SAR_DEC_2022_final.pdf</b>
+<div class="muted mono" style="font-size:.73rem">1b96077fc60550c1</div></td>
+<td style="font-size:.81rem">programme status and contract tables, Dec 2022</td>
+<td class="num">51</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">CVN_78_MSAR_FY2027_PBv2.pdf</b>
+<div class="muted mono" style="font-size:.73rem">98b141f55c3eba9a</div></td>
+<td style="font-size:.81rem">programme status, contract tables and unit cost, Apr 2026</td>
+<td class="num">76</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">ContractAwardSummary_download_readme.txt</b>
+<div class="muted mono" style="font-size:.73rem">d845d6ebfa14b61d</div></td>
+<td style="font-size:.81rem">USAspending product notes and as-of date</td>
+<td class="num">-</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">DCMA_MAN_2101-02_Payment.pdf</b>
+<div class="muted mono" style="font-size:.73rem">a94563a9021fbe35</div></td>
+<td style="font-size:.81rem">payment and entitlement process</td>
+<td class="num">84</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">DoN 5200.45A CH-1GENERAL EQUIPMENT – ACCOUNTABILITY AND MANAGEMENT.pdf</b>
+<div class="muted mono" style="font-size:.73rem">1ccf0c73de8a0008</div></td>
+<td style="font-size:.81rem">general equipment accountability, the GFE question</td>
+<td class="num">39</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">NPS-AM-26-055.pdf</b>
+<div class="muted mono" style="font-size:.73rem">980db3c2572108aa</div></td>
+<td style="font-size:.81rem">shipbuilding cost methodology, academic</td>
+<td class="num">114</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">RS20643.302.Navy Ford (CVN-78) Class Aircraft Carrier 07262007.pdf</b>
+<div class="muted mono" style="font-size:.73rem">554a0298f2b95dc6</div></td>
+<td style="font-size:.81rem">CRS programme history and funding profile</td>
+<td class="num">6</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">RS20643.302.Navy Ford (CVN-78) Class Aircraft Carrier.pdf</b>
+<div class="muted mono" style="font-size:.73rem">91d338a069b1b0c9</div></td>
+<td style="font-size:.81rem">CRS programme history and funding profile</td>
+<td class="num">30</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">SCN_Book PB27.pdf</b>
+<div class="muted mono" style="font-size:.73rem">bb2e90fd1d91a0bc</div></td>
+<td style="font-size:.81rem">SCN appropriation line items and P-5 exhibits, FY2027 President's Budget</td>
+<td class="num">504</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">SUPSHIP Operations Manual  Ch4-FinancialManagement-18Aug19.pdf</b>
+<div class="muted mono" style="font-size:.73rem">afd43870ba703ee4</div></td>
+<td style="font-size:.81rem">the NAVSEA system-of-record seam and the non-conversion decision</td>
+<td class="num">28</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">gao-15-22Cost Cap Legislation.pdf</b>
+<div class="muted mono" style="font-size:.73rem">28e8df417b37a803</div></td>
+<td style="font-size:.81rem">cost cap legislation and what the caps exclude</td>
+<td class="num">54</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+<tr>
+<td><b style="font-size:.83rem">gao-17-575 Cost Estimate on Ford class.pdf</b>
+<div class="muted mono" style="font-size:.73rem">8cd883c80f0c57bd</div></td>
+<td style="font-size:.81rem">the CVN-79 cost estimate assessment and the per-hull recommendations</td>
+<td class="num">56</td>
+<td><span class="b b-ok">authoritative</span>
+</td>
+</tr>
+</table>
+</section>
+<div class="grid2" style="margin-top:1rem">
+<section class="card">
+<h2>Structured, not embedded <span class="muted">(9)</span></h2>
+<p class="sub">Queried with SQL rather than by meaning. Embedding these was tried and
+   produced 16,072 of 18,871 chunks, swamping the index with rows that a WHERE clause
+   answers better.</p>
+<table class="ledger">
+<tr><td style="font-size:.81rem">cvn79_funding_history.csv</td>
+<td class="num muted">1KB</td></tr>
+<tr><td style="font-size:.81rem">Assistance_PrimeAwardSummaries_2026-11-08_H03M59S16_1.csv</td>
+<td class="num muted">3KB</td></tr>
+<tr><td style="font-size:.81rem">Assistance_PrimeTransactions_2026-11-08_H03M59S03_1.csv</td>
+<td class="num muted">3KB</td></tr>
+<tr><td style="font-size:.81rem">Contracts_PrimeAwardSummaries_2026-11-08_H03M59S08_1.csv</td>
+<td class="num muted">10KB</td></tr>
+<tr><td style="font-size:.81rem">Contracts_PrimeTransactions_2026-11-08_H03M58S53_1.csv</td>
+<td class="num muted">2232KB</td></tr>
+<tr><td style="font-size:.81rem">Contract_N0002415C2114_FederalAccountFunding_1.csv</td>
+<td class="num muted">46KB</td></tr>
+<tr><td style="font-size:.81rem">Contract_N0002415C2114_Sub-Awards_1.csv</td>
+<td class="num muted">5613KB</td></tr>
+<tr><td style="font-size:.81rem">Contract_N0002415C2114_TransactionHistory_1.csv</td>
+<td class="num muted">2489KB</td></tr>
+<tr><td style="font-size:.81rem">Data_Dictionary_Crosswalk.xlsx</td>
+<td class="num muted">108KB</td></tr>
+</table>
+</section>
+<section class="card">
+<h2>Imagery <span class="muted">(12)</span></h2>
+<p class="sub">Catalogued and stored, never indexed and never a cost source.</p>
+<table class="ledger">
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-002.jpg</td>
+<td class="num muted">640KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-004.jpg</td>
+<td class="num muted">615KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-008.jpg</td>
+<td class="num muted">555KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-028.jpg</td>
+<td class="num muted">514KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-029.jpg</td>
+<td class="num muted">557KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-047.jpg</td>
+<td class="num muted">841KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-049.jpg</td>
+<td class="num muted">458KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-051.jpg</td>
+<td class="num muted">409KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-052.jpg</td>
+<td class="num muted">422KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-crest-02.jpg</td>
+<td class="num muted">617KB</td></tr>
+<tr><td style="font-size:.81rem">CVN-79-USS-John-F-Kennedy-patch-02.jpg</td>
+<td class="num muted">338KB</td></tr>
+<tr><td style="font-size:.81rem">Pre-Commissioning_Unit_John_F._Kennedy_(CVN_79)_transits_the_Atlantic_Ocean_during_Aircraft_Compatibility_Testing,_October_26,_2026.jpg</td>
+<td class="num muted">3284KB</td></tr>
+</table>
+</section>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

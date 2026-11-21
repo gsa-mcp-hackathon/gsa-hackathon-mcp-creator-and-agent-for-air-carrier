@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Rule codes · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead">
+<div class="eyebrow">Evidence</div>
+<h1>Rule codes</h1>
+<p class="lede">Every code used in this product, with the rule it stands for and where it is defined.
+   Three families: the SI rulebook (task-level rules a specialist run cites), the rule register
+   (exception classes that govern the work queue), and the gate routes (claim promotion decisions).</p>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>SI rulebook</h2>
+<p class="cap">The task-level rules every specialist run works under, shown exactly as the
+   specialist receives them (<code>app/api/si/tasks.py</code> RULEBOOK). EC-01 and EC-02 are system
+   rules: the gate and the canvas, not rules a specialist cites.</p>
+<table class="tbl" style="width:100%;margin-top:.6rem">
+<thead><tr><th style="width:5rem">Code</th><th>Description</th></tr></thead>
+<tbody>
+<tr>
+<td><code>OB-01</code></td>
+<td style="font-size:.87rem">A contract's obligations are federal_action_obligation summed per action in exact decimal. total_dollars_obligated is a running total and is never summed.</td>
+</tr>
+<tr>
+<td><code>OB-02</code></td>
+<td style="font-size:.87rem">A contract total is stated with its PIID. N00024-09-C-2116 (construction preparation) and N00024-15-C-2114 (detail design and construction) are never labelled as each other (E-16).</td>
+</tr>
+<tr>
+<td><code>OB-03</code></td>
+<td style="font-size:.87rem">FPDS is the contract action record, not the accounting record. A reconciled FPDS total leaves the accounting-system total as a marked blank for the office that holds it.</td>
+</tr>
+<tr>
+<td><code>TO-01</code></td>
+<td style="font-size:.87rem">A File C period ties when one transaction window (three months to the period end, fiscal year to date, or the single month) matches its File C amount to the cent. Which window matched is reported, never assumed.</td>
+</tr>
+<tr>
+<td><code>TO-02</code></td>
+<td style="font-size:.87rem">A period that does not tie is a residual to explain, not an error to correct. The explanation names the account and the office that can confirm it.</td>
+</tr>
+<tr>
+<td><code>GP-01</code></td>
+<td style="font-size:.87rem">A gap is worked toward one collection request: the document, the system and the office the record names. A missing office is a marked blank.</td>
+</tr>
+<tr>
+<td><code>BR-01</code></td>
+<td style="font-size:.87rem">Only promoted claims (zone V) are stated as standing at the brief. Every other figure is a lead and says so.</td>
+</tr>
+<tr>
+<td><code>BR-02</code></td>
+<td style="font-size:.87rem">Every sentence in a brief draft cites a claim, variance or gap id. Nothing goes to the sponsor from here.</td>
+</tr>
+<tr>
+<td><code class="muted" title="System rule: the gate or canvas, not cited by a specialist">EC-01</code></td>
+<td style="font-size:.87rem">Nothing is saved until a person applies it. <span class="b b-flag" style="font-size:.7rem">system</span></td>
+</tr>
+<tr>
+<td><code class="muted" title="System rule: the gate or canvas, not cited by a specialist">EC-02</code></td>
+<td style="font-size:.87rem">Every stated amount, count and date matches a packed record. <span class="b b-flag" style="font-size:.7rem">system</span></td>
+</tr>
+<tr>
+<td><code>EC-03</code></td>
+<td style="font-size:.87rem">Where the record is silent, the draft keeps a marked blank and names who fills it.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Rule register</h2>
+<p class="cap">The 22 rules in <code>aircarrier_app_rule_register</code>, each at its
+   latest stored version. Each governs an exception class: what triggers it, who owns it, and what
+   action is required. Status shows whether the rule can run with the data feeds available now.</p>
+<div class="note" data-source="snapshot" style="margin-top:.4rem">
+<b>The live register could not be read.</b> no SQL warehouse is bound to this app (DATABRICKS_WAREHOUSE_ID is unset)<br/>
+   Showing the snapshot built 2026-11-20T23:14:30+00:00
+   by <code>etl/build_rules.py</code>. A rule changed since then is not reflected.
+   
+  </div>
+<div style="margin-top:.6rem">
+<details open="" style="margin-bottom:.4rem">
+<summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:.3rem 0">
+      Cost capture <span class="muted" style="font-weight:400">(CC) · PEO Carriers · PMS379</span>
+</summary>
+<table class="tbl" style="width:100%;margin-top:.2rem">
+<thead><tr>
+<th style="width:5rem">Code</th>
+<th>Description</th>
+<th style="width:6rem">Version</th>
+<th style="width:8rem">Status</th>
+<th style="width:10rem">Required action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>CC-01</code></td>
+<td style="font-size:.85rem">
+          Contractor incurred cost to ledger recorded cost delta above $5M or 2% at WBS level 3 becomes a reconciliation item.
+          <br/><span class="muted" style="font-size:.78rem">params: threshold_dollars: 5000000, threshold_pct: 0.02, wbs_level: 3</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires IPMDAR, CCDR, and GL/ledger recorded cost feeds.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Reconciliation review</td>
+</tr>
+<tr>
+<td><code>CC-02</code></td>
+<td style="font-size:.85rem">
+          A reconciliation item unresolved for 45 days escalates to the next authority level.
+          <br/><span class="muted" style="font-size:.78rem">params: source_rule: CC-01, status_filter: open, escalation_days: 45</span>
+</td>
+<td style="font-size:.82rem">v6 <span class="muted">of 6</span>
+</td>
+<td><span class="b b-ok" style="font-size:.72rem">active</span></td>
+<td style="font-size:.82rem">Escalation to next authority</td>
+</tr>
+<tr>
+<td><code>CC-03</code></td>
+<td style="font-size:.85rem">
+          A CDRL submission more than 10 days past its contract due date raises a tasker.
+          <br/><span class="muted" style="font-size:.78rem">params: overdue_days: 10</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires CDRL due-date tracking feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Tasker to contractor</td>
+</tr>
+<tr>
+<td><code>CC-04</code></td>
+<td style="font-size:.85rem">
+          Cost charged to a CLIN with no unexpired funding authority is a compliance exception, excluded from valuation until cleared.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: Requires CLIN funding authority feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Compliance review and valuation exclusion</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details style="margin-bottom:.4rem">
+<summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:.3rem 0">
+      EVM <span class="muted" style="font-weight:400">(EV) · PEO Carriers · PMS379</span>
+</summary>
+<table class="tbl" style="width:100%;margin-top:.2rem">
+<thead><tr>
+<th style="width:5rem">Code</th>
+<th>Description</th>
+<th style="width:6rem">Version</th>
+<th style="width:8rem">Status</th>
+<th style="width:10rem">Required action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>EV-01</code></td>
+<td style="font-size:.85rem">
+          CPI below 0.95 at control account requires a variance explanation.
+          <br/><span class="muted" style="font-size:.78rem">params: cpi_floor: 0.95</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires EVM performance data feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Variance explanation</td>
+</tr>
+<tr>
+<td><code>EV-02</code></td>
+<td style="font-size:.85rem">
+          TCPI exceeding CPI by more than 0.10 triggers an EAC credibility review.
+          <br/><span class="muted" style="font-size:.78rem">params: tcpi_cpi_gap: 0.10</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires EVM performance data feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">EAC credibility review</td>
+</tr>
+<tr>
+<td><code>EV-03</code></td>
+<td style="font-size:.85rem">
+          Management reserve burn above 15% in a quarter triggers a baseline review.
+          <br/><span class="muted" style="font-size:.78rem">params: mr_burn_pct: 0.15</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires management reserve data feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Baseline review</td>
+</tr>
+<tr>
+<td><code>EV-04</code></td>
+<td style="font-size:.85rem">
+          A retroactive BCWS change above $2M is a baseline integrity flag.
+          <br/><span class="muted" style="font-size:.78rem">params: bcws_change_threshold: 2000000</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires EVM BCWS baseline data feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Baseline integrity flag</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details style="margin-bottom:.4rem">
+<summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:.3rem 0">
+      Cost cap <span class="muted" style="font-weight:400">(CAP) · OUSD(C) · OUSD_C_FMO</span>
+</summary>
+<table class="tbl" style="width:100%;margin-top:.2rem">
+<thead><tr>
+<th style="width:5rem">Code</th>
+<th>Description</th>
+<th style="width:6rem">Version</th>
+<th style="width:8rem">Status</th>
+<th style="width:10rem">Required action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>CAP-01</code></td>
+<td style="font-size:.85rem">
+          Projected end cost within 3% of the current adjusted limitation escalates to leadership.
+          <br/><span class="muted" style="font-size:.78rem">params: headroom_pct: 0.03</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: CAP-05 (statutory limitation baseline) is not yet set.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_param_unset</span></td>
+<td style="font-size:.82rem">Leadership escalation</td>
+</tr>
+<tr>
+<td><code>CAP-02</code></td>
+<td style="font-size:.85rem">
+          A projected breach drafts the notification package and routes it to the authorized role.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: CAP-05 (statutory limitation baseline) is not yet set.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_param_unset</span></td>
+<td style="font-size:.82rem">Draft congressional notification</td>
+</tr>
+<tr>
+<td><code>CAP-03</code></td>
+<td style="font-size:.85rem">
+          A claimed exclusion with no documented authority reference is an exclusion validity exception.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: Requires GL/CIP and exclusion authority documentation feeds.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Exclusion validity review</td>
+</tr>
+<tr>
+<td><code>CAP-04</code></td>
+<td style="font-size:.85rem">
+          Scope moved from SCN end cost into a post-delivery account above $25M in a quarter is a cost migration flag.
+          <br/><span class="muted" style="font-size:.78rem">params: migration_threshold: 25000000</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires SCN end cost and OPN/O&amp;M,N post-delivery account feeds.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Cost migration report</td>
+</tr>
+<tr>
+<td><code>CAP-05</code></td>
+<td style="font-size:.85rem">
+          The statutory limitation baseline per 10 USC 8692 for CVN-79, held as a parameter.
+          <br/><span class="muted" style="font-size:.78rem">params: baseline_amount: unset, adjustments: unset, exclusions: unset</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Parameter is intentionally unset (B28). CAP rules that read it emit a baseline not provided gap until it is set.</span>
+</td>
+<td style="font-size:.82rem">v1
+          </td>
+<td><span class="b b-ok" style="font-size:.72rem">active</span></td>
+<td style="font-size:.82rem">Set baseline when authoritative figure is confirmed</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details style="margin-bottom:.4rem">
+<summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:.3rem 0">
+      Valuation <span class="muted" style="font-weight:400">(AV) · Navy FM&amp;C · NAVY_FMO</span>
+</summary>
+<table class="tbl" style="width:100%;margin-top:.2rem">
+<thead><tr>
+<th style="width:5rem">Code</th>
+<th>Description</th>
+<th style="width:6rem">Version</th>
+<th style="width:8rem">Status</th>
+<th style="width:10rem">Required action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>AV-01</code></td>
+<td style="font-size:.85rem">
+          A cost element on the non-capitalizable list posted to the CVN-79 CIP account is a classification exception.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: Requires CIP transaction ledger feed.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Classification review</td>
+</tr>
+<tr>
+<td><code>AV-02</code></td>
+<td style="font-size:.85rem">
+          A CIP transaction with no linked source document is a KSD gap.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: Requires CIP transaction ledger and source document linkage.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">KSD gap remediation</td>
+</tr>
+<tr>
+<td><code>AV-03</code></td>
+<td style="font-size:.85rem">
+          CIP balance movement above $50M in a month with no reconciling contractor report is unsupported accumulation.
+          <br/><span class="muted" style="font-size:.78rem">params: movement_threshold: 50000000</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires CIP balance and contractor report feeds.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Accumulation review</td>
+</tr>
+<tr>
+<td><code>AV-04</code></td>
+<td style="font-size:.85rem">
+          An acceptance event recorded with no placed-in-service determination documented within 30 days is a valuation event gap.
+          <br/><span class="muted" style="font-size:.78rem">params: pis_window_days: 30</span>
+<br/><span class="muted" style="font-size:.78rem">blocked: Requires acceptance event and placed-in-service determination feeds.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Valuation event gap remediation</td>
+</tr>
+<tr>
+<td><code>AV-05</code></td>
+<td style="font-size:.85rem">
+          A GFE or GFM transfer in with no receiving document is an existence exception.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: Requires GFE/GFM transfer and DD 1149 receiving document feeds.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_no_source</span></td>
+<td style="font-size:.82rem">Existence verification</td>
+</tr>
+<tr>
+<td><code>AV-06</code></td>
+<td style="font-size:.85rem">
+          The acceptance event that triggers CIP transfer and depreciation start for CVN-79, held as a parameter.
+          <br/><span class="muted" style="font-size:.78rem">params: triggering_event: preliminary_acceptance</span>
+</td>
+<td style="font-size:.82rem">v1
+          </td>
+<td><span class="b b-ok" style="font-size:.72rem">active</span></td>
+<td style="font-size:.82rem">Confirm or change when determination is made</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details style="margin-bottom:.4rem">
+<summary style="cursor:pointer;font-weight:600;font-size:.9rem;padding:.3rem 0">
+      Cost model <span class="muted" style="font-weight:400">(CM) · PEO Carriers · PMS379</span>
+</summary>
+<table class="tbl" style="width:100%;margin-top:.2rem">
+<thead><tr>
+<th style="width:5rem">Code</th>
+<th>Description</th>
+<th style="width:6rem">Version</th>
+<th style="width:8rem">Status</th>
+<th style="width:10rem">Required action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><code>CM-01</code></td>
+<td style="font-size:.85rem">
+          EAC growth above 2% quarter over quarter requires a forecast review with driver attribution.
+          <br/><span class="muted" style="font-size:.78rem">params: eac_path: $.eac, growth_pct: 0.02</span>
+</td>
+<td style="font-size:.82rem">v3 <span class="muted">of 3</span>
+</td>
+<td><span class="b b-ok" style="font-size:.72rem">active</span></td>
+<td style="font-size:.82rem">Forecast review with driver attribution</td>
+</tr>
+<tr>
+<td><code>CM-02</code></td>
+<td style="font-size:.85rem">
+          A model run using any input older than 60 days carries a stale input warning on its output.
+          <br/><span class="muted" style="font-size:.78rem">params: staleness_days: 60</span>
+</td>
+<td style="font-size:.82rem">v2 <span class="muted">of 2</span>
+</td>
+<td><span class="b b-ok" style="font-size:.72rem">active</span></td>
+<td style="font-size:.82rem">Stale input warning on output</td>
+</tr>
+<tr>
+<td><code>CM-03</code></td>
+<td style="font-size:.85rem">
+          A scenario result that breaches the limitation links automatically to CAP-01.
+          
+          <br/><span class="muted" style="font-size:.78rem">blocked: CAP-05 (statutory limitation baseline) is not yet set.</span>
+</td>
+<td style="font-size:.82rem">v1
+          <br/><span class="muted">none in effect</span></td>
+<td><span class="b b-bad" style="font-size:.72rem">blocked_param_unset</span></td>
+<td style="font-size:.82rem">Link to CAP-01 escalation</td>
+</tr>
+</tbody>
+</table>
+</details>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Gate routes</h2>
+<p class="cap">The claim promotion gate (<code>seed/gate.yaml</code>), in evaluation order. A claim
+   enters with a trust tag and a materiality flag, and the first route that matches decides: promote,
+   hold, or send to a human. Copied into the app 2026-11-20T23:14:30+00:00.</p>
+<table class="tbl" style="width:100%;margin-top:.6rem">
+<thead><tr><th style="width:5rem">Code</th><th>When</th><th style="width:10rem">Decision</th></tr></thead>
+<tbody>
+<tr>
+<td><code>R-1</code></td>
+<td style="font-size:.87rem">any outstanding policy violation</td>
+<td><span class="b b-flag" style="font-size:.72rem">human_review</span></td>
+</tr>
+<tr>
+<td><code>R8</code></td>
+<td style="font-size:.87rem">claim exceeds 100 percent of its own subject</td>
+<td><span class="b b-flag" style="font-size:.72rem">human_review</span></td>
+</tr>
+<tr>
+<td><code>R0</code></td>
+<td style="font-size:.87rem">tag == UNKNOWN</td>
+<td><span class="b b-bad" style="font-size:.72rem">gap</span></td>
+</tr>
+<tr>
+<td><code>R1</code></td>
+<td style="font-size:.87rem">any of PREMISE, METHOD, KEY</td>
+<td><span class="b b-flag" style="font-size:.72rem">human_review</span></td>
+</tr>
+<tr>
+<td><code>R2</code></td>
+<td style="font-size:.87rem">INTERPRETATION and material</td>
+<td><span class="b b-flag" style="font-size:.72rem">human_review</span></td>
+</tr>
+<tr>
+<td><code>R3</code></td>
+<td style="font-size:.87rem">INTERPRETATION and below floor</td>
+<td><span class="b b-bad" style="font-size:.72rem">hold_candidate</span></td>
+</tr>
+<tr>
+<td><code>R4</code></td>
+<td style="font-size:.87rem">material and tag below VERIFIED</td>
+<td><span class="b b-flag" style="font-size:.72rem">human_review</span></td>
+</tr>
+<tr>
+<td><code>R5</code></td>
+<td style="font-size:.87rem">material and VERIFIED and unflagged</td>
+<td><span class="b b-ok" style="font-size:.72rem">promote_if_tied_out</span></td>
+</tr>
+<tr>
+<td><code>R6</code></td>
+<td style="font-size:.87rem">below floor and VERIFIED and unflagged</td>
+<td><span class="b b-ok" style="font-size:.72rem">promote</span></td>
+</tr>
+<tr>
+<td><code>R7</code></td>
+<td style="font-size:.87rem">below floor and below VERIFIED</td>
+<td><span class="b b-bad" style="font-size:.72rem">hold_candidate</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note" style="margin-top:1rem">
+<b>Where each family lives.</b>
+  SI rulebook codes (OB, TO, GP, BR, EC) are read from <code>app/api/si/tasks.py</code>
+  and enforced by the SI engine (<code>app/api/si/sdk.py</code>).
+  Rule register codes (CC, EV, CAP, AV, CM) were seeded by <code>deploy/seed_rules.py</code>;
+  later versions are inserted into the register, which is insert-only, and read here live.
+  Gate routes are defined in <code>seed/gate.yaml</code> and applied by
+  <code>core/policy/gate.py</code>. Nothing on this page is typed by hand.
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

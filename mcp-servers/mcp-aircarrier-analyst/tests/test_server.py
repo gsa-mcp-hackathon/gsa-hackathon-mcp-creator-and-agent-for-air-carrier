@@ -154,8 +154,16 @@ def test_tools_listed():
                           "analyst_search_documents", "analyst_trace_entity"}
     assert all(t.description and len(t.description) > 80 for t in tools.values())
     assert tools["analyst_record_outcome"].annotations.readOnlyHint is False
-    assert tools["analyst_investigate_record"].annotations.readOnlyHint is True
-    assert tools["analyst_investigate_transaction"].annotations.readOnlyHint is True
+    # The four tools that append to the leads table must not claim to be read-only.
+    logs_lead = {"analyst_investigate_record", "analyst_investigate_transaction",
+                 "analyst_investigate_window", "analyst_explain_residual"}
+    for name, t in tools.items():
+        a = t.annotations
+        assert a.destructiveHint is False, name
+        if name in logs_lead or name == "analyst_record_outcome":
+            assert a.readOnlyHint is False, name
+        else:
+            assert a.readOnlyHint is True, name
 
 
 def test_investigate_then_record_round_trip(fake_store):

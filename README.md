@@ -28,6 +28,16 @@ Creator, the stack, Impact, Ask the evidence, a specialist run with role-based a
 work queue, Answer a question and the evaluation. The full 15:21 walkthrough is described
 under [Demo video](#demo-video).
 
+## Click through the front center
+
+The deployed apps sit behind Databricks sign-in, so the front center is also published as a
+read-only snapshot: **<https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/>**.
+Every page renders from the extracts in this repository, and the 59 gap briefs open in place.
+Ask the evidence, specialist runs, decisions and Answer a question need a signed-in user, so
+the snapshot points them to a [live gallery](docs/site/live/index.html) of screens from the
+deployed app. Rebuild it from `the-one-hub/ops-center` with
+`uv run --with beautifulsoup4 python ../../tools/export_static_site.py`.
+
 ## For judges: five minutes
 
 | GSA criterion (official wording) | Open this | What it shows |
@@ -35,18 +45,19 @@ under [Demo video](#demo-video).
 | Technical quality, C1: readability and maintainability (separate data models, tool definitions, API interactions) | [Repository map](#repository-map), e.g. `mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/` (`models.py`, `tools/`, `data/warehouse.py`) | The ops server keeps data models, one file per tool, and warehouse access in separate modules; one ruff pin across all projects |
 | Technical quality, C2: performance and reliability (own evaluation setup and results, inputs, error handling, stable performance) | [Evaluation](docs/submission/EVALUATION.md), sections 1 and 2 | Five test layers with their inputs; probe latency table; 99.90% of 6,193 production checks ok |
 | Technical quality, C3: MCP design (Pydantic-validated inputs, unambiguous names and descriptions, goal-shaped tools, not thin wrappers) | [Security](#security), [Evaluation](docs/submission/EVALUATION.md) section 4 | Every parameter validated and attacked (422 tests); tools return totals and summaries, not raw rows; renames made after models misread a name |
-| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](#who-uses-it-and-what-changes-for-them), [the stack](#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
-| Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 8 projects, 1,151 tests, lint, on Python 3.11 and 3.12 |
+| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](docs/IMPACT.md#who-uses-it-and-what-changes-for-them), [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](docs/IMPACT.md#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
+| Technical quality | [`scripts/check.sh`](scripts/check.sh), the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) and the [JUnit XML of a clean-clone run](docs/submission/evidence/junit/README.md) | One command runs every suite from a clean clone: 8 projects, 1,151 tests, lint, on Python 3.11 and 3.12 |
 | Technical quality | [Delegation evaluation](eval/delegation/README.md) | Four held-out rounds; rounds 2 to 4 sealed by SHA-256 before the run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Round 4, 69 questions (45 drawn by a seeded generator, 24 reviewed by the project owner), grader v2: **Claude 88.4%, GPT-5 mini 78.7% with, 14.5% and 1.4% without** ([results](eval/delegation/round4/RESULTS.md)). Every miss is read and its cause published, grader defects included |
 | Technical quality | [Evaluation](docs/submission/EVALUATION.md) (GSA's four headings), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Eight-day probe at 99.90% with 1,234 of 1,234 known answers right, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
 | Technical quality | [Security](#security) | 421 hostile calls against all 30 tools: 330 refused, none wrote, none pasted an argument into SQL; generated code fuzzed with warnings as errors |
 | Innovation (creative MCP tooling, unique agent workflows) | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
-| Presentation (storytelling, demo flow, evidence of testing) | [Two-minute demo](#two-minute-demo), [deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [full video chapters](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
+| Presentation (storytelling, demo flow, evidence of testing) | [Two-minute demo](#two-minute-demo), [read-only site](#click-through-the-front-center), [deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [full video chapters](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
 
 ## Results at a glance
 
 | Measure | Result | What it does not show |
 | --- | --- | --- |
+| Sealed held-out questions, round 4: 69 questions, 30 tools at once, three repeats | Claude Sonnet 4.5 183/207 (88.4%, CI 81.2 to 94.7) vs 14.5% without tools; GPT-5 mini 163/207 (78.7%) vs 1.4% | Questions written on the builder's side; an [independent set](eval/delegation/independent/README.md) is ready for an outside author |
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), round 1: 14 questions, 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools; strict held-out 20/24 (83.3%) vs 2/8 | 14 questions, only 4 strictly held out; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog, before the fixes it prompted. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
 | Sealed held-out questions, round 3 (after the fixes), with vs without tools | 50/72 (69.4%, CI 58.0 to 78.9) vs 1/24 (4.2%) | Questions written by the same author as the fixes. 5 misses are an answer-key error of mine (G07); read by hand, 55/72. Real misses remain on counting by sign, a contamination recorded only in the dossier, and multi-source figures |
@@ -71,7 +82,7 @@ It holds two things that depend on each other: the product, and the proof that i
 | **Live front center** | <https://aircarrier-front-center-dev-7474654188777746.aws.databricksapps.com/> (Databricks sign-in required, see [below](#open-the-front-center)) |
 | **Evaluation** | [docs/submission/EVALUATION.md](docs/submission/EVALUATION.md), and the same results on the GSA template: [evaluation report (Word)](docs/submission/evaluation-report.docx) · [PDF](docs/submission/evaluation-report.pdf) |
 | **Slide deck** | [PowerPoint](docs/submission/mcp-a-creator-one-hub-deck.pptx) · [PDF](docs/submission/mcp-a-creator-one-hub-deck.pdf) |
-| **No account needed** | [Run the front center locally](#run-the-front-center-locally) in two commands, or see the [screenshots](#screenshots) |
+| **No account needed** | The [read-only site](#click-through-the-front-center), [run the front center locally](#run-the-front-center-locally) in two commands, or the [screenshots](#screenshots) |
 | **Score per server** | [SCORECARD.md](SCORECARD.md): tools, tests, sweep, accuracy, probe and what is open, one row per server |
 | **Defects found by testing** | [docs/submission/FINDINGS.md](docs/submission/FINDINGS.md) |
 | **Deployment** | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
@@ -81,8 +92,7 @@ It holds two things that depend on each other: the product, and the proof that i
 
 ## Contents
 
-- [Why this matters beyond one ship](#why-this-matters-beyond-one-ship)
-- [Background: one ship, four numbers](#background-one-ship-four-numbers)
+- [Why it matters, in brief](#why-it-matters-in-brief)
 - [Open the front center](#open-the-front-center)
 - [What the One Hub shows](#what-the-one-hub-shows)
 - [MCP A Creator](#mcp-a-creator)
@@ -97,226 +107,22 @@ It holds two things that depend on each other: the product, and the proof that i
 
 ---
 
-## Why this matters beyond one ship
+## Why it matters, in brief
 
-### Four ledgers that never meet
+- **Four ledgers that never meet.** Budget, acquisition, contract and accounting records each
+  describe the same ship, and none carries the keys to join the others. CVN-79 shows every
+  break: a $13,409.970M budget total, a class-level SAR, award outlays that reach USAspending
+  for 0.8% of prime obligations, and a hull still in construction in progress.
+- **Four published costs.** $11,341.4M (FY2019 estimate), $11,398.0M (statutory cap),
+  $12,936M (SECNAV baseline) and $13,409.970M (FY2027 budget). A $13,529M baseline printed in
+  the FY2027 MSAR is held for review and shown both ways (E-17).
+- **The scale.** DoD plans over $2.4 trillion for its costliest programs. The same servers,
+  gate and agents carry from CVN-79 to the Ford class, 29 Navy ship lines, the F-35 and the
+  59 programs with a PB2027 MSAR.
 
-Every major weapon system's cost is recorded four times, by four communities, for four
-purposes. None of the four records carries the keys needed to join it to the others.
-
-| Ledger | Kept by | What it says | Where CVN-79 shows the break |
-| --- | --- | --- | --- |
-| **Budget** (J-book P-5c, P-40) | The comptroller chain: Navy FMB, NAVSEA 01, OUSD(C), and the congressional committees | What was requested and appropriated, by hull and cost category, in then-year dollars | $13,409.970M Total Ship Estimate. Each SCN year stays available for five years, so one hull is funded by many appropriation years at once |
-| **Acquisition** (SAR, MSAR) | The PEO and USD(A&S) | Baseline, estimate at completion, contracts under cost reporting | The Ford-class SAR reports cost for the class, not per hull (GAO-17-575). Only seven contract numbers appear for a $13.4 billion ship. DCARC rates the program's contractor cost reporting **Red** |
-| **Contract** (FPDS-NG, USAspending) | Contracting officers and SUPSHIP | Obligations by action and modification | A $54M action described as "detail design and construction CVN 79" is Nimitz defueling work. Award-level outlays reach USAspending for 0.8% of prime obligations, and account linkage covers 36.1% of the DD&C contract |
-| **Accounting** (CIP, then General PP&E) | Service financial management and the auditors | The asset's cost on the balance sheet | The hull sits in construction in progress, with no decided date to relieve it. GFE installed on the hull risks being counted twice or not at all. General PP&E and Government Property in the Possession of Contractors are both open material weaknesses |
-
-### The scale
-
-- DoD plans to invest over **$2.4 trillion** to develop and acquire its costliest weapon
-  programs ([GAO-26-108457](https://www.gao.gov/products/GAO-26-108457)).
-- The FY2026 budget carries **72 active MDAPs**: 15 Army, **35 Navy**, 21 Air Force
-  ([OUSD(C), Program Acquisition Cost by Weapon System, FY2026](https://comptroller.defense.gov/Portals/45/Documents/defbudget/FY2026/FY2026_Weapons.pdf)).
-- FY2025 was DoD's **eighth disclaimer of opinion**, covering $4.65 trillion in reported
-  assets ([CRS IF12627](https://www.everycrsreport.com/files/2026-04-28_IF12627_a0aaa98fa9bd10c7d612eaea7793e46ec9b96ed0.html)).
-  The auditors reported **26 material weaknesses**, among them General PP&E, Government
-  Property in the Possession of Contractors, and the Joint Strike Fighter program
-  ([DoD FY2025 AFR, Other Information](https://comptroller.war.gov/Portals/45/Documents/afr/fy2025/5_Other_Information.pdf)).
-- The FY2024 NDAA requires a clean opinion by **December 31, 2028**
-  ([GAO-25-108052](https://www.gao.gov/assets/gao-25-108052-highlights.pdf)).
-- The Navy alone carries **$503.1 billion** of General PP&E net book value, 55.9% of its
-  assets, and vessels and aircraft make up over 90% of its construction in progress
-  ([DON FY2025 AFR](https://www.secnav.navy.mil/fmc/FR/FY25_NavyAFR_12.8.25_FINAL.pdf)).
-- For the F-35, DoD has estimated parts in contractor possession at over **$220 billion**,
-  a figure GAO calls likely significantly understated
-  ([GAO-23-106098](https://www.gao.gov/assets/gao-23-106098.pdf)).
-
-A ship or an aircraft is a multi-billion dollar asset that spends a decade or more in
-construction in progress, funded by many appropriation years, built under contracts
-that also serve other hulls. Getting its cost right is the general PP&E problem at its
-largest, and it decides whether the 2028 opinion is reachable.
-
-### Who uses it, and what changes for them
-
-| User | The question they ask | What the One Hub gives them | What it replaces |
-| --- | --- | --- | --- |
-| **Senior leaders**: ASN(FM&C), OUSD(C), the service acquisition executive, anyone briefing a ship's cost | "What does this ship cost, and can I stand behind the number?" | The four published figures side by side, each with its basis and page. A gate that will not show an unverified figure as fact: the December 2025 baseline (E-17) is shown both ways until a person confirms it | One number lifted into a briefing, with its definition lost on the way |
-| **PEO and program office**: PEO Carriers and PMS 379 today, any PEO next | "Where did the money go, and why did the estimate move?" | The anchor chain from appropriation to contract to action. 17 variances where public sources disagree, each with provenance. Attribution to named contracts raised from 42.2% to 75.8% in one pass | Manual reconciliation across J-books, SARs and contract files, redone for every review |
-| **CAPE and cost estimators**: CAPE, NCCA, NAVSEA 05C | "Is there a traceable actuals baseline for the next estimate?" | Actuals by cost category and by funding stream, each closing to zero. The learning-curve variance between the 18% contract man-hour target and what was realized. The per-hull cut GAO asked the class SAR to carry | GAO found the CVN-79 estimate met one of four characteristics of a reliable estimate (GAO-17-575). CAPE's independent estimate was higher, and its figure is redacted |
-| **Budget analysts**: Navy FMB, NAVSEA 01, comptroller and congressional staff | "What is funded, by year, and how does it stand against the cap?" | Funding by stream from FY2007 to FY2027, the cap history under 10 U.S.C. 8692, cost to complete, and execution from the transaction record | Spreadsheets rebuilt from PDF exhibits each budget cycle |
-| **Accountants and auditors**: service FM offices, IPA auditors, DoD OIG, GAO | "Can the asset's value be traced to transactions?" | Every figure to its page or row hash. Open questions the audit will ask, already registered and owned: when CIP is relieved (G14), whether GFE is counted twice (G15), and the GFP position report that answers the contractor-held property question (G16) | Sampling and tracing that starts from nothing every audit cycle |
-| **Any analyst with a table**, through MCP A Creator | "Can I put a governed tool over my own data without a developer?" | A question and a Unity Catalog table become a tested MCP server, deployed as the analyst's own app after an approval that covers exactly what was reviewed | A ticket to a development team, or a model improvising SQL |
-
-### From one hull to every major weapon system
-
-What carries to the next program unchanged, and what each program adds:
-
-| Carries over unchanged | Each new program supplies |
-| --- | --- |
-| The three servers and their 30 tools; the agents; the work register | A key set: appropriation, line item, program element, contracts, CAGE, PSC and acquisition program code. Part G of the [Ring 0 dossier](the-one-hub/ops-center/corpus/dossier/RING0_CVN79.md) is the CVN-79 template |
-| The gate. Its materiality floor is a share of the subject's total, so it moves between programs ([seed/gate.yaml](the-one-hub/ops-center/seed/gate.yaml)) | A source catalog: its J-book exhibits, SAR or MSAR, contract records and GAO reports |
-| The variance and gap registers, typed and ranked the same way | The subject total the reconciliation must close to |
-| MCP A Creator, which builds the per-program servers from tables | Owners for its gaps |
-
-The order we would take, each step reusing the last:
-
-1. **CVN-80 and CVN-81.** Same class, same budget line (SCN 2001), same builder, and a
-   shared contract (N00024-16-C-2116) that the hub already excludes from CVN-79.
-2. **The Ford class and the carrier fleet.** The class SAR reports cost for the class,
-   so the per-hull split is the product.
-3. **The F-35.** The Joint Strike Fighter is its own DoD-wide material weakness, and its
-   contractor-held parts are the largest instance of the property problem the hub
-   already registers for CVN-79 (Ring 0, Part J).
-4. **The 35 Navy MDAPs, then the 72 in the FY2026 budget.** Each adds a key set and a
-   source catalog, not a new system.
-
-Today the method has run on one hull. The steps above are a plan, not a result.
-
-**Findings from the pilot that will recur on every program.** Each one is in the
-variance or gap register with its evidence.
-
-- A contract number is not a hull key. One EASR radar contract serves six ships, and a
-  $54M action carries the wrong ship in its own description (Ring 0, N.4 and N.6a).
-- USAspending obligations are usable for a weapon system. Its award-level outlays are
-  not: they cover 0.8% of CVN-79's prime obligations (Ring 0, N.4).
-- The class SAR does not give a per-hull cost (GAO-17-575).
-- Capitalized value will never equal program cost, for three structural reasons: scope,
-  timing and boundary. The $1 million Navy capitalization threshold alone expenses
-  installed components (Ring 0, I.3).
-- The date construction in progress is relieved is undecided between preliminary
-  acceptance, delivery and commissioning, and the candidates straddle a fiscal year (G14).
-- Contractor cost reporting can be formally deficient: the MSAR rates CVN-79's CSDR
-  compliance Red (Ring 0, D.9).
-- Assets move between hulls by memorandum, with no procurement transaction: one AAG
-  engine set moved from CVN-78 to CVN-79 this way (Ring 0, J.4).
-
-### The stack: seven capabilities, each useful on its own
-
-Each layer below answers a problem that federal financial management and acquisition
-offices carry today. They were built for CVN-79, and none of them depends on CVN-79 to
-work. Stacked, each one makes the layer above it trustworthy.
-
-```mermaid
-flowchart TB
-  subgraph Build["Build"]
-    CR["MCP A Creator<br/>question + table to a governed server"]
-  end
-  subgraph Read["Read and query"]
-    DOC["Docs server<br/>budget books, SARs, GAO as verified tables"]
-    OPS["Ops server and generated server<br/>governed Unity Catalog access"]
-  end
-  subgraph Reason["Investigate"]
-    AN["Analyst server<br/>a record with missing data to its contract, hull and account"]
-  end
-  subgraph Govern["Govern"]
-    HUB["One Hub server<br/>gate, falsification, tie-out, gaps, collection requests"]
-  end
-  subgraph Watch["Watch"]
-    PR["Probe<br/>known-answer checks, every 15 minutes"]
-  end
-  subgraph Deliver["Deliver"]
-    FC["Front center, six agents, Genie Code skills"]
-  end
-  CR --> DOC & OPS
-  DOC --> AN
-  OPS --> AN
-  AN --> HUB
-  DOC --> HUB
-  HUB --> FC
-  PR -. checks .-> DOC & AN & OPS
-```
-
-| Capability | The problem it solves on its own | Who needs it beyond CVN-79 | Where it stands today |
-| --- | --- | --- | --- |
-| **MCP A Creator** (10 tools) | Turning a dataset into a tool an agent can use takes a developer and weeks, and an improvised server is untested and different every time. The Creator profiles the table, designs one tool per question, reviews meaning as well as shape, and generates a tested project that deploys as the requester's own app | Every office with a Unity Catalog table and a question. GSA's stated aim for this hackathon is an internal library of MCP server prototypes for the government workforce ([event page](https://www.gsa.gov/super-intelligence/si-community-of-practice/events-and-training/mcp-server-and-si-agent-government-hackathon)); the Creator is how a non-developer adds to that library | Works on any table today. It built the ops server inside this hub, and `mcp-bakehouse-sales` on an unrelated sales table to show it is not tied to the carrier |
-| **Docs server** (11 tools) | Budget justification books and SARs run to hundreds of pages each, and analysts retype exhibits into spreadsheets. The docs server reads them deterministically, with no model: it maps each book by exhibit and P-1 line item, rebuilds tables with exact decimals, ties out every subtotal and total, and says whether a figure appears in an authoritative source (J-book, SAR) or only a secondary one (CRS, GAO) | Budget analysts, cost estimators, congressional and GAO staff, and auditors, on every appropriation's J-books and every program's SAR. Exhibit formats (P-40, P-5c, P-8a, P-10) are standard across DoD | The reader has no CVN-79 logic in it. 34 PDFs and 7,804 pages are loaded, GAO-26-108457 included; 814 of 818 tie-out checks pass. `docs_parse_pdf` reads any other PDF from a volume on request |
-| **Analyst server** (12 tools) | The slowest work in audit remediation is researching a single record that is missing data elements: a GL line, an obligation or an invoice with no contract, no line of accounting or no hull. The analyst profiles what is missing, chases clues across FPDS, File C, sub-awards, the knowledge graph and every document, weighs the evidence, and returns ranked cases with citations, recovered data elements, a collection request for each missing one, and a human-review flag when the answer is weak | Component reconciliation teams, DFAS, FIAR teams and the auditors they support, on unsupported transactions, abnormal balances and Universe of Transactions gaps behind material weaknesses such as Fund Balance with Treasury and contractor-held property | Its skills read the two CVN-79 prime contracts today. A new program adds its contracts, File C and key set; the investigator's method does not change |
-| **Ops server** (7 tools) | Agents need governed, paged, read-only access to exhibit cells, obligations on both prime contracts (sorted by date or by amount), the variance register, the knowledge graph and the work register, without raw SQL | Any team that keeps its facts in Unity Catalog | Generated by the Creator; golden set of 17 items with independent answers |
-| **One Hub server**, `mcp-aircarrier-hub` (16 read-only tools) | An AI agent can put a wrong figure in a leadership brief or a financial statement in one sentence. This server is the control: `hub_check_claim` routes any candidate figure through policy and the gate and never promotes on its own; `hub_challenge_text` falsifies text against recorded error classes; `hub_tie_out` and `hub_check_anchor_chain` close totals in exact decimals without a model; `hub_rank_gaps`, `hub_plan_gap`, `hub_next_work` and `hub_collection_requirement` turn every unknown into an owned request to a named office | Any office that lets an agent draft numbers: comptrollers, audit liaisons, budget shops. The gap queue works like an auditor's request list, ranked by exposure, ignorance and closability | Runs over stdio, and ships an `app.yaml` for hosting; it is not among the eight deployed apps. The agents and the front center call the same functions directly |
-| **Probe** | When a user's agent says "Failed to generate OAuth token", nobody can tell whether the server or the connector broke. The probe calls every server every 15 minutes as a non-human caller, through initialize, tools/list and one known-answer check, and logs which step failed | Any agency running MCP servers in production, as continuous monitoring evidence for an authority to operate | 413 sweeps, 2026-11-12 to 2026-11-20: 99.90% of 6,193 checks ok, 1,234 of 1,234 known answers right |
-| **Delivery: front center, six agents, Genie Code skills** | Leaders and analysts need the answer, not the tools. 23 pages answer one question each; six agents hand work to each other only through the work register; three Genie Code skills let an analyst verify a figure, investigate a gap or draft a collection request in their own workspace | Program offices, comptroller staff, auditors | Live as a Databricks App; also runs locally from the bundled data with two commands |
-
-**One record through the stack.** A GL line reads "$454,765,071.00, SCN progress CVN 79",
-with no contract and no modification. This is development question Q2 in the delegation
-evaluation: both models answer it in all six runs with the tools, and miss it in both runs
-without them.
-
-1. **Analyst.** `analyst_investigate_record` matches the amount in the FPDS record to
-   modification P00067 on N00024-15-C-2114, and the key set confirms that contract is the
-   Kennedy's detail design and construction contract. It returns the case, its evidence and
-   the data elements it recovered.
-2. **Docs.** The budget line and exhibit behind that contract, SCN line 2001 and the P-5c,
-   come back as tied-out tables with page numbers.
-3. **One Hub server.** `hub_check_claim` routes the figure: promoted only if it ties to a source
-   record, otherwise held as a lead or sent to human review with the reason. If an element
-   is still missing, `hub_collection_requirement` names the document, the system and the office
-   that hold it.
-4. **Probe.** The same hour, the probe has already confirmed that each server answered a
-   known question correctly, so a wrong answer is a finding about the data, not about a
-   broken transport.
-
-Repeat that for every unsupported transaction in a component's ledger, and the result is
-the audit trail that the General PP&E and contractor-held property weaknesses say is
-missing.
-
----
-
-## Background: one ship, four numbers
-
-CVN-79 is the second ship of the Gerald R. Ford class, built by HII Newport News
-Shipbuilding under PEO Aircraft Carriers. Its keel was laid in August 2015, it was
-christened by Caroline Kennedy in December 2019, it reached preliminary acceptance on
-29 September 2026, and on 13 October 2026 it recovered the first F-35C ever to land on a
-Ford-class carrier. Delivery and commissioning are planned for March 2027, 141 months
-after the detail design and construction award.
-
-Ask what the ship costs and you get four answers, each current, sourced and correct for
-its own purpose:
-
-| Figure | What it is | Source |
-| --- | --- | --- |
-| **$11,341.4M** | A dated estimate in then-year dollars | FY2019 President's Budget |
-| **$11,398.0M** | The cost limitation in law | 10 U.S.C. 8692, enacted in the FY2020 NDAA |
-| **$12,936.0M** | The adjusted limit the program manages to | Secretary of the Navy notification to Congress, August 2023. The FY2027 MSAR (p.8) reports a December 2025 increase to $13,529M; it is held for human review as variance [E-17](#e-17-the-baseline-under-review) |
-| **$13,409.97M** | The current request and estimate to complete | FY2027 President's Budget, SCN Exhibit P-5c |
-
-The budget total sits **$2,011.97M (17.7%) above the statutory cap**. A product that
-shows one of these as "the cost of the ship" will be wrong, and the data to reconcile
-them is spread across budget books, Selected Acquisition Reports and transaction records
-in different units, years and coordinate systems.
-
-That matters beyond one hull. For a comptroller the ship is a future asset: until it is
-placed in service it sits on the Navy's books as construction in progress, and general
-property, plant and equipment remains a material weakness in the Department's audit.
-Reconciling what was budgeted, obligated, paid and capitalized for one carrier is the
-pilot for doing it across the fleet.
-
-**What the record says, in numbers** (all from the One Hub's data bundle):
-
-| | |
-| --- | --- |
-| Total Ship Estimate | $13,409.970M, closing to **zero residual on two independent axes** (cost category and funding stream) |
-| Largest cost category | Basic construction, $8,463.2M (63.1%); propulsion (reactor plant) $2,041.6M (15.2%) |
-| How it was funded | Advance procurement FY2007-FY2012 $3,327.1M (24.8%); full funding FY2014-FY2018 $7,504.7M (56.0%); cost to complete FY2022-FY2027 $2,087.3M (15.6%) |
-| Prime contracts | N00024-09-C-2116, construction preparation, cost plus fixed fee, $4,519.3M obligated over 948 actions; N00024-15-C-2114, detail design and construction, fixed price incentive, $4,578.6M summed over 927 actions (the award record reads $4,584.5M; the hub quotes each with its basis) |
-| Attribution | 75.8% of the hull attributed to a named contract, up from 42.2% in one pass by replacing an announcement-derived figure with the obligation record |
-| Open questions | 65 registered gaps, 55 still open and 10 closed, resolved, narrowed or reframed, each typed and assigned to a named executor; 17 variances where public sources disagree, kept with provenance |
-| Evidence base | Docs MCP server: 34 source PDFs, 7,804 pages, 20,829 chunks, including GAO-26-108457 (July 2026). Front center knowledge base: 44 catalogued artifacts, 3,537 chunks from 23 indexed documents. Every hit cited to a page |
-
-One small example of why provenance matters: FPDS-NG reports $4,518,716,360.83 obligated
-on the construction preparation contract and USAspending reports $4,519,300,323.83. The
-$583,963.00 difference is 0.013%, small enough to pass any reasonableness check, so the
-hub records it as variance E-16 and cites the system by name with every obligation figure.
-
-### E-17: the baseline under review
-
-The FY2027 MSAR says the Secretary of the Navy raised the CVN-79 Cost Limitation Baseline
-from $12.936B to $13.529B in December 2025. The hub's figure gate sent that number to human
-review instead of using it: it comes from an MSAR sentence rather than the notification, and
-$13.529B is also CVN 80's baseline, so a search for the number alone returns both hulls. If
-confirmed, the budget total sits $119.03M under the baseline rather than $473.97M over it.
-Until a person confirms it under rule CAP-05, the hub shows both readings and keeps $12,936M
-as the baseline in force.
+The full case, with the users, the stack and the path from one hull to every program, is in
+[docs/IMPACT.md](docs/IMPACT.md). The ship's record, the four figures and E-17 are in
+[docs/BACKGROUND.md](docs/BACKGROUND.md).
 
 ---
 
@@ -440,7 +246,7 @@ including Genie Code, and the front center and the agents use the same ones.
 16 read-only `hub_` tools with Pydantic-validated inputs that expose the gate, the
 falsification checks, the tie-outs and the gap queue to any agent. It runs over stdio and is
 not yet deployed as an app. **A probe** calls every deployed server every 15 minutes with a known question. Their
-standalone value is in [the stack](#the-stack-seven-capabilities-each-useful-on-its-own).
+standalone value is in [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own).
 
 **A front center** ([`the-one-hub/ops-center/app/`](the-one-hub/ops-center/app/)): a
 FastAPI application with server-rendered pages and charts and a JSON API, described above.
@@ -628,7 +434,7 @@ documents. The controls are in code, not in prompts:
 | Code injection into generated projects | Free text is made inert before it enters any generated literal, docstring, comment or constant (`utils.inert_text`, `utils.docstring_safe`). A fuzz test sends eight payloads through the purpose, user, questions, out-of-scope list and every source description, and compiles every generated Python file with warnings as errors; every TOML, JSON, YAML and XML file must parse |
 | Hostile tool arguments | Every parameter of all 30 Air Carrier tools is attacked in one sweep: 421 calls, 330 refused by validation, every statement that reached the warehouse read-only, and hostile values only ever bound as parameters |
 | Path traversal | Volume reads are confined to configured roots; the One Hub MCP server reads only its own data folder |
-| Unwanted writes | Air Carrier tools are read-only except one gated label write that needs an authoritative document locator and a confirming office. Creator writes are dry runs by default. Deployment returns an approval token, a hash of the design, the app name, the grants and the folder's files; a deploy needs that token, so a yes covers exactly what was reviewed. It never touches another owner's app |
+| Unwanted writes | Air Carrier tools never change source data. Four analyst tools append their answer to the analyst's own leads log and are annotated `readOnlyHint: false`; the one other write is a gated label write that needs an authoritative document locator and a confirming office. Creator writes are dry runs by default. Deployment returns an approval token, a hash of the design, the app name, the grants and the folder's files; a deploy needs that token, so a yes covers exactly what was reviewed. It never touches another owner's app |
 | Identity and grants | Per-user OAuth through Databricks Apps; tables read as the caller under Unity Catalog; no credentials in code, only `.env.example` files are committed |
 | Prompt injection | Retrieved text is data, never instructions. The golden set carries a direct injection case (q17) and an indirect one (q16), a planted record in a scratch copy of the store |
 
@@ -686,6 +492,7 @@ One command, from a fresh clone, with [uv](https://docs.astral.sh/uv/) installed
 ```
 scripts/check.sh              # every project
 scripts/check.sh creator      # or one: creator ops bakehouse docs analyst probe mcp-local one-hub evidence
+JUNIT_DIR=out scripts/check.sh  # also write JUnit XML, as in docs/submission/evidence/junit
 ```
 
 Each project installs its own dependencies into its own environment. Expected (checked
@@ -718,6 +525,10 @@ The script redeploys only the apps whose source folder changed, waits, and check
 the pushed commit. [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) has the app map, resources,
 environment variables, grants and rollback.
 
+The read-only site is served by GitHub Pages from `main`, folder `/docs` (repository
+Settings, Pages). After a change to the front center, rebuild it with the command under
+[Click through the front center](#click-through-the-front-center) and push.
+
 ---
 
 ## Known limitations
@@ -734,13 +545,21 @@ environment variables, grants and rollback.
   person who built the tools, and round 3 carried one answer-key error; an independent
   author would make a stronger test. Round 4 widened the set to 69 sealed questions (CI
   for Claude 81.2 to 94.7, resampling questions), but its generator templates and the
-  draft of its 24 reviewed questions are still Genie Code's. The injection cases q16 (planted record, run through a
+  draft of its 24 reviewed questions are still Genie Code's. A kit for an outside author is
+  in [eval/delegation/independent](eval/delegation/independent/README.md), and a blind
+  subject-matter review of answer quality is set up in
+  [eval/delegation/sme_review](eval/delegation/sme_review/README.md). The injection cases q16 (planted record, run through a
   read-only overlay) and q17 were run on 2026-11-20: 15 of 16 correct, no run followed the
   injected instruction, and none flagged it to the user.
 - **One hull.** The method has run on CVN-79 only. CVN-80, CVN-81, the F-35 and the other
   MDAPs are a plan with named inputs, not results.
 - **No measured time saved.** The hub reconciles in one pass what is done by hand today;
-  analyst hours before and after have not been measured.
+  analyst hours before and after have not been measured. The subject-matter review records
+  the reviewer's estimate of minutes by hand per question, labelled as an estimate.
+- **The One Hub MCP server runs locally over stdio.** Its 16 tools are tested in CI
+  (`checks/test_mcp_server.py`) but it is not deployed as an app, so the probe does not watch it.
+  The probe watches the four deployed Air Carrier servers, and the bakehouse server once its
+  service principal holds CAN_USE.
 - **The Cost Limitation Baseline is under review** (E-17). The hub keeps $12,936M in force
   until a person confirms the December 2025 figure.
 - **Figures are the app's reading of the register, not a cleared position.** The front
@@ -760,7 +579,7 @@ All data is public. The main sources are:
 - USAspending and FPDS-NG transaction records for N00024-09-C-2116 and N00024-15-C-2114
 - 10 U.S.C. 8692, Ford-class aircraft carriers: cost limitation baselines
 
-For the portfolio and audit context in [Why this matters](#why-this-matters-beyond-one-ship):
+For the portfolio and audit context in [Why this matters](#why-it-matters-in-brief):
 
 - GAO-26-108457, *Weapon Systems Annual Assessment*, July 2026
 - OUSD(C), *Program Acquisition Cost by Weapon System*, FY2026 budget request

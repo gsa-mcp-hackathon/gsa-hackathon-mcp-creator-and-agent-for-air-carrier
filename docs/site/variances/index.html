@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Variance register · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a aria-current="page" class="on" href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div aria-label="Specialist runs for this page" class="si-strip" role="region">
+<span class="si-strip-lab">Specialist runs for this page</span>
+<button class="btn si-go" data-si-page="/variances" data-si-params='{"reported_label": "N00024-15-C-2114", "reported_total": "4519300323.83"}' data-si-subject="N00024-09-C-2116" data-si-task="reconcile_obligations" title="Does this contract's reported cost tie to its recorded obligations?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Test E-16: $4,519,300,323.83 labelled N00024-15-C-2114</span>
+</button><button class="btn si-go" data-si-page="/variances" data-si-subject="N00024-09-C-2116" data-si-task="reconcile_obligations" title="Does this contract's reported cost tie to its recorded obligations?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Reconcile N00024-09-C-2116</span>
+</button><button class="btn si-go" data-si-page="/variances" data-si-subject="N00024-15-C-2114" data-si-task="reconcile_obligations" title="Does this contract's reported cost tie to its recorded obligations?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Reconcile N00024-15-C-2114</span>
+</button>
+<a class="si-strip-log" href="../runs/">Run log</a>
+</div>
+<div class="phead">
+<div class="eyebrow">Register</div>
+<h1>Variance register</h1>
+<p class="lede">Where public sources disagree. Each is a real finding about the reporting rather
+  than a data error to clean. Conflicting values are retained with provenance and never resolved by
+  selection: if the product is the variance, two sources disagreeing about the same cell is the raw
+  material rather than a defect.</p>
+</div>
+<div class="toolbar" data-filter-scope="">
+<button class="btn ghost on" data-filter="*" data-target="#vlist">All 17</button>
+<button class="btn ghost" data-filter="live" data-target="#vlist">Live</button>
+<button class="btn ghost" data-filter="resolved" data-target="#vlist">Resolved</button>
+<button class="btn ghost" data-filter="recorded" data-target="#vlist">Recorded errors</button>
+<button class="btn ghost" data-filter="METHOD" data-target="#vlist">METHOD</button>
+<button class="btn ghost" data-filter="KEY" data-target="#vlist">KEY</button>
+<button class="btn ghost" data-filter="INTERPRETATION" data-target="#vlist">INTERPRETATION</button>
+<input data-count="#vn" data-search="#vlist" placeholder="Search the register…" style="min-width:240px;margin-left:auto" type="search"/>
+<span class="pill"><b id="vn">17</b> shown</span>
+</div>
+<div class="grid g2" id="vlist">
+<div class="card accent" data-row="" data-tags="live " id="E-1">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-1</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Three different cost caps in circulation</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">Statutory cap $11,398.0M, SECNAV Cost Limitation Baseline $12,936M, budget submission $13,409.970M. All three are current and all three are correct for their own purpose. Any product showing one number as the cost cap will be wrong. The baseline itself is under review: see E-17.</p>
+</div>
+<div class="card" data-row="" data-tags="resolved " id="E-2">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-2</span>
+<span class="b b-ok">resolved</span>
+</div>
+<h3>The $11.341B figure</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">A sourced FY2019 budget estimate in then-year dollars, not a total and not a cap. Usable as a dated estimate, never as the cost of the ship.</p>
+</div>
+<div class="card" data-row="" data-tags="resolved " id="E-3">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-3</span>
+<span class="b b-ok">resolved</span>
+</div>
+<h3>Obligation Work Limiting Date</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">Resolved in favour of OPNAVINST 4700.8M. CFO Jul 2027 plus eleven months gives Jun 2028. The NAVSEA desk reference reading of thirteen months after delivery would give Apr 2028.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-4">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-4</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Keel laying date</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">20 July 2015 in some records, 22 August 2015 in others.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-5">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-5</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Attributed delay cause shifts by year and by authority</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">The budget footnote says AAG certification and AWE. DOT&amp;E adds supply chain. GAO adds material availability and workforce. HII adds untimely availability of Ford lessons. Same slip, four causes. That is itself a finding.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-6">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-6</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Life-cycle savings claim, $4B against $5B</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">Per ship over 50 years versus Nimitz class.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-7">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-7</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Is the FY2026-FY2027 unit cost increase new cost</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">GAO: unit costs up 3%, about $480M, roughly half from delivery schedule changes, but the Navy is using funds already budgeted for post-delivery, so these are not new program costs. The same dollars are a cost increase in one view and a reclassification in another.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-8">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-8</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Program start has at least six defensible dates</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">FY2001 shared CVN-21 AP, FY2004 CP contract, FY2007 first hull-specific AP, Jan 2009 CP award, FY2013 procurement year, Jun 2015 DD&amp;C award, Aug 2015 keel. Each correct for a different audience.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-9">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-9</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Supplier footprint count</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">2,000 firms in 46 states against 43 states.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-10">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-10</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>Delivery against commissioning conflated</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">Several outlets treat March 2027 as both. Preliminary acceptance actually occurred 29 Sep 2026.</p>
+</div>
+<div class="card accent" data-row="" data-tags="live " id="E-11">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-11</span>
+<span class="b b-warn">live</span>
+</div>
+<h3>A contract mislabel in the research notes</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">January 2009 was the Construction Preparation contract. DD&amp;C was awarded 5 June 2015. Two different contracts six years apart.</p>
+</div>
+<div class="card flag" data-row="" data-tags="recorded INTERPRETATION" id="E-12">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-12</span>
+<span class="b b-bad">recorded error</span>
+<span class="b b-bad">INTERPRETATION</span>
+</div>
+<h3>The dagger inference</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">Part K.1 reasoned the dagger marked GFE-bearing categories. The exhibit defines it in place as indicating the presence of a P-8a. Plausible, convenient, consistent with everything else, and wrong. Kept because the shape recurs: a real structural pattern with an invented interpretation laid over it.</p>
+</div>
+<div class="card flag" data-row="" data-tags="recorded METHOD" id="E-13">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-13</span>
+<span class="b b-bad">recorded error</span>
+<span class="b b-bad">METHOD</span>
+</div>
+<h3>Announced modifications summed as obligations</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">N00024-09-C-2116 was carried at roughly $1.08B, built by summing announced DoD contract modifications. The obligation record gives $4,519,300,323.83, an understatement by a factor of 4.18. Announcements have a dollar threshold, omit incremental funding (which carries $2.49B here) and cannot net deobligations (68 actions, -$66.8M). A press release is an announcement, never a record.</p>
+</div>
+<div class="card flag" data-row="" data-tags="live METHOD" id="E-14">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-14</span>
+<span class="b b-warn">live</span>
+<span class="b b-bad">METHOD</span>
+</div>
+<h3>USAspending disagrees with itself</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">By exactly $5,880,250.00 on N00024-15-C-2114. Two of three products agree, so the transaction sum is canonical. Both are the same system on the same as-of date.</p>
+</div>
+<div class="card flag" data-row="" data-tags="live KEY" id="E-15">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-15</span>
+<span class="b b-warn">live</span>
+<span class="b b-bad">KEY</span>
+</div>
+<h3>The 2116 identifier collision</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">N00024-09-C-2116 is this hull's Construction Preparation. N00024-16-C-2116 is CVN-80 and CVN-81 DD&amp;C, carrying a $14,917,738,145 modification. Same last four digits, seven years apart, different hulls. Any fuzzy or partial match merges three hulls undetectably.</p>
+</div>
+<div class="card flag" data-row="" data-tags="resolved METHOD" id="E-16">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-16</span>
+<span class="b b-ok">resolved</span>
+<span class="b b-bad">METHOD</span>
+</div>
+<h3>FPDS-NG and USAspending differ by $583,963.00 on the construction preparation contract: an as-of difference</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">Resolved 2026-11-08. The contract is N00024-09-C-2116 (construction preparation), not the DD&amp;C contract N00024-15-C-2114, whose transaction sum is $4,578,603,345.77. The FPDS-NG ATOM feed reported totalObligatedAmount $4,518,716,360.83 against USAspending's transaction sum of $4,519,300,323.83. The USAspending running total on 09-C-2116 through action date 2026-06-10 is exactly $4,518,716,360.83. The eight actions dated 2026-06-17 to 2026-07-20 (A00645 to AZ0122) sum to exactly $583,963.00. Cause: as-of date. totalObligatedAmount is cumulative per modification, and the entry read was the 10 June action, not the latest. Method rule: read totalObligatedAmount from the latest modification, and state the as-of date with every obligation figure. Caveat: the FPDS side is the figure as recorded on 2026-11-08 and was not re-pulled.</p>
+</div>
+<div class="card flag" data-row="" data-tags="live KEY" id="E-17">
+<div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+<span class="b b-info">E-17</span>
+<span class="b b-warn">live</span>
+<span class="b b-bad">KEY</span>
+</div>
+<h3>A December 2025 Cost Limitation Baseline of $13,529M is printed but not yet confirmed</h3>
+<p style="font-size:.87rem;color:var(--fg-2);margin:0">The FY2027 MSAR (CVN_78_MSAR_FY2027_PBv2.pdf, p.8) says that in December 2025 the Secretary of the Navy notified Congress he was increasing the CVN-79 Cost Limitation Baseline from $12.936B to $13.529B. The One Hub still carries $12,936M (August 2023) as the baseline in force, because the figure gate routed $13,529M to human review: it comes from an MSAR sentence, not the notification, with no adjustments or exclusions. Hull caution: $13.529B is also CVN 80's baseline since August 2023 (MSAR Dec 2023, p.7). If confirmed, the FY2027 budget total of $13,409.970M sits $119.03M under the baseline rather than $473.97M over it. Open with OUSD(C) FMO as the CAP-05 request; registered 2026-11-19 from evaluation finding F1.</p>
+</div>
+</div>
+<div class="src"><b>Source</b> ring0/RING0_CVN79.md Part E</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

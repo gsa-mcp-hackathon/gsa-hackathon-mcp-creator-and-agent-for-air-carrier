@@ -3,6 +3,7 @@
 #
 #   scripts/check.sh            # every project
 #   scripts/check.sh creator    # one project (see PROJECTS below)
+#   JUNIT_DIR=out scripts/check.sh   # also write one JUnit XML file per pytest run
 #
 # CI runs exactly this script, one project per job, so a green badge and a
 # green local run mean the same thing. Needs uv (https://docs.astral.sh/uv/).
@@ -18,13 +19,26 @@ FAILED=()
 
 say() { printf '\n== %s\n' "$*"; }
 
+# FLAGS: the pytest flags for the next run, plus a JUnit XML path when JUNIT_DIR is set.
+JN=0
+next_flags() {
+  JN=$((JN + 1))
+  FLAGS=("${PYTEST_FLAGS[@]}")
+  if [ -n "${JUNIT_DIR:-}" ]; then
+    mkdir -p "$JUNIT_DIR"
+    FLAGS+=("--junitxml=$JUNIT_DIR/${CUR:-run}-$JN.xml")
+  fi
+  return 0
+}
+
 # uv projects: their pyproject.toml declares the dev group.
 uv_project() {
   local dir="$1"
   (
     cd "$ROOT/$dir" || exit 1
     uv sync --group dev --quiet || exit 1
-    uv run --no-sync pytest tests "${PYTEST_FLAGS[@]}" || exit 1
+    next_flags
+    uv run --no-sync pytest tests "${FLAGS[@]}" || exit 1
     uv run --no-sync ruff check . || exit 1
     uv run --no-sync ruff format --check . || exit 1
   )
@@ -37,7 +51,8 @@ req_project() {
     cd "$ROOT/$dir" || exit 1
     uv venv --quiet --allow-existing .venv || exit 1
     uv pip install --quiet --python .venv -r requirements.txt pytest pytest-asyncio || exit 1
-    PYTHONPATH=src .venv/bin/python -m pytest "$target" "${PYTEST_FLAGS[@]}" || exit 1
+    next_flags
+    PYTHONPATH=src .venv/bin/python -m pytest "$target" "${FLAGS[@]}" || exit 1
     # Hand-written projects carry no ruff config, so pin the version (finding F12).
     uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
   )
@@ -49,7 +64,8 @@ one_hub() {
     uv sync --group dev --quiet || exit 1
     # Lint is enforced here too (finding F12), pinned like the other projects.
     uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
-    PYTHONPATH=. uv run --no-sync pytest "${PYTEST_FLAGS[@]}" --assert=plain \
+    next_flags
+    PYTHONPATH=. uv run --no-sync pytest "${FLAGS[@]}" --assert=plain \
       checks/test_analyst.py checks/test_si.py checks/test_work.py \
       checks/test_harness.py checks/test_mcp_server.py checks/test_impact.py checks/test_deploy_config.py checks/test_capture_ask.py || exit 1
     # Script suites print their own summary and exit non-zero on failure.
@@ -70,21 +86,21 @@ run() {
     docs)      req_project mcp-servers/mcp-aircarrier-docs tests ;;
     analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests ;;
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
-    mcp-local) (cd "$ROOT/mcp-servers" && uv run --quiet --no-project --with pytest \
-                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${PYTEST_FLAGS[@]}" \
+    mcp-local) (cd "$ROOT/mcp-servers" && next_flags && uv run --quiet --no-project --with pytest \
+                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${FLAGS[@]}" \
                && echo "-- adversarial arguments against all 30 Air Carrier tools" \
-               && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
+               && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
                  --with "mcp>=1.24,<2" \
                  --with-requirements mcp-aircarrier-docs/requirements.txt \
                  --with-requirements mcp-aircarrier-analyst/requirements.txt \
                  --with-requirements mcp-aircarrier-ops/requirements.txt \
-                 python -m pytest test_adversarial_arguments.py "${PYTEST_FLAGS[@]}") ;;
+                 python -m pytest test_adversarial_arguments.py "${FLAGS[@]}") ;;
     one-hub)   one_hub ;;
     evidence)  (cd "$ROOT" && python3 scripts/check_links.py \
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \
                  && diff -u eval/delegation/RESULTS.md /tmp/delegation_results.md \
                  && echo "eval/delegation/RESULTS.md matches runs.csv" \
-                 && uvx --quiet pytest -q -p no:cacheprovider eval/delegation/round4/test_grade.py \
+                 && next_flags && uvx --quiet pytest "${FLAGS[@]}" eval/delegation/round4/test_grade.py \
                       eval/delegation/round4/test_runner.py \
                  && python3 -B eval/delegation/round4/analyze_round4.py > /tmp/delegation_results_r4.md \
                  && diff -u eval/delegation/round4/RESULTS.md /tmp/delegation_results_r4.md \
@@ -96,6 +112,7 @@ run() {
 targets=("$@")
 [ ${#targets[@]} -eq 0 ] && targets=("${PROJECTS[@]}")
 for p in "${targets[@]}"; do
+  CUR="$p"
   say "$p"
   if run "$p"; then echo "PASS $p"; else echo "FAIL $p"; FAILED+=("$p"); fi
 done

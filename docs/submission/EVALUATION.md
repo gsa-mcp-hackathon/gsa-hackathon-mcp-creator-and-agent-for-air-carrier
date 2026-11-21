@@ -158,7 +158,7 @@ The controls are in code, not in prompts.
 | SQL injection | Identifiers allow-listed and quoted; values bound as parameters; the One Hub's `sqlsafe.compose` refuses anything that is not a vetted fragment | Adversarial sweep: 422 tests pass; no hostile value pasted into SQL text; every statement that reached the warehouse was read-only |
 | Input validation | Pydantic models and enums on every tool parameter; bounded limits | Same sweep: hostile arguments refused at validation or answered safely |
 | Code injection into generated projects | Free text made inert before entering any literal, docstring or comment; generated Python compiled with warnings as errors; TOML/JSON/YAML/XML must parse | `mcp-server-creator/tests/test_injection_safety.py` |
-| Unwanted writes | Air Carrier tools are read-only except one gated label write needing an authoritative locator and a confirming office. Creator writes are dry runs by default; deploy needs an approval token bound to the reviewed design, app name, grants and files | Creator and analyst suites |
+| Unwanted writes | Air Carrier tools never change source data. Four analyst tools append their answer to the analyst's own leads log and are annotated `readOnlyHint: false`; the one other write is a gated label write needing an authoritative locator and a confirming office. Creator writes are dry runs by default; deploy needs an approval token bound to the reviewed design, app name, grants and files | Creator and analyst suites |
 | Identity and grants | Per-user OAuth through Databricks Apps; tables read as the caller under Unity Catalog; no credentials in code; only `.env.example` committed | `SECURITY.md`, `docs/DEPLOYMENT.md` |
 | Token handling in the probe | Calls only an allow-listed Databricks Apps host over https, path `/mcp`, with redirects disabled so the bearer token cannot be moved | `aircarrier-mcp-probe/probe.py` |
 | Path traversal | Volume reads confined to configured roots | Adversarial sweep |
@@ -167,11 +167,13 @@ The controls are in code, not in prompts.
 Scope: sandbox workspace, publicly released documents only, apps reachable only by
 authenticated users of the same Databricks account; nothing is publicly deployed.
 
-Known weaknesses: four analyst tools annotated read-only (`analyst_investigate_record`,
+Fixed on 2026-11-21: four analyst tools (`analyst_investigate_record`,
 `analyst_investigate_transaction`, `analyst_investigate_window`, `analyst_explain_residual`) append their
-answer to the analyst's own leads table. They never change source data, and the server
-instructions now say so, but the MCP `readOnlyHint` alone does not. No run
-flagged an injected instruction to the user.
+answer to the analyst's own leads table. They were annotated read-only; they now carry
+`readOnlyHint: false` and `destructiveHint: false`, say so in their descriptions, and a test
+checks the annotation of every analyst tool. They never change source data.
+
+Known weakness: no run flagged an injected instruction to the user.
 
 ## 4. Lessons learned and recommendations
 

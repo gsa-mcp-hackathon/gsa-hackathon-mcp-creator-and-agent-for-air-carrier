@@ -207,457 +207,457 @@ With the tools, Claude Sonnet 4.5 answers 88.4 percent correctly,
 against 14.5 percent without them. GPT-5 mini goes from 1.4 percent to 78.7.
 
 53
-00:04:40,980 --> 00:04:45,211
+00:04:40,980 --> 00:04:45,221
 1,151 automated tests pass from a clean clone.
 
 54
-00:04:45,211 --> 00:04:52,294
-422 hostile calls against thirty tools: none wrote, and none reached the SQL.
+00:04:45,221 --> 00:04:52,319
+421 hostile calls against thirty tools: none wrote, and none reached the SQL.
 
 55
-00:04:52,614 --> 00:05:02,397
+00:04:52,639 --> 00:05:02,422
 And the probe: 99.9 percent of 6,193 checks, with 1,234 of 1,234 known answers right.
 
 56
-00:05:04,797 --> 00:05:06,930
+00:05:04,822 --> 00:05:06,955
 The front center opens on The stack.
 
 57
-00:05:07,250 --> 00:05:12,910
+00:05:07,275 --> 00:05:12,935
 Each capability shows the problem it solves, who else can use it, how it was tested,
 
 58
-00:05:12,910 --> 00:05:19,109
+00:05:12,935 --> 00:05:19,134
 and what the tests do not show. Security is laid out by risk, with the control for each one.
 
 59
-00:05:20,309 --> 00:05:25,899
+00:05:20,334 --> 00:05:25,924
 The Impact page answers the bigger question: from one carrier to every weapon system.
 
 60
-00:05:26,219 --> 00:05:29,067
+00:05:26,244 --> 00:05:29,092
 CVN-79 is measured on four ledgers.
 
 61
-00:05:29,067 --> 00:05:34,681
+00:05:29,092 --> 00:05:34,706
 The Ford class comes next, and its budget books are already measured.
 
 62
-00:05:35,001 --> 00:05:38,227
+00:05:35,026 --> 00:05:38,252
 Then 29 Navy ship lines, the F-35,
 
 63
-00:05:38,227 --> 00:05:45,819
+00:05:38,252 --> 00:05:45,844
 and every one of the 59 programs with a fiscal 2027 Selected Acquisition Report.
 
 64
-00:05:46,139 --> 00:05:49,568
+00:05:46,164 --> 00:05:49,593
 Five users trace their own question through the stack.
 
 65
-00:05:49,568 --> 00:05:53,633
+00:05:49,593 --> 00:05:53,658
 The Creator's phases show how a new program's server gets built.
 
 66
-00:05:53,953 --> 00:05:56,769
+00:05:53,978 --> 00:05:56,794
 And each of the 59 programs is listed with
 
 67
-00:05:56,769 --> 00:05:59,787
+00:05:56,794 --> 00:05:59,812
 what is loaded today and what it still needs.
 
 68
-00:06:04,809 --> 00:06:08,656
+00:06:04,834 --> 00:06:08,681
 Moving to the next program is a set of inputs, not a rebuild.
 
 69
-00:06:08,976 --> 00:06:11,083
+00:06:09,001 --> 00:06:11,108
 The Creator, the document reader,
 
 70
-00:06:11,083 --> 00:06:15,488
+00:06:11,108 --> 00:06:15,513
 the analyst's method, the gate and the agents are reused as they are.
 
 71
-00:06:15,808 --> 00:06:22,666
+00:06:15,833 --> 00:06:22,691
 A program adds its documents, its contract numbers and program codes, and a subject total for the gate.
 
 72
-00:06:22,666 --> 00:06:27,526
+00:06:22,691 --> 00:06:27,551
 The gate's floor is a share of that total, so it scales with the program.
 
 73
-00:06:27,846 --> 00:06:30,393
+00:06:27,871 --> 00:06:30,418
 The F-35 adds lots and variants.
 
 74
-00:06:30,393 --> 00:06:35,170
+00:06:30,418 --> 00:06:35,195
 The 59 programs share one template and the same eight steps.
 
 75
-00:06:37,570 --> 00:06:40,294
+00:06:37,595 --> 00:06:40,319
 The Brief is a guided start in four steps.
 
 76
-00:06:40,614 --> 00:06:46,162
+00:06:40,639 --> 00:06:46,187
 Pick your question by role. Check what the evidence supports today, and what to hold back,
 
 77
-00:06:46,162 --> 00:06:51,586
+00:06:46,187 --> 00:06:51,611
 with the reason. Then act on the open questions, each with the office that can close it.
 
 78
-00:06:56,570 --> 00:06:59,567
+00:06:56,595 --> 00:06:59,592
 Ask the evidence takes a plain question:
 
 79
-00:06:59,567 --> 00:07:05,787
+00:06:59,592 --> 00:07:05,812
 what was obligated on the contract in fiscal 2022, and what was the largest action?
 
 80
-00:07:06,107 --> 00:07:09,818
+00:07:06,132 --> 00:07:09,843
 The waiting time is cut here. The agent calls one tool,
 
 81
-00:07:09,818 --> 00:07:15,419
+00:07:09,843 --> 00:07:15,444
 and answers with the total, the largest action, and every modification it rests on.
 
 82
-00:07:15,739 --> 00:07:20,404
+00:07:15,764 --> 00:07:20,429
 The answer is marked as a lead, with the tool call and the model shown.
 
 83
-00:07:20,404 --> 00:07:23,557
+00:07:20,429 --> 00:07:23,582
 It is a place to start, never a reported figure.
 
 84
-00:07:24,757 --> 00:07:26,848
+00:07:24,782 --> 00:07:26,873
 The ship page holds the record:
 
 85
-00:07:26,848 --> 00:07:33,052
+00:07:26,873 --> 00:07:33,077
 identity, key dates, the program spine of every milestone, and the construction photographs.
 
 86
-00:07:39,457 --> 00:07:42,623
+00:07:39,482 --> 00:07:42,648
 Position answers the first question a leader asks:
 
 87
-00:07:42,623 --> 00:07:45,853
+00:07:42,648 --> 00:07:45,878
 which of the four figures do I quote, and for what?
 
 88
-00:07:46,173 --> 00:07:49,309
+00:07:46,198 --> 00:07:49,334
 Each figure is labeled for the kind of number it is,
 
 89
-00:07:49,309 --> 00:07:51,661
+00:07:49,334 --> 00:07:51,686
 where it sits, and what not to call it.
 
 90
-00:07:54,457 --> 00:07:59,144
+00:07:54,482 --> 00:07:59,169
 Now the agents. Any page can start a specialist run on what it shows.
 
 91
-00:07:59,464 --> 00:08:01,237
+00:07:59,489 --> 00:08:01,262
 There are four specialists:
 
 92
-00:08:01,237 --> 00:08:07,343
+00:08:01,262 --> 00:08:07,368
 the obligation reconciler, the account analyst, the gap investigator, and the brief composer.
 
 93
-00:08:07,663 --> 00:08:09,285
+00:08:07,688 --> 00:08:09,310
 A run has six stages.
 
 94
-00:08:09,285 --> 00:08:14,924
+00:08:09,310 --> 00:08:14,949
 The page names one task and one subject, and anything unknown is refused.
 
 95
-00:08:15,244 --> 00:08:22,576
+00:08:15,269 --> 00:08:22,601
 Code reads the records and computes every figure in exact decimals. One model explains what code found.
 
 96
-00:08:22,576 --> 00:08:28,555
+00:08:22,601 --> 00:08:28,580
 It cannot add a proposal, change an amount, or change the office a proposal goes to.
 
 97
-00:08:28,875 --> 00:08:31,550
+00:08:28,900 --> 00:08:31,575
 Code then checks every number in the answer,
 
 98
-00:08:31,550 --> 00:08:35,197
+00:08:31,575 --> 00:08:35,222
 and a second model, from a different family, reads it again.
 
 99
-00:08:35,517 --> 00:08:40,618
+00:08:35,542 --> 00:08:40,643
 Only then does a person decide, and only the person whose role owns the item.
 
 100
-00:08:43,018 --> 00:08:48,087
+00:08:43,043 --> 00:08:48,112
 Here a run explains a File C period that does not tie to the transactions.
 
 101
-00:08:48,087 --> 00:08:55,142
+00:08:48,112 --> 00:08:55,167
 The orchestrator routes it to the account analyst, and the steps stream in, each labeled code or model.
 
 102
-00:08:55,462 --> 00:09:00,955
+00:08:55,487 --> 00:09:00,980
 File C exceeds the closest transaction window by 770 million dollars.
 
 103
-00:09:00,955 --> 00:09:09,950
+00:09:00,980 --> 00:09:09,975
 The run proposes a residual lead for the Office of Financial Operations, and a request for the obligation detail.
 
 104
-00:09:10,270 --> 00:09:17,588
+00:09:10,295 --> 00:09:17,613
 Now the access control. The signed-in user holds the program office role. The first proposal belongs to the
 
 105
-00:09:17,588 --> 00:09:24,223
+00:09:17,613 --> 00:09:24,248
 Navy's Office of Financial Operations, so the app says so, and will not let anyone else apply it.
 
 106
-00:09:24,543 --> 00:09:32,127
+00:09:24,568 --> 00:09:32,152
 The second proposal is a request for the obligation detail, owned by the program office. That is the user's own role,
 
 107
-00:09:32,127 --> 00:09:38,415
+00:09:32,152 --> 00:09:38,440
 so the user ticks it and applies it, and the action is recorded with the role and the run number.
 
 108
-00:09:38,735 --> 00:09:41,499
+00:09:38,760 --> 00:09:41,524
 That check runs inside Unity Catalog,
 
 109
-00:09:41,499 --> 00:09:45,833
+00:09:41,524 --> 00:09:45,858
 under the user's own sign-in. No role travels in the page.
 
 110
-00:09:47,033 --> 00:09:53,744
+00:09:47,058 --> 00:09:53,769
 Cost composition breaks the 13,409.97 million dollar total down two ways,
 
 111
-00:09:53,744 --> 00:09:59,536
+00:09:53,769 --> 00:09:59,561
 by cost category and by funding stream, and both close to zero.
 
 112
-00:09:59,856 --> 00:10:04,519
+00:09:59,881 --> 00:10:04,544
 Estimate history shows how the figure moved across each budget submission,
 
 113
-00:10:04,519 --> 00:10:06,472
+00:10:04,544 --> 00:10:06,497
 with the cap history behind it.
 
 114
-00:10:10,033 --> 00:10:14,797
+00:10:10,058 --> 00:10:14,822
 Budget execution shows obligations by year on both prime contracts,
 
 115
-00:10:14,797 --> 00:10:21,978
+00:10:14,822 --> 00:10:22,003
 the handoff from construction preparation to detail design and construction, and the largest actions.
 
 116
-00:10:24,033 --> 00:10:28,504
+00:10:24,058 --> 00:10:28,529
 The gap register ranks 59 open questions by the dollars at stake,
 
 117
-00:10:28,504 --> 00:10:35,657
+00:10:28,529 --> 00:10:35,682
 how little is known, and how easily each can be closed, and it names the office that can close each one.
 
 118
-00:10:35,977 --> 00:10:41,916
+00:10:36,002 --> 00:10:41,941
 From any gap, a run drafts the request. Here the gap investigator works gap G52,
 
 119
-00:10:41,916 --> 00:10:47,855
+00:10:41,941 --> 00:10:47,880
 and proposes collection requests addressed to the offices that hold the records.
 
 120
-00:10:48,175 --> 00:10:50,787
+00:10:48,200 --> 00:10:50,812
 Nothing is saved until a person applies it.
 
 121
-00:11:00,033 --> 00:11:04,831
+00:11:00,058 --> 00:11:04,856
 The variance register records every place where sources disagree, and why.
 
 122
-00:11:05,151 --> 00:11:11,098
+00:11:05,176 --> 00:11:11,123
 Asset valuation explains why the value on the Navy's books will differ from program cost.
 
 123
-00:11:11,098 --> 00:11:16,244
+00:11:11,123 --> 00:11:16,269
 And the industrial base page shows who builds what, down to the subcontracts.
 
 124
-00:11:27,891 --> 00:11:30,960
+00:11:27,916 --> 00:11:30,985
 A second question: which File C periods fail
 
 125
-00:11:30,960 --> 00:11:34,030
+00:11:30,985 --> 00:11:34,055
 to tie to the transactions, and by how much?
 
 126
-00:11:34,350 --> 00:11:38,215
+00:11:34,375 --> 00:11:38,240
 After the wait, cut here, the agent queries the warehouse and
 
 127
-00:11:38,215 --> 00:11:42,018
+00:11:38,240 --> 00:11:42,043
 returns each period and its difference, with the SQL it ran.
 
 128
-00:11:46,291 --> 00:11:52,338
+00:11:46,316 --> 00:11:52,363
 The work queue sorts every item into one lane by code: decide, unblock, or system.
 
 129
-00:11:52,658 --> 00:11:54,620
+00:11:52,683 --> 00:11:54,645
 Every run keeps its full record:
 
 130
-00:11:54,620 --> 00:11:58,546
+00:11:54,645 --> 00:11:58,571
 the steps, the checks code ran again, and the checker's verdict.
 
 131
-00:12:03,491 --> 00:12:07,873
+00:12:03,516 --> 00:12:07,898
 Brief readiness counts what the brief can stand on:
 
 132
-00:12:07,873 --> 00:12:12,341
+00:12:07,898 --> 00:12:12,366
 today 13 of 32 CVN-79 figures tie to source records.
 
 133
-00:12:12,661 --> 00:12:21,596
+00:12:12,686 --> 00:12:21,621
 The obligation reconciler sums 927 actions on the detail design and construction contract in exact decimals,
 
 134
-00:12:21,596 --> 00:12:27,470
+00:12:21,621 --> 00:12:27,495
 4,578,603,345.77 dollars, and code re-checks eight of eight conditions.
 
 135
-00:12:32,591 --> 00:12:37,320
+00:12:32,616 --> 00:12:37,345
 The run log records every agent run and every action by every person.
 
 136
-00:12:37,640 --> 00:12:45,922
+00:12:37,665 --> 00:12:45,947
 The detail table filters and exports the records behind every figure. Sources lists each document family and its limits.
 
 137
-00:12:45,922 --> 00:12:53,170
+00:12:45,947 --> 00:12:53,195
 And Method sets out the trust zones and the one rule that everything follows: no model promotes a figure.
 
 138
-00:12:56,591 --> 00:13:00,495
+00:12:56,616 --> 00:13:00,520
 Finally, the people who know. Answer a question opens the
 
 139
-00:13:00,495 --> 00:13:04,743
+00:13:00,520 --> 00:13:04,768
 59 open questions to experts at headquarters and in the field.
 
 140
-00:13:05,063 --> 00:13:07,889
+00:13:05,088 --> 00:13:07,914
 Each question names who is likely to know:
 
 141
-00:13:07,889 --> 00:13:14,149
+00:13:07,914 --> 00:13:14,174
 the program office, financial operations, the supervisor of shipbuilding, the finance center.
 
 142
-00:13:14,469 --> 00:13:16,435
+00:13:14,494 --> 00:13:16,460
 An expert writes what they know,
 
 143
-00:13:16,435 --> 00:13:20,552
+00:13:16,460 --> 00:13:20,577
 how they know it, and how sure they are, and can attach a document.
 
 144
-00:13:20,872 --> 00:13:24,069
+00:13:20,897 --> 00:13:24,094
 The answer is recorded with their name as a lead,
 
 145
-00:13:24,069 --> 00:13:29,943
+00:13:24,094 --> 00:13:29,968
 routed to the gap it answers, and never treated as a certified figure until it is checked.
 
 146
-00:13:31,143 --> 00:13:35,765
+00:13:31,168 --> 00:13:35,790
 This turns knowledge held by a few people into evidence anyone can check.
 
 147
-00:13:36,085 --> 00:13:39,761
+00:13:36,110 --> 00:13:39,786
 A field engineer who ran an interface for four years,
 
 148
-00:13:39,761 --> 00:13:46,697
+00:13:39,786 --> 00:13:46,722
 or a headquarters analyst who knows which ledger holds an account, can close a gap in two sentences.
 
 149
-00:13:47,017 --> 00:13:50,473
+00:13:47,042 --> 00:13:50,498
 The gap register shows which office owns each question,
 
 150
-00:13:50,473 --> 00:13:54,370
+00:13:50,498 --> 00:13:54,395
 the work queue routes it, and the run log keeps who said what.
 
 151
-00:13:56,770 --> 00:14:00,007
+00:13:56,795 --> 00:14:00,032
 The pattern does not stop at the Department of Defense.
 
 152
-00:14:00,327 --> 00:14:03,291
+00:14:00,352 --> 00:14:03,316
 Every agency has budget justifications,
 
 153
-00:14:03,291 --> 00:14:09,523
+00:14:03,316 --> 00:14:09,548
 contract and grant records on USAspending, and audit findings it cannot yet close.
 
 154
-00:14:09,843 --> 00:14:15,517
+00:14:09,868 --> 00:14:15,542
 The Creator, the reader, the gate, the agents and role-based decisions carry over.
 
 155
-00:14:15,517 --> 00:14:19,324
+00:14:15,542 --> 00:14:19,349
 The documents, the identifiers and the role map change.
 
 156
-00:14:19,644 --> 00:14:25,955
+00:14:19,669 --> 00:14:25,980
 Major construction, grants, IT investments, and audit remediation all fit the same shape.
 
 157
-00:14:28,355 --> 00:14:30,851
+00:14:28,380 --> 00:14:30,876
 It is built to run, not only to demo.
 
 158
-00:14:31,171 --> 00:14:36,868
+00:14:31,196 --> 00:14:36,893
 Every app sits behind workspace sign-in and runs as its own service principal.
 
 159
-00:14:36,868 --> 00:14:42,712
+00:14:36,893 --> 00:14:42,737
 Decisions run under the user's own token, and Unity Catalog decides who may act.
 
 160
-00:14:43,032 --> 00:14:45,222
+00:14:43,057 --> 00:14:45,247
 Tools are read-only by default,
 
 161
-00:14:45,222 --> 00:14:51,582
+00:14:45,247 --> 00:14:51,607
 with validated inputs, and tested against hostile arguments and planted prompt injections.
 
 162
-00:14:51,902 --> 00:14:57,952
+00:14:51,927 --> 00:14:57,977
 Deploys come from GitHub with one command, continuous integration runs every suite,
 
 163
-00:14:57,952 --> 00:15:02,107
+00:14:57,977 --> 00:15:02,132
 and the probe raises an alert on a failure or on silence.
 
 164
-00:15:04,507 --> 00:15:06,588
+00:15:04,532 --> 00:15:06,613
 One ship, measured to the cent.
 
 165
-00:15:06,588 --> 00:15:12,162
+00:15:06,613 --> 00:15:12,187
 The same servers, agents and gate, ready for the next program, and the next agency.
 
 166
-00:15:12,482 --> 00:15:19,065
+00:15:12,507 --> 00:15:19,090
 The code, the scorecard, the evaluation and the findings are in the public repository. Thank you.

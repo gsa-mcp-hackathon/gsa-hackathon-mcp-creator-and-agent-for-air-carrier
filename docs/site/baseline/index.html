@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Baseline and cost growth · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup on">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a aria-current="page" class="on" href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead">
+<div class="eyebrow">Baseline</div>
+<h1>Cost growth, and what it actually is</h1>
+<p class="lede">The estimate moved from $9,192.0M to $13,409.970M
+  across 12 published estimates, about +45.9%. A product that draws one line
+  labelled "cost growth" will be wrong about four fifths of it.</p>
+</div>
+<div class="note" style="margin-bottom:1rem">The three ceilings in circulation, and the step-by-step bridge from the
+ statutory cap to the budget submission, are on <a href="../position/#bridge">Position</a>.
+ This page is how the estimate got there over time.</div>
+<div class="card">
+<h2>The estimate in each successive budget submission</h2>
+<p class="cap">Point colour is the mechanism. Hover any point for the authority and what moved.</p>
+<svg class="chart line" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 900 340" xmlns="http://www.w3.org/2000/svg"><line class="grid" x1="66" x2="892" y1="298.0" y2="298.0"></line><text class="ax" text-anchor="end" x="58" y="302.0">8,457</text><line class="grid" x1="66" x2="892" y1="226.5" y2="226.5"></line><text class="ax" text-anchor="end" x="58" y="230.5">9,863</text><line class="grid" x1="66" x2="892" y1="155.0" y2="155.0"></line><text class="ax" text-anchor="end" x="58" y="159.0">11,269</text><line class="grid" x1="66" x2="892" y1="83.5" y2="83.5"></line><text class="ax" text-anchor="end" x="58" y="87.5">12,675</text><line class="grid" x1="66" x2="892" y1="12.0" y2="12.0"></line><text class="ax" text-anchor="end" x="58" y="16.0">14,080</text><path class="line-area" d="M66.0,260.6 L194.5,198.5 L237.4,206.6 L280.2,147.8 L365.9,148.4 L451.6,148.4 L537.3,151.3 L622.9,82.3 L665.8,121.4 L708.6,70.2 L837.2,57.0 L880.0,46.1 L880.0,298.0 L66.0,298.0 Z"></path><path class="line-path" d="M66.0,260.6 L194.5,198.5 L237.4,206.6 L280.2,147.8 L365.9,148.4 L451.6,148.4 L537.3,151.3 L622.9,82.3 L665.8,121.4 L708.6,70.2 L837.2,57.0 L880.0,46.1"></path><circle class="dot" cx="66.0" cy="260.6" fill="var(--c1)" r="5"><title>FY2008 PB: 9,192 $M
+Pre-procurement estimate</title></circle><circle class="dot" cx="194.5" cy="198.5" fill="var(--c1)" r="5"><title>FY2011 PB: 10,413 $M
+Estimate revision</title></circle><circle class="dot" cx="237.4" cy="206.6" fill="var(--c1)" r="5"><title>FY2012 PB: 10,253 $M
+Revision, slightly down</title></circle><circle class="dot" cx="280.2" cy="147.8" fill="var(--c1)" r="5"><title>FY2013 PB: 11,411 $M
+Procurement year</title></circle><circle class="dot" cx="365.9" cy="148.4" fill="var(--c3)" r="5"><title>Nov 2015: 11,398 $M
+Cap lowered by statute</title></circle><circle class="dot" cx="451.6" cy="148.4" fill="var(--c3)" r="5"><title>FY2017 PB: 11,398 $M
+Estimate equals the cap exactly</title></circle><circle class="dot" cx="537.3" cy="151.3" fill="var(--c1)" r="5"><title>FY2019 PB: 11,341 $M
+Revision below the cap</title></circle><circle class="dot" cx="622.9" cy="82.3" fill="var(--c4)" r="5"><title>Aug 2021: 12,698 $M
+Contract overruns at 88% complete</title></circle><circle class="dot" cx="665.8" cy="121.4" fill="var(--c1)" r="5"><title>FY2022 PB: 11,930 $M
+Estimate revision</title></circle><circle class="dot" cx="708.6" cy="70.2" fill="var(--c2)" r="5"><title>Aug 2023: 12,936 $M
+PSA work moved into construction</title></circle><circle class="dot" cx="837.2" cy="57.0" fill="var(--c1)" r="5"><title>FY2026 PB: 13,196 $M
+Cost to complete</title></circle><circle class="dot" cx="880.0" cy="46.1" fill="var(--c4)" r="5"><title>FY2027 PB: 13,410 $M
+AAG testing, delay and disruption, AWE, wage and manning surge</title></circle><text class="ax" text-anchor="middle" x="66.0" y="330">2008</text><text class="ax" text-anchor="middle" x="194.5" y="330">2011</text><text class="ax" text-anchor="middle" x="237.4" y="330">2012</text><text class="ax" text-anchor="middle" x="280.2" y="330">2013</text><text class="ax" text-anchor="middle" x="365.9" y="330">2015</text><text class="ax" text-anchor="middle" x="451.6" y="330">2017</text><text class="ax" text-anchor="middle" x="537.3" y="330">2019</text><text class="ax" text-anchor="middle" x="622.9" y="330">2021</text><text class="ax" text-anchor="middle" x="665.8" y="330">2022</text><text class="ax" text-anchor="middle" x="708.6" y="330">2023</text><text class="ax" text-anchor="middle" x="837.2" y="330">2026</text><text class="ax" text-anchor="middle" x="880.0" y="330">2027</text></svg>
+<ul class="legend inline">
+<li><span class="sw" style="background:var(--c1)"></span>Estimate revision with no scope change</li>
+<li><span class="sw" style="background:var(--c3)"></span>Statute moved and the estimate followed it</li>
+<li><span class="sw" style="background:var(--c4)"></span>Genuine contract overrun</li>
+<li><span class="sw" style="background:var(--c2)"></span>Scope transferred into the baseline</li>
+<li><span class="sw" style="background:var(--c9)"></span>Reclassification inside the program</li>
+</ul>
+<div class="grid g2" style="margin-top:1rem">
+<div class="tscroll">
+<table>
+<thead><tr><th data-sort="">As of</th><th class="num" data-sort="">$M</th><th>Authority</th><th>What moved</th></tr></thead>
+<tbody>
+<tr><td class="mono">FY2008 PB</td><td class="num" data-v="9192.0">9,192.0</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Pre-procurement estimate</td></tr>
+<tr><td class="mono">FY2011 PB</td><td class="num" data-v="10413.1">10,413.1</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Estimate revision</td></tr>
+<tr><td class="mono">FY2012 PB</td><td class="num" data-v="10253.0">10,253.0</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Revision, slightly down</td></tr>
+<tr><td class="mono">FY2013 PB</td><td class="num" data-v="11411.0">11,411.0</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Procurement year</td></tr>
+<tr><td class="mono">Nov 2015</td><td class="num" data-v="11398.0">11,398.0</td>
+<td style="font-size:.8rem">FY2016 NDAA</td><td style="font-size:.8rem">Cap lowered by statute</td></tr>
+<tr><td class="mono">FY2017 PB</td><td class="num" data-v="11398.0">11,398.0</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Estimate equals the cap exactly</td></tr>
+<tr><td class="mono">FY2019 PB</td><td class="num" data-v="11341.4">11,341.4</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Revision below the cap</td></tr>
+<tr><td class="mono">Aug 2021</td><td class="num" data-v="12698.0">12,698.0</td>
+<td style="font-size:.8rem">Navy, via GAO</td><td style="font-size:.8rem">Contract overruns at 88% complete</td></tr>
+<tr><td class="mono">FY2022 PB</td><td class="num" data-v="11929.7">11,929.7</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Estimate revision</td></tr>
+<tr><td class="mono">Aug 2023</td><td class="num" data-v="12936.0">12,936.0</td>
+<td style="font-size:.8rem">SECNAV to Congress</td><td style="font-size:.8rem">PSA work moved into construction</td></tr>
+<tr><td class="mono">FY2026 PB</td><td class="num" data-v="13196.0">13,196.0</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">Cost to complete</td></tr>
+<tr><td class="mono">FY2027 PB</td><td class="num" data-v="13409.97">13,410.0</td>
+<td style="font-size:.8rem">Budget submission</td><td style="font-size:.8rem">AAG testing, delay and disruption, AWE, wage and manning surge</td></tr>
+</tbody>
+</table>
+</div>
+<div>
+<h4>Five distinct mechanisms, and only one is cost growth</h4>
+<div style="display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--line)">
+<span class="sw" style="background:var(--c1);margin-top:.4rem"></span>
+<div><b style="font-size:.88rem">Estimate revision with no scope change</b>
+<div class="muted" style="font-size:.81rem">The ship did not change; the estimate did</div></div>
+</div>
+<div style="display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--line)">
+<span class="sw" style="background:var(--c3);margin-top:.4rem"></span>
+<div><b style="font-size:.88rem">Statute moved and the estimate followed it</b>
+<div class="muted" style="font-size:.81rem">GAO: the cost cap informed the program cost estimate rather than the reverse</div></div>
+</div>
+<div style="display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--line)">
+<span class="sw" style="background:var(--c4);margin-top:.4rem"></span>
+<div><b style="font-size:.88rem">Genuine contract overrun</b>
+<div class="muted" style="font-size:.81rem">The only one of the five that is cost growth in the ordinary sense</div></div>
+</div>
+<div style="display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--line)">
+<span class="sw" style="background:var(--c2);margin-top:.4rem"></span>
+<div><b style="font-size:.88rem">Scope transferred into the baseline</b>
+<div class="muted" style="font-size:.81rem">The ship got more expensive; the program did not</div></div>
+</div>
+<div style="display:flex;gap:.6rem;padding:.5rem 0;border-bottom:1px solid var(--line)">
+<span class="sw" style="background:var(--c9);margin-top:.4rem"></span>
+<div><b style="font-size:.88rem">Reclassification inside the program</b>
+<div class="muted" style="font-size:.81rem">GAO FY2026-27: not new program costs</div></div>
+</div>
+<div class="note warn" style="margin-top:.8rem">A sixth mechanism is visible in the same exhibit
+    family and matters for other hulls: "Less AP Transfer to NSBDF" lines show advance procurement
+    moving out of SCN into the National Sea-Based Deterrence Fund. That is a cost leaving the
+    appropriation without leaving the program.</div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Statutory cap history</h2>
+<table>
+<thead><tr><th>Authority</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td class="mono" style="white-space:nowrap">FY2007 NDAA (P.L. 109-364) Sec. 121</td><td>CVN-78 cap $10.5B, follow-ons $8.1B, plus inflation adjustment</td></tr><tr><td class="mono" style="white-space:nowrap">FY2014 NDAA</td><td>Raised CVN-79 and follow-on cap to $11,498M</td></tr><tr><td class="mono" style="white-space:nowrap">FY2016 NDAA (P.L. 114-92)</td><td>Lowered follow-on cap to $11,398.0M. Excluded certain costs from the caps (G12)</td></tr><tr><td class="mono" style="white-space:nowrap">FY2018 NDAA (P.L. 115-91)</td><td>CVN-80 and subsequent to $12,568.0M. CVN-79 held</td></tr><tr><td class="mono" style="white-space:nowrap">FY2020 NDAA (P.L. 116-92)</td><td>CVN-78 $13,224.0M, CVN-79 $11,398.0M, CVN-80 $12,202.0M, CVN-81 $12,451.0M</td></tr><tr><td class="mono" style="white-space:nowrap">FY2021 NDAA (P.L. 116-283) Sec. 1054</td><td>10 U.S.C. 8062(g), no retirement before first refueling</td></tr>
+</tbody>
+</table>
+<div class="src"><b>Source</b> ring0/RING0_CVN79.md C.4, from CRS RS20643 footnotes</div>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

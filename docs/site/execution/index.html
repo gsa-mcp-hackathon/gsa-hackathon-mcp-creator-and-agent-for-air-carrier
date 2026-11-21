@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Program execution · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup on">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a aria-current="page" class="on" href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div aria-label="Specialist runs for this page" class="si-strip" role="region">
+<span class="si-strip-lab">Specialist runs for this page</span>
+<button class="btn si-go" data-si-page="/execution" data-si-subject="FY2021P03" data-si-task="explain_residual" title="Why does this File C period not tie to the transactions?" type="button">
+<svg aria-hidden="true" class="si-spark" viewbox="0 0 24 24"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9Z" fill="currentColor"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8Z" fill="currentColor"></path></svg>
+<span>Explain File C FY2021P03</span>
+</button>
+<a class="si-strip-log" href="../runs/">Run log</a>
+</div>
+<div class="phead">
+<div class="eyebrow">Execution</div>
+<h1>Program execution</h1>
+<p class="lede">Computed live from 1875 prime
+  transactions and 2,990 sub-awards held in the repository. Obligations are
+  usable. Outlays are not.</p>
+</div>
+<div class="grid g2">
+<div class="card accent">
+<h3>CVN 79 Construction Preparation</h3>
+<p class="cap mono">N00024-09-C-2116 · Cost Plus Fixed Fee · Not competed, one source, FAR 6.302-1</p>
+<div class="grid g2" style="gap:.6rem">
+<div class="stat"><div class="k">Obligated</div><div class="v">$4,519M</div>
+<div class="n">948 actions · 33.7% of the hull</div></div>
+<div class="stat"><div class="k">Unobligated ceiling</div><div class="v">$867M</div>
+<div class="n">against a value of $5,386M</div></div>
+</div>
+<dl class="kv" style="margin-top:.8rem">
+<dt>Base award</dt><dd>$111.804M on 2009-01-15</dd>
+<dt>Deobligations</dt><dd>68 actions, -66.794 $M</dd>
+<dt>Reported outlays</dt><dd>$72.620M</dd>
+<dt>Administered by</dt><dd>SUPSHIP Newport News</dd>
+<dt>Period of performance end</dt><dd>2025-07-31</dd>
+</dl>
+</div>
+<div class="card accent">
+<h3>CVN 79 Detail Design and Construction</h3>
+<p class="cap mono">N00024-15-C-2114 · Fixed Price Incentive · Not competed, one source, FAR 6.302-1</p>
+<div class="grid g2" style="gap:.6rem">
+<div class="stat"><div class="k">Obligated</div><div class="v">$4,579M</div>
+<div class="n">927 actions · 34.1% of the hull</div></div>
+<div class="stat"><div class="k">Unobligated ceiling</div><div class="v">$37M</div>
+<div class="n">against a value of $4,616M</div></div>
+</div>
+<dl class="kv" style="margin-top:.8rem">
+<dt>Base award</dt><dd>$3,352.612M on 2015-06-05</dd>
+<dt>Deobligations</dt><dd>52 actions, -23.944 $M</dd>
+<dt>Reported outlays</dt><dd><span class="b b-bad">$0.00</span></dd>
+<dt>Administered by</dt><dd>SUPSHIP Newport News</dd>
+</dl>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>The obligation curve, and the handoff</h2>
+<p class="cap">The two contracts are sequential rather than parallel and they cross in FY2017.
+  Peak combined obligation year is FY2015 at $1,082.1M,
+  which is the year the DD&amp;C contract was awarded: the Navy was funding both at once precisely
+  during the transition.</p>
+<svg class="chart curve" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 960 360" xmlns="http://www.w3.org/2000/svg"><line class="grid" x1="66" x2="906" y1="320.0" y2="320.0"></line><text class="ax" text-anchor="end" x="58" y="324.0">0</text><text class="ax ax-r" x="912" y="324.0">0</text><line class="grid" x1="66" x2="906" y1="243.0" y2="243.0"></line><text class="ax" text-anchor="end" x="58" y="247.0">298</text><text class="ax ax-r" x="912" y="247.0">2,388</text><line class="grid" x1="66" x2="906" y1="166.0" y2="166.0"></line><text class="ax" text-anchor="end" x="58" y="170.0">595</text><text class="ax ax-r" x="912" y="170.0">4,776</text><line class="grid" x1="66" x2="906" y1="89.0" y2="89.0"></line><text class="ax" text-anchor="end" x="58" y="93.0">893</text><text class="ax ax-r" x="912" y="93.0">7,165</text><line class="grid" x1="66" x2="906" y1="12.0" y2="12.0"></line><text class="ax" text-anchor="end" x="58" y="16.0">1,190</text><text class="ax ax-r" x="912" y="16.0">9,553</text><rect class="col" fill="var(--c1)" height="50.5" width="27.8" x="75.3" y="269.5"><title>FY2009 Construction Preparation: 195.3 $M</title></rect><text class="ax" text-anchor="middle" x="89.2" y="350">09</text><rect class="col" fill="var(--c1)" height="54.9" width="27.8" x="121.6" y="265.1"><title>FY2010 Construction Preparation: 212.0 $M</title></rect><text class="ax" text-anchor="middle" x="135.5" y="350">10</text><rect class="col" fill="var(--c1)" height="84.7" width="27.8" x="167.9" y="235.3"><title>FY2011 Construction Preparation: 327.4 $M</title></rect><text class="ax" text-anchor="middle" x="181.8" y="350">11</text><rect class="col" fill="var(--c1)" height="144.7" width="27.8" x="214.3" y="175.3"><title>FY2012 Construction Preparation: 559.2 $M</title></rect><text class="ax" text-anchor="middle" x="228.2" y="350">12</text><rect class="col" fill="var(--c1)" height="103.0" width="27.8" x="260.6" y="217.0"><title>FY2013 Construction Preparation: 398.1 $M</title></rect><text class="ax" text-anchor="middle" x="274.5" y="350">13</text><rect class="col" fill="var(--c1)" height="177.5" width="27.8" x="306.9" y="142.5"><title>FY2014 Construction Preparation: 686.0 $M</title></rect><text class="ax" text-anchor="middle" x="320.8" y="350">14</text><rect class="col" fill="var(--c1)" height="229.2" width="27.8" x="353.3" y="90.8"><title>FY2015 Construction Preparation: 885.6 $M</title></rect><rect class="col" fill="var(--c2)" height="50.8" width="27.8" x="353.3" y="40.0"><title>FY2015 Detail Design &amp; Construction: 196.5 $M</title></rect><text class="ax" text-anchor="middle" x="367.2" y="350">15</text><rect class="col" fill="var(--c1)" height="164.3" width="27.8" x="399.6" y="155.7"><title>FY2016 Construction Preparation: 634.9 $M</title></rect><rect class="col" fill="var(--c2)" height="88.6" width="27.8" x="399.6" y="67.1"><title>FY2016 Detail Design &amp; Construction: 342.3 $M</title></rect><text class="ax" text-anchor="middle" x="413.5" y="350">16</text><rect class="col" fill="var(--c1)" height="80.8" width="27.8" x="445.9" y="239.2"><title>FY2017 Construction Preparation: 312.4 $M</title></rect><rect class="col" fill="var(--c2)" height="159.6" width="27.8" x="445.9" y="79.6"><title>FY2017 Detail Design &amp; Construction: 616.7 $M</title></rect><text class="ax" text-anchor="middle" x="459.8" y="350">17</text><rect class="col" fill="var(--c1)" height="2.7" width="27.8" x="492.3" y="317.3"><title>FY2018 Construction Preparation: 10.5 $M</title></rect><rect class="col" fill="var(--c2)" height="197.5" width="27.8" x="492.3" y="119.7"><title>FY2018 Detail Design &amp; Construction: 763.4 $M</title></rect><text class="ax" text-anchor="middle" x="506.2" y="350">18</text><rect class="col" fill="var(--c1)" height="0.7" width="27.8" x="538.6" y="319.3"><title>FY2019 Construction Preparation: 2.8 $M</title></rect><rect class="col" fill="var(--c2)" height="167.8" width="27.8" x="538.6" y="151.4"><title>FY2019 Detail Design &amp; Construction: 648.6 $M</title></rect><text class="ax" text-anchor="middle" x="552.5" y="350">19</text><rect class="col" fill="var(--c1)" height="2.0" width="27.8" x="584.9" y="318.0"><title>FY2020 Construction Preparation: 7.7 $M</title></rect><rect class="col" fill="var(--c2)" height="130.1" width="27.8" x="584.9" y="187.9"><title>FY2020 Detail Design &amp; Construction: 502.7 $M</title></rect><text class="ax" text-anchor="middle" x="598.8" y="350">20</text><rect class="col" fill="var(--c1)" height="4.5" width="27.8" x="631.3" y="315.5"><title>FY2021 Construction Preparation: 17.5 $M</title></rect><rect class="col" fill="var(--c2)" height="62.9" width="27.8" x="631.3" y="252.6"><title>FY2021 Detail Design &amp; Construction: 243.1 $M</title></rect><text class="ax" text-anchor="middle" x="645.2" y="350">21</text><rect class="col" fill="var(--c1)" height="14.7" width="27.8" x="677.6" y="305.3"><title>FY2022 Construction Preparation: 56.7 $M</title></rect><rect class="col" fill="var(--c2)" height="77.8" width="27.8" x="677.6" y="227.5"><title>FY2022 Detail Design &amp; Construction: 300.6 $M</title></rect><text class="ax" text-anchor="middle" x="691.5" y="350">22</text><rect class="col" fill="var(--c1)" height="7.6" width="27.8" x="723.9" y="312.4"><title>FY2023 Construction Preparation: 29.2 $M</title></rect><rect class="col" fill="var(--c2)" height="96.2" width="27.8" x="723.9" y="216.3"><title>FY2023 Detail Design &amp; Construction: 371.6 $M</title></rect><text class="ax" text-anchor="middle" x="737.8" y="350">23</text><rect class="col" fill="var(--c1)" height="11.7" width="27.8" x="770.3" y="308.3"><title>FY2024 Construction Preparation: 45.4 $M</title></rect><rect class="col" fill="var(--c2)" height="93.4" width="27.8" x="770.3" y="214.9"><title>FY2024 Detail Design &amp; Construction: 360.9 $M</title></rect><text class="ax" text-anchor="middle" x="784.2" y="350">24</text><rect class="col" fill="var(--c1)" height="1.3" width="27.8" x="816.6" y="318.7"><title>FY2025 Construction Preparation: 5.1 $M</title></rect><rect class="col" fill="var(--c2)" height="31.1" width="27.8" x="816.6" y="287.6"><title>FY2025 Detail Design &amp; Construction: 120.0 $M</title></rect><text class="ax" text-anchor="middle" x="830.5" y="350">25</text><rect class="col" fill="var(--c1)" height="34.5" width="27.8" x="862.9" y="285.5"><title>FY2026 Construction Preparation: 133.4 $M</title></rect><rect class="col" fill="var(--c2)" height="29.0" width="27.8" x="862.9" y="256.4"><title>FY2026 Detail Design &amp; Construction: 112.2 $M</title></rect><text class="ax" text-anchor="middle" x="876.8" y="350">26</text><path class="cum-path" d="M89.2,313.7 L135.5,306.9 L181.8,296.3 L228.2,278.3 L274.5,265.4 L320.8,243.3 L367.2,208.4 L413.5,176.9 L459.8,147.0 L506.2,122.0 L552.5,101.0 L598.8,84.6 L645.2,76.2 L691.5,64.6 L737.8,51.7 L784.2,38.6 L830.5,34.6 L876.8,26.7"></path><circle class="cum-dot" cx="89.2" cy="313.7" r="3.6"><title>FY2009 cumulative 195.3 $M</title></circle><circle class="cum-dot" cx="135.5" cy="306.9" r="3.6"><title>FY2010 cumulative 407.3 $M</title></circle><circle class="cum-dot" cx="181.8" cy="296.3" r="3.6"><title>FY2011 cumulative 734.7 $M</title></circle><circle class="cum-dot" cx="228.2" cy="278.3" r="3.6"><title>FY2012 cumulative 1,294 $M</title></circle><circle class="cum-dot" cx="274.5" cy="265.4" r="3.6"><title>FY2013 cumulative 1,692 $M</title></circle><circle class="cum-dot" cx="320.8" cy="243.3" r="3.6"><title>FY2014 cumulative 2,378 $M</title></circle><circle class="cum-dot" cx="367.2" cy="208.4" r="3.6"><title>FY2015 cumulative 3,460 $M</title></circle><circle class="cum-dot" cx="413.5" cy="176.9" r="3.6"><title>FY2016 cumulative 4,437 $M</title></circle><circle class="cum-dot" cx="459.8" cy="147.0" r="3.6"><title>FY2017 cumulative 5,366 $M</title></circle><circle class="cum-dot" cx="506.2" cy="122.0" r="3.6"><title>FY2018 cumulative 6,140 $M</title></circle><circle class="cum-dot" cx="552.5" cy="101.0" r="3.6"><title>FY2019 cumulative 6,792 $M</title></circle><circle class="cum-dot" cx="598.8" cy="84.6" r="3.6"><title>FY2020 cumulative 7,302 $M</title></circle><circle class="cum-dot" cx="645.2" cy="76.2" r="3.6"><title>FY2021 cumulative 7,563 $M</title></circle><circle class="cum-dot" cx="691.5" cy="64.6" r="3.6"><title>FY2022 cumulative 7,920 $M</title></circle><circle class="cum-dot" cx="737.8" cy="51.7" r="3.6"><title>FY2023 cumulative 8,321 $M</title></circle><circle class="cum-dot" cx="784.2" cy="38.6" r="3.6"><title>FY2024 cumulative 8,727 $M</title></circle><circle class="cum-dot" cx="830.5" cy="34.6" r="3.6"><title>FY2025 cumulative 8,852 $M</title></circle><circle class="cum-dot" cx="876.8" cy="26.7" r="3.6"><title>FY2026 cumulative 9,098 $M</title></circle></svg><ul class="legend inline"><li><span class="sw" style="background:var(--c1)"></span>Construction Preparation</li><li><span class="sw" style="background:var(--c2)"></span>Detail Design &amp; Construction</li><li><span class="sw line"></span>Cumulative, right axis</li></ul>
+<div class="tscroll" style="margin-top:1rem;max-height:340px">
+<table>
+<thead><tr><th data-sort="">FY</th><th class="num" data-sort="">CP $M</th><th class="num" data-sort="">DD&amp;C $M</th>
+<th class="num" data-sort="">Combined $M</th><th class="num">Cumulative $M</th></tr></thead>
+<tbody>
+<tr>
+<td class="mono">2009</td><td class="num">195.3</td>
+<td class="num">0.0</td><td class="num"><b>195.3</b></td>
+<td class="num muted">195.3</td></tr>
+<tr>
+<td class="mono">2010</td><td class="num">212.0</td>
+<td class="num">0.0</td><td class="num"><b>212.0</b></td>
+<td class="num muted">407.3</td></tr>
+<tr>
+<td class="mono">2011</td><td class="num">327.4</td>
+<td class="num">0.0</td><td class="num"><b>327.4</b></td>
+<td class="num muted">734.7</td></tr>
+<tr>
+<td class="mono">2012</td><td class="num">559.2</td>
+<td class="num">0.0</td><td class="num"><b>559.2</b></td>
+<td class="num muted">1,293.8</td></tr>
+<tr>
+<td class="mono">2013</td><td class="num">398.1</td>
+<td class="num">0.0</td><td class="num"><b>398.1</b></td>
+<td class="num muted">1,691.9</td></tr>
+<tr>
+<td class="mono">2014</td><td class="num">686.0</td>
+<td class="num">0.0</td><td class="num"><b>686.0</b></td>
+<td class="num muted">2,377.9</td></tr>
+<tr>
+<td class="mono">2015</td><td class="num">885.6</td>
+<td class="num">196.5</td><td class="num"><b>1,082.1</b></td>
+<td class="num muted">3,460.0</td></tr>
+<tr>
+<td class="mono">2016</td><td class="num">634.9</td>
+<td class="num">342.3</td><td class="num"><b>977.2</b></td>
+<td class="num muted">4,437.2</td></tr>
+<tr style="background:var(--accent-soft)">
+<td class="mono">2017</td><td class="num">312.4</td>
+<td class="num">616.7</td><td class="num"><b>929.1</b></td>
+<td class="num muted">5,366.3</td></tr>
+<tr>
+<td class="mono">2018</td><td class="num">10.5</td>
+<td class="num">763.4</td><td class="num"><b>773.9</b></td>
+<td class="num muted">6,140.2</td></tr>
+<tr>
+<td class="mono">2019</td><td class="num">2.8</td>
+<td class="num">648.6</td><td class="num"><b>651.4</b></td>
+<td class="num muted">6,791.6</td></tr>
+<tr>
+<td class="mono">2020</td><td class="num">7.7</td>
+<td class="num">502.7</td><td class="num"><b>510.5</b></td>
+<td class="num muted">7,302.1</td></tr>
+<tr>
+<td class="mono">2021</td><td class="num">17.5</td>
+<td class="num">243.1</td><td class="num"><b>260.6</b></td>
+<td class="num muted">7,562.7</td></tr>
+<tr>
+<td class="mono">2022</td><td class="num">56.7</td>
+<td class="num">300.6</td><td class="num"><b>357.3</b></td>
+<td class="num muted">7,920.0</td></tr>
+<tr>
+<td class="mono">2023</td><td class="num">29.2</td>
+<td class="num">371.6</td><td class="num"><b>400.8</b></td>
+<td class="num muted">8,320.8</td></tr>
+<tr>
+<td class="mono">2024</td><td class="num">45.4</td>
+<td class="num">360.9</td><td class="num"><b>406.3</b></td>
+<td class="num muted">8,727.1</td></tr>
+<tr>
+<td class="mono">2025</td><td class="num">5.1</td>
+<td class="num">120.0</td><td class="num"><b>125.2</b></td>
+<td class="num muted">8,852.3</td></tr>
+<tr>
+<td class="mono">2026</td><td class="num">133.4</td>
+<td class="num">112.2</td><td class="num"><b>245.6</b></td>
+<td class="num muted">9,097.9</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note"><b>"Construction Preparation" is a misnomer, and the misnomer is where $4.5 billion
+  went.</b> The contract carries 93.2 per cent of its lifetime total by the end
+  of FY2017 and then stops. It was the Navy's vehicle for building the ship during the advance
+  procurement years, not for planning it.</div>
+</div>
+<div class="grid g2" style="margin-top:1rem">
+<div class="card">
+<h3>What the preparation contract actually bought</h3>
+<p class="cap">Transaction descriptions on 948 actions, classified.</p>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 680 164" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="240" y="26.6">Advance construction</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="334.00" x="250" y="13"><title>Advance construction: 2,494 $M</title></rect><text class="bar-val" x="592.0" y="26.6">2,494</text><text class="bar-sub" x="652.0" y="26.6">635</text><text class="bar-lab" text-anchor="end" x="240" y="56.6">Incremental / installment funding</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="252.07" x="250" y="43"><title>Incremental / installment funding: 1,882 $M</title></rect><text class="bar-val" x="510.070417451979" y="56.6">1,882</text><text class="bar-sub" x="570.070417451979" y="56.6">21</text><text class="bar-lab" text-anchor="end" x="240" y="86.6">Other / administrative</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="61.76" x="250" y="73"><title>Other / administrative: 461.1 $M</title></rect><text class="bar-val" x="319.7585916509604" y="86.6">461.1</text><text class="bar-sub" x="379.7585916509604" y="86.6">118</text><text class="bar-lab" text-anchor="end" x="240" y="116.6">Non-nuclear propulsion plant</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="53.37" x="250" y="103"><title>Non-nuclear propulsion plant: 398.5 $M</title></rect><text class="bar-val" x="311.374102738902" y="116.6">398.5</text><text class="bar-sub" x="371.374102738902" y="116.6">69</text><text class="bar-lab" text-anchor="end" x="240" y="146.6">Construction preparation</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="46.82" x="250" y="133"><title>Construction preparation: 349.6 $M</title></rect><text class="bar-val" x="304.8245578858724" y="146.6">349.6</text><text class="bar-sub" x="364.8245578858724" y="146.6">116</text></svg>
+</div>
+<div class="card">
+<h3>Hull attribution on the preparation contract</h3>
+<p class="cap">Keyword scan of every transaction description. Cross-hull contamination is
+   negligible, which is what makes it safe to treat 2116 as a single-hull contract.</p>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 640 134" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="190" y="26.6">CVN 79 / Kennedy</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="344.00" x="200" y="13"><title>CVN 79 / Kennedy: 3,503 $M</title></rect><text class="bar-val" x="552.0" y="26.6">3,503</text><text class="bar-sub" x="612.0" y="26.6">872</text><text class="bar-lab" text-anchor="end" x="190" y="56.6">no hull keyword</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="99.60" x="200" y="43"><title>no hull keyword: 1,014 $M</title></rect><text class="bar-val" x="307.59600342563516" y="56.6">1,014</text><text class="bar-sub" x="367.59600342563516" y="56.6">73</text><text class="bar-lab" text-anchor="end" x="190" y="86.6">CVN 80 / Enterprise</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="1.50" x="200" y="73"><title>CVN 80 / Enterprise: 1.8 $M</title></rect><text class="bar-val" x="209.5" y="86.6">1.8</text><text class="bar-sub" x="269.5" y="86.6">2</text><text class="bar-lab" text-anchor="end" x="190" y="116.6">CVN 78 / Ford</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="1.50" x="200" y="103"><title>CVN 78 / Ford: 0.3 $M</title></rect><text class="bar-val" x="209.5" y="116.6">0.3</text><text class="bar-sub" x="269.5" y="116.6">1</text></svg>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Appropriation map, from the contract's own account file</h2>
+<p class="cap">Account linkage covers only a third of the contract. The remainder predates award-level account reporting and the page carries no warning.</p>
+<div class="grid g2">
+<div>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 660 134" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="250" y="26.6">017-1611 Shipbuilding and Conversion, Navy</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="304.00" x="260" y="13"><title>017-1611 Shipbuilding and Conversion, Navy: 1,626 $M</title></rect><text class="bar-val" x="572.0" y="26.6">1,626</text><text class="bar-lab" text-anchor="end" x="250" y="56.6">017-1319 Research, Development, Test, and </text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="5.29" x="260" y="43"><title>017-1319 Research, Development, Test, and Evaluation, Navy: 28.3 $M</title></rect><text class="bar-val" x="273.2888217403715" y="56.6">28.3</text><text class="bar-lab" text-anchor="end" x="250" y="86.6">017-1804 Operation and Maintenance, Navy</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="1.50" x="260" y="73"><title>017-1804 Operation and Maintenance, Navy: 3.7 $M</title></rect><text class="bar-val" x="269.5" y="86.6">3.7</text><text class="bar-lab" text-anchor="end" x="250" y="116.6">097-0400 Research, Development, Test, and </text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="1.50" x="260" y="103"><title>097-0400 Research, Development, Test, and Evaluation, Defense-Wide: -0.8 $M</title></rect><text class="bar-val" x="269.5" y="116.6">-0.8</text></svg>
+<div class="note warn">Account linkage covers <b>36.2%</b> of the contract.
+    An analyst querying the public record for this contract's appropriation split is seeing roughly a
+    third of it, with no warning on the page.</div>
+</div>
+<div>
+<h4>Program activity</h4>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 600 134" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="190" y="26.6">SHIPBUILDING</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="304.00" x="200" y="13"><title>SHIPBUILDING: 965.8 $M</title></rect><text class="bar-val" x="512.0" y="26.6">965.8</text><text class="bar-lab" text-anchor="end" x="190" y="56.6">(blank)</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="213.16" x="200" y="43"><title>(blank): 677.2 $M</title></rect><text class="bar-val" x="421.1626268200535" y="56.6">677.2</text><text class="bar-lab" text-anchor="end" x="190" y="86.6">ADVANCED COMPONENT DEVELOPMENT AND PROTOTY</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="2.52" x="200" y="73"><title>ADVANCED COMPONENT DEVELOPMENT AND PROTOTYPES: 8.0 $M</title></rect><text class="bar-val" x="210.51802322752184" y="86.6">8.0</text><text class="bar-lab" text-anchor="end" x="190" y="116.6">FIELD IS OPTIONAL PRIOR TO FY21</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="1.77" x="200" y="103"><title>FIELD IS OPTIONAL PRIOR TO FY21: 5.6 $M</title></rect><text class="bar-val" x="209.76639329410656" y="116.6">5.6</text></svg>
+<h4 style="margin-top:1rem">Treasury account symbols</h4>
+<table><tbody>
+<tr><td class="mono">017-2018/2022-1611-000</td><td class="num">1,627.004</td></tr><tr><td class="mono">017-2019/2020-1319-000</td><td class="num">12.650</td></tr><tr><td class="mono">017-2021/2022-1319-000</td><td class="num">8.000</td></tr><tr><td class="mono">017-2020/2021-1319-000</td><td class="num">5.097</td></tr><tr><td class="mono">017-2020/2020-1804-000</td><td class="num">3.534</td></tr><tr><td class="mono">017-2018/2019-1319-000</td><td class="num">2.534</td></tr><tr><td class="mono">017-2017/2021-1611-000</td><td class="num">1.060</td></tr><tr><td class="mono">017-2019/2019-1804-000</td><td class="num">0.122</td></tr>
+</tbody></table>
+<div class="note ok">The dominant TAS proves the five-year availability rule empirically, visible
+    in the transaction record rather than inferred from policy.</div>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Largest actions</h2>
+<div class="toolbar">
+<input data-count="#txn" data-search="#txtable" placeholder="Filter descriptions…" style="min-width:280px" type="search"/>
+<span class="pill"><b id="txn">30</b> shown</span>
+</div>
+<div class="tscroll" id="txtable">
+<table>
+<thead><tr><th data-sort="">Date</th><th>Mod</th><th class="num" data-sort="">$M</th><th>Description</th></tr></thead>
+<tbody>
+<tr data-row=""><td class="mono">2016-03-04</td><td class="mono">P00116</td>
+<td class="num" data-v="520.092">520.092</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION INCREMENTAL FUNDING</td></tr><tr data-row=""><td class="mono">2014-03-20</td><td class="mono">P00079</td>
+<td class="num" data-v="451.075">451.075</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION FY14 FUNDING</td></tr><tr data-row=""><td class="mono">2015-06-05</td><td class="mono">P00103</td>
+<td class="num" data-v="350.844">350.844</td><td style="font-size:.8rem">THE PURPOSE OF THIS MODIFICATION IS TO 1) REVISE THE UNIT OF ISSUE FROM MAN HOURS TO LABOR HOURS FOR CLINS 0001,0202, 0606, 0616, 0707, 0717</td></tr><tr data-row=""><td class="mono">2012-02-27</td><td class="mono">P00046</td>
+<td class="num" data-v="317.642">317.642</td><td style="font-size:.8rem">THE PURPOSE OF THIS MODIFICATION IS TO (1) OBLIGATE FUNDING IN THE AMOUNT OF $66,563,248 TO ITEM 000104 (ACRN: AU); (2) OBLIGATE FUNDING IN </td></tr><tr data-row=""><td class="mono">2015-05-01</td><td class="mono">P00100</td>
+<td class="num" data-v="279.1">279.100</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION; MAY 2015 INSTALLMENT FUNDING</td></tr><tr data-row=""><td class="mono">2013-08-02</td><td class="mono">P00069</td>
+<td class="num" data-v="185.225">185.225</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION</td></tr><tr data-row=""><td class="mono">2017-05-15</td><td class="mono">P00129</td>
+<td class="num" data-v="184.172">184.172</td><td style="font-size:.8rem">CVN 79 CP INSTALLMENT FUNDING ($184M)</td></tr><tr data-row=""><td class="mono">2015-03-18</td><td class="mono">P00098</td>
+<td class="num" data-v="177.355">177.355</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION.</td></tr><tr data-row=""><td class="mono">2013-05-23</td><td class="mono">P00067</td>
+<td class="num" data-v="151.116">151.116</td><td style="font-size:.8rem">THE PURPOSE OF THE MODIFICATION IS TO (1) OBLIGATE FUNDING IN THE AMOUNT OF $43,493,097 TO ITEM 000105 (ACRN: BE); (2) OBLIGATE FUNDING IN T</td></tr><tr data-row=""><td class="mono">2012-09-27</td><td class="mono">P00053</td>
+<td class="num" data-v="146.884">146.884</td><td style="font-size:.8rem">CVN79 NON NUCLEAR PROPULSION PLANT</td></tr><tr data-row=""><td class="mono">2011-06-09</td><td class="mono">P00034</td>
+<td class="num" data-v="125.155">125.155</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION</td></tr><tr data-row=""><td class="mono">2014-02-06</td><td class="mono">P00076</td>
+<td class="num" data-v="124.862">124.862</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION</td></tr><tr data-row=""><td class="mono">2011-06-03</td><td class="mono">P00033</td>
+<td class="num" data-v="120.822">120.822</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION</td></tr><tr data-row=""><td class="mono">2016-02-18</td><td class="mono">P00115</td>
+<td class="num" data-v="117.6">117.600</td><td style="font-size:.8rem">CVN 79 ADVANCE CONSTRUCTION INSTALLMENT FUNDING ACTION</td></tr><tr data-row=""><td class="mono">2009-01-15</td><td class="mono">0</td>
+<td class="num" data-v="111.804">111.804</td><td style="font-size:.8rem">TAS::17 1611::TAS CVN79 CONSTRUCTION PREPARATION EFFORTS FY09</td></tr>
+<tr data-row=""><td class="mono">2018-05-02</td><td class="mono">P00038</td>
+<td class="num" data-v="707.617">707.617</td><td style="font-size:.8rem">CLIN 0001, CLIN 0003 AND CLIN 0020 FUNDING</td></tr><tr data-row=""><td class="mono">2019-04-18</td><td class="mono">P00051</td>
+<td class="num" data-v="620.523">620.523</td><td style="font-size:.8rem">FUND CLIN 0001 AND 0003</td></tr><tr data-row=""><td class="mono">2017-05-04</td><td class="mono">P00022</td>
+<td class="num" data-v="586.679">586.679</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79 MAY 2017 INSTALLMENT FUNDING ($586M)</td></tr><tr data-row=""><td class="mono">2020-03-10</td><td class="mono">P00067</td>
+<td class="num" data-v="454.765">454.765</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79 FUNDING</td></tr><tr data-row=""><td class="mono">2016-03-28</td><td class="mono">P00008</td>
+<td class="num" data-v="318.48">318.480</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79 MAY 2016 INCREMENTAL FUNDING</td></tr><tr data-row=""><td class="mono">2015-06-05</td><td class="mono">0</td>
+<td class="num" data-v="188.031">188.031</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79</td></tr><tr data-row=""><td class="mono">2020-11-02</td><td class="mono">P00077</td>
+<td class="num" data-v="180.177">180.177</td><td style="font-size:.8rem">AUTHORIZE HMR 1532.00 REV 2 ON A BILATERAL NOT-TO-EXCEED UNDEFINITIZED BASIS IN THE PERFORMANCE OF CLIN 0001 AND PROVIDE INCREMENTAL FUNDING</td></tr><tr data-row=""><td class="mono">2022-04-29</td><td class="mono">P00102</td>
+<td class="num" data-v="174.694">174.694</td><td style="font-size:.8rem">OBLIGATE INSTALLMENT FUNDING FOR CVN 79 DD&amp;C CLIN 0001. OBLIGATE FUNDING FOR ENGINEERING SUPPORT VIA CLIN 0003.</td></tr><tr data-row=""><td class="mono">2023-12-01</td><td class="mono">P00131</td>
+<td class="num" data-v="165.163">165.163</td><td style="font-size:.8rem">INSTALLMENT FUNDING FOR CLIN 0001 ADDITIONAL FUNDING FOR CLIN 0003</td></tr><tr data-row=""><td class="mono">2023-02-16</td><td class="mono">P00118</td>
+<td class="num" data-v="130.412">130.412</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79 - NET ZERO DEOBLIGATION/REOBLIGATION AND SCN INSTALLMENT FUNDING.</td></tr><tr data-row=""><td class="mono">2022-12-30</td><td class="mono">P00114</td>
+<td class="num" data-v="105.817">105.817</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79 - CLIN 0001 PARTIAL INSTALLMENT FUNDING AMOUNT</td></tr><tr data-row=""><td class="mono">2023-10-23</td><td class="mono">P00129</td>
+<td class="num" data-v="87.308">87.308</td><td style="font-size:.8rem">FORWARD FUND INSTALLMENT FOR CLIN 0001 &amp; 0003 FUND CLIN 0020</td></tr><tr data-row=""><td class="mono">2022-02-22</td><td class="mono">A00316</td>
+<td class="num" data-v="55.001">55.001</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79</td></tr><tr data-row=""><td class="mono">2024-12-16</td><td class="mono">P00154</td>
+<td class="num" data-v="54.0">54.000</td><td style="font-size:.8rem">DETAIL DESIGN AND CONSTRUCTION CVN 79</td></tr><tr data-row=""><td class="mono">2024-03-08</td><td class="mono">AZ0091</td>
+<td class="num" data-v="33.845">33.845</td><td style="font-size:.8rem">INSTALLATION OF THE CONSOLIDATED AFLOAT NETWORKS AND ENTERPRISE SERVICES (CANES) LOCAL AREA NETWORK (LAN) DROPS</td></tr>
+</tbody>
+</table>
+</div>
+<div class="src"><b>Source</b> ring0/RING0_CVN79.md Part N.4, computed live from the USAspending bundles in ring0/reference/ · as of 2026-07-20</div>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

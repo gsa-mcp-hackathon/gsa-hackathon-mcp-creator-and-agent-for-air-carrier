@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Industrial base · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a class="navlink" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup on">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a aria-current="page" class="on" href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="phead">
+<div class="eyebrow">Industrial base</div>
+<h1>Who builds what</h1>
+<p class="lede">HII Newport News Shipbuilding is the hull builder and the systems integrator. It is not
+  the manufacturer of most of the ship's major systems. That is why neither roll-up method is
+  sufficient alone, and why cross-command government furnished equipment is the hardest attribution
+  problem in this program.</p>
+</div>
+<div class="grid g-1-2">
+<div class="card">
+<h3>The integrator</h3>
+<dl class="kv">
+<dt>Yard</dt><dd>HII Newport News Shipbuilding</dd>
+<dt>Role</dt><dd>hull builder and systems integrator. Not the manufacturer of most major systems</dd>
+<dt>Total lifts</dt><dd>447 erectable units</dd>
+<dt>On the class</dt><dd>6,600 employees</dd>
+<dt>Yard total</dt><dd>25,000 Virginians</dd>
+</dl>
+<div class="note">The only US shipyard able to build large-deck nuclear carriers. Every US carrier procured since FY1958 was built there</div>
+<div class="note ok"><b>Build strategy.</b> CVN-79 took modular construction and pre-outfitting to a new level: larger superlifts at a higher state of outfitting completion, more parts installed in shop and on the final assembly platen</div>
+</div>
+<div class="card">
+<h3>Major systems and where they come from</h3>
+<div class="tscroll">
+<table>
+<thead><tr><th>System</th><th>Maker</th><th>Command</th><th>Delivery</th></tr></thead>
+<tbody>
+<tr><td><b>A1B reactor plant, two per ship</b><div class="muted" style="font-size:.78rem">SCN advance procurement, Nuclear Propulsion Equipment, 30 to 72 month lead. Naval Reactors is jointly Navy and DOE</div></td>
+<td style="font-size:.82rem">Bechtel Marine Propulsion (design); BWXT (core and fuel)</td>
+<td class="mono" style="font-size:.78rem">Naval Reactors / DOE</td>
+<td><span class="b b-info">GFE</span></td></tr>
+<tr><td><b>EMALS and AAG</b><div class="muted" style="font-size:.78rem">N00019-14-C-0037, CVN 79 and CVN 80. CVN-79 share $830.438M</div></td>
+<td style="font-size:.82rem">General Atomics Electromagnetic Systems; QinetiQ subcontract</td>
+<td class="mono" style="font-size:.78rem">NAVAIR PMA-251</td>
+<td><span class="b b-info">GFE, installed by HII</span></td></tr>
+<tr><td><b>Advanced Weapons Elevators, eleven per ship</b><div class="muted" style="font-size:.78rem">N64498-18-D-4022 engineering and the land-based test site. The single largest driver of this hull's delay</div></td>
+<td style="font-size:.82rem">Federal Equipment Company; MagneMotion linear synchronous motors; Curtiss-Wright Exlar actuators</td>
+<td class="mono" style="font-size:.78rem">NSWC Philadelphia</td>
+<td><span class="b b-info">installed on the ship</span></td></tr>
+<tr><td><b>Radar</b><div class="muted" style="font-size:.78rem">A configuration break from CVN-78's Dual Band Radar. CVN-79 is a different configuration, not a second copy, which weakens any learning-curve comparison between the two hulls</div></td>
+<td style="font-size:.82rem">Raytheon AN/SPY-6(V)3 EASR plus AN/SPQ-9B</td>
+<td class="mono" style="font-size:.78rem">NAVSEA</td>
+<td><span class="b b-info">GFE</span></td></tr>
+<tr><td><b>Combat system</b></td>
+<td style="font-size:.82rem">Raytheon Ship Self-Defense System Mk 2 with CEC</td>
+<td class="mono" style="font-size:.78rem">NAVSEA</td>
+<td><span class="b b-info">GFE</span></td></tr>
+<tr><td><b>EMALS energy storage subsystems</b><div class="muted" style="font-size:.78rem">On CVN-79 this sits inside the GA contract as a subcontract and is invisible at prime level. On CVN-81 it is its own prime, N00019-23-C-0040. The cleanest worked example that the vendor map runs a tier deeper than the contract map</div></td>
+<td style="font-size:.82rem">KATO Engineering, CAGE 3LVT8</td>
+<td class="mono" style="font-size:.78rem">NAVAIR</td>
+<td><span class="b b-info">GFE</span></td></tr>
+<tr><td><b>Networks (CANES)</b><div class="muted" style="font-size:.78rem">$37,544,972 FPIF mod to 2114, Mar 2024, funded 65% FY2024 SCN and 35% FY2018 SCN</div></td>
+<td style="font-size:.82rem">integrated by HII</td>
+<td class="mono" style="font-size:.78rem">NAVSEA</td>
+<td><span class="b b-info">under the HII contract</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h3>Why the industrial map changes the cost architecture</h3>
+<div class="grid g3">
+<div class="note">The two HII contracts buy construction and integration, not content. Electronics, Propulsion Equipment and Ordnance are substantially government furnished, bought on other contracts by other commands.</div><div class="note">Neither roll-up method is sufficient alone. A contract roll-up anchored on CAGE 43689 captures the hull and misses the systems. A category roll-up from the P-5 captures the systems but cannot see the contracts beneath them.</div><div class="note">Cross-command GFE is where hull attribution breaks. An EMALS shipset bought by NAVAIR on an aviation contract and installed by HII on a NAVSEA ship under a NAVSEA contract has no single line of accounting that says CVN-79 from end to end. That, not the ledger seam, is the hardest attribution problem in this program.</div>
+</div>
+</div>
+<div class="card" style="margin-top:1rem">
+<h2>Tier two: the sub-award map</h2>
+<p class="cap">Contract_N0002415C2114_Sub-Awards, 2,990 rows. NEW: not previously in the dossier. Extends Part L.3, the finding that the vendor map runs one tier deeper than the contract map.</p>
+<div class="grid g4" style="margin-bottom:1rem">
+<div class="stat"><div class="k">Sub-awards reported</div><div class="v">2,990</div>
+<div class="n">on the detail design contract. The preparation contract reports none</div></div>
+<div class="stat"><div class="k">Reported value</div><div class="v">$426.8M</div>
+<div class="n">9.3% of the prime's obligations</div></div>
+<div class="stat"><div class="k">Distinct subcontractors</div><div class="v">261</div>
+<div class="n">named at tier two</div></div>
+<div class="stat"><div class="k">States</div><div class="v">35</div>
+<div class="n">in the reported tier-two footprint</div></div>
+</div>
+<div class="note warn">Only the DD&amp;C contract reports sub-awards. This is the visible tier-2 map and it covers under a tenth of the prime. The rest of the supply chain is not reported at all.</div>
+<div class="grid g2" style="margin-top:1rem">
+<div><h4>Top subcontractors</h4>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 720 554" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="260" y="26.6">L3HARRIS MARITIME POWER &amp; ENERGY SOLUTIONS</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="354.00" x="270" y="13"><title>L3HARRIS MARITIME POWER &amp; ENERGY SOLUTIONS, INC: 35.5 $M</title></rect><text class="bar-val" x="632.0" y="26.6">35.5</text><text class="bar-sub" x="692.0" y="26.6">CA</text><text class="bar-lab" text-anchor="end" x="260" y="56.6">MAIN INDUSTRIES, INC.</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="258.12" x="270" y="43"><title>MAIN INDUSTRIES, INC.: 25.9 $M</title></rect><text class="bar-val" x="536.125" y="56.6">25.9</text><text class="bar-sub" x="596.125" y="56.6">VA</text><text class="bar-lab" text-anchor="end" x="260" y="86.6">NORTHROP GRUMMAN SYSTEMS CORPORATION</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="244.87" x="270" y="73"><title>NORTHROP GRUMMAN SYSTEMS CORPORATION: 24.6 $M</title></rect><text class="bar-val" x="522.8699324324324" y="86.6">24.6</text><text class="bar-sub" x="582.8699324324324" y="86.6">CA</text><text class="bar-lab" text-anchor="end" x="260" y="116.6">EXLAR CORPORATION</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="166.64" x="270" y="103"><title>EXLAR CORPORATION: 16.7 $M</title></rect><text class="bar-val" x="444.6351351351351" y="116.6">16.7</text><text class="bar-sub" x="504.6351351351351" y="116.6">MN</text><text class="bar-lab" text-anchor="end" x="260" y="146.6">WARD LEONARD CT LLC</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="165.34" x="270" y="133"><title>WARD LEONARD CT LLC: 16.6 $M</title></rect><text class="bar-val" x="443.339527027027" y="146.6">16.6</text><text class="bar-sub" x="503.339527027027" y="146.6">CT</text><text class="bar-lab" text-anchor="end" x="260" y="176.6">TRI-WAY INDUSTRIES, INC.</text><rect class="bar" fill="var(--c6)" height="17" rx="3" width="157.27" x="270" y="163"><title>TRI-WAY INDUSTRIES, INC.: 15.8 $M</title></rect><text class="bar-val" x="435.2668918918919" y="176.6">15.8</text><text class="bar-sub" x="495.2668918918919" y="176.6">WA</text><text class="bar-lab" text-anchor="end" x="260" y="206.6">CLEVELAND-CLIFFS PLATE LLC</text><rect class="bar" fill="var(--c7)" height="17" rx="3" width="153.18" x="270" y="193"><title>CLEVELAND-CLIFFS PLATE LLC: 15.4 $M</title></rect><text class="bar-val" x="431.1807432432432" y="206.6">15.4</text><text class="bar-sub" x="491.1807432432432" y="206.6">PA</text><text class="bar-lab" text-anchor="end" x="260" y="236.6">JO-KELL INC.</text><rect class="bar" fill="var(--c8)" height="17" rx="3" width="118.20" x="270" y="223"><title>JO-KELL INC.: 11.9 $M</title></rect><text class="bar-val" x="396.1993243243243" y="236.6">11.9</text><text class="bar-sub" x="456.1993243243243" y="236.6">VA</text><text class="bar-lab" text-anchor="end" x="260" y="266.6">JAMESTOWN METAL MARINE SALES, INC.</text><rect class="bar" fill="var(--c9)" height="17" rx="3" width="98.57" x="270" y="253"><title>JAMESTOWN METAL MARINE SALES, INC.: 9.9 $M</title></rect><text class="bar-val" x="376.5658783783784" y="266.6">9.9</text><text class="bar-sub" x="436.5658783783784" y="266.6">FL</text><text class="bar-lab" text-anchor="end" x="260" y="296.6">DRS NAVAL POWER SYSTEMS INC</text><rect class="bar" fill="var(--c10)" height="17" rx="3" width="90.59" x="270" y="283"><title>DRS NAVAL POWER SYSTEMS INC: 9.1 $M</title></rect><text class="bar-val" x="368.5929054054054" y="296.6">9.1</text><text class="bar-sub" x="428.5929054054054" y="296.6">CT</text><text class="bar-lab" text-anchor="end" x="260" y="326.6">FEDERAL EQUIPMENT CO</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="88.90" x="270" y="313"><title>FEDERAL EQUIPMENT CO: 8.9 $M</title></rect><text class="bar-val" x="366.89864864864865" y="326.6">8.9</text><text class="bar-sub" x="426.89864864864865" y="326.6">OH</text><text class="bar-lab" text-anchor="end" x="260" y="356.6">AVAYA FEDERAL SOLUTIONS, INC.</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="87.01" x="270" y="343"><title>AVAYA FEDERAL SOLUTIONS, INC.: 8.7 $M</title></rect><text class="bar-val" x="365.00506756756755" y="356.6">8.7</text><text class="bar-sub" x="425.00506756756755" y="356.6">VA</text><text class="bar-lab" text-anchor="end" x="260" y="386.6">BAE SYSTEMS MARITIME SOLUTIONS NORFOLK INC</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="84.91" x="270" y="373"><title>BAE SYSTEMS MARITIME SOLUTIONS NORFOLK INC.: 8.5 $M</title></rect><text class="bar-val" x="362.91216216216213" y="386.6">8.5</text><text class="bar-sub" x="422.91216216216213" y="386.6">VA</text><text class="bar-lab" text-anchor="end" x="260" y="416.6">GLOBECOMM SYSTEMS INC</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="76.54" x="270" y="403"><title>GLOBECOMM SYSTEMS INC: 7.7 $M</title></rect><text class="bar-val" x="354.5405405405405" y="416.6">7.7</text><text class="bar-sub" x="414.5405405405405" y="416.6">NY</text><text class="bar-lab" text-anchor="end" x="260" y="446.6">THE ENTWISTLE COMPANY LLC</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="70.06" x="270" y="433"><title>THE ENTWISTLE COMPANY LLC: 7.0 $M</title></rect><text class="bar-val" x="348.0625" y="446.6">7.0</text><text class="bar-sub" x="408.0625" y="446.6">MA</text><text class="bar-lab" text-anchor="end" x="260" y="476.6">L.C.DOANE COMPANY,THE</text><rect class="bar" fill="var(--c6)" height="17" rx="3" width="62.59" x="270" y="463"><title>L.C.DOANE COMPANY,THE: 6.3 $M</title></rect><text class="bar-val" x="340.5878378378378" y="476.6">6.3</text><text class="bar-sub" x="400.5878378378378" y="476.6">CT</text><text class="bar-lab" text-anchor="end" x="260" y="506.6">RIX INDUSTRIES</text><rect class="bar" fill="var(--c7)" height="17" rx="3" width="61.69" x="270" y="493"><title>RIX INDUSTRIES: 6.2 $M</title></rect><text class="bar-val" x="339.6908783783784" y="506.6">6.2</text><text class="bar-sub" x="399.6908783783784" y="506.6">CA</text><text class="bar-lab" text-anchor="end" x="260" y="536.6">NTT DATA FEDERAL SERVICES, INC.</text><rect class="bar" fill="var(--c8)" height="17" rx="3" width="60.79" x="270" y="523"><title>NTT DATA FEDERAL SERVICES, INC.: 6.1 $M</title></rect><text class="bar-val" x="338.7939189189189" y="536.6">6.1</text><text class="bar-sub" x="398.7939189189189" y="536.6">VA</text></svg></div>
+<div><h4>By state of the subawardee</h4>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 520 434" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="70" y="26.6">VA</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="344.00" x="80" y="13"><title>VA: 146.0 $M</title></rect><text class="bar-val" x="432.0" y="26.6">146.0</text><text class="bar-lab" text-anchor="end" x="70" y="56.6">CA</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="111.58" x="80" y="43"><title>CA: 47.4 $M</title></rect><text class="bar-val" x="199.58030271899185" y="56.6">47.4</text><text class="bar-lab" text-anchor="end" x="70" y="86.6">MD</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="74.85" x="80" y="73"><title>MD: 31.8 $M</title></rect><text class="bar-val" x="162.85021573864805" y="86.6">31.8</text><text class="bar-lab" text-anchor="end" x="70" y="116.6">CT</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="70.73" x="80" y="103"><title>CT: 30.0 $M</title></rect><text class="bar-val" x="158.72721046503665" y="116.6">30.0</text><text class="bar-lab" text-anchor="end" x="70" y="146.6">PA</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="61.94" x="80" y="133"><title>PA: 26.3 $M</title></rect><text class="bar-val" x="149.93931922471063" y="146.6">26.3</text><text class="bar-lab" text-anchor="end" x="70" y="176.6">OH</text><rect class="bar" fill="var(--c6)" height="17" rx="3" width="59.80" x="80" y="163"><title>OH: 25.4 $M</title></rect><text class="bar-val" x="147.7953564824327" y="176.6">25.4</text><text class="bar-lab" text-anchor="end" x="70" y="206.6">WA</text><rect class="bar" fill="var(--c7)" height="17" rx="3" width="49.88" x="80" y="193"><title>WA: 21.2 $M</title></rect><text class="bar-val" x="137.87658379563044" y="206.6">21.2</text><text class="bar-lab" text-anchor="end" x="70" y="236.6">NY</text><rect class="bar" fill="var(--c8)" height="17" rx="3" width="49.03" x="80" y="223"><title>NY: 20.8 $M</title></rect><text class="bar-val" x="137.02842271077324" y="236.6">20.8</text><text class="bar-lab" text-anchor="end" x="70" y="266.6">MN</text><rect class="bar" fill="var(--c9)" height="17" rx="3" width="39.49" x="80" y="253"><title>MN: 16.8 $M</title></rect><text class="bar-val" x="127.48661050612972" y="266.6">16.8</text><text class="bar-lab" text-anchor="end" x="70" y="296.6">MA</text><rect class="bar" fill="var(--c10)" height="17" rx="3" width="37.96" x="80" y="283"><title>MA: 16.1 $M</title></rect><text class="bar-val" x="125.95520854735977" y="296.6">16.1</text><text class="bar-lab" text-anchor="end" x="70" y="326.6">FL</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="25.14" x="80" y="313"><title>FL: 10.7 $M</title></rect><text class="bar-val" x="113.13855215396205" y="326.6">10.7</text><text class="bar-lab" text-anchor="end" x="70" y="356.6">WI</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="9.28" x="80" y="343"><title>WI: 3.9 $M</title></rect><text class="bar-val" x="97.28265187315938" y="356.6">3.9</text><text class="bar-lab" text-anchor="end" x="70" y="386.6">NC</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="7.66" x="80" y="373"><title>NC: 3.2 $M</title></rect><text class="bar-val" x="95.65700979384974" y="386.6">3.2</text><text class="bar-lab" text-anchor="end" x="70" y="416.6">AK</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="7.61" x="80" y="403"><title>AK: 3.2 $M</title></rect><text class="bar-val" x="95.60988973357989" y="416.6">3.2</text></svg>
+<h4 style="margin-top:1rem">By fiscal year</h4>
+<svg class="chart hbar" preserveaspectratio="xMidYMid meet" role="img" viewbox="0 0 520 224" xmlns="http://www.w3.org/2000/svg"><text class="bar-lab" text-anchor="end" x="70" y="26.6">2015</text><rect class="bar" fill="var(--c1)" height="17" rx="3" width="37.76" x="80" y="13"><title>2015: 19.0 $M</title></rect><text class="bar-val" x="125.76459020186246" y="26.6">19.0</text><text class="bar-lab" text-anchor="end" x="70" y="56.6">2016</text><rect class="bar" fill="var(--c2)" height="17" rx="3" width="344.00" x="80" y="43"><title>2016: 172.9 $M</title></rect><text class="bar-val" x="432.0" y="56.6">172.9</text><text class="bar-lab" text-anchor="end" x="70" y="86.6">2017</text><rect class="bar" fill="var(--c3)" height="17" rx="3" width="231.54" x="80" y="73"><title>2017: 116.4 $M</title></rect><text class="bar-val" x="319.5419052576783" y="86.6">116.4</text><text class="bar-lab" text-anchor="end" x="70" y="116.6">2018</text><rect class="bar" fill="var(--c4)" height="17" rx="3" width="84.86" x="80" y="103"><title>2018: 42.6 $M</title></rect><text class="bar-val" x="172.86089421019145" y="116.6">42.6</text><text class="bar-lab" text-anchor="end" x="70" y="146.6">2019</text><rect class="bar" fill="var(--c5)" height="17" rx="3" width="97.26" x="80" y="133"><title>2019: 48.9 $M</title></rect><text class="bar-val" x="185.2567528486321" y="146.6">48.9</text><text class="bar-lab" text-anchor="end" x="70" y="176.6">2020</text><rect class="bar" fill="var(--c6)" height="17" rx="3" width="51.35" x="80" y="163"><title>2020: 25.8 $M</title></rect><text class="bar-val" x="139.35427150211117" y="176.6">25.8</text><text class="bar-lab" text-anchor="end" x="70" y="206.6">2025</text><rect class="bar" fill="var(--c7)" height="17" rx="3" width="2.51" x="80" y="193"><title>2025: 1.3 $M</title></rect><text class="bar-val" x="90.50702758979698" y="206.6">1.3</text></svg>
+</div>
+</div>
+<h4 style="margin-top:1rem">Business types represented</h4>
+<div style="display:flex;flex-wrap:wrap;gap:.4rem">
+<span class="pill">For-Profit Organization <b>2920</b></span><span class="pill">Manufacturer Of Goods <b>2141</b></span><span class="pill">Limited Liability Company <b>532</b></span><span class="pill">S Corporation <b>440</b></span><span class="pill">Woman-Owned Business <b>196</b></span><span class="pill">Self-Certified Small Disadvantaged Business <b>85</b></span><span class="pill">Foreign Owned And Located <b>75</b></span><span class="pill">Minority-Owned Business <b>54</b></span><span class="pill">Veteran Owned Business <b>45</b></span><span class="pill">Alaskan Native Corporation Owned Firm <b>26</b></span><span class="pill">Tribally Owned Firm <b>26</b></span><span class="pill">Native American Owned <b>26</b></span><span class="pill">Asian-Pacific American Owned <b>18</b></span><span class="pill">Economically Disadvantaged Women-Owned Small Business <b>17</b></span>
+</div>
+<h4 style="margin-top:1.1rem">Largest reported sub-awards</h4>
+<div class="tscroll" style="max-height:360px">
+<table>
+<thead><tr><th data-sort="">Date</th><th data-sort="">Subawardee</th><th class="num" data-sort="">$M</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td class="mono">2018-10-01</td><td>MAIN INDUSTRIES, INC.</td>
+<td class="num" data-v="23.35">23.35</td>
+<td style="font-size:.79rem">BLAST FREEBOARD
+B/C SCOOPS
+TEMP BLAST PLUGS CR#20
+HURRICANE DORIAN CR#55
+CR# 74 HMR 1505.02
+CR# 70-73
+CR# 75-7</td></tr>
+<tr><td class="mono">2017-08-25</td><td>L3HARRIS MARITIME POWER &amp; ENERGY SOLUTIONS, INC</td>
+<td class="num" data-v="18.46">18.46</td>
+<td style="font-size:.79rem">PWR PACK, VAR, 90KVA INPUT, 2-90KVA OUTPUT; ITEM #2</td></tr>
+<tr><td class="mono">2015-11-11</td><td>L3HARRIS MARITIME POWER &amp; ENERGY SOLUTIONS, INC</td>
+<td class="num" data-v="10.89">10.89</td>
+<td style="font-size:.79rem">POWER SPLY,VAR,12KW 440V 60HZ,DEGUSG; ITEM #04</td></tr>
+<tr><td class="mono">2018-03-19</td><td>JAMESTOWN METAL MARINE SALES, INC.</td>
+<td class="num" data-v="9.89">9.89</td>
+<td style="font-size:.79rem">CVN79 MRU FUNDING; ITEM #1</td></tr>
+<tr><td class="mono">2017-02-28</td><td>EXLAR CORPORATION</td>
+<td class="num" data-v="6.29">6.29</td>
+<td style="font-size:.79rem">ACTUATOR, VARIOUS, 18.470 STROKE, ELECTRIC; ITEM #3</td></tr>
+<tr><td class="mono">2020-07-14</td><td>US JOINER LLC</td>
+<td class="num" data-v="6.06">6.06</td>
+<td style="font-size:.79rem">VSR (CVN79, DECK COVERING); PO ITEM# 1</td></tr>
+<tr><td class="mono">2018-03-27</td><td>FEDERAL EQUIPMENT CO</td>
+<td class="num" data-v="3.36">3.36</td>
+<td style="font-size:.79rem">STATOR MOTOR REFURBISHMENT; ITEM #1</td></tr>
+<tr><td class="mono">2017-05-18</td><td>EXLAR CORPORATION</td>
+<td class="num" data-v="3.13">3.13</td>
+<td style="font-size:.79rem">ACE NRE; ITEM #1</td></tr>
+<tr><td class="mono">2016-02-09</td><td>CSA GLOBAL LLC</td>
+<td class="num" data-v="3.05">3.05</td>
+<td style="font-size:.79rem">CVN79 NETWORK &amp; IA ENGINEERING SUPPORT; ITEM #1</td></tr>
+<tr><td class="mono">2017-08-25</td><td>L3HARRIS MARITIME POWER &amp; ENERGY SOLUTIONS, INC</td>
+<td class="num" data-v="3.03">3.03</td>
+<td style="font-size:.79rem">SSVFC OBSOLESCENCE MANAGEMENT; ITEM #1</td></tr>
+<tr><td class="mono">2015-11-11</td><td>L3HARRIS MARITIME POWER &amp; ENERGY SOLUTIONS, INC</td>
+<td class="num" data-v="2.99">2.99</td>
+<td style="font-size:.79rem">BPAU REDESIGN AND QUALIFICATION; ITEM #01</td></tr>
+<tr><td class="mono">2017-05-18</td><td>EXLAR CORPORATION</td>
+<td class="num" data-v="2.87">2.87</td>
+<td style="font-size:.79rem">ACTR,VAR,39.000 STROKE,ELMCH; ITEM #3</td></tr>
+<tr><td class="mono">2017-01-31</td><td>FEDERAL EQUIPMENT CO</td>
+<td class="num" data-v="2.63">2.63</td>
+<td style="font-size:.79rem">AWE STATOR MODIFICATIONS CVN79; ITEM #2</td></tr>
+<tr><td class="mono">2016-06-23</td><td>RIX INDUSTRIES</td>
+<td class="num" data-v="2.1">2.10</td>
+<td style="font-size:.79rem">TUBE, VARIOUS,  PULSE/ACOUSTIC LIQ; ITEM #4</td></tr>
+<tr><td class="mono">2016-08-09</td><td>ROLLS-ROYCE MARINE NORTH AMERICA INC.</td>
+<td class="num" data-v="2.01">2.01</td>
+<td style="font-size:.79rem">FINISH MACHINING, INSPECTION OF PROPS; ITEM #15</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note ok"><b>This confirms the Part L finding at the transaction level.</b> Curtiss-Wright
+  Exlar and Federal Equipment Company appear here as named subcontractors, which is exactly the
+  pattern the industrial map predicted: the same hardware is a prime contract on one hull and an
+  invisible subcontract on another.</div>
+</div>
+<footer class="foot">
+<strong>Air Carrier</strong> · CVN-79 pilot for a department-wide capability.
+ Every figure carries its trust state and drills to its source. Nothing here is cleared for use as
+ a reported figure without pulling the cited primary source and recording its as-of date.
+ <span class="muted">Data backend: files · 23 tables.</span>
+</footer>
+</main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>

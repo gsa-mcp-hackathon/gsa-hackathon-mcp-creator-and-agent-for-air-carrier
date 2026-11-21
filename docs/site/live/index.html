@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html data-theme="light" lang="en">
+<head><meta content="../" name="snapshot-root"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>The stack · Air Carrier</title>
+<meta content="CVN-79 program cost: how it is reported, how it was recorded, where those diverge and why." name="description"/>
+<link href="../static/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="../static/favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="../static/favicon.ico" rel="icon" sizes="any"/>
+<link href="../static/apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#0B2545" name="theme-color"/>
+<link href="../static/css/app.css" rel="stylesheet"/>
+<script>
+ /* Light is the default, and the OS preference does not override it. Most
+    people open this on a work laptop that is set to dark for a terminal, and
+    a financial product full of tabular figures is read in light. Dark stays
+    one click away and is remembered once chosen. */
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
+ document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
+</script>
+</head>
+<body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
+<a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
+<a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
+</div>
+<header class="topbar">
+<div class="topbar-in">
+<a class="brand" href="../stack/">
+<span aria-label="USS John F. Kennedy (CVN 79) underway" class="brand-photo" role="img"></span>
+<span>Air Carrier · CVN-79<br/><span class="sub">MCP servers and agents</span></span>
+</a>
+<nav aria-label="Primary" class="main">
+<a aria-current="page" class="navlink on" href="../stack/">The stack</a>
+<a class="navlink" href="../impact/">Impact</a>
+<a class="navlink" href="../brief/">Brief</a>
+<a class="navlink" href="../kennedy/">The ship</a>
+<div class="navgroup">
+<button aria-controls="m-5" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Cost
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-5" role="menu">
+<a href="../position/" role="menuitem">Position: four published figures</a>
+<a href="../cost/" role="menuitem">Cost composition</a>
+<a href="../baseline/" role="menuitem">Estimate history and caps</a>
+<a href="../execution/" role="menuitem">Budget execution</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-6" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Audit
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-6" role="menu">
+<a href="../gaps/" role="menuitem">Gap register</a>
+<a href="../variances/" role="menuitem">Variance register</a>
+<a href="../asset/" role="menuitem">Asset and accounting</a>
+<a href="../industrial/" role="menuitem">Industrial base and GFE</a>
+</div>
+</div>
+<div class="navgroup">
+<button aria-controls="m-7" aria-expanded="false" aria-haspopup="true" class="navlink navtop" type="button">
+     Dive deeper
+     <svg aria-hidden="true" class="chev" viewbox="0 0 12 12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.6"></path></svg>
+</button>
+<div class="navmenu" id="m-7" role="menu">
+<a href="../ask/" role="menuitem">Ask the evidence</a>
+<a href="../work/" role="menuitem">Work queue</a>
+<a href="../mission/" role="menuitem">Brief readiness</a>
+<a href="../runs/" role="menuitem">Run log</a>
+<a href="../explore/" role="menuitem">Detail table</a>
+<a href="../sources/" role="menuitem">Sources</a>
+<a href="../method/" role="menuitem">Method</a>
+</div>
+</div>
+<a class="navlink navcta" href="../insight/">Answer a question</a>
+</nav>
+<div class="tb-actions">
+<a aria-label="API" class="iconbtn" href="/api/docs" title="JSON API">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M8 18 2 12l6-6M16 6l6 6-6 6"></path></svg></a>
+<button aria-label="Toggle theme" class="iconbtn" data-theme-toggle="" title="Toggle light and dark">
+<svg class="ico-moon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+<svg class="ico-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</button>
+</div>
+</div>
+</header>
+<main class="wrap">
+<div class="wrap" style="max-width:1100px;margin:0 auto;padding:28px 20px">
+<h1>Live gallery</h1>
+<p>The front center deployed in the Databricks workspace, on 2026-11-21. Everything here needs a signed-in
+user, so the read-only snapshot cannot run it. Authority to apply a proposal is decided inside Unity Catalog
+under the signed-in user's own token.</p>
+<h2>Two-minute demo</h2>
+<video controls="" poster="../../demo/air-carrier-two-minute-demo.jpg" preload="metadata" style="width:100%;border-radius:10px">
+<source src="../../demo/air-carrier-two-minute-demo.mp4" type="video/mp4"/></video>
+<p class="muted">1:55, narrated and subtitled. Snapshot built 2026-11-21.</p>
+<h2>Screens from the deployed app</h2>
+<figure style="margin:0 0 28px"><a href="../../screenshots/live-databricks-apps.jpg"><img alt="Seven apps, live" src="../../screenshots/live-databricks-apps.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Seven apps, live.</b> The probe, the front center and five MCP servers, each deployed from the GitHub repository.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-agent-run-steps.jpg"><img alt="A specialist run streams its steps" src="../../screenshots/live-agent-run-steps.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>A specialist run streams its steps.</b> The Account Analyst works a File C period; each step is labeled code or model.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-role-check.jpg"><img alt="Role check" src="../../screenshots/live-role-check.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Role check.</b> The user holds PMS 379. The residual lead belongs to the Office of Financial Operations, so the app refuses to apply it.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-agent-review-decide.jpg"><img alt="Review and decide" src="../../screenshots/live-agent-review-decide.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Review and decide.</b> The Gap Investigator's requests for gap G52, each addressed to the office that holds the records. Nothing is saved until a person applies it.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-agent-run-checks.jpg"><img alt="Code re-checks the run" src="../../screenshots/live-agent-run-checks.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Code re-checks the run.</b> Every condition of the run is tested again by code: 11 of 11.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-agent-reconcile.jpg"><img alt="Obligation Reconciler" src="../../screenshots/live-agent-reconcile.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Obligation Reconciler.</b> 927 actions summed in exact decimals; 8 of 8 conditions re-tested.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-work-queue.jpg"><img alt="Work queue" src="../../screenshots/live-work-queue.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Work queue.</b> Every item in one lane by code: decide, unblock or system.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-run-log.jpg"><img alt="Run log" src="../../screenshots/live-run-log.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Run log.</b> Every agent run and every action by every person, exportable.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-brief-readiness.jpg"><img alt="Brief readiness" src="../../screenshots/live-brief-readiness.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Brief readiness.</b> 13 of 32 CVN-79 figures tie to source records today.</figcaption></figure><figure style="margin:0 0 28px"><a href="../../screenshots/live-ask.jpg"><img alt="Ask the evidence" src="../../screenshots/live-ask.jpg" style="width:100%;border:1px solid #d8e0ec;border-radius:10px"/></a><figcaption style="margin-top:8px"><b>Ask the evidence.</b> One tool call, the total, the largest action and every modification it rests on, marked as a lead.</figcaption></figure>
+</div></main>
+<div class="lightbox" id="lightbox"><img alt=""/></div>
+<aside aria-label="Run" class="si-dock" hidden="" id="si-dock">
+<header class="si-dock-h">
+<div>
+<div class="eyebrow" id="si-run-no">Run</div>
+<h3 id="si-run-label">Run</h3>
+<p class="si-q" id="si-run-q"></p>
+</div>
+<button aria-label="Close run panel" class="iconbtn" data-si-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<ol aria-label="Who works this run" class="si-team" id="si-team"></ol>
+<div aria-live="polite" class="si-status" id="si-status" role="status"></div>
+<ol aria-live="polite" class="si-steps" id="si-steps"></ol>
+<div id="si-result"></div>
+<footer class="si-dock-f">
+<button class="btn primary" hidden="" id="si-review" type="button">Review proposals</button>
+<a class="linkbtn" href="../runs/" id="si-open-log">Open in run log</a>
+</footer>
+</aside>
+<dialog aria-labelledby="si-modal-h" class="si-modal" id="si-modal">
+<form class="si-modal-in" id="si-modal-form" method="dialog">
+<header class="si-modal-h">
+<div><div class="eyebrow" id="si-modal-eyebrow">Review and decide</div>
+<h3 id="si-modal-h">Review and decide</h3></div>
+<button aria-label="Close" class="iconbtn" data-si-modal-close="" type="button">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</header>
+<div class="si-modal-body">
+<div class="tscroll"><table class="si-review">
+<thead><tr><th scope="col">Apply</th><th scope="col">Goes to</th><th scope="col">Proposed</th>
+<th scope="col">Why</th><th scope="col">Rule</th></tr></thead>
+<tbody id="si-review-rows"></tbody>
+</table></div>
+<div id="si-receipt"></div>
+<label class="si-notes" hidden="" id="si-notes-wrap">Reason for rejecting (required)
+    <textarea id="si-notes" maxlength="2000" rows="2"></textarea></label>
+</div>
+<footer class="si-modal-f">
+<span class="small">Nothing is saved until a person applies it. Applied items are recorded with
+    your role and the run number.</span>
+<span class="si-modal-acts">
+<button class="btn ghost" id="si-reject" type="button">Reject ticked</button>
+<button class="btn primary" id="si-apply" type="button">Apply ticked</button>
+</span>
+</footer>
+</form>
+</dialog>
+<script>
+(function () {
+  var root = document.querySelector('meta[name="snapshot-root"]').content;
+  var note = "Read-only snapshot: this needs the deployed app behind Databricks sign-in. The live gallery shows it working.";
+  var real = window.fetch.bind(window);
+  window.fetch = function (url, opts) {
+    var u = String(url);
+    var m = u.match(/^\/api\/gaps\/([A-Za-z0-9-]+)\/brief/);
+    if (m) return real(root + 'api/gaps/' + m[1] + '/brief.json');
+    if (u.charAt(0) === '/') {
+      return Promise.resolve(new Response(JSON.stringify({ error: note, detail: note }),
+        { status: 403, headers: { 'Content-Type': 'application/json' } }));
+    }
+    return real(url, opts);
+  };
+  document.addEventListener('submit', function (e) {
+    if ((e.target.method || 'get').toLowerCase() === 'post') { e.preventDefault(); alert(note); }
+  }, true);
+})();
+</script><script src="../static/js/app.js"></script>
+<script src="../static/js/si.js"></script>
+</body>
+</html>
