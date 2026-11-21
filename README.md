@@ -598,12 +598,14 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
 - **Creator review.** It catches uncovered questions and identifiers used as measures,
   but not a confident tool mapped to a different question; two of 14 questions in the
   end-to-end run showed this.
-- **Evaluation sets come from the builder's side.** Round 4's 69 sealed questions (CI for
-  Claude 81.2 to 94.7) were drawn by a seeded generator or drafted by Genie Code and reviewed
-  by the project owner; no outside author has written a set yet, and a
-  [kit](eval/delegation/independent/README.md) is ready for one. Rounds 1 to 3 were small
-  (12 to 14 questions each), as are the 17 golden items and the 5 Creator prompts. The
-  [subject-matter review](eval/delegation/sme_review/README.md) has one reviewer, the
+- **No outside author has written questions yet.** Round 4's 69 sealed questions hold 24
+  human-reviewed questions, drafted by Genie Code from the source documents, then reviewed
+  and edited by the project owner, who kept every value (Claude 93.1% with the servers on
+  those 24, 16.7% without), and 45 drawn by a seeded generator. Both sets come from the
+  builder's side ([SEAL.md](eval/delegation/round4/SEAL.md)); a
+  [kit](eval/delegation/independent/README.md) is ready for an outside author. Rounds 1 to 3
+  were small (12 to 14 questions each), as are the 17 golden items and the 5 Creator prompts.
+  The [subject-matter review](eval/delegation/sme_review/README.md) has one reviewer, the
   project owner, and was not blind.
 - **Injected instructions are resisted but not reported.** In the injection cases (q16, a
   planted record, and q17) 15 of 16 answers were correct and no run followed the injected
