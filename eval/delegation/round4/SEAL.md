@@ -7,8 +7,26 @@ This commit records the hash. The file itself is published after its run, as in 
 | --- | --- | --- | --- |
 | `questions_h4.json` | `f806640cb94139be5928a0be0a63096ba74f17cef9b8396b793a7534cdebf5a8` | 69 | tool catalog at `264d9d7` |
 
-Check it with `sha256sum questions_h4.json`. Until it is published it is held at
-`/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/questions_h4.json`.
+Check it with `sha256sum questions_h4.json`.
+
+## Published after its run
+
+The run finished on 2026-11-21 as run `r4-4bb6a2a6`: 552 rows (2 models x 69 questions x
+no_tools + 3 tool repeats) in `users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs`.
+The file is now published here as [`questions_h4.json`](questions_h4.json), byte-identical
+to the sealed copy (SHA-256 above), together with the reviewed set's source files
+[`human_questions.csv`](human_questions.csv) and [`human_keys.json`](human_keys.json).
+
+What happened between seal and run, for the record:
+
+* No tool, server or grader code changed. Only the runner changed: the first full attempt
+  kept results in memory and saved at the end, and the run outlasted the command time limit,
+  so nothing was saved. [`run_round4.py`](run_round4.py) now checkpoints each row, resumes
+  by run_id, retries transient serving errors and labels the 8-turn cut-off;
+  [`test_runner.py`](test_runner.py) tests that offline.
+* Before the official run, one unsaved timing probe ran all 69 questions once on gpt-5-mini
+  with tools, to measure the run's length and check the grader on real answers. Nothing
+  was changed after it.
 
 ## What is in it
 

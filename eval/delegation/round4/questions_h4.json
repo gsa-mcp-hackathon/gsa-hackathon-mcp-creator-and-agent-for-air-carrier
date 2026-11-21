@@ -1,0 +1,1638 @@
+{
+ "question_set": "h4",
+ "written": "2026-11-21",
+ "written_against": "tool catalog at commit 264d9d7 (main); no model has seen these questions",
+ "grader": "eval/delegation/round4/grade.py (v2)",
+ "sets": {
+  "generated": {
+   "count": 45,
+   "seed": 20261121,
+   "generator": "eval/delegation/round4/generate.py",
+   "written_by": "Genie Code: the templates; the seed chose every subject",
+   "populations": {
+    "contract fiscal years": 22,
+    "modifications with a non-zero obligation": 1159,
+    "unused modification numbers inside each contract's range": 13,
+    "P-5c lines (book, hull, line)": 311,
+    "hulls with two or more printed totals": 3,
+    "premise traps": 10
+   },
+   "excluded": "subjects named in eval/delegation/questions.csv, questions_h2.json, questions_h3.json"
+  },
+  "reviewed": {
+   "count": 24,
+   "written_by": "Drafted by Genie Code from the source documents on 2026-11-21; reviewed and edited by the project owner, who changed wording and two categories (U07, U20) and kept every value."
+  }
+ },
+ "scoring": "A run passes when grade(answer, expect)['passed'] is true. Every field in expect must pass.",
+ "questions": [
+  {
+   "qid": "R4-01 obl_fy_total",
+   "template": "obl_fy_total",
+   "category": "obligations",
+   "question": "How many contract actions on N00024-09-C-2116, the CVN 79 construction preparation contract, fall in fiscal year 2020, and what did they obligate in total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "46"
+     },
+     {
+      "kind": "usd",
+      "value": "7729052.50"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 46 actions, sum of federal_action_obligation 7729052.50",
+   "key_checks": [
+    {
+     "method": "same sum by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "46 / 7729052.50"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-02 obl_fy_total",
+   "template": "obl_fy_total",
+   "category": "obligations",
+   "question": "How many contract actions on N00024-15-C-2114, the CVN 79 detail design and construction contract, fall in fiscal year 2022, and what did they obligate in total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "109"
+     },
+     {
+      "kind": "usd",
+      "value": "300550618.22"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: 109 actions, sum of federal_action_obligation 300550618.22",
+   "key_checks": [
+    {
+     "method": "same sum by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "109 / 300550618.22"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-03 obl_fy_total",
+   "template": "obl_fy_total",
+   "category": "obligations",
+   "question": "How many contract actions on N00024-15-C-2114, the CVN 79 detail design and construction contract, fall in fiscal year 2025, and what did they obligate in total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "108"
+     },
+     {
+      "kind": "usd",
+      "value": "120044143.24"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: 108 actions, sum of federal_action_obligation 120044143.24",
+   "key_checks": [
+    {
+     "method": "same sum by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "108 / 120044143.24"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-04 obl_fy_total",
+   "template": "obl_fy_total",
+   "category": "obligations",
+   "question": "How many contract actions on N00024-09-C-2116, the CVN 79 construction preparation contract, fall in fiscal year 2013, and what did they obligate in total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "32"
+     },
+     {
+      "kind": "usd",
+      "value": "398066461.00"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 32 actions, sum of federal_action_obligation 398066461.00",
+   "key_checks": [
+    {
+     "method": "same sum by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "32 / 398066461.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-05 obl_fy_total",
+   "template": "obl_fy_total",
+   "category": "obligations",
+   "question": "How many contract actions on N00024-15-C-2114, the CVN 79 detail design and construction contract, fall in fiscal year 2017, and what did they obligate in total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "62"
+     },
+     {
+      "kind": "usd",
+      "value": "616695414.05"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: 62 actions, sum of federal_action_obligation 616695414.05",
+   "key_checks": [
+    {
+     "method": "same sum by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "62 / 616695414.05"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-06 obl_fy_total",
+   "template": "obl_fy_total",
+   "category": "obligations",
+   "question": "How many contract actions on N00024-09-C-2116, the CVN 79 construction preparation contract, fall in fiscal year 2012, and what did they obligate in total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "28"
+     },
+     {
+      "kind": "usd",
+      "value": "559185595.00"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 28 actions, sum of federal_action_obligation 559185595.00",
+   "key_checks": [
+    {
+     "method": "same sum by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "28 / 559185595.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-07 obl_fy_largest",
+   "template": "obl_fy_largest",
+   "category": "obligations",
+   "question": "What was the largest single obligation action on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2021: which modification, how much, and on what date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "3934550.00"
+     }
+    ],
+    "texts": [
+     "\\bAZ0*64\\b"
+    ],
+    "dates": [
+     "2021-09-21"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: AZ0064 3934550.00 on 2021-09-21",
+   "key_checks": [
+    {
+     "method": "no tie for first place",
+     "ok": true,
+     "detail": "second 3030848.00"
+    },
+    {
+     "method": "MAX() by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "3934550.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-08 obl_fy_largest",
+   "template": "obl_fy_largest",
+   "category": "obligations",
+   "question": "What was the largest single obligation action on N00024-15-C-2114, the CVN 79 detail design and construction contract, in fiscal year 2015: which modification, how much, and on what date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "188031383.00"
+     }
+    ],
+    "texts": [
+     "(base award|original award|initial award|modification (number )?0\\b|\\bmod(\\.|ification)? ?#?0\\b)"
+    ],
+    "dates": [
+     "2015-06-05"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: 0 188031383.00 on 2015-06-05",
+   "key_checks": [
+    {
+     "method": "no tie for first place",
+     "ok": true,
+     "detail": "second 4571829.00"
+    },
+    {
+     "method": "MAX() by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "188031383.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-09 obl_fy_largest",
+   "template": "obl_fy_largest",
+   "category": "obligations",
+   "question": "What was the largest single obligation action on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2019: which modification, how much, and on what date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "457000.00"
+     }
+    ],
+    "texts": [
+     "\\bA0*252\\b"
+    ],
+    "dates": [
+     "2019-05-30"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: A00252 457000.00 on 2019-05-30",
+   "key_checks": [
+    {
+     "method": "no tie for first place",
+     "ok": true,
+     "detail": "second 446508.00"
+    },
+    {
+     "method": "MAX() by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "457000.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-10 obl_fy_largest",
+   "template": "obl_fy_largest",
+   "category": "obligations",
+   "question": "What was the largest single obligation action on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2017: which modification, how much, and on what date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "184172117.00"
+     }
+    ],
+    "texts": [
+     "\\bP0*129\\b"
+    ],
+    "dates": [
+     "2017-05-15"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: P00129 184172117.00 on 2017-05-15",
+   "key_checks": [
+    {
+     "method": "no tie for first place",
+     "ok": true,
+     "detail": "second 98841632.00"
+    },
+    {
+     "method": "MAX() by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "184172117.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-11 obl_fy_deob",
+   "template": "obl_fy_deob",
+   "category": "obligations",
+   "question": "How many actions on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2024 were deobligations (negative obligations), and what did they total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "3"
+     },
+     {
+      "kind": "usd",
+      "value": "-12879.00"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 3 negative actions totalling -12879.00",
+   "key_checks": [
+    {
+     "method": "at least one deobligation",
+     "ok": true,
+     "detail": "3"
+    },
+    {
+     "method": "text sign test by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "3 / -12879.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-12 obl_fy_deob",
+   "template": "obl_fy_deob",
+   "category": "obligations",
+   "question": "How many actions on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2022 were deobligations (negative obligations), and what did they total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "9"
+     },
+     {
+      "kind": "usd",
+      "value": "-4428989.36"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 9 negative actions totalling -4428989.36",
+   "key_checks": [
+    {
+     "method": "at least one deobligation",
+     "ok": true,
+     "detail": "9"
+    },
+    {
+     "method": "text sign test by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "9 / -4428989.36"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-13 obl_fy_deob",
+   "template": "obl_fy_deob",
+   "category": "obligations",
+   "question": "How many actions on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2014 were deobligations (negative obligations), and what did they total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "2"
+     },
+     {
+      "kind": "usd",
+      "value": "-11200000.00"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 2 negative actions totalling -11200000.00",
+   "key_checks": [
+    {
+     "method": "at least one deobligation",
+     "ok": true,
+     "detail": "2"
+    },
+    {
+     "method": "text sign test by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "2 / -11200000.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-14 obl_fy_deob",
+   "template": "obl_fy_deob",
+   "category": "obligations",
+   "question": "How many actions on N00024-09-C-2116, the CVN 79 construction preparation contract, in fiscal year 2011 were deobligations (negative obligations), and what did they total?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "count",
+      "value": "8"
+     },
+     {
+      "kind": "usd",
+      "value": "-5828833.00"
+     }
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: 8 negative actions totalling -5828833.00",
+   "key_checks": [
+    {
+     "method": "at least one deobligation",
+     "ok": true,
+     "detail": "8"
+    },
+    {
+     "method": "text sign test by USAspending action_date_fiscal_year",
+     "ok": true,
+     "detail": "8 / -5828833.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-15 obl_mod_amount",
+   "template": "obl_mod_amount",
+   "category": "obligations",
+   "question": "What did modification A00344 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate, and what is its action date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "12500.00"
+     }
+    ],
+    "dates": [
+     "2021-09-30"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: A00344 12500.00 on 2021-09-30",
+   "key_checks": [
+    {
+     "method": "modification number is unique on the contract and sums to the same amount",
+     "ok": true,
+     "detail": "1 rows, 12500.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-16 obl_mod_amount",
+   "template": "obl_mod_amount",
+   "category": "obligations",
+   "question": "What did modification A00462 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate, and what is its action date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "4349072.00"
+     }
+    ],
+    "dates": [
+     "2023-07-11"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: A00462 4349072.00 on 2023-07-11",
+   "key_checks": [
+    {
+     "method": "modification number is unique on the contract and sums to the same amount",
+     "ok": true,
+     "detail": "1 rows, 4349072.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-17 obl_mod_amount",
+   "template": "obl_mod_amount",
+   "category": "obligations",
+   "question": "What did modification A00306 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate, and what is its action date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "536.00"
+     }
+    ],
+    "dates": [
+     "2021-02-25"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: A00306 536.00 on 2021-02-25",
+   "key_checks": [
+    {
+     "method": "modification number is unique on the contract and sums to the same amount",
+     "ok": true,
+     "detail": "1 rows, 536.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-18 obl_mod_amount",
+   "template": "obl_mod_amount",
+   "category": "obligations",
+   "question": "What did modification A00262 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate, and what is its action date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "130384.00"
+     }
+    ],
+    "dates": [
+     "2019-08-27"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: A00262 130384.00 on 2019-08-27",
+   "key_checks": [
+    {
+     "method": "modification number is unique on the contract and sums to the same amount",
+     "ok": true,
+     "detail": "1 rows, 130384.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-19 obl_mod_amount",
+   "template": "obl_mod_amount",
+   "category": "obligations",
+   "question": "What did modification A00455 on N00024-15-C-2114, the CVN 79 detail design and construction contract, obligate, and what is its action date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "175000.00"
+     }
+    ],
+    "dates": [
+     "2023-10-20"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: A00455 175000.00 on 2023-10-20",
+   "key_checks": [
+    {
+     "method": "modification number is unique on the contract and sums to the same amount",
+     "ok": true,
+     "detail": "1 rows, 175000.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-20 obl_mod_amount",
+   "template": "obl_mod_amount",
+   "category": "obligations",
+   "question": "What did modification P00057 on N00024-15-C-2114, the CVN 79 detail design and construction contract, obligate, and what is its action date?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "158458.00"
+     }
+    ],
+    "dates": [
+     "2019-09-25"
+    ]
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: P00057 158458.00 on 2019-09-25",
+   "key_checks": [
+    {
+     "method": "modification number is unique on the contract and sums to the same amount",
+     "ok": true,
+     "detail": "1 rows, 158458.00"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-21 obl_no_such_mod",
+   "template": "obl_no_such_mod",
+   "category": "decoy",
+   "question": "What did modification P00172 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate?",
+   "expect": {
+    "refusal": true
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: no action with modification number P00172",
+   "key_checks": [
+    {
+     "method": "absent by exact number",
+     "ok": true,
+     "detail": "0"
+    },
+    {
+     "method": "absent ignoring the P and leading zeros",
+     "ok": true,
+     "detail": "0"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-22 obl_no_such_mod",
+   "template": "obl_no_such_mod",
+   "category": "decoy",
+   "question": "What did modification P00159 on N00024-15-C-2114, the CVN 79 detail design and construction contract, obligate?",
+   "expect": {
+    "refusal": true
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2114_contract_transactions: no action with modification number P00159",
+   "key_checks": [
+    {
+     "method": "absent by exact number",
+     "ok": true,
+     "detail": "0"
+    },
+    {
+     "method": "absent ignoring the P and leading zeros",
+     "ok": true,
+     "detail": "0"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-23 obl_no_such_mod",
+   "template": "obl_no_such_mod",
+   "category": "decoy",
+   "question": "What did modification P00173 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate?",
+   "expect": {
+    "refusal": true
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: no action with modification number P00173",
+   "key_checks": [
+    {
+     "method": "absent by exact number",
+     "ok": true,
+     "detail": "0"
+    },
+    {
+     "method": "absent ignoring the P and leading zeros",
+     "ok": true,
+     "detail": "0"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-24 obl_no_such_mod",
+   "template": "obl_no_such_mod",
+   "category": "decoy",
+   "question": "What did modification P00179 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate?",
+   "expect": {
+    "refusal": true
+   },
+   "source": "users.xiaobing_shang1_civ.aircarrier_src_2116_contract_transactions: no action with modification number P00179",
+   "key_checks": [
+    {
+     "method": "absent by exact number",
+     "ok": true,
+     "detail": "0"
+    },
+    {
+     "method": "absent ignoring the P and leading zeros",
+     "ok": true,
+     "detail": "0"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-25 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2020 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Change Orders figure for CVN 79?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "183.945",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2020 CVN-79 Change Orders: printed 183.945, SCN_Bookpb2020.pdf p.51",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2020.pdf p.51"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-26 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2015 Shipbuilding and Conversion, Navy (SCN) justification book, what is the BASIC CONST/CONVERSION figure for CVN 78?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "5995.429",
+      "printed_thousands": true
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2015 CVN-78 Basic Construction/Conversion: printed 5,995,429, SCN_Bookpb2015.pdf p.12",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2015.pdf p.12"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-27 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2013 Shipbuilding and Conversion, Navy (SCN) justification book, what is the ELECTRONICS figure for CVN 78?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "345.207",
+      "printed_thousands": true
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2013 CVN-78 Electronics: printed 345,207, SCN_Bookpb2013.pdf p.16",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2013.pdf p.16"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-28 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2017 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Plan Costs figure for CVN 79?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "880.078",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2017 CVN-79 Plan Costs: printed 880.078, SCN_Bookpb2017.pdf p.27",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2017.pdf p.27"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-29 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2017 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Ordnance figure for CVN 78?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "1376.957",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2017 CVN-78 Ordnance: printed 1,376.957, SCN_Bookpb2017.pdf p.27",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2017.pdf p.27"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-30 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2020 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Other Cost figure for CVN 81?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "41.500",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2020 CVN-81 Other Cost: printed 41.500, SCN_Bookpb2020.pdf p.51",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2020.pdf p.51"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-31 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2008 Shipbuilding and Conversion, Navy (SCN) justification book, what is the CHANGE ORDERS figure for CVN 78?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "235.601",
+      "printed_thousands": true
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2008 CVN-78 Change Orders: printed 235,601, SCN_Bookpb2008.pdf p.12",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2008.pdf p.12"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-32 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2020 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Ordnance figure for CVN 80?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "1043.798",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2020 CVN-80 Ordnance: printed 1,043.798, SCN_Bookpb2020.pdf p.51",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2020.pdf p.51"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-33 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2025 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Hull, Mechanical, and Electrical (HM&E) figure for CVN 79?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "30.152",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2025 CVN-79 HM&E: printed 30.152, SCN_BookPB2025.pdf p.67",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_BookPB2025.pdf p.67"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-34 p5c_cell",
+   "template": "p5c_cell",
+   "category": "exhibit",
+   "question": "On the P-5c Ship Cost exhibit in the PB 2022 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Change Orders figure for CVN 80?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "193.902",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost PB2022 CVN-80 Change Orders: printed 193.902, SCN_Bookpb2022.pdf p.53",
+   "key_checks": [
+    {
+     "method": "one value for this book, hull and line",
+     "ok": true,
+     "detail": "1 rows"
+    },
+    {
+     "method": "printed string found in the page text",
+     "ok": true,
+     "detail": "SCN_Bookpb2022.pdf p.53"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-35 p5c_tse_change",
+   "template": "p5c_tse_change",
+   "category": "exhibit",
+   "question": "By how much did the Total Ship Estimate printed for CVN 78 on the P-5c change between the PB 2010 and the PB 2017 SCN justification books?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "2041.169",
+      "printed_thousands": true
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost CVN-78 TSE PB2010 10,845,831 -> PB2017 12,887.000",
+   "key_checks": [
+    {
+     "method": "both totals printed on their pages",
+     "ok": true,
+     "detail": "SCN_Bookpb2010.pdf p.12; SCN_Bookpb2017.pdf p.27"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-36 p5c_tse_change",
+   "template": "p5c_tse_change",
+   "category": "exhibit",
+   "question": "By how much did the Total Ship Estimate printed for CVN 80 on the P-5c change between the PB 2020 and the PB 2022 SCN justification books?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "70.433",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost CVN-80 TSE PB2020 12,335.110 -> PB2022 12,405.543",
+   "key_checks": [
+    {
+     "method": "both totals printed on their pages",
+     "ok": true,
+     "detail": "SCN_Bookpb2020.pdf p.51; SCN_Bookpb2022.pdf p.53"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-37 p5c_tse_change",
+   "template": "p5c_tse_change",
+   "category": "exhibit",
+   "question": "By how much did the Total Ship Estimate printed for CVN 79 on the P-5c change between the PB 2020 and the PB 2025 SCN justification books?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "1608.613",
+      "printed_thousands": false
+     }
+    ]
+   },
+   "source": "aircarrier_jb_ship_cost CVN-79 TSE PB2020 11,327.357 -> PB2025 12,935.970",
+   "key_checks": [
+    {
+     "method": "both totals printed on their pages",
+     "ok": true,
+     "detail": "SCN_Bookpb2020.pdf p.51; SCN_BookPB2025.pdf p.67"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-38 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "What did the Advanced Carbon Dioxide Removal Unit (ACRU) cost on CVN 79?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "columbia",
+     "submarine",
+     "SSBN",
+     "not (a )?(carrier|CVN)",
+     "no (record|figure|cost|line)",
+     "(cannot|can't|could not|couldn't) find"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'ACRU'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-39 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "What does the Large Aperture Bow array cost for CVN 79?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "submarine",
+     "sonar",
+     "carriers? (do|does) not",
+     "not (on|for|carried|fitted)",
+     "no (record|figure|cost|line)",
+     "(cannot|can't|could not|couldn't) find"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'Large Aperture Bow'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-40 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "What did it cost to build USS John F. Kennedy (CV-67), the carrier this program is building?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "CVN[- ]?79",
+     "(previous|earlier|older|first|original|different) (USS )?(John F\\.? )?Kennedy",
+     "(previous|earlier|older|different|not the same) (ship|carrier|hull)",
+     "conventional(ly)?[- ]powered",
+     "decommission",
+     "not (the|this) (ship|carrier|hull|program)"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'CV-67'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-41 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "How much National Sea-Based Deterrence Fund money has gone into CVN 79?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "SSBN",
+     "submarine",
+     "ballistic",
+     "columbia",
+     "not (for|used for|available for) (aircraft )?carriers",
+     "\\bnone\\b",
+     "no (NSBDF|such|funding)",
+     "(cannot|can't|could not|couldn't) find"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'NSBDF'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-42 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "What does program element 0604112N add to the CVN 79 procurement cost?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "RDT&?E",
+     "research",
+     "shared",
+     "class[- ]wide",
+     "allocat",
+     "not (a )?procurement",
+     "0204112N",
+     "cannot (be )?(attribut|allocat|assign)"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term '0604112N'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-43 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "What has General Atomics obligated on contract N00024-14-C-4201 for CVN 79?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "absent",
+     "not (found|present|in (FPDS|USAspending|the (data|records)))",
+     "no (record|obligation|data|transactions?)",
+     "(cannot|can't|could not|couldn't) find",
+     "does not appear"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'N00024-14-C-4201'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-44 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "How much has been spent on the AN/WSQ-9 system for CVN 79?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "submarine",
+     "acoustic",
+     "not (a )?carrier",
+     "no (record|figure|cost|line)",
+     "(cannot|can't|could not|couldn't) find"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'AN/WSQ-9'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "R4-45 premise_trap",
+   "template": "premise_trap",
+   "category": "premise",
+   "question": "What does contract N00024-17-C-2117 contribute to the CVN 79 cost?",
+   "expect": {
+    "refusal": true,
+    "reason_any": [
+     "unconfirmed",
+     "not (been )?confirmed",
+     "not (this hull|CVN[- ]?79|attributable)",
+     "excluded",
+     "cannot (be )?(attribut|confirm|determin)",
+     "(no|not) (evidence|record|data)",
+     "(cannot|can't|could not|couldn't) find"
+    ]
+   },
+   "source": "aircarrier_kg_nodes negative_term 'N00024-17-C-2117'",
+   "key_checks": [
+    {
+     "method": "term is a negative_term node",
+     "ok": true,
+     "detail": "1"
+    }
+   ],
+   "set": "generated"
+  },
+  {
+   "qid": "U01 document",
+   "template": null,
+   "category": "document",
+   "question": "According to GAO-26-108457, to what date was CVN 79's planned delivery delayed, and which two subsystems did program officials identify as the causes?",
+   "expect": {
+    "texts": [
+     "March,? 2027|2027-03",
+     "elevator",
+     "landing|arrest"
+    ]
+   },
+   "source": "gao-26-108457 Weapon Systems Annual Assessment 2026.pdf PDF p.145 (printed p.133)",
+   "reference_answer": "March 2027; elevator subsystem; landing subsystem",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U02 document",
+   "template": null,
+   "category": "document",
+   "question": "According to GAO-26-108457, by how much have CVN 79's costs increased since 2021?",
+   "expect": {
+    "texts": [
+     "1\\.5 ?(billion|B\\b)|1,500 ?(million|M\\b)"
+    ]
+   },
+   "source": "gao-26-108457 PDF p.145 (printed p.133)",
+   "reference_answer": "Over $1.5 billion",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U03 document",
+   "template": null,
+   "category": "document",
+   "question": "According to the FY2027 CVN 78 MSAR, what percentage of CVN 79 was complete as of April 2026?",
+   "expect": {
+    "texts": [
+     "\\b97 ?(%|percent)"
+    ]
+   },
+   "source": "CVN_78_MSAR_FY2027_PBv2.pdf PDF p.8",
+   "reference_answer": "97 percent",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U04 document",
+   "template": null,
+   "category": "document",
+   "question": "According to the FY2027 CVN 78 MSAR, when did CVN 79 conduct its Builder's Trials?",
+   "expect": {
+    "texts": [
+     "January 28|Jan\\.? 28|2026-01-28|28 January",
+     "February 4|Feb\\.? 4|2026-02-04|4 February"
+    ]
+   },
+   "source": "CVN_78_MSAR_FY2027_PBv2.pdf PDF p.8",
+   "reference_answer": "January 28, 2026, to February 4, 2026",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U05 document",
+   "template": null,
+   "category": "document",
+   "question": "According to GAO-17-575, when was the first independent cost estimate for CVN 79 developed, and how much procurement funding had been received by that time?",
+   "expect": {
+    "texts": [
+     "May,? 2015|2015-05",
+     "6\\.0 ?(billion|B\\b)|\\$6 ?(billion|B\\b)|6,000 ?(million|M\\b)"
+    ]
+   },
+   "source": "gao-17-575 Cost Estimate on Ford class.pdf PDF p.37 (printed p.32)",
+   "reference_answer": "May 2015; $6.0 billion",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U06 document",
+   "template": null,
+   "category": "document",
+   "question": "According to GAO-17-575, by approximately how much did CAPE's independent cost estimate project that CVN 79 would exceed the program's cost estimate, and what accounted for nearly all of the difference?",
+   "expect": {
+    "texts": [
+     "several hundred million|hundreds of millions",
+     "labor|labour"
+    ]
+   },
+   "source": "gao-17-575 PDF p.26",
+   "reference_answer": "Several hundred million dollars; labor costs",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U07 regulation",
+   "template": null,
+   "category": "regulation",
+   "question": "Under Section 122 of the FY2016 NDAA, as described by CRS, by how much could the Secretary of the Navy increase the CVN-79 cost cap, and under what condition?",
+   "expect": {
+    "texts": [
+     "100 ?(million|M\\b)|11\\.498",
+     "Chief of Naval Operations|\\bCNO\\b",
+     "operational capabilit"
+    ]
+   },
+   "source": "RS20643.302.Navy Ford (CVN-78) Class Aircraft Carrier.pdf PDF p.11",
+   "reference_answer": "Up to $100 million, to $11.498 billion, if the Chief of Naval Operations determines that the measures needed to remain within the cap would unacceptably reduce the ship's operational capability",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U08 document",
+   "template": null,
+   "category": "document",
+   "question": "According to the FY2027 CVN 78 MSAR, how did CVN 79's delivery date change in October 2016, and which law required the change?",
+   "expect": {
+    "texts": [
+     "June,? 2022",
+     "September,? 2024",
+     "Section 121|114-328"
+    ]
+   },
+   "source": "CVN_78_MSAR_FY2027_PBv2.pdf PDF p.10",
+   "reference_answer": "From June 2022 to September 2024; Section 121 of the FY2017 National Defense Authorization Act (Public Law 114-328)",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U09 regulation",
+   "template": null,
+   "category": "regulation",
+   "question": "Under DCMA Manual 2101-02, what is the progress payment rate for an undefinitized contract, and which FAR clause establishes this rate?",
+   "expect": {
+    "texts": [
+     "\\b80 ?(%|percent)",
+     "52\\.232-16"
+    ]
+   },
+   "source": "DCMA_MAN_2101-02_Payment.pdf PDF p.39 (Table 2)",
+   "reference_answer": "80 percent; FAR 52.232-16(k)",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U10 multi_source",
+   "template": null,
+   "category": "multi_source",
+   "question": "How much lower is CVN 79's Total Ship Estimate in the PB 2027 SCN P-5c than the Cost Limitation Baseline reported in the FY2027 CVN 78 MSAR following the December 2025 increase?",
+   "expect": {
+    "texts": [
+     "119\\.03"
+    ]
+   },
+   "source": "SCN_Book PB27.pdf PDF p.95; CVN_78_MSAR_FY2027_PBv2.pdf PDF p.8",
+   "reference_answer": "$119.030 million lower (13,529 - 13,409.970)",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U11 multi_source",
+   "template": null,
+   "category": "multi_source",
+   "question": "How much higher is the December 2025 CVN 79 Cost Limitation Baseline in the FY2027 MSAR than the $11,398.0 million statutory cap reported by CRS, and why does this not necessarily constitute a breach of the cap?",
+   "expect": {
+    "texts": [
+     "2,?131(\\.0)?\\b",
+     "inflation"
+    ]
+   },
+   "source": "CVN_78_MSAR_FY2027_PBv2.pdf PDF p.8; RS20643.302 CRS PDF p.11",
+   "reference_answer": "$2,131.0 million higher (13,529 - 11,398.0); the statutory cap allows adjustments for inflation and other factors, and the baseline includes those adjustments",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U12 multi_source",
+   "template": null,
+   "category": "multi_source",
+   "question": "According to the FY2027 MSAR, what delivery date was established by the June 2023 contract modification, and how many months later is the delivery date reported by GAO-26-108457?",
+   "expect": {
+    "texts": [
+     "July,? 2025|2025-07",
+     "\\b20 months|twenty months"
+    ]
+   },
+   "source": "CVN_78_MSAR_FY2027_PBv2.pdf PDF p.9; gao-26-108457 PDF p.145",
+   "reference_answer": "July 2025; 20 months later (March 2027)",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U13 multi_source",
+   "template": null,
+   "category": "multi_source",
+   "question": "According to CRS, how much higher is the FY2026 budget's total procurement cost estimate for CVN-80 than for CVN-79?",
+   "expect": {
+    "texts": [
+     "1,?051\\.5"
+    ]
+   },
+   "source": "RS20643.302 CRS PDF p.8 and p.9",
+   "reference_answer": "$1,051.5 million (14,247.5 - 13,196.0)",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U14 judgment",
+   "template": null,
+   "category": "judgment",
+   "question": "GAO's 2026 assessment shows a percentage decrease in the CVN 78 program's unit cost. Does this mean CVN 79 has become less expensive?",
+   "expect": {
+    "texts": [
+     "\\bno\\b|not (necessarily )?(cheaper|less expensive)|does not mean|doesn't mean",
+     "(two|2) (additional |more |new )?(ships|carriers|units|hulls)|six ships|averag"
+    ]
+   },
+   "source": "gao-26-108457 PDF p.145",
+   "reference_answer": "No. The Navy added two ships, and the unit cost is averaged across all six ships. As a result, the unit cost decreased even though costs for the three ships already in development increased. CVN 79's costs have increased by over $1.5 billion since 2021.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U15 judgment",
+   "template": null,
+   "category": "judgment",
+   "question": "GAO-15-22 cites an $11.5 billion cost cap for CVN 79, GAO-17-575 cites $11.4 billion, and CRS cites $11,398.0 million. Do these represent three different cost caps?",
+   "expect": {
+    "texts": [
+     "\\b(two|2)\\b[^.]{0,40}\\bcaps?\\b|not three|same cap",
+     "2014",
+     "2016|section 122"
+    ]
+   },
+   "source": "gao-15-22Cost Cap Legislation.pdf PDF p.11; gao-17-575 PDF p.6; RS20643.302 CRS PDF p.11",
+   "reference_answer": "No. There are two caps, not three. The $11.5 billion cap is the earlier cap, raised in 2013 and established for follow-on ships by the FY2014 NDAA. Section 122 of the FY2016 NDAA established the $11,398.0 million cap, which GAO-17-575 rounds to $11.4 billion.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U16 judgment",
+   "template": null,
+   "category": "judgment",
+   "question": "CRS reports $13,196.0 million as CVN-79's total procurement cost, while the PB 2027 SCN P-5c reports a Total Ship Estimate of $13,409.970 million. Which figure should be used as the current estimate for reconciliation, and why?",
+   "expect": {
+    "texts": [
+     "13,?409\\.97",
+     "PB ?2027|later|newer|more recent|latest"
+    ]
+   },
+   "source": "RS20643.302 CRS PDF p.8; SCN_Book PB27.pdf PDF p.95",
+   "reference_answer": "The PB 2027 P-5c figure ($13,409.970 million), because CRS cites the FY2026 budget submission, whereas PB 2027 is the later budget.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U17 judgment",
+   "template": null,
+   "category": "judgment",
+   "question": "FPDS-NG and USAspending show a $583,963.00 difference for the CVN 79 construction preparation contract. Should this variance be investigated as a reconciliation error?",
+   "expect": {
+    "texts": [
+     "as[- ]of|timing|different (dates|times)|snapshot",
+     "\\bno\\b|not (a|an) (reconcil\\w+ )?error|should not|shouldn't|resolved"
+    ]
+   },
+   "source": "aircarrier_variances E-16 (project register, not a public document)",
+   "reference_answer": "No. This is an as-of-date difference because the two systems were accessed on different dates. The variance is recorded as resolved (E-16).",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U18 premise",
+   "template": null,
+   "category": "premise",
+   "question": "What was the cost of CVN 79's refueling and complex overhaul (RCOH)?",
+   "expect": {
+    "texts": [
+     "not (yet )?(been )?delivered|under construction|no RCOH|has not (undergone|had)|hasn't|mid-?life|incorrect premise|premise is (incorrect|wrong|false)"
+    ]
+   },
+   "source": "gao-26-108457 PDF p.145",
+   "reference_answer": "The premise is incorrect. CVN 79 has not yet been delivered (GAO-26 reports March 2027), so it has not undergone an RCOH.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U19 premise",
+   "template": null,
+   "category": "premise",
+   "question": "By how much did the FY2020 NDAA increase the CVN-79 cost cap?",
+   "expect": {
+    "texts": [
+     "did not|didn't|no increase|unchanged|remained|retained|kept|same",
+     "11,?398"
+    ]
+   },
+   "source": "RS20643.302 CRS PDF p.11 and p.12",
+   "reference_answer": "It did not increase the cap. The FY2020 NDAA's revised caps retained the CVN-79 cap at $11,398.0 million, the same amount established by the FY2016 NDAA and retained by the FY2018 NDAA.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U20 document",
+   "template": null,
+   "category": "document",
+   "question": "What software development cost does GAO-26-108457 report for the CVN 78 program?",
+   "expect": {
+    "texts": [
+     "not available|not (separately )?track|other Navy programs|no software cost|does not report"
+    ]
+   },
+   "source": "gao-26-108457 PDF p.145",
+   "reference_answer": "None. GAO reports \"Information not available.\" The program does not separately track software costs because other Navy programs provide the software.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U21 hard",
+   "template": null,
+   "category": "hard",
+   "question": "According to the PB 2027 SCN P-5c, what is the total advance procurement amount shown for CVN 79, and which fiscal years are covered?",
+   "expect": {
+    "texts": [
+     "3,?327\\.05",
+     "2007",
+     "2012"
+    ]
+   },
+   "source": "SCN_Book PB27.pdf PDF p.95",
+   "reference_answer": "$3,327.050 million, covering FY2007 through FY2012 (52.750 + 123.530 + 1,210.561 + 482.938 + 902.473 + 554.798). The FY2016 and FY2017 lines show no amounts (-).",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U22 hard",
+   "template": null,
+   "category": "hard",
+   "question": "According to the PB 2027 SCN P-5c, what is the total cost-to-complete funding shown for CVN 79, and which fiscal years are covered?",
+   "expect": {
+    "texts": [
+     "2,?087\\.3",
+     "2022",
+     "2027"
+    ]
+   },
+   "source": "SCN_Book PB27.pdf PDF p.96",
+   "reference_answer": "$2,087.300 million, covering FY2022 through FY2027 (291.000 + 461.700 + 624.600 + 236.000 + 150.000 + 324.000).",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U23 document",
+   "template": null,
+   "category": "document",
+   "question": "According to GAO-17-575, when were the most recent CAPE and NCCA independent cost assessments for the Ford class completed, and which contract award did they precede?",
+   "expect": {
+    "texts": [
+     "May,? 2015",
+     "April,? 2015",
+     "June,? 2015|detail design and construction|DD&C"
+    ]
+   },
+   "source": "gao-17-575 PDF p.12",
+   "reference_answer": "CAPE: May 2015; NCCA: April 2015; the June 2015 award of the CVN 79 detail design and construction contract.",
+   "set": "reviewed"
+  },
+  {
+   "qid": "U24 document",
+   "template": null,
+   "category": "document",
+   "question": "According to GAO-26-108457, to what date was completion of the Ford class's initial operational test and evaluation delayed, and what was the original date?",
+   "expect": {
+    "texts": [
+     "March,? 2025",
+     "February,? 2028"
+    ]
+   },
+   "source": "gao-26-108457 PDF p.145",
+   "reference_answer": "From March 2025 to February 2028.",
+   "set": "reviewed"
+  }
+ ]
+}

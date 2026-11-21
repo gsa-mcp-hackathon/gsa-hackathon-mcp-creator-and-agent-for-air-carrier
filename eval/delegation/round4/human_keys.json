@@ -1,0 +1,31 @@
+{
+ "question_set": "h4-reviewed",
+ "provenance": "Drafted by Genie Code from the source documents on 2026-11-21; reviewed and edited by the project owner, who changed wording and two categories (U07, U20) and kept every value.",
+ "scoring": "A run passes when every pattern in texts matches the final answer (case-insensitive). Each reference answer in human_questions.csv passes its own key; 14 plausible wrong answers fail (tested 2026-11-21).",
+ "keys": {
+  "U01": {"category": "document", "texts": ["March,? 2027|2027-03", "elevator", "landing|arrest"]},
+  "U02": {"category": "document", "texts": ["1\\.5 ?(billion|B\\b)|1,500 ?(million|M\\b)"]},
+  "U03": {"category": "document", "texts": ["\\b97 ?(%|percent)"]},
+  "U04": {"category": "document", "texts": ["January 28|Jan\\.? 28|2026-01-28|28 January", "February 4|Feb\\.? 4|2026-02-04|4 February"]},
+  "U05": {"category": "document", "texts": ["May,? 2015|2015-05", "6\\.0 ?(billion|B\\b)|\\$6 ?(billion|B\\b)|6,000 ?(million|M\\b)"]},
+  "U06": {"category": "document", "texts": ["several hundred million|hundreds of millions", "labor|labour"]},
+  "U07": {"category": "regulation", "texts": ["100 ?(million|M\\b)|11\\.498", "Chief of Naval Operations|\\bCNO\\b", "operational capabilit"]},
+  "U08": {"category": "document", "texts": ["June,? 2022", "September,? 2024", "Section 121|114-328"]},
+  "U09": {"category": "regulation", "texts": ["\\b80 ?(%|percent)", "52\\.232-16"]},
+  "U10": {"category": "multi_source", "texts": ["119\\.03"]},
+  "U11": {"category": "multi_source", "texts": ["2,?131(\\.0)?\\b", "inflation"]},
+  "U12": {"category": "multi_source", "texts": ["July,? 2025|2025-07", "\\b20 months|twenty months"]},
+  "U13": {"category": "multi_source", "texts": ["1,?051\\.5"]},
+  "U14": {"category": "judgment", "texts": ["\\bno\\b|not (necessarily )?(cheaper|less expensive)|does not mean|doesn't mean", "(two|2) (additional |more |new )?(ships|carriers|units|hulls)|six ships|averag"]},
+  "U15": {"category": "judgment", "texts": ["\\b(two|2)\\b[^.]{0,40}\\bcaps?\\b|not three|same cap", "2014", "2016|section 122"]},
+  "U16": {"category": "judgment", "texts": ["13,?409\\.97", "PB ?2027|later|newer|more recent|latest"]},
+  "U17": {"category": "judgment", "texts": ["as[- ]of|timing|different (dates|times)|snapshot", "\\bno\\b|not (a|an) (reconcil\\w+ )?error|should not|shouldn't|resolved"]},
+  "U18": {"category": "premise", "texts": ["not (yet )?(been )?delivered|under construction|no RCOH|has not (undergone|had)|hasn't|mid-?life|incorrect premise|premise is (incorrect|wrong|false)"]},
+  "U19": {"category": "premise", "texts": ["did not|didn't|no increase|unchanged|remained|retained|kept|same", "11,?398"]},
+  "U20": {"category": "document", "texts": ["not available|not (separately )?track|other Navy programs|no software cost|does not report"]},
+  "U21": {"category": "hard", "texts": ["3,?327\\.05", "2007", "2012"]},
+  "U22": {"category": "hard", "texts": ["2,?087\\.3", "2022", "2027"]},
+  "U23": {"category": "document", "texts": ["May,? 2015", "April,? 2015", "June,? 2015|detail design and construction|DD&C"]},
+  "U24": {"category": "document", "texts": ["March,? 2025", "February,? 2028"]}
+ }
+}
