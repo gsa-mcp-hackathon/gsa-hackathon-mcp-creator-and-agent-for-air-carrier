@@ -1,0 +1,553 @@
+run_id,run_at,tool_catalog_sha,instructions_sha,model,mode,question_set,qid,category,passed,calls,tool_output_bytes,prompt_tokens,completion_tokens,seconds,error,failed_checks
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-01 obl_fy_total,obligations,False,0,0,104,397,5.9,,"[""count 46"", ""usd 7729052.50""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-01 obl_fy_total,obligations,True,1,35269,34055,315,8.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-01 obl_fy_total,obligations,True,1,35269,34055,317,8.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-01 obl_fy_total,obligations,True,1,35269,34055,325,8.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-02 obl_fy_total,obligations,False,0,0,106,599,6.2,,"[""count 109"", ""usd 300550618.22""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-02 obl_fy_total,obligations,True,2,82608,78635,526,14.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-02 obl_fy_total,obligations,True,2,82608,78633,592,14.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-02 obl_fy_total,obligations,True,2,82608,78635,557,14.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-03 obl_fy_total,obligations,False,0,0,106,72,1.8,,"[""count 108"", ""usd 120044143.24""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-03 obl_fy_total,obligations,True,2,87446,78308,634,15.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-03 obl_fy_total,obligations,True,2,87446,78299,646,14.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-03 obl_fy_total,obligations,True,2,87446,78325,555,14.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-04 obl_fy_total,obligations,False,0,0,104,233,3.2,,"[""count 32"", ""usd 398066461.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-04 obl_fy_total,obligations,True,1,27172,31237,388,9.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-04 obl_fy_total,obligations,True,1,27172,31239,315,7.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-04 obl_fy_total,obligations,True,1,27172,31237,314,7.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-05 obl_fy_total,obligations,False,0,0,106,498,6.3,,"[""count 62"", ""usd 616695414.05""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-05 obl_fy_total,obligations,True,1,46684,38158,412,9.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-05 obl_fy_total,obligations,True,1,46684,38158,306,8.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-05 obl_fy_total,obligations,True,1,46684,38158,314,8.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-06 obl_fy_total,obligations,False,0,0,104,341,4.9,,"[""count 28"", ""usd 559185595.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-06 obl_fy_total,obligations,True,1,23219,29765,340,8.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-06 obl_fy_total,obligations,True,1,23219,29767,379,8.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-06 obl_fy_total,obligations,True,1,23219,29765,416,8.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-07 obl_fy_largest,obligations,False,0,0,108,431,4.5,,"[""usd 3934550.00"", ""text /\\bAZ0*64\\b/"", ""date 2021-09-21""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-07 obl_fy_largest,obligations,True,1,1153,21373,299,6.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-07 obl_fy_largest,obligations,True,1,1153,21373,296,5.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-07 obl_fy_largest,obligations,True,1,1153,21373,294,6.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-08 obl_fy_largest,obligations,False,0,0,110,343,4.7,,"[""usd 188031383.00"", ""text /(base award|original award|initial award|modification (number )?0\\b|\\bmod(\\.|ification)? ?#?0\\b)/"", ""date 2015-06-05""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-08 obl_fy_largest,obligations,True,1,1160,21365,280,5.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-08 obl_fy_largest,obligations,True,1,1160,21380,319,6.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-08 obl_fy_largest,obligations,True,1,1160,21365,300,6.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-09 obl_fy_largest,obligations,False,0,0,108,182,3.0,,"[""usd 457000.00"", ""text /\\bA0*252\\b/"", ""date 2019-05-30""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-09 obl_fy_largest,obligations,True,1,1167,21373,309,6.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-09 obl_fy_largest,obligations,True,1,1167,21373,277,5.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-09 obl_fy_largest,obligations,True,1,1167,21373,302,6.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-10 obl_fy_largest,obligations,False,0,0,108,149,2.7,,"[""usd 184172117.00"", ""text /\\bP0*129\\b/"", ""date 2017-05-15""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-10 obl_fy_largest,obligations,True,1,1162,21382,308,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-10 obl_fy_largest,obligations,True,1,1162,21385,324,6.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-10 obl_fy_largest,obligations,True,1,1162,21376,309,6.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-11 obl_fy_deob,obligations,False,0,0,108,571,6.5,,"[""usd -12879.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-11 obl_fy_deob,obligations,True,1,53222,41135,434,9.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-11 obl_fy_deob,obligations,True,1,53222,41135,355,8.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-11 obl_fy_deob,obligations,True,1,53222,41136,356,8.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-12 obl_fy_deob,obligations,False,0,0,108,351,4.4,,"[""count 9"", ""usd -4428989.36""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-12 obl_fy_deob,obligations,True,1,70749,43711,633,11.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-12 obl_fy_deob,obligations,True,1,70749,43711,559,10.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-12 obl_fy_deob,obligations,True,1,70749,43711,541,10.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-13 obl_fy_deob,obligations,False,0,0,108,230,4.6,,"[""usd -11200000.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-13 obl_fy_deob,obligations,True,1,18887,28149,416,8.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-13 obl_fy_deob,obligations,True,1,18887,28154,407,9.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-13 obl_fy_deob,obligations,True,1,18887,28154,371,8.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-14 obl_fy_deob,obligations,False,0,0,108,350,3.8,,"[""count 8"", ""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-14 obl_fy_deob,obligations,True,1,30515,32576,584,10.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-14 obl_fy_deob,obligations,False,1,30515,32576,556,10.3,,"[""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-14 obl_fy_deob,obligations,False,1,30515,32575,551,10.1,,"[""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-15 obl_mod_amount,obligations,False,0,0,100,246,3.0,,"[""usd 12500.00"", ""date 2021-09-30""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-15 obl_mod_amount,obligations,True,1,1161,21331,277,6.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-15 obl_mod_amount,obligations,True,1,1161,21331,274,6.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-15 obl_mod_amount,obligations,True,1,1161,21336,296,6.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-16 obl_mod_amount,obligations,False,0,0,100,161,2.5,,"[""usd 4349072.00"", ""date 2023-07-11""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-16 obl_mod_amount,obligations,True,1,1149,21330,263,5.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-16 obl_mod_amount,obligations,True,1,1149,21330,255,6.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-16 obl_mod_amount,obligations,True,1,1149,21330,255,5.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-17 obl_mod_amount,obligations,False,0,0,100,250,3.2,,"[""usd 536.00"", ""date 2021-02-25""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-17 obl_mod_amount,obligations,True,1,1161,21329,276,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-17 obl_mod_amount,obligations,True,1,1161,21329,283,6.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-17 obl_mod_amount,obligations,True,1,1161,21329,281,6.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-18 obl_mod_amount,obligations,False,0,0,100,247,3.2,,"[""usd 130384.00"", ""date 2019-08-27""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-18 obl_mod_amount,obligations,True,1,1167,21331,262,6.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-18 obl_mod_amount,obligations,True,1,1167,21336,270,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-18 obl_mod_amount,obligations,True,1,1167,21331,271,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-19 obl_mod_amount,obligations,False,0,0,102,224,3.4,,"[""usd 175000.00"", ""date 2023-10-20""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-19 obl_mod_amount,obligations,True,1,1165,21327,260,5.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-19 obl_mod_amount,obligations,True,1,1165,21310,226,5.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-19 obl_mod_amount,obligations,True,1,1165,21327,257,5.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-20 obl_mod_amount,obligations,False,0,0,102,223,2.8,,"[""usd 158458.00"", ""date 2019-09-25""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-20 obl_mod_amount,obligations,True,1,1161,21332,292,6.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-20 obl_mod_amount,obligations,True,1,1161,21332,270,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-20 obl_mod_amount,obligations,True,1,1161,21332,255,5.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-21 obl_no_such_mod,decoy,True,0,0,93,334,4.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-21 obl_no_such_mod,decoy,True,6,174746,250585,1142,81.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-21 obl_no_such_mod,decoy,False,5,25316,81703,1035,53.5,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-21 obl_no_such_mod,decoy,False,8,180577,297406,1135,73.7,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-22 obl_no_such_mod,decoy,False,0,0,95,328,4.4,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-22 obl_no_such_mod,decoy,True,7,249287,368231,1321,126.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-22 obl_no_such_mod,decoy,True,7,109782,191655,1145,94.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-22 obl_no_such_mod,decoy,False,8,254106,362335,1132,58.1,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-23 obl_no_such_mod,decoy,False,0,0,93,155,2.5,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-23 obl_no_such_mod,decoy,False,8,223347,340402,1134,121.6,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-23 obl_no_such_mod,decoy,True,7,268591,395363,1292,107.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-23 obl_no_such_mod,decoy,True,6,163983,242412,1148,102.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-24 obl_no_such_mod,decoy,True,0,0,93,344,36.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-24 obl_no_such_mod,decoy,False,2,2616,32891,454,50.1,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-24 obl_no_such_mod,decoy,False,3,16719,49010,788,75.3,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-24 obl_no_such_mod,decoy,True,6,96928,179806,977,71.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-25 p5c_cell,exhibit,False,0,0,107,365,29.8,,"[""musd 183.945""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-25 p5c_cell,exhibit,True,4,27069,57597,629,49.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-25 p5c_cell,exhibit,True,4,27069,57605,637,43.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-25 p5c_cell,exhibit,True,2,22461,42035,375,40.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-26 p5c_cell,exhibit,False,0,0,112,357,18.0,,"[""musd 5995.429""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-26 p5c_cell,exhibit,False,8,52153,168182,975,99.2,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-26 p5c_cell,exhibit,False,8,80059,197356,1153,54.9,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-26 p5c_cell,exhibit,False,8,68289,177309,1004,65.3,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-27 p5c_cell,exhibit,False,0,0,107,346,5.3,,"[""musd 345.207""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-27 p5c_cell,exhibit,False,8,78489,201001,1068,74.4,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-27 p5c_cell,exhibit,False,8,64792,175932,1055,67.0,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-27 p5c_cell,exhibit,False,8,86184,181350,1111,77.4,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-28 p5c_cell,exhibit,False,0,0,108,329,13.6,,"[""musd 880.078""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-28 p5c_cell,exhibit,True,2,17746,39911,377,14.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-28 p5c_cell,exhibit,True,2,17746,39903,424,9.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-28 p5c_cell,exhibit,True,2,17746,39913,421,60.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-29 p5c_cell,exhibit,False,0,0,109,407,18.1,,"[""musd 1376.957""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-29 p5c_cell,exhibit,True,3,27496,61749,684,53.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-29 p5c_cell,exhibit,True,2,17746,39945,390,49.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-29 p5c_cell,exhibit,True,3,21221,54959,583,31.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-30 p5c_cell,exhibit,False,0,0,107,320,17.4,,"[""musd 41.500""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-30 p5c_cell,exhibit,True,3,25936,57058,563,23.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-30 p5c_cell,exhibit,True,3,25936,57054,543,16.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-30 p5c_cell,exhibit,True,3,25936,57054,554,28.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-31 p5c_cell,exhibit,False,0,0,109,360,5.8,,"[""musd 235.601""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-31 p5c_cell,exhibit,True,6,25855,110794,893,56.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-31 p5c_cell,exhibit,False,8,31298,134528,1059,33.0,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-31 p5c_cell,exhibit,False,8,43513,147977,1005,47.5,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-32 p5c_cell,exhibit,False,0,0,109,325,3.7,,"[""musd 1043.798""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-32 p5c_cell,exhibit,True,3,25936,57091,575,43.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-32 p5c_cell,exhibit,True,3,25936,57058,563,17.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-32 p5c_cell,exhibit,True,3,25936,57053,477,33.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-33 p5c_cell,exhibit,False,0,0,119,353,5.9,,"[""musd 30.152""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-33 p5c_cell,exhibit,True,2,21381,41139,369,29.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-33 p5c_cell,exhibit,True,2,21381,41139,362,34.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-33 p5c_cell,exhibit,True,3,24856,56263,613,17.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-34 p5c_cell,exhibit,False,0,0,107,367,13.1,,"[""musd 193.902""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-34 p5c_cell,exhibit,True,3,21054,54935,580,16.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-34 p5c_cell,exhibit,True,3,21054,54901,597,52.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-34 p5c_cell,exhibit,True,2,17579,39801,346,19.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-35 p5c_tse_change,exhibit,False,0,0,106,756,6.1,,"[""musd 2041.169""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-35 p5c_tse_change,exhibit,False,9,92152,254604,1206,65.4,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-35 p5c_tse_change,exhibit,False,10,88584,210225,1415,57.9,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-35 p5c_tse_change,exhibit,False,10,61944,189777,1363,69.6,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-36 p5c_tse_change,exhibit,False,0,0,106,284,16.4,,"[""musd 70.433""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-36 p5c_tse_change,exhibit,True,5,62460,89275,938,49.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-36 p5c_tse_change,exhibit,True,4,40040,50731,669,33.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-36 p5c_tse_change,exhibit,True,4,40040,50703,659,14.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-37 p5c_tse_change,exhibit,False,0,0,106,284,8.6,,"[""musd 1608.613""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-37 p5c_tse_change,exhibit,True,4,43842,51960,669,25.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-37 p5c_tse_change,exhibit,True,4,43842,51957,599,17.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-37 p5c_tse_change,exhibit,True,4,43842,51957,609,17.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-38 premise_trap,premise,False,0,0,83,228,7.1,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-38 premise_trap,premise,True,2,32947,32835,376,29.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-38 premise_trap,premise,True,2,32947,32835,425,26.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-38 premise_trap,premise,True,2,32237,32484,443,32.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-39 premise_trap,premise,True,0,0,78,317,19.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-39 premise_trap,premise,True,2,18305,26607,426,23.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-39 premise_trap,premise,True,2,18305,26607,360,15.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-39 premise_trap,premise,True,2,18305,26607,408,21.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-40 premise_trap,premise,True,0,0,84,59,7.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-40 premise_trap,premise,True,4,37392,46887,740,13.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-40 premise_trap,premise,True,4,23967,43074,686,19.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-40 premise_trap,premise,True,4,25092,43729,680,20.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-41 premise_trap,premise,True,0,0,80,242,9.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-41 premise_trap,premise,True,3,24108,28706,566,15.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-41 premise_trap,premise,True,3,20060,26977,543,18.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-41 premise_trap,premise,True,3,19798,26837,517,10.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-42 premise_trap,premise,True,0,0,81,389,5.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-42 premise_trap,premise,True,4,10953,36986,698,23.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-42 premise_trap,premise,True,5,12940,53330,798,25.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-42 premise_trap,premise,True,4,10953,36986,675,20.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-43 premise_trap,premise,False,0,0,88,180,2.1,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-43 premise_trap,premise,True,3,1780,21710,623,17.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-43 premise_trap,premise,True,5,2323,33447,732,23.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-43 premise_trap,premise,True,3,1782,21728,553,16.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-44 premise_trap,premise,False,0,0,82,361,4.8,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-44 premise_trap,premise,True,3,18933,27680,566,18.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-44 premise_trap,premise,True,3,18933,27680,565,16.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-44 premise_trap,premise,True,3,18933,27680,586,15.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-generated,R4-45 premise_trap,premise,False,0,0,85,388,4.8,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-generated,R4-45 premise_trap,premise,True,3,17512,28209,585,15.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-generated,R4-45 premise_trap,premise,True,3,17512,28209,641,16.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-generated,R4-45 premise_trap,premise,True,3,17512,28209,633,16.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U01 document,document,False,0,0,97,264,3.6,,"[""text /March,? 2027|2027-03/"", ""text /elevator/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U01 document,document,True,6,56504,138414,1102,16.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U01 document,document,True,5,50755,111757,812,13.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U01 document,document,True,3,14609,49303,434,8.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U02 document,document,False,0,0,87,247,3.7,,"[""text /1\\.5 ?(billion|B\\b)|1,500 ?(million|M\\b)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U02 document,document,True,4,43324,90641,692,10.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U02 document,document,True,2,19350,41283,419,6.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U02 document,document,True,2,19350,41279,461,7.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U03 document,document,False,0,0,95,256,3.1,,"[""text /\\b97 ?(%|percent)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U03 document,document,True,2,12401,36117,338,6.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U03 document,document,True,2,12401,36118,390,6.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U03 document,document,True,2,7609,34268,399,7.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U04 document,document,False,0,0,92,124,2.0,,"[""text /January 28|Jan\\.? 28|2026-01-28|28 January/"", ""text /February 4|Feb\\.? 4|2026-02-04|4 February/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U04 document,document,True,1,12652,25121,307,4.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U04 document,document,True,1,12652,25121,328,5.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U04 document,document,True,1,12652,25121,350,4.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U05 document,document,False,0,0,97,67,1.6,,"[""text /May,? 2015|2015-05/"", ""text /6\\.0 ?(billion|B\\b)|\\$6 ?(billion|B\\b)|6,000 ?(million|M\\b)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U05 document,document,True,2,12120,38169,357,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U05 document,document,True,2,12120,38167,398,13.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U05 document,document,True,2,12120,38167,406,25.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U06 document,document,False,0,0,107,104,2.3,,"[""text /several hundred million|hundreds of millions/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U06 document,document,True,3,15334,39454,528,18.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U06 document,document,True,3,15334,39454,532,14.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U06 document,document,True,2,14838,38870,413,8.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U07 regulation,regulation,False,0,0,107,302,8.3,,"[""text /100 ?(million|M\\b)|11\\.498/"", ""text /Chief of Naval Operations|\\bCNO\\b/"", ""text /operational capabilit/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U07 regulation,regulation,True,2,17342,41894,470,10.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U07 regulation,regulation,True,2,17342,41898,448,15.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U07 regulation,regulation,True,2,17800,42031,468,10.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U08 document,document,False,0,0,101,317,14.9,,"[""text /June,? 2022/"", ""text /September,? 2024/"", ""text /Section 121|114-328/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U08 document,document,True,2,25260,29646,391,11.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U08 document,document,True,2,25696,29565,378,18.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U08 document,document,True,2,25991,29614,337,11.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U09 regulation,regulation,True,0,0,96,379,6.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U09 regulation,regulation,True,4,5988,56313,638,21.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U09 regulation,regulation,True,5,12612,50007,721,26.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U09 regulation,regulation,True,5,12612,50007,728,25.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U10 multi_source,multi_source,False,0,0,120,618,6.6,,"[""text /119\\.03/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U10 multi_source,multi_source,True,6,41390,90916,1086,19.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U10 multi_source,multi_source,True,6,41390,90729,1005,39.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U10 multi_source,multi_source,True,6,41390,90838,1124,74.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U11 multi_source,multi_source,False,0,0,121,658,8.2,,"[""text /2,?131(\\.0)?\\b/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U11 multi_source,multi_source,True,8,52108,85019,1262,26.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U11 multi_source,multi_source,True,9,57260,142597,1548,41.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U11 multi_source,multi_source,True,7,50112,81679,1262,71.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U12 multi_source,multi_source,False,0,0,107,352,3.8,,"[""text /\\b20 months|twenty months/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U12 multi_source,multi_source,True,5,40641,73166,947,17.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U12 multi_source,multi_source,True,8,64936,131076,1169,56.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U12 multi_source,multi_source,True,7,55634,151637,1067,49.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U13 multi_source,multi_source,False,0,0,95,405,6.8,,"[""text /1,?051\\.5/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U13 multi_source,multi_source,True,2,19044,43431,491,27.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U13 multi_source,multi_source,True,5,27315,103169,785,22.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U13 multi_source,multi_source,True,2,15787,41141,502,9.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U14 judgment,judgment,False,0,0,98,479,8.4,,"[""text /\\bno\\b|not (necessarily )?(cheaper|less expensive)|does not mean|doesn't mean/"", ""text /(two|2) (additional |more |new )?(ships|carriers|units|hulls)|six ships|averag/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U14 judgment,judgment,True,3,28852,46961,708,36.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U14 judgment,judgment,True,3,28852,46962,714,43.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U14 judgment,judgment,True,4,29685,66270,791,32.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U15 judgment,judgment,False,0,0,123,242,7.5,,"[""text /\\b(two|2)\\b[^.]{0,40}\\bcaps?\\b|not three|same cap/"", ""text /2014/"", ""text /2016|section 122/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U15 judgment,judgment,False,6,33012,50428,1046,22.9,,"[""text /\\b(two|2)\\b[^.]{0,40}\\bcaps?\\b|not three|same cap/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U15 judgment,judgment,False,3,23625,28831,691,11.7,,"[""text /\\b(two|2)\\b[^.]{0,40}\\bcaps?\\b|not three|same cap/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U15 judgment,judgment,False,3,23625,28831,682,19.8,,"[""text /\\b(two|2)\\b[^.]{0,40}\\bcaps?\\b|not three|same cap/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U16 judgment,judgment,True,0,0,128,346,7.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U16 judgment,judgment,True,6,52677,115994,1092,31.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U16 judgment,judgment,True,9,57547,91469,1276,50.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U16 judgment,judgment,True,7,13758,56523,1067,23.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U17 judgment,judgment,True,0,0,104,493,9.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U17 judgment,judgment,True,1,1190,21299,437,10.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U17 judgment,judgment,True,1,1190,21281,437,8.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U17 judgment,judgment,True,3,2130,32349,514,18.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U18 premise,premise,True,0,0,84,361,4.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U18 premise,premise,True,3,41128,77741,771,29.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U18 premise,premise,True,3,26868,51073,652,16.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U18 premise,premise,True,1,16005,28695,419,11.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U19 premise,premise,False,0,0,84,356,13.3,,"[""text /did not|didn't|no increase|unchanged|remained|retained|kept|same/"", ""text /11,?398/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U19 premise,premise,True,4,22526,61375,736,18.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U19 premise,premise,True,3,20299,43409,671,20.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U19 premise,premise,True,10,27271,87494,1207,35.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U20 document,document,False,0,0,84,193,5.6,,"[""text /not available|not (separately )?track|other Navy programs|no software cost|does not report/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U20 document,document,False,10,40082,123442,942,64.8,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U20 document,document,True,4,31662,75519,638,30.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U20 document,document,True,2,17623,40080,385,23.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U21 hard,hard,False,0,0,98,399,5.0,,"[""text /3,?327\\.05/"", ""text /2012/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U21 hard,hard,True,2,22624,41743,465,11.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U21 hard,hard,True,3,26099,56658,511,24.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U21 hard,hard,True,2,22624,41743,473,10.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U22 hard,hard,False,0,0,101,227,3.2,,"[""text /2,?087\\.3/"", ""text /2022/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U22 hard,hard,True,2,22624,41771,504,26.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U22 hard,hard,True,2,22624,41771,524,32.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U22 hard,hard,True,2,22624,41761,515,12.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U23 document,document,False,0,0,100,96,2.5,,"[""text /May,? 2015/"", ""text /April,? 2015/"", ""text /June,? 2015|detail design and construction|DD&C/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U23 document,document,True,2,14066,38435,379,18.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U23 document,document,True,2,14066,38433,385,14.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U23 document,document,True,2,14066,38433,375,7.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,no_tools,h4-reviewed,U24 document,document,False,0,0,95,326,4.3,,"[""text /March,? 2025/"", ""text /February,? 2028/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep1,h4-reviewed,U24 document,document,False,8,61933,152728,916,31.5,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep2,h4-reviewed,U24 document,document,True,3,27447,59504,517,13.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-claude-sonnet-4-5,tools_rep3,h4-reviewed,U24 document,document,True,3,26713,58852,562,18.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-01 obl_fy_total,obligations,False,0,0,103,163,2.3,,"[""count 46"", ""usd 7729052.50""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-01 obl_fy_total,obligations,True,1,35269,26403,155,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-01 obl_fy_total,obligations,True,1,35269,26403,163,5.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-01 obl_fy_total,obligations,True,1,35269,26403,155,4.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-02 obl_fy_total,obligations,False,0,0,105,205,2.5,,"[""count 109"", ""usd 300550618.22""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-02 obl_fy_total,obligations,True,1,75418,34171,149,5.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-02 obl_fy_total,obligations,True,4,83136,119466,330,12.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-02 obl_fy_total,obligations,True,1,75418,34171,150,5.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-03 obl_fy_total,obligations,False,0,0,105,348,6.3,,"[""count 108"", ""usd 120044143.24""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-03 obl_fy_total,obligations,True,1,80697,34128,139,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-03 obl_fy_total,obligations,True,1,80697,34132,209,6.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-03 obl_fy_total,obligations,True,3,87708,89902,403,11.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-04 obl_fy_total,obligations,False,0,0,103,73,1.4,,"[""count 32"", ""usd 398066461.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-04 obl_fy_total,obligations,True,1,27172,23997,157,4.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-04 obl_fy_total,obligations,True,1,27172,23997,159,5.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-04 obl_fy_total,obligations,True,1,27172,23997,160,4.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-05 obl_fy_total,obligations,False,0,0,105,202,2.6,,"[""count 62"", ""usd 616695414.05""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-05 obl_fy_total,obligations,True,1,46684,29986,150,4.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-05 obl_fy_total,obligations,True,1,46684,29986,184,5.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-05 obl_fy_total,obligations,True,1,46684,29986,238,5.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-06 obl_fy_total,obligations,False,0,0,103,83,1.7,,"[""count 28"", ""usd 559185595.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-06 obl_fy_total,obligations,True,1,23219,22715,152,4.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-06 obl_fy_total,obligations,True,1,23219,22715,154,4.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-06 obl_fy_total,obligations,True,1,23219,22715,172,5.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-07 obl_fy_largest,obligations,False,0,0,107,99,1.6,,"[""usd 3934550.00"", ""text /\\bAZ0*64\\b/"", ""date 2021-09-21""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-07 obl_fy_largest,obligations,True,1,4134,16363,170,5.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-07 obl_fy_largest,obligations,True,1,4134,16363,149,5.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-07 obl_fy_largest,obligations,True,1,4134,16363,179,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-08 obl_fy_largest,obligations,False,0,0,109,98,2.0,,"[""usd 188031383.00"", ""text /(base award|original award|initial award|modification (number )?0\\b|\\bmod(\\.|ification)? ?#?0\\b)/"", ""date 2015-06-05""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-08 obl_fy_largest,obligations,True,1,4208,16364,192,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-08 obl_fy_largest,obligations,True,1,4208,16364,209,5.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-08 obl_fy_largest,obligations,True,1,4208,16364,157,4.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-09 obl_fy_largest,obligations,False,0,0,107,160,2.9,,"[""usd 457000.00"", ""text /\\bA0*252\\b/"", ""date 2019-05-30""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-09 obl_fy_largest,obligations,True,1,7809,17554,204,5.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-09 obl_fy_largest,obligations,True,1,4077,16347,202,5.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-09 obl_fy_largest,obligations,True,1,4077,16347,186,5.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-10 obl_fy_largest,obligations,False,0,0,107,252,3.1,,"[""usd 184172117.00"", ""text /\\bP0*129\\b/"", ""date 2017-05-15""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-10 obl_fy_largest,obligations,True,1,4236,16407,170,4.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-10 obl_fy_largest,obligations,True,1,4236,16407,202,6.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-10 obl_fy_largest,obligations,True,1,4236,16407,218,4.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-11 obl_fy_deob,obligations,False,0,0,106,119,1.7,,"[""count 3"", ""usd -12879.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-11 obl_fy_deob,obligations,False,1,53222,32463,258,6.3,,"[""usd -12879.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-11 obl_fy_deob,obligations,True,1,53219,32461,337,7.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-11 obl_fy_deob,obligations,True,2,59064,59708,350,8.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-12 obl_fy_deob,obligations,False,0,0,106,111,1.6,,"[""count 9"", ""usd -4428989.36""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-12 obl_fy_deob,obligations,False,2,71007,62012,455,10.3,,"[""count 9"", ""usd -4428989.36""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-12 obl_fy_deob,obligations,False,2,73447,62916,593,10.6,,"[""count 9"", ""usd -4428989.36""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-12 obl_fy_deob,obligations,False,2,70913,61985,584,10.0,,"[""count 9"", ""usd -4428989.36""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-13 obl_fy_deob,obligations,False,0,0,106,47,1.0,,"[""count 2"", ""usd -11200000.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-13 obl_fy_deob,obligations,True,1,18887,21236,219,6.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-13 obl_fy_deob,obligations,True,1,18887,21240,266,6.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-13 obl_fy_deob,obligations,True,1,18887,21240,256,6.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-14 obl_fy_deob,obligations,False,0,0,106,108,1.6,,"[""count 8"", ""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-14 obl_fy_deob,obligations,False,1,30515,25037,610,11.1,,"[""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-14 obl_fy_deob,obligations,False,1,30515,25033,376,7.5,,"[""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-14 obl_fy_deob,obligations,False,1,30515,25033,325,7.2,,"[""count 8"", ""usd -5828833.00""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-15 obl_mod_amount,obligations,False,0,0,98,99,1.5,,"[""usd 12500.00"", ""date 2021-09-30""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-15 obl_mod_amount,obligations,True,1,1161,15370,182,5.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-15 obl_mod_amount,obligations,True,1,1161,15374,164,5.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-15 obl_mod_amount,obligations,True,1,1161,15365,216,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-16 obl_mod_amount,obligations,False,0,0,98,90,1.4,,"[""usd 4349072.00"", ""date 2023-07-11""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-16 obl_mod_amount,obligations,True,1,1149,15365,184,5.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-16 obl_mod_amount,obligations,True,1,1149,15365,150,4.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-16 obl_mod_amount,obligations,True,1,1149,15365,163,4.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-17 obl_mod_amount,obligations,False,0,0,98,66,1.4,,"[""usd 536.00"", ""date 2021-02-25""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-17 obl_mod_amount,obligations,True,1,1161,15373,160,5.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-17 obl_mod_amount,obligations,True,1,1161,15368,178,4.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-17 obl_mod_amount,obligations,True,1,1161,15373,181,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-18 obl_mod_amount,obligations,False,0,0,98,74,1.5,,"[""usd 130384.00"", ""date 2019-08-27""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-18 obl_mod_amount,obligations,True,2,1356,23384,246,7.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-18 obl_mod_amount,obligations,True,1,1167,15366,159,4.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-18 obl_mod_amount,obligations,True,1,1167,15375,213,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-19 obl_mod_amount,obligations,False,0,0,100,185,2.4,,"[""usd 175000.00"", ""date 2023-10-20""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-19 obl_mod_amount,obligations,True,1,1165,15366,177,5.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-19 obl_mod_amount,obligations,True,1,1165,15366,162,4.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-19 obl_mod_amount,obligations,True,1,14893,19366,167,5.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-20 obl_mod_amount,obligations,False,0,0,100,78,1.6,,"[""usd 158458.00"", ""date 2019-09-25""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-20 obl_mod_amount,obligations,True,1,1161,15369,174,5.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-20 obl_mod_amount,obligations,True,1,1161,15369,146,4.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-20 obl_mod_amount,obligations,True,1,1161,15369,167,4.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-21 obl_no_such_mod,decoy,False,0,0,91,147,2.3,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-21 obl_no_such_mod,decoy,True,2,824,22927,261,9.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-21 obl_no_such_mod,decoy,True,4,16832,43830,516,16.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-21 obl_no_such_mod,decoy,True,4,2460,39587,422,13.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-22 obl_no_such_mod,decoy,False,0,0,93,149,2.0,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-22 obl_no_such_mod,decoy,True,2,824,22937,234,9.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-22 obl_no_such_mod,decoy,True,2,2946,23702,235,8.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-22 obl_no_such_mod,decoy,True,4,25023,49957,588,13.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-23 obl_no_such_mod,decoy,False,0,0,91,113,1.6,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-23 obl_no_such_mod,decoy,True,3,1991,31221,354,12.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-23 obl_no_such_mod,decoy,True,5,2791,48230,359,13.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-23 obl_no_such_mod,decoy,False,2,1579,23173,248,8.2,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-24 obl_no_such_mod,decoy,False,0,0,91,194,2.4,,"[""says it does not exist""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-24 obl_no_such_mod,decoy,True,4,36639,51905,673,14.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-24 obl_no_such_mod,decoy,True,2,824,22935,274,8.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-24 obl_no_such_mod,decoy,True,3,1236,30938,329,11.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-25 p5c_cell,exhibit,False,0,0,102,88,1.7,,"[""musd 183.945""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-25 p5c_cell,exhibit,True,2,22461,31890,183,4.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-25 p5c_cell,exhibit,True,5,63928,106059,300,8.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-25 p5c_cell,exhibit,True,2,22461,31890,177,4.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-26 p5c_cell,exhibit,False,0,0,105,133,1.9,,"[""musd 5995.429""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-26 p5c_cell,exhibit,False,1,619,15266,181,3.6,,"[""musd 5995.429""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-26 p5c_cell,exhibit,False,7,49087,99149,395,15.6,,"[""musd 5995.429""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-26 p5c_cell,exhibit,False,7,58293,106430,391,36.8,,"[""musd 5995.429""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-27 p5c_cell,exhibit,False,0,0,103,91,1.7,,"[""musd 345.207""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-27 p5c_cell,exhibit,False,5,8647,56120,278,28.5,,"[""musd 345.207""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-27 p5c_cell,exhibit,False,7,63974,116942,433,31.5,,"[""musd 345.207""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-27 p5c_cell,exhibit,False,4,22276,62447,251,15.4,,"[""musd 345.207""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-28 p5c_cell,exhibit,False,0,0,102,75,1.3,,"[""musd 880.078""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-28 p5c_cell,exhibit,True,2,17746,29961,173,17.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-28 p5c_cell,exhibit,True,2,17746,29961,176,6.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-28 p5c_cell,exhibit,True,2,17746,29961,189,8.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-29 p5c_cell,exhibit,False,0,0,103,90,1.6,,"[""musd 1376.957""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-29 p5c_cell,exhibit,True,2,17746,29964,203,20.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-29 p5c_cell,exhibit,True,2,17746,29964,189,8.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-29 p5c_cell,exhibit,True,2,17746,29964,162,12.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-30 p5c_cell,exhibit,False,0,0,102,88,3.0,,"[""musd 41.500""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-30 p5c_cell,exhibit,True,2,22461,31890,183,17.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-30 p5c_cell,exhibit,False,5,44314,107524,323,31.5,,"[""musd 41.500""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-30 p5c_cell,exhibit,True,3,25936,43318,197,20.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-31 p5c_cell,exhibit,False,0,0,103,86,2.5,,"[""musd 235.601""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-31 p5c_cell,exhibit,True,5,55900,85183,252,41.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-31 p5c_cell,exhibit,False,1,619,15262,199,7.6,,"[""musd 235.601""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-31 p5c_cell,exhibit,True,5,50177,90689,285,25.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-32 p5c_cell,exhibit,False,0,0,103,73,1.6,,"[""musd 1043.798""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-32 p5c_cell,exhibit,True,2,22461,31893,163,7.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-32 p5c_cell,exhibit,True,3,23594,40545,207,25.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-32 p5c_cell,exhibit,True,2,22461,31893,203,32.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-33 p5c_cell,exhibit,False,0,0,110,95,7.9,,"[""musd 30.152""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-33 p5c_cell,exhibit,True,3,26936,44733,224,22.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-33 p5c_cell,exhibit,True,2,21381,31122,178,15.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-33 p5c_cell,exhibit,True,2,21381,31122,205,7.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-34 p5c_cell,exhibit,False,0,0,102,99,4.6,,"[""musd 193.902""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-34 p5c_cell,exhibit,True,2,17579,29941,179,14.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-34 p5c_cell,exhibit,True,2,17579,29941,178,17.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-34 p5c_cell,exhibit,True,2,17579,29941,212,15.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-35 p5c_tse_change,exhibit,False,0,0,100,110,26.8,,"[""musd 2041.169""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-35 p5c_tse_change,exhibit,False,6,25934,82064,467,70.9,,"[""musd 2041.169""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-35 p5c_tse_change,exhibit,False,3,43124,57409,562,18.7,,"[""musd 2041.169""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-35 p5c_tse_change,exhibit,False,8,30091,124107,286,62.5,no answer after 8 tool turns,"[""answer present""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-36 p5c_tse_change,exhibit,False,0,0,100,98,1.5,,"[""musd 70.433""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-36 p5c_tse_change,exhibit,False,7,145713,299844,837,96.5,,"[""musd 70.433""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-36 p5c_tse_change,exhibit,True,3,42714,59404,379,11.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-36 p5c_tse_change,exhibit,False,7,144249,282221,674,74.9,,"[""musd 70.433""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-37 p5c_tse_change,exhibit,False,0,0,100,77,1.7,,"[""musd 1608.613""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-37 p5c_tse_change,exhibit,True,4,47675,70244,402,42.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-37 p5c_tse_change,exhibit,True,4,43842,73686,445,33.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-37 p5c_tse_change,exhibit,True,3,46542,60603,391,32.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-38 premise_trap,premise,False,0,0,82,210,12.5,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-38 premise_trap,premise,True,2,36859,40598,873,23.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-38 premise_trap,premise,True,3,73638,82578,548,15.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-38 premise_trap,premise,True,2,36857,40649,523,20.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-39 premise_trap,premise,False,0,0,77,99,5.7,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-39 premise_trap,premise,True,1,18068,19662,185,6.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-39 premise_trap,premise,True,2,17851,27275,318,29.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-39 premise_trap,premise,True,1,17511,19539,469,15.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-40 premise_trap,premise,True,0,0,85,124,7.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-40 premise_trap,premise,False,3,1242,30759,250,46.6,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-40 premise_trap,premise,True,3,1246,30768,326,26.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-40 premise_trap,premise,True,3,61532,60730,226,6.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-41 premise_trap,premise,False,0,0,80,144,11.3,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-41 premise_trap,premise,True,1,16299,19228,407,15.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-41 premise_trap,premise,True,2,35856,32145,347,26.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-41 premise_trap,premise,True,3,50969,52062,659,25.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-42 premise_trap,premise,False,0,0,81,65,3.7,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-42 premise_trap,premise,True,3,44397,59461,682,27.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-42 premise_trap,premise,True,1,14534,19509,442,10.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-42 premise_trap,premise,True,1,452,15071,196,3.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-43 premise_trap,premise,False,0,0,85,91,1.8,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-43 premise_trap,premise,False,5,2122,47579,525,31.2,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-43 premise_trap,premise,False,3,1236,30950,396,17.4,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-43 premise_trap,premise,False,5,1777,47348,631,39.1,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-44 premise_trap,premise,False,0,0,82,89,3.3,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-44 premise_trap,premise,True,2,718,22797,193,11.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-44 premise_trap,premise,True,2,718,22797,175,8.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-44 premise_trap,premise,True,4,78811,92761,684,22.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-generated,R4-45 premise_trap,premise,False,0,0,83,104,1.6,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-generated,R4-45 premise_trap,premise,False,3,30026,38490,532,22.9,,"[""premise rejected""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-generated,R4-45 premise_trap,premise,True,3,30026,38490,550,23.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-generated,R4-45 premise_trap,premise,True,3,29954,38402,464,23.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U01 document,document,False,0,0,98,105,2.0,,"[""text /March,? 2027|2027-03/"", ""text /elevator/"", ""text /landing|arrest/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U01 document,document,True,4,21587,47769,217,18.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U01 document,document,True,4,39864,58075,216,18.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U01 document,document,True,3,20110,36455,165,5.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U02 document,document,False,0,0,88,61,1.4,,"[""text /1\\.5 ?(billion|B\\b)|1,500 ?(million|M\\b)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U02 document,document,True,3,36100,43617,178,6.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U02 document,document,True,3,16565,34879,162,5.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U02 document,document,True,1,14224,18603,109,2.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U03 document,document,False,0,0,91,72,1.4,,"[""text /\\b97 ?(%|percent)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U03 document,document,True,1,13094,18893,104,3.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U03 document,document,True,2,26205,37486,159,5.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U03 document,document,True,1,14607,19338,105,3.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U04 document,document,False,0,0,87,64,1.4,,"[""text /January 28|Jan\\.? 28|2026-01-28|28 January/"", ""text /February 4|Feb\\.? 4|2026-02-04|4 February/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U04 document,document,True,1,15815,19424,137,3.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U04 document,document,True,2,20313,32722,176,4.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U04 document,document,True,1,16361,19608,146,3.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U05 document,document,False,0,0,97,69,2.5,,"[""text /May,? 2015|2015-05/"", ""text /6\\.0 ?(billion|B\\b)|\\$6 ?(billion|B\\b)|6,000 ?(million|M\\b)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U05 document,document,True,5,24143,61384,403,15.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U05 document,document,True,3,28883,37530,178,10.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U05 document,document,True,3,28883,37530,211,22.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U06 document,document,False,0,0,106,135,4.2,,"[""text /several hundred million|hundreds of millions/"", ""text /labor|labour/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U06 document,document,True,1,14028,18456,130,4.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U06 document,document,True,1,14797,18646,130,6.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U06 document,document,True,3,35444,43630,182,15.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U07 regulation,regulation,False,0,0,102,44,2.7,,"[""text /100 ?(million|M\\b)|11\\.498/"", ""text /Chief of Naval Operations|\\bCNO\\b/"", ""text /operational capabilit/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U07 regulation,regulation,True,2,19995,33120,202,15.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U07 regulation,regulation,True,2,19995,33120,230,7.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U07 regulation,regulation,False,2,19995,33120,228,19.3,,"[""text /100 ?(million|M\\b)|11\\.498/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U08 document,document,False,0,0,98,82,8.7,,"[""text /June,? 2022/"", ""text /September,? 2024/"", ""text /Section 121|114-328/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U08 document,document,True,2,19930,32715,177,12.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U08 document,document,True,1,30947,23802,291,5.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U08 document,document,True,1,14814,19171,206,6.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U09 regulation,regulation,False,0,0,93,173,3.7,,"[""text /\\b80 ?(%|percent)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U09 regulation,regulation,True,2,17457,31147,199,11.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U09 regulation,regulation,True,3,15491,34672,330,25.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U09 regulation,regulation,True,1,15194,18981,188,9.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U10 multi_source,multi_source,False,0,0,113,131,7.4,,"[""text /119\\.03/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U10 multi_source,multi_source,True,6,40256,101190,498,19.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U10 multi_source,multi_source,True,5,33082,86730,603,37.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U10 multi_source,multi_source,True,3,29124,50642,520,40.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U11 multi_source,multi_source,False,0,0,115,478,7.4,,"[""text /2,?131(\\.0)?\\b/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U11 multi_source,multi_source,True,5,81471,127161,953,46.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U11 multi_source,multi_source,False,5,17161,69326,715,59.6,,"[""text /inflation/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U11 multi_source,multi_source,False,4,51445,94037,765,26.4,,"[""text /inflation/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U12 multi_source,multi_source,False,0,0,104,111,1.6,,"[""text /July,? 2025|2025-07/"", ""text /\\b20 months|twenty months/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U12 multi_source,multi_source,False,4,42113,68079,533,44.4,,"[""text /\\b20 months|twenty months/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U12 multi_source,multi_source,False,5,80317,104915,505,32.6,,"[""text /\\b20 months|twenty months/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U12 multi_source,multi_source,False,5,69730,97658,580,39.7,,"[""text /\\b20 months|twenty months/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U13 multi_source,multi_source,False,0,0,92,76,9.7,,"[""text /1,?051\\.5/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U13 multi_source,multi_source,True,2,19518,33032,216,19.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U13 multi_source,multi_source,True,2,19507,33028,263,22.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U13 multi_source,multi_source,True,2,19079,32982,266,13.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U14 judgment,judgment,False,0,0,96,619,9.6,,"[""text /(two|2) (additional |more |new )?(ships|carriers|units|hulls)|six ships|averag/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U14 judgment,judgment,True,3,21507,36919,817,21.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U14 judgment,judgment,False,2,26170,32903,934,16.4,,"[""text /(two|2) (additional |more |new )?(ships|carriers|units|hulls)|six ships|averag/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U14 judgment,judgment,False,3,16742,34886,710,17.7,,"[""text /(two|2) (additional |more |new )?(ships|carriers|units|hulls)|six ships|averag/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U15 judgment,judgment,False,0,0,115,367,5.0,,"[""text /2016|section 122/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U15 judgment,judgment,True,4,29142,57787,688,20.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U15 judgment,judgment,True,2,28262,34342,599,18.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U15 judgment,judgment,True,1,29972,23406,858,21.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U16 judgment,judgment,False,0,0,123,263,16.3,,"[""text /PB ?2027|later|newer|more recent|latest/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U16 judgment,judgment,True,2,34312,40725,723,12.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U16 judgment,judgment,True,3,19946,41162,543,10.8,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U16 judgment,judgment,True,2,26682,35687,598,12.5,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U17 judgment,judgment,False,0,0,99,214,2.6,,"[""text /\\bno\\b|not (a|an) (reconcil\\w+ )?error|should not|shouldn't|resolved/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U17 judgment,judgment,True,1,1190,15360,286,10.1,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U17 judgment,judgment,False,1,1190,15360,362,9.4,,"[""text /as[- ]of|timing|different (dates|times)|snapshot/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U17 judgment,judgment,True,1,1190,15360,284,8.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U18 premise,premise,False,0,0,82,88,1.6,,"[""text /not (yet )?(been )?delivered|under construction|no RCOH|has not (undergone|had)|hasn't|mid-?life|incorrect premise|premise is (incorrect|wrong|false)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U18 premise,premise,False,3,36703,49353,249,12.6,,"[""text /not (yet )?(been )?delivered|under construction|no RCOH|has not (undergone|had)|hasn't|mid-?life|incorrect premise|premise is (incorrect|wrong|false)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U18 premise,premise,False,4,58383,66469,544,15.7,,"[""text /not (yet )?(been )?delivered|under construction|no RCOH|has not (undergone|had)|hasn't|mid-?life|incorrect premise|premise is (incorrect|wrong|false)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U18 premise,premise,False,3,656,30499,219,5.2,,"[""text /not (yet )?(been )?delivered|under construction|no RCOH|has not (undergone|had)|hasn't|mid-?life|incorrect premise|premise is (incorrect|wrong|false)/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U19 premise,premise,False,0,0,81,108,3.0,,"[""text /did not|didn't|no increase|unchanged|remained|retained|kept|same/"", ""text /11,?398/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U19 premise,premise,True,2,32527,36115,689,25.3,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U19 premise,premise,False,3,44381,56175,271,17.3,,"[""text /did not|didn't|no increase|unchanged|remained|retained|kept|same/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U19 premise,premise,True,3,34446,50730,258,39.0,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U20 document,document,False,0,0,83,80,2.1,,"[""text /not available|not (separately )?track|other Navy programs|no software cost|does not report/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U20 document,document,True,5,88180,88385,273,25.2,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U20 document,document,True,2,41586,36143,148,11.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U20 document,document,True,6,76736,99742,302,26.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U21 hard,hard,False,0,0,97,80,21.9,,"[""text /3,?327\\.05/"", ""text /2007/"", ""text /2012/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U21 hard,hard,True,2,22624,31677,389,17.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U21 hard,hard,False,3,36135,57543,395,18.5,,"[""text /3,?327\\.05/"", ""text /2007/"", ""text /2012/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U21 hard,hard,True,2,22624,31677,408,18.9,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U22 hard,hard,False,0,0,99,77,8.7,,"[""text /2,?087\\.3/"", ""text /2022/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U22 hard,hard,True,3,26099,43108,470,22.7,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U22 hard,hard,False,4,66904,87039,632,34.0,,"[""text /2,?087\\.3/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U22 hard,hard,False,2,22624,31683,415,9.4,,"[""text /2,?087\\.3/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U23 document,document,False,0,0,99,36,3.1,,"[""text /May,? 2015/"", ""text /April,? 2015/"", ""text /June,? 2015|detail design and construction|DD&C/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U23 document,document,True,3,33718,43193,291,17.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U23 document,document,True,1,13032,18198,148,8.6,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U23 document,document,True,3,27631,41760,218,10.4,,
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,no_tools,h4-reviewed,U24 document,document,False,0,0,96,60,8.7,,"[""text /March,? 2025/"", ""text /February,? 2028/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep1,h4-reviewed,U24 document,document,False,4,76664,76012,332,23.8,,"[""text /March,? 2025/"", ""text /February,? 2028/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep2,h4-reviewed,U24 document,document,False,5,79100,97095,356,14.3,,"[""text /March,? 2025/"", ""text /February,? 2028/""]"
+r4-4bb6a2a6,2026-11-21T05:59:54Z,7e0d0a2a69214945,d33d75acc4a0302c,databricks-gpt-5-mini,tools_rep3,h4-reviewed,U24 document,document,True,5,78669,97422,332,26.1,,

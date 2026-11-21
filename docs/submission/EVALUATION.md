@@ -17,7 +17,7 @@ others.
 | Code suites | Does the code do what it says? | Unit, contract and route tests per project, each in its own environment, plus lint (ruff, pinned) | `scripts/check.sh` |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 Air Carrier tools receives SQL fragments, path traversal, oversized values, wrong enum members and control characters, against a recording fake warehouse | `scripts/check.sh mcp-local` |
 | Known answers in production | Do the deployed servers answer correctly, every time? | A probe app calls each deployed server as a non-human caller: resolve, initialize, tools/list, then one known-answer tool call, logged per step | `aircarrier-mcp-probe`, results in `/Volumes/users/xiaobing_shang1_civ/aircarrier_mcp_probe_runs` |
-| Delegation | Given all tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, with and without server instructions, three repeats, plus a no-tool baseline. Rounds 2 and 3 were sealed: questions and answer key fixed by a SHA-256 committed before any model saw them | `python3 eval/delegation/analyze.py` |
+| Delegation | Given all tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, with and without server instructions, three repeats, plus a no-tool baseline. Rounds 2 to 4 were sealed: questions and answer key fixed by a SHA-256 committed before any model saw them | `python3 eval/delegation/analyze.py`, `python3 eval/delegation/round4/analyze_round4.py` |
 | Figures | Is every published number what the source prints? | Tie-outs to zero residual on two axes; every Impact page figure carries a verbatim quote checked against the page text | `checks/verify.py`, `checks/test_impact.py` |
 
 Inputs used: public records only. SCN budget justification books (PB2006 to PB2027), CVN 78
@@ -89,11 +89,28 @@ mode. The cause has not been isolated; it tracks the deployment, not the questio
 | 1, strict held-out | 4 | 20/24 (83.3%) | 2/8 (25.0%) |
 | 2, sealed, before fixes | 12 | 31/72 (43.1%, CI 32.3 to 54.6) | 3/24 (12.5%) |
 | 3, sealed, after fixes, 30 tools | 12 new | **50/72 (69.4%, CI 58.0 to 78.9)** | 1/24 (4.2%) |
+| 4, sealed, grader v2, Claude Sonnet 4.5 | 69 new | **183/207 (88.4%, CI 81.2 to 94.7)** | 10/69 (14.5%) |
+| 4, sealed, grader v2, GPT-5 mini | 69 new | **163/207 (78.7%, CI 70.0 to 86.5)** | 1/69 (1.4%) |
 
 Round 2 found that 28 of its 41 misses needed a tool or option that did not exist
 (obligations on the DD&C contract, a sort by amount, a search of the variance register);
 those were built and round 3 measured them on new questions. Five round 3 misses come from
 an answer-key error (G07); by hand the score is 55/72, but 50/72 is reported.
+
+Round 4 (run `r4-4bb6a2a6`, 2026-11-21) is larger and graded differently: 45 questions
+whose subjects a seeded generator drew from the source tables, plus 24 drafted from the
+documents by Genie Code and reviewed and edited by the project owner. Grader v2 reads
+numbers with their units, dates and refusals instead of matching regexes; on round 3's 144
+saved answers it agrees with the hand grades on 140 (144 if the G07 key error is applied to
+all six modes; see [SEAL.md](../../eval/delegation/round4/SEAL.md)), against 135 for the old
+regex grader. Round 4 intervals resample questions,
+because the three repeats of a question are not independent; the Wilson interval over runs
+used above is narrower (83.3 to 92.1 for Claude). Claude leads GPT-5 mini by 9.7 points
+(CI +1.4 to +17.9). Weakest areas: P-5c figures from older books printed in thousands
+(Claude 28/39 on all P-5c figures; 11 of its 16 cut-offs at the 8-turn limit are on the four questions from books printed in thousands) and, for GPT-5 mini, premise traps
+(21/30) and multi-source arithmetic (7/12). Because the questions, mix and grader differ,
+round 4 is not a point-for-point comparison with round 3. Full tables:
+[eval/delegation/round4/RESULTS.md](../../eval/delegation/round4/RESULTS.md).
 
 ### 2.4 Prompt injection
 
@@ -139,7 +156,8 @@ flagged an injected instruction to the user.
 
 1. **Measure on sealed questions, then fix, then measure on new sealed questions.** Round 1
    looked like 95%; the first sealed round was 43%. Most misses were missing tools, not bad
-   models. Fixing those and re-measuring on fresh questions gave 69%.
+   models. Fixing those and re-measuring on fresh questions gave 69%; a larger sealed round
+   of 69 questions with a unit-aware grader gave 88% (Claude) and 79% (GPT-5 mini).
 2. **Goal-shaped tools beat thin wrappers.** Models mis-summed 28 rows until the obligations
    search returned an exact server-side total; a decoy question burned 255k tokens before
    results were trimmed to a summary by default. Return the answer a person needs, with its basis.

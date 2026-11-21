@@ -83,7 +83,10 @@ run() {
     evidence)  (cd "$ROOT" && python3 scripts/check_links.py \
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \
                  && diff -u eval/delegation/RESULTS.md /tmp/delegation_results.md \
-                 && echo "eval/delegation/RESULTS.md matches runs.csv") ;;
+                 && echo "eval/delegation/RESULTS.md matches runs.csv" \
+                 && python3 -B eval/delegation/round4/analyze_round4.py > /tmp/delegation_results_r4.md \
+                 && diff -u eval/delegation/round4/RESULTS.md /tmp/delegation_results_r4.md \
+                 && echo "eval/delegation/round4/RESULTS.md matches runs_r4.csv") ;;
     *) echo "unknown project: $1 (choose from: ${PROJECTS[*]})"; return 2 ;;
   esac
 }
