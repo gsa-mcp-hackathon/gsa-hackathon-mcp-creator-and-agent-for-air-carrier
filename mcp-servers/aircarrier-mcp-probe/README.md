@@ -39,7 +39,7 @@ so a failure says where it broke. No token, header or payload is written.
 When a user's agent reports "Failed to generate OAuth token", the probe tells the two causes
 apart. A green probe means the app, the platform's OAuth path for a non-human caller, the
 server code and its data are healthy, so the fault is that user's connector. Any agency
-running MCP servers in production needs this evidence, and an hourly log of known answers
+running MCP servers in production needs this evidence, and a log of known answers every 15 minutes
 is continuous-monitoring evidence for an authority to operate.
 
 ## Safety

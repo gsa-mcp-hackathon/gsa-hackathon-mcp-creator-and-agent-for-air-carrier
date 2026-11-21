@@ -103,7 +103,7 @@
   },
   {
    "v": "1,234 of 1,234",
-   "k": "Known answers right, hourly probe",
+   "k": "Known answers right, probe every 15 minutes",
    "n": "99.90% of 6,193 checks ok, 2026-11-12 to 2026-11-20",
    "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/mcp-servers/aircarrier-mcp-probe/README.md"
   }
@@ -381,7 +381,7 @@
   },
   {
    "part": "Probe",
-   "reused": "Initialize, tools/list, one known answer, hourly",
+   "reused": "Initialize, tools/list, one known answer, every 15 minutes",
    "adds": "One known-answer check per new server"
   }
  ],
@@ -513,7 +513,7 @@
   {
    "n": 8,
    "title": "Watch and deliver",
-   "do": "Probe each server hourly; publish pages, agents and Genie Code skills.",
+   "do": "Probe each server every 15 minutes; publish pages, agents and Genie Code skills.",
    "tool": "aircarrier-mcp-probe, front center",
    "out": "Monitoring evidence and a product leaders can read",
    "proof": "1,234 of 1,234 known answers right"

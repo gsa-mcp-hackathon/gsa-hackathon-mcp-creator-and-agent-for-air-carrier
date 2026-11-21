@@ -26,6 +26,21 @@ By area for Claude: obligations 96.7% (mostly ops), document reading 93.3% (docs
 exhibit figures 71.8% (docs and ops; the weakest area, concentrated in older books printed
 in thousands).
 
+## The front center: agent workflows and controls
+
+The servers above are the tools. The front center (`the-one-hub/ops-center/app/`) is where
+people use them, and where agent output meets human authority.
+
+| Part | What it does | Control | Tests |
+| --- | --- | --- | --- |
+| Four specialist agent workflows, started from a page | Obligation Reconciler (a contract's obligations against its FPDS actions), Account Analyst (a File C period against the transactions), Gap Investigator (the request a named office can close), Brief Composer (what the brief can stand on) | Six stages (`app/api/si/sdk.py`): a page names one task and subject, an unknown pair is refused, code packs the evidence and computes every figure in exact decimals, one model explains it, code then grounds every number against the packed facts and a second model from a different family checks the answer, and only then can a person decide | `checks/test_si.py` 24 |
+| Decisions under the user's own identity | Apply or reject a proposal, or an exception in the Work queue | Authority is decided inside Unity Catalog by a statement run with the signed-in user's on-behalf-of token: `current_user()` and `is_account_group_member()` against a dated role map. No role travels in a request or a cookie. A refusal names its reason (not the owning role, checker not passed, records changed since review) | `checks/test_work.py` 78, `checks/test_harness.py` 68 |
+| Work queue lanes | Every item lands in one lane by code: decide (a named role can act today), unblock (a rule that cannot run, by root cause), system (test data, superseded rows) | No business action from the system lane | in `test_work.py` |
+| Run log | Every agent run and every human action, newest first | Append-only; each row names the person or the agent | in `test_si.py`, `test_work.py` |
+| User input capture (Answer a question) | Anyone can record an answer to an open gap with its source and up to three files | Enters as a lead, never a figure; attributed to the signed-in user, refused when no user reaches the deployed app; typed and size-capped input, same-origin posts only | `checks/test_capture_ask.py` 32 |
+| Ask the evidence | Questions in plain words; answers cite the records they rest on | Answers are leads; same input validation as capture | in `test_capture_ask.py` |
+| The gate | Decides whether a figure is promoted, held as a lead or sent to review | Deterministic, no model; `hub_check_claim` exposes it | `checks/test_gate.py`, agents suite 46 of 46 |
+
 ## How each row is reproduced
 
 | Row | Command |

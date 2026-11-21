@@ -40,7 +40,7 @@
    "n": 6,
    "who": "Watch",
    "what": "Probe",
-   "detail": "Calls every deployed server hourly with a known question",
+   "detail": "Calls every deployed server every 15 minutes with a known question",
    "kind": "server"
   }
  ],
@@ -98,7 +98,7 @@
   {
    "name": "Probe",
    "img": "cvn79-047",
-   "tools": "hourly",
+   "tools": "every 15 minutes",
    "problem": "When an agent reports a failed connection, nobody can tell whether the server or the connector broke.",
    "does": "Calls each server as a non-human caller through initialize, tools/list and one known-answer check, and logs which step failed.",
    "beyond": "Any agency running MCP servers in production, as continuous monitoring evidence for an authority to operate.",
