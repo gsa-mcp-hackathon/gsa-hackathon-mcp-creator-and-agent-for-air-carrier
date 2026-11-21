@@ -29,4 +29,9 @@
   <button class="btn" type="submit" id="ask-go">Ask</button>
  </form>
 </section>
+<script>
+ /* /ask?q=... fills the question box (from the Brief's sample questions); the person presses Ask. */
+ (function(){try{var q=new URLSearchParams(location.search).get("q"),t=document.getElementById("ask-q");
+ if(q&&t){t.value=q;t.focus();}}catch(e){}})();
+</script>
 {% endblock %}

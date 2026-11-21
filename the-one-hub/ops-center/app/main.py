@@ -523,15 +523,12 @@ def start_page():
 
 @app.get("/brief", response_class=HTMLResponse)
 def overview(request: Request):
-    from api.insights import by_kind, derive
-    names = ["program", "cost_categories", "funding_streams", "anchor_chain",
-             "attribution", "contracts", "obligations", "gaps", "variances",
-             "cap_history", "estimate_history", "corpus", "subawards"]
-    items = by_kind(derive({n: data.get(n) for n in names}))
+    # 2026-11-20: the rule-derived risks card (api/insights.py) is off the
+    # Brief; the page now walks a reader through four steps instead.
     g = data.get("gaps")
     by_id = {r["id"]: r for r in g.get("rows", [])}
     decide = [by_id[i] for i in g.get("ranked", []) if i in by_id][:3]
-    return page(request, "overview.html", "Brief", items=items,
+    return page(request, "overview.html", "Brief",
                 program=data.get("program"), attribution=data.get("attribution"),
                 gaps=g, decide=decide, how=CLOSE_HOW, held_clb=HELD_CLB_USD_M,
                 cost=data.get("cost_categories"), contracts=data.get("contracts"),

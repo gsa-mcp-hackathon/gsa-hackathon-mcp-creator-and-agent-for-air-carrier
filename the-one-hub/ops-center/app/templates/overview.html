@@ -9,8 +9,8 @@
  <div class="scrim"></div>
  <div class="inner">
   <h1>What can we say about CVN-79's cost today?</h1>
-  <p>What a briefing can state now, with its basis, what it should hold back and why, and which
-     decisions are waiting on whom. Every line links to the record it rests on.</p>
+  <p>Start here if you brief, budget, estimate or audit the ship. Pick your question, check what the
+     evidence supports today, then act on what is still open. Every line links to the record behind it.</p>
  </div>
  <span class="credit">PCU John F. Kennedy, Atlantic Ocean, October 2026</span>
 </section>
@@ -18,7 +18,38 @@
 <p class="for brief-for"><span><b>For</b> senior leaders, the PEO, the comptroller, anyone briefing the ship</span>
  <span><b>Decision</b> what goes in the brief, what is held, and who acts next</span></p>
 
-<div class="grid g4" style="margin-bottom:1rem">
+<nav class="guide" aria-label="How to use this page">
+ <a href="#doors-h"><span class="n">1</span><span><b>Pick your question</b><br>Six user groups, each with the two pages that answer it first.</span></a>
+ <a href="#say-h"><span class="n">2</span><span><b>Check what you can say</b><br>What the evidence supports today, and what to hold back.</span></a>
+ <a href="#dec-h"><span class="n">3</span><span><b>Act on what is open</b><br>The questions still blocking the number, and who can close them.</span></a>
+ <a href="#tools-h"><span class="n">4</span><span><b>Use the tools</b><br>Ask in plain words, run an agent check, export the records.</span></a>
+</nav>
+
+<section class="card" aria-labelledby="doors-h">
+ <h2 id="doors-h" class="step-h"><span class="n">1</span>Start from your question</h2>
+ <p class="cap">Pick the group closest to your role. Each card names the question that group brings and
+  opens the two pages that answer it first.</p>
+ <div class="doors">
+  {% for d in doors %}
+  <article class="door">
+   <img src="/static/img/{{ d.img }}-thumb.jpg" data-full="/static/img/{{ d.img }}.jpg" data-lightbox
+       
+        alt="{{ img_alt(d.img) }}">
+   <div class="body">
+    <h3>{{ d.who }}</h3>
+    <p class="q">"{{ d.q }}"</p>
+    <div class="links">{% for href, label in d.links %}<a href="{{ href }}">{{ label }}</a>{% endfor %}</div>
+   </div>
+  </article>
+  {% endfor %}
+ </div>
+</section>
+
+<section class="card" style="margin-top:1rem" aria-labelledby="say-h">
+ <h2 id="say-h" class="step-h"><span class="n">2</span>Check what you can say today</h2>
+ <p class="cap">Four numbers carry most briefs. The left column lists what the evidence supports, with its
+  source. The right column lists what is printed somewhere but not yet safe to say, and why.</p>
+<div class="grid g4" style="margin:.6rem 0 0">
  <div class="stat acc"><div class="k">Total Ship Estimate</div>
   <div class="v">${{ "{:,.0f}".format(total) }}M</div>
   <div class="n">FY2027 President's Budget, Exhibit {{ ui.code("P-5c") }}</div></div>
@@ -34,9 +65,8 @@
 </div>
 
 <div class="brief-cols">
- <section class="card" aria-labelledby="say-h">
-  <h2 id="say-h">What you can say today</h2>
-  <p class="cap">Each statement ties to a published source and the page that shows the working.</p>
+ <div>
+  <h3>Say it, with this basis</h3>
   <ul class="brief-list brief-ok">
    <li><span class="say">The FY2027 budget puts CVN-79 at ${{ "{:,.3f}".format(total) }}M.</span>
     <p>It decomposes exactly two ways: by cost category and by funding stream, each closing to a
@@ -57,11 +87,10 @@
      propulsion plant ({{ ui.code("G22") }}).</p>
     <span class="brief-basis">Basis: {{ ui.code("FPDS") }} obligation records · <a href="/cost">Cost composition</a></span></li>
   </ul>
- </section>
+ </div>
 
- <section class="card" aria-labelledby="hold-h">
-  <h2 id="hold-h">What not to say yet</h2>
-  <p class="cap">Figures that are printed somewhere but not confirmed, or that public data cannot carry.</p>
+ <div>
+  <h3 id="hold-h">Hold it, for this reason</h3>
   <ul class="brief-list brief-hold">
    <li><span class="say">Do not call ${{ "{:,.0f}".format(held_clb) }}M the new cost baseline.</span>
     <p>The FY2027 {{ ui.code("MSAR") }} prints it as a December 2025 increase, but the notification itself
@@ -80,13 +109,16 @@
      cannot show payments. This is the {{ ui.code("FBwT") }} weakness showing in the public record.</p>
     <span class="brief-basis">Gap {{ ui.code("G25") }} · needs DFAS Columbus or Navy FMO</span></li>
   </ul>
- </section>
+ </div>
 </div>
 
+</section>
+
 <section class="card" style="margin-top:1rem" aria-labelledby="dec-h">
- <h2 id="dec-h">Decisions waiting, and who can close them</h2>
- <p class="cap">The top three of {{ gaps.open }} open questions, ranked by dollar exposure, how little is
-  known, and how easily it can be closed. {{ gaps.free_now|length }} open questions need no access at all.</p>
+ <h2 id="dec-h" class="step-h"><span class="n">3</span>Act on what is still open</h2>
+ <p class="cap">{{ gaps.open }} questions still stand between the published figures and a number you can
+  defend. These are the top three, ranked by dollars at stake, how little is known and how easily each can
+  be closed. {{ gaps.free_now|length }} of the {{ gaps.open }} need no special access.</p>
  <table class="decide">
   <thead><tr><th>Gap</th><th>Question</th><th>Who can close it</th><th class="num">Exposure</th><th>How</th></tr></thead>
   <tbody>
@@ -101,57 +133,48 @@
   {% endfor %}
   </tbody>
  </table>
- <p class="cap" style="margin-top:.6rem"><a href="/gaps#who-can-close">Every office and what it can close</a> ·
-  agent proposals and exceptions wait for the named role in the <a href="/work">Work queue</a> ·
-  <a href="/mission">Brief readiness</a> counts the figures that tie to source.</p>
+ <ul class="next">
+  <li>See every open question and the office that can close it in the <a href="/gaps">Gap register</a>,
+   where each gap also has a button that starts an agent investigation.</li>
+  <li>If you hold one of those offices, decide the items routed to your role in the <a href="/work">Work queue</a>.</li>
+  <li>If you know an answer, record it on <a href="/insight">Answer a question</a>. It enters as a lead for review, with your name.</li>
+ </ul>
 </section>
 
-{# ------------------------------------------------------------ AI panel #}
-<section class="card" style="margin-top:1rem">
- <h2>What this says, and what to do about it</h2>
- <p class="sub">Derived from the registers and tables by named rules, each carrying the figure
-  it rests on. Nothing here is model-written prose: an item appears because a rule fired, so
-  it can be disagreed with by checking the evidence rather than by doubting the narrator.</p>
-
- <div class="grid3" style="margin-top:.8rem">
-  {% for kind, cls, heading in [('risk','risk','Risk'),('action','act','Do next'),('insight','','Reading')] %}
-  <div>
-   <h3 style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-2)">
-    {{ heading }} <span class="muted">({{ items[kind]|length }})</span></h3>
-   {% for i in items[kind] %}
-   <div class="ai {{ cls }}">
-    <span class="t">{{ i.severity }} · {{ i.title }}</span>
-    <p>{{ i.body }}</p>
-    <span class="src">
-     {% for e in i.evidence %}{{ e }}{% if not loop.last %} · {% endif %}{% endfor %}
-     {% if i.link %} · <a href="{{ i.link }}">open</a>{% endif %}
-    </span>
-   </div>
-   {% else %}<p class="muted">None.</p>{% endfor %}
-  </div>
-  {% endfor %}
- </div>
-</section>
-
-<section class="card" style="margin-top:1rem" aria-labelledby="doors-h">
- <h2 id="doors-h">Start from your question</h2>
- <p class="cap">Six user groups, the question each brings, and the two pages that answer it first.</p>
- <div class="doors">
-  {% for d in doors %}
-  <article class="door">
-   <img src="/static/img/{{ d.img }}-thumb.jpg" data-full="/static/img/{{ d.img }}.jpg" data-lightbox
-       
-        alt="{{ img_alt(d.img) }}">
-   <div class="body">
-    <h3>{{ d.who }}</h3>
-    <p class="q">"{{ d.q }}"</p>
-    <div class="links">{% for href, label in d.links %}<a href="{{ href }}">{{ label }}</a>{% endfor %}</div>
+<section class="card" style="margin-top:1rem" aria-labelledby="tools-h">
+ <h2 id="tools-h" class="step-h"><span class="n">4</span>Use the tools</h2>
+ <p class="cap">The pages above read from the same records the agents and MCP servers use. These four put
+  them to work on your own question.</p>
+ <div class="tools">
+  <article class="tool">
+   <h3>Ask the evidence</h3>
+   <p>Ask in plain words. The agent answers from the records and cites what each figure rests on.</p>
+   <div class="links">
+    <a href="/ask?q={{ 'Why are there three different cost caps, and which applies to what?'|urlencode }}">Why three cost caps?</a>
+    <a href="/ask?q={{ 'What does gap G22 block, and who could close it?'|urlencode }}">What does G22 block?</a>
    </div>
   </article>
-  {% endfor %}
+  <article class="tool">
+   <h3>Check brief readiness</h3>
+   <p>A specialist agent counts which CVN-79 figures tie to source records and drafts what is still
+    missing. Nothing is saved until a person applies it.</p>
+   <div class="links"><a href="/mission">Open Brief readiness</a></div>
+  </article>
+  <article class="tool">
+   <h3>Filter and export the records</h3>
+   <p>Every contract action, exhibit table, collection request and lead, with totals and a download.</p>
+   <div class="links"><a href="/explore">Open the Detail table</a></div>
+  </article>
+  <article class="tool">
+   <h3>See how it carries further</h3>
+   <p>The same servers and agents applied to the Ford class, the F-35 and 59 more programs, and how
+    each piece was built and tested.</p>
+   <div class="links"><a href="/impact">Impact</a><a href="/stack">The stack</a></div>
+  </article>
  </div>
 </section>
 
-<div class="note" style="margin-top:1rem">The ship decomposes exactly two ways (<a href="/cost">cost composition</a>).
- <b>Source</b> {{ cost.source }} · residual {{ "%.3f"|format(cost.residual + 0) }} · Builder {{ program.builder }}, CAGE {{ program.cage }}.</div>
+<p class="src" style="margin-top:1rem"><b>Sources</b> {{ program.total_source }} · {{ cost.source }} ·
+ builder {{ program.builder }}, CAGE {{ program.cage }}. Nothing on this page is cleared as a reported figure
+ until the cited source is pulled and its as-of date recorded.</p>
 {% endblock %}

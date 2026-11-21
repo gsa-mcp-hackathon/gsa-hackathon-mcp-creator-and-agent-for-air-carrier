@@ -151,16 +151,20 @@ def main_() -> int:
     r = c.get("/", follow_redirects=False)
     reg("the start page is The stack", r.status_code == 307
         and r.headers.get("location") == "/stack", f"{r.status_code} {r.headers.get('location')}")
-    reg("the Brief carries the rule-derived risks and next steps",
-        "What this says, and what to do about it" in c.get("/brief").text)
+    b = c.get("/brief").text
+    reg("the Brief is a guided page: four numbered steps, the doors first",
+        all(f'id="{i}"' in b for i in ("doors-h", "say-h", "dec-h", "tools-h"))
+        and b.index('id="doors-h"') < b.index('id="say-h"') < b.index('id="dec-h"')
+        < b.index('id="tools-h"') and "What this says, and what to do about it" not in b)
+    reg("the Brief's sample questions prefill Ask", "/ask?q=" in b
+        and "URLSearchParams(location.search).get(\"q\")" in c.get("/ask").text)
     reg("the gap register says who can close what", 'id="who-can-close"' in c.get("/gaps").text)
     reg("sources carries the corpus search", 'id="kbq"' in c.get("/sources").text)
     # 2026-11-20 phase 2: the Brief is a decision brief.
     home = c.get("/brief").text
     reg("brief: says, holds, decisions and six doors",
-        all(t in home for t in ("What you can say today", "What not to say yet",
-                                "Decisions waiting, and who can close them",
-                                "Start from your question"))
+        all(t in home for t in ("Check what you can say today", "Hold it, for this reason",
+                                "Act on what is still open", "Start from your question"))
         and home.count('class="door"') == 6, str(home.count('class="door"')))
     reg("brief: the held baseline is shown both ways, never as fact",
         "$13,529M the new cost baseline" in home and "$473.97M over" in home
