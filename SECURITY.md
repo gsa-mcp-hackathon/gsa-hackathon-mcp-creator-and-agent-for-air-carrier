@@ -17,9 +17,8 @@ This repository is a hackathon prototype. It uses publicly released data only an
 
 Each server's own `SECURITY.md` gives its detail:
 [mcp-server-creator](mcp-server-creator/SECURITY.md),
-[mcp-aircarrier-ops](mcp-servers/mcp-aircarrier-ops/SECURITY.md),
-[mcp-bakehouse-sales](mcp-servers/mcp-bakehouse-sales/SECURITY.md) and
-[weather-mcp](mcp-servers/weather-mcp/SECURITY.md). The controls they share:
+[mcp-aircarrier-ops](mcp-servers/mcp-aircarrier-ops/SECURITY.md) and
+[mcp-bakehouse-sales](mcp-servers/mcp-bakehouse-sales/SECURITY.md). The controls they share:
 
 | Risk | Control | Where it is tested |
 | --- | --- | --- |

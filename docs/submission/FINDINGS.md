@@ -16,7 +16,7 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 | Air Carrier docs | 41 passed |
 | Air Carrier analyst | 31 passed, 8 skipped (deployed data bundle not readable outside the workspace) |
 | Probe | 9 passed |
-| Bakehouse, weather (generated) | 21, 20 passed |
+| Bakehouse (generated) | 21 passed (the generated weather server was removed 2026-11-21) |
 | `mcp_local.py` and the adversarial sweep | 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
 | One Hub | 187 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
 | Evidence | No broken relative links; `eval/delegation/RESULTS.md` matches the logged runs |

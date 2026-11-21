@@ -13,7 +13,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export PYTHONDONTWRITEBYTECODE=1
 PYTEST_FLAGS=(-q -p no:cacheprovider)
 RUFF_PIN=0.17.5
-PROJECTS=(creator ops bakehouse weather docs analyst probe mcp-local one-hub evidence)
+PROJECTS=(creator ops bakehouse docs analyst probe mcp-local one-hub evidence)
 FAILED=()
 
 say() { printf '\n== %s\n' "$*"; }
@@ -67,7 +67,6 @@ run() {
     creator)   uv_project mcp-server-creator ;;
     ops)       uv_project mcp-servers/mcp-aircarrier-ops ;;
     bakehouse) uv_project mcp-servers/mcp-bakehouse-sales ;;
-    weather)   uv_project mcp-servers/weather-mcp ;;
     docs)      req_project mcp-servers/mcp-aircarrier-docs tests ;;
     analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests ;;
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
