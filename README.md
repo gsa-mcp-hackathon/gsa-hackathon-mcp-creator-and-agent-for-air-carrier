@@ -19,6 +19,15 @@ from public records. Every figure is cited to its page, and every unknown is nam
 ranked and assigned. CVN-79 is hull one. The method, the servers and the gate are built
 to run on every major defense acquisition program.
 
+## Two-minute demo
+
+[![Two-minute demo: the MCP servers, the agents and the front center](docs/demo/air-carrier-two-minute-demo.jpg)](docs/demo/air-carrier-two-minute-demo.mp4)
+
+1:44, 1080p, narrated and subtitled: the seven apps on Databricks, the six MCP servers, MCP A
+Creator, the stack, Impact, Ask the evidence, a specialist run with role-based approval, the
+work queue, Answer a question and the evaluation. The full 13:56 walkthrough is described
+under [Demo video](#demo-video).
+
 ## For judges: five minutes
 
 | GSA criterion (official wording) | Open this | What it shows |
@@ -32,7 +41,7 @@ to run on every major defense acquisition program.
 | Technical quality | [Evaluation](docs/submission/EVALUATION.md) (GSA's four headings), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Eight-day probe at 99.90% with 1,234 of 1,234 known answers right, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
 | Technical quality | [Security](#security) | 421 hostile calls against all 30 tools: 330 refused, none wrote, none pasted an argument into SQL; generated code fuzzed with warnings as errors |
 | Innovation (creative MCP tooling, unique agent workflows) | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
-| Presentation (storytelling, demo flow, evidence of testing) | [Deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [video notes](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
+| Presentation (storytelling, demo flow, evidence of testing) | [Two-minute demo](#two-minute-demo), [deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [full video chapters](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
 
 ## Results at a glance
 
@@ -348,8 +357,34 @@ register row or rule they name. Run locally on the shipped extracts, the four ag
 
 ### Screenshots
 
-Taken on 2026-11-21 from the app run locally on the shipped extracts, except the last row,
-which is from the deployed app in the Databricks workspace.
+Taken on 2026-11-21. Pages marked **live** are from the deployed apps in the Databricks
+workspace; the rest are from the app run locally on the shipped extracts.
+
+#### MCP servers
+
+| | |
+| --- | --- |
+| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![Six servers, sixty tools](docs/screenshots/mcp-servers.jpg) |
+| **Seven apps, live.** The probe, the front center and five MCP servers, each deployed from this repository. | **Six servers, sixty tools.** What each server does and the evidence behind it. |
+| ![MCP A Creator](docs/screenshots/mcp-a-creator.jpg) | ![Carrying the build to the next program](docs/screenshots/carry-to-next-program.jpg) |
+| **MCP A Creator.** Profile, design, review, generate, deploy; 15 of 15 projects pass, 58 of 58 files byte-identical. | **The next program.** What is reused as it is, and what a new program adds. |
+
+#### Agentic workflow and role-based decisions
+
+| | |
+| --- | --- |
+| ![Agent workflow](docs/screenshots/agent-workflow.jpg) | ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) |
+| **Six stages.** Agents propose, code checks every number, a second model family reads it, the owning role decides. | **Specialist run, live.** The Account Analyst works a File C period; each step is labeled code or model. |
+| ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
+| **Role check, live.** The user holds PMS 379; the residual lead belongs to the Office of Financial Operations, so the app refuses to apply it. | **Review and decide, live.** The Gap Investigator's requests for gap G52, each addressed to the office that holds the records. Nothing is saved until a person applies it. |
+| ![Run checks](docs/screenshots/live-agent-run-checks.jpg) | ![Obligation Reconciler run](docs/screenshots/live-agent-reconcile.jpg) |
+| **Checks, live.** Code re-tests every condition of the run: 11 of 11. | **Obligation Reconciler, live.** 927 actions summed in exact decimals; 8 of 8 conditions re-tested. |
+| ![Work queue](docs/screenshots/live-work-queue.jpg) | ![Run log](docs/screenshots/live-run-log.jpg) |
+| **Work queue, live.** Every item in one lane by code: decide, unblock or system. | **Run log, live.** Every agent run and every action by every person, exportable. |
+| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![Ask the evidence: a cited answer, marked as a lead](docs/screenshots/live-ask.jpg) |
+| **Brief readiness, live.** 13 of 32 CVN-79 figures tie to source records today. | **Ask the evidence, live.** One tool call, the total, the largest action and every modification it rests on. |
+
+#### Pages
 
 | | |
 | --- | --- |
@@ -363,8 +398,8 @@ which is from the deployed app in the Databricks workspace.
 | **Gap register.** 59 open questions ranked, each with the office that can close it. | **Variance register.** 17 places where public sources disagree, and why. |
 | ![Answer a question](docs/screenshots/insight.jpg) | ![The ship](docs/screenshots/kennedy.jpg) |
 | **Answer a question.** Experts at headquarters and in the field record what they know; it enters as a lead with their name. | **The ship.** Identity, key dates and construction photographs. |
-| ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) | ![Ask the evidence: a cited answer, marked as a lead](docs/screenshots/live-ask.jpg) |
-| **Role-based approval, live.** The user holds PMS 379; the residual lead belongs to the Office of Financial Operations, so the app refuses to apply it. | **Ask the evidence, live.** One tool call, the total, the largest action and every modification it rests on. |
+| ![Sources](docs/screenshots/sources.jpg) | ![Method](docs/screenshots/method.jpg) |
+| **Sources.** Each document family, what it covers and its limits. | **Method.** The trust zones and the one rule: no model promotes a figure. |
 
 ### Demo video
 

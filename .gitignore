@@ -24,6 +24,7 @@ htmlcov/
 # Large media: attach to a GitHub Release instead
 *.mp4
 *.mov
+!docs/demo/air-carrier-two-minute-demo.mp4
 
 # OS / editor
 .DS_Store
