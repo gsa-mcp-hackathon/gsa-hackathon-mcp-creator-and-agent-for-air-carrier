@@ -170,6 +170,12 @@ def main() -> int:
             why, go = f"{len(mine)} file(s) changed in {folder}/", True
         else:
             why, go = "up to date" if base == src.head else f"no change in {folder}/", False
+        pin = gs.get("commit") or gs.get("tag")
+        if pin and not gs.get("branch"):
+            # A deployment pinned to a commit or tag repeats that ref on every
+            # redeploy from the UI, so the app never moves. Deploy the branch.
+            why += f"; pinned to {'commit ' + pin[:7] if gs.get('commit') else 'tag ' + pin}, will deploy {a.branch}"
+            go = go or base != src.head
         print(f"  {x['name']:<30} {base[:7] or '-------'} -> {src.head[:7]}  {why}")
         if go:
             plan.append((x["name"], folder, gs.get("branch") or a.branch))

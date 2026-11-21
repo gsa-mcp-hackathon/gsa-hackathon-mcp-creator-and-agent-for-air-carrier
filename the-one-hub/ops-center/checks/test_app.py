@@ -52,7 +52,7 @@ def main_() -> int:
         h = c.get(route).text
         charts += len(re.findall(r'<svg class="chart', h))
         for m in re.findall(r'(?:src|href|data-full)="(/static/[^"]+)"', h):
-            if not (APP / m.lstrip("/")).exists():
+            if not (APP / m.split("?")[0].lstrip("/")).exists():
                 FAIL.append(f"{route}: missing asset {m}")
         for img in re.findall(r"<img\b[^>]*>", h):
             if "alt=" not in img:
@@ -178,6 +178,18 @@ def main_() -> int:
             and 'class="snapshot"' not in home)
         reg("files mode: brief readiness explains itself and drops a past countdown",
             "needs the claim ledger" in m and "Days to the DCFO brief" not in m)
+    reg("header: brand reads Air Carrier · CVN-79 over MCP servers and agents",
+        "Air Carrier · CVN-79<br><span class=\"sub\">MCP servers and agents</span>" in home)
+    reg("menu: Brief, Cost, The stack first; no Agents group",
+        [g[0] for g in main.NAV_GROUPS][:3] == ["Brief", "Cost", "The stack"]
+        and "Agents" not in [g[0] for g in main.NAV_GROUPS]
+        and "Dive deeper" in [g[0] for g in main.NAV_GROUPS])
+    js = (APP / "static" / "js" / "app.js").read_text()
+    reg("theme: light by default, dark only when chosen with the toggle",
+        'data-theme="light"' in home and "prefers-color-scheme" not in js
+        and 'saved === "dark" ? "dark" : "light"' in js)
+    reg("assets: stylesheet and scripts carry a content version",
+        f"/static/css/app.css?v={main.ASSET_V}" in home and f"/static/js/app.js?v={main.ASSET_V}" in home)
     reg("every page with a header line says who it is for",
         all('<b>For</b>' in c.get(u).text for u in
             ("/", "/position", "/gaps", "/impact", "/stack", "/mission", "/work", "/runs", "/ask")))

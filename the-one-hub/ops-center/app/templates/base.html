@@ -11,13 +11,13 @@
 <link rel="icon" href="/static/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
 <meta name="theme-color" content="#0B2545">
-<link rel="stylesheet" href="/static/css/app.css">
+<link rel="stylesheet" href="/static/css/app.css?v={{ asset_v }}">
 <script>
  /* Light is the default, and the OS preference does not override it. Most
     people open this on a work laptop that is set to dark for a terminal, and
     a financial product full of tabular figures is read in light. Dark stays
     one click away and is remembered once chosen. */
- (function(){try{var t=localStorage.getItem("ac-theme");
+ (function(){try{var t=localStorage.getItem("ac-theme-choice");
  document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light");}catch(e){}})();
 </script>
 </head>
@@ -30,7 +30,7 @@
       underway in the Atlantic, cropped by CSS to her island and mast from
       the hero photo the app already ships (no new image file). #}
    <span class="brand-photo" role="img" aria-label="USS John F. Kennedy (CVN 79) underway"></span>
-   <span>Air Carrier<br><span class="sub">MCP servers and agents · CVN-79</span></span>
+   <span>Air Carrier · CVN-79<br><span class="sub">MCP servers and agents</span></span>
   </a>
   <nav class="main" aria-label="Primary">
    {% for label, href, kids in nav_groups %}
@@ -86,7 +86,7 @@
 
 <div class="lightbox" id="lightbox"><img alt=""></div>
 {{ si_ui.dock() }}
-<script src="/static/js/app.js"></script>
-<script src="/static/js/si.js"></script>
+<script src="/static/js/app.js?v={{ asset_v }}"></script>
+<script src="/static/js/si.js?v={{ asset_v }}"></script>
 </body>
 </html>

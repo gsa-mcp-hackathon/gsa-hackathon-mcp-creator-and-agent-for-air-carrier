@@ -3,20 +3,23 @@
   "use strict";
 
   // ---- theme ------------------------------------------------------------
-  var KEY = "ac-theme";
-  function apply(t) {
+  // Light is the default. Dark is applied only when the person chose it with
+  // the toggle; the OS preference is not consulted. Until 2026-11-20 this
+  // file fell back to the OS preference and saved it as if chosen, so a dark
+  // laptop opened the app dark for good. The new key drops those saved values.
+  var KEY = "ac-theme-choice";
+  function apply(t, remember) {
     document.documentElement.setAttribute("data-theme", t);
-    try { localStorage.setItem(KEY, t); } catch (e) {}
+    if (remember) { try { localStorage.setItem(KEY, t); } catch (e) {} }
   }
   var saved = null;
-  try { saved = localStorage.getItem(KEY); } catch (e) {}
-  apply(saved || (window.matchMedia &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+  try { saved = localStorage.getItem(KEY); localStorage.removeItem("ac-theme"); } catch (e) {}
+  apply(saved === "dark" ? "dark" : "light", false);
 
   document.addEventListener("click", function (e) {
     var t = e.target.closest("[data-theme-toggle]");
     if (t) {
-      apply(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+      apply(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark", true);
       return;
     }
     // ---- lightbox -------------------------------------------------------

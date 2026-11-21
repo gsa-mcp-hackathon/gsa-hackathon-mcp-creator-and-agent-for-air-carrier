@@ -14,6 +14,7 @@ after transfer.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import pathlib
@@ -51,6 +52,11 @@ tpl = Jinja2Templates(directory=str(HERE / "templates"))
 tpl.env.globals["define"] = glossary.define
 IMAGE_ALT = json.loads((HERE / "data" / "curated" / "images.json").read_text())["alt"]
 tpl.env.globals["img_alt"] = lambda name: IMAGE_ALT.get(name, "CVN-79")
+# A new deployment must not run on a browser's cached stylesheet or script:
+# the asset URLs carry a hash of their content, so a change is a new URL.
+ASSET_V = hashlib.sha256(b"".join((HERE / "static" / f).read_bytes() for f in
+                                  ("css/app.css", "js/app.js", "js/si.js"))).hexdigest()[:10]
+tpl.env.globals["asset_v"] = ASSET_V
 
 # Pages whose working half lives in the workspace. Run locally on the shipped
 # extracts (files backend), each says so once, in one banner, with the reason
@@ -188,6 +194,7 @@ NAV_GROUPS = [
         ("/baseline", "Estimate history and caps"),
         ("/execution", "Budget execution"),
     ]),
+    ("The stack", "/stack", []),
     ("Audit", None, [
         ("/gaps", "Gap register"),
         ("/variances", "Variance register"),
@@ -195,7 +202,7 @@ NAV_GROUPS = [
         ("/industrial", "Industrial base and GFE"),
     ]),
     ("Impact", "/impact", []),
-    ("Agents", None, [
+    ("Dive deeper", None, [
         ("/work", "Work queue"),
         ("/mission", "Brief readiness"),
         ("/ask", "Ask the evidence"),
@@ -204,7 +211,6 @@ NAV_GROUPS = [
     ]),
     ("About", None, [
         ("/kennedy", "The ship: USS John F. Kennedy"),
-        ("/stack", "The stack"),
         ("/sources", "Sources"),
         ("/method", "Method"),
     ]),
