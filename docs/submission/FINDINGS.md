@@ -7,18 +7,18 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 ## Where it stands
 
 `scripts/check.sh` from a clean clone, on Python 3.11 and 3.12 in CI:
-**1,052 passed, 14 skipped, 0 failed.**
+**1,135 passed, 6 skipped, 0 failed** (checked 2026-11-21).
 
 | Project | Result |
 | --- | --- |
 | Creator | 258 passed, 1 skipped (bandit not installed) |
 | Air Carrier ops | 40 passed |
-| Air Carrier docs | 41 passed |
-| Air Carrier analyst | 31 passed, 8 skipped (deployed data bundle not readable outside the workspace) |
+| Air Carrier docs | 42 passed |
+| Air Carrier analyst | 39 passed |
 | Probe | 9 passed |
 | Bakehouse (generated) | 21 passed (the generated weather server was removed 2026-11-21) |
 | `mcp_local.py` and the adversarial sweep | 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
-| One Hub | 187 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
+| One Hub | 281 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
 | Evidence | No broken relative links; `eval/delegation/RESULTS.md` matches the logged runs |
 
 Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with the tools

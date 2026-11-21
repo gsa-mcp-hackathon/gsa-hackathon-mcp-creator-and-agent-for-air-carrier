@@ -50,7 +50,8 @@ are kept in the score and listed apart rather than re-graded upward.
 The One Hub also runs six script suites (agents 46/46, gate, LLM tracing, app routes,
 serverless entry points, tie-out); all pass, and the evidence check finds 0 broken links in
 115 and `RESULTS.md` equal to `runs.csv`. The Impact page added after this run brings the
-One Hub to 241 passed (54 new tests), so the working tree totals 1,094 passed, 6 skipped. (A generated weather server, 20 tests,
+One Hub to 241 passed (54 new tests). Input-validation tests for the capture and ask endpoints (2026-11-21) and later
+additions bring it to 281, and docs to 42, so the working tree totals 1,135 passed, 6 skipped. (A generated weather server, 20 tests,
 was removed from the repository on 2026-11-21 and is excluded from these totals.)
 
 One environment caveat: run inside a Databricks serverless notebook, four live harness tests

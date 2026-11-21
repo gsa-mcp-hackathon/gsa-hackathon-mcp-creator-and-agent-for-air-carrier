@@ -35,6 +35,7 @@ from fastapi.responses import (
 )
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 HERE = pathlib.Path(__file__).resolve().parent
 
@@ -371,12 +372,12 @@ _WORK_FILTERS = [("area", "Area"), ("status", "Status"), ("owner_role", "Owner")
 
 
 def _same_origin(request: Request) -> bool:
-    """A form post must come from this app's own pages."""
-    from urllib.parse import urlparse
-    origin = request.headers.get("origin") or request.headers.get("referer")
-    if not origin:
-        return request.headers.get("sec-fetch-site") in (None, "same-origin")
-    return urlparse(origin).netloc == request.headers.get("host", request.url.netloc)
+    """A post must come from this app's own pages.
+
+    Same rule as the SI routes: behind the Databricks Apps proxy the Host header
+    can be the container's address while the browser's Origin is the public app
+    URL (X-Forwarded-Host, DATABRICKS_APP_URL), so all of those names count."""
+    return si_router._same_origin(request)
 
 
 @app.get("/work", response_class=HTMLResponse)
@@ -943,13 +944,26 @@ def ask_page(request: Request):
 async def api_ask(request: Request):
     """The agent. Answers are leads, cited to the tool results they rest on."""
     from api import agent
-    body = await request.json()
-    q = (body.get("question") or "").strip()
+    if not _same_origin(request):
+        return JSONResponse({"error": "Cross-origin posts are refused."}, status_code=403)
+    raw, err = await _json_object(request, ASK_MAX_BODY_BYTES)
+    if err is not None:
+        return err
+    # The page sends its whole conversation; the agent reads only the last few
+    # turns, so a long chat is trimmed here instead of being refused.
+    if isinstance(raw.get("history"), list):
+        raw = raw | {"history": raw["history"][-ASK_HISTORY_TURNS:]}
+    try:
+        body = AskBody.model_validate(raw)
+    except ValidationError as exc:
+        return _invalid(exc)
+    q = body.question.strip()
     if not q:
         return JSONResponse({"error": "question is required"}, status_code=400)
+    history = [t.model_dump() for t in body.history]
     import anyio
     return await anyio.to_thread.run_sync(
-        lambda: agent.ask(q, body.get("history") or [], kb=_kb()))
+        lambda: agent.ask(q, history, kb=_kb()))
 
 
 def _knowledge_ctx() -> dict:
@@ -1240,6 +1254,83 @@ CAPTURE_MAX_MB = 10
 CAPTURE_MAX_FILES = 3
 _CAPTURE_TYPES = {".pdf", ".docx", ".doc", ".xlsx", ".xls", ".csv", ".txt", ".pptx",
                   ".png", ".jpg", ".jpeg", ".msg", ".eml"}
+# Base64 grows a file by 4/3; 1 MB on top covers the text fields. Anything
+# larger is refused while it streams in, before it is held in memory.
+CAPTURE_MAX_BODY_BYTES = CAPTURE_MAX_FILES * CAPTURE_MAX_MB * 1024 * 1024 * 4 // 3 + 1024 * 1024
+ASK_MAX_BODY_BYTES = 1024 * 1024
+ASK_HISTORY_TURNS = 16
+
+
+class CaptureAttachment(BaseModel):
+    """One attached file, as app.js sends it (type and size are informational)."""
+    model_config = ConfigDict(extra="ignore")
+    name: str = Field("file", max_length=255)
+    b64: str = ""
+
+
+class CaptureBody(BaseModel):
+    """What an insight capture may carry. Types are strict: a number where text
+    belongs is a 422, not a crash. Unknown fields are ignored, never stored."""
+    model_config = ConfigDict(extra="ignore")
+    gap_id: str | None = Field(None, max_length=64)
+    kind: str | None = Field(None, max_length=40)
+    body: str = Field("", max_length=20000)
+    source: str | None = Field(None, max_length=2000)
+    reliability: str | None = Field(None, max_length=16)
+    credibility: str | None = Field(None, max_length=16)
+    refer: str | None = Field(None, max_length=500)
+    contact: str | None = Field(None, max_length=500)
+    attachments: list[CaptureAttachment] = Field(default_factory=list, max_length=20)
+
+
+class AskTurn(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    role: str = Field(max_length=16)
+    content: str = Field(max_length=100_000)
+
+
+class AskBody(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    question: str = Field("", max_length=8000)
+    history: list[AskTurn] = Field(default_factory=list)
+
+
+async def _json_object(request: Request, max_bytes: int) -> tuple[dict, Response | None]:
+    """Read a JSON object body of at most max_bytes, or say why not.
+
+    Requiring Content-Type application/json also stops a cross-site page from
+    posting here as a simple text/plain request: a browser must preflight
+    application/json, and this app grants no CORS.
+    """
+    ctype = request.headers.get("content-type", "").split(";")[0].strip().lower()
+    if ctype != "application/json":
+        return {}, JSONResponse({"error": "Send JSON with Content-Type: application/json."},
+                                status_code=415)
+    too_big = JSONResponse({"error": f"Request is larger than {max_bytes // (1024 * 1024)} MB."},
+                           status_code=413)
+    declared = request.headers.get("content-length", "")
+    if declared.isdigit() and int(declared) > max_bytes:
+        return {}, too_big
+    buf = bytearray()
+    async for chunk in request.stream():
+        buf += chunk
+        if len(buf) > max_bytes:
+            return {}, too_big
+    try:
+        obj = json.loads(bytes(buf) or b"null")
+    except ValueError:
+        return {}, JSONResponse({"error": "The body is not valid JSON."}, status_code=400)
+    if not isinstance(obj, dict):
+        return {}, JSONResponse({"error": "Send a JSON object."}, status_code=400)
+    return obj, None
+
+
+def _invalid(exc: ValidationError) -> JSONResponse:
+    """A 422 naming each bad field. Input values are not echoed back."""
+    detail = [{"field": ".".join(str(p) for p in e["loc"]), "problem": e["msg"]}
+              for e in exc.errors(include_input=False, include_url=False)[:10]]
+    return JSONResponse({"error": "Not accepted: " + "; ".join(
+        f"{d['field']}: {d['problem']}" for d in detail), "detail": detail}, status_code=422)
 
 
 def _store_capture(record: dict, files: list[tuple[str, bytes]]) -> tuple[bool, str, list[str]]:
@@ -1289,20 +1380,38 @@ async def api_capture(request: Request):
     context an audit log showing that the app wrote the row is worth little.
     """
     import base64
-    body = await request.json()
+    if not _same_origin(request):
+        return JSONResponse({"error": "Cross-origin posts are refused."}, status_code=403)
+    raw, err = await _json_object(request, CAPTURE_MAX_BODY_BYTES)
+    if err is not None:
+        return err
+    try:
+        body = CaptureBody.model_validate(raw)
+    except ValidationError as exc:
+        return _invalid(exc)
     user = (request.headers.get("X-Forwarded-Email")
-            or request.headers.get("X-Forwarded-Preferred-Username") or "unauthenticated")
+            or request.headers.get("X-Forwarded-Preferred-Username") or "")
+    if not user:
+        # Inside Databricks Apps the proxy always forwards the signed-in user;
+        # without one the write could not be attributed, so it is refused.
+        # A local run (no DATABRICKS_APP_NAME) keeps working for development.
+        if os.environ.get("DATABRICKS_APP_NAME"):
+            return JSONResponse({"error": "No signed-in user reached the app, so nothing was "
+                                 "recorded. Reload the page and sign in again."}, status_code=401)
+        user = "unauthenticated"
     # Attachments arrive as base64 in the JSON body: the app has no multipart
     # parser (python-multipart is not in the vendored IL5 requirements).
     files, refused = [], []
-    for a in (body.get("attachments") or [])[:CAPTURE_MAX_FILES]:
-        name = str(a.get("name") or "file")
+    for extra in body.attachments[CAPTURE_MAX_FILES:]:
+        refused.append(f"{extra.name}: more than {CAPTURE_MAX_FILES} files per capture")
+    for a in body.attachments[:CAPTURE_MAX_FILES]:
+        name = a.name or "file"
         ext = pathlib.Path(name).suffix.lower()
         if ext not in _CAPTURE_TYPES:
             refused.append(f"{name}: type {ext or 'none'} is not accepted")
             continue
         try:
-            blob = base64.b64decode(a.get("b64") or "", validate=True)
+            blob = base64.b64decode(a.b64, validate=True)
         except ValueError:
             refused.append(f"{name}: could not be read")
             continue
@@ -1310,13 +1419,13 @@ async def api_capture(request: Request):
             refused.append(f"{name}: larger than {CAPTURE_MAX_MB} MB")
             continue
         files.append((name, blob))
-    if not (body.get("body") or "").strip() and not files:
+    if not body.body.strip() and not files:
         return JSONResponse({"error": "Write an answer or attach a document."}, status_code=400)
     record = {"submitted_by": user, "zone": "L", "status": "candidate",
-              "gap_id": body.get("gap_id"), "kind": body.get("kind"),
-              "body": body.get("body"), "source": body.get("source"),
-              "reliability": body.get("reliability"), "credibility": body.get("credibility"),
-              "refer": body.get("refer"), "contact": body.get("contact"),
+              "gap_id": body.gap_id, "kind": body.kind,
+              "body": body.body, "source": body.source,
+              "reliability": body.reliability, "credibility": body.credibility,
+              "refer": body.refer, "contact": body.contact,
               "files": [{"name": n, "bytes": len(b)} for n, b in files]}
     import anyio
     stored, note, paths = await anyio.to_thread.run_sync(lambda: _store_capture(record, files))
