@@ -6,8 +6,19 @@ as the submarine columns. In the ops center the figures come from the claim
 table with their lineage attached, and these functions take them as arguments.
 """
 from dataclasses import dataclass
+from decimal import Decimal
 
+# A residual at or above this opens a gap (residual_is_finding).
 RESIDUAL_FLOOR_USD_M = 1.0
+# A tie-out closes only to the exhibit's own rounding: half the last printed digit of a
+# figure printed in $ millions to three decimals. 2026-11-20 (B2): the tie-outs used the
+# $1.0M gap floor with float sums, so a $970,000 residual on $13,409.970M "closed".
+TIEOUT_TOLERANCE_USD_M = Decimal("0.0005")
+
+
+def _d(v) -> Decimal:
+    """Exact decimal from a figure as written, so 0.1 + 0.2 is 0.3."""
+    return v if isinstance(v, Decimal) else Decimal(str(v))
 
 
 @dataclass
@@ -25,11 +36,12 @@ def two_axis_close(total: float, axis_a: dict[str, float], axis_b: dict[str, flo
     the same total is evidence. Part N.1 closes on cost category and Part N.2
     closes on funding stream, both to zero.
     """
-    ra = total - sum(axis_a.values())
-    rb = total - sum(axis_b.values())
-    ok = abs(ra) < RESIDUAL_FLOOR_USD_M and abs(rb) < RESIDUAL_FLOOR_USD_M
+    t = _d(total)
+    ra = t - sum((_d(v) for v in axis_a.values()), Decimal(0))
+    rb = t - sum((_d(v) for v in axis_b.values()), Decimal(0))
+    ok = abs(ra) <= TIEOUT_TOLERANCE_USD_M and abs(rb) <= TIEOUT_TOLERANCE_USD_M
     return CheckResult(ok, "two_axis_close",
-                       f"axis_a residual {ra:+.3f}, axis_b residual {rb:+.3f}", max(abs(ra), abs(rb)))
+                       f"axis_a residual {ra:+.3f}, axis_b residual {rb:+.3f}", float(max(abs(ra), abs(rb))))
 
 
 def anchor_chain(steps: list[tuple[str, float]], expected_total: float) -> CheckResult:
@@ -39,10 +51,10 @@ def anchor_chain(steps: list[tuple[str, float]], expected_total: float) -> Check
     Aug 2023 increment, plus the FY2026 and FY2027 increments, equals the
     FY2027 Total Ship Estimate exactly.
     """
-    got = sum(v for _, v in steps)
-    r = expected_total - got
-    return CheckResult(abs(r) < RESIDUAL_FLOOR_USD_M, "anchor_chain",
-                       f"chain sums to {got:,.3f} against {expected_total:,.3f}", r)
+    got = sum((_d(v) for _, v in steps), Decimal(0))
+    r = _d(expected_total) - got
+    return CheckResult(abs(r) <= TIEOUT_TOLERANCE_USD_M, "anchor_chain",
+                       f"chain sums to {got:,.3f} against {_d(expected_total):,.3f}", float(r))
 
 
 def residual_is_finding(residual: float, floor: float = RESIDUAL_FLOOR_USD_M) -> CheckResult:

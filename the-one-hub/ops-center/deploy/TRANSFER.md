@@ -149,7 +149,7 @@ the sponsor can open it, whether budget execution is reachable. Read only, and
 where a gate needs an admin action it prints the action instead of taking it.
 
 Then open the app URL from `databricks apps list`. The pages to look at first
-are `/dashboard`, `/gaps` and `/knowledge`.
+are `/`, `/gaps` and `/sources`.
 
 ---
 

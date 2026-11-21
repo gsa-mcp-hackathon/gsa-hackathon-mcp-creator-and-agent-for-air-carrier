@@ -14,6 +14,7 @@ after transfer.
 """
 from __future__ import annotations
 
+import json
 import os
 import pathlib
 
@@ -146,40 +147,47 @@ def api_diag():
 # headline (Overview, Position), three menus, and Contribute as the call to
 # action.
 #
+# 2026-11-20 (later): the menu is grouped by who uses it, from the README's
+# user table: Brief (leaders), Cost (PEO, CAPE, budget), Audit (accountants,
+# auditors), Impact, Agents (decision owners), About (judges, new users), and
+# the call to action. The decision dashboard and the knowledge base merged
+# into the Brief, Gaps and Sources; Build progress became The stack.
+#
 # 2026-11-20: Impact joins the headline: where CVN-79 sits in the Ford class
 # and in the weapon-system portfolio GAO assesses, every figure cited to a page.
 NAV_GROUPS = [
-    ("Overview", "/", []),
-    ("Position", "/position", []),
+    ("Brief", "/", []),
+    ("Cost", None, [
+        ("/position", "Position: four published figures"),
+        ("/cost", "Cost composition"),
+        ("/baseline", "Estimate history and caps"),
+        ("/execution", "Budget execution"),
+    ]),
+    ("Audit", None, [
+        ("/gaps", "Gap register"),
+        ("/variances", "Variance register"),
+        ("/asset", "Asset and accounting"),
+        ("/industrial", "Industrial base and GFE"),
+    ]),
     ("Impact", "/impact", []),
-    ("Analyze", None, [
-        ("/mission", "Kennedy picture"),
-        ("/dashboard", "Decision dashboard"),
+    ("Agents", None, [
         ("/work", "Work queue"),
-        ("/explore", "Detail table"),
+        ("/mission", "Brief readiness"),
         ("/ask", "Ask the evidence"),
         ("/runs", "Run log"),
+        ("/explore", "Detail table"),
     ]),
-    ("The ship", None, [
-        ("/kennedy", "USS John F. Kennedy (CVN-79)"),
-        ("/cost", "Cost composition"),
-        ("/execution", "Budget execution"),
-        ("/baseline", "Baseline and caps"),
-        ("/asset", "Asset and accounting"),
-        ("/industrial", "Industrial base"),
-    ]),
-    ("Evidence", None, [
-        ("/variances", "Variance register"),
-        ("/gaps", "Gap register"),
-        ("/knowledge", "Knowledge base"),
+    ("About", None, [
+        ("/kennedy", "The ship: USS John F. Kennedy"),
+        ("/stack", "The stack"),
         ("/sources", "Sources"),
-        ("/coverage", "Coverage map"),
         ("/method", "Method"),
-        ("/rules", "Rule codes"),
-        ("/program", "Build progress"),
     ]),
-    ("Contribute", "/insight", []),
+    ("Answer a question", "/insight", []),
 ]
+# Reachable by link, not in the menu: /rules (from Method) and /coverage (from
+# the Brief, Position and Gaps). checks/test_app.py renders them explicitly.
+HIDDEN_PAGES = ["/rules", "/coverage"]
 
 NAV = []
 for _label, _href, _kids in NAV_GROUPS:
@@ -478,7 +486,12 @@ async def work_act(request: Request, proposal_id: str, action: str):
 # --------------------------------------------------------------------- pages
 @app.get("/", response_class=HTMLResponse)
 def overview(request: Request):
-    return page(request, "overview.html", "Overview",
+    from api.insights import by_kind, derive
+    names = ["program", "cost_categories", "funding_streams", "anchor_chain",
+             "attribution", "contracts", "obligations", "gaps", "variances",
+             "cap_history", "estimate_history", "corpus", "subawards"]
+    items = by_kind(derive({n: data.get(n) for n in names}))
+    return page(request, "overview.html", "Overview", items=items,
                 program=data.get("program"), attribution=data.get("attribution"),
                 layers=data.get("layers"), gaps=data.get("gaps"),
                 cost=data.get("cost_categories"), contracts=data.get("contracts"),
@@ -582,50 +595,16 @@ def gaps(request: Request):
     # list of everything rather than a plan.
     ranked = sorted(g["rows"], key=lambda r: (r["closed"], -r["priority"], r["id"]))
     return page(request, "gaps.html", "Gap register", g=g, bub=bub, ranked=ranked,
-                unsized=unsized)
+                unsized=unsized, asks=_asks(g))
 
 
-@app.get("/dashboard", response_class=HTMLResponse)
-def dashboard(request: Request):
-    """The executive view. One screen that answers: where does the ship stand,
-    what is the position against the ceilings, how much is explained, what is
-    unresolved, and what should happen next."""
-    from api.insights import by_kind, derive
-
-    names = ["program", "cost_categories", "funding_streams", "anchor_chain",
-             "attribution", "contracts", "obligations", "gaps", "variances",
-             "cap_history", "estimate_history", "corpus", "subawards"]
-    d = {n: data.get(n) for n in names}
-    items = by_kind(derive(d))
-
-    cost, attr = d["cost_categories"], d["attribution"]
-    caps = {c["name"]: float(c["value"]) for c in d["cap_history"].get("three_ceilings", [])}
-    total = float(cost["total"])
-    stat = caps.get("Statutory cost cap", 0.0)
-    clb = caps.get("SECNAV Cost Limitation Baseline", 0.0)
-
-    est = d["estimate_history"].get("rows", [])
-    gap_rows = [r for r in d["gaps"]["rows"] if not r["closed"]]
-
-    # Exposure against confidence. Confidence is 1 - ignorance, so right is
-    # better understood and the top right corner is the dangerous quadrant:
-    # large, unexplained, and not even well characterised.
-    mx = max([float(r.get("exposure_usd_m") or 0) for r in gap_rows] + [1.0])
-    risk_items = [{
-        "x": 1.0 - float(r.get("ignorance") or 0.5),
-        "y": (float(r.get("exposure_usd_m") or 0) / mx) ** 0.5,
-        "label": r["id"],
-        "title": f"{r['id']}: {r['title']} \u00b7 ${r.get('exposure_usd_m', 0):,.0f}M",
-        "cls": "free" if r.get("closability") in ("zero_access", "query") else
-               ("hot" if float(r.get("exposure_usd_m") or 0) > 1000 else ""),
-    } for r in gap_rows if float(r.get("exposure_usd_m") or 0) > 0]
-
-    return page(request, "dashboard.html", "Decision dashboard",
-                d=d, items=items, total=total, stat=stat, clb=clb, caps=caps,
-                attr=attr, est=est, risk_items=risk_items,
-                live_var=[r for r in d["variances"]["rows"] if r["status"] == "live"],
-                tie=explore.extract("tieout"), pipe=_pipeline(),
-                asks=_asks(d["gaps"]), leads=_leads(), xmeta=explore.meta())
+# 2026-11-20: the decision dashboard is retired. Its ceilings live on /position,
+# the account-file tie-out on /position and /mission, who-can-close-what on
+# /gaps, disagreements on /variances, leads on /explore?ds=leads, and its
+# rule-derived "what this says, and what to do" card on the overview.
+@app.get("/dashboard", include_in_schema=False)
+def dashboard_moved():
+    return RedirectResponse("/", status_code=308)
 
 
 # The register's executor field is free text, one phrasing per gap (57
@@ -693,29 +672,6 @@ def _asks(g: dict) -> list[dict]:
     # goes last whatever its size, so it reads as a to-do, not an office.
     return sorted(by.values(), key=lambda b: (b["executor"] == "Unrecognised office",
                                               -len(b["gaps"]), -b["exposure"], b["executor"]))
-
-
-def _pipeline() -> dict:
-    p = explore.extract("pipeline")
-    if not p:
-        return {}
-    gate = {r["outcome"]: r["n"] for r in p.get("gate", [])}
-    gated = sum(gate.values())
-    return p | {"gate_map": gate, "gated": gated,
-                "human": gate.get("human_review", 0),
-                "human_pct": round(100.0 * gate.get("human_review", 0) / gated, 1) if gated else 0}
-
-
-def _leads() -> list[dict]:
-    """One row per question: the top-ranked option, its confidence and the
-    engine's own 'none of these' mass, which is how sure it is that the
-    answer is in the list at all."""
-    best: dict[str, dict] = {}
-    for r in explore.extract("leads").get("rows", []):
-        k = (r.get("question"), r.get("piid"), r.get("period"), r.get("kind"))
-        if k not in best or (r.get("rank") or 99) < (best[k].get("rank") or 99):
-            best[k] = r
-    return sorted(best.values(), key=lambda r: -(r.get("confidence") or 0))
 
 
 # ----------------------------------------------------------- the one screen
@@ -926,21 +882,25 @@ async def api_ask(request: Request):
         lambda: agent.ask(q, body.get("history") or [], kb=_kb()))
 
 
-@app.get("/knowledge", response_class=HTMLResponse)
-def knowledge(request: Request):
+def _knowledge_ctx() -> dict:
     """What the document corpus holds, what is indexed and what is not."""
-    import json as _json
     corpus = data.get("corpus")
     kb = {}
     kbp = pathlib.Path(__file__).resolve().parent / "data" / "kb" / "summary.json"
     if kbp.exists():
-        kb = _json.loads(kbp.read_text())
+        kb = json.loads(kbp.read_text())
     rows = corpus.get("rows", []) if corpus else []
-    return page(request, "knowledge.html", "Knowledge base",
-                corpus=corpus, kb=kb,
-                embed=[r for r in rows if r["route"] == "embed"],
-                table=[r for r in rows if r["route"] == "table"],
-                asset=[r for r in rows if r["route"] == "asset"])
+    return {"corpus": corpus, "kb": kb,
+            "embed": [r for r in rows if r["route"] == "embed"],
+            "table": [r for r in rows if r["route"] == "table"],
+            "asset": [r for r in rows if r["route"] == "asset"]}
+
+
+# 2026-11-20: the knowledge base page is merged into /sources (document
+# families first, then the catalogue and the search box).
+@app.get("/knowledge", include_in_schema=False)
+def knowledge_moved():
+    return RedirectResponse("/sources#search", status_code=308)
 
 
 # ------------------------------------------------------------------ search
@@ -1018,19 +978,15 @@ def api_search(q: str, k: int = 8, authoritative: bool = True):
                      {"text": h["text"][:900]} for h in hits]}
 
 
-@app.get("/program", response_class=HTMLResponse)
-def program_page(request: Request):
-    """How the build itself is going. Counted from the repository rather than
-    typed, because a hand-maintained status page is wrong by the second week
-    and this one is pointed at a sponsor. Delivery dashboard and Build
-    progress were two pages about this; merged 2026-11-09."""
-    dv = data.get("delivery")
-    comps = dv.get("components", [])
-    return page(request, "program.html", "Program", dv=dv,
-                counts=dv.get("counts", {}),
-                built=[c for c in comps if c["status"] == "done"],
-                partial=[c for c in comps if c["status"] in ("partial", "by design")],
-                todo=[c for c in comps if c["status"] == "not started"])
+# The stack: seven capabilities, how they fit, how they were tested. Replaces
+# Build progress (2026-11-20), whose counts were typed into delivery.json and
+# went stale; delivery.json stays as a published document.
+STACK_FILE = HERE / "data" / "curated" / "stack.json"
+
+
+@app.get("/stack", response_class=HTMLResponse)
+def stack(request: Request):
+    return page(request, "stack.html", "The stack", st=json.loads(STACK_FILE.read_text()))
 
 
 @app.get("/coverage", response_class=HTMLResponse)
@@ -1042,7 +998,7 @@ def coverage(request: Request):
 
 @app.get("/sources", response_class=HTMLResponse)
 def sources(request: Request):
-    return page(request, "sources.html", "Sources", s=data.get("sources"))
+    return page(request, "sources.html", "Sources", s=data.get("sources"), **_knowledge_ctx())
 
 
 # The Impact page reads a curated, cited document that ships with the app. It
@@ -1051,10 +1007,10 @@ def sources(request: Request):
 # checks/test_impact.py proves every figure carries a source, a page and a
 # verbatim quote, and recomputes every derived number.
 IMPACT_FILE = HERE / "data" / "curated" / "impact.json"
+IMPACT_PATH_FILE = HERE / "data" / "curated" / "impact_path.json"
 
 
 def impact_doc() -> dict:
-    import json
     doc = json.loads(IMPACT_FILE.read_text())
     figs = {f["id"]: f for f in doc["figures"]}
     for h in doc["hulls"]:
@@ -1066,6 +1022,17 @@ def impact_doc() -> dict:
     doc["by_group"] = {g: [f for f in doc["figures"] if f["group"] == g]
                        for g in ("portfolio", "class", "caps")}
     doc["figs"] = figs
+    # The narrative half: who uses it, the agent workflow, the Creator, the path to the
+    # portfolio and the 59 PB2027 MSAR programs. Claims there name their source.
+    doc["path"] = json.loads(IMPACT_PATH_FILE.read_text())
+    gaps = data.get("gaps") or {}
+    rows = gaps.get("rows") or []
+    # "Not closed" matches the gap register page and the Brief; status "open"
+    # excludes gaps that are narrowed, reframed or deferred but still unresolved.
+    doc["live"] = {"gaps_open": sum(1 for r in rows if not r.get("closed")),
+                   "gaps_status_open": sum(1 for r in rows if r.get("status") == "open"),
+                   "gaps_total": len(rows),
+                   "variances": len((data.get("variances") or {}).get("rows") or [])}
     return doc
 
 
@@ -1079,6 +1046,7 @@ def impact_api():
     doc = impact_doc()
     doc.pop("figs")
     doc.pop("by_group")
+    doc.pop("live")
     for h in doc["hulls"]:
         for k in ("first_fig", "last_fig", "cap_fig"):
             h.pop(k)
@@ -1173,11 +1141,12 @@ def rules(request: Request):
     return page(request, "rules.html", "Rule codes", **rulebook.page_context(q_app))
 
 
+@app.get("/program", include_in_schema=False)
 @app.get("/delivery", include_in_schema=False)
 @app.get("/progress", include_in_schema=False)
 def old_program_routes():
     """Old links, bookmarks and the brief notes keep working."""
-    return RedirectResponse("/program", status_code=308)
+    return RedirectResponse("/stack", status_code=308)
 
 
 # ----------------------------------------------------------------------- API

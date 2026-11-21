@@ -35,9 +35,9 @@
    <tr><td><a href="/position"><b>Position</b></a></td>
     <td style="font-size:.84rem">The four published cost figures side by side, why each pair differs,
      and the one difference nobody can explain yet.</td></tr>
-   <tr><td><a href="/dashboard"><b>Decision dashboard</b></a></td>
-    <td style="font-size:.84rem">Ceilings, the account file tie-out, who can close each open gap, and
-     where the evidence pipeline is stuck.</td></tr>
+   <tr><td><a href="/gaps"><b>Gap register</b></a></td>
+    <td style="font-size:.84rem">Every open question, ranked, with the office that can close it and
+     what to ask them for.</td></tr>
    <tr><td><a href="/explore"><b>Detail table</b></a></td>
     <td style="font-size:.84rem">Every contract action, exhibit table, collection request and lead.
      Filter, total and export.</td></tr>
@@ -89,61 +89,32 @@
  </div>
 </div>
 
-{% if false %}{# retired 2026-11-09: attribution bars, coverage table and work queue
-   each have a home page (/cost, /coverage, /gaps). Kept out of the render. #}
-<div>
- <div class="card">
-  <h3>Where the attribution stands</h3>
-  <p class="cap">The residual is not a budget gap. The budget closes to zero twice over. It is the
-   part of the hull that no public contract-level record attributes to CVN-79.</p>
-  {{ C.hbar(attribution.components, value="usd_m", label="label", pad_left=220, w=520) }}
-  <div class="note warn" style="margin-top:.9rem">
-   <b>${{ "{:,.0f}".format(attribution.residual_usd_m) }}M unattributed, {{ attribution.residual_pct }}%.</b>
-   Dominated by one thing: the nuclear propulsion plant at up to $1,643M, furnished through Naval
-   Reactors with funding crossing into the Department of Energy and no public vendor line item
-   anywhere. <a href="/gaps">G22</a>.</div>
- </div>
+{# ------------------------------------------------------------ AI panel #}
+<section class="card" style="margin-top:1rem">
+ <h2>What this says, and what to do about it</h2>
+ <p class="sub">Derived from the registers and tables by named rules, each carrying the figure
+  it rests on. Nothing here is model-written prose: an item appears because a rule fired, so
+  it can be disagreed with by checking the evidence rather than by doubting the narrator.</p>
 
- <div class="card">
-  <h3>Coverage by layer</h3>
-  <p class="cap">The system produces its artifacts at every access level, including zero. Each layer
-   added increases resolution. No layer is a precondition for functioning.</p>
-  <table>
-   <thead><tr><th>Layer</th><th>Producer</th><th>State</th><th>What would change it</th></tr></thead>
-   <tbody>
-   {% for l in layers.layers %}
-   <tr>
-    <td><b>{{ l.id }}</b> {{ l.name }}</td>
-    <td class="muted" style="font-size:.8rem">{{ l.producer }}</td>
-    <td>
-     {% if l.status == "rich" %}<span class="b b-ok">rich</span>
-     {% elif l.status == "partial" %}<span class="b b-info">partial</span>
-     {% elif l.status == "absent" %}<span class="b b-bad">absent</span>
-     {% else %}<span class="b b-warn">{{ l.status }}</span>{% endif %}
-    </td>
-    <td style="font-size:.8rem">{{ l.access }}</td>
-   </tr>
-   {% endfor %}
-   </tbody>
-  </table>
-  <div class="src"><b>Topology</b> {{ layers.topology }}</div>
+ <div class="grid3" style="margin-top:.8rem">
+  {% for kind, cls, heading in [('risk','risk','Risk'),('action','act','Do next'),('insight','','Reading')] %}
+  <div>
+   <h3 style="font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--fg-2)">
+    {{ heading }} <span class="muted">({{ items[kind]|length }})</span></h3>
+   {% for i in items[kind] %}
+   <div class="ai {{ cls }}">
+    <span class="t">{{ i.severity }} · {{ i.title }}</span>
+    <p>{{ i.body }}</p>
+    <span class="src">
+     {% for e in i.evidence %}{{ e }}{% if not loop.last %} · {% endif %}{% endfor %}
+     {% if i.link %} · <a href="{{ i.link }}">open</a>{% endif %}
+    </span>
+   </div>
+   {% else %}<p class="muted">None.</p>{% endfor %}
+  </div>
+  {% endfor %}
  </div>
-</div>
-
-<div class="card" style="margin-top:1rem">
- <h3>The work queue, ranked for discovery</h3>
- <p class="cap">{{ g_note if g_note else gaps.ranking }}</p>
- <div class="grid g3">
-  <div class="stat good"><div class="k">Open gaps closable now</div><div class="v">{{ gaps.free_now|length }}</div>
-   <div class="n">Zero access or an already-reachable query. {{ gaps.free_now|join(", ") }}</div></div>
-  <div class="stat"><div class="k">Open</div><div class="v">{{ gaps.open }}</div>
-   <div class="n">of {{ gaps.total }} registered. {{ gaps.closed }} closed or resolved</div></div>
-  <div class="stat"><div class="k">Top of the queue</div><div class="v">{{ gaps.ranked[0] }}</div>
-   <div class="n">{% for r in gaps.rows %}{% if r.id == gaps.ranked[0] %}{{ r.title }}{% endif %}{% endfor %}</div></div>
- </div>
- <p style="margin-top:.9rem"><a href="/gaps">Open the full register →</a></p>
-</div>
-{% endif %}
+</section>
 
 <div class="card" style="margin-top:1rem">
  <h3>The three sentences</h3>

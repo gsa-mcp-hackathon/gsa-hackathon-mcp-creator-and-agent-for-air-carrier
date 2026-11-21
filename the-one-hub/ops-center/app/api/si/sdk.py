@@ -1,8 +1,7 @@
 """SI SDK: the primitives and the six-stage run engine.
 
-The pattern is the one the CORAS CFO Mission Module demo runs (docs/
-ORCHESTRATION_V2.md Part A), rebuilt for this stack and tightened where the
-demo leaves room for a model to invent something:
+A page-triggered agent run in six stages, built so that no stage leaves room
+for a model to invent something:
 
   1 Trigger   a page button or chip names one task and one subject. There is
               no blank chat box behind a decision.

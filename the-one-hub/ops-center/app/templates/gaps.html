@@ -6,6 +6,9 @@
  <p class="lede">Every unknown carries a type and the type determines who works it. A gap is never
   assigned back to the sponsor: an unknown is work to be executed, not a question to hand upward.
   Closing gaps opens gaps, and that is the register working rather than failing.</p>
+ <p class="cap" style="margin-top:.4rem"><a href="#who-can-close">Who can close what</a> ·
+  <a href="/coverage">which evidence layers exist and what access would change them</a> ·
+  <a href="/insight">answer one</a></p>
 </div>
 
 <div class="grid g4" style="margin-bottom:1rem">
@@ -27,6 +30,29 @@
  <div class="note ok"><b>Read it top-right first.</b> High ignorance and high closability is where
   the next hour pays. High exposure sitting on the left is the access ask, not the work queue.</div>
 </div>
+
+<section class="card" style="margin-top:1rem" id="who-can-close">
+  <h2>Who can close what</h2>
+  <p class="sub">Open gaps grouped by the office the register names as able to close them, most
+   gaps first. This is the sponsor's list: an introduction to one of these offices moves every gap
+   in its row. A gap that names two offices appears under both, so rows overlap and do not sum.
+   Exposure counts only gaps whose dollar exposure has been sized.</p>
+  <table class="ledger">
+   <thead><tr><th>Office</th><th class="num">Open</th><th class="num">Needs access</th>
+    <th class="num">Requests</th><th class="num">Sized $M</th></tr></thead>
+   {% for a in asks[:10] %}
+   <tr><td style="font-size:.82rem"><b>{{ a.executor }}</b>
+     <div class="muted" style="font-size:.74rem">{{ a.gaps[:8]|join(", ") }}{% if a.gaps|length > 8 %} +{{ a.gaps|length - 8 }}{% endif %}</div></td>
+    <td class="num">{{ a.gaps|length }}</td>
+    <td class="num">{% if a.access %}<span class="b b-bad">{{ a.access }}</span>{% else %}<span class="muted">0</span>{% endif %}</td>
+    <td class="num">{{ a.requirements }}</td>
+    <td class="num">{% if a.scored %}{{ "{:,.0f}".format(a.exposure) }}{% else %}<span class="muted">-</span>{% endif %}</td></tr>
+   {% endfor %}
+  </table>
+  <p style="margin-top:.5rem;font-size:.82rem">{{ asks|length }} offices in all{% for a in asks if a.executor == 'Unrecognised office' %};
+   {{ a.gaps|length }} gap{{ 's' if a.gaps|length != 1 }} name an office the map does not recognise ({{ a.gaps|join(', ') }}){% endfor %}.
+   <a href="/explore?ds=requirements">Every collection request</a>.</p>
+ </section>
 
 <div class="card" style="margin-top:1rem">
  <div class="toolbar" data-filter-scope>

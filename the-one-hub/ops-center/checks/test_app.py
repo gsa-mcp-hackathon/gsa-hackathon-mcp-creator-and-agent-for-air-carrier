@@ -138,10 +138,20 @@ def main_() -> int:
     # projector. Measured here so it cannot.
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
     # ---- 2026-11-09: position, detail table, live guard, agent, program ----
-    for old in ("/delivery", "/progress"):
+    # 2026-11-20: retired pages redirect to where their content now lives.
+    for old, new in (("/delivery", "/stack"), ("/progress", "/stack"), ("/program", "/stack"),
+                     ("/dashboard", "/"), ("/knowledge", "/sources#search")):
         r = c.get(old, follow_redirects=False)
-        reg(f"{old} redirects to /program", r.status_code == 308
-            and r.headers.get("location") == "/program", f"{r.status_code} {r.headers.get('location')}")
+        reg(f"{old} redirects to {new}", r.status_code == 308
+            and r.headers.get("location") == new, f"{r.status_code} {r.headers.get('location')}")
+    for hidden in main.HIDDEN_PAGES:
+        r = c.get(hidden)
+        reg(f"{hidden} renders outside the menu", r.status_code == 200
+            and len(re.findall(r"<h1[ >]", r.text)) == 1, str(r.status_code))
+    reg("the Brief carries the rule-derived risks and next steps",
+        "What this says, and what to do about it" in c.get("/").text)
+    reg("the gap register says who can close what", 'id="who-can-close"' in c.get("/gaps").text)
+    reg("sources carries the corpus search", 'id="kbq"' in c.get("/sources").text)
 
     html = c.get("/position").text
     seen = [m for m in ("$11,341.4M", "$11,398.0M", "$12,936.0M", "$13,409.97M") if m in html]
@@ -153,7 +163,7 @@ def main_() -> int:
     # ---- 2026-11-19: evaluation findings F1 and F2 ----
     # F2: the cap is 10 U.S.C. 8692 (Ford-class cost limitation baselines);
     # 8691 is carrier dismantlement and disposal. Two screens cited 8691.
-    wrong = [p for p in ("/position", "/dashboard", "/baseline", "/rules")
+    wrong = [p for p in ("/position", "/", "/baseline", "/rules")
              if "8691" in c.get(p).text]
     reg("no screen cites 10 U.S.C. 8691 for the cost cap", not wrong, f"found on {wrong}")
     reg("/position cites 10 U.S.C. 8692 for the statutory cap", "U.S.C. 8692" in html)

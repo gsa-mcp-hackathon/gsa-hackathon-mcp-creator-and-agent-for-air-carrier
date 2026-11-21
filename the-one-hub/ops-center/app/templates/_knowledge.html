@@ -1,13 +1,5 @@
-{% extends "base.html" %}
-{% block body %}
-<div class="phead">
- <div class="eyebrow">Evidence</div>
- <h1>Knowledge base</h1>
- <p class="lede">Every document in the package, what it establishes, and whether it is
-  searchable. A corpus you cannot interrogate is a folder. This one is indexed to the page,
-  so a passage can be cited and returned to.</p>
-</div>
-
+{# The searchable corpus, merged into /sources on 2026-11-20 (was /knowledge). #}
+<h2 id="search" style="margin-top:1.6rem">The corpus, and searching it</h2>
 <div class="kpi-row">
  <div class="kpi acc"><div class="k">Artifacts catalogued</div>
   <div class="v">{{ corpus.count }}</div>
@@ -83,4 +75,3 @@
   </table>
  </section>
 </div>
-{% endblock %}

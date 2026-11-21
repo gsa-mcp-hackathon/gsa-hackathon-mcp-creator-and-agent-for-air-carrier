@@ -184,7 +184,7 @@ def derive(d: dict) -> list[Item]:
                   "meaning and the tables for numbers."),
             evidence=[(f"{corpus.get('count', corpus.get('artifacts', 0))} artifacts, "
                       f"{corpus.get('bytes', 0) / 1048576:.0f}MB catalogued")],
-            rule="corpus manifest routing", link="/knowledge"))
+            rule="corpus manifest routing", link="/sources#search"))
 
     order = {"high": 0, "medium": 1, "low": 2}
     out.sort(key=lambda i: (order.get(i.severity, 3), i.kind))

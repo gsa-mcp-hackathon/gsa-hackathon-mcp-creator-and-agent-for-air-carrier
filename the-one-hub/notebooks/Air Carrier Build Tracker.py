@@ -249,7 +249,7 @@ add("tests", "Tie-out against the current tables", "PASS" if p.returncode == 0 e
 apponly = "/tmp/aircarrier_apponly"
 shutil.rmtree(apponly, ignore_errors=True); shutil.copytree(f"{FILES}/app", apponly)
 probe = ("from fastapi.testclient import TestClient; import main, json; c=TestClient(main.app); "
-         "codes={p: c.get(p).status_code for p in ['/','/dashboard','/gaps','/knowledge','/variances','/delivery']}; "
+         "codes={p: c.get(p).status_code for p in ['/','/impact','/gaps','/sources','/variances','/stack']}; "
          "r=c.get('/api/search', params={'q':'cost cap'}).json(); print(json.dumps({'codes':codes,'hits':r.get('count'),'error':r.get('error')}))")
 p = subprocess.run([sys.executable, "-c", probe], cwd=apponly, capture_output=True, text=True, timeout=300)
 res = json.loads(p.stdout.strip().splitlines()[-1])

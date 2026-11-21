@@ -53,13 +53,24 @@ def doc_cycle(d) -> str:
     return f"PB{max(counts, key=counts.get)}" if counts else ""
 
 
-def _ship_cost_labels(parts: list[dict]) -> None:
+_P1_LINE = re.compile(r"P-1 Line Item Number\s*/\s*Title:?\s*(\d{4})\b")
+
+
+def _p1_line(text: str) -> str:
+    m = _P1_LINE.search(text or "")
+    return m.group(1) if m else ""
+
+
+def _ship_cost_labels(parts: list[dict], line_item: str = "") -> None:
     """On a ship cost exhibit (P-5, P-5c), name each column's hull and each cost's share.
 
     The columns are headed by the hull's full-funding year, so a model reading "FY 2018" has to
     know that is CVN-80; in round 2 one took Propulsion Equipment from that column for CVN-79.
     Each cost category also gets its share of the same column's Total Ship Estimate, computed
     here so no model does the division (another round 2 miss: 63.09% for 63.11%).
+
+    The hull depends on the P-1 line as well as the year: "FY 2020" is CVN-81 on line 2004 and a
+    refueling overhaul on line 2086. With no line found, columns keep ship_fy and get no hull.
     """
     title = " ".join(x for part in parts for x in part.get("title_block") or [])
     if not re.search(r"P-5c?\b", title) or "Ship Cost" not in title:
@@ -73,8 +84,11 @@ def _ship_cost_labels(parts: list[dict]) -> None:
         year = re.search(r"FY\s?(20\d{2}|19\d{2})", c.get("col_header") or "")
         if year:
             c["ship_fy"] = year.group(1)
-            if year.group(1) in config.SHIP_FY_HULLS:
-                c["hull"] = config.SHIP_FY_HULLS[year.group(1)]
+            hull = config.SHIP_HULLS.get((line_item, year.group(1)))
+            if hull:
+                c["hull"] = hull
+            if line_item:
+                c["p1_line"] = line_item
         total = totals.get(c.get("col_header"))
         head = (c.get("row_header") or "").strip().lower()
         if total and c.get("value_musd") and not head.startswith(("total", "less", "net")):
@@ -142,7 +156,11 @@ def get_table(c: Corpus, table_id: str, include_continuations: bool = True, max_
                       "continuation_of": t.continuation_of, "link_inferred": t.link_inferred,
                       "title_block": t.title_block, "legends": sorted(set(t.legends)),
                       "column_headers": t.col_headers, "markdown": t.markdown(max_rows), "numeric_cells": cells})
-    _ship_cost_labels(parts)
+    head = chain[0]
+    doc = c.docs.get(head.artifact_id)
+    page_text = (doc.pages.get(head.page) if doc else "") or ""
+    line = _p1_line(page_text) or _p1_line(" ".join(head.title_block or []))
+    _ship_cost_labels(parts, line)
     ties = c.tieouts(chain[0].table_id)
     return {"filename": chain[0].filename, "artifact_id": chain[0].artifact_id, "pages": [t.page for t in chain],
             "tables": parts, "tieouts": ties,

@@ -70,3 +70,14 @@ def test_server_registers_every_tool():
     srv = mcp_server.build()
     names = {t.name for t in asyncio.run(srv.list_tools())}
     assert {"get_table", "list_tables", "check_claim", "search_corpus"} <= names
+
+
+def test_tie_out_closes_only_to_the_exhibit_rounding():
+    # 2026-11-20 (B2): a $970,000 residual on $13,409.970M used to pass under the $1.0M floor.
+    from ops.agents.tieout.run import anchor_chain, two_axis_close
+    assert not two_axis_close(13409.97, {"a": 13409.0}, {"b": 13409.97}).passed
+    assert two_axis_close(1.0, {"a": 0.1, "b": 0.2, "c": 0.7}, {"x": 1.0}).passed   # no float drift
+    assert two_axis_close(13409.970, {"a": 13409.9704}, {"b": 13409.970}).passed    # rounding only
+    assert anchor_chain([("cap", 11398.0), ("a", 1300.0), ("b", 238.0), ("c", 260.0), ("d", 213.97)],
+                        13409.970).passed
+    assert not anchor_chain([("cap", 11398.0), ("a", 1300.0)], 12698.5).passed

@@ -1,4 +1,4 @@
-"""SI: the page-triggered agent team (orchestration v2, docs/ORCHESTRATION_V2.md).
+"""SI: the page-triggered agent team (orchestration v2).
 
     sdk.py      primitives (Agent, TaskTemplate, Pack, Proposal, Verdict, Run) and
                 the six-stage run engine: route, pack, specialist, two checks,

@@ -1,89 +1,331 @@
 {% extends "base.html" %}
+{% set P = imp.path %}
+{% set F = imp.figs %}
 {% macro cite(f) -%}
 {%- set s = imp.sources[f.source] -%}
-<span class="src mono" title="&quot;{{ f.quote }}&quot;">{{ s.title }}, p.{{ f.page }}</span>
+<span class="imp-chip" title="{{ s.title }}, p.{{ f.page }}: &quot;{{ f.quote }}&quot;">{{ P.source_short[f.source] }} p.{{ f.page }}</span>
+{%- endmacro %}
+{% macro status_badge(st) -%}
+{%- if st in ("measured", "done") %}<span class="b b-ok">{{ st }}</span>
+{%- elif st in ("loaded", "now", "next") %}<span class="b b-info">{{ st }}</span>
+{%- elif st == "plan" %}<span class="b b-warn">plan</span>
+{%- else %}<span class="b b-mut">{{ st }}</span>{% endif -%}
 {%- endmacro %}
 {% block body %}
-<div class="phead">
- <div class="eyebrow">Impact</div>
- <h1>From one hull to the weapon-system portfolio</h1>
- <p class="lede">CVN-79 is the pilot. The same four ledgers break the same way on every major
-  weapon system, and GAO puts the portfolio at over $2.4 trillion. Every figure on this page is
-  printed in the cited document on the cited page; hover a citation to read the exact text.</p>
-</div>
 
-<h2>The portfolio GAO assesses</h2>
-<div class="grid g3" id="portfolio">
- {% for f in imp.by_group.portfolio %}
- <div class="kpi" id="{{ f.id }}"><div class="k">{{ f.label }}</div>
-  <div class="v">{{ f.display }}</div>
-  <div class="n">{{ cite(f) }}</div></div>
+<section class="hero imp-hero">
+ <img src="/static/img/cvn79-047.jpg" alt="PCU John F. Kennedy (CVN 79) under way at sea">
+ <div class="scrim"></div>
+ <div class="inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,.8)">Impact</div>
+  <h1>One carrier read to the cent. The same agents and servers for every weapon system.</h1>
+  <p>CVN-79 is the deep case: its cost rebuilt on four ledgers, every figure tied to a page or a
+   transaction. Nothing in the servers, the gate or the agents is specific to CVN-79. This page
+   shows what that means for the people who brief, budget, estimate and audit weapon-system cost,
+   from the Ford class to the F-35 to the 59 programs with a PB2027 MSAR.</p>
+ </div>
+ <span class="credit">PCU John F. Kennedy (CVN 79) under way, 2026</span>
+</section>
+
+<div class="imp-ladder" aria-label="From one hull to the portfolio">
+ {% for r in P.ladder %}
+ <div class="rung {{ {'measured':'done','loaded':'mid','plan':'plan'}.get(r.status, 'stakes') }}">
+  <div class="num">{{ r.n }}</div> {{ status_badge(r.status) }}
+  <div class="name">{{ r.name }}</div>
+  <div class="scope">{{ r.scope }}</div>
+  <div class="who">{{ r.users }}</div>
+ </div>
  {% endfor %}
 </div>
 
-<section class="card" style="margin-top:1rem" id="hulls">
- <h2>The Ford class, hull by hull</h2>
- <p class="muted small">Total Ship Estimate from Exhibit P-5c, $ millions, then-year. Growth is between
-  the two cited exhibits.</p>
- <div class="tscroll"><table class="ledger">
-  <thead><tr><th>Hull</th><th class="num">Earlier estimate</th><th class="num">Latest estimate</th>
-   <th class="num">Growth</th><th class="num">Cost Limitation Baseline</th></tr></thead>
-  <tbody>
-  {% for h in imp.hulls %}
-  <tr id="{{ h.hull }}">
-   <td><b>{{ h.hull }}</b> {{ h.name }}</td>
-   <td class="num">{{ h.first_fig.display }}<br>{{ cite(h.first_fig) }}</td>
-   <td class="num">{{ h.last_fig.display }}<br>{{ cite(h.last_fig) }}</td>
-   <td class="num">+${{ "{:,.3f}".format(h.growth) }}M<br><span class="muted small">+{{ h.growth_pct }}%</span></td>
-   <td class="num">{% if h.cap_fig %}{{ h.cap_fig.display }}<br>{{ cite(h.cap_fig) }}{% else %}<span class="muted">—</span>{% endif %}</td>
-  </tr>
+<section class="imp-band" id="problem">
+ <div class="eyebrow">1 · The problem</div>
+ <h2>The portfolio is large, slow and moving, and its cost cannot yet be audited</h2>
+ <div class="grid g4">
+  {% for id in ["gao_portfolio", "gao_programs", "gao_mdap_net", "gao_delivery"] %}{% set f = F[id] %}
+  <div class="kpi" id="{{ f.id }}"><div class="k">{{ f.label }}</div><div class="v">{{ f.display }}</div><div class="n">{{ cite(f) }}</div></div>
   {% endfor %}
-  </tbody>
- </table></div>
- {% for h in imp.hulls %}{% for f in (h.first_fig, h.last_fig) %}{% if f.note %}
- <p class="muted small" style="margin:.2rem 0">{{ h.hull }}, {{ f.label.split(', ')[-1] }}: {{ f.note }}</p>
- {% endif %}{% endfor %}{% endfor %}
+ </div>
+ <div class="grid g3" style="margin-top:.7rem">
+  {% for id in ["gao_mdap_up", "gao_mdap_down", "gao_32_mdaps"] %}{% set f = F[id] %}
+  <div class="stat" id="{{ f.id }}"><div class="k">{{ f.label }}</div><div class="v" style="font-size:1.25rem">{{ f.display }}</div><div class="n">{{ cite(f) }}</div></div>
+  {% endfor %}
+ </div>
+ <ul class="cap" style="margin:.7rem 0 0;padding-left:1.1rem">
+  {% for c in P.context %}<li>{{ c.fact }} (<a href="{{ c.url }}" rel="noopener" target="_blank">{{ c.src }}</a>).</li>{% endfor %}
+ </ul>
 </section>
 
-<div class="grid g2" style="margin-top:1rem">
- <section class="card" id="class">
-  <h2>The class and its life cycle</h2>
-  <table class="ledger"><tbody>
-  {% for f in imp.by_group.class %}
-   <tr id="{{ f.id }}"><td>{{ f.label }}{% if f.note %}<br><span class="muted small">{{ f.note }}</span>{% endif %}</td>
-    <td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
+<section class="imp-band" id="results">
+ <div class="eyebrow">2 · What changed on CVN-79</div>
+ <h2>Measured on one hull, not projected</h2>
+ <p class="lede">Each result links to the page or document that shows it.</p>
+ <div class="grid g3">
+  {% for r in P.results %}
+  <a class="kpi" href="{{ r.href }}" style="text-decoration:none;color:inherit"{% if r.href.startswith('http') %} rel="noopener" target="_blank"{% endif %}>
+   <div class="k">{{ r.k }}</div>
+   <div class="v" style="font-size:1.45rem">{% if r.v == "GAPS" %}{{ imp.live.gaps_open }} of {{ imp.live.gaps_total }}{% elif r.v == "VARS" %}{{ imp.live.variances }}{% else %}{{ r.v }}{% endif %}</div>
+   <div class="n">{{ r.n }}</div>
+  </a>
   {% endfor %}
-  </tbody></table>
- </section>
- <section class="card" id="caps">
-  <h2>Statutory cost caps</h2>
-  <table class="ledger"><tbody>
-  {% for f in imp.by_group.caps %}
-   <tr id="{{ f.id }}"><td>{{ f.label }}
-    {% if f.grade == "UNDER REVIEW" %}<span class="b b-warn">under review</span>{% endif %}
-    {% if f.note %}<br><span class="muted small">{{ f.note }}</span>{% endif %}</td>
-    <td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
-  {% endfor %}
-  </tbody></table>
- </section>
-</div>
-
-<section class="card accent" style="margin-top:1rem" id="derived">
- <h2>What one hull is worth to the method</h2>
- {% for d in imp.derived %}
- <p><span class="b b-info">{{ d.grade }}</span> {{ d.label }}: <b>{{ d.display }}</b>
-  <span class="muted small">({{ d.formula }}). {{ d.note }}</span></p>
- {% endfor %}
- <p>A reconciliation that has to be rebuilt by hand for each ship does not scale to the portfolio.
-  The servers, the gate and the registers carry over unchanged; each new program adds a key set and
-  a source catalog. CVN-80 and CVN-81 share CVN-79's budget line, builder and a contract the hub
-  already excludes from CVN-79, so they are next.</p>
+ </div>
 </section>
 
-<section class="card" style="margin-top:1rem" id="not-shown">
+<section class="imp-band" id="workflow">
+ <div class="eyebrow">3 · How it happens, from your seat</div>
+ <h2>You ask. Agents plan. MCP servers fetch. The gate checks. You decide.</h2>
+ <p class="lede">The same seven steps run for every question, on any hull or program. The model
+  never does the arithmetic and never writes to the record: tools compute, the gate decides what
+  may be shown as fact, and a person applies every change.</p>
+ <div class="imp-flow">
+  {% for s in P.flow %}
+  <div class="node {{ s.kind }}"><div class="who">{{ s.n }} · {{ s.who }}</div><div class="what">{{ s.what }}</div><div class="detail">{{ s.detail }}</div></div>
+  {% endfor %}
+ </div>
+ <div class="imp-legend">
+  <span><i style="background:var(--accent)"></i>A person</span>
+  <span><i style="background:var(--c3)"></i>An agent</span>
+  <span><i style="background:var(--c2)"></i>An MCP server or register</span>
+  <span><i style="background:var(--warn)"></i>The gate, no model</span>
+ </div>
+
+ <h3 style="margin-top:1.4rem">Five users, five questions, traced through the stack</h3>
+ <div class="imp-personas">
+  {% for p in P.personas %}
+  <div class="imp-persona">
+   <div class="role">{{ p.role }}</div>
+   <div class="who">{{ p.who }}</div>
+   <div class="ask">{{ p.ask }}</div>
+   <ol>
+    {% for srv, tool, result in p.trace %}
+    <li><span class="srv">{{ srv }}</span><span class="tool">{{ tool }}</span><br>{{ result }}</li>
+    {% endfor %}
+   </ol>
+   <div class="gets"><b>They get:</b> {{ p.gets }}</div>
+   <div class="repl">Replaces: {{ p.replaces }}. <a href="{{ p.href }}"{% if p.href.startswith('http') %} rel="noopener" target="_blank"{% endif %}>See it</a></div>
+  </div>
+  {% endfor %}
+ </div>
+</section>
+
+<section class="imp-band" id="creator">
+ <div class="eyebrow">4 · MCP A Creator</div>
+ <h2>A new program gets its own governed server without a developer</h2>
+ <div class="imp-split">
+  <figure>
+   <img src="/static/img/cvn79-004.jpg" alt="A CVN-79 hull section lifted into place at Newport News Shipbuilding">
+   <figcaption>CVN-79 was built from pre-outfitted modules. The Creator builds servers the same way: tested parts, assembled to a reviewed design.</figcaption>
+  </figure>
+  <div class="card" style="margin:0">
+   <p style="margin-top:0">An analyst brings a question and a Unity Catalog table. The Creator walks seven phases,
+    each ending in something a person can review, and deploys the result as that person's own app.
+    The ops server inside this hub was built this way. A new hull or program needs a key set and a
+    regeneration, with no development project.</p>
+   <div class="grid g4" style="margin-top:.8rem">
+    {% for x in P.creator_proof %}
+    <div class="stat"><div class="v" style="font-size:1.2rem">{{ x.v }}</div><div class="n">{{ x.k }}</div></div>
+    {% endfor %}
+   </div>
+  </div>
+ </div>
+ <div class="imp-phase-rail">
+    {% for c in P.creator %}
+    <div class="ph"><div class="t">Phase {{ c.n }}</div><div class="nm">{{ c.name }}</div><div class="cap" style="margin:0">{{ c.out }}</div>
+     <div class="imp-chip" style="margin-top:.35rem">{{ c.tool }}</div></div>
+    {% endfor %}
+   </div>
+</section>
+
+<section class="imp-band" id="carry">
+ <div class="eyebrow">5 · What carries over</div>
+ <h2>Each new program supplies data, not software</h2>
+ <div class="card" style="margin:0"><div class="tscroll"><table>
+  <thead><tr><th>Part of the stack</th><th>Reused unchanged</th><th>Each new hull or program adds</th></tr></thead>
+  <tbody>{% for r in P.carry %}<tr><td><b>{{ r.part }}</b></td><td>{{ r.reused }}</td><td>{{ r.adds }}</td></tr>{% endfor %}</tbody>
+ </table></div></div>
+</section>
+
+<section class="imp-band" id="hulls">
+ <div class="eyebrow">6 · The Ford class from the same servers</div>
+ <h2>Four hulls from the budget books already loaded</h2>
+ <p class="lede">Each hull's Total Ship Estimate in the budget that procured it, against the latest
+  book that still carries it, with its statutory cost cap. Then-year dollars, so the change mixes
+  inflation with growth until normalized.</p>
+ {% set hulls = imp.hulls %}
+ {% set W, H, L, B, T = 1240, 330, 64, 46, 16 %}
+ {% set ymax = 16000 %}
+ {% set gw = (W - L - 20) / 4 %}
+ <div class="card" style="margin:0 0 .9rem">
+  <svg class="imp-chart" viewBox="0 0 {{ W }} {{ H }}" role="img" aria-label="Total Ship Estimate by hull: procurement-year budget against the latest budget, with the cost cap">
+   {% for t in [0, 4000, 8000, 12000, 16000] %}{% set y = H - B - (H - B - T) * t / ymax %}
+   <line x1="{{ L }}" x2="{{ W - 10 }}" y1="{{ y }}" y2="{{ y }}" stroke="var(--line)" stroke-width="1"/>
+   <text x="{{ L - 8 }}" y="{{ y + 4 }}" text-anchor="end">{{ "{:,}".format(t) }}</text>
+   {% endfor %}
+   {% for h in hulls %}{% set x0 = L + loop.index0 * gw + gw * 0.18 %}{% set bw = gw * 0.26 %}
+    {% set v1 = h.first_fig.value %}{% set v2 = h.last_fig.value %}
+    {% set y1 = H - B - (H - B - T) * v1 / ymax %}{% set y2 = H - B - (H - B - T) * v2 / ymax %}
+    <rect x="{{ x0 }}" y="{{ y1 }}" width="{{ bw }}" height="{{ H - B - y1 }}" fill="var(--accent-soft)" stroke="var(--accent)"/>
+    <rect x="{{ x0 + bw + 6 }}" y="{{ y2 }}" width="{{ bw }}" height="{{ H - B - y2 }}" fill="var(--accent)"/>
+    <text class="in-soft" x="{{ x0 + bw / 2 }}" y="{{ H - B - 12 }}" text-anchor="middle">{{ "{:,.0f}".format(v1) }}</text>
+    <text class="in" x="{{ x0 + bw * 1.5 + 6 }}" y="{{ H - B - 12 }}" text-anchor="middle">{{ "{:,.0f}".format(v2) }}</text>
+    {% if h.cap_fig %}{% set yc = H - B - (H - B - T) * h.cap_fig.value * 1000 / ymax %}
+    <line x1="{{ x0 - 8 }}" x2="{{ x0 + bw * 2 + 14 }}" y1="{{ yc }}" y2="{{ yc }}" stroke="var(--warn)" stroke-width="2.5" stroke-dasharray="6 4"/>
+    <text class="cap-l" x="{{ x0 + bw * 2 + 18 }}" y="{{ yc + 4 }}">cap {{ "{:,.0f}".format(h.cap_fig.value * 1000) }}</text>
+    {% endif %}
+    <text class="lbl" x="{{ x0 + bw + 3 }}" y="{{ H - B + 18 }}" text-anchor="middle">{{ h.hull }}</text>
+    <text x="{{ x0 + bw + 3 }}" y="{{ H - B + 33 }}" text-anchor="middle">{{ h.name }}</text>
+   {% endfor %}
+  </svg>
+  <div class="imp-legend">
+   <span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>Budget that procured the hull ($M)</span>
+   <span><i style="background:var(--accent)"></i>Latest budget carrying the hull ($M)</span>
+   <span><i style="background:var(--warn)"></i>Cost Limitation Baseline in force</span>
+  </div>
+ </div>
+
+ <div class="imp-split">
+  <figure>
+   <img src="/static/img/cvn79-051.jpg" alt="CVN-79 at Newport News Shipbuilding with tugs alongside">
+   <figcaption>The class SAR reports cost for the class, not per hull (GAO-17-575). The per-hull split is the product.</figcaption>
+  </figure>
+  <div class="card" style="margin:0"><div class="tscroll"><table>
+   <thead><tr><th>Hull</th><th class="num">Procurement-year budget</th><th class="num">Latest budget</th><th class="num">Change</th><th class="num">Cost cap</th></tr></thead>
+   <tbody>
+   {% for h in hulls %}
+   <tr id="{{ h.hull }}"><td><b>{{ h.hull }}</b><br><span class="muted small">{{ h.name }}</span></td>
+    <td class="num">{{ h.first_fig.display }}<br>{{ cite(h.first_fig) }}</td>
+    <td class="num">{{ h.last_fig.display }}<br>{{ cite(h.last_fig) }}</td>
+    <td class="num">+${{ "{:,.3f}".format(h.growth) }}M<br><span class="muted small">+{{ h.growth_pct }}%</span></td>
+    <td class="num">{% if h.cap_fig %}{{ h.cap_fig.display }}<br>{{ cite(h.cap_fig) }}{% else %}<span class="muted small">none in the MSAR</span>{% endif %}</td></tr>
+   {% endfor %}
+   </tbody>
+  </table></div>
+  <p class="cap" style="margin:.4rem 0 0">CVN-78's latest is PB2018, the last P-5c with a CVN-78 column. CVN-78 and CVN-79 procurement-year exhibits were printed in thousands of dollars.</p>
+  </div>
+ </div>
+
+ <div class="grid g2" style="margin-top:.9rem">
+  <div class="card" style="margin:0" id="caps">
+   <h3>Statutory cost caps</h3>
+   <table class="ledger"><tbody>
+   {% for f in imp.by_group.caps %}
+    <tr id="{{ f.id }}"><td>{{ f.label }}{% if f.grade == "UNDER REVIEW" %} <span class="b b-warn">under review</span>{% endif %}
+     {% if f.note %}<br><span class="muted small">{{ f.note }}</span>{% endif %}</td>
+     <td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
+   {% endfor %}
+   </tbody></table>
+  </div>
+  <div class="card" style="margin:0" id="class">
+   <h3>The class over its life, and GAO's view of the hulls</h3>
+   <table class="ledger"><tbody>
+   {% for l in P.life %}{% set f = F[l.id] %}
+    <tr id="{{ f.id }}"><td>{{ f.label }}<br><span class="muted small">{{ l.meaning }}</span></td>
+     <td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
+   {% endfor %}
+   {% for id in ["gao_cvn79_growth", "gao_cvn81_growth"] %}{% set f = F[id] %}
+    <tr id="{{ f.id }}"><td>{{ f.label }}</td><td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
+   {% endfor %}
+   </tbody></table>
+   <p class="cap" style="margin:.4rem 0 0">{{ F.msar_acq.note }}</p>
+  </div>
+ </div>
+
+ <div class="card accent" style="margin-top:.9rem">
+  <h3>What CVN-78 and CVN-79 teach the ships that follow</h3>
+  <ol class="imp-steps" style="margin-top:.6rem">
+   {% for c in P.chain %}
+   <li><span class="n">{{ loop.index }}</span><div class="row" style="grid-template-columns:1fr">
+    <div><div class="ttl">{{ c.step }}</div><div style="font-size:.88rem">{{ c.text }}</div><div class="cap" style="margin:.2rem 0 0">{{ c.src }}</div></div></div></li>
+   {% endfor %}
+  </ol>
+ </div>
+</section>
+
+<section class="imp-band" id="f35">
+ <div class="eyebrow">7 · The second program</div>
+ <h2>The F-35: same method, lots in place of hulls</h2>
+ <p class="lede">The Joint Strike Fighter is its own DoD material weakness, and its parts in
+  contractor possession are the largest instance of the property problem the hub already registers
+  for CVN-79. What changes is the unit of cost and the source documents; the stack does not.</p>
+ <div class="card" style="margin:0"><div class="tscroll"><table class="imp-compare">
+  <thead><tr><th></th><th>CVN-79 today</th><th>F-35 next</th></tr></thead>
+  <tbody>{% for r in P.f35 %}<tr><td>{{ r.concept }}</td><td>{{ r.cvn }}</td><td>{{ r.f35 }}</td></tr>{% endfor %}</tbody>
+ </table></div></div>
+</section>
+
+<section class="imp-band" id="steps">
+ <div class="eyebrow">8 · Onboarding any program</div>
+ <h2>Eight steps from public record to governed tools</h2>
+ <p class="lede">The sequence that ran on CVN-79. The last column says where each step was proven.</p>
+ <ol class="imp-steps">
+  {% for s in P.steps %}
+  <li><span class="n">{{ s.n }}</span>
+   <div class="row">
+    <div><div class="ttl">{{ s.title }}</div><div style="font-size:.86rem">{{ s.do }}</div></div>
+    <div><div class="k">Server and tools</div><div class="tool">{{ s.tool }}</div><div class="k" style="margin-top:.35rem">Output</div><div style="font-size:.82rem">{{ s.out }}</div></div>
+    <div><div class="k">Proven on CVN-79</div><div style="font-size:.84rem"><b>{{ s.proof }}</b></div></div>
+   </div></li>
+  {% endfor %}
+ </ol>
+</section>
+
+<section class="imp-band" id="phases">
+ <div class="eyebrow">9 · Build-out</div>
+ <h2>The stack, program by program, in phases</h2>
+ <p class="lede">Each phase reuses everything before it and ends in a test that can be measured.
+  Phase 0 is done; phase 1 runs on records already loaded; the rest are a plan.</p>
+ <div class="imp-roadmap">
+  {% for p in P.phases %}
+  <div class="card" style="border-top:3px solid {% if p.status == 'done' %}var(--ok){% elif p.status in ('now', 'next') %}var(--info){% else %}var(--warn){% endif %}">
+   <div class="ph-n">Phase {{ p.n }} {{ status_badge(p.status) }}</div>
+   <h3 style="margin:.25rem 0 .1rem">{{ p.name }}</h3>
+   <div class="cap" style="margin:0">{{ p.users }}</div>
+   <dl><dt>Inputs</dt><dd>{{ p.inputs }}</dd><dt>New work</dt><dd>{{ p.new }}</dd><dt>Exit test</dt><dd><b>{{ p.exit }}</b></dd></dl>
+  </div>
+  {% endfor %}
+ </div>
+</section>
+
+<section class="imp-band" id="programs">
+ <div class="eyebrow">10 · The department</div>
+ <h2>The 59 programs with a PB2027 MSAR</h2>
+ <p class="lede">Every MSAR follows one DoD template, so the docs server's reader applies to all of
+  them. Only the CVN 78 MSAR is loaded today. Service and type are assigned from the program name;
+  confirm them against each report on load.</p>
+ <div class="grid g4" style="margin-bottom:.8rem">
+  {% for t in P.tiers %}
+  <div class="stat"><div class="k">Tier {{ t.tier }} · {{ t.label }}</div>
+   <div class="v">{{ P.programs | selectattr("tier", "equalto", t.tier) | list | length }}</div>
+   <div class="n">{{ t.means }}</div></div>
+  {% endfor %}
+ </div>
+ <div class="card" style="margin:0">
+  <div class="toolbar">
+   <input type="search" aria-label="Filter the 59 programs" placeholder="Filter by program, service, type or tier" data-search="#mdap" data-count="#mdap-n" style="min-width:320px">
+   <span class="pill"><b id="mdap-n">{{ P.programs | length }}</b> of {{ P.programs | length }}</span>
+  </div>
+  <div class="tscroll" id="mdap"><table>
+   <thead><tr><th>Program</th><th>Service</th><th>Type</th><th>Tier</th><th>SCN line, PB2027 P-5c page</th><th>Note</th><th>MSAR</th></tr></thead>
+   <tbody>
+   {% for r in P.programs | sort(attribute="tier") %}{% set t = P.tiers[r.tier - 1] %}
+   <tr data-row><td><b>{{ r.program }}</b></td><td>{{ r.service }}</td><td>{{ r.type }}</td>
+    <td>{% if r.tier == 1 %}<span class="b b-ok">{{ t.label }}</span>{% elif r.tier == 2 %}<span class="b b-info">{{ t.label }}</span>{% elif r.tier == 3 %}<span class="b b-warn">{{ t.label }}</span>{% else %}<span class="b b-mut">{{ t.label }}</span>{% endif %}</td>
+    <td class="mono small">{% if r.scn_line %}LI {{ r.scn_line }} · p.{{ r.scn_pages }}{% endif %}</td>
+    <td class="small">{{ r.note }}</td>
+    <td class="small"><a href="{{ r.url }}" rel="noopener" target="_blank">PDF</a></td></tr>
+   {% endfor %}
+   </tbody>
+  </table></div>
+ </div>
+</section>
+
+<section class="imp-band card" id="not-shown">
  <h3>What this page does not show</h3>
- <ul>{% for n in imp.not_shown %}<li class="small">{{ n }}</li>{% endfor %}</ul>
- <p class="muted small">{{ imp.method }} As of {{ imp.as_of }}. The same data as JSON:
-  <a href="/api/impact">/api/impact</a>.</p>
+ <ul>{% for n in P.not_shown %}<li class="small">{{ n }}</li>{% endfor %}</ul>
+ <h3 style="margin-top:1rem">Sources for the figures</h3>
+ <ul class="small">{% for k, s in imp.sources.items() %}<li>{{ s.title }}</li>{% endfor %}</ul>
+ <p class="muted small">Every figure above with a page chip is printed in that document on that page;
+  hover the chip for the exact text. Page numbers are PDF page indexes. As of {{ imp.as_of }}.
+  The same data as JSON: <a href="/api/impact">/api/impact</a>.</p>
 </section>
 {% endblock %}

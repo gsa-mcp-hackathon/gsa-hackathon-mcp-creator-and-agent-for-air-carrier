@@ -1,0 +1,1266 @@
+{
+ "as_of": "2026-11-20",
+ "source_short": {
+  "GAO26": "GAO-26-108457",
+  "MSAR27": "CVN 78 MSAR, FY2027",
+  "PB2008": "SCN book PB2008",
+  "PB2013": "SCN book PB2013",
+  "PB2018": "SCN book PB2018",
+  "PB2020": "SCN book PB2020",
+  "PB2027": "SCN book PB2027"
+ },
+ "ladder": [
+  {
+   "n": 1,
+   "name": "CVN-79",
+   "scope": "One hull, four ledgers",
+   "status": "measured",
+   "users": "DCFO, PEO Carriers, auditors"
+  },
+  {
+   "n": 2,
+   "name": "Ford class",
+   "scope": "CVN-78 to CVN-82, budget and acquisition",
+   "status": "measured",
+   "users": "PEO Carriers, NAVSEA 05C, FMB"
+  },
+  {
+   "n": 3,
+   "name": "Navy ships",
+   "scope": "29 SCN ship lines, book already loaded",
+   "status": "loaded",
+   "users": "FMB, NAVSEA, congressional staff"
+  },
+  {
+   "n": 4,
+   "name": "F-35",
+   "scope": "Lots and variants, contractor-held parts",
+   "status": "plan",
+   "users": "F-35 JPO, OUSD(C), DCMA"
+  },
+  {
+   "n": 5,
+   "name": "59 programs",
+   "scope": "Every PB2027 MSAR, one template",
+   "status": "plan",
+   "users": "Every PEO and component comptroller"
+  },
+  {
+   "n": 6,
+   "name": "The portfolio",
+   "scope": "Over $2.4 trillion, 104 programs GAO assesses",
+   "status": "stakes",
+   "users": "OUSD(C), USD(A&S), the auditors"
+  }
+ ],
+ "context": [
+  {
+   "fact": "Eighth disclaimer of opinion, FY2025, over $4.65 trillion in reported assets",
+   "src": "CRS IF12627",
+   "url": "https://www.everycrsreport.com/files/2026-04-28_IF12627_a0aaa98fa9bd10c7d612eaea7793e46ec9b96ed0.html"
+  },
+  {
+   "fact": "26 material weaknesses, among them General PP&E, Government Property in the Possession of Contractors, and the Joint Strike Fighter program",
+   "src": "DoD FY2025 AFR",
+   "url": "https://comptroller.war.gov/Portals/45/Documents/afr/fy2025/5_Other_Information.pdf"
+  },
+  {
+   "fact": "Clean audit opinion required by December 31, 2028",
+   "src": "GAO-25-108052",
+   "url": "https://www.gao.gov/assets/gao-25-108052-highlights.pdf"
+  }
+ ],
+ "results": [
+  {
+   "v": "0.000",
+   "k": "Residual on two axes",
+   "n": "$13,409.970M Total Ship Estimate rebuilt by cost category and by funding stream",
+   "href": "/cost"
+  },
+  {
+   "v": "42.2% to 75.8%",
+   "k": "Hull attributed to a named contract",
+   "n": "One pass, replacing an announcement-derived figure with the obligation record",
+   "href": "/execution"
+  },
+  {
+   "v": "69.4% vs 4.2%",
+   "k": "Sealed questions, with vs without the tools",
+   "n": "Round 3, 72 answers by two models, questions fixed by SHA-256 before the run",
+   "href": "https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/eval/delegation/README.md"
+  },
+  {
+   "v": "GAPS",
+   "k": "Questions not yet closed, each with an owner",
+   "n": "Every unknown is a typed gap ranked by exposure and closability; the rest are closed or resolved",
+   "href": "/gaps"
+  },
+  {
+   "v": "VARS",
+   "k": "Places public sources disagree",
+   "n": "Each kept with both values and its cause, never resolved by picking one",
+   "href": "/variances"
+  },
+  {
+   "v": "1,234 of 1,234",
+   "k": "Known answers right, hourly probe",
+   "n": "99.90% of 6,193 checks ok, 2026-11-12 to 2026-11-20",
+   "href": "https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/mcp-servers/aircarrier-mcp-probe/README.md"
+  }
+ ],
+ "flow": [
+  {
+   "n": 1,
+   "who": "You",
+   "what": "Ask in plain words",
+   "detail": "In Genie Code, any MCP client, or the Ask page. Nothing to configure",
+   "kind": "user"
+  },
+  {
+   "n": 2,
+   "who": "Agents plan",
+   "what": "Decide what evidence the answer needs",
+   "detail": "Investigator, reader, attributor and briefer. They never call each other; each hand-off is a row in the work register",
+   "kind": "agent"
+  },
+  {
+   "n": 3,
+   "who": "MCP servers fetch",
+   "what": "Docs, Analyst, Ops",
+   "detail": "Exhibits rebuilt to exact decimals, contract actions to the cent, every value with its page or row hash. 30 tools, read-only except one gated label write",
+   "kind": "server"
+  },
+  {
+   "n": 4,
+   "who": "The gate checks",
+   "what": "Every figure, before you see it",
+   "detail": "No model. A figure that ties to a source record is verified; anything else is a lead, a review or a gap",
+   "kind": "gate"
+  },
+  {
+   "n": 5,
+   "who": "Challenger attacks",
+   "what": "The draft, against known error classes",
+   "detail": "Wrong hull, collided identifiers, secondary sources passed off as primary",
+   "kind": "agent"
+  },
+  {
+   "n": 6,
+   "who": "You decide",
+   "what": "Approve, edit or dismiss",
+   "detail": "Nothing changes the record until a person with the right role applies it",
+   "kind": "user"
+  },
+  {
+   "n": 7,
+   "who": "Registers remember",
+   "what": "Variances, gaps, decisions",
+   "detail": "The next run starts where this one ended, on any hull or program",
+   "kind": "server"
+  }
+ ],
+ "personas": [
+  {
+   "role": "Senior leader briefing a ship's cost",
+   "who": "DCFO, ASN(FM&C), OUSD(C)",
+   "ask": "Can I brief CVN-79 at $13.4 billion?",
+   "trace": [
+    [
+     "Docs",
+     "docs_find_line_item, docs_tieout_document",
+     "FY2027 P-5c, SCN line 2001: $13,409.970M, closes to 0.000 (p.95)"
+    ],
+    [
+     "One Hub",
+     "check_claim",
+     "$13,529M held for human review: the same figure is CVN-80's baseline (E-17)"
+    ],
+    [
+     "Analyst",
+     "analyst_trace_entity",
+     "$9,098M on two HII prime contracts, 67.8% of the hull"
+    ]
+   ],
+   "gets": "One brief line with its basis, the three caps in circulation, and the one figure not yet safe to say",
+   "replaces": "One number lifted into a slide with its definition lost",
+   "href": "/position"
+  },
+  {
+   "role": "Program office cost analyst",
+   "who": "PEO Carriers, PMS 379, NAVSEA 05C",
+   "ask": "Why did CVN-80's estimate move this cycle?",
+   "trace": [
+    [
+     "Docs",
+     "docs_find_line_item(2001, P-5c, PB2026 and PB2027)",
+     "Two exhibits, same line, two cycles"
+    ],
+    [
+     "Docs",
+     "docs_get_table",
+     "Each cost category in both books, with its column labelled CVN-80"
+    ],
+    [
+     "One Hub",
+     "tie_out",
+     "Both totals close; the movement is a variance with both pages"
+    ]
+   ],
+   "gets": "The movement by cost category, cited to two pages, ready for the variance register",
+   "replaces": "Manual reconciliation across J-books and SARs, redone every review",
+   "href": "/baseline"
+  },
+  {
+   "role": "Budget analyst",
+   "who": "Navy FMB, NAVSEA 01, comptroller and congressional staff",
+   "ask": "What funds CVN-81, by year and by line?",
+   "trace": [
+    [
+     "Docs",
+     "docs_get_table (SCN PB2027 p.137)",
+     "Funding streams for line 2004 by fiscal year"
+    ],
+    [
+     "Docs",
+     "docs_tieout_document",
+     "Closes to 0.000, including $1,429.682M funded in line 2001"
+    ],
+    [
+     "One Hub",
+     "check_claim",
+     "Flags that line 2001 is not a hull key: it funds CVN-79 and part of CVN-81"
+    ]
+   ],
+   "gets": "Funding by year with the cross-line money called out before it is double counted",
+   "replaces": "Spreadsheets rebuilt from PDF exhibits each budget cycle",
+   "href": "/execution"
+  },
+  {
+   "role": "Accountant or auditor",
+   "who": "Service FM, IPA auditors, DoD OIG, GAO",
+   "ask": "Can this asset's value be traced to transactions?",
+   "trace": [
+    [
+     "Analyst",
+     "analyst_investigate_record",
+     "Obligations to the cent on both prime contracts"
+    ],
+    [
+     "Analyst",
+     "analyst_explain_residual",
+     "Award-level outlays cover 0.8% of obligations (gap G25)"
+    ],
+    [
+     "One Hub",
+     "rank_gaps, collection_requirement",
+     "When CIP is relieved (G14), whether GFE is counted twice (G15): each a request to a named office"
+    ]
+   ],
+   "gets": "The questions the audit will ask, already registered, ranked and owned",
+   "replaces": "Sampling and tracing that starts from nothing every audit cycle",
+   "href": "/gaps"
+  },
+  {
+   "role": "Any analyst with a table",
+   "who": "A program office, a component comptroller, an audit team",
+   "ask": "Can I put a governed tool over my own data without a developer?",
+   "trace": [
+    [
+     "Creator",
+     "creator_start_design, creator_add_data_source",
+     "A design handle; field roles and grants profiled as the user"
+    ],
+    [
+     "Creator",
+     "creator_design_tools, creator_review_server",
+     "One tool per question; a score on 11 dimensions"
+    ],
+    [
+     "Creator",
+     "creator_generate_project, creator_deploy_server",
+     "A tested server, deployed as the user's own app after approval"
+    ]
+   ],
+   "gets": "Their own MCP server, tested, evaluated and owned, in one session",
+   "replaces": "A ticket to a development team, or a model improvising SQL",
+   "href": "https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/mcp-server-creator/README.md"
+  }
+ ],
+ "creator": [
+  {
+   "n": 0,
+   "name": "Environment",
+   "tool": "creator_check_environment",
+   "out": "What this workspace can run, commercial through IL5"
+  },
+  {
+   "n": 1,
+   "name": "Discovery",
+   "tool": "creator_start_design",
+   "out": "A design handle and the gaps that block it"
+  },
+  {
+   "n": 2,
+   "name": "Profile",
+   "tool": "creator_add_data_source",
+   "out": "Field roles, personal-data columns, grants, as the calling user"
+  },
+  {
+   "n": 3,
+   "name": "Design",
+   "tool": "creator_design_tools",
+   "out": "One tool per question, at most eight, and what cannot be answered"
+  },
+  {
+   "n": 4,
+   "name": "Review",
+   "tool": "creator_review_server",
+   "out": "A score on 11 dimensions, including whether each tool computes what its question means"
+  },
+  {
+   "n": 5,
+   "name": "Generate",
+   "tool": "creator_generate_project",
+   "out": "Server, tests, an evaluation harness and a Databricks App kit"
+  },
+  {
+   "n": 6,
+   "name": "Deploy",
+   "tool": "creator_deploy_server",
+   "out": "The user's own app, after an approval bound to exactly what was reviewed"
+  }
+ ],
+ "creator_proof": [
+  {
+   "v": "15 of 15",
+   "k": "Generated projects pass their own tests and lint"
+  },
+  {
+   "v": "58 of 58",
+   "k": "Files byte-identical from the same specification"
+  },
+  {
+   "v": "7 tools",
+   "k": "The ops server inside this hub, generated by the Creator"
+  },
+  {
+   "v": "1 key set",
+   "k": "What a new hull or program adds before the Creator rebuilds its server"
+  }
+ ],
+ "carry": [
+  {
+   "part": "MCP A Creator",
+   "reused": "Ten tools, eight skills, generators, review, deploy gate",
+   "adds": "A question and a Unity Catalog table"
+  },
+  {
+   "part": "Docs server",
+   "reused": "Reader, document map, tie-out, figure search; no CVN-79 logic in the reader",
+   "adds": "The program's PDFs in a volume; one hull-map entry per budget line for ships"
+  },
+  {
+   "part": "Analyst server",
+   "reused": "Investigation method, evidence weights, collection requests",
+   "adds": "Contract numbers and program codes from the key set"
+  },
+  {
+   "part": "Ops server",
+   "reused": "Exhibit-cell, obligation and register tools",
+   "adds": "Regenerated by the Creator over the program's tables"
+  },
+  {
+   "part": "One Hub gate and registers",
+   "reused": "Promote, review, gap and lead routes; variance and gap types",
+   "adds": "The subject total; the floor is a share of it, so it moves with the program"
+  },
+  {
+   "part": "Six agents and the work register",
+   "reused": "Hand-offs as row state changes",
+   "adds": "The subject name in five specialist prompts"
+  },
+  {
+   "part": "Probe",
+   "reused": "Initialize, tools/list, one known answer, hourly",
+   "adds": "One known-answer check per new server"
+  }
+ ],
+ "chain": [
+  {
+   "step": "CVN-78 sets the reference class",
+   "text": "GAO attributes lead-ship cost growth to technology development, design and construction, compounded by an optimistic budget estimate.",
+   "src": "GAO-17-575, p.2"
+  },
+  {
+   "step": "CVN-79 tests the learning assumption",
+   "text": "The Navy negotiated 18 percent fewer labor hours for CVN-79 than CVN-78, twice the Nimitz-class reduction and close to 9 million hours, which GAO calls unprecedented in 50 years of carrier construction. Its cost cap then rose from $11,398M to $12,936M.",
+   "src": "GAO-17-575, p.2 and p.24; CVN-79 cap history"
+  },
+  {
+   "step": "CVN-80 and CVN-81 inherit the assumption and the data problems",
+   "text": "One contract covers two hulls: the CVN-80/81 detail design and construction contract, awarded January 31, 2019. One budget line covers two hulls: CVN-81 draws $1,429.682M from line 2001. One number names two hulls: $13,529M is CVN-79's reported new baseline and CVN-80's baseline.",
+   "src": "CVN 78 MSAR FY2027, p.8 and p.10; SCN book PB2027, p.137"
+  },
+  {
+   "step": "What the pilot found recurs on every program",
+   "text": "A contract number is not a hull key, a budget line is not a hull key, award-level outlays cover under 1% of obligations, and capitalized value will never equal program cost. Each is in the variance or gap register with its evidence, ready for the next program.",
+   "src": "Ring 0 dossier, Parts I and N"
+  }
+ ],
+ "life": [
+  {
+   "id": "msar_acq",
+   "meaning": "What the budget and acquisition ledgers must close to, for the class"
+  },
+  {
+   "id": "msar_os",
+   "meaning": "Four times acquisition: the budget tail every future appropriation carries"
+  },
+  {
+   "id": "msar_disposal",
+   "meaning": "A future environmental and disposal liability that the balance sheet must estimate"
+  }
+ ],
+ "f35": [
+  {
+   "concept": "Unit of cost",
+   "cvn": "A hull (CVN-79)",
+   "f35": "A production lot and variant (F-35A, B, C)"
+  },
+  {
+   "concept": "Budget exhibits",
+   "cvn": "SCN P-5c ship cost, P-8a, P-27",
+   "f35": "Aircraft procurement P-40 and P-5 exhibits, plus RDT&E"
+  },
+  {
+   "concept": "Acquisition report",
+   "cvn": "CVN 78 class MSAR, loaded",
+   "f35": "F-35 MSAR, PB2027, in the list below"
+  },
+  {
+   "concept": "Contracts",
+   "cvn": "Two HII primes plus GFE contracts",
+   "f35": "Lot contracts, read from the MSAR's contract section"
+  },
+  {
+   "concept": "The accounting problem",
+   "cvn": "When CIP is relieved; GFE counted twice or not at all",
+   "f35": "Parts in contractor possession, estimated over $220 billion (GAO-23-106098); its own material weakness (FY2025 AFR)"
+  },
+  {
+   "concept": "What carries over",
+   "cvn": "Gate, registers, agents, docs reader, analyst method, Creator",
+   "f35": "The same, with the key set built from the MSAR"
+  }
+ ],
+ "steps": [
+  {
+   "n": 1,
+   "title": "Load the public record",
+   "do": "The program's MSAR, budget justification books and GAO reviews go into a Unity Catalog volume.",
+   "tool": "docs_parse_pdf",
+   "out": "Pages, tables and chunks, each with a page number",
+   "proof": "34 PDFs, 7,804 pages for CVN-79"
+  },
+  {
+   "n": 2,
+   "title": "Map each document",
+   "do": "Find the cost exhibits and report sections without reading every page.",
+   "tool": "docs_document_map, docs_find_line_item",
+   "out": "Exhibit and section page ranges by budget line",
+   "proof": "Every P-5c, P-8a, P-35, P-27 and P-10 in the PB2027 SCN book"
+  },
+  {
+   "n": 3,
+   "title": "Read and tie out",
+   "do": "Rebuild each table with exact decimals and check every subtotal and total.",
+   "tool": "docs_get_table, docs_tieout_document",
+   "out": "Tables usable as arithmetic, or a named failure",
+   "proof": "814 of 818 tie-out checks pass"
+  },
+  {
+   "n": 4,
+   "title": "Build the key set",
+   "do": "Contract numbers and cost-reporting status from the MSAR's contract section; appropriation, line and program element from the budget book.",
+   "tool": "docs_read_page, analyst_trace_entity",
+   "out": "A key set for the program",
+   "proof": "The CVN 78 MSAR lists the prime and GFE contracts on pp.38 to 44"
+  },
+  {
+   "n": 5,
+   "title": "Generate the program's server",
+   "do": "Pull contract actions for the key set into Unity Catalog; the Creator designs, reviews, generates and deploys a server over them.",
+   "tool": "creator_start_design to creator_deploy_server",
+   "out": "A tested server owned by the requester",
+   "proof": "The ops server: 7 tools, golden set of 17"
+  },
+  {
+   "n": 6,
+   "title": "Investigate the records",
+   "do": "Attribute each incomplete record and name what is missing.",
+   "tool": "analyst_investigate_record",
+   "out": "Ranked cases with citations and collection requests",
+   "proof": "Attribution raised from 42.2% to 75.8% of the hull"
+  },
+  {
+   "n": 7,
+   "title": "Govern every figure",
+   "do": "Route each candidate figure through the gate; register variances and gaps with owners.",
+   "tool": "check_claim, tie_out, rank_gaps",
+   "out": "Verified figures, leads and owned questions",
+   "proof": "$13,409.970M promoted; $13,529M held for review"
+  },
+  {
+   "n": 8,
+   "title": "Watch and deliver",
+   "do": "Probe each server hourly; publish pages, agents and Genie Code skills.",
+   "tool": "aircarrier-mcp-probe, front center",
+   "out": "Monitoring evidence and a product leaders can read",
+   "proof": "1,234 of 1,234 known answers right"
+  }
+ ],
+ "phases": [
+  {
+   "n": 0,
+   "name": "CVN-79, the deep case",
+   "status": "done",
+   "users": "DCFO, PEO Carriers, auditors",
+   "inputs": "34 PDFs, two prime contracts, 1,875 transactions",
+   "new": "The stack itself",
+   "exit": "P-5c closes to 0.000 on two axes; 69.4% vs 4.2% on sealed questions"
+  },
+  {
+   "n": 1,
+   "name": "The Ford class, budget and acquisition",
+   "status": "now",
+   "users": "PEO Carriers, NAVSEA 05C, Navy FMB",
+   "inputs": "Already loaded: 22 SCN books, CVN 78 MSAR, GAO-26-108457",
+   "new": "Hull map per budget line and year; subject total per hull in the gate",
+   "exit": "Each hull's P-5c closes on two axes with page citations"
+  },
+  {
+   "n": 2,
+   "name": "Ford-class contracts and carrier equipment",
+   "status": "next",
+   "users": "PEO Carriers, SUPSHIP, NAVAIR",
+   "inputs": "Contract actions for the CVN-80/81 two-ship award; the AAG, AMDR and CEC MSARs",
+   "new": "Key sets per hull; the Creator regenerates the ops server with a hull filter",
+   "exit": "Obligations to the cent per contract; the GFE gap (G15) narrowed"
+  },
+  {
+   "n": 3,
+   "name": "The F-35",
+   "status": "plan",
+   "users": "F-35 JPO, OUSD(C) audit, DCMA",
+   "inputs": "F-35 MSAR, aircraft procurement books, lot contracts",
+   "new": "Lots in place of hulls; contractor-held property as a gap family",
+   "exit": "Lot estimates tie out; property gaps registered with owners"
+  },
+  {
+   "n": 4,
+   "name": "Navy shipbuilding",
+   "status": "plan",
+   "users": "Navy FMB, NAVSEA, congressional staff",
+   "inputs": "29 SCN ship lines already loaded; nine ship MSARs",
+   "new": "One hull-map entry per line",
+   "exit": "Tie-out rate published per ship line"
+  },
+  {
+   "n": 5,
+   "name": "The 59 MSAR programs",
+   "status": "plan",
+   "users": "Every PEO and component comptroller",
+   "inputs": "59 PB2027 MSARs, one DoD template",
+   "new": "A key set per program, built from its own MSAR",
+   "exit": "N of 59 parsed, M tie out, contracts found per program"
+  },
+  {
+   "n": 6,
+   "name": "The accounting ledger at scale",
+   "status": "plan",
+   "users": "Service FM offices and the auditors",
+   "inputs": "Service general ledger and Advana access (outside this hackathon)",
+   "new": "CIP relief and GFE capitalization per program",
+   "exit": "One program's asset value traced to transactions, toward December 31, 2028"
+  }
+ ],
+ "tiers": [
+  {
+   "tier": 1,
+   "label": "Loaded",
+   "means": "MSAR and budget book in the docs store, parsed and cited"
+  },
+  {
+   "tier": 2,
+   "label": "Budget book loaded",
+   "means": "Its SCN P-5c is in the PB2027 book already held; its MSAR is the next file"
+  },
+  {
+   "tier": 3,
+   "label": "Ford-class equipment",
+   "means": "Equipment that sits on the carrier; fills the GFE side of CVN-79 (gap G15)"
+  },
+  {
+   "tier": 4,
+   "label": "Report only",
+   "means": "Load its MSAR and budget book; the same eight steps apply"
+  }
+ ],
+ "not_shown": [
+  "The method has run end to end on CVN-79 only. Ford-class rows cover the budget and acquisition ledgers; the F-35 and the 59 programs are a plan.",
+  "Totals are then-year dollars from different budget years, so differences between hulls are not cost growth until normalized with the MSAR's base-year tables.",
+  "Per-program costs in GAO-26-108457 are printed in chart images and are not extracted.",
+  "No dollar benefit is claimed. The portfolio figures are the stakes."
+ ],
+ "programs": [
+  {
+   "program": "Advanced Arresting Gear (AAG)",
+   "service": "Navy",
+   "type": "Ship system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 3,
+   "note": "Ford-class equipment; GA-EMS contract N00019-14-C-0037 is in the CVN-79 key set",
+   "msar": "AAG_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/AAG_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "AARGM-ER",
+   "service": "Navy",
+   "type": "Missile",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "AARGM-ER_MSAR_FY2027_PBv4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/AARGM-ER_MSAR_FY2027_PBv4.pdf"
+  },
+  {
+   "program": "Amphibious Combat Vehicle family",
+   "service": "Marine Corps",
+   "type": "Ground vehicle",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "ACV_FoV_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/ACV_FoV_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "AH-64E Remanufacture",
+   "service": "Army",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "AH-64E_Remanufacture_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/AH-64E_Remanufacture_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "AIM-9X Block II",
+   "service": "Navy",
+   "type": "Missile",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "AIM_9X_Blk_II_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/AIM_9X_Blk_II_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "AMDR family of radars",
+   "service": "Navy",
+   "type": "Ship system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 3,
+   "note": "Confirm on load whether it carries EASR, the CVN-79 radar on a multi-hull contract",
+   "msar": "AMDR_FoR_MSAR_FY2027_PBv2_Cleared.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/AMDR_FoR_MSAR_FY2027_PBv2_Cleared.pdf"
+  },
+  {
+   "program": "Armored Multi-Purpose Vehicle",
+   "service": "Army",
+   "type": "Ground vehicle",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "AMPV_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/AMPV_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "B-52 RMP",
+   "service": "Air Force",
+   "type": "Aircraft modification",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "B52_RMP_PPS(MSAR)_v4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/B52_RMP_PPS%28MSAR%29_v4.pdf"
+  },
+  {
+   "program": "Cooperative Engagement Capability",
+   "service": "Navy",
+   "type": "Ship and aircraft system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 3,
+   "note": "Confirm on load whether carriers are in its quantities",
+   "msar": "CEC_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/CEC_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "CH-53K",
+   "service": "Navy",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "CH-53K_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/CH-53K_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "CIRCM",
+   "service": "Army",
+   "type": "Aircraft survivability",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "CIRCM_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/CIRCM_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "CVN 78 Gerald R. Ford class",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "2001, 2004",
+   "scn_pages": "95, 137",
+   "tier": 1,
+   "note": "Loaded and parsed: 76 pages, 78 tables",
+   "msar": "CVN_78_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/CVN_78_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "DDG 51",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "2122",
+   "scn_pages": "267, 269",
+   "tier": 2,
+   "note": "",
+   "msar": "DDG_51_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/DDG_51_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "E-130J",
+   "service": "Navy",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "E-130J_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/E-130J_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "E-2D Advanced Hawkeye",
+   "service": "Navy",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "E-2D_AHE_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/E-2D_AHE_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "Expeditionary Fast Transport",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "3043",
+   "scn_pages": "385",
+   "tier": 2,
+   "note": "",
+   "msar": "EPF_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/EPF_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "Evolved Strategic SATCOM",
+   "service": "Space Force",
+   "type": "Space",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "ESS_Space_Dev_Prod_MSAR_FY2027_PB_clear.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/ESS_Space_Dev_Prod_MSAR_FY2027_PB_clear.pdf"
+  },
+  {
+   "program": "F-15 EPAWSS",
+   "service": "Air Force",
+   "type": "Aircraft system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "F15_EPAWSS_MSAR_FY2027_PB_cleared.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/F15_EPAWSS_MSAR_FY2027_PB_cleared.pdf"
+  },
+  {
+   "program": "F-15EX",
+   "service": "Air Force",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "F15EX_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/F15EX_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "F-35 Lightning II",
+   "service": "Joint",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "Its own material weakness; contractor-held parts estimated over $220B (GAO-23-106098). Ring 0 Part J already frames it",
+   "msar": "F35_MSAR_FY2027_PB_v5.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/F35_MSAR_FY2027_PB_v5.pdf"
+  },
+  {
+   "program": "G/ATOR",
+   "service": "Marine Corps",
+   "type": "Radar",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "GATOR_MSAR_FY2027_PBv4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/GATOR_MSAR_FY2027_PBv4.pdf"
+  },
+  {
+   "program": "GPS IIIF",
+   "service": "Space Force",
+   "type": "Space",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "GPS_IIIF_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/GPS_IIIF_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "HH-60W",
+   "service": "Air Force",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "HH60W_MSAR_FY2027_PB_cleared.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/HH60W_MSAR_FY2027_PB_cleared.pdf"
+  },
+  {
+   "program": "Integrated Air and Missile Defense",
+   "service": "Army",
+   "type": "Air and missile defense",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "IAMD_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/IAMD_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "ICBM Fuze Modernization",
+   "service": "Air Force",
+   "type": "Strategic",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "ICBM_Fuze_Mod_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/ICBM_Fuze_Mod_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "Infrared Search and Track",
+   "service": "Navy",
+   "type": "Aircraft system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "IRST_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/IRST_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "Improved Turbine Engine Program",
+   "service": "Army",
+   "type": "Engine",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "ITEP_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/ITEP_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "JAGM",
+   "service": "Army",
+   "type": "Missile",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "JAGM_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/JAGM_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "JASSM-ER",
+   "service": "Air Force",
+   "type": "Missile",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "Redacted release; parse rate may be lower",
+   "msar": "JASSM_ER_MSAR_FY2027_PB_As_Amended_Redacted.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/JASSM_ER_MSAR_FY2027_PB_As_Amended_Redacted.pdf"
+  },
+  {
+   "program": "Joint Light Tactical Vehicle",
+   "service": "Army",
+   "type": "Ground vehicle",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "JLTV_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/JLTV_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "KC-46A",
+   "service": "Air Force",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "KC46A_MSAR_FY2027_PB_cleared.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/KC46A_MSAR_FY2027_PB_cleared.pdf"
+  },
+  {
+   "program": "KC-130J",
+   "service": "Navy",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "KC-130J_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/KC-130J_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "LCS Mission Modules",
+   "service": "Navy",
+   "type": "Ship mission systems",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "LCS_MM_MSAR_FY2027_PB_V4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/LCS_MM_MSAR_FY2027_PB_V4.pdf"
+  },
+  {
+   "program": "LHA 6 America class",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "3041",
+   "scn_pages": "352",
+   "tier": 2,
+   "note": "",
+   "msar": "LHA_6_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/LHA_6_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "LPD 17 San Antonio class",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "3010",
+   "scn_pages": "326",
+   "tier": 2,
+   "note": "SCN line 3010 is LPD Flight II; confirm on load that the MSAR covers it",
+   "msar": "LPD_17_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/LPD_17_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "Long Range Standoff",
+   "service": "Air Force",
+   "type": "Strategic",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "LRSO_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/LRSO_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "LRASM",
+   "service": "Navy",
+   "type": "Missile",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "LRASM_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/LRASM_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "LTAMDS",
+   "service": "Army",
+   "type": "Radar",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "LTAMDS_PB27_MSAR_final_as_amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/LTAMDS_PB27_MSAR_final_as_amended.pdf"
+  },
+  {
+   "program": "MIDS",
+   "service": "Navy",
+   "type": "Datalink",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "MIDS_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/MIDS_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "Mk21A Reentry Vehicle",
+   "service": "Air Force",
+   "type": "Strategic",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "Mk21A_RV_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/Mk21A_RV_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "MQ-25",
+   "service": "Navy",
+   "type": "Unmanned aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "MQ-25_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/MQ-25_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "MQ-4C Triton",
+   "service": "Navy",
+   "type": "Unmanned aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "MQ-4C_Triton_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/MQ-4C_Triton_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "Next Gen OPIR GEO",
+   "service": "Space Force",
+   "type": "Space",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "Next_Gen_OPIR_GEO_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/Next_Gen_OPIR_GEO_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "Next Gen OPIR Polar",
+   "service": "Space Force",
+   "type": "Space",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "Next_Gen_OPIR_Polar_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/Next_Gen_OPIR_Polar_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "Next Generation Jammer Low Band",
+   "service": "Navy",
+   "type": "Aircraft system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "NGJ_Low_Band_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/NGJ_Low_Band_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "Next Generation Jammer Mid Band",
+   "service": "Navy",
+   "type": "Aircraft system",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "NGJ_Mid_Band_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/NGJ_Mid_Band_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "National Security Space Launch",
+   "service": "Space Force",
+   "type": "Space launch",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "NSSL_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/NSSL_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "SAOC",
+   "service": "Air Force",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "SAOC_MSAR_FY2027_PB_v5.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/SAOC_MSAR_FY2027_PB_v5.pdf"
+  },
+  {
+   "program": "Small Diameter Bomb II",
+   "service": "Air Force",
+   "type": "Munition",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "SDB_II_MSAR_FY2027_PB_v4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/SDB_II_MSAR_FY2027_PB_v4.pdf"
+  },
+  {
+   "program": "SM-6",
+   "service": "Navy",
+   "type": "Missile",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "SM-6_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/SM-6_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "SSBN 826 Columbia class",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "1045",
+   "scn_pages": "55",
+   "tier": 2,
+   "note": "",
+   "msar": "SSBN_826_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/SSBN_826_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "Ship to Shore Connector",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "5112",
+   "scn_pages": "464, 465",
+   "tier": 2,
+   "note": "",
+   "msar": "SSC_MSAR_FY2027_PBv2_As_Amended.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/SSC_MSAR_FY2027_PBv2_As_Amended.pdf"
+  },
+  {
+   "program": "SSN 774 Virginia class",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "2013",
+   "scn_pages": "179",
+   "tier": 2,
+   "note": "",
+   "msar": "SSN_774_MSAR_FY2027_PBv3.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/SSN_774_MSAR_FY2027_PBv3.pdf"
+  },
+  {
+   "program": "T-AGOS 25",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "5030",
+   "scn_pages": "421",
+   "tier": 2,
+   "note": "",
+   "msar": "T-AGOS_25_MSAR_FY2027_PBv4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/T-AGOS_25_MSAR_FY2027_PBv4.pdf"
+  },
+  {
+   "program": "T-AO 205 John Lewis class",
+   "service": "Navy",
+   "type": "Ship",
+   "scn_line": "5025",
+   "scn_pages": "412",
+   "tier": 2,
+   "note": "",
+   "msar": "T-AO_205_Class_MSAR_FY2027_PBv2.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/T-AO_205_Class_MSAR_FY2027_PBv2.pdf"
+  },
+  {
+   "program": "T-7A Advanced Pilot Training",
+   "service": "Air Force",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "T-7_APT_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/T-7_APT_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "Trident II",
+   "service": "Navy",
+   "type": "Strategic",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "TRIDENT_MSAR_FY2027_PBv4.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/TRIDENT_MSAR_FY2027_PBv4.pdf"
+  },
+  {
+   "program": "VC-25B",
+   "service": "Air Force",
+   "type": "Aircraft",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "VC25B_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/VC25B_MSAR_FY2027_PB.pdf"
+  },
+  {
+   "program": "Weather System Follow-on",
+   "service": "Space Force",
+   "type": "Space",
+   "scn_line": "",
+   "scn_pages": "",
+   "tier": 4,
+   "note": "",
+   "msar": "WSF_MSAR_FY2027_PB.pdf",
+   "url": "https://www.esd.whs.mil/Portals/54/Documents/FOID/Reading%20Room/Selected_Acquisition_Reports/PB_2027_MSARs/WSF_MSAR_FY2027_PB.pdf"
+  }
+ ]
+}

@@ -327,18 +327,15 @@ in this workspace can:
 
 | Menu | Page | The question it answers |
 | --- | --- | --- |
-| Overview | `/` | What has CVN-79 cost, in four headline numbers with their sources |
-| Position | `/position` | The four published figures side by side, what kind of number each is, and why each pair differs |
-| Impact | `/impact` | Where CVN-79 sits in the Ford class (four hulls' estimates, growth and caps) and in GAO's $2.4 trillion portfolio; 24 figures, each with its document, page and verbatim quote |
-| Analyze | Kennedy picture `/mission` | Can we stand behind the number at the brief, and which records could not be read |
-| | Decision dashboard `/dashboard` | Ceilings, the account file tie-out, and who can close each open gap |
-| | Work queue `/work` | Proposals from the agents waiting for a person to confirm or reject |
-| | Detail table `/explore` | Every contract action, exhibit table, collection request and lead; filter, total, export |
-| | Ask the evidence `/ask` | A question in plain language, answered from the same records with citations |
-| | Run log `/runs` | Every specialist run, its inputs and its result |
-| The ship | `/kennedy`, `/cost`, `/execution`, `/baseline`, `/asset`, `/industrial` | The hull, its cost composition, budget execution, caps and baselines, its accounting as an asset, and its supplier base (2,000 firms in 46 states) |
-| Evidence | `/variances`, `/gaps`, `/knowledge`, `/sources`, `/coverage`, `/method`, `/rules`, `/program` | The variance and gap registers, the document store, source list, coverage map, method, rule codes and build progress |
-| Contribute | `/insight` | Answer one of the open questions; it is recorded as a lead with your name and how you knew it, never as a certified figure |
+| Brief | `/` | What has CVN-79 cost, what can be said today, and the rule-derived risks and next steps |
+| Cost | `/position`, `/cost`, `/baseline`, `/execution` | The four published figures and why they differ; cost by category and funding stream; estimate and cap history; obligations by year |
+| Audit | `/gaps`, `/variances`, `/asset`, `/industrial` | Open questions ranked with who can close each; where sources disagree; the asset's accounting; who builds what, including GFE |
+| Impact | `/impact` | From CVN-79 to the Ford class, the F-35 and the 59 PB2027 MSAR programs: the agent workflow traced for five users, MCP A Creator's phases, eight onboarding steps and a phased build-out; 24 figures each with its document, page and quote |
+| Agents | `/work`, `/mission`, `/ask`, `/runs`, `/explore` | Decisions waiting for a person; brief readiness with page-started agent runs; cited answers; every run and action; every record, filterable |
+| About | `/kennedy`, `/stack`, `/sources`, `/method` | The ship; the seven capabilities and how they were tested; document families and the searchable corpus; the method, with links to `/rules` and `/coverage` |
+| Answer a question | `/insight` | Answer one of the open questions; it is recorded as a lead with your name and how you knew it, never as a certified figure |
+
+Retired pages redirect: `/dashboard` to `/`, `/knowledge` to `/sources`, `/program` (and `/delivery`, `/progress`) to `/stack`.
 
 Every page that can start a specialist run shows the runs it offers at the top, scoped to
 what is on the page (for example "Explain File C FY2021P03").

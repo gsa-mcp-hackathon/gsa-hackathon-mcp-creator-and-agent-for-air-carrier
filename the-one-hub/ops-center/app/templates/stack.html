@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block body %}
+
+<section class="hero imp-hero">
+ <img src="/static/img/cvn79-008.jpg" alt="CVN-79 under construction in dry dock at Newport News Shipbuilding">
+ <div class="scrim"></div>
+ <div class="inner">
+  <div class="eyebrow" style="color:rgba(255,255,255,.8)">The stack</div>
+  <h1>Seven capabilities, each useful on its own</h1>
+  <p>MCP servers that read, investigate and govern; a server that builds servers; agents that hand
+   work to each other only through a register; and a probe that checks every server every hour.
+   CVN-79 is the first ship they were assembled for. None of them is specific to it.</p>
+ </div>
+ <span class="credit">CVN-79 in dry dock, Newport News Shipbuilding</span>
+</section>
+
+<section class="imp-band" id="layers">
+ <div class="eyebrow">How the parts fit</div>
+ <h2>Build, read, investigate, govern, deliver, watch</h2>
+ <div class="imp-flow">
+  {% for s in st.layers %}
+  <div class="node {{ s.kind }}"><div class="who">{{ s.n }} · {{ s.who }}</div><div class="what">{{ s.what }}</div><div class="detail">{{ s.detail }}</div></div>
+  {% endfor %}
+ </div>
+ <div class="imp-legend">
+  <span><i style="background:var(--accent)"></i>Where a person starts</span>
+  <span><i style="background:var(--c2)"></i>MCP server</span>
+  <span><i style="background:var(--warn)"></i>The gate, no model</span>
+  <span><i style="background:var(--c3)"></i>Agents and pages</span>
+ </div>
+</section>
+
+<section class="imp-band" id="capabilities">
+ <div class="eyebrow">The seven capabilities</div>
+ <h2>What each solves, for whom, and where it stands today</h2>
+ <div class="stack-grid">
+  {% for c in st.capabilities %}
+  <article class="card stack-cap{% if c.img %} with-img{% endif %}">
+   {% if c.img %}<img src="/static/img/{{ c.img }}-thumb.jpg" data-full="/static/img/{{ c.img }}.jpg" data-lightbox alt="{{ c.name }}: CVN-79 construction" loading="lazy">{% endif %}
+   <div class="stack-body">
+    <div style="display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap"><h3 style="margin:0">{{ c.name }}</h3><span class="b b-info">{{ c.tools }}</span></div>
+    <p class="cap" style="margin:.35rem 0 .5rem"><b>Problem.</b> {{ c.problem }}</p>
+    <p style="font-size:.86rem;margin:0 0 .5rem">{{ c.does }}</p>
+    <dl class="kv" style="font-size:.8rem">
+     <dt>Beyond CVN-79</dt><dd style="font-weight:400">{{ c.beyond }}</dd>
+     <dt>Today</dt><dd>{{ c.today }}</dd>
+    </dl>
+    <p style="margin:.5rem 0 0;font-size:.8rem"><a href="{{ c.href }}" rel="noopener" target="_blank">Source and README</a></p>
+   </div>
+  </article>
+  {% endfor %}
+ </div>
+</section>
+
+<section class="imp-band" id="evaluation">
+ <div class="eyebrow">Evidence</div>
+ <h2>How it was tested, and what each result does not show</h2>
+ <div class="card" style="margin:0"><div class="tscroll"><table>
+  <thead><tr><th>Measure</th><th>Result</th><th>What it does not show</th></tr></thead>
+  <tbody>{% for e in st.evaluation %}<tr><td>{{ e.measure }}</td><td><b>{{ e.result }}</b></td><td class="muted">{{ e.not }}</td></tr>{% endfor %}</tbody>
+ </table></div></div>
+</section>
+
+<section class="imp-band" id="security">
+ <div class="eyebrow">Controls</div>
+ <h2>Security, by risk</h2>
+ <div class="imp-split">
+  <figure>
+   <img src="/static/img/cvn79-052.jpg" alt="CVN-79 alongside at Newport News with tugs">
+   <figcaption>Read-only by default. Every write is gated, every figure is checked, every decision is a person's.</figcaption>
+  </figure>
+  <div class="card" style="margin:0"><table class="ledger"><tbody>
+   {% for s in st.security %}<tr><td><b>{{ s.risk }}</b></td><td style="font-size:.86rem">{{ s.control }}</td></tr>{% endfor %}
+  </tbody></table></div>
+ </div>
+</section>
+
+<p class="cap" style="margin-top:1.2rem">Figures as reported in the repository README and evaluation documents, as of {{ st.as_of }}.
+ Full evaluation: <a href="https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/blob/main/docs/submission/EVALUATION.md" rel="noopener" target="_blank">EVALUATION.md</a>.</p>
+{% endblock %}

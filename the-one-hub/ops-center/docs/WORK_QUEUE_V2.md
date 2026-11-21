@@ -1,6 +1,6 @@
 # Air Carrier work queue v2: from a rule-output viewer to a decision queue
 
-Status: design, 2026-11-11. Not built. Extends ORCHESTRATION_V2.md (Part C, /work) and API_SPEC.md section 4 (new gaps A-27 to A-36).
+Status: design of 2026-11-11, since built: the three lanes are in app/api/harness.py and /work (tests in checks/test_work.py). Extends API_SPEC.md section 4 (gaps A-27 to A-36).
 Case studied: exception 5657e0c5-aed8-4c10-8297-34fa23c06fda (CC-02 v4, test-wbs-001, $6,000,000.00, void_test_data).
 All counts below were read from the live `users.xiaobing_shang1_civ.aircarrier_app_*` tables on 2026-11-11 unless marked otherwise.
 
@@ -42,7 +42,7 @@ Verified facts (live tables, 2026-11-11):
 * CC-02 has versions 1 to 4 in the register, all with status active. Each new version re-raised the same subject, which produced the superseded rows.
 * window_closes_at is NULL on all 6 exceptions.
 * The case row was inserted open at 2026-11-11 03:28:02 (Delta version 9) and set to void_test_data at 15:40:34 (version 11). Both agent runs on it (9cb75c3b ended 04:06:38, 16bf9ac3 ended 15:32:56) finished before the void. The agents worked an open item; the waste came from the missing pre-check (D13), not from running after the void.
-* agent_runs: 34 rows, 22 distinct run_ids (duplicates persist, see ORCHESTRATION_V2 Part B).
+* agent_runs: 34 rows, 22 distinct run_ids (duplicates persisted at the time).
 * proposals: 3, all pending, all with exception_id NULL. decisions: 0. metrics: 0.
 * Rule register: 22 rule ids. 5 active, 14 blocked_no_source, 3 blocked_param_unset.
 

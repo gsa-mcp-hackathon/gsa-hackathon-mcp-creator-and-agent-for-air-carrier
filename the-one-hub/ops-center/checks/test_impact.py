@@ -90,3 +90,40 @@ def test_page_renders_every_figure_with_its_citation():
         assert f"{DOC['sources'][f['source']]['title']}, p.{f['page']}" in html, f["id"]
     api = c.get("/api/impact").json()
     assert len(api["figures"]) == len(DOC["figures"])
+
+
+# ------------------------------------------------------------ the path half of the page
+PATH = json.loads((ROOT / "app" / "data" / "curated" / "impact_path.json").read_text())
+
+
+def test_path_has_the_59_programs_in_four_tiers():
+    progs = PATH["programs"]
+    assert len(progs) == 59 and len({p["msar"] for p in progs}) == 59
+    assert all(p["url"].startswith("https://www.esd.whs.mil/") and p["url"].endswith(".pdf") for p in progs)
+    assert {p["tier"] for p in progs} == {1, 2, 3, 4}
+    assert [p["program"] for p in progs if p["tier"] == 1] == ["CVN 78 Gerald R. Ford class"]
+    assert all(p["scn_line"] for p in progs if p["tier"] == 2)
+
+
+def test_path_steps_phases_and_flow_are_complete():
+    assert [s["n"] for s in PATH["steps"]] == list(range(1, 9))
+    assert [p["n"] for p in PATH["phases"]] == list(range(7))
+    assert PATH["phases"][0]["status"] == "done"
+    assert all(p["status"] in ("done", "now", "next", "plan") for p in PATH["phases"])
+    assert [c["n"] for c in PATH["creator"]] == list(range(7))
+    assert {s["kind"] for s in PATH["flow"]} <= {"user", "agent", "server", "gate"}
+    assert all(len(p["trace"]) == 3 for p in PATH["personas"])
+    assert all(l["id"] in FIGS for l in PATH["life"])
+    assert set(PATH["source_short"]) == set(DOC["sources"])
+
+
+def test_page_shows_the_path():
+    import main
+    from fastapi.testclient import TestClient
+    html = TestClient(main.app).get("/impact").text.replace("&#39;", "'").replace("&amp;", "&")
+    for p in PATH["personas"]:
+        assert p["ask"] in html
+    for s in PATH["steps"]:
+        assert s["title"] in html
+    assert html.count("data-row") == 59
+    assert "0.56%" not in html            # the share-of-portfolio figure is kept in JSON only

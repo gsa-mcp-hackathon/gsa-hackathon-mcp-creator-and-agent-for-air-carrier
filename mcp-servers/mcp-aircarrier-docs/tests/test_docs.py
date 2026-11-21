@@ -277,3 +277,24 @@ def test_premise_terms_never_break_search_when_unavailable():
     finally:
         store._premise.clear()
         store._premise.update(saved)
+
+
+def test_hull_label_needs_the_carrier_line():
+    # 2026-11-20 (B1): the year-to-hull map was applied to every ship cost exhibit, so a
+    # DDG-51 or refueling-overhaul column headed "FY 2013" came back labelled CVN-79.
+    def part(line):
+        return [{"title_block": ["Exhibit P-5c, Ship Cost Analysis: PB 2027 Navy"],
+                 "numeric_cells": [{"row_header": "Total Ship Estimate", "col_header": "FY 2020 Total Cost ($ M)",
+                                    "value_musd": "1000.0"},
+                                   {"row_header": "Plan Costs", "col_header": "FY 2020 Total Cost ($ M)",
+                                    "value_musd": "250.0"}]}]
+    rcoh, cvn81, unknown = part("2086"), part("2004"), part("")
+    service._ship_cost_labels(rcoh, "2086")
+    service._ship_cost_labels(cvn81, "2004")
+    service._ship_cost_labels(unknown, "")
+    assert all("hull" not in c for c in rcoh[0]["numeric_cells"])
+    assert rcoh[0]["numeric_cells"][1]["ship_fy"] == "2020"
+    assert rcoh[0]["numeric_cells"][1]["share_of_total_ship_estimate_pct"] == "25.00"
+    assert cvn81[0]["numeric_cells"][1]["hull"] == "CVN-81"
+    assert all("hull" not in c for c in unknown[0]["numeric_cells"])
+    assert service._p1_line("P-1 Line Item Number / Title:\n2001 / Carrier Replacement Program") == "2001"
