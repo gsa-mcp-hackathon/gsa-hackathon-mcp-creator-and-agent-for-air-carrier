@@ -1,43 +1,49 @@
-"""Build the blind review sheet from the exported round 4 answers.
+"""Build the review sheet from the exported round 4 answers.
 
-Input: the CSV exported by export_answers.sql (run_id, model, mode, qid, passed, answer).
-Output: review_sheet.csv, one row per question with two answers labelled A and B. Which one had
-the servers is decided by a seeded coin flip per question and is not written anywhere; score.py
-re-derives it after the scores are in. The reviewer scores each answer on the rubric in README.md.
+Input: the export of export_answers.sql (CSV, or TSV as pasted from the SQL editor).
+Output: review_sheet.csv, one row per question with the answer from the run with the servers
+and the answer from the run without tools, labelled, and empty score columns. The review was
+not blind (see README.md), so the labels are shown.
 
-    python build_pack.py answers.csv
+    python build_pack.py answers.tsv
 """
 import csv
-import random
 import sys
 from pathlib import Path
 
-from choose_questions import SEED, choose
+from choose_questions import choose
 
 HERE = Path(__file__).parent
-COLS = ["qid", "category", "question", "answer_A", "answer_B",
-        "A_correct_0_2", "A_cited_0_2", "A_usable_0_2", "A_would_rely_Y_N",
-        "B_correct_0_2", "B_cited_0_2", "B_usable_0_2", "B_would_rely_Y_N",
-        "better_A_B_tie", "minutes_by_hand_estimate", "comment"]
+SCORES = ["correct_0_2", "cited_0_2", "usable_0_2", "would_rely_Y_N"]
+COLS = (["qid", "category", "question", "answer_with_servers", "answer_without"]
+        + [f"with_{s}" for s in SCORES] + [f"without_{s}" for s in SCORES]
+        + ["better", "minutes_by_hand_estimate", "comment"])
 
 
-def tools_is_a(qid: str) -> bool:
-    return random.Random(f"{SEED}:{qid}").random() < 0.5
+def load(path: str) -> dict:
+    csv.field_size_limit(10**7)
+    with open(path, encoding="utf-8") as f:
+        delim = "\t" if f.readline().count("\t") else ","
+        f.seek(0)
+        return {(r["qid"], r["mode"]): r for r in csv.DictReader(f, delimiter=delim)}
+
+
+def clean(text: str | None) -> str:
+    text = (text or "").strip()
+    if text in ("", "null"):
+        return "(No answer: the run stopped at the eight-turn tool limit.)"
+    # The SQL editor export decoded UTF-8 as Windows-1252; restore the two characters it broke.
+    return text.replace("â€”", "—").replace("Ã·", "÷")
 
 
 def main(path: str) -> None:
-    with open(path, encoding="utf-8") as f:
-        rows = {(r["qid"], r["mode"]): r for r in csv.DictReader(f)}
-    out = []
+    rows, out = load(path), []
     for q in choose():
-        t = rows.get((q["qid"], "tools_rep1"))
-        n = rows.get((q["qid"], "no_tools"))
+        t, n = rows.get((q["qid"], "tools_rep1")), rows.get((q["qid"], "no_tools"))
         if not t or not n:
             sys.exit(f"missing answers for {q['qid']}: export both tools_rep1 and no_tools")
-        ta, na = (t["answer"] or "(no answer)").strip(), (n["answer"] or "(no answer)").strip()
-        a, b = (ta, na) if tools_is_a(q["qid"]) else (na, ta)
         out.append({"qid": q["qid"], "category": q["category"], "question": q["question"],
-                    "answer_A": a, "answer_B": b})
+                    "answer_with_servers": clean(t["answer"]), "answer_without": clean(n["answer"])})
     with open(HERE / "review_sheet.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=COLS)
         w.writeheader()

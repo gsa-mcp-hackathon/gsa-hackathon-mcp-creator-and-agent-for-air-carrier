@@ -2,21 +2,24 @@
 
 The delegation rounds grade whether an answer carries the right figures. This review asks a
 different question: would a federal financial management reviewer use the answer? The project
-owner, a GS-15 DoD financial management portfolio manager (CDFM, DoD FM Level III), scores
-ten round 4 answers with the servers and ten without, blind to which is which.
+owner, a GS-15 DoD financial management portfolio manager (CDFM, DoD FM Level III), scored
+ten round 4 answers with the servers and ten without, for the same questions.
+
+Result: with the servers 54 of 60 (mean 5.4 of 6), without tools 16 of 60 (1.6); the reviewer
+would rely on 9 of 10 answers with the servers and 1 of 10 without. Per question: [RESULTS.md](RESULTS.md).
 
 ## Method
 
-1. `choose_questions.py` picks ten round 4 questions by a fixed seed, across categories:
-   two obligations, two exhibit, two document, one premise trap, one multi-source, one judgment,
-   one regulation. Decoys are left out because they test refusals.
-2. `export_answers.sql` pulls Claude Sonnet 4.5's answers to those ten from the round 4 runs table:
-   repeat 1 with the servers, and the run without tools. Nothing is re-run.
-3. `build_pack.py answers.csv` writes `review_sheet.csv` with each pair labelled A and B. A seeded
-   coin flip per question decides which label had the servers; it is not written down.
-4. The reviewer scores each answer on the rubric below, with the source documents open, and
-   estimates how many minutes the question would take by hand.
-5. `score.py review_sheet_scored.csv` re-derives the labels and writes `RESULTS.md`.
+1. `choose_questions.py` picked ten round 4 questions by a fixed seed, before any answer was
+   read, across categories: two obligations, two exhibit, two document, one premise trap, one
+   multi-source, one judgment, one regulation. Decoys are left out because they test refusals.
+2. `export_answers.sql` pulled Claude Sonnet 4.5's answers to those ten from the round 4 runs
+   table: repeat 1 with the servers, and the run without tools. Nothing was re-run. The export
+   is [answers.tsv](answers.tsv).
+3. `build_pack.py answers.tsv` lays the pairs out with empty score columns. The reviewer scored
+   them on 2026-11-21 in a shared document, against the source documents, with the round 4
+   answer key beside each question.
+4. `score.py review_sheet_scored.csv` totals the scores and writes `RESULTS.md`.
 
 ## Rubric (0 to 2 each, 6 in all)
 
@@ -26,11 +29,17 @@ ten round 4 answers with the servers and ten without, blind to which is which.
 | 1 | Right in substance with a minor error or omission | A source named, but not the page, table or record | Needs rework before use |
 | 2 | Every figure and fact matches the source | Document and page, table or record named | Could go into a brief as written |
 
-Also recorded per answer: would you rely on it (Y/N). Per question: which answer is better
-(A, B or tie), minutes the question would take by hand (an estimate), and a comment.
+Also recorded per answer: would the reviewer rely on it (Y/N).
 
 ## Limits
 
-One reviewer, ten questions, and the reviewer is the project owner. The labels are blind but
-the reviewer knows the system, and answers with citations may read as tool answers. The
-minutes by hand are the reviewer's estimate, not a timed measurement.
+- Not blind. The export showed which run had the servers, and answers without tools contain
+  tool calls the model wrote out but never ran, so the two kinds are easy to tell apart.
+- One reviewer, ten questions, and the reviewer is the project owner.
+- One correction after scoring: U01 without tools was first entered as 2/2/2 and "rely: yes".
+  That answer invents a GAO quote (July 2025, EMALS and the arresting gear, "page 16"); the
+  source says March 2027 and an elevator and a landing subsystem (PDF p.145). The reviewer
+  confirmed a mis-click and it was changed to 0/0/0 and "no". With the first entry the totals
+  would be 54 and 22 of 60.
+- The reviewer did not record minutes by hand, so this review measures answer quality, not
+  time saved.

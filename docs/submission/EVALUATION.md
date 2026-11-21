@@ -148,6 +148,24 @@ The 2026-11-21 demo shows the role check in a live run: the user holds PMS 379, 
 lead belongs to the Office of Financial Operations and is refused, and the request for
 obligation detail, owned by PMS 379, is applied and recorded with the role and the run number.
 
+### 2.7 Subject-matter review of answer quality
+
+The project owner, a GS-15 DoD financial management portfolio manager, scored ten round 4
+answer pairs from Claude Sonnet 4.5 (with the servers, and without tools) on a 0 to 6 rubric:
+correct, cited and usable, 0 to 2 each. The ten questions were picked by a fixed seed before
+any answer was read ([eval/delegation/sme_review](../../eval/delegation/sme_review/README.md)).
+
+| | With the servers | Without tools |
+| --- | --- | --- |
+| Mean score (of 6) | 5.4 | 1.6 |
+| Correct / cited / usable (of 2) | 1.8 / 1.8 / 1.8 | 0.4 / 0.7 / 0.5 |
+| Reviewer would rely on it | 9 of 10 | 1 of 10 |
+
+The one miss with the servers is R4-35, where the run stopped at the eight-turn limit with no
+answer. Without tools, the model wrote out tool calls it never ran and, on U01, invented a GAO
+quote with the wrong date and subsystems. Limits: one reviewer, the project owner, not blind;
+one entry (U01 without tools) was corrected from a mis-click, which the results file records.
+
 ## 3. Security considerations
 
 The model fills SQL fragments, file paths and free text, and reads untrusted documents.

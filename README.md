@@ -45,7 +45,7 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Technical quality, C1: readability and maintainability (separate data models, tool definitions, API interactions) | [Repository map](#repository-map), e.g. `mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/` (`models.py`, `tools/`, `data/warehouse.py`) | The ops server keeps data models, one file per tool, and warehouse access in separate modules; one ruff pin across all projects |
 | Technical quality, C2: performance and reliability (own evaluation setup and results, inputs, error handling, stable performance) | [Evaluation](docs/submission/EVALUATION.md), sections 1 and 2 | Five test layers with their inputs; probe latency table; 99.90% of 6,193 production checks ok |
 | Technical quality, C3: MCP design (Pydantic-validated inputs, unambiguous names and descriptions, goal-shaped tools, not thin wrappers) | [Security](#security), [Evaluation](docs/submission/EVALUATION.md) section 4 | Every parameter validated and attacked (422 tests); tools return totals and summaries, not raw rows; renames made after models misread a name |
-| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](docs/IMPACT.md#who-uses-it-and-what-changes-for-them), [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](docs/IMPACT.md#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
+| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](docs/IMPACT.md#who-uses-it-and-what-changes-for-them), [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](docs/IMPACT.md#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget; a [subject-matter review](eval/delegation/sme_review/RESULTS.md) by a DoD financial manager: 5.4 of 6 with the servers, 1.6 without |
 | Technical quality | [`scripts/check.sh`](scripts/check.sh), the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) and the [JUnit XML of a clean-clone run](docs/submission/evidence/junit/README.md) | One command runs every suite from a clean clone: 8 projects, 1,151 tests, lint, on Python 3.11 and 3.12 |
 | Technical quality | [Delegation evaluation](eval/delegation/README.md) | Four held-out rounds; rounds 2 to 4 sealed by SHA-256 before the run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Round 4, 69 questions (45 drawn by a seeded generator, 24 reviewed by the project owner), grader v2: **Claude 88.4%, GPT-5 mini 78.7% with, 14.5% and 1.4% without** ([results](eval/delegation/round4/RESULTS.md)). Every miss is read and its cause published, grader defects included |
 | Technical quality | [Evaluation](docs/submission/EVALUATION.md) (GSA's four headings), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Eight-day probe at 99.90% with 1,234 of 1,234 known answers right, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
@@ -57,6 +57,7 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 
 | Measure | Result | What it does not show |
 | --- | --- | --- |
+| Subject-matter review: 10 round 4 answer pairs scored by a GS-15 DoD financial manager on correct, cited and usable | With the servers 5.4 of 6, without tools 1.6; would rely on 9 of 10 vs 1 of 10 ([results](eval/delegation/sme_review/RESULTS.md)) | One reviewer, the project owner, not blind |
 | Sealed held-out questions, round 4: 69 questions, 30 tools at once, three repeats | Claude Sonnet 4.5 183/207 (88.4%, CI 81.2 to 94.7) vs 14.5% without tools; GPT-5 mini 163/207 (78.7%) vs 1.4% | Questions written on the builder's side; an [independent set](eval/delegation/independent/README.md) is ready for an outside author |
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), round 1: 14 questions, 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools; strict held-out 20/24 (83.3%) vs 2/8 | 14 questions, only 4 strictly held out; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog, before the fixes it prompted. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
@@ -546,16 +547,16 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
   author would make a stronger test. Round 4 widened the set to 69 sealed questions (CI
   for Claude 81.2 to 94.7, resampling questions), but its generator templates and the
   draft of its 24 reviewed questions are still Genie Code's. A kit for an outside author is
-  in [eval/delegation/independent](eval/delegation/independent/README.md), and a blind
-  subject-matter review of answer quality is set up in
-  [eval/delegation/sme_review](eval/delegation/sme_review/README.md). The injection cases q16 (planted record, run through a
+  in [eval/delegation/independent](eval/delegation/independent/README.md). The
+  [subject-matter review](eval/delegation/sme_review/README.md) of ten answer pairs was
+  scored by the project owner and was not blind. The injection cases q16 (planted record, run through a
   read-only overlay) and q17 were run on 2026-11-20: 15 of 16 correct, no run followed the
   injected instruction, and none flagged it to the user.
 - **One hull.** The method has run on CVN-79 only. CVN-80, CVN-81, the F-35 and the other
   MDAPs are a plan with named inputs, not results.
 - **No measured time saved.** The hub reconciles in one pass what is done by hand today;
-  analyst hours before and after have not been measured. The subject-matter review records
-  the reviewer's estimate of minutes by hand per question, labelled as an estimate.
+  analyst hours before and after have not been measured. The subject-matter review measures
+  answer quality, not time.
 - **The One Hub MCP server runs locally over stdio.** Its 16 tools are tested in CI
   (`checks/test_mcp_server.py`) but it is not deployed as an app, so the probe does not watch it.
   The probe watches the four deployed Air Carrier servers, and the bakehouse server once its
