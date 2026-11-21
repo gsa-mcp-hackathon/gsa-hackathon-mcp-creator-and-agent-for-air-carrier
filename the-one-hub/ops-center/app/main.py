@@ -187,30 +187,28 @@ def api_diag():
 # 2026-11-20: Impact joins the headline: where CVN-79 sits in the Ford class
 # and in the weapon-system portfolio GAO assesses, every figure cited to a page.
 NAV_GROUPS = [
+    ("The stack", "/stack", []),
+    ("Impact", "/impact", []),
     ("Brief", "/", []),
+    ("The ship", "/kennedy", []),
     ("Cost", None, [
         ("/position", "Position: four published figures"),
         ("/cost", "Cost composition"),
         ("/baseline", "Estimate history and caps"),
         ("/execution", "Budget execution"),
     ]),
-    ("The stack", "/stack", []),
     ("Audit", None, [
         ("/gaps", "Gap register"),
         ("/variances", "Variance register"),
         ("/asset", "Asset and accounting"),
         ("/industrial", "Industrial base and GFE"),
     ]),
-    ("Impact", "/impact", []),
     ("Dive deeper", None, [
         ("/work", "Work queue"),
         ("/mission", "Brief readiness"),
         ("/ask", "Ask the evidence"),
         ("/runs", "Run log"),
         ("/explore", "Detail table"),
-    ]),
-    ("About", None, [
-        ("/kennedy", "The ship: USS John F. Kennedy"),
         ("/sources", "Sources"),
         ("/method", "Method"),
     ]),

@@ -180,10 +180,11 @@ def main_() -> int:
             "needs the claim ledger" in m and "Days to the DCFO brief" not in m)
     reg("header: brand reads Air Carrier · CVN-79 over MCP servers and agents",
         "Air Carrier · CVN-79<br><span class=\"sub\">MCP servers and agents</span>" in home)
-    reg("menu: Brief, Cost, The stack first; no Agents group",
-        [g[0] for g in main.NAV_GROUPS][:3] == ["Brief", "Cost", "The stack"]
-        and "Agents" not in [g[0] for g in main.NAV_GROUPS]
-        and "Dive deeper" in [g[0] for g in main.NAV_GROUPS])
+    reg("menu: The stack, Impact, Brief, The ship first; no Agents or About group",
+        [g[0] for g in main.NAV_GROUPS][:4] == ["The stack", "Impact", "Brief", "The ship"]
+        and not {"Agents", "About"} & {g[0] for g in main.NAV_GROUPS}
+        and {"/sources", "/method"} <= {h for g in main.NAV_GROUPS if g[0] == "Dive deeper"
+                                        for h, _ in g[2]})
     js = (APP / "static" / "js" / "app.js").read_text()
     reg("theme: light by default, dark only when chosen with the toggle",
         'data-theme="light"' in home and "prefers-color-scheme" not in js
