@@ -145,9 +145,13 @@ def api_diag():
 # product is built and joins Method under Evidence. Top level is now the
 # headline (Overview, Position), three menus, and Contribute as the call to
 # action.
+#
+# 2026-11-20: Impact joins the headline: where CVN-79 sits in the Ford class
+# and in the weapon-system portfolio GAO assesses, every figure cited to a page.
 NAV_GROUPS = [
     ("Overview", "/", []),
     ("Position", "/position", []),
+    ("Impact", "/impact", []),
     ("Analyze", None, [
         ("/mission", "Kennedy picture"),
         ("/dashboard", "Decision dashboard"),
@@ -1039,6 +1043,46 @@ def coverage(request: Request):
 @app.get("/sources", response_class=HTMLResponse)
 def sources(request: Request):
     return page(request, "sources.html", "Sources", s=data.get("sources"))
+
+
+# The Impact page reads a curated, cited document that ships with the app. It
+# is not an ETL output, so it is read from the file on both backends rather
+# than through data.get (which on the uc backend reads only published views).
+# checks/test_impact.py proves every figure carries a source, a page and a
+# verbatim quote, and recomputes every derived number.
+IMPACT_FILE = HERE / "data" / "curated" / "impact.json"
+
+
+def impact_doc() -> dict:
+    import json
+    doc = json.loads(IMPACT_FILE.read_text())
+    figs = {f["id"]: f for f in doc["figures"]}
+    for h in doc["hulls"]:
+        first, last = figs[h["first"]], figs[h["last"]]
+        h["first_fig"], h["last_fig"] = first, last
+        h["cap_fig"] = figs.get(h["cap"]) if h.get("cap") else None
+        h["growth"] = round(last["value"] - first["value"], 3)
+        h["growth_pct"] = round(100 * h["growth"] / first["value"], 1)
+    doc["by_group"] = {g: [f for f in doc["figures"] if f["group"] == g]
+                       for g in ("portfolio", "class", "caps")}
+    doc["figs"] = figs
+    return doc
+
+
+@app.get("/impact", response_class=HTMLResponse)
+def impact(request: Request):
+    return page(request, "impact.html", "Impact", imp=impact_doc())
+
+
+@app.get("/api/impact", tags=["data"])
+def impact_api():
+    doc = impact_doc()
+    doc.pop("figs")
+    doc.pop("by_group")
+    for h in doc["hulls"]:
+        for k in ("first_fig", "last_fig", "cap_fig"):
+            h.pop(k)
+    return doc
 
 
 @app.get("/insight", response_class=HTMLResponse)

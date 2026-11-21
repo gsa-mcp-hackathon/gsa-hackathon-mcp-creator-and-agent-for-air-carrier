@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% macro cite(f) -%}
+{%- set s = imp.sources[f.source] -%}
+<span class="src mono" title="&quot;{{ f.quote }}&quot;">{{ s.title }}, p.{{ f.page }}</span>
+{%- endmacro %}
+{% block body %}
+<div class="phead">
+ <div class="eyebrow">Impact</div>
+ <h1>From one hull to the weapon-system portfolio</h1>
+ <p class="lede">CVN-79 is the pilot. The same four ledgers break the same way on every major
+  weapon system, and GAO puts the portfolio at over $2.4 trillion. Every figure on this page is
+  printed in the cited document on the cited page; hover a citation to read the exact text.</p>
+</div>
+
+<h2>The portfolio GAO assesses</h2>
+<div class="grid g3" id="portfolio">
+ {% for f in imp.by_group.portfolio %}
+ <div class="kpi" id="{{ f.id }}"><div class="k">{{ f.label }}</div>
+  <div class="v">{{ f.display }}</div>
+  <div class="n">{{ cite(f) }}</div></div>
+ {% endfor %}
+</div>
+
+<section class="card" style="margin-top:1rem" id="hulls">
+ <h2>The Ford class, hull by hull</h2>
+ <p class="muted small">Total Ship Estimate from Exhibit P-5c, $ millions, then-year. Growth is between
+  the two cited exhibits.</p>
+ <div class="tscroll"><table class="ledger">
+  <thead><tr><th>Hull</th><th class="num">Earlier estimate</th><th class="num">Latest estimate</th>
+   <th class="num">Growth</th><th class="num">Cost Limitation Baseline</th></tr></thead>
+  <tbody>
+  {% for h in imp.hulls %}
+  <tr id="{{ h.hull }}">
+   <td><b>{{ h.hull }}</b> {{ h.name }}</td>
+   <td class="num">{{ h.first_fig.display }}<br>{{ cite(h.first_fig) }}</td>
+   <td class="num">{{ h.last_fig.display }}<br>{{ cite(h.last_fig) }}</td>
+   <td class="num">+${{ "{:,.3f}".format(h.growth) }}M<br><span class="muted small">+{{ h.growth_pct }}%</span></td>
+   <td class="num">{% if h.cap_fig %}{{ h.cap_fig.display }}<br>{{ cite(h.cap_fig) }}{% else %}<span class="muted">—</span>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+ </table></div>
+ {% for h in imp.hulls %}{% for f in (h.first_fig, h.last_fig) %}{% if f.note %}
+ <p class="muted small" style="margin:.2rem 0">{{ h.hull }}, {{ f.label.split(', ')[-1] }}: {{ f.note }}</p>
+ {% endif %}{% endfor %}{% endfor %}
+</section>
+
+<div class="grid g2" style="margin-top:1rem">
+ <section class="card" id="class">
+  <h2>The class and its life cycle</h2>
+  <table class="ledger"><tbody>
+  {% for f in imp.by_group.class %}
+   <tr id="{{ f.id }}"><td>{{ f.label }}{% if f.note %}<br><span class="muted small">{{ f.note }}</span>{% endif %}</td>
+    <td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
+  {% endfor %}
+  </tbody></table>
+ </section>
+ <section class="card" id="caps">
+  <h2>Statutory cost caps</h2>
+  <table class="ledger"><tbody>
+  {% for f in imp.by_group.caps %}
+   <tr id="{{ f.id }}"><td>{{ f.label }}
+    {% if f.grade == "UNDER REVIEW" %}<span class="b b-warn">under review</span>{% endif %}
+    {% if f.note %}<br><span class="muted small">{{ f.note }}</span>{% endif %}</td>
+    <td class="num"><b>{{ f.display }}</b><br>{{ cite(f) }}</td></tr>
+  {% endfor %}
+  </tbody></table>
+ </section>
+</div>
+
+<section class="card accent" style="margin-top:1rem" id="derived">
+ <h2>What one hull is worth to the method</h2>
+ {% for d in imp.derived %}
+ <p><span class="b b-info">{{ d.grade }}</span> {{ d.label }}: <b>{{ d.display }}</b>
+  <span class="muted small">({{ d.formula }}). {{ d.note }}</span></p>
+ {% endfor %}
+ <p>A reconciliation that has to be rebuilt by hand for each ship does not scale to the portfolio.
+  The servers, the gate and the registers carry over unchanged; each new program adds a key set and
+  a source catalog. CVN-80 and CVN-81 share CVN-79's budget line, builder and a contract the hub
+  already excludes from CVN-79, so they are next.</p>
+</section>
+
+<section class="card" style="margin-top:1rem" id="not-shown">
+ <h3>What this page does not show</h3>
+ <ul>{% for n in imp.not_shown %}<li class="small">{{ n }}</li>{% endfor %}</ul>
+ <p class="muted small">{{ imp.method }} As of {{ imp.as_of }}. The same data as JSON:
+  <a href="/api/impact">/api/impact</a>.</p>
+</section>
+{% endblock %}

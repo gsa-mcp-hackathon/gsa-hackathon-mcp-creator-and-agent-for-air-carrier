@@ -2,7 +2,9 @@
 
 [![CI](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml/badge.svg)](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml)
 
-**GSA MCP & SI Agent Government Hackathon, Data track.**
+**GSA MCP & SI Agent Government Hackathon. Track: Dataset Access Server.** The servers give
+agents governed, cited access to public budget, acquisition and contract datasets; the only
+writes are append-only, user-attributed leads and a gated label write.
 
 DoD plans to spend more than $2.4 trillion on its costliest weapon programs, and it has
 failed its financial statement audit eight years running. The two facts meet in one place.
@@ -19,15 +21,18 @@ to run on every major defense acquisition program.
 
 ## For judges: five minutes
 
-| GSA criterion | Open this | What it shows |
+| GSA criterion (official wording) | Open this | What it shows |
 | --- | --- | --- |
-| Mission alignment | [Who uses it](#who-uses-it-and-what-changes-for-them), [the stack](#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
-| Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 1,052 tests, lint, on Python 3.11 and 3.12 |
+| Technical quality, C1: readability and maintainability (separate data models, tool definitions, API interactions) | [Repository map](#repository-map), e.g. `mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/` (`models.py`, `tools/`, `data/warehouse.py`) | The ops server keeps data models, one file per tool, and warehouse access in separate modules; one ruff pin across all projects |
+| Technical quality, C2: performance and reliability (own evaluation setup and results, inputs, error handling, stable performance) | [Evaluation](docs/submission/EVALUATION.md), sections 1 and 2 | Five test layers with their inputs; probe latency table; 99.90% of 6,193 production checks ok |
+| Technical quality, C3: MCP design (Pydantic-validated inputs, unambiguous names and descriptions, goal-shaped tools, not thin wrappers) | [Security](#security), [Evaluation](docs/submission/EVALUATION.md) section 4 | Every parameter validated and attacked (422 tests); tools return totals and summaries, not raw rows; renames made after models misread a name |
+| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](#who-uses-it-and-what-changes-for-them), [the stack](#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget |
+| Technical quality | [`scripts/check.sh`](scripts/check.sh) and the [CI run](https://github.com/gsa-mcp-hackathon/gsa-hackathon-mcp-creator-and-agent-for-air-carrier/actions/workflows/ci.yml) | One command runs every suite from a clean clone: 9 projects, 1,114 tests, lint, on Python 3.11 and 3.12 |
 | Technical quality | [Delegation evaluation](eval/delegation/README.md) | Three held-out rounds; rounds 2 and 3 sealed by SHA-256 before the run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Every miss is read and its cause published, grader defects included |
-| Technical quality | [Evaluation report](docs/submission/evaluation-report.pdf), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Seven-day probe at 99.83%, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
+| Technical quality | [Evaluation](docs/submission/EVALUATION.md) (GSA's four headings), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Eight-day probe at 99.90% with 1,234 of 1,234 known answers right, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
 | Technical quality | [Security](#security) | 421 hostile calls against all 30 tools: 330 refused, none wrote, none pasted an argument into SQL; generated code fuzzed with warnings as errors |
-| Innovation | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
-| Presentation | [Deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [video notes](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
+| Innovation (creative MCP tooling, unique agent workflows) | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
+| Presentation (storytelling, demo flow, evidence of testing) | [Deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), [screenshots](#screenshots), [video notes](#demo-video), [run it locally](#run-the-front-center-locally) | The live app needs a Databricks sign-in; the local copy needs two commands and no account |
 
 ## Results at a glance
 
@@ -36,10 +41,10 @@ to run on every major defense acquisition program.
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), round 1: 14 questions, 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools; strict held-out 20/24 (83.3%) vs 2/8 | 14 questions, only 4 strictly held out; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog, before the fixes it prompted. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
 | Sealed held-out questions, round 3 (after the fixes), with vs without tools | 50/72 (69.4%, CI 58.0 to 78.9) vs 1/24 (4.2%) | Questions written by the same author as the fixes. 5 misses are an answer-key error of mine (G07); read by hand, 55/72. Real misses remain on counting by sign, a contamination recorded only in the dossier, and multi-source figures |
-| Code suites from a clean clone | 1,052 passed, 0 failed; 14 skipped because they need a live Spark session, the deployed data bundle or bandit | Unit and contract tests show the code does what it says, not that it helps a user |
+| Code suites from a clean clone | 1,114 passed, 0 failed; 6 skipped because they need a live Spark session or bandit | Unit and contract tests show the code does what it says, not that it helps a user |
 | Adversarial arguments, all 30 tools | 421 calls: 330 refused by validation, 91 answered; 172 statements reached the warehouse, all read-only; 40 carried a hostile value as a bound parameter, none pasted into SQL text | Runs in-process against a recording fake warehouse, not the deployed apps |
 | Creator determinism | Same specification, byte-identical files: 58 of 58 | Determinism is not correctness; the review checks meaning separately |
-| Availability of the deployed servers | 99.83% of 3,568 checks in 238 hourly probe sweeps over seven days; 709 of 709 known-answer checks right | One workspace, one week |
+| Availability of the deployed servers | 99.90% of 6,193 checks in 413 probe sweeps, 2026-11-12 to 2026-11-20; 1,234 of 1,234 known-answer checks right | One workspace, eight days |
 | Data integrity | $13,409.970M Total Ship Estimate closes to 0.000 on two independent axes | The exhibit ties to itself; it is a budget estimate, not an audited cost |
 
 It holds two things that depend on each other: the product, and the proof that it works.
@@ -55,7 +60,7 @@ It holds two things that depend on each other: the product, and the proof that i
 | | |
 | --- | --- |
 | **Live front center** | <https://aircarrier-front-center-dev-7474654188777746.aws.databricksapps.com/> (Databricks sign-in required, see [below](#open-the-front-center)) |
-| **Evaluation report** | [docs/submission/evaluation-report.pdf](docs/submission/evaluation-report.pdf) |
+| **Evaluation** | [docs/submission/EVALUATION.md](docs/submission/EVALUATION.md) (current; the older [evaluation-report.pdf](docs/submission/evaluation-report.pdf) predates round 3) |
 | **Slide deck** | [PowerPoint](docs/submission/mcp-a-creator-one-hub-deck.pptx) · [PDF](docs/submission/mcp-a-creator-one-hub-deck.pdf) |
 | **No account needed** | [Run the front center locally](#run-the-front-center-locally) in two commands, or see the [screenshots](#screenshots) |
 | **Defects found by testing** | [docs/submission/FINDINGS.md](docs/submission/FINDINGS.md) |
@@ -213,12 +218,12 @@ flowchart TB
 
 | Capability | The problem it solves on its own | Who needs it beyond CVN-79 | Where it stands today |
 | --- | --- | --- | --- |
-| **MCP A Creator** (10 tools) | Turning a dataset into a tool an agent can use takes a developer and weeks, and an improvised server is untested and different every time. The Creator profiles the table, designs one tool per question, reviews meaning as well as shape, and generates a tested project that deploys as the requester's own app | Every office with a Unity Catalog table and a question. GSA's stated aim for this hackathon is an internal library of MCP server prototypes for the government workforce ([event page](https://www.gsa.gov/artificial-intelligence/si-community-of-practice/events-and-training/mcp-server-and-ai-agent-government-hackathon)); the Creator is how a non-developer adds to that library | Works on any table today. It built the ops server inside this hub, plus `mcp-bakehouse-sales` and `weather-mcp` |
-| **Docs server** (11 tools) | Budget justification books and SARs run to hundreds of pages each, and analysts retype exhibits into spreadsheets. The docs server reads them deterministically, with no model: it maps each book by exhibit and P-1 line item, rebuilds tables with exact decimals, ties out every subtotal and total, and says whether a figure appears in an authoritative source (J-book, SAR) or only a secondary one (CRS, GAO) | Budget analysts, cost estimators, congressional and GAO staff, and auditors, on every appropriation's J-books and every program's SAR. Exhibit formats (P-40, P-5c, P-8a, P-10) are standard across DoD | The reader has no CVN-79 logic in it. 33 PDFs and 7,555 pages are loaded; 814 of 818 tie-out checks pass. `docs_parse_pdf` reads any other PDF from a volume on request |
+| **MCP A Creator** (10 tools) | Turning a dataset into a tool an agent can use takes a developer and weeks, and an improvised server is untested and different every time. The Creator profiles the table, designs one tool per question, reviews meaning as well as shape, and generates a tested project that deploys as the requester's own app | Every office with a Unity Catalog table and a question. GSA's stated aim for this hackathon is an internal library of MCP server prototypes for the government workforce ([event page](https://www.gsa.gov/super-intelligence/si-community-of-practice/events-and-training/mcp-server-and-si-agent-government-hackathon)); the Creator is how a non-developer adds to that library | Works on any table today. It built the ops server inside this hub, plus `mcp-bakehouse-sales` and `weather-mcp` |
+| **Docs server** (11 tools) | Budget justification books and SARs run to hundreds of pages each, and analysts retype exhibits into spreadsheets. The docs server reads them deterministically, with no model: it maps each book by exhibit and P-1 line item, rebuilds tables with exact decimals, ties out every subtotal and total, and says whether a figure appears in an authoritative source (J-book, SAR) or only a secondary one (CRS, GAO) | Budget analysts, cost estimators, congressional and GAO staff, and auditors, on every appropriation's J-books and every program's SAR. Exhibit formats (P-40, P-5c, P-8a, P-10) are standard across DoD | The reader has no CVN-79 logic in it. 34 PDFs and 7,804 pages are loaded, GAO-26-108457 included; 814 of 818 tie-out checks pass. `docs_parse_pdf` reads any other PDF from a volume on request |
 | **Analyst server** (12 tools) | The slowest work in audit remediation is researching a single record that is missing data elements: a GL line, an obligation or an invoice with no contract, no line of accounting or no hull. The analyst profiles what is missing, chases clues across FPDS, File C, sub-awards, the knowledge graph and every document, weighs the evidence, and returns ranked cases with citations, recovered data elements, a collection request for each missing one, and a human-review flag when the answer is weak | Component reconciliation teams, DFAS, FIAR teams and the auditors they support, on unsupported transactions, abnormal balances and Universe of Transactions gaps behind material weaknesses such as Fund Balance with Treasury and contractor-held property | Its skills read the two CVN-79 prime contracts today. A new program adds its contracts, File C and key set; the investigator's method does not change |
 | **Ops server** (7 tools) | Agents need governed, paged, read-only access to exhibit cells, obligations on both prime contracts (sorted by date or by amount), the variance register, the knowledge graph and the work register, without raw SQL | Any team that keeps its facts in Unity Catalog | Generated by the Creator; golden set of 17 items with independent answers |
 | **One Hub server** (16 tools) | An AI agent can put a wrong figure in a leadership brief or a financial statement in one sentence. This server is the control: `check_claim` routes any candidate figure through policy and the gate and never promotes on its own; `challenge_text` falsifies text against recorded error classes; `tie_out` and `check_anchor_chain` close totals without a model; `rank_gaps`, `plan_gap`, `next_work` and `collection_requirement` turn every unknown into an owned request to a named office | Any office that lets an agent draft numbers: comptrollers, audit liaisons, budget shops. The gap queue works like an auditor's request list, ranked by exposure, ignorance and closability | Runs over stdio, and ships an `app.yaml` for hosting; it is not among the eight deployed apps. The agents and the front center call the same functions directly |
-| **Probe** | When a user's agent says "Failed to generate OAuth token", nobody can tell whether the server or the connector broke. The probe calls every server hourly as a non-human caller, through initialize, tools/list and one known-answer check, and logs which step failed | Any agency running MCP servers in production, as continuous monitoring evidence for an authority to operate | 238 hourly sweeps over seven days: 99.83% of 3,568 checks ok, 709 of 709 known answers right |
+| **Probe** | When a user's agent says "Failed to generate OAuth token", nobody can tell whether the server or the connector broke. The probe calls every server hourly as a non-human caller, through initialize, tools/list and one known-answer check, and logs which step failed | Any agency running MCP servers in production, as continuous monitoring evidence for an authority to operate | 413 sweeps, 2026-11-12 to 2026-11-20: 99.90% of 6,193 checks ok, 1,234 of 1,234 known answers right |
 | **Delivery: front center, six agents, Genie Code skills** | Leaders and analysts need the answer, not the tools. 23 pages answer one question each; six agents hand work to each other only through the work register; three Genie Code skills let an analyst verify a figure, investigate a gap or draft a collection request in their own workspace | Program offices, comptroller staff, auditors | Live as a Databricks App; also runs locally from the bundled data with two commands |
 
 **One record through the stack.** A GL line reads "$454,765,071.00, SCN progress CVN 79",
@@ -286,7 +291,7 @@ pilot for doing it across the fleet.
 | Prime contracts | N00024-09-C-2116, construction preparation, cost plus fixed fee, $4,519.3M obligated over 948 actions; N00024-15-C-2114, detail design and construction, fixed price incentive, $4,578.6M summed over 927 actions (the award record reads $4,584.5M; the hub quotes each with its basis) |
 | Attribution | 75.8% of the hull attributed to a named contract, up from 42.2% in one pass by replacing an announcement-derived figure with the obligation record |
 | Open questions | 65 registered gaps, 55 still open and 10 closed, resolved, narrowed or reframed, each typed and assigned to a named executor; 17 variances where public sources disagree, kept with provenance |
-| Evidence base | Docs MCP server: 33 source PDFs, 7,555 pages, 19,917 chunks. Front center knowledge base: 43 catalogued artifacts, 2,765 chunks from 22 indexed documents. Every hit cited to a page |
+| Evidence base | Docs MCP server: 34 source PDFs, 7,804 pages, 20,829 chunks, including GAO-26-108457 (July 2026). Front center knowledge base: 44 catalogued artifacts, 3,537 chunks from 23 indexed documents. Every hit cited to a page |
 
 One small example of why provenance matters: FPDS-NG reports $4,518,716,360.83 obligated
 on the construction preparation contract and USAspending reports $4,519,300,323.83. The
@@ -324,6 +329,7 @@ in this workspace can:
 | --- | --- | --- |
 | Overview | `/` | What has CVN-79 cost, in four headline numbers with their sources |
 | Position | `/position` | The four published figures side by side, what kind of number each is, and why each pair differs |
+| Impact | `/impact` | Where CVN-79 sits in the Ford class (four hulls' estimates, growth and caps) and in GAO's $2.4 trillion portfolio; 24 figures, each with its document, page and verbatim quote |
 | Analyze | Kennedy picture `/mission` | Can we stand behind the number at the brief, and which records could not be read |
 | | Decision dashboard `/dashboard` | Ceilings, the account file tie-out, and who can close each open gap |
 | | Work queue `/work` | Proposals from the agents waiting for a person to confirm or reject |
@@ -359,7 +365,7 @@ recorded before later corrections, and this README is the current record:
   If it is confirmed, the total sits $119.03M under the baseline.
 - Where it says "43 documents", it means the front center knowledge base: 43 catalogued
   artifacts, 2,765 chunks from 22 indexed documents. The docs MCP server holds a separate
-  corpus of 33 PDFs, 7,555 pages and 19,917 chunks.
+  corpus, now 34 PDFs, 7,804 pages and 20,829 chunks.
 
 ---
 
@@ -514,7 +520,7 @@ The evaluation has four layers, one question each. Full method and results are i
 
 | Layer | Question | Result |
 | --- | --- | --- |
-| Code suites | Does the code do what it says? | **1,052 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
+| Code suites | Does the code do what it says? | **1,114 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 tools gets SQL fragments, path traversal, oversized values, wrong enum members and control characters: **421 calls, 330 refused, 91 answered safely, 0 writes, 0 arguments pasted into SQL** ([test](mcp-servers/test_adversarial_arguments.py)) |
@@ -542,13 +548,14 @@ happened to each finding is in the
 
 | Claim | The file that proves it | The command that re-runs it |
 | --- | --- | --- |
-| 1,052 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
+| 1,114 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
+| Every Impact page figure is printed on its cited page | [`checks/test_impact.py`](the-one-hub/ops-center/checks/test_impact.py), [`impact.json`](the-one-hub/ops-center/app/data/curated/impact.json) | `scripts/check.sh one-hub` |
 | 83.3% strict held-out with tools, 25.0% without | [`eval/delegation/runs.csv`](eval/delegation/runs.csv), [`RESULTS.md`](eval/delegation/RESULTS.md) | `python3 eval/delegation/analyze.py` (CI fails if it disagrees with RESULTS.md) |
 | No tool accepts a hostile argument | [`mcp-servers/test_adversarial_arguments.py`](mcp-servers/test_adversarial_arguments.py) | `scripts/check.sh mcp-local` |
 | Free text never becomes code in a generated project | [`mcp-server-creator/tests/test_injection_safety.py`](mcp-server-creator/tests/test_injection_safety.py) | `scripts/check.sh creator` |
 | Byte-identical generation, 58 of 58 files | [evaluation report](docs/submission/evaluation-report.pdf), section 10 | The command in the report's section 14 |
 | $13,409.970M closes to zero on two axes | [`checks/verify.py`](the-one-hub/ops-center/checks/verify.py) | `scripts/check.sh one-hub` |
-| 99.83% availability over seven days | [evaluation report](docs/submission/evaluation-report.pdf), section 4 | The probe app, [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/) |
+| 99.90% availability over eight days | [evaluation](docs/submission/EVALUATION.md), section 2.2 | The probe app, [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/) |
 | 43.1% and 69.4% on sealed questions fixed before each run | [`eval/delegation/README.md`](eval/delegation/README.md) (the seals), [`questions_h2.json`](eval/delegation/questions_h2.json), [`questions_h3.json`](eval/delegation/questions_h3.json) | `sha256sum eval/delegation/questions_h*.json`, then `python3 eval/delegation/analyze.py` |
 
 ---
@@ -625,9 +632,12 @@ scripts/check.sh creator      # or one: creator ops bakehouse weather docs analy
 ```
 
 Each project installs its own dependencies into its own environment. Expected (checked
-2026-11-20): Creator 258 passed, 1 skipped; ops 36; bakehouse 21; weather 20; docs 36;
-analyst 31 passed, 8 skipped; probe 9; mcp_local 23 plus the adversarial sweep 400; One Hub
-187 passed, 5 skipped, plus six script suites and lint. The skips need a live Spark session (5 in the One Hub), the deployed data bundle (8 in analyst) or bandit (1 in the Creator). CI runs the same script.
+2026-11-20): Creator 258 passed, 1 skipped; ops 40; bakehouse 21; weather 20; docs 41;
+analyst 39; probe 9; mcp_local 23 plus the adversarial sweep 422; One Hub 241 passed,
+5 skipped, plus six script suites and lint. Total 1,114 passed, 6 skipped. The skips need a
+live Spark session (5 in the One Hub) or bandit (1 in the Creator). Inside a Databricks
+notebook, run with `env -i PATH=$PATH HOME=/tmp bash scripts/check.sh` so the notebook's Spark
+variables do not turn the 4 live harness skips into failures. CI runs the same script.
 
 The [checks README](the-one-hub/ops-center/checks/README.md) lists every One Hub suite
 and how it runs. Inside a Databricks Git folder, also set `PYTHONDONTWRITEBYTECODE=1` and
@@ -663,8 +673,9 @@ to repository, so it would overwrite newer edits made here.
   12 sealed questions scored 43.1% (CI 32.3 to 54.6) before the fixes it prompted, and
   round 3's 12 new ones 69.4% (CI 58.0 to 78.9) after. Both sets were written by the
   person who built the tools, and round 3 carried one answer-key error; an independent
-  author would make a stronger test. The planted-record
-  injection case (q16) is built as a scratch-schema script and not yet run.
+  author would make a stronger test. The injection cases q16 (planted record, run through a
+  read-only overlay) and q17 were run on 2026-11-20: 15 of 16 correct, no run followed the
+  injected instruction, and none flagged it to the user.
 - **One hull.** The method has run on CVN-79 only. CVN-80, CVN-81, the F-35 and the other
   MDAPs are a plan with named inputs, not results.
 - **No measured time saved.** The hub reconciles in one pass what is done by hand today;

@@ -51,7 +51,7 @@ one_hub() {
     uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
     PYTHONPATH=. uv run --no-sync pytest "${PYTEST_FLAGS[@]}" --assert=plain \
       checks/test_analyst.py checks/test_si.py checks/test_work.py \
-      checks/test_harness.py checks/test_mcp_server.py || exit 1
+      checks/test_harness.py checks/test_mcp_server.py checks/test_impact.py || exit 1
     # Script suites print their own summary and exit non-zero on failure.
     for suite in test_agents test_gate test_llm_tracing test_app test_serverless_entrypoints verify; do
       echo "-- checks/$suite.py"
@@ -73,7 +73,7 @@ run() {
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
     mcp-local) (cd "$ROOT/mcp-servers" && uv run --quiet --no-project --with pytest \
                  --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${PYTEST_FLAGS[@]}" \
-               && echo "-- adversarial arguments against all 29 Air Carrier tools" \
+               && echo "-- adversarial arguments against all 30 Air Carrier tools" \
                && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
                  --with "mcp>=1.24,<2" \
                  --with-requirements mcp-aircarrier-docs/requirements.txt \
