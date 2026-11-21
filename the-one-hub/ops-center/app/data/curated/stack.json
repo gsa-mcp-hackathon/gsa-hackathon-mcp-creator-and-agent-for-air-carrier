@@ -118,6 +118,16 @@
  ],
  "evaluation": [
   {
+   "measure": "Subject-matter review: 10 round 4 answer pairs scored by a GS-15 DoD financial manager",
+   "result": "5.4 of 6 with the servers vs 1.6 without; would rely on 9 of 10 vs 1 of 10",
+   "not": "One reviewer, the project owner, not blind"
+  },
+  {
+   "measure": "Sealed held-out questions, round 4, 69 questions, three repeats",
+   "result": "Claude Sonnet 4.5 183/207 (88.4%) vs 14.5%; GPT-5 mini 163/207 (78.7%) vs 1.4%",
+   "not": "Questions drawn by a seeded generator or drafted by Genie Code and reviewed by the project owner"
+  },
+  {
    "measure": "Sealed held-out questions, round 3, with vs without tools",
    "result": "50/72 (69.4%) vs 1/24 (4.2%)",
    "not": "Questions written by the same author as the fixes; read by hand, 55/72"

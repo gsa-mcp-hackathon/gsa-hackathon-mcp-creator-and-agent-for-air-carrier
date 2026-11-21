@@ -598,24 +598,22 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
 - **Creator review.** It catches uncovered questions and identifiers used as measures,
   but not a confident tool mapped to a different question; two of 14 questions in the
   end-to-end run showed this.
-- **Small evaluation sets.** 14 delegation questions, 17 golden items and 5 Creator
-  prompts, so the confidence intervals are wide (strict held-out 64.1 to 93.3). Round 2's
-  12 sealed questions scored 43.1% (CI 32.3 to 54.6) before the fixes it prompted, and
-  round 3's 12 new ones 69.4% (CI 58.0 to 78.9) after. Both sets were written by the
-  person who built the tools, and round 3 carried one answer-key error; an independent
-  author would make a stronger test. Round 4 widened the set to 69 sealed questions (CI
-  for Claude 81.2 to 94.7, resampling questions), but its generator templates and the
-  draft of its 24 reviewed questions are still Genie Code's. A kit for an outside author is
-  in [eval/delegation/independent](eval/delegation/independent/README.md). The
-  [subject-matter review](eval/delegation/sme_review/README.md) of ten answer pairs was
-  scored by the project owner and was not blind. The injection cases q16 (planted record, run through a
-  read-only overlay) and q17 were run on 2026-11-20: 15 of 16 correct, no run followed the
-  injected instruction, and none flagged it to the user.
-- **One hull.** The method has run on CVN-79 only. CVN-80, CVN-81, the F-35 and the other
-  MDAPs are a plan with named inputs, not results.
+- **Evaluation sets come from the builder's side.** Round 4's 69 sealed questions (CI for
+  Claude 81.2 to 94.7) were drawn by a seeded generator or drafted by Genie Code and reviewed
+  by the project owner; no outside author has written a set yet, and a
+  [kit](eval/delegation/independent/README.md) is ready for one. Rounds 1 to 3 were small
+  (12 to 14 questions each), as are the 17 golden items and the 5 Creator prompts. The
+  [subject-matter review](eval/delegation/sme_review/README.md) has one reviewer, the
+  project owner, and was not blind.
+- **Injected instructions are resisted but not reported.** In the injection cases (q16, a
+  planted record, and q17) 15 of 16 answers were correct and no run followed the injected
+  instruction, but none told the user the source contained one.
+- **One hull, reconciled.** The full reconciliation has run on CVN-79 only. For the Ford
+  class the servers read each hull's published budget and acquisition figures; CVN-80,
+  CVN-81, the F-35 and the other MDAPs have not been reconciled and are a plan with named
+  inputs.
 - **No measured time saved.** The hub reconciles in one pass what is done by hand today;
-  analyst hours before and after have not been measured. The subject-matter review measures
-  answer quality, not time.
+  analyst hours before and after have not been measured.
 - **The One Hub MCP server runs locally over stdio.** Its 16 tools are tested in CI
   (`checks/test_mcp_server.py`) but it is not deployed as an app, so the probe does not watch it.
   The probe watches the four deployed Air Carrier servers, and the bakehouse server once its

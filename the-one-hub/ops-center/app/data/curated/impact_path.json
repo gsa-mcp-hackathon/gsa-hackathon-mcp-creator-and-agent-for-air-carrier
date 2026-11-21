@@ -84,10 +84,10 @@
    "href": "/execution"
   },
   {
-   "v": "69.4% vs 4.2%",
+   "v": "88.4% vs 14.5%",
    "k": "Sealed questions, with vs without the tools",
-   "n": "Round 3, 72 answers by two models, questions fixed by SHA-256 before the run",
-   "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/README.md"
+   "n": "Round 4, Claude Sonnet 4.5, 69 questions, three repeats, fixed by SHA-256 before the run; GPT-5 mini 78.7% vs 1.4%",
+   "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/round4/RESULTS.md"
   },
   {
    "v": "GAPS",
@@ -527,7 +527,7 @@
    "users": "DCFO, PEO Carriers, auditors",
    "inputs": "34 PDFs, two prime contracts, 1,875 transactions",
    "new": "The stack itself",
-   "exit": "P-5c closes to 0.000 on two axes; 69.4% vs 4.2% on sealed questions"
+   "exit": "P-5c closes to 0.000 on two axes; 88.4% vs 14.5% on sealed questions"
   },
   {
    "n": 1,
