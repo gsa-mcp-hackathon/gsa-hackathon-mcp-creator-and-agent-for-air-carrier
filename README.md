@@ -12,12 +12,27 @@ No office can trace what a major weapon system costs, from the budget request th
 contracts to the asset on the balance sheet, in a form that a program office, a cost
 estimator, a budget analyst and an auditor will all accept.
 
-**MCP A Creator turns a question and a Unity Catalog table into a tested, governed MCP
-server.** The One Hub is the pilot. It is three servers built the same way, and they
-reconcile the four published costs of the aircraft carrier USS John F. Kennedy (CVN-79)
-from public records. Every figure is cited to its page, and every unknown is named,
-ranked and assigned. CVN-79 is hull one. The method, the servers and the gate are built
-to run on every major defense acquisition program.
+We built a reusable architecture for that problem, and proved it on one ship:
+
+- **[MCP A Creator](#mcp-a-creator)** turns a question and a Unity Catalog table into a
+  tested, governed MCP server, deployed as a Databricks App. Its bundled skills carry the
+  design judgment; deterministic generators write the code.
+- **[Six MCP servers, 60 tools](#what-the-one-hub-shows)** give agents cited access to
+  documents, operations data and analytical investigation. The Creator generated two of
+  them.
+- **[A front center with four specialist agent workflows](#agents-propose-the-owning-role-decides)**
+  orchestrates those servers. Agents propose; only the role that owns an item can approve
+  it.
+- **[A deterministic gate](#what-the-one-hub-shows)** separates what a model recommends
+  from what is decided. No model promotes a figure.
+- **Unity Catalog decides authority** under the signed-in user's own identity, against a
+  dated role map. No role travels in a page or a cookie.
+- **Every figure ties to its source document**, page and record, and is reconciled through
+  explicit checks. Every unknown is named, ranked and assigned to an office.
+
+The pilot reconciles the four published costs of the aircraft carrier USS John F. Kennedy
+(CVN-79) from public records. CVN-79 is hull one; the servers, the gate and the agents are
+built to run on every major defense acquisition program.
 
 ## Two-minute demo
 
@@ -68,15 +83,9 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Availability of the deployed servers | 99.90% of 6,193 checks in 413 probe sweeps, 2026-11-12 to 2026-11-20; 1,234 of 1,234 known-answer checks right | One workspace, eight days |
 | Data integrity | $13,409.970M Total Ship Estimate closes to 0.000 on two independent axes | The exhibit ties to itself; it is a budget estimate, not an audited cost |
 
-It holds two things that depend on each other: the product, and the proof that it works.
-
-1. **MCP A Creator**, an MCP server whose job is building MCP servers. A person brings a
-   question and a Unity Catalog table. The Creator profiles the data, designs one tool per
-   question, reviews its own design, and generates a complete, tested FastMCP project
-   that it deploys as that person's own Databricks App.
-2. **The One Hub**, three MCP servers built the same way plus a web front center, which
-   together reconcile the CVN-79 cost record. Every figure carries its document, page and
-   source, and every unknown is named, owned and ranked.
+The repository holds the product and the proof that it works: MCP A Creator, the One Hub
+that it supports (servers, front center, agents and gate), and the evaluation behind every
+number above.
 
 | | |
 | --- | --- |
@@ -96,6 +105,7 @@ It holds two things that depend on each other: the product, and the proof that i
 - [Why it matters, in brief](#why-it-matters-in-brief)
 - [Open the front center](#open-the-front-center)
 - [What the One Hub shows](#what-the-one-hub-shows)
+- [Agents propose, the owning role decides](#agents-propose-the-owning-role-decides)
 - [MCP A Creator](#mcp-a-creator)
 - [Architecture](#architecture)
 - [How we know it works](#how-we-know-it-works)
@@ -136,6 +146,7 @@ authenticated users of the same Databricks account, so the link opens a Databric
 sign-in, and on first visit a consent screen for the app. Visitors without an account
 in this workspace can:
 
+- click through the [read-only site](#click-through-the-front-center), no account needed;
 - run the same app locally with no workspace at all ([two commands](#run-the-front-center-locally));
 - read the screenshots below, the [slide deck](docs/submission/mcp-a-creator-one-hub-deck.pdf), and the
   [evaluation report](docs/submission/evaluation-report.pdf).
@@ -246,8 +257,11 @@ including Genie Code, and the front center and the agents use the same ones.
 **The One Hub's own MCP server**, `mcp-aircarrier-hub` ([`the-one-hub/ops-center/mcp/`](the-one-hub/ops-center/mcp/)),
 16 read-only `hub_` tools with Pydantic-validated inputs that expose the gate, the
 falsification checks, the tie-outs and the gap queue to any agent. It runs over stdio and is
-not yet deployed as an app. **A probe** calls every deployed server every 15 minutes with a known question. Their
-standalone value is in [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own).
+not yet deployed as an app. With [MCP A Creator](#mcp-a-creator) (10 tools) and the
+bakehouse server it generated (4 tools), that makes six servers and 60 tools;
+[SCORECARD.md](SCORECARD.md) has one row per server. **A probe** calls every deployed server
+every 15 minutes with a known question. Their standalone value is in
+[the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own).
 
 **A front center** ([`the-one-hub/ops-center/app/`](the-one-hub/ops-center/app/)): a
 FastAPI application with server-rendered pages and charts and a JSON API, described above.
@@ -275,6 +289,45 @@ The rules that shape the build are written into the code:
   adapter swap and a few variables in `databricks.yml`.
 - Agents never call each other.
 - The front center is a self-contained transfer unit that vendors its shared core.
+
+---
+
+## Agents propose, the owning role decides
+
+Any page in the front center can start a specialist run on what it shows. Four specialists
+cover the questions a cost record keeps raising
+([`app/api/si/tasks.py`](the-one-hub/ops-center/app/api/si/tasks.py)):
+
+| Specialist | Run it from | The question it answers |
+| --- | --- | --- |
+| Obligation Reconciler | `/mission`, `/variances`, `/position` | Does this contract's reported cost tie to its recorded obligations? |
+| Account Analyst | `/mission`, `/position`, `/execution` | Why does this File C period not tie to the transactions? |
+| Gap Investigator | `/mission`, `/gaps` | Which office can close this gap, and what exactly do we ask for? |
+| Brief Composer | `/mission`, `/brief` | Can we stand behind the CVN-79 number at the brief, and what access do we need? |
+
+Every run has the same six stages
+([`app/api/si/sdk.py`](the-one-hub/ops-center/app/api/si/sdk.py)), built so that no stage
+leaves room for a model to invent something:
+
+```mermaid
+flowchart LR
+  T[1 Trigger<br/>a page names one task<br/>and one subject] --> R[2 Route<br/>unknown pairs<br/>are refused]
+  R --> P[3 Pack<br/>code reads the records<br/>figures in Decimal]
+  P --> W[4 Work<br/>one model explains<br/>cannot add, re-amount<br/>or re-route a proposal]
+  W --> C[5 Check<br/>code grounds every number<br/>a second model family<br/>reads the answer]
+  C --> D[6 Decide<br/>a person in the owning role<br/>applies or leaves it]
+  D -. authority .-> UC[(Unity Catalog<br/>current_user and<br/>role map)]
+```
+
+Authority is decided inside Unity Catalog. The decision statement runs under the signed-in
+user's on-behalf-of token and checks `current_user()` and `is_account_group_member()`
+against a dated role map ([`app/api/harness_sql.py`](the-one-hub/ops-center/app/api/harness_sql.py)).
+In the demo, a user holding PMS 379 is refused the residual lead owned by the Office of
+Financial Operations, and applies the request for obligation detail that PMS 379 owns; the
+action is recorded with the role and the run number. The work queue sorts every item into
+one lane by code: decide, unblock or system. Contributions from experts through
+`/insight` enter the same way, as leads with their author, never as certified figures.
+Screens from the deployed app: [agentic workflow screenshots](#agentic-workflow-and-role-based-decisions).
 
 ---
 
@@ -348,8 +401,10 @@ flowchart LR
   end
   subgraph Use["Who uses them"]
     GC[Genie Code or any MCP client]
-    FC[One Hub front center]
+    FC[One Hub front center<br/>Databricks App]
+    SP[Four specialist agents<br/>propose]
     AG[Ops-center agents]
+    HUB[mcp-aircarrier-hub<br/>16 tools, stdio]
   end
   PDF --> DOC
   TX --> AN
@@ -365,14 +420,18 @@ flowchart LR
   AN --> FC
   OPS --> FC
   OPS --> AG
+  FC --> SP
+  SP -- proposals, decided by role --> WR
+  HUB --> GC
   AG -- every handoff is a row --> WR
   PR -. scheduled calls .-> DOC
   PR -.-> AN
   PR -.-> OPS
 ```
 
-All eight apps run in one workspace. Tables are read as the calling user under Unity
-Catalog grants, with the app's service principal as a reported fallback.
+All seven apps run in one workspace and deploy from this repository. Tables are read as the
+calling user under Unity Catalog grants, with the app's service principal as a reported
+fallback; decisions run under the signed-in user's own token.
 
 ---
 
