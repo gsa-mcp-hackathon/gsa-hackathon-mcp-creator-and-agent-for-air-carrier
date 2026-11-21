@@ -204,9 +204,9 @@ NAV_GROUPS = [
         ("/industrial", "Industrial base and GFE"),
     ]),
     ("Dive deeper", None, [
+        ("/ask", "Ask the evidence"),
         ("/work", "Work queue"),
         ("/mission", "Brief readiness"),
-        ("/ask", "Ask the evidence"),
         ("/runs", "Run log"),
         ("/explore", "Detail table"),
         ("/sources", "Sources"),

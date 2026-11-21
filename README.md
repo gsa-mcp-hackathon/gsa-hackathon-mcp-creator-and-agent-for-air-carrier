@@ -333,7 +333,7 @@ in this workspace can:
 | The ship | `/kennedy` | USS John F. Kennedy (CVN-79): identity, timeline and photographs |
 | Cost | `/position`, `/cost`, `/baseline`, `/execution` | The four published figures and why they differ; cost by category and funding stream; estimate and cap history; obligations by year |
 | Audit | `/gaps`, `/variances`, `/asset`, `/industrial` | Open questions ranked with who can close each; where sources disagree; the asset's accounting; who builds what, including GFE |
-| Dive deeper | `/work`, `/mission`, `/ask`, `/runs`, `/explore`, `/sources`, `/method` | Decisions waiting for a person; brief readiness with page-started agent runs; cited answers; every run and action; every record, filterable; document families and the searchable corpus; the method, with links to `/rules` and `/coverage` |
+| Dive deeper | `/ask`, `/work`, `/mission`, `/runs`, `/explore`, `/sources`, `/method` | Cited answers; decisions waiting for a person; brief readiness with page-started agent runs; every run and action; every record, filterable; document families and the searchable corpus; the method, with links to `/rules` and `/coverage` |
 | Answer a question | `/insight` | Answer one of the open questions; it is recorded as a lead with your name and how you knew it, never as a certified figure |
 
 Retired pages redirect: `/dashboard` to `/`, `/knowledge` to `/sources`, `/program` (and `/delivery`, `/progress`) to `/stack`.
