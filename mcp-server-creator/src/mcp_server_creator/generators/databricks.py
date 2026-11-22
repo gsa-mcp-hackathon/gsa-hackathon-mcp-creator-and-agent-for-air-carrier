@@ -77,7 +77,7 @@ command:
     echo "Stale fastmcp or mcp files in $SP, reinstalling";
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --no-cache-dir --force-reinstall --no-deps
-    "fastmcp>=2.14,<3" "mcp>=1.24,<2"; }; } &&
+    "fastmcp>=3.2,<4" "mcp>=1.24,<2"; }; } &&
     python -m {{package}}.app
 {{env_block}}"""
 

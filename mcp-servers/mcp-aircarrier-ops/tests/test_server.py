@@ -97,8 +97,13 @@ async def test_no_tool_uses_the_generic_mcp_prefix():
     assert not generic, f"rename these: {generic}"
 
 
+async def _tool(server, name: str):
+    """One tool by name, on FastMCP 2 (shimmed in conftest) and 3 alike."""
+    return next(t for t in await server.list_tools() if t.name == name)
+
+
 async def _schema(name: str) -> dict:
-    return (await mcp.get_tools())[name].parameters
+    return (await _tool(mcp, name)).parameters
 
 
 async def test_work_register_filters_cover_every_kind_and_state():
@@ -141,7 +146,7 @@ async def test_counts_tool_does_not_report_an_exposure_sum_by_default():
     try:
         server = FastMCP("t")
         counts.register(server)
-        tool = (await server.get_tools())["carrier_work_register_counts"]
+        tool = await _tool(server, "carrier_work_register_counts")
         out = (await tool.run({})).structured_content
     finally:
         counts.run_query = original
@@ -181,7 +186,7 @@ async def test_obligation_search_defaults_to_summary_fields():
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations"]
+        tool = await _tool(server, "carrier_search_obligations")
         out = (
             await tool.run({"contract": "N00024-09-C-2116", "query": "cvn"})
         ).structured_content
@@ -216,7 +221,7 @@ async def test_obligation_search_finds_the_base_award_by_filter():
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations"]
+        tool = await _tool(server, "carrier_search_obligations")
         await tool.run(
             {
                 "contract": "N00024-09-C-2116",
@@ -249,7 +254,7 @@ async def test_obligation_search_returns_the_server_side_sum():
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations"]
+        tool = await _tool(server, "carrier_search_obligations")
         out = (
             await tool.run(
                 {"contract": "N00024-09-C-2116", "fiscal_year": 2010, "limit": 5}
@@ -282,7 +287,7 @@ async def test_obligation_as_of_comes_from_the_data_not_a_constant():
         try:
             server = FastMCP("t")
             ob.register(server)
-            tool = (await server.get_tools())["carrier_search_obligations"]
+            tool = await _tool(server, "carrier_search_obligations")
             return (
                 await tool.run(
                     {"contract": "N00024-09-C-2116", "fiscal_year": 2010, "limit": 1}
@@ -318,7 +323,7 @@ async def test_get_exhibit_cells_returns_the_whole_table_in_order():
     try:
         server = FastMCP("t")
         gx.register(server)
-        tool = (await server.get_tools())["carrier_get_exhibit_cells"]
+        tool = await _tool(server, "carrier_get_exhibit_cells")
         out = (await tool.run({"table_id": "t1", "limit": 2})).structured_content
     finally:
         gx.run_query = original
@@ -429,7 +434,7 @@ async def _obligations(arguments: dict) -> tuple[dict, list[tuple[str, list]]]:
     try:
         server = FastMCP("t")
         ob.register(server)
-        tool = (await server.get_tools())["carrier_search_obligations"]
+        tool = await _tool(server, "carrier_search_obligations")
         out = (await tool.run(arguments)).structured_content
     finally:
         ob.run_query = original
@@ -461,7 +466,7 @@ async def test_largest_first_puts_the_largest_action_on_top():
 async def test_the_contract_is_required_and_closed():
     from mcp_aircarrier_ops.app import mcp as app
 
-    tool = (await app.get_tools())["carrier_search_obligations"]
+    tool = await _tool(app, "carrier_search_obligations")
     schema = tool.parameters
     assert "contract" in schema.get("required", [])
     text = str(schema)
@@ -487,7 +492,7 @@ async def test_variances_are_searchable_by_text():
     try:
         server = FastMCP("t")
         va.register(server)
-        tool = (await server.get_tools())["carrier_search_variances"]
+        tool = await _tool(server, "carrier_search_variances")
         out = (
             await tool.run({"query": "FPDS", "status": "resolved"})
         ).structured_content

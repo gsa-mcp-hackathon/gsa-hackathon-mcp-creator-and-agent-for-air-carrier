@@ -2,7 +2,7 @@
 # app, so keep it in step with pyproject.toml.
 # Pinned to 2.x: FastMCP 4.x targets the sessionless MCP 2026-07-28 spec,
 # which the Databricks MCP client may not negotiate.
-fastmcp>=2.14,<3
+fastmcp>=3.2,<4
 httpx>=0.27.0
 pydantic>=2.0.0
 pydantic-settings>=2.0.0

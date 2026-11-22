@@ -51,7 +51,7 @@ through FastMCP's in-memory client. It uses the caller's Spark session and
 Unity Catalog grants, refuses writes by default, and labels every result with
 `_mcp.transport = in-process`, the identity, and the app's active deployment id.
 
-    %pip install "fastmcp>=2.14,<3" "mcp>=1.24,<2"   # once per session
+    %pip install "fastmcp>=3.2,<4" "mcp>=1.24,<2"   # once per session
     import sys; sys.path.insert(0, "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-servers")
     import mcp_local
     mcp_local.call("docs", "docs_find_figure", value_musd="13529")

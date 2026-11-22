@@ -583,6 +583,7 @@ dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
     "ruff>=0.6.0",
+    "bandit>=1.7.0",
 ]
 
 [tool.ruff]
@@ -738,6 +739,12 @@ jobs:
 
       - name: Run tests
         run: uv run pytest tests/ -v
+
+      - name: Security scan
+        run: uv run bandit -c pyproject.toml -r . -q
+
+      - name: Dependency audit
+        run: uvx pip-audit -r requirements.txt --progress-spinner off
 """
 
 SERVER_JSON = """{
@@ -1232,7 +1239,7 @@ be trusted on anything.
 def _dependencies(spec: ServerSpec) -> list[str]:
     """Runtime dependencies for the generated server."""
     deps = [
-        "fastmcp>=2.14,<3",
+        "fastmcp>=3.2,<4",
         "pydantic>=2.0.0",
         "pydantic-settings>=2.0.0",
     ]
