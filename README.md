@@ -34,26 +34,26 @@ Only the owning role, checked in Unity Catalog under the user's own sign-in, app
 
 | Video | Length | Watch |
 | --- | --- | --- |
-| **The solution in two minutes.** Impact and scope, then the apps, the MCP servers, the front center, a live agent run with a role check, and orchestration across servers | 2:09 | [Play in the browser](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-two-minute-demo.mp4) |
-| **The full walkthrough.** Every layer and every page, with live agent runs on the deployed apps | 14:45 | [Play with chapters](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-full-walkthrough.mp4) |
+| **The solution in two minutes.** Impact and scope, then the apps, the MCP servers, the front center, a live agent run with a role check, and orchestration across servers | 2:10 | [Play in the browser](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-two-minute-demo.mp4) |
+| **The full walkthrough.** The four layers, the tracks, the front center and live agent runs on the deployed apps | 11:08 | [Play with chapters](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-full-walkthrough.mp4) |
 
 Both are 1080p, narrated and captioned
 ([two-minute .srt](docs/demo/air-carrier-two-minute-demo.srt), [walkthrough .srt](docs/demo/air-carrier-full-walkthrough.srt)).
 
 <details>
-<summary>Full walkthrough chapters (14:45)</summary>
+<summary>Full walkthrough chapters (11:08)</summary>
 
 | Time | Chapter |
 | --- | --- |
-| 0:00 | The problem and one solution in four layers |
-| 2:25 | Seven apps, six MCP servers, MCP A Creator |
-| 4:30 | The financial-control layer |
-| 5:01 | The front center: the stack, impact, the brief, the ship, position |
-| 7:14 | Agentic workflow, live: a specialist run and role-based approval |
-| 8:48 | Cost, execution, the gap register and a Gap Investigator run |
-| 10:10 | Agentic orchestration: Ask as an MCP host, the work queue, a reconciler run |
-| 11:45 | Records, sources, method, rules, coverage, and the experts |
-| 13:10 | How we know it works, security, close |
+| 0:00 | The problem, and one solution in four layers |
+| 2:00 | Seven apps, six MCP servers, MCP A Creator |
+| 3:43 | The financial-control layer |
+| 4:13 | The front center: the start page, impact, position |
+| 5:20 | Agentic workflow, live: a specialist run and role-based approval |
+| 6:41 | The gap register and a Gap Investigator run |
+| 7:10 | Agentic orchestration: Ask as an MCP host, the work queue, a reconciler run |
+| 8:38 | The method, and the experts who hold the answers |
+| 9:19 | How we know it works, security, close |
 
 Live agent runs were recorded on the deployed apps on 2026-11-21, with waits cut. The other pages
 are the same app run from this repository. Narration is synthesized speech.

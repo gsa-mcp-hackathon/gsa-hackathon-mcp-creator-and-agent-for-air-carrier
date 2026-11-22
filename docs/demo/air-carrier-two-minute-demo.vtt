@@ -1,7 +1,7 @@
 WEBVTT
 
 1
-00:00:00.350 --> 00:00:02.516
+00:00:00.350 --> 00:00:02.396
 MCP A Creator and the One Hub:
 
 2
@@ -9,7 +9,7 @@ MCP A Creator and the One Hub:
 one solution for a question no office can answer today. What does a weapon system really cost?
 
 3
-00:00:09.650 --> 00:00:16.604
+00:00:09.650 --> 00:00:16.484
 The Department of Defense plans to spend more than 2.4 trillion dollars on its costliest weapon programs,
 
 4
@@ -21,7 +21,7 @@ and has gone nine years without a clean audit opinion.
 For one aircraft carrier, four official costs disagree.
 
 6
-00:00:24.350 --> 00:00:28.747
+00:00:24.350 --> 00:00:28.627
 Our answer has four layers: a creator that builds MCP servers,
 
 7
@@ -37,7 +37,7 @@ and a financial-control layer no model can override.
 It runs today as seven Databricks apps, deployed from GitHub with one command: six MCP servers, with 63 tools.
 
 10
-00:00:46.017 --> 00:00:50.288
+00:00:46.017 --> 00:00:50.168
 MCP A Creator turns a question and a table into a tested,
 
 11
@@ -45,58 +45,58 @@ MCP A Creator turns a question and a table into a tested,
 governed server. Fifteen of fifteen generated projects pass their own tests.
 
 12
-00:00:56.550 --> 00:01:01.920
-The front center is where people use it. The Position page shows which figure to quote,
+00:00:56.550 --> 00:01:02.024
+The front center is where people use it. It opens on the solution itself: the four layers,
 
 13
-00:01:01.800 --> 00:01:06.084
-and walks from the cap to the budget, every number cited to its page.
+00:01:02.024 --> 00:01:06.827
+the three tracks, and the steps that prove a figure, each linked to its page.
 
 14
-00:01:06.817 --> 00:01:08.913
+00:01:07.550 --> 00:01:09.646
 Here an agent works a live question.
 
 15
-00:01:09.400 --> 00:01:14.842
+00:01:10.133 --> 00:01:15.456
 The orchestrator routes it to a specialist. Code packs the records in exact decimals,
 
 16
-00:01:14.722 --> 00:01:17.785
+00:01:15.456 --> 00:01:18.519
 a model explains, and code checks every number.
 
 17
-00:01:18.267 --> 00:01:22.738
+00:01:18.1000 --> 00:01:23.351
 The agent only proposes. This user holds the program office role,
 
 18
-00:01:22.618 --> 00:01:26.955
+00:01:23.351 --> 00:01:27.689
 so the app refuses the proposal that Financial Operations owns.
 
 19
-00:01:27.135 --> 00:01:29.062
+00:01:27.869 --> 00:01:29.796
 Unity Catalog makes that call.
 
 20
-00:01:29.783 --> 00:01:35.219
+00:01:30.517 --> 00:01:35.953
 Ask the evidence orchestrates three MCP servers for one answer, and names every call.
 
 21
-00:01:35.950 --> 00:01:47.818
+00:01:36.683 --> 00:01:48.551
 Every figure is analyzed, reconciled, cited and gated by code. 7,743 of 7,746 budget tie-outs pass.
 
 22
-00:01:48.550 --> 00:01:53.438
+00:01:49.283 --> 00:01:54.051
 On an outside evaluator's questions, Claude answered 83 percent
 
 23
-00:01:53.318 --> 00:01:59.492
+00:01:54.051 --> 00:02:00.226
 with these servers, and 10 percent without. 1,770 tests pass from a clean clone.
 
 24
-00:02:00.217 --> 00:02:03.158
+00:02:00.950 --> 00:02:03.892
 The next program brings its data, not new software.
 
 25
-00:02:03.338 --> 00:02:08.332
+00:02:04.072 --> 00:02:09.065
 AI builds and explains. Code proves the number. The owning role decides.
 
