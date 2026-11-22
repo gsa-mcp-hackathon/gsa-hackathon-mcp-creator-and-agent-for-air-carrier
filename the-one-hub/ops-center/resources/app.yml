@@ -132,3 +132,7 @@ resources:
             value: delta
           - name: AIRCARRIER_CAPTURE_VOLUME
             value: /Volumes/${var.catalog}/${var.schema}/aircarrier_captures
+          - name: AIRCARRIER_ASK_VIA_MCP
+            value: "1"
+          - name: AIRCARRIER_MCP_APPS
+            value: mcp-aircarrier-docs,mcp-aircarrier-ops,mcp-aircarrier-hub

@@ -21,8 +21,10 @@ We built a reusable architecture for that problem, and proved it on one ship:
   documents, operations data and analytical investigation. The Creator generated two of
   them.
 - **[A front center with four specialist agent workflows](#agents-propose-the-owning-role-decides)**
-  orchestrates those servers. Agents propose; only the role that owns an item can approve
-  it.
+  where people use the stack. Its Ask the evidence agent is an MCP host: it calls the docs,
+  ops and One Hub servers and names the server behind every step. The specialists read the
+  stores with SQL and check figures with the same gate code the One Hub server exposes.
+  Agents propose; only the role that owns an item can approve it.
 - **[A deterministic gate](#what-the-one-hub-shows)** separates what a model recommends
   from what is decided. No model promotes a figure.
 - **Unity Catalog decides authority** under the signed-in user's own identity, against a

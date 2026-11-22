@@ -79,7 +79,16 @@ Notes:
 
 ## The front UI (`aircarrier-front-center-dev`)
 
-Since 2026-11-20 `the-one-hub/ops-center/app/app.yaml` holds the full deployed set of 15
+**Ask the evidence as an MCP host (from 2026-11-21).** With `AIRCARRIER_ASK_VIA_MCP=1` (set in
+`app.yaml`) the `/ask` agent lists the tools of `mcp-aircarrier-docs`, `mcp-aircarrier-ops` and
+`mcp-aircarrier-hub` and calls them over MCP as the front center's service principal
+(`app/api/mcp_host.py`). Grant that service principal `CAN_USE` on each of the three apps
+(Apps, the app, Permissions), as for the probe. Until the grants exist, every answer says
+"in-app tools (MCP servers unreachable: ...)" and uses the in-app tools, so nothing breaks.
+Check after deploying: ask one question; the tool-call line should read "via MCP: ..." and
+each step should name its server.
+
+Since 2026-11-20 `the-one-hub/ops-center/app/app.yaml` holds the full deployed set of 17
 environment variables, equal to `config.env` in `the-one-hub/ops-center/resources/app.yml`
 for the dev target. `checks/test_deploy_config.py` resolves `config.env` with the dev
 variables and fails if the two disagree. So a plain Git deployment (the script, the Apps UI
