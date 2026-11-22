@@ -187,6 +187,19 @@ def main_() -> int:
             "needs the claim ledger" in m and "Days to the DCFO brief" not in m)
     reg("header: brand reads Air Carrier · CVN-79 over MCP servers and agents",
         "Air Carrier · CVN-79<br><span class=\"sub\">MCP servers and agents</span>" in home)
+    # 2026-11-22: the start page states the solution before its parts
+    stack = c.get("/stack").text
+    reg("the stack opens on one solution in four layers, with the differentiator",
+        stack.count('class="sol-layer k-') == 4 and "AI-assisted development, joined to deterministic financial control" in stack)
+    reg("the stack maps the three GSA tracks and the five control steps",
+        stack.count('class="card track"') == 3 and stack.count('class="ctl k-') == 5
+        and "Dataset Access Server" in stack and "What a model can never do" in stack)
+    for f in ("Inter-Regular.woff2", "Inter-Bold.woff2", "Bitter-Variable.woff2"):
+        fr = c.get(f"/static/fonts/{f}")
+        reg(f"the app serves its own font file {f}", fr.status_code == 200 and fr.content[:4] == b"wOF2", str(fr.status_code))
+    css = c.get("/static/css/app.css").text
+    reg("no stylesheet rule loads a font from another origin",
+        "fonts.googleapis" not in css and all(u.startswith("/static/fonts/") for u in __import__("re").findall(r'src:url\("([^"]+)"\)', css)))
     reg("menu: The stack, Impact, Brief, The ship first; no Agents or About group",
         [g[0] for g in main.NAV_GROUPS][:4] == ["The stack", "Impact", "Brief", "The ship"]
         and not {"Agents", "About"} & {g[0] for g in main.NAV_GROUPS}

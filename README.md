@@ -289,13 +289,13 @@ uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agen
 
 ## Screens
 
-**Live** screens come from the deployed apps; the rest from the app run locally. Every page is in
+**Live** screens come from the deployed apps; the rest from the app run locally. Screens 2 and 11 show the current look (navy bar, Bitter and Inter); the others were captured before it and show the same pages. Every page is in
 the [read-only site](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/).
 
 | | |
 | --- | --- |
-| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![The stack: seven capabilities](docs/screenshots/stack.jpg) |
-| **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The stack.** Each capability, how it was tested, what the tests do not show. |
+| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![The stack: one solution, four layers, seven capabilities](docs/screenshots/stack.jpg) |
+| **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The stack, the start page.** One solution, four layers, seven capabilities. |
 | ![MCP A Creator](docs/screenshots/mcp-a-creator.jpg) | ![Ask the evidence as an MCP host: four tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) |
 | **3. MCP A Creator.** A question and a table in, a tested server out. | **4. Ask the evidence, live, as an MCP host.** Four tool calls across three servers, each named. |
 | ![Agent workflow](docs/screenshots/agent-workflow.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
@@ -304,8 +304,8 @@ the [read-only site](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-
 | **7. Which figure to quote.** The four published costs and what each is. | **8. Gap register.** 59 open questions, each with the office that can close it. |
 | ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) | ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) |
 | **9. Impact.** From CVN-79 to the 59 PB2027 MSAR programs. | **10. Evidence.** Outside questions, blind review, tie-outs, probe. |
-| ![Build, read, investigate, govern, deliver, watch](docs/screenshots/stack-architecture.jpg) | ![You ask, agents plan, MCP servers fetch, the gate checks, you decide](docs/screenshots/impact-agents-flow.jpg) |
-| **11. How the parts fit.** Build, read, investigate, govern, deliver, watch. | **12. Orchestration.** You ask, agents plan, servers fetch, the gate checks, you decide. |
+| ![The four layers, the differentiator and the three tracks on the start page](docs/screenshots/stack-architecture.jpg) | ![You ask, agents plan, MCP servers fetch, the gate checks, you decide](docs/screenshots/impact-agents-flow.jpg) |
+| **11. The four layers in the app.** Each layer links to its part; the three tracks sit under it. | **12. Orchestration.** You ask, agents plan, servers fetch, the gate checks, you decide. |
 | ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
 | **13. A specialist run, live.** Each step labeled code or model. | **14. Review and decide, live.** Only the owning role can apply. |
 | ![Obligation Reconciler](docs/screenshots/live-agent-reconcile.jpg) | ![Work queue](docs/screenshots/live-work-queue.jpg) |

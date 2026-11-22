@@ -96,15 +96,123 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <div class="scrim"></div>
 <div class="inner">
 <div class="eyebrow" style="color:rgba(255,255,255,.8)">The stack</div>
-<h1>Seven capabilities, each useful on its own</h1>
-<p>MCP servers that read, investigate and govern; a server that builds servers; agents that hand
-   work to each other only through a register; and a probe that checks every server every 15 minutes.
-   CVN-79 is the first ship they were assembled for. None of them is specific to it.</p>
+<h1>One solution, four layers, seven capabilities</h1>
+<p>A creator that builds MCP servers, servers that read and investigate the public record, agents that
+   propose, and a financial-control layer that no model can override. AI helps build and explain. Code
+   proves every number. The owning role decides. CVN-79 is the first ship they were assembled for.
+   None of them is specific to it.</p>
 </div>
 <span class="credit">CVN-79 in dry dock, Newport News Shipbuilding</span>
 </section>
 <p class="for brief-for"><span><b>For</b> engineers, reviewers, and any office with a table and a question</span>
 <span><b>Decision</b> which capability to reuse, and what its tests do and do not show</span></p>
+<section class="imp-band" id="solution">
+<div class="eyebrow">The solution</div>
+<h2>One solution, four layers</h2>
+<p class="lede">An MCP server creator, domain MCP servers, an agent orchestration environment and a financial-control layer. The seven capabilities below are the parts of these four layers.</p>
+<div class="sol">
+<div class="sol-stack">
+<a class="sol-layer k-control" href="#control">
+<span class="n">4</span>
+<span class="t"><b>Financial-control layer</b><span>Decides what is true and who may act. No model in it.</span></span>
+<span class="chips"><i>Exact decimal analysis</i><i>Tie-outs to source</i><i>Provenance to the page</i><i>Gate, four routes</i><i>Authority in Unity Catalog</i></span>
+</a>
+<a class="sol-layer k-agents" href="../mission/">
+<span class="n">3</span>
+<span class="t"><b>Agent orchestration environment</b><span>Where people and agents work the questions.</span></span>
+<span class="chips"><i>This front center, 22 pages</i><i>Four specialist agents</i><i>Six-stage workflow</i><i>MCP host across three servers</i></span>
+</a>
+<a class="sol-layer k-servers" href="#capabilities">
+<span class="n">2</span>
+<span class="t"><b>Domain MCP servers</b><span>Cited access to documents, records and the registers.</span></span>
+<span class="chips"><i>docs · 11 tools</i><i>analyst · 12</i><i>ops · 7</i><i>hub · 16</i><i>bakehouse · 7</i></span>
+</a>
+<a class="sol-layer k-creator" href="#capabilities">
+<span class="n">1</span>
+<span class="t"><b>MCP A Creator</b><span>Builds a tested, governed MCP server from a question and a table.</span></span>
+<span class="chips"><i>10 tools</i><i>Skills carry the judgment</i><i>Generators write the code</i><i>Byte-identical output</i></span>
+</a>
+</div>
+<aside class="sol-diff">
+<div class="k">What sets it apart</div>
+<h3>AI-assisted development, joined to deterministic financial control</h3>
+<p><span class="kpill p-model">AI</span><span>designs servers, plans, explains, drafts</span></p>
+<p><span class="kpill p-code">Code</span><span>computes, reconciles, cites, gates</span></p>
+<p><span class="kpill p-role">Role</span><span>the owning office approves, under its own sign-in</span></p>
+<p class="foot">Six MCP servers, 63 tools, seven Databricks apps deployed from GitHub. A probe calls every deployed server every 15 minutes.</p>
+</aside>
+</div>
+</section>
+<section class="imp-band" id="tracks">
+<div class="eyebrow">Three GSA application tracks</div>
+<h2>Each track is served by a different layer</h2>
+<div class="grid g3" style="margin-top:.7rem">
+<article class="card track">
+<h3>Dataset Access Server</h3>
+<p class="cap">Query open government datasets</p>
+<dl><div><dt><code>mcp-aircarrier-docs</code></dt><dd>Budget books, SARs, GAO and CRS reports: 34 PDFs read to the page and cell</dd></div><div><dt><code>mcp-aircarrier-analyst</code></dt><dd>USAspending and FPDS contract records, account files</dd></div><div><dt><code>mcp-aircarrier-ops</code></dt><dd>Exhibit cells, obligations and variance registers</dd></div><div><dt><code>MCP A Creator</code></dt><dd>Builds a new dataset server from a question and a table</dd></div></dl>
+<p class="see"><a href="#capabilities">The servers</a></p>
+</article>
+<article class="card track">
+<h3>Service “Read” Integration</h3>
+<p class="cap">Retrieve information from a government service</p>
+<dl><div><dt><code>mcp-aircarrier-hub</code></dt><dd>Reads the One Hub: gate status, tie-outs, the gap queue, next work</dd></div><div><dt><code>Ask the evidence</code></dt><dd>This app as an MCP host: one answer, three servers, every call named</dd></div><div><dt><code>Probe</code></dt><dd>Calls every deployed server every 15 minutes with a known answer</dd></div></dl>
+<p class="see"><a href="../ask/">Ask the evidence</a></p>
+</article>
+<article class="card track">
+<h3>Service “Write” Integration</h3>
+<p class="cap">Submit information to a government service, in a sandbox</p>
+<dl><div><dt><code>Owning-role decisions</code></dt><dd>A proposal is applied in Unity Catalog under the user's own token</dd></div><div><dt><code>analyst_record_outcome</code></dt><dd>A confirmed answer is written as a named lead, labeled as a write</dd></div><div><dt><code>creator_deploy_server</code></dt><dd>Deploys the person's own app after an approval bound to the files</dd></div></dl>
+<p class="see"><a href="../work/">The work queue</a></p>
+</article>
+</div>
+<p class="cap" style="margin-top:.6rem">The sandbox is a Databricks development workspace over public data. Every write is labeled as a write, needs a signed-in user and leaves a row in a register.</p>
+</section>
+<section class="imp-band" id="control">
+<div class="eyebrow">The financial-control layer</div>
+<h2>How a figure earns its place in a brief</h2>
+<div class="ctl-flow">
+<div class="ctl k-code">
+<span><span class="kpill p-code">Code</span></span>
+<h3>1 Analyze</h3>
+<p>Records are read and summed in exact decimals. No model does arithmetic.</p>
+<span class="proof">927 contract actions</span>
+<a href="../mission/">Brief readiness</a>
+</div>
+<div class="ctl k-code">
+<span><span class="kpill p-code">Code</span></span>
+<h3>2 Reconcile</h3>
+<p>Each figure is tied to its source on two axes, and to the other ledgers.</p>
+<span class="proof">7,743 of 7,746 tie-outs</span>
+<a href="../variances/">Variance register</a>
+</div>
+<div class="ctl k-code">
+<span><span class="kpill p-code">Code</span></span>
+<h3>3 Cite</h3>
+<p>Every number carries its document, page, table and cell.</p>
+<span class="proof">34 PDFs, 7,804 pages</span>
+<a href="../sources/">Sources</a>
+</div>
+<div class="ctl k-code">
+<span><span class="kpill p-code">Code</span></span>
+<h3>4 Gate</h3>
+<p>Promote, human review, gap, or hold as a lead. The first matching route decides.</p>
+<span class="proof">$13,409.970M closes to 0.000</span>
+<a href="../rules/">Rules and routes</a>
+</div>
+<div class="ctl k-role">
+<span><span class="kpill p-role">Role</span></span>
+<h3>5 Decide</h3>
+<p>Only the owning office can apply a change, under its own sign-in.</p>
+<span class="proof">current_user() in Unity Catalog</span>
+<a href="../work/">Work queue</a>
+</div>
+</div>
+<div class="grid g2 ctl-rules">
+<div class="card may"><h4>What a model may do</h4><p>Plan the work, explain a variance, draft the request to the office that holds the record, read an answer as a second check.</p></div>
+<div class="card never"><h4>What a model can never do</h4><p>Add a figure, change an amount, re-route a proposal, promote a number into a product, or approve anything.</p></div>
+</div>
+</section>
 <section class="imp-band" id="layers">
 <div class="eyebrow">How the parts fit</div>
 <h2>Build, read, investigate, govern, deliver, watch</h2>
