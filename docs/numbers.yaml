@@ -7,7 +7,7 @@ code_suites:
   passed: 1649          # scripts/check.sh, every project, clean clone
   skipped: 5            # One Hub tests that need a live Spark session
   hostile_cases: 825    # of the 1,649: both adversarial sweeps (423 + 402)
-  evidence_tests: 36    # round 4 grader and runner tests in the evidence step
+  evidence_tests: 59    # round 4 grader and runner (36) and round 5 seal and keys (23), evidence step
   by_project:
     creator: 685        # includes 402 hostile-input cases
     ops: 40
@@ -39,6 +39,17 @@ tie_outs:
 
 findings: 30
 
+evaluation:              # added 2026-11-22 (round 11): the outside checks
+  round5_independent: {claude: "25/30 (83.3%)", gpt5_mini: "19/30 (63.3%)", without: "1/10"}
+  blind_review: {with: 5.4, without: 1.0, rely: "9 of 10 vs 0 of 10", preferred: "10 of 10"}
+  by_first_server: {claude_docs: "87.2%", claude_ops: "89.7%", gpt_docs: "75.2%", gpt_ops: "84.0%"}
+  latency: {docs_p50_s: 1.18, docs_max_s: 2.34, hub_probe_p50_ms: 54}
+
+probe:                   # refresh at freeze from the probe table, then every required file
+  window: "2026-11-12 to 2026-11-20"
+  checks: "99.90% of 6,193"
+  known_answers: "1,234 of 1,234"
+
 retired:                 # figures that must not appear as current anywhere checked
   - "1,094 passed"
   - "1,194 passed"
@@ -61,6 +72,10 @@ retired:                 # figures that must not appear as current anywhere chec
   - "1,641"
   - "677 tests"
   - "677 passed"
+  - "Four held-out rounds"
+  - "25 server tests"
+  - "One tool call, the total"
+  - "36 round 4 grader"
 
 checked:                 # where retired figures are looked for
   - README.md
@@ -81,9 +96,10 @@ checked:                 # where retired figures are looked for
   - docs/submission/evaluation-report.docx
 
 required:                # each file must contain each phrase
-  README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693"]
-  SCORECARD.md: ["7,743 of 7,746", "400 hostile calls"]
+  README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234"]
+  SCORECARD.md: ["7,743 of 7,746", "400 hostile calls", "25/30 = 83.3%"]
   docs/submission/EVALUATION.md: ["1,649", "421 hostile calls"]
-  the-one-hub/ops-center/app/data/curated/stack.json: ["1,649 passed"]
-  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,649", "63 tools"]
-  docs/submission/evaluation-report.docx: ["1,649", "63 tools", "7,690 of 7,693"]
+  the-one-hub/ops-center/app/data/curated/stack.json: ["1,649 passed", "25/30 (83.3%)", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
+  the-one-hub/ops-center/app/data/curated/impact_path.json: ["25/30", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
+  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,649", "63 tools", "83.3%", "9 of 10 vs 0 of 10"]
+  docs/submission/evaluation-report.docx: ["1,649", "63 tools", "7,690 of 7,693", "25/30"]

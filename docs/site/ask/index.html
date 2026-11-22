@@ -23,7 +23,7 @@
 </script>
 </head>
 <body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
-Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-22.
 Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
 <a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
 <a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
@@ -93,16 +93,28 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <main class="wrap">
 <aside aria-label="Snapshot copy" class="snapshot" role="note">
 <b>Snapshot copy.</b> This app is running on the extracts shipped with it (as of 2026-11-09),
- with no Databricks workspace behind it. With no model endpoint reachable the agent answers by search alone, from the same records.
+ with no Databricks workspace behind it. With no model endpoint reachable the agent answers by search alone, from the same records. Deployed, it calls the docs, ops and One Hub MCP servers.
  <a href="../stack/">How the deployed version runs</a>.
 </aside>
 <div class="phead">
-<div class="eyebrow">Analyze</div>
+<div class="eyebrow">Dive deeper · Ask the evidence</div>
 <h1>Ask the evidence</h1>
 <p class="for"><span><b>For</b> anyone with a question about CVN-79 cost, contracts, exhibits or gaps</span>
 <span><b>Decision</b> where to look next; an answer is a lead with its citations, not a reported figure</span></p>
 <p class="lede">Ask in plain language. The agent answers only from the same records and documents
   the pages use, shows which tools it called, and cites what each figure rests on.</p>
+<div class="ask-host">
+<img alt="A live answer: four tool calls across mcp-aircarrier-docs, mcp-aircarrier-hub and mcp-aircarrier-ops, each line naming its server" data-full="../static/img/live-ask-via-mcp.jpg" data-lightbox="" loading="lazy" src="../static/img/live-ask-via-mcp-thumb.jpg"/>
+<div>
+<b>An MCP host, not a chatbot.</b> Deployed, this agent lists the tools of three MCP servers,
+   <span class="mono">mcp-aircarrier-docs</span>, <span class="mono">mcp-aircarrier-ops</span> and
+   <span class="mono">mcp-aircarrier-hub</span> (34 tools), and sends each call to the server that owns it.
+   Every step names the server that answered, so a reader can see which source and which check a figure came from.
+   In the run shown, one question took four calls: the docs server found the line and rebuilt the
+   exhibit, the hub server's gate routed the figure, and the docs server tied the table out.
+   <span class="muted">This copy: in-app tools over the same records (AIRCARRIER_ASK_VIA_MCP is off).</span>
+</div>
+</div>
 <div class="note warn" style="margin-top:.6rem"><b>Answers are leads, not reported figures.</b>
   Each one is a starting point to verify against the cited record, under the same trust model as
   everything else here (D16). The agent cannot change any data.</div>
@@ -116,6 +128,7 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <button class="chip" data-ask="" type="button">What was obligated on the DD&amp;C contract in FY2022, and what was the largest action?</button>
 <button class="chip" data-ask="" type="button">Which File C periods fail to tie to the transactions, and by how much?</button>
 <button class="chip" data-ask="" type="button">What does gap G22 block, and who could close it?</button>
+<button class="chip" data-ask="" type="button">Does the CVN-79 Total Ship Estimate in PB2027 tie out, and can it be promoted?</button>
 </div>
 <div aria-live="polite" class="chat" id="ask-log"></div>
 <form class="askform" id="ask-form">

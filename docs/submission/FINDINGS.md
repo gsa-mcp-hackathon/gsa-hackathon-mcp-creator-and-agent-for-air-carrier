@@ -19,7 +19,7 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 | Bakehouse (rebuilt by the Creator on 2026-11-21) | 21 passed |
 | `mcp_local.py`, source notice, error contract and the adversarial sweep | 23, 23, 9 and 423 passed: 421 hostile calls against all 30 read tools, 340 refused, none wrote, none pasted an argument into SQL |
 | One Hub | 320 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
-| Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 36 round 4 grader and runner tests pass; no pilot workspace names in runtime code; headline figures match `docs/numbers.yaml` |
+| Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 59 evaluation tests pass (round 4 grader and runner, round 5 seal and keys); no pilot workspace names in runtime code; headline figures match `docs/numbers.yaml` |
 | CI only | `pip-audit` on every deployed server's requirements |
 
 Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with the tools
