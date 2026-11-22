@@ -206,7 +206,7 @@ under the signed-in user's own token.</p>
 <h2>Two-minute demo</h2>
 <video controls preload="metadata" poster="../../demo/air-carrier-two-minute-demo.jpg" style="width:100%;border-radius:10px">
 <source src="../../demo/air-carrier-two-minute-demo.mp4" type="video/mp4"></video>
-<p class="muted">2:09, narrated and captioned. <a href="../../demo/">Both demo videos, with chapters</a>. Snapshot built {day}.</p>
+<p class="muted">2:10, narrated and captioned. <a href="../../demo/">Both demo videos, with chapters</a>. Snapshot built {day}.</p>
 <h2>Screens from the deployed app</h2>
 {cards}
 </div>""", "html.parser"))
