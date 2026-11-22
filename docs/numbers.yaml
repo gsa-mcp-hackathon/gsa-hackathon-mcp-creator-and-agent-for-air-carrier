@@ -1,15 +1,15 @@
 # Headline figures, one place. scripts/check_numbers.py (run by check.sh evidence)
 # fails when a document still carries a figure listed under `retired`, or when a
 # file listed under `required` no longer says what this file says. Update here
-# first, then the documents. Measured 2026-11-22 on round 12 (Creator 1.0.0rc2).
+# first, then the documents. Measured 2026-11-22 on round 13 (Creator 1.0.0rc3).
 
 code_suites:
-  passed: 1657          # scripts/check.sh, every project, clean clone
+  passed: 1762          # scripts/check.sh, every project, clean clone
   skipped: 5            # One Hub tests that need a live Spark session
-  hostile_cases: 825    # of the 1,657: both adversarial sweeps (423 + 402)
+  hostile_cases: 828    # of the 1,762: both adversarial sweeps (423 + 405)
   evidence_tests: 59    # round 4 grader and runner (36) and round 5 seal and keys (23), evidence step
   by_project:
-    creator: 693        # includes 402 hostile-input cases
+    creator: 798        # includes 405 hostile-input cases
     ops: 40
     bakehouse: 21
     docs: 55
@@ -29,7 +29,7 @@ servers:
 hostile_inputs:         # files: mcp-servers/adversarial_summary.json,
                         #        mcp-server-creator/tests/adversarial_summary.json
   read_servers: {calls: 421, refused: 340, answered: 81, statements: 169, bound: 124, writes: 0, pasted: 0}
-  creator: {calls: 400, refused_by_validation: 147, refused_by_tool: 217, answered: 36}
+  creator: {calls: 403, refused_by_validation: 150, refused_by_tool: 217, answered: 36}
 
 tie_outs:
   store_before_round10: "7,703 of 7,712"      # 34 documents, stored tables, 2026-11-21
@@ -37,7 +37,7 @@ tie_outs:
   store_after_round10: "7,743 of 7,746"       # deployed store, 34 PDFs, 2026-11-22, 3 within rounding
   file: docs/submission/evidence/tieout_rerun_2026-11-21.json
 
-findings: 30
+findings: 33
 
 evaluation:              # added 2026-11-22 (round 11): the outside checks
   round5_independent: {claude: "25/30 (83.3%)", gpt5_mini: "19/30 (63.3%)", without: "1/10"}
@@ -83,6 +83,19 @@ retired:                 # figures that must not appear as current anywhere chec
   - "685 tests"
   - "Creator 685 of 685"
   - "v1.0.0-rc1#subdirectory"
+  - "1,657"
+  - "693 passed"
+  - "693 tests"
+  - "Creator 693 of 693"
+  - "825 of them"
+  - "402-case"
+  - "400 hostile calls"
+  - "v1.0.0-rc2#subdirectory"
+  - "1,745 passed"
+  - "1,745 tests"
+  - "781 passed"
+  - "781 tests"
+  - "Creator 781 of 781"
 
 checked:                 # where retired figures are looked for
   - README.md
@@ -110,11 +123,11 @@ checked:                 # where retired figures are looked for
   - docs/submission/evaluation-report.docx
 
 required:                # each file must contain each phrase
-  README.md: ["1,657", "63 tools", "421 hostile calls", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234", "not a member of the project development team", "separate external reviewer"]
+  README.md: ["1,762", "63 tools", "421 hostile calls", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234", "not a member of the project development team", "separate external reviewer"]
   docs/LIMITATIONS.md: ["7,690 of 7,693", "7,743 of 7,746"]
-  SCORECARD.md: ["7,743 of 7,746", "400 hostile calls", "25/30 = 83.3%"]
-  docs/submission/EVALUATION.md: ["1,657", "421 hostile calls", "not a member of the project development team", "separate external reviewer"]
-  the-one-hub/ops-center/app/data/curated/stack.json: ["1,657 passed", "25/30 (83.3%)", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
+  SCORECARD.md: ["7,743 of 7,746", "403 hostile calls", "25/30 = 83.3%"]
+  docs/submission/EVALUATION.md: ["1,762", "421 hostile calls", "not a member of the project development team", "separate external reviewer"]
+  the-one-hub/ops-center/app/data/curated/stack.json: ["1,762 passed", "25/30 (83.3%)", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
   the-one-hub/ops-center/app/data/curated/impact_path.json: ["25/30", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
-  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,657", "63 tools", "83.3%", "9 of 10 vs 0 of 10"]
-  docs/submission/evaluation-report.docx: ["1,657", "63 tools", "7,690 of 7,693", "25/30"]
+  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,762", "63 tools", "83.3%", "9 of 10 vs 0 of 10"]
+  docs/submission/evaluation-report.docx: ["1,762", "63 tools", "7,690 of 7,693", "25/30"]

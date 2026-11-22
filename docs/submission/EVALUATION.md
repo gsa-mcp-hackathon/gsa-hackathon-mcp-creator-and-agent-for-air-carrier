@@ -39,7 +39,7 @@ are kept in the score and listed apart rather than re-graded upward.
 
 | Project | Passed | Skipped |
 | --- | --- | --- |
-| MCP A Creator (291 tests plus a 402-case hostile-input sweep) | 693 | 0 |
+| MCP A Creator (393 tests plus a 405-case hostile-input sweep) | 798 | 0 |
 | Ops server | 40 | 0 |
 | Docs server | 55 | 0 |
 | Analyst server | 39 | 0 |
@@ -50,7 +50,7 @@ are kept in the score and listed apart rather than re-graded upward.
 | Error contract, every FastMCP server | 9 | 0 |
 | Adversarial sweep, 30 read tools (421 hostile calls) | 423 | 0 |
 | One Hub (pytest) | 320 | 5 (need a live Spark session) |
-| **Total, nine projects** | **1,657** | **5** |
+| **Total, nine projects** | **1,762** | **5** |
 
 These are unit, contract, server, generator and adversarial tests. They show the code does
 what it says; they do not measure whether an agent answers well, which sections 2.3 and 2.4
@@ -240,7 +240,7 @@ The controls are in code, not in prompts.
 | Risk | Control | Evidence |
 | --- | --- | --- |
 | SQL injection | Identifiers allow-listed and quoted; values bound as parameters; the One Hub's `sqlsafe.compose` refuses anything that is not a vetted fragment | 421 hostile calls against the 30 read tools: 340 refused, 81 answered, 169 statements reached the warehouse, all read-only, none with a hostile value in its SQL text (`mcp-servers/adversarial_summary.json`) |
-| Hostile input to the Creator | Every string capped, URL and handle patterns, list caps; writes confined to the configured root | 400 hostile calls against its 10 tools with writing on: 364 refused, 36 answered, nothing written outside the root, no workspace reached (`mcp-server-creator/tests/adversarial_summary.json`) |
+| Hostile input to the Creator | Every string capped, URL and handle patterns, list caps; writes confined to the configured root | 403 hostile calls against its 10 tools with writing on: 367 refused, 36 answered, nothing written outside the root, no workspace reached (`mcp-server-creator/tests/adversarial_summary.json`) |
 | Known vulnerabilities | `pip-audit` on every deployed server's requirements in CI; FastMCP moved to 3.4+, which fixes CVE-2025-64340 and CVE-2026-27124; bandit on the Creator and on every generated project | CI `supply-chain` job; finding 18 |
 | A failure read as a success | Every FastMCP server marks a result with a top-level error as `isError`, body and hint kept | `mcp-servers/test_error_contract.py`; finding 19 |
 | Input validation | Pydantic models and enums on every tool parameter; bounded limits | Same sweep: hostile arguments refused at validation or answered safely |

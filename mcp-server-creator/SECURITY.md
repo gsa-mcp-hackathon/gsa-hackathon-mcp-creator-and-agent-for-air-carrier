@@ -15,8 +15,8 @@ Important legal and policy guidelines.
 
 | Version | Security fixes |
 | --- | --- |
-| 1.0.0rc2 (tag `v1.0.0-rc2`) and `main` | Yes |
-| 1.0.0rc1 (tag `v1.0.0-rc1`) | Until 1.0.0 |
+| 1.0.0rc3 (tag `v1.0.0-rc3`) and `main` | Yes |
+| 1.0.0rc2 (tag `v1.0.0-rc2`), 1.0.0rc1 (tag `v1.0.0-rc1`) | Until 1.0.0 |
 | 0.1.0 | No: it pins FastMCP 2.14, which carries CVE-2025-64340 and CVE-2026-27124 |
 
 Each release ships a CycloneDX SBOM of its locked runtime dependencies in
@@ -42,7 +42,7 @@ and absolute paths are refused, and the default is a dry run.
 `creator_deploy_server` deploys only with an approval token bound to the
 reviewed design, app name, grants and files. Every string input is capped and
 `tests/test_adversarial_arguments.py` sends hostile values into every parameter
-of all ten tools with writing on (400 calls; nothing escapes, nothing is
+of all ten tools with writing on (403 calls; nothing escapes, nothing is
 written outside the root). A failure reaches the client as `isError`.
 
 No tool accepts an absolute URL, a raw SQL string, or a filesystem path.

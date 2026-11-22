@@ -7,7 +7,7 @@
     "source": "github",
     "subfolder": "mcp-server-creator"
   },
-  "version": "1.0.0-rc2",
+  "version": "1.0.0-rc3",
   "remotes": [
     {
       "type": "streamable-http",

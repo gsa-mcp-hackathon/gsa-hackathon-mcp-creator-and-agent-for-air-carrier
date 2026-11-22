@@ -28,7 +28,7 @@ from mcp_server_creator.resources import register_resources
 from mcp_server_creator.routes import register_routes
 from mcp_server_creator.source_notice import INSTRUCTION, SourceNoticeMiddleware
 from mcp_server_creator.tools import register_tools
-from mcp_server_creator.tracing import TraceMiddleware, warm_up
+from mcp_server_creator.tracing import TraceMiddleware, audit_to_stderr, warm_up
 
 mcp = FastMCP(
     name="MCP A Creator",
@@ -152,6 +152,8 @@ def main() -> None:
             port=settings.mcp_port,
         )
     else:
+        # stdout is the protocol channel here; audit lines move to stderr.
+        audit_to_stderr()
         mcp.run(transport="stdio")
 
 

@@ -89,3 +89,64 @@ async def test_tracing_can_be_turned_off(monkeypatch, capsys, enabled):
     async with Client(mcp) as client:
         await client.call_tool("creator_list_library", {})
     assert not _traces(capsys.readouterr().out)
+
+
+def test_stdio_stdout_carries_only_protocol_messages(tmp_path):
+    """Over stdio, stdout is the protocol channel. Until 1.0.0rc3 every tool
+    call also printed its audit line there, so a client logged a JSON parse
+    error with a traceback after each call. The audit line now goes to stderr.
+    """
+    import os
+    import subprocess
+    import sys
+
+    requests = [
+        {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "initialize",
+            "params": {
+                "protocolVersion": "2025-06-18",
+                "capabilities": {},
+                "clientInfo": {"name": "stdio-test", "version": "0"},
+            },
+        },
+        {"jsonrpc": "2.0", "method": "notifications/initialized"},
+        {
+            "jsonrpc": "2.0",
+            "id": 2,
+            "method": "tools/call",
+            "params": {"name": "creator_list_library", "arguments": {}},
+        },
+    ]
+    env = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in {"DATABRICKS_APP_PORT", "PORT", "MCP_TRANSPORT"}
+    }
+    server = subprocess.Popen(
+        [sys.executable, "-m", "mcp_server_creator.app"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        cwd=tmp_path,
+        env=env,
+    )
+    try:
+        for request in requests:
+            server.stdin.write(json.dumps(request) + "\n")
+            server.stdin.flush()
+        answers = []
+        while not any(a.get("id") == 2 for a in answers):
+            line = server.stdout.readline()
+            assert line, "the server closed stdout before answering"
+            answers.append(json.loads(line))  # every stdout line is JSON
+    finally:
+        server.stdin.close()
+        server.terminate()
+        errors = server.stderr.read()
+        server.wait(timeout=10)
+    assert all(a.get("jsonrpc") == "2.0" for a in answers), answers
+    assert '"tool":"creator_list_library"' in errors
+    assert "TRACE " in errors

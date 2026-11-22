@@ -13,7 +13,31 @@ from fastmcp import FastMCP
 from pydantic import Field
 
 from mcp_server_creator import designs
-from mcp_server_creator.designer import MAX_TOOLS, design_tools
+from mcp_server_creator.designer import (
+    MAX_TOOLS,
+    describe_reading,
+    design_tools,
+    parse_reading,
+)
+
+
+def _reading(plan: Any, jobs: list[str]) -> dict[str, Any]:
+    """The recorded question a tool answers and how the tool reads it."""
+    reading = describe_reading(plan) if plan.goal in jobs else None
+    return {"question": plan.goal, "reading": reading} if reading else {}
+
+
+def parse_readings(lines: list[str]) -> tuple[list[Any], list[str]]:
+    """The readings that parse, and a note for each line that does not."""
+    parsed: list[Any] = []
+    notes: list[str] = []
+    for number, line in enumerate(lines, start=1):
+        reading, problem = parse_reading(line)
+        if reading is None:
+            notes.append(f"Reading {number} was ignored: {problem}")
+        else:
+            parsed.append(reading)
+    return parsed, notes
 
 
 def register(mcp: FastMCP) -> None:
@@ -61,6 +85,16 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = [],
+        readings: Annotated[
+            list[Annotated[str, Field(max_length=700)]],
+            Field(
+                max_length=20,
+                description=(
+                    "Corrections: '<question> => shape=ranking; "
+                    "measure=<col>; group_by=<col>'."
+                ),
+            ),
+        ] = [],
     ) -> dict[str, Any]:
         """Propose tools the data can support, and name what it cannot.
 
@@ -68,9 +102,27 @@ def register(mcp: FastMCP) -> None:
         questions where they were recorded. Three to six tools beats twelve:
         a model choosing between many similar tools chooses worse.
 
-        Returns: `tools` with each name, pattern and source; `design_notes`
-        saying what was left out and why; `review_first` reminding you to
-        confirm the names with the user; and the updated `design_id`.
+        The designer reads each question with rules, and rules misread
+        phrasing they have not met. Each tool that answers a recorded
+        question comes back with its `question` and its `reading`. Compare
+        them. To correct one, call again with `readings`, one string per
+        question:
+
+            <question> => shape=ranking; aggregation=sum; measure=<column>;
+            group_by=<column>; filters=<column>,<column>
+
+        shape is total, ranking, trend (add granularity=day, week or month)
+        or list (add key=<column>, the column whose value selects the
+        records). aggregation is sum, avg, count or count_distinct. Columns
+        are checked against the profiled source; a reading that does not fit
+        is reported in `design_notes` and the designer's own reading is
+        kept. Send every correction on each call. creator_review_server then
+        compares every tool with the words of its question again.
+
+        Returns: `tools` with each name, pattern, source, question and
+        reading; `design_notes` saying what was left out and why;
+        `review_first` reminding you to confirm the names with the user; and
+        the updated `design_id`.
         """
         spec, _, failure = designs.resolve_result(design_id, spec_json)
         if failure:
@@ -86,7 +138,9 @@ def register(mcp: FastMCP) -> None:
                 ),
             }
 
-        plans, notes = design_tools(spec)
+        parsed, unread = parse_readings(readings)
+        plans, notes = design_tools(spec, parsed)
+        notes = unread + notes
 
         wanted = {name.strip() for name in keep_only if name.strip()}
         unwanted = {name.strip() for name in drop if name.strip()}
@@ -119,6 +173,7 @@ def register(mcp: FastMCP) -> None:
                     "source": plan.source,
                     "parameters": [param.name for param in plan.params],
                     "paginated": plan.paginated,
+                    **_reading(plan, spec.jobs_to_be_done),
                 }
                 for plan in plans
             ],
@@ -133,7 +188,9 @@ def register(mcp: FastMCP) -> None:
             ),
             "spec": spec.model_dump(mode="json") if not design_id else None,
             "next_step": (
-                "Confirm the tool list with the user, then call "
-                "creator_review_server, then creator_generate_project."
+                "Check each tool's reading against its question and correct "
+                "any misreading with `readings`. Confirm the tool list with "
+                "the user, then call creator_review_server, then "
+                "creator_generate_project."
             ),
         }

@@ -104,8 +104,25 @@ conversation worth having in phase 2 rather than phase 6.
 ## Phase 3: tool design
 
 Load `mcp-tool-design`. Call `creator_design_tools` to get a proposed surface,
-then edit it with the user. Three to six tools beats twelve. The rules that
-decide quality:
+then edit it with the user. Three to six tools beats twelve.
+
+The designer reads each question with rules, and rules misread phrasing they
+have not met. Every tool that answers a recorded question comes back with its
+`question` and its `reading` (shape, aggregation, measure, group_by, filters).
+Compare the two yourself. Where the reading is wrong, or a design note says
+the question names no column, call `creator_design_tools` again with
+`readings`, one string per question:
+
+    How much went to small businesses by agency? => shape=ranking;
+    aggregation=sum; measure=federal_action_obligation;
+    group_by=awarding_agency_name; filters=contracting_officer_business_size
+
+Columns are checked against the profile, and `creator_review_server` compares
+the corrected tool with the question's own words again. Do not correct a
+question the notes say no generated pattern answers (a ratio, the single
+oldest record): tell the user it needs a hand-written tool.
+
+The rules that decide quality:
 
 - Name each tool after the user's question, not the endpoint.
 - One prefix for the whole server.

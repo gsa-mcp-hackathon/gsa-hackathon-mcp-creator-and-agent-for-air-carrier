@@ -927,7 +927,18 @@ _QUALIFIERS = frozenset(
 
 _TIME = frozenset("day days week weeks month months year years quarter quarters "
                   "time period".split())  # fmt: skip
-_LISTING = re.compile(r"^\s*(show|list|display|give me|get|pull)\b")
+_LISTING = re.compile(
+    r"^\s*(show|list|display|give me|get|pull|look up|lookup|find|fetch|retrieve|"
+    r"open|view)\b"
+)
+# 'for a given disaster number', 'by its PIID', 'in a given city': the column
+# whose value selects the records. The determiner is required, so 'in Texas'
+# is a value and not a key.
+_KEYED = re.compile(
+    r"\b(?:for|by|in|on|at|with|from)\s+(?:a given|a specific|a particular|"
+    r"a single|one|its|their|the|a|an|that|this)\s+([a-z]+(?:\s+[a-z]+)?)"
+)
+_SHARE = re.compile(r"\b(share|percentage|percent|proportion|fraction)\s+of\b")
 _COMPUTING = re.compile(
     r"\b(how many|how much|total|average|sum|count|top|most|least|per|by|daily|"
     r"weekly|monthly|trend|sales|revenue|spend|cost|units)\b"
@@ -950,52 +961,179 @@ def _phrase(q: str, start: int, limit: int = 3) -> list[str]:
     return words
 
 
-def _field_named(words: list[str], fields: list) -> object | None:
-    """The non-measure field a phrase names: the one sharing the most stems
-    with it, then the one with the fewest stems it does not share.
+def _fields_named(words: list[str], fields: list) -> list[str]:
+    """The non-measure columns a phrase names: those sharing the most stems
+    with it, then the most whole words, then the fewest stems it does not
+    share. Columns that tie are all returned: 'recipients' names
+    recipient_name and recipient_uei alike, and either reading is right.
 
     Read from the field names directly, never through the designer, so the
     review does not inherit a designer misreading. A period word ('each
     year') names only a period column such as year or fiscalYear.
     """
+    from mcp_server_creator.designer import singular
+    from mcp_server_creator.profiling import name_words
+
     asked = _stems(" ".join(words))
     if not asked:
-        return None
+        return []
+    whole = {singular(w) for w in words}
     period = words[0] if words and words[0].rstrip("s") in _TIME else ""
-    best, best_key = None, (0, 0)
+    best: list[str] = []
+    best_key = (0, 0, 0)
     for field in fields:
         if field.role is FieldRole.MEASURE or field.pii:
             continue
         if period and period.rstrip("s") not in field.name.lower():
             continue
         own = _stems(field.name)
-        key = (len(own & asked), -len(own - asked))
-        if key[0] and key > best_key:
-            best, best_key = field, key
+        own_words = {singular(w) for w in name_words(field.name)}
+        key = (len(own & asked), len(own_words & whole), -len(own - asked))
+        if not key[0] or key < best_key:
+            continue
+        if key > best_key:
+            best, best_key = [], key
+        best.append(field.name)
     return best
 
 
-def _slots(q: str, source) -> list[str]:
-    """What the question itself asks for, as (kind, column) pairs: a grouping
-    ('per state', 'in each fiscal year', 'by category', 'which cities ...
-    most'), a distinct count ('how many disasters', 'unique event types') or
-    a list of records."""
-    found: list[str] = []
-    fields = list(source.fields) if source is not None else []
-    rows = _stems(f"{source.name} {source.title} {source.grain}") if source else set()
+def _names_measure(words: list[str], fields: list) -> bool:
+    """'by total award value' names an amount, not a grouping."""
+    asked = _stems(" ".join(words))
+    shared = {
+        measure: max(
+            (
+                len(_stems(f.name) & asked)
+                for f in fields
+                if (f.role is FieldRole.MEASURE) is measure and not f.pii
+            ),
+            default=0,
+        )
+        for measure in (True, False)
+    }
+    return shared[True] > shared[False]
+
+
+def _group_named(q: str, fields: list) -> list[str]:
+    """The columns a question groups by: 'top 10 recipients by value', 'per
+    state', 'in each fiscal year', 'by category', 'which cities ... most'."""
+    top = re.search(r"\b(?:top|bottom|best|worst)\s+(?:\d+\s+)?([a-z ]+?)\s+by\b", q)
+    if top:
+        named = _fields_named(top.group(1).split()[-3:], fields)
+        if named:
+            return named
     for marker in ("per", "each", "by"):
         m = re.search(rf"\b{marker}\s+", q)
-        field = _field_named(_phrase(q, m.end()), fields) if m else None
-        if field is not None:
-            found.append(f"group:{field.name}")
-            break
-    else:
-        # 'Which cities received the most loans?' ranks cities.
-        m = re.search(r"\bwhich\s+(?=.*\b(most|highest|largest|top|least|lowest|"
-                      r"fewest|biggest)\b)", q)  # fmt: skip
-        field = _field_named(_phrase(q, m.end()), fields) if m else None
-        if field is not None:
-            found.append(f"group:{field.name}")
+        if m is None:
+            continue
+        words = _phrase(q, m.end())
+        if marker == "by" and _names_measure(words, fields):
+            continue
+        named = _fields_named(words, fields)
+        if named:
+            return named
+    # 'Which cities received the most loans?' ranks cities.
+    m = re.search(
+        r"\bwhich\s+(?=.*\b(most|highest|largest|top|least|lowest|fewest|biggest)\b)",
+        q,
+    )
+    return _fields_named(_phrase(q, m.end()), fields) if m else []
+
+
+def _key_named(q: str, source) -> list[str]:
+    """The columns a list or lookup question selects records by."""
+    fields = list(source.fields) if source is not None else []
+    for match in _KEYED.finditer(q):
+        named = _fields_named(match.group(1).split(), fields)
+        if named:
+            return named
+    return []
+
+
+_LOOKUP_VERB = re.compile(
+    r"^\s*(get|pull|look up|lookup|find|fetch|retrieve|open|view)\b"
+)
+_SUPERLATIVE = re.compile(
+    r"\b(most|highest|largest|biggest|top|least|lowest|fewest|smallest|best|"
+    r"worst|bottom)\b"
+)
+_EXTREME = re.compile(r"\b(oldest|newest|earliest|latest|youngest|most recent)\b")
+_FIGURE = re.compile(r"\b(how many|how much|total|average|sum of|count of|number of)\b")
+
+
+def _asks_list(q: str, source=None) -> bool:
+    """'Show ...', 'Look up ... by its PIID', 'Which investments complete in
+    2027?' on a table of investments: records, not a figure."""
+    # After a lookup verb 'by' names the key; after 'show' it may group.
+    plain = q.replace(" by ", " ") if _LOOKUP_VERB.search(q) else q
+    if _LISTING.search(q) and not _COMPUTING.search(plain):
+        return True
+    which = re.match(r"\s*which\s+([a-z]+)", q)
+    if which is None or source is None or _SUPERLATIVE.search(q):
+        return False
+    return bool(_stems(which.group(1)) & _row_stems(source))
+
+
+def _lists_for_a_figure(plan, source, question: str | None = None) -> bool:
+    """A list of records mapped to 'how many', 'how much' or 'total'."""
+    q = (question or plan.goal).lower()
+    return (
+        plan.pattern is QueryPattern.LOOKUP
+        and bool(_FIGURE.search(q))
+        and not _asks_list(q, source)
+    )
+
+
+def _row_stems(source) -> set[str]:
+    """Stems naming what one row is ('storm_events', 'one row per storm
+    event'), without the words every grain sentence uses."""
+    if source is None:
+        return set()
+    text = f"{source.name} {source.title} {source.grain}"
+    return _stems(text) - {"one", "row", "rows", "per", "each"}
+
+
+_STEP = re.compile(
+    r"\b(daily|weekly|monthly|quarterly|trend|over time|(per|each|by) "
+    r"(day|week|month|quarter)|(day|week|month) (by|over|to) (day|week|month))\b"
+)
+
+
+def _asks_trend(q: str, source) -> bool:
+    """A step word of the question's own, outside any column it names."""
+    from mcp_server_creator.profiling import name_words
+
+    for field in source.fields if source is not None else []:
+        q = q.replace(" ".join(name_words(field.name)), " ")
+    return bool(_STEP.search(q))
+
+
+def _measure_fit(q: str, name: str) -> int:
+    """How strongly a question names a measure column: its specific words,
+    and initials such as om for 'operations and maintenance'."""
+    from mcp_server_creator.profiling import name_words
+
+    generic = {"tota", "amou", "valu", "coun", "numb"}
+    fit = len((_stems(name) - generic) & _stems(q))
+    long = [w for w in re.findall(r"[a-z]+", q) if len(w) >= 4]
+    initials = {
+        "".join(w[0] for w in long[i:j])
+        for i in range(len(long))
+        for j in range(i + 2, min(i + 5, len(long) + 1))
+    }
+    return fit + sum(1 for w in name_words(name) if 2 <= len(w) <= 4 and w in initials)
+
+
+def _slots(q: str, source) -> list[str]:
+    """What the question itself asks for, as 'kind:columns' strings: a
+    grouping, a distinct count ('how many disasters', 'unique event types')
+    or a list of records. Columns that fit equally are joined with '|'."""
+    found: list[str] = []
+    fields = list(source.fields) if source is not None else []
+    rows = _row_stems(source)
+    grouped = _group_named(q, fields)
+    if grouped:
+        found.append("group:" + "|".join(grouped))
     # 'number of unique event types': the distinct cue is nearer the column.
     counted = re.search(r"\b(?:distinct|unique|different)\s+", q) or re.search(
         r"\b(?:how many|number of|count of)\s+", q
@@ -1003,11 +1141,21 @@ def _slots(q: str, source) -> list[str]:
     if counted:
         # 'unique event types' on storm events counts event_type; 'how many
         # projects' on a table of projects counts rows.
-        words = [w for w in _phrase(q, counted.end(), 2) if w.rstrip("s") not in _TIME]
-        field = _field_named(words, fields) if words else None
-        if field is not None and (_stems(field.name) - rows) & _stems(" ".join(words)):
-            found.append(f"distinct:{field.name}")
-    if _LISTING.search(q) and not _COMPUTING.search(q):
+        ahead = _phrase(q, counted.end(), 4)
+        # 'how many high risk investments' on a table of investments counts
+        # rows: the words before the row's own noun describe it.
+        describes_rows = any(_stems(w) & rows for w in ahead[1:])
+        words = [w for w in ahead[:2] if w.rstrip("s") not in _TIME]
+        if describes_rows:
+            words = []
+        named = [
+            name
+            for name in (_fields_named(words, fields) if words else [])
+            if (_stems(name) - rows) & _stems(" ".join(words))
+        ]
+        if named:
+            found.append("distinct:" + "|".join(named))
+    if _asks_list(q, source):
         found.append("list:")
     return found
 
@@ -1016,13 +1164,14 @@ def _misread(spec: ServerSpec, plan, question: str | None = None) -> list[str]:
     """Ways a computed tool answers a different question from the one it is
     mapped to, read from the question's own words. Each is a confident tool
     that returns a well-formed number for the wrong question."""
-    q = (question or plan.goal).lower()
+    # Hyphens that join words are spaces: 'sub-agency', 'month-over-month'.
+    q = re.sub(r"(?<=[a-z])-(?=[a-z])", " ", (question or plan.goal).lower())
     out: list[str] = []
     wants_avg = bool(re.search(r"\b(average|avg|mean)\b", q))
     wants_count = bool(re.search(r"\b(how many|number of|count of|count)\b", q))
     wants_amount = bool(
         re.search(r"\b(how much|total|sum|revenue|sales|spend|spent|amount|"
-                  r"dollars?|cost|value|obligated|obligations?)\b", q)
+                  r"dollars?|cost|value|obligated|obligations?|funding|funds)\b", q)
     )  # fmt: skip
     agg = plan.aggregation
     takes = {
@@ -1040,7 +1189,12 @@ def _misread(spec: ServerSpec, plan, question: str | None = None) -> list[str]:
         quantity = counted_measure(
             q, [f for f in source.fields if f.role is FieldRole.MEASURE and not f.pii]
         )
-    if quantity is not None and agg != "sum":
+    # 'average number of offers' averages the offers column; that is not a
+    # count of rows either.
+    averaged = wants_avg and agg == "avg" and quantity is not None
+    if averaged and plan.measure_field == quantity.name:
+        pass
+    elif quantity is not None and agg != "sum":
         out.append(
             f"{plan.name} takes {takes}; '{plan.goal}' asks for a sum of "
             f"{quantity.name}, not a count of rows"
@@ -1071,15 +1225,19 @@ def _misread(spec: ServerSpec, plan, question: str | None = None) -> list[str]:
     ):
         out.append(f"{plan.name} returns one total; '{plan.goal}' asks for a ranking")
 
-    ratio = re.search(
-        r"\bper\s+(miles?|km|kilometers?|gallons?|pounds?|kg|units?|items?|seats?|"
-        r"passengers?|persons?|people|capita|employees?|square\s+f(?:oo|ee)t)\b",
-        q,
-    )
+    from mcp_server_creator.designer import RATIO_CUES
+
+    ratio = RATIO_CUES.search(q)
     if ratio and agg in ("sum", "avg"):
         out.append(
             f"{plan.name} takes {takes} of one column; '{plan.goal}' asks for "
             f"a ratio (per {ratio.group(1)})"
+        )
+    # A ranking returns each group's share of the whole; one total does not.
+    if _SHARE.search(q) and plan.pattern is not QueryPattern.RANK:
+        out.append(
+            f"{plan.name} returns one figure; '{plan.goal}' asks for a share, "
+            "which needs a ranking by the column that splits the rows"
         )
 
     # A qualifier on what is counted ("negative reviews", "open orders")
@@ -1115,43 +1273,139 @@ def _misread(spec: ServerSpec, plan, question: str | None = None) -> list[str]:
         # stem it shares with unitPrice is not a second measure named.
         resolved = quantity is not None and quantity.name == plan.measure_field
         shared = _stems(plan.measure_field) & _stems(plan.goal)
-        if named and not resolved and not shared:
+        own = _measure_fit(q, plan.measure_field)
+        closer = [n for n in named if _measure_fit(q, n) > own]
+        if named and not resolved and (not shared or closer):
             out.append(
                 f"{plan.name} adds up {plan.measure_field}; '{plan.goal}' names "
-                f"{', '.join(named)}"
+                f"{', '.join(closer or named)}"
             )
 
-    # The question's own grouping, distinct count and list request, checked
-    # against the tool spec.
-    for slot in _slots(q, source):
-        kind, word = slot.split(":")
-        if (
-            kind == "group"
-            and plan.pattern is not QueryPattern.TREND
-            and plan.group_field != word
-        ):
+    extreme = _EXTREME.search(q)
+    if extreme:
+        out.append(
+            f"{plan.name} returns a figure; '{plan.goal}' asks for the "
+            f"{extreme.group(1)} record"
+        )
+
+    out += _slot_misreads(plan, q, source, takes)
+    out += _step_misreads(plan, q)
+    return out
+
+
+def _slot_misreads(plan, q: str, source, takes: str) -> list[str]:
+    """The question's own grouping, distinct count and list request, checked
+    against the tool."""
+    out: list[str] = []
+    agg = plan.aggregation
+    slots = _slots(q, source)
+    if agg == "count_distinct" and not any(s.startswith("distinct:") for s in slots):
+        out.append(
+            f"{plan.name} counts distinct {plan.measure_field}; '{plan.goal}' "
+            "does not ask for distinct values of it"
+        )
+    for slot in slots:
+        kind, _, columns = slot.partition(":")
+        fits = columns.split("|")
+        word = fits[0]
+        if kind == "group" and plan.pattern is QueryPattern.TREND:
+            # 'average daily traffic' is a column; without a step word of its
+            # own the question asks for each group, not for a trend.
+            if not _asks_trend(q, source):
+                out.append(f"{plan.name} returns a trend; '{q}' asks for each {word}")
+        elif kind == "group" and plan.group_field not in fits:
             out.append(f"{plan.name} does not group by {word}; '{q}' asks for each")
         elif kind == "distinct" and (
-            agg != "count_distinct" or plan.measure_field != word
+            agg != "count_distinct" or plan.measure_field not in fits
         ):
             out.append(
                 f"{plan.name} takes {takes}; '{q}' asks how many distinct {word}"
             )
         elif kind == "list":
             out.append(f"{plan.name} returns a figure; '{q}' asks to list records")
-
-    if plan.pattern is QueryPattern.TREND:
-        grain = {"daily": "day", "per day": "day", "by day": "day", "weekly": "week",
-                 "per week": "week", "by week": "week", "monthly": "month",
-                 "per month": "month", "by month": "month", "each month": "month",
-                 "each day": "day", "each week": "week"}  # fmt: skip
-        asked = {g for cue, g in grain.items() if cue in q}
-        if len(asked) == 1 and plan.granularity not in asked:
-            out.append(
-                f"{plan.name} is by {plan.granularity}; '{plan.goal}' asks by "
-                f"{asked.pop()}"
-            )
     return out
+
+
+_STEP_CUES = {
+    "daily": "day", "per day": "day", "by day": "day", "each day": "day",
+    "weekly": "week", "per week": "week", "by week": "week", "each week": "week",
+    "monthly": "month", "per month": "month", "by month": "month",
+    "each month": "month", "quarterly": "quarter", "by quarter": "quarter",
+    "per quarter": "quarter", "each quarter": "quarter",
+}  # fmt: skip
+
+
+def _step_misreads(plan, q: str) -> list[str]:
+    """A trend at a different step from the one the question names."""
+    if plan.pattern is not QueryPattern.TREND:
+        return []
+    asked = {step for cue, step in _STEP_CUES.items() if cue in q}
+    if len(asked) == 1 and plan.granularity not in asked:
+        return [
+            f"{plan.name} is by {plan.granularity}; '{plan.goal}' asks by {asked.pop()}"
+        ]
+    return []
+
+
+def _answered_jobs(spec: ServerSpec) -> set[str]:
+    """The recorded questions some tool on the design answers as asked."""
+    from mcp_server_creator.designer import _job_tool, is_retrieval
+
+    computed = {QueryPattern.RANK, QueryPattern.AGGREGATE, QueryPattern.TREND}
+    # A question counts as answered only if the designer, asked again, maps
+    # it to a tool that is still on the design. Golden-question seeds are not
+    # evidence: unanswered questions are attached to the nearest tool too.
+    # The designer's mapping alone is not evidence: the tool on the design must
+    # also pass the question-word checks above, which never call the designer.
+    by_name = {plan.name: plan for plan in spec.tools}
+    readers = {QueryPattern.SEARCH, QueryPattern.SEMANTIC_SEARCH, QueryPattern.LOOKUP}
+    answered: set[str] = set()
+    keyed: dict[str, list[str]] = {}
+    for job in spec.jobs_to_be_done:
+        q = job.lower()
+        if _asks_list(q):
+            keys = [k for s in spec.data_sources for k in _key_named(q, s)]
+            if keys:
+                keyed[job] = keys
+        # The tool the design maps to the question: one built for it (its
+        # goal, which is how a reading from the caller arrives), or the one
+        # the designer names when asked again.
+        mapped = [plan for plan in spec.tools if plan.goal == job]
+        for source in spec.data_sources:
+            plan, _ = _job_tool(spec, source, job)
+            if plan is not None:
+                mapped.append(
+                    by_name.get(plan.name) or by_name.get(_tool_name_root(plan.name))
+                )
+        for actual in mapped:
+            if actual is None:
+                continue
+            wrong = (
+                _misread(spec, actual, job)
+                if actual.pattern in computed
+                else _lists_for_a_figure(
+                    actual, spec.source_by_name(actual.source), job
+                )
+            )
+            if not wrong:
+                answered.add(job)
+                break
+    # A read question ('what does the exhibit say', 'which documents
+    # mention') is answered by a search or lookup, not a computed tool.
+    if any(plan.pattern in readers for plan in spec.tools):
+        answered |= {job for job in spec.jobs_to_be_done if is_retrieval(job)}
+    # 'List excess properties in a given city' needs a reader that takes the
+    # city: a search that cannot be narrowed to it does not answer it.
+    for job, keys in keyed.items():
+        takes_key = any(
+            param.source_field in keys
+            for plan in spec.tools
+            if plan.pattern in readers
+            for param in plan.params
+        )
+        if not takes_key:
+            answered.discard(job)
+    return answered
 
 
 def _check_semantics(
@@ -1197,6 +1451,10 @@ def _check_semantics(
         if any(a == b for a, b in zip(words, words[1:])):
             repeated.append(plan.name)
         source = spec.source_by_name(plan.source)
+        if plan.goal in spec.jobs_to_be_done and _lists_for_a_figure(plan, source):
+            misread.append(
+                f"{plan.name} lists records; '{plan.goal}' asks for a figure"
+            )
         if source is None or plan.pattern not in computed:
             continue
         fields = {f.name: f for f in source.fields}
@@ -1219,31 +1477,7 @@ def _check_semantics(
         if plan.goal in spec.jobs_to_be_done:
             misread.extend(_misread(spec, plan))
 
-    # A question counts as answered only if the designer, asked again, maps
-    # it to a tool that is still on the design. Golden-question seeds are not
-    # evidence: unanswered questions are attached to the nearest tool too.
-    from mcp_server_creator.designer import _job_tool
-
-    # The designer's mapping alone is not evidence: the tool on the design must
-    # also pass the question-word checks above, which never call the designer.
-    by_name = {plan.name: plan for plan in spec.tools}
-    answered: set[str] = set()
-    for job in spec.jobs_to_be_done:
-        for source in spec.data_sources:
-            plan, _ = _job_tool(spec, source, job)
-            if plan is None:
-                continue
-            actual = by_name.get(plan.name) or by_name.get(_tool_name_root(plan.name))
-            if actual is None:
-                continue
-            if actual.pattern not in computed or not _misread(spec, actual, job):
-                answered.add(job)
-                break
-    # A read question ('what does the exhibit say', 'which documents
-    # mention') is answered by a search or lookup, not a computed tool.
-    readers = {QueryPattern.SEARCH, QueryPattern.SEMANTIC_SEARCH, QueryPattern.LOOKUP}
-    if any(plan.pattern in readers for plan in spec.tools):
-        answered |= {job for job in spec.jobs_to_be_done if is_retrieval(job)}
+    answered = _answered_jobs(spec)
     unanswered = [job for job in spec.jobs_to_be_done if job not in answered]
     computed_jobs = [
         job
@@ -1251,7 +1485,9 @@ def _check_semantics(
         if is_retrieval(job)
         or any(cue in job.lower() for cue in ("how many", "how much", "total",
                "average", "most", "top", "which", "daily", "monthly", "trend",
-               "per ", " by "))
+               "per ", " by ", " each "))
+        or _EXTREME.search(job.lower())
+        or _SHARE.search(job.lower())
     ]  # fmt: skip
     unanswered = [job for job in unanswered if job in computed_jobs]
 
@@ -1301,9 +1537,11 @@ def _check_semantics(
                 ),
                 evidence="; ".join(misread),
                 fix=(
-                    "Change the aggregation, measure or granularity to what the "
-                    "question says, or map the question to no tool and tell the "
-                    "user the server will not answer it."
+                    "Send creator_design_tools a reading for the question "
+                    "('<question> => shape=...; aggregation=...; measure=...; "
+                    "group_by=...') with the aggregation, measure, grouping or "
+                    "step it asks for, or drop the tool and tell the user the "
+                    "server will not answer it."
                 ),
                 criterion="honesty",
             )
@@ -1321,8 +1559,10 @@ def _check_semantics(
                 summary="Some recorded questions have no tool that computes them.",
                 evidence="; ".join(f"'{job}'" for job in unanswered),
                 fix=(
-                    "Add the measure, grouping or filter the question needs, "
-                    "or tell the user the server will not answer it."
+                    "Read the design notes for the reason. Where the question "
+                    "only names no column, send creator_design_tools a reading "
+                    "for it; where no generated pattern answers it, tell the "
+                    "user the server will not answer it."
                 ),
                 criterion="honesty",
             )

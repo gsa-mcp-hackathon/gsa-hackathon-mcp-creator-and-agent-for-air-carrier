@@ -254,6 +254,12 @@ def _string_literal(text: str, indent: str, width: int = 0) -> list[str]:
     return parts
 
 
+# Caps on generated string arguments: a filter value or search phrase, and a
+# date or year bound.
+FREE_TEXT_CAP = 256
+DATE_TEXT_CAP = 32
+
+
 def _param_lines(spec: ServerSpec, plan: ToolPlan) -> list[str]:
     """Render the tool function's parameter list, required first.
 
@@ -309,6 +315,11 @@ def _param_lines(spec: ServerSpec, plan: ToolPlan) -> list[str]:
             lines.append(f"                ge={param.minimum:g},")
         if param.maximum is not None:
             lines.append(f"                le={param.maximum:g},")
+        if annotation == "str":
+            # Every free-text argument is capped, so an oversized value is
+            # refused by validation and never reaches the warehouse.
+            cap = DATE_TEXT_CAP if param.operator != "=" else FREE_TEXT_CAP
+            lines.append(f"                max_length={cap},")
         lines.append("            ),")
         lines.append(f"        ]{rendered_default},")
 

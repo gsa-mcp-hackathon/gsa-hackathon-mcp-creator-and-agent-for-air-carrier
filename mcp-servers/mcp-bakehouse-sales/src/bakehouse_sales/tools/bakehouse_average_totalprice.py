@@ -54,6 +54,7 @@ def register(mcp: FastMCP) -> None:
                     "First day to include, YYYY-MM-DD. Work out relative periods such "
                     "as 'last month' from today's date. Empty for no bound."
                 ),
+                max_length=32,
             ),
         ] = "",
         end_date: Annotated[
@@ -63,6 +64,7 @@ def register(mcp: FastMCP) -> None:
                     "Day after the last day to include, YYYY-MM-DD (exclusive). Empty "
                     "for no bound."
                 ),
+                max_length=32,
             ),
         ] = "",
         product: Annotated[

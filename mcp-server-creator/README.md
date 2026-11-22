@@ -1,6 +1,6 @@
 # MCP A Creator
 
-> **Scorecard:** 10 tools · 693 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc2 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
+> **Scorecard:** 10 tools · 798 tests (405 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc3 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
 
 An MCP server whose domain is building MCP servers.
 
@@ -181,6 +181,61 @@ leaves something usable.
 
 ---
 
+## When the designer misreads a question
+
+The designer reads each recorded question with word rules. On schemas it had
+not seen, the rules got about half the questions right on their first run
+(10 of 19 on the two sets kept aside for release 1.0.0rc3; see the
+[changelog](CHANGELOG.md)). So the design step does not rest on the rules
+alone.
+
+`creator_design_tools` returns, for every tool that answers a recorded
+question, the `question` and the tool's `reading` of it:
+
+```json
+{"name": "awards_top_awarding_agency_name_by_federal_action_obligation",
+ "question": "Which agencies obligated the most money in fiscal year 2025?",
+ "reading": {"shape": "ranking", "aggregation": "sum",
+             "measure": "federal_action_obligation",
+             "group_by": "awarding_agency_name",
+             "filters": ["fiscal_year", "action_date"]}}
+```
+
+The calling model compares the two. Where they differ, or where a design
+note says the question names no column, it calls the tool again with
+`readings`, one flat string per question:
+
+```
+How much went to small businesses by agency? => shape=ranking; aggregation=sum;
+measure=federal_action_obligation; group_by=awarding_agency_name;
+filters=contracting_officer_business_size
+```
+
+| Key | Values |
+| --- | --- |
+| `shape` | `total`, `ranking` (needs `group_by`), `trend` (takes `granularity`), `list` (needs `key`) |
+| `aggregation` | `sum`, `avg` (need a numeric `measure`), `count`, `count_distinct` (needs `measure`) |
+| `measure`, `group_by`, `key` | One column each. A `list` whose `key` is a date becomes a date window |
+| `filters` | Up to two columns, comma separated, offered as optional equality filters |
+| `granularity` | `day`, `week`, `month` |
+| `source` | The source name, when the design has more than one table |
+
+Three things keep a correction from making the design worse:
+
+1. Code checks every column against the profiled source. It must exist, must
+   not be a personal field, and must suit its place: a sum needs a numeric
+   measure, a trend needs a date. A reading that does not fit is reported in
+   `design_notes` and the designer's own reading is kept.
+2. Nothing the caller writes becomes SQL text. A reading only selects among
+   profiled columns and the same generated patterns.
+3. `creator_review_server` compares the corrected tool with the question's own
+   words again, so a wrong reading is flagged whoever wrote it.
+
+The parameter is a list of strings on purpose: nested object parameters are
+what some model gateways drop (see [Portability](#portability)).
+
+---
+
 ## What the review checks
 
 `creator_review_server` scores eleven dimensions from 0 to 5. Most checks
@@ -357,8 +412,8 @@ project's suite and an interop call on each version below. CI runs it on every p
 
 | FastMCP | MCP SDK | Protocol the server speaks | Result (2026-11-21) |
 |---|---|---|---|
-| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 693 of 693, bakehouse 21 of 21, interop ok |
-| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 693 of 693, bakehouse 21 of 21, interop ok |
+| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 798 of 798, bakehouse 21 of 21, interop ok |
+| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 798 of 798, bakehouse 21 of 21, interop ok |
 
 The interop call uses the MCP SDK 1.x client, the one the deployed servers and the
 probe use today. A FastMCP 4.2 server agrees with it on 2025-11-25, so moving a
@@ -400,7 +455,7 @@ Install the release with `uvx`, no clone needed (release notes in
 [CHANGELOG.md](CHANGELOG.md); SBOM in [`release/`](release/)):
 
 ```bash
-uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc2#subdirectory=mcp-server-creator" mcp-a-creator --version
+uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc3#subdirectory=mcp-server-creator" mcp-a-creator --version
 ```
 
 Or from a clone:
@@ -500,11 +555,14 @@ and the client can write the files from the manifest instead.
   enum candidates and no row count.
 - Genie-backed tools are not deterministic, so they should not be scored
   with exact-match golden answers.
-- The designer reads questions with word rules, not a model. It does not
-  join tables (a franchise ID is not turned into its name), and it does not
-  write comparisons between columns or business rules such as "late". It
-  reports those questions instead of guessing. Add a computed column, or
-  write those tools by hand.
+- The designer reads questions with word rules, not a model. On phrasing it
+  has not seen it is right about half the time on a first run, which is why
+  each tool reports its reading and the caller can correct it (see above).
+  It does not join tables (a franchise ID is not turned into its name), and
+  it does not write comparisons between columns, business rules such as
+  "late", ratios of two columns, quarterly steps, or the earliest or latest
+  record per group. It reports those questions instead of guessing. Add a
+  computed column, or write those tools by hand.
 
 ---
 

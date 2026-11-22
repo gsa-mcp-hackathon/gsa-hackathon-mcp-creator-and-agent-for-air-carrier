@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import re
 from enum import Enum
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -390,6 +390,66 @@ class ToolPlan(BaseModel):
     def module_name(self) -> str:
         """File name for the generated tool module."""
         return self.name
+
+
+class QuestionReading(BaseModel):
+    """How one recorded question should be read, in the table's own columns.
+
+    The designer reads each question with rules. A caller that reads it
+    differently says so here; the columns are checked against the profiled
+    source and the review still compares the tool with the question's words.
+    """
+
+    model_config = {"extra": "forbid"}
+
+    question: str = Field(
+        min_length=1,
+        max_length=500,
+        description="The recorded question this reading is for, word for word.",
+    )
+    shape: Literal["total", "ranking", "trend", "list"] = Field(
+        description=(
+            "total: one figure. ranking: one figure per group_by value, with "
+            "each group's share. trend: one figure per day, week or month. "
+            "list: every record for one value of key, paged."
+        )
+    )
+    aggregation: Literal["sum", "avg", "count", "count_distinct"] = Field(
+        default="count",
+        description=(
+            "sum or avg of measure, count of rows, or count_distinct values "
+            "of measure. Ignored for a list."
+        ),
+    )
+    measure: str = Field(
+        default="",
+        max_length=128,
+        description=(
+            "Column to add up or average, or to count distinct values of. "
+            "Empty for a count of rows."
+        ),
+    )
+    group_by: str = Field(
+        default="", max_length=128, description="Column a ranking groups by."
+    )
+    key: str = Field(
+        default="",
+        max_length=128,
+        description="Column whose value selects the records of a list.",
+    )
+    filters: list[Annotated[str, Field(max_length=128)]] = Field(
+        default_factory=list,
+        max_length=2,
+        description="Up to two columns to offer as optional equality filters.",
+    )
+    granularity: Literal["day", "week", "month"] = Field(
+        default="month", description="Step of a trend."
+    )
+    source: str = Field(
+        default="",
+        max_length=64,
+        description="Source name, when the design has more than one table.",
+    )
 
 
 class EvaluationPlan(BaseModel):

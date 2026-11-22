@@ -4,6 +4,109 @@ MCP A Creator follows semantic versioning. Python packages use the PEP 440 form
 (`1.0.0rc1`); the git tag and `server.json` use the semver form (`v1.0.0-rc1`).
 Finding numbers refer to [FINDINGS.md](../docs/submission/FINDINGS.md).
 
+## 1.0.0rc3 (2026-11-22)
+
+The caller can now correct how a question was read, the designer reads four
+more unseen schemas, and stdout is clean over stdio. `creator_design_tools`
+gains one optional parameter, `readings`; every other tool and parameter is
+unchanged.
+
+### Added
+
+- **Readings.** Each tool that answers a recorded question comes back from
+  `creator_design_tools` with its `question` and its `reading` (shape,
+  aggregation, measure, group_by, filters). A caller that reads the question
+  differently sends `readings`, one flat string per question:
+  `<question> => shape=ranking; aggregation=sum; measure=<column>;
+  group_by=<column>`. Every column is checked against the profiled source (it
+  must exist, must not be personal, and a sum needs a numeric measure); a
+  reading that does not fit is reported in `design_notes` and the designer's
+  own reading is kept. `creator_review_server` compares the corrected tool
+  with the question's own words, so a wrong reading is caught whoever wrote
+  it. The parameter is a list of strings, so the schema stays flat.
+- **Date window lists.** "Which awards expire in the next 90 days?" and "Which
+  investments are scheduled to complete in 2027?" get a paged list bounded on
+  the date the question names; the caller works the window out from today, so
+  it moves. Before, the first was refused with a note to write it by hand.
+- A bound on a year column: "built before 1960" adds `year_built_from` and
+  `year_built_before`.
+- Every free-text argument of a generated tool has a length cap (256
+  characters; 32 for a date or year bound), so an oversized value is refused
+  by validation. `mcp-bakehouse-sales` picked this up with
+  `mcp-a-creator-upgrade --write`: six tool modules changed, nothing else.
+
+### Fixed
+
+- Over stdio the server printed one audit line per call to stdout, which is
+  the protocol channel, so a client logged a JSON parse error after every
+  call. Audit lines now go to stderr over stdio and stay on stdout over HTTP.
+- A column named `agency_name`, `recipient_name` or `program_title` can be
+  grouped, counted and filtered, and a rule that withholds individuals hides
+  such a column with the keys. Before, a name column was free text and "which agencies" got one
+  total.
+- A whole word beats a shared stem: "states" is `state_name`, not `status`.
+- "Look up an award by its PIID", "Find a property by its unique ID" and "Get
+  a bridge by structure number" are lookups, and "List excess properties in a
+  given city" is a list with a status filter. Before, each was a ranking or
+  had no tool.
+- The question's own words choose the filters: "small businesses",
+  "underutilized buildings" and "high risk" select the columns that hold
+  those values.
+- "How many high risk investments" on a table of investments counts rows, not
+  distinct risk levels. "Operations and maintenance" finds `om_spending`.
+  "Average daily traffic" is a column, not a daily trend. "Sub-agency" and
+  "month over month" read as written.
+- "What share of awards were not competed?" is a ranking by the column that
+  splits the rows, which returns each group's share.
+- Reported instead of answered wrongly: a ratio ("cost per square foot"), an
+  amount that names no column when the table has several, a quarterly step,
+  and the single oldest or newest record.
+- The review no longer flags a correct tool for "average number of offers per
+  NAICS code" or "top 10 recipients by total award value", accepts either of
+  two columns that fit a phrase equally, and now flags a list mapped to a "how
+  many" question, a figure mapped to a list question, a trend mapped to a
+  ranking question, a measure another column fits better, and a keyed list
+  question that no reader takes the key for.
+- Tool names over the length limit end on a word.
+
+### Measured
+
+Two schemas no earlier test used (federal contract awards, federal real
+property; 19 questions) were written first and run on 1.0.0rc2: 5 of 19 got
+the right tool. After the fixes above that those two motivated, two more
+schemas written at the same time and kept aside (IT investments, a bridge
+inventory; 19 questions) were run once: 10 of 19 right, and the review caught
+none of the nine misses. Each miss was then fixed.
+
+A second pass over this change found seven faults in it before release: "sales
+per employee" was refused as a ratio though the table has an employee column;
+a window question on a snapshot source, which has no paging, became a ranking
+by amount; a rule that withholds individuals left their name column
+groupable; the row's own noun picked the date ("which sales are due" bounded
+the sale date); a list reading named its key twice; and two notes said a
+table had no numeric column when it had. Each is fixed with a test.
+
+A fifth schema written after every fix (federal grants, 8 questions) was then
+run once: 6 right, none wrong. The other two named no column ("most funding",
+"award size"); one had no note saying so, which is fixed, and a reading
+answers both.
+
+All five sets are regression tests (`tests/test_question_readings.py`): 40
+questions get the tool they ask for and 6 get a stated reason.
+
+The held-out result is the honest one: rules read about half of the phrasing
+they have not seen. That is why this release adds readings and tightens the
+review, instead of only adding rules.
+
+### Known limits
+
+- A year bound uses the year column the question names, or the only one. The
+  designer cannot tell which of two dates a verb such as "delivered" means.
+- No generated pattern divides one column by another, steps by quarter, or
+  returns the earliest or latest record per group. These are reported.
+- Filters chosen from a question's words need the column's values, which a
+  pasted schema does not carry. Profile the table live to get them.
+
 ## 1.0.0rc2 (2026-11-22)
 
 The designer now reads analyst phrasing it had not seen, and the review checks
