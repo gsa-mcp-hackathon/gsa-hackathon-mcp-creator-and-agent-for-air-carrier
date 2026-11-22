@@ -128,6 +128,15 @@ from ops (81). The first call shows where a run started, not every server it use
 | 3, sealed, after fixes, 30 tools | 12 new | **50/72 (69.4%, CI 58.0 to 78.9)** | 1/24 (4.2%) |
 | 4, sealed, grader v2, Claude Sonnet 4.5 | 69 new | **183/207 (88.4%, CI 81.2 to 94.7)** | 10/69 (14.5%) |
 | 4, sealed, grader v2, GPT-5 mini | 69 new | **163/207 (78.7%, CI 70.0 to 86.5)** | 1/69 (1.4%) |
+| 5, independent author, Claude Sonnet 4.5 | 10 new | **25/30 (83.3%, CI 66.4 to 92.7)** | 1/10 |
+| 5, independent author, GPT-5 mini | 10 new | **19/30 (63.3%, CI 45.5 to 78.1)**; 21/30 by hand | 1/10 |
+
+Round 5 (run `r5-0b1c2d3e`, 2026-11-22) is the first set written outside the build team: ten
+questions by a teammate who did not build the tools, hashed on receipt and keyed before any
+model saw them ([results](../../eval/delegation/round5/RESULTS.md)). Both models got all
+five exhibit questions right in every run. The misses are a source the servers do not hold
+(DoD contract announcements, I07), the eight-turn limit, and two grader defects on GPT-5
+mini answers that were right; the graded score is the one reported.
 
 Round 2 found that 28 of its 41 misses needed a tool or option that did not exist
 (obligations on the DD&C contract, a sort by amount, a search of the variance register);
@@ -212,6 +221,14 @@ The one miss with the servers is R4-35, where the run stopped at the eight-turn 
 answer. Without tools, the model wrote out tool calls it never ran and, on U01, invented a GAO
 quote with the wrong date and subsystems. Limits: one reviewer, the project owner, not blind;
 one entry (U01 without tools) was corrected from a mis-click, which the results file records.
+
+Blind re-score (2026-11-22): the same ten pairs as answer A and answer B, sides set by a seed
+whose SHA-256 was committed before the sheet went out, tool markup removed from both. One
+outside rater, a teammate who did not build the servers, returned a sheet: with the servers
+5.4 of 6 (1.8 / 1.8 / 1.8), without tools 1.0 (0.0 / 0.7 / 0.3); would rely on 9 of 10 vs 0
+of 10; preferred the answer with the servers in all 10 pairs
+([BLIND_RESULTS.md](../../eval/delegation/sme_review/BLIND_RESULTS.md)). With one outside
+rater there is no agreement statistic.
 
 ## 3. Security considerations
 

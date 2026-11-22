@@ -10,8 +10,10 @@ it. The author did not email a hash first, so this receipt hash is the seal.
 | `questions_i5.csv` | `320f74e59b9b323db0843d0035bd4029c655a5eadf41a03413bdace1b13e898a` | The author's questions, answers and sources, byte-identical to what arrived |
 | `questions_i5.json` | `eef64b36072f71749184c179d5b1f9864f36de162e39ecf1b66cad793d231d53` | The same questions with grader keys added by `build_round5.py`; the runner refuses any other bytes |
 
-Open item: the author's name, office and date go in the provenance column; the file as sealed
-has none, so they are recorded here when known rather than edited into the sealed file.
+Author: Mr. Alpha Brax, PEO Office, 2026-11-22 (given by the project owner; the sealed file's
+provenance column carries no name, so it is recorded here rather than edited into the file).
+The returned blind review sheet carries the same initials, AB. If one person did both, the
+questions were written after that person had scored ten round 4 answer pairs.
 
 ## Checks before the run
 
