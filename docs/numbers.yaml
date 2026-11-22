@@ -83,6 +83,7 @@ checked:                 # where retired figures are looked for
   - README.md
   - SCORECARD.md
   - docs/IMPACT.md
+  - docs/LIMITATIONS.md
   - docs/submission/EVALUATION.md
   - mcp-server-creator/README.md
   - mcp-server-creator/eval/README.md
@@ -101,7 +102,8 @@ checked:                 # where retired figures are looked for
   - docs/submission/evaluation-report.docx
 
 required:                # each file must contain each phrase
-  README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234", "not a member of the project development team", "separate external reviewer"]
+  README.md: ["1,649", "63 tools", "421 hostile calls", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234", "not a member of the project development team", "separate external reviewer"]
+  docs/LIMITATIONS.md: ["7,690 of 7,693", "7,743 of 7,746"]
   SCORECARD.md: ["7,743 of 7,746", "400 hostile calls", "25/30 = 83.3%"]
   docs/submission/EVALUATION.md: ["1,649", "421 hostile calls", "not a member of the project development team", "separate external reviewer"]
   the-one-hub/ops-center/app/data/curated/stack.json: ["1,649 passed", "25/30 (83.3%)", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
