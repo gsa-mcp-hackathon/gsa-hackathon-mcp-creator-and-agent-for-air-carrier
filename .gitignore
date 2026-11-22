@@ -21,10 +21,12 @@ venv/
 htmlcov/
 **/eval-results/
 
-# Large media: attach to a GitHub Release instead
+# Large media: attach to a GitHub Release instead. The two demo videos are the exception,
+# so the Pages site can play them (docs/demo/index.html).
 *.mp4
 *.mov
 !docs/demo/air-carrier-two-minute-demo.mp4
+!docs/demo/air-carrier-full-walkthrough.mp4
 
 # OS / editor
 .DS_Store

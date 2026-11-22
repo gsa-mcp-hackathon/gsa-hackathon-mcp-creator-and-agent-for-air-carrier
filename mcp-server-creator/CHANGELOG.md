@@ -4,6 +4,21 @@ MCP A Creator follows semantic versioning. Python packages use the PEP 440 form
 (`1.0.0rc1`); the git tag and `server.json` use the semver form (`v1.0.0-rc1`).
 Finding numbers refer to [FINDINGS.md](../docs/submission/FINDINGS.md).
 
+## Unreleased (on `main` after the 1.0.0rc3 tag)
+
+Installing from the tag `v1.0.0-rc3` gives 1.0.0rc3 as released. These changes
+are on `main` and in the deployed app, and go into the next tag.
+
+- "How many distinct recipients won awards?": a distinct count whose noun is
+  followed by a verb and then the row's own noun is read as a distinct count,
+  and the review agrees. Before, the later row noun turned it into a row count.
+- A fifth worked example on the server's landing page and in
+  `creator_list_library`: a weapon system cost analyst on a USAspending
+  contract transactions table.
+- `serverInfo.version` is the Creator's release. Before, an MCP client saw
+  FastMCP's version there.
+- Generated files are piped to ruff as UTF-8, so the suite passes on Windows.
+
 ## 1.0.0rc3 (2026-11-22)
 
 The caller can now correct how a question was read, the designer reads four

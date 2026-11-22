@@ -27,6 +27,11 @@ def test_server_is_importable():
 
 def test_server_has_name():
     assert mcp.name == "MCP A Creator"
+    # A client reads the release from serverInfo; before round 15 it saw
+    # FastMCP's own version there.
+    from mcp_server_creator import __version__
+
+    assert mcp.version == __version__
 
 
 def test_server_instructions_warn_about_untrusted_input():

@@ -1,6 +1,6 @@
 # MCP A Creator
 
-> **Scorecard:** 10 tools · 798 tests (405 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc3 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
+> **Scorecard:** 10 tools · 805 tests (405 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc3 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
 
 An MCP server whose domain is building MCP servers.
 
@@ -411,10 +411,10 @@ scores an `environment_fit` dimension against it.
 `scripts/check_compat.sh` runs the Creator's full suite, the generated bakehouse
 project's suite and an interop call on each version below. CI runs it on every push.
 
-| FastMCP | MCP SDK | Protocol the server speaks | Result (2026-11-21) |
+| FastMCP | MCP SDK | Protocol the server speaks | Result (2026-11-22) |
 |---|---|---|---|
-| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 798 of 798, bakehouse 21 of 21, interop ok |
-| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 798 of 798, bakehouse 21 of 21, interop ok |
+| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 805 of 805, bakehouse 21 of 21, interop ok |
+| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 805 of 805, bakehouse 21 of 21, interop ok |
 
 The interop call uses the MCP SDK 1.x client, the one the deployed servers and the
 probe use today. A FastMCP 4.2 server agrees with it on 2025-11-25, so moving a
