@@ -57,7 +57,7 @@ What carries to the next program unchanged, and what each program adds:
 
 | Carries over unchanged | Each new program supplies |
 | --- | --- |
-| The three servers and their 30 tools; the agents; the work register | A key set: appropriation, line item, program element, contracts, CAGE, PSC and acquisition program code. Part G of the [Ring 0 dossier](../the-one-hub/ops-center/corpus/dossier/RING0_CVN79.md) is the CVN-79 template |
+| The four servers and their 46 tools (docs, analyst, ops and the One Hub); the agents; the work register | A key set: appropriation, line item, program element, contracts, CAGE, PSC and acquisition program code. Part G of the [Ring 0 dossier](../the-one-hub/ops-center/corpus/dossier/RING0_CVN79.md) is the CVN-79 template |
 | The gate. Its materiality floor is a share of the subject's total, so it moves between programs ([seed/gate.yaml](../the-one-hub/ops-center/seed/gate.yaml)) | A source catalog: its J-book exhibits, SAR or MSAR, contract records and GAO reports |
 | The variance and gap registers, typed and ranked the same way | The subject total the reconciliation must close to |
 | MCP A Creator, which builds the per-program servers from tables | Owners for its gaps |

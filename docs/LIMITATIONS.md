@@ -1,7 +1,6 @@
 # Known limitations, in full
 
-The README keeps the five that matter most. This page keeps every limitation with its figures and
-evidence, as of 2026-11-22.
+Every limitation of this build, with its figures and evidence, as of 2026-11-22.
 
 - **The cost model is top-down until earned value data is loaded.** The cost-model
   specialist now runs a deterministic model (`ops/harness/cost_model.py`, `eac/v1`). With

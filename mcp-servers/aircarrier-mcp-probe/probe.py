@@ -92,7 +92,7 @@ def _bakehouse(r: dict) -> str | None:
     # answer means the generated server itself is broken.
     names = {f.get("name") for f in r.get("fields") or []}
     return None if r.get("source") == "sales" and "transactionID" in names else \
-        "describe_sales did not return the sales dictionary"
+        "bakehouse_describe_sales did not return the sales dictionary"
 
 
 def _hub(r: dict) -> str | None:
@@ -124,7 +124,7 @@ TARGETS = [
 
 # Not a target: the bakehouse app was deleted on 2026-11-21 so the hub could take its
 # slot (the shared workspace is capped at 100 apps). Add BAKEHOUSE back if it returns.
-BAKEHOUSE = Target("mcp-bakehouse-sales", 4, "mcp_describe_sales", {}, _bakehouse)
+BAKEHOUSE = Target("mcp-bakehouse-sales", 7, "bakehouse_describe_sales", {}, _bakehouse)
 
 
 def _clip(s: Any) -> str:

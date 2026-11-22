@@ -18,8 +18,8 @@ We built a reusable architecture for that problem, and proved it on one ship:
   tested, governed MCP server, deployed as a Databricks App. Its bundled skills carry the
   design judgment; deterministic generators write the code.
 - **[Six MCP servers, 63 tools](#what-the-one-hub-shows)** give agents cited access to
-  documents, operations data and analytical investigation. The Creator generated two of
-  them.
+  documents, operations data and analytical investigation. Five are deployed (56 tools);
+  the Creator generated two of the six.
 - **[A front center with four specialist agent workflows](#agents-propose-the-owning-role-decides)**
   where people use the stack. Its Ask the evidence agent is an MCP host: it calls the docs,
   ops and One Hub servers and names the server behind every step. The specialists read the
@@ -122,7 +122,6 @@ number above.
 - [Run it yourself](#run-it-yourself)
 - [Deploy and maintain](#deploy-and-maintain)
 - [Scope](#scope)
-- [Known limitations](#known-limitations)
 - [Sources](#sources)
 
 ---
@@ -184,51 +183,23 @@ register row or rule they name. Run locally on the shipped extracts, the four ag
 
 ### Screenshots
 
-Taken on 2026-11-21 and 2026-11-22. Pages marked **live** are from the deployed apps in the Databricks
-workspace; the rest are from the app run locally on the shipped extracts.
-
-#### MCP servers
-
-| | |
-| --- | --- |
-| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![Six servers and their tools](docs/screenshots/mcp-servers.jpg) |
-| **Seven apps, live.** The probe, the front center and five MCP servers, each deployed from this repository. | **Six servers.** What each server does and the evidence behind it (captured before the bakehouse rebuild; 63 tools today). |
-| ![MCP A Creator](docs/screenshots/mcp-a-creator.jpg) | ![Carrying the build to the next program](docs/screenshots/carry-to-next-program.jpg) |
-| **MCP A Creator.** Profile, design, review, generate, deploy; 15 of 15 projects pass, 58 of 58 files byte-identical. | **The next program.** What is reused as it is, and what a new program adds. |
-
-#### Agentic workflow and role-based decisions
+Ten screens, in the order a reader meets the system: what runs, how agents work under
+control, what the analysis shows, and how it was tested. **Live** screens come from the
+deployed apps in the Databricks workspace; the rest come from the app run locally on the
+shipped extracts. Every other page is in the [read-only site](#click-through-the-front-center).
 
 | | |
 | --- | --- |
-| ![Agent workflow](docs/screenshots/agent-workflow.jpg) | ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) |
-| **Six stages.** Agents propose, code checks every number, a second model family reads it, the owning role decides. | **Specialist run, live.** The Account Analyst works a File C period; each step is labeled code or model. |
-| ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
-| **Role check, live.** The user holds PMS 379; the residual lead belongs to the Office of Financial Operations, so the app refuses to apply it. | **Review and decide, live.** The Gap Investigator's requests for gap G52, each addressed to the office that holds the records. Nothing is saved until a person applies it. |
-| ![Run checks](docs/screenshots/live-agent-run-checks.jpg) | ![Obligation Reconciler run](docs/screenshots/live-agent-reconcile.jpg) |
-| **Checks, live.** Code re-tests every condition of the run: 11 of 11. | **Obligation Reconciler, live.** 927 actions summed in exact decimals; 8 of 8 conditions re-tested. |
-| ![Work queue](docs/screenshots/live-work-queue.jpg) | ![Run log](docs/screenshots/live-run-log.jpg) |
-| **Work queue, live.** Every item in one lane by code: decide, unblock or system. | **Run log, live.** Every agent run and every action by every person, exportable. |
-| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![Ask the evidence as an MCP host: four tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) |
-| **Brief readiness, live.** 13 of 32 CVN-79 figures tie to source records today. | **Ask the evidence, live, as an MCP host.** One question, four tool calls: the docs server finds the line and rebuilds the exhibit, the hub server's gate routes the figure, the docs server ties the table out. Each step names its server. |
-
-#### Pages
-
-| | |
-| --- | --- |
-| ![The stack: seven capabilities](docs/screenshots/stack.jpg) | ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) |
-| **The stack.** The seven capabilities, how they fit, how each was tested and what the tests do not show. | **Impact.** From CVN-79 to the Ford class, 29 Navy ship lines, the F-35 and the 59 PB2027 MSAR programs. |
-| ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) | ![Impact: measured on one hull](docs/screenshots/impact-results.jpg) |
-| **The stack, evidence.** The outside checks first: an external evaluator's questions, the blind review by a separate external reviewer, tie-outs and the probe; then every measure with what it does not show. | **Impact, results.** Nine measured results on CVN-79, each linked to the page or file that shows it. |
-| ![Brief: a guided start](docs/screenshots/brief.jpg) | ![Position: which figure to quote](docs/screenshots/position.jpg) |
-| **Brief.** Four steps: pick your question, check what the evidence supports, act on what is open, use the tools. | **Position.** The four published figures, what kind of number each is, and what not to call it. |
-| ![Cost composition: two axes, zero residual](docs/screenshots/cost.jpg) | ![Budget execution from the transaction record](docs/screenshots/execution.jpg) |
-| **Cost composition.** Exhibit P-5c by category and by funding stream, both closing to zero. | **Budget execution.** 1,875 prime actions on two HII contracts, from USAspending. |
-| ![Gap register](docs/screenshots/gaps.jpg) | ![Variance register](docs/screenshots/variances.jpg) |
-| **Gap register.** 59 open questions ranked, each with the office that can close it. | **Variance register.** 17 places where public sources disagree, and why. |
-| ![Answer a question](docs/screenshots/insight.jpg) | ![The ship](docs/screenshots/kennedy.jpg) |
-| **Answer a question.** Experts at headquarters and in the field record what they know; it enters as a lead with their name. | **The ship.** Identity, key dates and construction photographs. |
-| ![Sources](docs/screenshots/sources.jpg) | ![Method](docs/screenshots/method.jpg) |
-| **Sources.** Each document family, what it covers and its limits. | **Method.** The trust zones and the one rule: no model promotes a figure. |
+| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![The stack: seven capabilities](docs/screenshots/stack.jpg) |
+| **1. Seven apps, live.** The probe, the front center and five MCP servers (Creator, docs, analyst, ops, One Hub), each deployed from this repository. | **2. The stack.** Seven capabilities, how they fit, how each was tested and what the tests do not show. |
+| ![MCP A Creator](docs/screenshots/mcp-a-creator.jpg) | ![Ask the evidence as an MCP host: four tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) |
+| **3. MCP A Creator.** A question and a table in, a tested server out: 15 of 15 generated projects pass their own tests, 58 of 58 files byte-identical. | **4. Ask the evidence, live, as an MCP host.** One question, four tool calls across the docs, hub and ops servers; each step names the server that answered. |
+| ![Agent workflow](docs/screenshots/agent-workflow.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
+| **5. Agents propose, the owning role decides.** Code checks every number, a second model family reads the result, and a person in the right role applies it. | **6. Role check, live.** The user holds PMS 379; the lead belongs to the Office of Financial Operations, so the app refuses to apply it. |
+| ![Position: which figure to quote](docs/screenshots/position.jpg) | ![Gap register](docs/screenshots/gaps.jpg) |
+| **7. Which figure to quote.** The four published CVN-79 cost figures, what kind of number each is, and what not to call it. | **8. Gap register.** 59 open questions ranked, each with the office that can close it. |
+| ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) | ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) |
+| **9. Impact.** From CVN-79 to the Ford class, 29 Navy ship lines, the F-35 and the 59 PB2027 MSAR programs. | **10. Evidence.** An external evaluator's questions, a blind review by an outside reviewer, tie-outs and the probe, each with what it does not show. |
 
 ### Demo video
 
@@ -286,7 +257,8 @@ falsification checks, the tie-outs and the gap queue to any agent. It runs over 
 local agent and as the Databricks App `mcp-aircarrier-hub` (stateless HTTP), deployed on
 2026-11-21 and watched by the probe. With [MCP A Creator](#mcp-a-creator) (10 tools) and the
 bakehouse server it generated (7 tools since it was regenerated on 2026-11-21, in the
-repository; its app slot now runs the hub), that makes six servers and 63 tools;
+repository; its app slot now runs the hub), that makes six servers and 63 tools, five of
+them deployed with 56 tools;
 [SCORECARD.md](SCORECARD.md) has one row per server. **A probe** calls every deployed server
 every 15 minutes with a known question. Their standalone value is in
 [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own).
@@ -355,7 +327,7 @@ Financial Operations, and applies the request for obligation detail that PMS 379
 action is recorded with the role and the run number. The work queue sorts every item into
 one lane by code: decide, unblock or system. Contributions from experts through
 `/insight` enter the same way, as leads with their author, never as certified figures.
-Screens from the deployed app: [agentic workflow screenshots](#agentic-workflow-and-role-based-decisions).
+Screens from the deployed app: [screenshots 4 to 6](#screenshots).
 
 ---
 
@@ -638,18 +610,6 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
 - **Public records only.** Budget books, SARs and MSARs, GAO and CRS reports, FPDS and
   USAspending. Contract performance data (IPMDAR, CCDR) and the accounting system are not
   public; the tools that need them return `blocked_no_source` and say what would close it.
-
----
-
-## Known limitations
-
-- **The outside evaluation is small.** Ten questions came from an external evaluator and one external reviewer scored the blind review, so there is no agreement statistic; rounds 1 to 4 were written on the builder's side.
-- **Results depend on the model.** With the tools, Claude Sonnet 4.5 beat GPT-5 mini by 9.7 points on round 4 and by 20 points on the external questions; the gate, tie-outs and grounding checks are code and do not change with the model.
-- **The Creator reads words, not intent.** A question phrased in a way its cues do not cover can get a wrong tool that the review still passes, and no model-driven build test or time-to-server figure exists yet.
-- **Time saved is estimated, not measured.** One CVN-79 pass is about 194 to 390 analyst hours by hand ([estimate](docs/TIME_ESTIMATE.md)); no analyst has been timed.
-- **Figures are analysis, not a cleared Navy position.** The $13,529M baseline in the FY2027 MSAR is held for human review (E-17) because it is also CVN-80's baseline; $12,936M stays in force until a person confirms it.
-
-Every limitation, with its figures and evidence (cost model, injection notice, tie-outs, latency, the hub's short probe history, generated-server identity): [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
 ---
 

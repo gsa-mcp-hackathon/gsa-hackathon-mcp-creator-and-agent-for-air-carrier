@@ -50,7 +50,6 @@ LIVE = [  # screenshots from the deployed app, in docs/screenshots
     ("live-run-log.jpg", "Run log", "Every agent run and every action by every person, exportable."),
     ("live-brief-readiness.jpg", "Brief readiness", "13 of 32 CVN-79 figures tie to source records today."),
     ("live-ask-via-mcp.jpg", "Ask the evidence, as an MCP host", "One question, four tool calls across mcp-aircarrier-docs, mcp-aircarrier-hub and mcp-aircarrier-ops; each step names the server that answered, and the answer is marked as a lead."),
-    ("live-ask.jpg", "Ask the evidence, before round 10", "The same page before it called the MCP servers: one in-app tool call, the total, the largest action and every modification it rests on."),
 ]
 
 SHIM = """<script>

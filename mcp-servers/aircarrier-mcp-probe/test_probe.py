@@ -118,6 +118,10 @@ def test_bakehouse_known_answer_needs_the_sales_dictionary():
     assert P._bakehouse({"source": "sales", "fields": [{"name": "transactionID"}]}) is None
     assert P._bakehouse({"source": "sales", "fields": []})
     assert P._bakehouse({})
+    # The target matches the server the Creator rebuilt on 2026-11-21: 7 tools named bakehouse_*.
+    tools = Path(__file__).resolve().parents[1] / "mcp-bakehouse-sales" / "src" / "bakehouse_sales" / "tools"
+    names = {f.stem for f in tools.glob("bakehouse_*.py")}
+    assert P.BAKEHOUSE.tool in names and P.BAKEHOUSE.min_tools == len(names)
 
 
 def test_safe_mcp_url_allows_only_apps_hosts():
