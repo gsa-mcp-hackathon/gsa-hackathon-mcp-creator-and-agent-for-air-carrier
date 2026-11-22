@@ -180,7 +180,7 @@
   },
   {
    "measure": "Hostile arguments against all 30 read tools and the Creator",
-   "result": "421 calls to the read servers: 340 refused, none wrote, none pasted into SQL; 403 to the Creator: nothing written outside its root",
+   "result": "421 calls to the read servers: 344 refused, none wrote, none pasted into SQL; 403 to the Creator: nothing written outside its root",
    "not": "In-process against a recording fake warehouse"
   },
   {

@@ -269,8 +269,8 @@ _COMPARE_CUES = re.compile(
 )
 _STATE_CUES = re.compile(r"\b(late|overdue|delayed|on time|on-time|churned)\b")
 # 'expire in the next 90 days', 'due within 30 days': a window that moves
-# with today. No generated pattern bounds a date relative to now, so a
-# ranking or total would answer a different question.
+# with today. It becomes a paged list bounded on the date (_window_tool); the
+# caller works the window out from today's date.
 _FORWARD_WINDOW_CUES = re.compile(
     r"\b(expire|expires|expiring|due|ending|end|ends)\b.*\b(next|within|coming)\s+"
     r"\d+\s+(day|days|week|weeks|month|months)\b"

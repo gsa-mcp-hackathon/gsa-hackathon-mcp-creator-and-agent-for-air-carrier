@@ -51,6 +51,7 @@ def register(mcp: FastMCP) -> None:
                     "Keywords to match. This is a substring match, not a semantic "
                     "search."
                 ),
+                max_length=200,
             ),
         ],
         rel: Annotated[
@@ -71,6 +72,7 @@ def register(mcp: FastMCP) -> None:
                     "'regex:piid_full', 'seed:keyset.hard_exclusions', "
                     "'store:pdf_tables.title_block'. Leave empty for all."
                 ),
+                max_length=80,
             ),
         ] = "",
         limit: Annotated[

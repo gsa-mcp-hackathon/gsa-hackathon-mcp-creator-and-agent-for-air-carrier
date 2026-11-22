@@ -239,7 +239,7 @@ The controls are in code, not in prompts.
 
 | Risk | Control | Evidence |
 | --- | --- | --- |
-| SQL injection | Identifiers allow-listed and quoted; values bound as parameters; the One Hub's `sqlsafe.compose` refuses anything that is not a vetted fragment | 421 hostile calls against the 30 read tools: 340 refused, 81 answered, 169 statements reached the warehouse, all read-only, none with a hostile value in its SQL text (`mcp-servers/adversarial_summary.json`) |
+| SQL injection | Identifiers allow-listed and quoted; values bound as parameters; the One Hub's `sqlsafe.compose` refuses anything that is not a vetted fragment | 421 hostile calls against the 30 read tools: 344 refused, 77 answered, 155 statements reached the warehouse, all read-only, none with a hostile value in its SQL text (`mcp-servers/adversarial_summary.json`) |
 | Hostile input to the Creator | Every string capped, URL and handle patterns, list caps; writes confined to the configured root | 403 hostile calls against its 10 tools with writing on: 367 refused, 36 answered, nothing written outside the root, no workspace reached (`mcp-server-creator/tests/adversarial_summary.json`) |
 | Known vulnerabilities | `pip-audit` on every deployed server's requirements in CI; FastMCP moved to 3.4+, which fixes CVE-2025-64340 and CVE-2026-27124; bandit on the Creator and on every generated project | CI `supply-chain` job; finding 18 |
 | A failure read as a success | Every FastMCP server marks a result with a top-level error as `isError`, body and hint kept | `mcp-servers/test_error_contract.py`; finding 19 |

@@ -58,6 +58,7 @@ def register(mcp: FastMCP) -> None:
                     "Keywords to match. This is a substring match, not a semantic "
                     "search."
                 ),
+                max_length=200,
             ),
         ],
         owner_agent: Annotated[
