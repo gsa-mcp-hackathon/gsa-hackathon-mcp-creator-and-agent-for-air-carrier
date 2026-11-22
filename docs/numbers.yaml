@@ -36,7 +36,7 @@ tie_outs:
   local_after_round10: "7,690 of 7,693"       # 22 SCN books re-extracted, 3 within rounding
   file: docs/submission/evidence/tieout_rerun_2026-11-21.json
 
-findings: 28
+findings: 29
 
 retired:                 # figures that must not appear as current anywhere checked
   - "1,094 passed"

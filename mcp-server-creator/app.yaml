@@ -21,8 +21,8 @@ command:
   - -c
   - >-
     SP=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])") &&
-    if [ -d "$SP/fastmcp/server/auth/oauth_proxy" ]; then
-    echo "Removing stale fastmcp/mcp files left by the 4.x install";
+    if ! python -c "import fastmcp, sys; sys.exit(fastmcp.__version__.split('.')[0] != '3')" >/dev/null 2>&1; then
+    echo "fastmcp is missing or not 3.x; reinstalling from requirements.txt";
     python -m pip uninstall -y -q fastmcp mcp;
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --quiet --no-cache-dir -r /app/python/source_code/requirements.txt;

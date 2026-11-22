@@ -1,7 +1,7 @@
 # Databricks Apps runtime configuration for mcp-aircarrier-analyst.
 # MCP endpoint: https://<app-host>/mcp (stateless streamable HTTP). Health: /health.
 # src/ layout: a shell puts both packages (core, mcp_aircarrier_analyst) on the path.
-# Self-heal: if a stale fastmcp/mcp install shadows the pinned 2.x, wipe and reinstall.
+# Self-heal: if a stale fastmcp/mcp install shadows the pinned 3.x, wipe and reinstall.
 command:
   - /bin/sh
   - -c

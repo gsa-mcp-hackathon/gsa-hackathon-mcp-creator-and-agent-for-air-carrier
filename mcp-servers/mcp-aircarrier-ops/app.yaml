@@ -9,7 +9,7 @@
 #
 # Self-heal: the app's .venv persists across deployments, and pip leaves
 # stray files behind when FastMCP changes major version (a 4.x package
-# directory can shadow a 2.x module of the same name). If `import fastmcp`
+# directory can shadow a 3.x module of the same name). If `import fastmcp`
 # fails, the fastmcp and mcp packages are wiped and reinstalled before start.
 command:
   - /bin/sh
