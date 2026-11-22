@@ -682,7 +682,20 @@ def build(http: bool = False):
         srv.tool(name=fn.__name__,
                  annotations=ToolAnnotations(title=title, **READ_ONLY))(_noticed(fn))
     if http:
+        import os
+
         from starlette.responses import JSONResponse
+
+        @srv.custom_route("/", methods=["GET"])
+        async def landing(request):
+            # A person who opens the app's link sees what it is, as with the
+            # other servers, instead of a bare 404. MCP clients use /mcp.
+            return JSONResponse({
+                "service": SERVER_NAME, "status": "running",
+                "description": INSTRUCTIONS.split(". ")[0] + ".",
+                "tools": [fn.__name__ for fn in TOOLS], "read_only": True,
+                "owner": os.environ.get("APP_OWNER", ""),
+                "mcp_endpoint": "/mcp", "transport": "streamable-http (stateless)"})
 
         @srv.custom_route("/health", methods=["GET"])
         async def health(request):
