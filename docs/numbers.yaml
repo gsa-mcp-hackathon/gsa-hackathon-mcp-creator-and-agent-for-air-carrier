@@ -28,7 +28,7 @@ servers:
 
 hostile_inputs:         # files: mcp-servers/adversarial_summary.json,
                         #        mcp-server-creator/tests/adversarial_summary.json
-  read_servers: {calls: 421, refused: 340, answered: 81, statements: 169, bound: 124, writes: 0, pasted: 0}
+  read_servers: {calls: 421, refused: 344, answered: 77, statements: 155, bound: 110, writes: 0, pasted: 0}
   creator: {calls: 403, refused_by_validation: 150, refused_by_tool: 217, answered: 36}
 
 tie_outs:
@@ -56,6 +56,10 @@ retired:                 # figures that must not appear as current anywhere chec
   - "1,194 tests"
   - "814 of 818"
   - "330 refused"
+  - "340 refused"
+  - "81 answered"
+  - "169 statements"
+  - "400 more against"
   - "91 answered"
   - "172 statements"
   - "60 tools"

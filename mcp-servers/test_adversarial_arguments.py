@@ -172,6 +172,18 @@ def _strings_in(value) -> list[str]:
 def test_the_sweep_covers_every_tool():
     tools = {(s, t) for s, t, _ in CASES}
     assert len(tools) == 30, sorted(tools)
+    # Every free-text argument states its limit: a length cap, an anchored
+    # pattern or an enum. An unbounded string reaches the warehouse at any size.
+    unbounded = [
+        f"{server}.{tool['name']}.{name}"
+        for server in ("docs", "analyst", "ops")
+        for tool in _tools(server)
+        for name, raw in tool["schema"].get("properties", {}).items()
+        for prop in [_resolve(tool["schema"], raw)]
+        if prop.get("type") == "string"
+        and not ({"maxLength", "enum", "pattern"} & set(prop))
+    ]
+    assert not unbounded, unbounded
 
 
 @pytest.mark.parametrize(

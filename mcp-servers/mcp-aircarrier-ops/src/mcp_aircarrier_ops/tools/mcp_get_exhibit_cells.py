@@ -47,6 +47,7 @@ def register(mcp: FastMCP) -> None:
             str,
             Field(
                 description=("Exact table id to fetch."),
+                max_length=40,
             ),
         ],
         limit: Annotated[

@@ -285,7 +285,7 @@ def register_tools(mcp: FastMCP) -> None:
     @mcp.tool(name="analyst_explain_residual", annotations={**LOGS_LEAD, "title": "Explain a File C vs FPDS residual"})
     def analyst_explain_residual(
         piid: PIID,
-        submission_period: Annotated[str, Field(pattern=r"^FY\d{4}(Q[1-4]|P(0[1-9]|1[0-2]))$", description="File C submission period, e.g. FY2021P03 or FY2019Q4.")],
+        submission_period: Annotated[str, Field(max_length=9, pattern=r"^FY\d{4}(Q[1-4]|P(0[1-9]|1[0-2]))$", description="File C submission period, e.g. FY2021P03 or FY2019Q4.")],
     ) -> dict[str, Any]:
         """Explain why a File C (federal account funding) period differs from FPDS obligations in
         the same window. Reports proven arithmetic facts separately from causes, then scores
@@ -330,7 +330,7 @@ def register_tools(mcp: FastMCP) -> None:
         "title": "Record a confirmed answer", "readOnlyHint": False, "destructiveHint": False,
         "idempotentHint": False, "openWorldHint": False})
     def analyst_record_outcome(
-        lead_id: Annotated[str, Field(pattern=r"^lead-[0-9a-f]{16}$", description="lead_id returned by an investigate or explain tool.")],
+        lead_id: Annotated[str, Field(max_length=21, pattern=r"^lead-[0-9a-f]{16}$", description="lead_id returned by an investigate or explain tool.")],
         truth: Annotated[str, Field(max_length=60, description="For a transaction lead, the confirmed TAS (e.g. 017-2018/2022-1611-000) or NONE_OF_THESE. For a residual lead: timing, unmirrored, restatement or other. For a case lead: CVN-79, CVN-78, CVN-80/81, CLASS_SHARED, OTHER_CARRIER or NOT_CARRIER.")],
         evidence_type: Annotated[EvidenceType, Field(description="The authoritative document that settles it.")],
         evidence_locator: Annotated[str, Field(min_length=8, max_length=500, description="Where in that document: document number, page, line, or a link.")],
