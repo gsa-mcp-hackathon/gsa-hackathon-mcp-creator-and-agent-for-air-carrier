@@ -8,6 +8,10 @@ inventing a tool that would return nulls.
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
+from dataclasses import field as dc_field
+
+from pydantic import ValidationError
 
 from mcp_server_creator.models import (
     DataModality,
@@ -16,6 +20,7 @@ from mcp_server_creator.models import (
     FieldRole,
     ParamPlan,
     QueryPattern,
+    QuestionReading,
     ServerSpec,
     Severity,
     SourceKind,
@@ -85,7 +90,8 @@ def _tool_name(prefix: str, *parts: str) -> str:
     name = "_".join(words)
     if len(name) <= 63:
         return name
-    trimmed = name[:63].rstrip("_")
+    # Cut on a word, so a long column never ends a name mid-word.
+    trimmed = name[:64].rsplit("_", 1)[0][:63].rstrip("_")
     return trimmed or f"{to_identifier(prefix)}_tool"
 
 
@@ -119,24 +125,25 @@ def _filter_params(
     Fields in `exclude` (the tool's own grouping or entity) are skipped before
     the limit, so a grouped tool still gets two real filters.
     """
-    params: list[ParamPlan] = []
-    for field in _enum_candidates(source, limit, spec, exclude):
-        description = (
+    if limit <= 0:
+        return []
+    return [_enum_param(f) for f in _enum_candidates(source, limit, spec, exclude)]
+
+
+def _enum_param(field: FieldProfile) -> ParamPlan:
+    """An optional filter on one column, an enum when its values are known."""
+    return ParamPlan(
+        name=to_identifier(field.name),
+        python_type="str",
+        description=(
             field.description
             or f"Narrow results to one {field.name.replace('_', ' ')}."
-        )
-        params.append(
-            ParamPlan(
-                name=to_identifier(field.name),
-                python_type="str",
-                description=description,
-                required=False,
-                default=None,
-                enum_values=list(field.enum_values),
-                source_field=field.name,
-            )
-        )
-    return params
+        ),
+        required=False,
+        default=None,
+        enum_values=list(field.enum_values),
+        source_field=field.name,
+    )
 
 
 def _seeds(source: DataSourceProfile, pattern: QueryPattern) -> list[str]:
@@ -210,8 +217,8 @@ _MEASURE_SYNONYMS: dict[str, tuple[str, ...]] = {
     "revenue": ("price", "amount", "revenue", "sales", "total", "spend"),
     "sales": ("price", "amount", "revenue", "sales", "total"),
     "income": ("price", "amount", "revenue", "income", "total"),
-    "spend": ("amount", "cost", "spend", "price", "total"),
-    "spending": ("amount", "cost", "spend", "price", "total"),
+    "spend": ("amount", "cost", "spend", "spending", "price", "total"),
+    "spending": ("amount", "cost", "spend", "spending", "price", "total"),
     "cost": ("cost", "amount", "price", "spend"),
     "units": ("quantity", "qty", "units"),
     # 'average ticket size': the amount of one sale.
@@ -249,7 +256,10 @@ _GRAIN_CUES: tuple[tuple[str, tuple[str, ...]], ...] = (
             "each month",
             "by month",
             "month by month",
+            "month over month",
+            "month to month",
             "over time",
+            "trend",
         ),
     ),
 )
@@ -265,12 +275,63 @@ _FORWARD_WINDOW_CUES = re.compile(
     r"\b(expire|expires|expiring|due|ending|end|ends)\b.*\b(next|within|coming)\s+"
     r"\d+\s+(day|days|week|weeks|month|months)\b"
 )
+# 'Which investments are scheduled to complete in 2027?': the records
+# themselves, where 'which agencies spent the most' ranks groups.
+_SUPERLATIVES = re.compile(
+    r"\b(most|highest|largest|biggest|top|least|lowest|fewest|smallest|best|"
+    r"worst|bottom)\b"
+)
+# 'the oldest bridge in each county': one extreme record per group. A total
+# or a count would answer a different question.
+_EXTREME_CUES = re.compile(r"\b(oldest|newest|earliest|latest|youngest|most recent)\b")
+# 'by quarter': generated trends step by day, week or month.
+_QUARTER_CUES = re.compile(
+    r"\b(quarterly|by quarter|per quarter|each quarter|quarter over quarter)\b"
+)
+# 'built before 1960', 'declared since 2020': a bound on a year column.
+_YEAR_BOUND = re.compile(r"\b(before|after|since|until|prior to)\s+(?:19|20)\d\d\b")
+# The verb a question uses for a date the column names another way.
+_DATE_SYNONYMS = {"expi": ("end",), "buil": ("cons",), "due": ("end",)}
 # 'Show the declarations for a given disaster number': list the records for
 # one value. A count or total would answer a different question.
-_LIST_CUES = re.compile(r"^\s*(show|list|display|give me|get|pull)\b")
+# 'Look up an award by its PIID', 'List excess properties in a given city':
+# the same request with another verb and another preposition.
+_LIST_CUES = re.compile(
+    r"^\s*(show|list|display|give me|get|pull|look up|lookup|find|fetch|"
+    r"retrieve|open|view)\b"
+)
+_LOOKUP_VERBS = re.compile(
+    r"^\s*(get|pull|look up|lookup|find|fetch|retrieve|open|view)\b"
+)
 _LIST_KEY = re.compile(
-    r"\bfor\s+(?:a given|a specific|a single|one|a|an|that|this)?\s*"
-    r"([a-z]+(?:\s+[a-z]+)?)"
+    r"\b(?:for|by|in|on|at|with|from)\s+(?:a given|a specific|a particular|"
+    r"a single|one|its|their|the|a|an|that|this)?\s*([a-z]+(?:\s+[a-z]+)?)"
+)
+# 'by its ID', 'by identifier': the record's own key, whatever it is called.
+_KEY_WORDS = frozenset({"id", "identifier", "key"})
+# 'What share of awards were not competed?': a ranking returns each group's
+# share, so the question needs a column to split by, not a total.
+_SHARE_CUES = re.compile(r"\b(share|percentage|percent|proportion|fraction)\s+of\b")
+# 'cost per square foot', 'fare per mile': one column divided by another.
+# No generated pattern divides, and the review reads the same cue.
+RATIO_CUES = re.compile(
+    r"\bper\s+(miles?|km|kilometers?|gallons?|pounds?|kg|units?|items?|seats?|"
+    r"passengers?|persons?|people|capita|employees?|square\s+f(?:oo|ee)t)\b"
+)
+# Words that say a measure is money, for 'how much went to ...' questions
+# that name no column.
+_MONEY_WORDS = frozenset(
+    {
+        "amount", "amt", "obligation", "obligations", "obligated", "outlay",
+        "outlays", "cost", "costs", "price", "dollars", "spend", "spending",
+        "spent", "revenue", "sales", "payment", "payments", "paid", "funding",
+        "budget", "rent", "fee", "fees", "salary", "wages", "expense",
+        "expenses", "balance", "value",
+    }
+)  # fmt: skip
+_MONEY_ASK = re.compile(
+    r"\b(went to|go to|goes to|spent|spend|paid|pay|awarded|money|dollars|"
+    r"funding|funds|funded)\b"
 )
 # 'how many distinct counties', 'how many disasters': distinct values of a
 # column, unless the counted word is the table's own row ('how many projects').
@@ -278,6 +339,11 @@ _DISTINCT_CUES = re.compile(r"\b(?:distinct|unique|different)\s+([a-z]+)")
 _COUNTED_THING = re.compile(r"\b(?:how many|number of|count of)\s+([a-z]+)")
 _PLACE_FIELD = re.compile(
     r"state|country|region|city|county|province|territory|district|location"
+)
+# 'received the most funding': an amount, though it names no column.
+_MOST_MONEY = re.compile(
+    r"\b(?:most|highest|largest|least|lowest|total)\s+"
+    r"(?:money|funding|funds|dollars)\b"
 )
 _MONTH_NAMES = {"january", "february", "march", "april", "may", "june", "july",
                 "august", "september", "october", "november", "december"}  # fmt: skip
@@ -289,6 +355,26 @@ _PHRASE_STOP = {
     "or", "with", "during", "over", "per", "each", "do", "does", "did", "sold",
     "use", "have", "has", "the", "most", "least", "is", "are", "was", "were",
 }  # fmt: skip
+
+
+def question_text(job: str) -> str:
+    """A question in lower case, padded, with punctuation and the hyphens that
+    join words read as spaces: 'sub-agency', 'month-over-month'."""
+    text = job.lower().replace("?", " ").replace(",", " ")
+    return " " + re.sub(r"(?<=[a-z])-(?=[a-z])", " ", text) + " "
+
+
+def is_label(field: FieldProfile) -> bool:
+    """'agency_name', 'recipient_name', 'program_title': text by role, but a
+    short label that a question groups, counts and filters by. Government
+    tables name most of their categories this way."""
+    from mcp_server_creator.profiling import name_words
+
+    return (
+        field.role is FieldRole.TEXT
+        and not field.pii
+        and name_words(field.name)[-1:] in (["name"], ["title"])
+    )
 
 
 def _field_stems(field: FieldProfile) -> set[str]:
@@ -365,6 +451,8 @@ def singular(word: str) -> str:
 
 
 def _best_field(words: list[str], fields: list[FieldProfile]) -> FieldProfile | None:
+    from mcp_server_creator.profiling import name_words
+
     stems = {singular(w)[:4] for w in words if len(w) >= 3}
     # Adjacent words that spell a column name ('ship mode' -> l_shipmode)
     # break the tie with columns that only share a stem (l_shipinstruct).
@@ -373,7 +461,9 @@ def _best_field(words: list[str], fields: list[FieldProfile]) -> FieldProfile | 
         for i in range(len(words))
         for j in range(i + 2, len(words) + 1)
     ]
-    best, best_score = None, 0
+    # A whole word beats a shared stem: 'states' is state_name, not status.
+    asked = {singular(w) for w in words}
+    best, best_key = None, (0, 0)
     for field in fields:
         score = len(stems & _field_stems(field))
         flat = field.name.lower().replace("_", "")
@@ -381,9 +471,21 @@ def _best_field(words: list[str], fields: list[FieldProfile]) -> FieldProfile | 
             score += 2
         if score and not _coverage_ok(field, stems):
             continue
-        if score > best_score:
-            best, best_score = field, score
+        whole = len(asked & {singular(w) for w in name_words(field.name)})
+        if score and (score, whole) > best_key:
+            best, best_key = field, (score, whole)
     return best
+
+
+def acronyms(words: list[str]) -> set[str]:
+    """Initials of two to four consecutive long words: 'operations and
+    maintenance' is om, the way a column such as om_spending abbreviates it."""
+    long = [w for w in words if len(w) >= 4 and w not in _STOP]
+    return {
+        "".join(w[0] for w in long[i:j])
+        for i in range(len(long))
+        for j in range(i + 2, min(i + 5, len(long) + 1))
+    }
 
 
 def _job_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | None:
@@ -391,6 +493,7 @@ def _job_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | None
     from mcp_server_creator.profiling import name_words
 
     words = re.findall(r"[a-z]+", text)
+    initials = acronyms(words)
     # A word with a synonym list is matched only through it, so 'units'
     # means quantity and never the unitPrice column that shares its stem.
     stems = {
@@ -412,6 +515,8 @@ def _job_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | None
                 break
         if score and field_words & {"total", "amount"}:
             score += 1
+        if score and any(2 <= len(w) <= 4 and w in initials for w in field_words):
+            score += 3
         if score > best_score:
             best, best_score = field, score
     return best
@@ -450,7 +555,8 @@ def _row_words(source: DataSourceProfile) -> set[str]:
     from mcp_server_creator.profiling import name_words
 
     text = f"{source.name} {source.title} {source.grain}"
-    return {w[:4] for w in name_words(text) if len(w) >= 3} - {"row", "rows"}
+    words = {w[:4] for w in name_words(text) if len(w) >= 3}
+    return words - {"row", "rows", "one", "per", "each"}
 
 
 def _distinct_field(
@@ -466,11 +572,17 @@ def _distinct_field(
     if match is None:
         return None
     phrase: list[str] = []
-    for word in text[match.start(1) :].split()[:2]:
+    rows = _row_words(source)
+    for word in text[match.start(1) :].split()[:4]:
         if word in _PHRASE_STOP:
             break
+        # 'how many high risk investments' on a table of investments counts
+        # rows: the words before the row's own noun describe it.
+        if singular(word)[:4] in rows and phrase:
+            return None
         phrase.append(word)
-    if phrase[0] in _TIME_WORDS:
+    phrase = phrase[:2]
+    if not phrase or phrase[0] in _TIME_WORDS:
         return None
     field = _best_field(phrase, fields)
     if field is None:
@@ -493,31 +605,87 @@ def _grouping_words(text: str, labels: list[FieldProfile]) -> list[str]:
     return []
 
 
-def _list_tool(
-    spec: ServerSpec, source: DataSourceProfile, job: str, text: str
-) -> ToolPlan | None:
-    """'Show the declarations for a given disaster number': every record for
-    one value, paged. Only a table answers this; a snapshot has no paging."""
-    if source.kind is not SourceKind.UC_TABLE or not _LIST_CUES.search(text):
-        return None
-    # 'Show daily sales for franchise 3' asks for a trend, not a list.
-    computing = (
-        _COMPUTE_WORDS.search(text)
-        or any(cue in text for _grain, cues in _GRAIN_CUES for cue in cues)
-        or any(cue in text for cue in _AVG_CUES)
-        or any(w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text))
+def _record_key(source: DataSourceProfile) -> FieldProfile | None:
+    """The record's own key: the identifier the grain or source name mentions,
+    never a personal field and never a shared foreign key."""
+    grain_words = _tokens(f"{source.grain} {source.name} {source.title}")
+    identifiers = sorted(
+        [f for f in source.identifiers() if not f.pii],
+        key=lambda f: -len(_tokens(f.name.replace("ID", " id")) & grain_words),
     )
-    if computing:
-        return None
-    match = _LIST_KEY.search(text)
+    return identifiers[0] if identifiers else None
+
+
+_INFLECTIONS = frozenset({"", "d", "ed", "s", "es", "ing"})
+
+
+def _same_word(a: str, b: str) -> bool:
+    """'own' and 'owned', 'lease' and 'leased' are one word; 'large' and
+    'largest' are not."""
+    short, long = sorted((a, b), key=len)
+    return (
+        len(short) >= 3
+        and long.startswith(short)
+        and long[len(short) :] in _INFLECTIONS
+    )
+
+
+def _value_filters(
+    text: str, fields: list[FieldProfile], taken: set[str]
+) -> list[FieldProfile]:
+    """Columns whose allowed values the question names.
+
+    'small businesses' names the business-size column through its value SMALL
+    BUSINESS, and 'underutilized buildings' names two columns. The question's
+    own words choose the filter; the first two enums profiled would not.
+    """
+    asked = {
+        singular(w)
+        for w in re.findall(r"[a-z]+", text)
+        if len(w) >= 3 and w not in _STOP
+    }
+    named: list[FieldProfile] = []
+    for field in fields:
+        if field.pii or field.name in taken:
+            continue
+        for value in field.enum_values:
+            words = [
+                singular(w)
+                for w in re.findall(r"[a-z]+", str(value).lower())
+                if len(w) >= 3
+            ]
+            if words and all(any(_same_word(w, a) for a in asked) for w in words):
+                named.append(field)
+                break
+    return named
+
+
+def _list_key(text: str, source: DataSourceProfile) -> FieldProfile | None:
+    """The column a list or lookup question selects records by."""
     keys = [
         f
         for f in source.fields
-        if not f.pii and f.role in {FieldRole.IDENTIFIER, FieldRole.DIMENSION}
+        if not f.pii
+        and (f.role in {FieldRole.IDENTIFIER, FieldRole.DIMENSION} or is_label(f))
     ]
-    key = _best_field(match.group(1).split(), keys) if match else None
-    if key is None:
-        return None
+    for match in _LIST_KEY.finditer(text):
+        words = match.group(1).split()
+        key = _best_field(words, keys)
+        if key is None and words[0] in _KEY_WORDS:
+            key = _record_key(source)
+        if key is not None:
+            return key
+    return None
+
+
+def _list_plan(
+    spec: ServerSpec,
+    source: DataSourceProfile,
+    job: str,
+    key: FieldProfile,
+    filters: list[FieldProfile],
+) -> ToolPlan:
+    """Every record for one value of `key`, paged, with optional filters."""
     label = source.title or source.name.replace("_", " ")
     return ToolPlan(
         name=_tool_name(spec.tool_prefix, source.name, "for", key.name),
@@ -536,7 +704,8 @@ def _list_tool(
                 ),
                 required=True,
                 source_field=key.name,
-            )
+            ),
+            *[_enum_param(f) for f in filters if f.name != key.name][:2],
         ],
         paginated=True,
         returns=(
@@ -546,6 +715,216 @@ def _list_tool(
         error_hints=["Values are exact; call the describe tool for examples."],
         eval_seeds=[job],
     )
+
+
+def _asked_period(
+    text: str, fields: list[FieldProfile], source: DataSourceProfile
+) -> FieldProfile | None:
+    """The date or year column a question means: the one its words name
+    ('leases expiring' is lease_expiration_date), then the one a verb implies
+    ('expire' an end date, 'built' a construction year), else the only one
+    there is. The row's own noun names no date: 'which sales are due' on a
+    table of sales is the due date, not the sale date."""
+    named = _tokens(text) - _row_words(source)
+    implied = {syn for stem in named for syn in _DATE_SYNONYMS.get(stem, ())}
+    generic = {"date", "year", "time", "peri", "fisc"}
+    for stems in (named, implied):
+        best, best_score = None, 0
+        for field in fields:
+            score = len((_field_stems(field) - generic) & stems)
+            if score > best_score:
+                best, best_score = field, score
+        if best is not None:
+            return best
+    return fields[0] if len(fields) == 1 else None
+
+
+def _bound_params(label: FieldProfile) -> list[ParamPlan]:
+    """A lower and an upper bound on a year column."""
+    words = label.name.replace("_", " ")
+    return [
+        ParamPlan(
+            name=to_identifier(f"{label.name}_from"),
+            python_type="str",
+            description=f"First {words} to include, e.g. 1960. Empty for no bound.",
+            required=False,
+            source_field=label.name,
+            operator=">=",
+        ),
+        ParamPlan(
+            name=to_identifier(f"{label.name}_before"),
+            python_type="str",
+            description=f"Stop before this {words} (exclusive). Empty for no bound.",
+            required=False,
+            source_field=label.name,
+            operator="<",
+        ),
+    ]
+
+
+def asks_which_rows(text: str, source: DataSourceProfile) -> bool:
+    """'Which investments complete in 2027?' on a table of investments asks
+    for the records; 'which agencies spent the most' ranks groups."""
+    match = re.match(r"\s*which\s+([a-z]+)", text)
+    return (
+        match is not None
+        and singular(match.group(1))[:4] in _row_words(source)
+        and not _SUPERLATIVES.search(text)
+    )
+
+
+def _window_plan(
+    spec: ServerSpec,
+    source: DataSourceProfile,
+    job: str,
+    date: FieldProfile,
+    filters: list[FieldProfile],
+) -> ToolPlan:
+    """Every record whose date falls in a window the caller gives, paged."""
+    label = source.title or source.name.replace("_", " ")
+    named = [_enum_param(f) for f in filters if f.name != date.name][:2]
+    taken = frozenset({date.name} | {p.source_field for p in named})
+    spare = _filter_params(source, limit=2 - len(named), spec=spec, exclude=taken)
+    return ToolPlan(
+        name=_tool_name(spec.tool_prefix, source.name, "by", date.name),
+        title=f"{label} by {date.name}",
+        goal=job,
+        pattern=QueryPattern.LOOKUP,
+        source=source.name,
+        params=[
+            ParamPlan(
+                name="start_date",
+                python_type="str",
+                description=(
+                    f"First {date.name.replace('_', ' ')} to include, YYYY-MM-DD. "
+                    "Work out a moving window such as 'the next 90 days' from "
+                    "today's date."
+                ),
+                required=True,
+                source_field=date.name,
+                operator=">=",
+            ),
+            ParamPlan(
+                name="end_date",
+                python_type="str",
+                description=(
+                    "Day after the last day to include, YYYY-MM-DD (exclusive). "
+                    "Empty for no upper bound."
+                ),
+                required=False,
+                source_field=date.name,
+                operator="<",
+            ),
+            *named,
+            *spare,
+        ],
+        paginated=True,
+        returns=(
+            f"Every {label} record whose {date.name} falls in the window, paged, "
+            "with the total so the first page is never mistaken for the whole "
+            "answer."
+        ),
+        error_hints=["Widen the window, or drop a filter."],
+        eval_seeds=[job],
+    )
+
+
+def _window_tool(
+    spec: ServerSpec, source: DataSourceProfile, job: str, text: str
+) -> tuple[ToolPlan | None, str]:
+    """'Which awards expire in the next 90 days?', 'Which investments are
+    scheduled to complete in 2027?': the records in a date window. The caller
+    works the window out from today's date, so it can move."""
+    forward = _FORWARD_WINDOW_CUES.search(text)
+    dated = asks_which_rows(text, source) and _RANGE_CUES.search(text)
+    if not (forward or dated) or _COMPARE_CUES.search(text):
+        return None, ""  # a row comparison is reported by _refusal, never listed
+    if source.kind is not SourceKind.UC_TABLE:
+        return None, (
+            f"'{job}': asks for the records in a date window, which only a Unity "
+            "Catalog table source supports here."
+            if forward
+            else ""
+        )
+    _labels, dates = _period_fields(source)
+    date = _asked_period(text, dates, source)
+    if date is None:
+        return None, (
+            f"'{job}': asks for the records in a date window, and "
+            + (
+                f"'{source.name}' has several dates: "
+                + ", ".join(f.name for f in dates)
+                + ". Reword the question with the date's own words, or pass a "
+                "reading with shape=list and key=<date column>."
+                if dates
+                else f"'{source.name}' has no date field."
+            )
+        )
+    filters = _value_filters(text, list(source.fields), {date.name})
+    return _window_plan(spec, source, job, date, filters), ""
+
+
+def _list_tool(
+    spec: ServerSpec, source: DataSourceProfile, job: str, text: str
+) -> ToolPlan | None:
+    """'Show the declarations for a given disaster number', 'Look up an award
+    by its PIID': every record for one value, paged. Only a table answers
+    this; a snapshot has no paging."""
+    if source.kind is not SourceKind.UC_TABLE or not _LIST_CUES.search(text):
+        return None
+    # 'Show daily sales for franchise 3' asks for a trend, not a list.
+    # 'Get a bridge by structure number': after a lookup verb, 'by' names the
+    # key. After 'show' or 'list' it may still group ('show sales by region').
+    plain = text.replace(" by ", " ") if _LOOKUP_VERBS.search(text) else text
+    computing = (
+        _COMPUTE_WORDS.search(plain)
+        or any(cue in text for _grain, cues in _GRAIN_CUES for cue in cues)
+        or any(cue in text for cue in _AVG_CUES)
+        or any(w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text))
+    )
+    if computing:
+        return None
+    key = _list_key(text, source)
+    if key is None:
+        return None
+    filters = _value_filters(text, list(source.fields), {key.name})
+    return _list_plan(spec, source, job, key, filters)
+
+
+def _period_fields(
+    source: DataSourceProfile,
+) -> tuple[list[FieldProfile], list[FieldProfile]]:
+    """A source's period labels and its real dates.
+
+    'action_date_fiscal_year' = '2010' is a label to group by, not a date to
+    bound. A fiscal year is not a calendar year, so it is never rebuilt with
+    date_trunc.
+    """
+    from mcp_server_creator.profiling import DATE_TYPES, normalize_type
+
+    usable = [f for f in source.fields if not f.pii and f.role is FieldRole.DATE]
+    labels = [
+        f
+        for f in usable
+        if normalize_type(f.data_type) not in DATE_TYPES
+        and re.search(r"year|fy|quarter|period", f.name.lower())
+    ]
+    return labels, [f for f in usable if f not in labels]
+
+
+@dataclass
+class _Slots:
+    """What one question asks a computed tool for."""
+
+    aggregation: str
+    measure: FieldProfile | None = None
+    group: FieldProfile | None = None
+    entity: FieldProfile | None = None
+    entity_value: str = ""
+    granularity: str = ""
+    filters: list[FieldProfile] = dc_field(default_factory=list)
+    # A year column the question bounds: 'built before 1960'.
+    bound: FieldProfile | None = None
 
 
 def _group_field(
@@ -589,16 +968,20 @@ def _entity_filter(
 ) -> tuple[FieldProfile | None, str]:
     """A column the question pins to one value, and the value if it says it."""
     # 'franchise 3000003': a named key with its value.
-    for word, value in re.findall(r"\b([a-z]+)\s+(\d[\w-]*)", text):
-        candidate = _best_field([word], others)
+    # 'fiscal year 2025': both words before the value, then the last one.
+    for phrase, value in re.findall(r"\b((?:[a-z]+\s+)?[a-z]+)\s+(\d[\w-]*)", text):
+        words = phrase.split()
+        candidate = _best_field(words, others) or _best_field(words[-1:], others)
         if candidate is not None:
             return candidate, value
     # 'for one franchise', 'at my store': a filter the caller fills in.
-    for word in re.findall(
-        r"\b(?:for|at|in|of)\s+(?:a single|a given|one|an|a|my|our)\s+([a-z]+)",
+    for phrase in re.findall(
+        r"\b(?:for|at|in|of)\s+(?:a single|a given|one|an|a|my|our)\s+"
+        r"([a-z]+(?:\s+[a-z]+)?)",
         text,
     ):
-        candidate = _best_field([word], others)
+        words = phrase.split()
+        candidate = _best_field(words, others) or _best_field(words[:1], others)
         if candidate is not None:
             return candidate, ""
     # 'distinct counties in Texas': a capitalised place filters the table's
@@ -612,74 +995,147 @@ def _entity_filter(
     spots = [
         f for f in others if f.name not in used and _PLACE_FIELD.search(f.name.lower())
     ]
+    # 'in Virginia' is a state, not a city, when the table has both.
+    spots.sort(key=lambda f: not re.search(r"state|province|territory", f.name.lower()))
     return (spots[0], word) if spots else (None, "")
 
 
-def _job_tool(
-    spec: ServerSpec, source: DataSourceProfile, job: str
-) -> tuple[ToolPlan | None, str]:
-    """One tool that answers one recorded question, or the reason it cannot."""
-    text = " " + job.lower().replace("?", " ").replace(",", " ") + " "
-    listing = _list_tool(spec, source, job, text)
-    if listing is not None:
-        return listing, ""
-    # 'What does the exhibit say', 'which documents mention': a search or
-    # lookup answers these; a computed tool would invent a total.
-    if is_retrieval(job):
-        return None, ""
-    # Row-level comparisons and business states are not column lookups.
-    # Say so, rather than return a count of every row as the answer.
+def _refusal(job: str, text: str, source: DataSourceProfile) -> str:
+    """Why no generated pattern answers this question, or '' when one may.
+
+    Row-level comparisons, moving windows, business states and ratios are not
+    column lookups. Saying so beats a count of every row as the answer.
+    """
     if _COMPARE_CUES.search(text):
-        return None, (
+        return (
             f"'{job}': compares two columns of the same row (for example a "
             "receipt date after a commit date). Add a computed column such as "
             "is_late to the table, or write this tool by hand."
         )
-    if _FORWARD_WINDOW_CUES.search(text):
-        return None, (
-            f"'{job}': asks for a window that moves with today. No generated "
-            "pattern filters a date relative to now yet, so write this tool by "
-            "hand: WHERE end_date BETWEEN current_date() AND "
-            "date_add(current_date(), n)."
+    extreme = _EXTREME_CUES.search(text)
+    if extreme:
+        return (
+            f"'{job}': asks for the {extreme.group(1)} record. No generated "
+            "pattern returns the single earliest or latest record of a group, "
+            "so write this tool by hand (ORDER BY the date, LIMIT 1 per group)."
         )
     state = _STATE_CUES.search(text)
     if state and not any(state.group(1)[:4] in f.name.lower() for f in source.fields):
-        return None, (
+        return (
             f"'{job}': '{state.group(1)}' is a business rule, and no column in "
             f"'{source.name}' records it. Add a flag column for it, or write "
             "this tool by hand with the rule spelled out."
         )
-    from mcp_server_creator.profiling import DATE_TYPES, normalize_type
+    ratio = RATIO_CUES.search(text)
+    # 'sales per employee' on a table with an employee column groups by it.
+    columns = [
+        f for f in source.fields if not f.pii and f.role is not FieldRole.MEASURE
+    ]
+    if ratio and _best_field(ratio.group(1).split()[-1:], columns) is None:
+        return (
+            f"'{job}': asks for a ratio (per {ratio.group(1)}). No generated "
+            "pattern divides one column by another, so add a computed column "
+            "for it to the table, or write this tool by hand."
+        )
+    return ""
+
+
+def _unnamed_amount(
+    job: str, text: str, source: DataSourceProfile, measures: list[FieldProfile]
+) -> tuple[FieldProfile | None, str]:
+    """The measure for 'how much went to ...', which names no column.
+
+    One money column is the answer. Several is a choice the user makes, so
+    the note names them; a row count is never the answer to 'how much'.
+    """
+    from mcp_server_creator.profiling import name_words
+
+    money = [m for m in measures if set(name_words(m.name)) & _MONEY_WORDS]
+    if len(money) == 1 and _MONEY_ASK.search(text):
+        return money[0], ""
+    if measures:
+        return None, (
+            f"'{job}': names no amount column. '{source.name}' has "
+            + ", ".join(m.name for m in money or measures)
+            + ". Reword the question with the column's own words, or pass a "
+            "reading that names the measure."
+        )
+    return None, (
+        f"'{job}': no numeric column in '{source.name}' holds that "
+        "amount. If the amount is stored as text, re-profile the source "
+        "live so it is recognised as a measure and cast before it is "
+        "summed; never answer 'how much' with a row count."
+    )
+
+
+def _share_group(
+    text: str,
+    source: DataSourceProfile,
+    groupable: list[FieldProfile],
+    filters: list[FieldProfile],
+) -> FieldProfile | None:
+    """The column a 'share of' question splits by: one it names outside the
+    words for the row itself, or one whose value it names."""
+    rows = _row_words(source)
+    words = [
+        w
+        for w in re.findall(r"[a-z]+", text)
+        if len(w) >= 3 and w not in _STOP and singular(w)[:4] not in rows
+    ]
+    for word in words:
+        field = _best_field([word], groupable)
+        if field is not None:
+            return field
+    return filters[0] if filters else None
+
+
+def _read_slots(
+    spec: ServerSpec, source: DataSourceProfile, job: str, text: str
+) -> tuple[_Slots | None, str]:
+    """Read one question into its measure, aggregation, grouping, filters and
+    time grain, or say why this source cannot answer it."""
+    from mcp_server_creator.profiling import name_words
 
     usable = [f for f in source.fields if not f.pii]
     measures = [f for f in usable if f.role is FieldRole.MEASURE]
-    # 'action_date_fiscal_year' = '2010': a period label to group by, not a
-    # date to bound. A fiscal year is not a calendar year, so it is never
-    # rebuilt with date_trunc.
-    labels = [
-        f
-        for f in usable
-        if f.role is FieldRole.DATE
-        and normalize_type(f.data_type) not in DATE_TYPES
-        and re.search(r"year|fy|quarter|period", f.name.lower())
-    ]
-    dates = [f for f in usable if f.role is FieldRole.DATE and f not in labels]
+    labels, dates = _period_fields(source)
     groupable = [
         f
         for f in usable
         if f.role
         in {FieldRole.DIMENSION, FieldRole.IDENTIFIER, FieldRole.GEO, FieldRole.FLAG}
+        or is_label(f)
     ]
     sql = source.kind is SourceKind.UC_TABLE
 
-    granularity = ""
-    for grain, cues in _GRAIN_CUES:
-        if any(cue in text for cue in cues):
-            granularity = grain
-            break
     measure = _job_measure(text, measures)
     quantity = counted_measure(text, measures)
+    # 'average daily traffic' is a column, not a request for a daily trend.
+    named = " ".join(name_words(measure.name)) if measure is not None else ""
+    plain = text.replace(named, " ") if named else text
+    granularity = ""
+    for grain, cues in _GRAIN_CUES:
+        if any(cue in plain for cue in cues):
+            granularity = grain
+            break
+    if _QUARTER_CUES.search(text) and not any(
+        "quarter" in f.name.lower() for f in labels
+    ):
+        return None, (
+            f"'{job}': asks by quarter. Generated trends step by day, week or "
+            f"month, and '{source.name}' has no quarter column to group by. "
+            "Ask by month, or add a quarter column to the table."
+        )
     distinct = _distinct_field(text, source, groupable + labels) if sql else None
+    share = _SHARE_CUES.search(text)
+    if share and measure is not None:
+        # 'share of awards' on a table of awards counts rows; 'share of
+        # obligations' adds up the obligations column.
+        of = text[share.end() :].split()[:2]
+        if not _job_measure(" ".join(of), measures) or (
+            {singular(w)[:4] for w in of} & _row_words(source)
+        ):
+            measure = None
     if distinct is not None and quantity is None:
         aggregation, measure = "count_distinct", distinct
     elif any(cue in text for cue in _AVG_CUES):
@@ -690,31 +1146,49 @@ def _job_tool(
         aggregation = "count"
     else:
         aggregation = "sum"
-    if aggregation in ("count", "count_distinct"):
+    if aggregation == "count":
         # 'How much has been obligated ... by fiscal year?' asks for an
         # amount. Answering it with a row count is a confident wrong number
         # (eval F6), so with no measure to add up the tool is refused.
         wants_amount = (
             " how much " in text
             or any(w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text))
+            or bool(_MOST_MONEY.search(text))
         ) and not any(cue in text for cue in _COUNT_CUES)
-        if wants_amount and aggregation == "count":
-            return (
-                None,
-                f"'{job}': no numeric column in '{source.name}' holds that "
-                "amount. If the amount is stored as text, re-profile the source "
-                "live so it is recognised as a measure and cast before it is "
-                "summed; never answer 'how much' with a row count.",
-            )
-        if aggregation == "count":
-            measure = None
+        measure = None
+        if wants_amount:
+            measure, reason = _unnamed_amount(job, text, source, measures)
+            if measure is None:
+                return None, reason
+            aggregation = "sum"
     if aggregation == "avg" and measure is None:
-        return None, f"'{job}': no numeric column in '{source.name}' to average."
+        return None, (
+            f"'{job}': names no column to average. '{source.name}' has "
+            + ", ".join(m.name for m in measures)
+            + ". Reword the question with the column's own words, or pass a "
+            "reading that names the measure."
+            if measures
+            else f"'{job}': no numeric column in '{source.name}' to average."
+        )
 
     group = _group_field(text, granularity, groupable, labels, distinct)
-    others = [f for f in groupable if f is not group]
+    counted = {measure.name} if aggregation == "count_distinct" and measure else set()
+    taken = counted | ({group.name} if group is not None else set())
+    filters = _value_filters(text, usable, taken)
+    if share and group is None:
+        group = _share_group(text, source, groupable, filters)
+        if group is None:
+            return None, (
+                f"'{job}': asks for a share, and names no column to split "
+                f"'{source.name}' by. Reword it with the column (for example "
+                "'share of records by status'), or pass a reading."
+            )
+        filters = [f for f in filters if f is not group]
+    others = [f for f in groupable + labels if f is not group]
     used = {f.name for f in (group, distinct) if f is not None}
     entity, entity_value = _entity_filter(job, text, others, used)
+    if entity is not None and entity in filters:
+        filters.remove(entity)
 
     wants_range = bool(_RANGE_CUES.search(text))
     counting = any(cue in text for cue in _COUNT_CUES)
@@ -731,16 +1205,26 @@ def _job_tool(
             f"'{job}': needs averages, counts, a date range or a finer time grain, "
             "which only a Unity Catalog table source supports here."
         )
-    date = _rank(dates, spec)[0] if dates else None
+    bound = _asked_period(text, labels, source) if _YEAR_BOUND.search(text) else None
+    return (
+        _Slots(
+            aggregation, measure, group, entity, entity_value, granularity, filters,
+            bound,
+        ),
+        "",
+    )  # fmt: skip
 
-    if granularity:
-        pattern = QueryPattern.TREND
-    elif group is not None:
-        pattern = QueryPattern.RANK
-    else:
-        pattern = QueryPattern.AGGREGATE
 
+def _computed_params(
+    spec: ServerSpec,
+    source: DataSourceProfile,
+    slots: _Slots,
+    date: FieldProfile | None,
+) -> list[ParamPlan]:
+    """The filters of a computed tool: the entity the question pins, a period
+    on a dated table, the columns whose values it names, then up to two more."""
     params: list[ParamPlan] = []
+    entity = slots.entity
     if entity is not None:
         params.append(
             ParamPlan(
@@ -748,7 +1232,7 @@ def _job_tool(
                 python_type="str",
                 description=(
                     f"Only rows for this {entity.name}"
-                    + (f", e.g. {entity_value}" if entity_value else "")
+                    + (f", e.g. {slots.entity_value}" if slots.entity_value else "")
                     + ". Leave empty for all."
                 ),
                 required=False,
@@ -757,7 +1241,7 @@ def _job_tool(
         )
     # Every computed tool on a dated table takes a period: a total with no
     # date bound silently answers 'all time' when the user asked for May.
-    if date is not None and sql:
+    if date is not None and source.kind is SourceKind.UC_TABLE:
         params += [
             ParamPlan(
                 name="start_date",
@@ -782,16 +1266,41 @@ def _job_tool(
                 operator="<",
             ),
         ]
+    if slots.bound is not None:
+        params += _bound_params(slots.bound)
     taken = {p.source_field for p in params}
-    if group is not None:
-        taken.add(group.name)
-    if aggregation == "count_distinct" and measure is not None:
-        taken.add(measure.name)  # what is counted is not also a filter
-    params += [
-        p
-        for p in _filter_params(source, spec=spec, exclude=frozenset(taken))
-        if p.name not in {q.name for q in params}
-    ]
+    if slots.group is not None:
+        taken.add(slots.group.name)
+    if slots.aggregation == "count_distinct" and slots.measure is not None:
+        taken.add(slots.measure.name)  # what is counted is not also a filter
+    named = [_enum_param(f) for f in slots.filters if f.name not in taken][:2]
+    taken |= {p.source_field for p in named}
+    spare = _filter_params(
+        source, limit=2 - len(named), spec=spec, exclude=frozenset(taken)
+    )
+    params += [p for p in named + spare if p.name not in {q.name for q in params}]
+    return params
+
+
+def _computed_plan(
+    spec: ServerSpec, source: DataSourceProfile, job: str, slots: _Slots
+) -> ToolPlan:
+    """The total, ranking or trend tool that computes what the slots say."""
+    measure, group, aggregation = slots.measure, slots.group, slots.aggregation
+    granularity = slots.granularity
+    _labels, dates = _period_fields(source)
+    # The date this question names ('leases expiring' is the expiration
+    # date), then the one the questions as a whole mention most.
+    date = _asked_period(question_text(job), dates, source) or (
+        _rank(dates, spec)[0] if dates else None
+    )
+
+    if granularity:
+        pattern = QueryPattern.TREND
+    elif group is not None:
+        pattern = QueryPattern.RANK
+    else:
+        pattern = QueryPattern.AGGREGATE
 
     measure_label = measure.name if measure is not None else "count"
     if aggregation == "avg":
@@ -840,36 +1349,256 @@ def _job_tool(
             else "Record count and the measure's sum, mean, minimum and maximum."
         )
 
-    return (
-        ToolPlan(
-            name=name,
-            title=title,
-            goal=job,
-            pattern=pattern,
-            source=source.name,
-            params=params,
-            paginated=pattern is QueryPattern.RANK,
-            returns=returns,
-            error_hints=["Drop a filter, or widen the date range."],
-            eval_seeds=[job],
-            measure_field=measure.name if measure is not None else "",
-            group_field=group.name if group is not None else "",
-            date_field=date.name if date is not None else "",
-            aggregation=aggregation,
-            granularity=granularity or "month",
-        ),
-        "",
+    return ToolPlan(
+        name=name,
+        title=title,
+        goal=job,
+        pattern=pattern,
+        source=source.name,
+        params=_computed_params(spec, source, slots, date),
+        paginated=pattern is QueryPattern.RANK,
+        returns=returns,
+        error_hints=["Drop a filter, or widen the date range."],
+        eval_seeds=[job],
+        measure_field=measure.name if measure is not None else "",
+        group_field=group.name if group is not None else "",
+        date_field=date.name if date is not None else "",
+        aggregation=aggregation,
+        granularity=granularity or "month",
     )
 
 
+def _job_tool(
+    spec: ServerSpec, source: DataSourceProfile, job: str
+) -> tuple[ToolPlan | None, str]:
+    """One tool that answers one recorded question, or the reason it cannot."""
+    text = question_text(job)
+    listing = _list_tool(spec, source, job, text)
+    if listing is not None:
+        return listing, ""
+    # 'What does the exhibit say', 'which documents mention': a search or
+    # lookup answers these; a computed tool would invent a total.
+    window, reason = _window_tool(spec, source, job, text)
+    if window is not None or reason:
+        return window, reason
+    if is_retrieval(job):
+        return None, ""
+    refusal = _refusal(job, text, source)
+    if refusal:
+        return None, refusal
+    slots, reason = _read_slots(spec, source, job, text)
+    if slots is None:
+        return None, reason
+    return _computed_plan(spec, source, job, slots), ""
+
+
+_SHAPES = {
+    QueryPattern.AGGREGATE: "total",
+    QueryPattern.RANK: "ranking",
+    QueryPattern.TREND: "trend",
+}
+
+
+def describe_reading(plan: ToolPlan) -> dict[str, object] | None:
+    """How a tool reads its question, in the terms a QuestionReading uses, so
+    a caller can compare it with the question and send a correction."""
+    filters = [p.source_field for p in plan.params if p.source_field]
+    if plan.pattern in _SHAPES:
+        reading: dict[str, object] = {
+            "shape": _SHAPES[plan.pattern],
+            "aggregation": plan.aggregation,
+            "measure": plan.measure_field,
+            "group_by": plan.group_field,
+            "filters": list(dict.fromkeys(filters)),
+        }
+        if plan.pattern is QueryPattern.TREND:
+            reading["granularity"] = plan.granularity
+        return reading
+    if plan.pattern is QueryPattern.LOOKUP and plan.paginated and filters:
+        rest = [f for f in dict.fromkeys(filters) if f != filters[0]]
+        return {"shape": "list", "key": filters[0], "filters": rest}
+    return None
+
+
+_READING_KEYS = frozenset(
+    {"shape", "aggregation", "measure", "group_by", "key", "filters", "granularity",
+     "source"}
+)  # fmt: skip
+
+
+def parse_reading(line: str) -> tuple[QuestionReading | None, str]:
+    """A reading written as one flat string, or why it cannot be read.
+
+        How much went to small businesses by agency? => shape=ranking;
+        aggregation=sum; measure=federal_action_obligation;
+        group_by=awarding_agency_name
+
+    One string per question keeps the tool's schema flat: nested object
+    parameters are what some model gateways drop.
+    """
+    question, arrow, rest = line.rpartition("=>")
+    if not arrow or not question.strip():
+        return None, "write it as '<question> => shape=...; aggregation=...'."
+    fields: dict[str, object] = {"question": question.strip()}
+    for pair in rest.split(";"):
+        name, equals, value = pair.partition("=")
+        name = name.strip().lower()
+        if not pair.strip():
+            continue
+        if not equals or name not in _READING_KEYS:
+            return None, (
+                f"'{pair.strip()[:40]}' is not one of "
+                + ", ".join(sorted(_READING_KEYS))
+                + "."
+            )
+        value = value.strip()
+        fields[name] = (
+            [v.strip() for v in value.split(",") if v.strip()]
+            if name == "filters"
+            else value
+        )
+    try:
+        return QuestionReading(**fields), ""
+    except ValidationError as error:
+        first = error.errors()[0]
+        where = ".".join(str(part) for part in first["loc"]) or "reading"
+        return None, f"{where}: {first['msg'][:120]}."
+
+
+def _same_question(a: str, b: str) -> bool:
+    return " ".join(a.lower().split()) == " ".join(b.lower().split())
+
+
+def plan_from_reading(
+    spec: ServerSpec, source: DataSourceProfile, reading: QuestionReading
+) -> tuple[ToolPlan | None, str]:
+    """The tool a caller's reading of one question describes, or why the
+    reading does not fit this source.
+
+    Every column is checked against the profiled fields: it must exist, must
+    not be personal, and must suit its place (a sum needs a numeric measure,
+    a trend a date). Nothing the caller writes reaches generated SQL as text.
+    """
+    said = f"Reading for '{reading.question}'"
+    job = next(
+        (j for j in spec.jobs_to_be_done if _same_question(j, reading.question)), ""
+    )
+    if not job:
+        return None, (
+            f"{said}: not a recorded question. Use the question's exact words."
+        )
+    if source.kind is not SourceKind.UC_TABLE:
+        return None, f"{said}: '{source.name}' is not a Unity Catalog table."
+    usable = {f.name.lower(): f for f in source.fields if not f.pii}
+
+    def column(name: str, role: str) -> FieldProfile | str:
+        found = usable.get(name.strip().lower())
+        if found is not None:
+            return found
+        return (
+            f"{said}: {role} '{name[:60]}' is not a column of '{source.name}' "
+            "that tools may read. Call the describe tool for the column list."
+        )
+
+    filters: list[FieldProfile] = []
+    for name in reading.filters:
+        found = column(name, "filter")
+        if isinstance(found, str):
+            return None, found
+        filters.append(found)
+
+    if reading.shape == "list":
+        key = column(reading.key, "key")
+        if isinstance(key, str):
+            return None, key
+        if key in _period_fields(source)[1]:
+            return _window_plan(spec, source, job, key, filters), ""
+        return _list_plan(spec, source, job, key, filters), ""
+
+    measure: FieldProfile | None = None
+    if reading.aggregation != "count":
+        found = column(reading.measure, "measure")
+        if isinstance(found, str):
+            return None, found
+        measure = found
+        summed = reading.aggregation in ("sum", "avg")
+        if summed and measure.role is not FieldRole.MEASURE:
+            return None, (
+                f"{said}: '{measure.name}' is not a numeric measure, so it "
+                "cannot be added up or averaged. Measures: "
+                + (", ".join(f.name for f in source.measures() if not f.pii) or "none")
+                + "."
+            )
+    group: FieldProfile | None = None
+    if reading.shape == "ranking":
+        found = column(reading.group_by, "group_by")
+        if isinstance(found, str):
+            return None, found
+        if found.role is FieldRole.MEASURE:
+            return None, f"{said}: '{found.name}' is a measure, not a grouping."
+        group = found
+    if reading.shape == "trend" and not _period_fields(source)[1]:
+        return None, f"{said}: '{source.name}' has no date field for a trend."
+    slots = _Slots(
+        aggregation=reading.aggregation,
+        measure=measure,
+        group=group,
+        granularity=reading.granularity if reading.shape == "trend" else "",
+        filters=filters,
+    )
+    return _computed_plan(spec, source, job, slots), ""
+
+
+def _resolve_readings(
+    spec: ServerSpec, readings: list[QuestionReading]
+) -> tuple[dict[tuple[str, str], ToolPlan], list[str]]:
+    """Each caller reading as a tool for (source, question), plus a note for
+    every reading that fits no source."""
+    resolved: dict[tuple[str, str], ToolPlan] = {}
+    notes: list[str] = []
+    for reading in readings:
+        tables = [
+            s
+            for s in spec.data_sources
+            if s.kind is SourceKind.UC_TABLE
+            and s.fields
+            and reading.source in ("", s.name)
+        ]
+        if not tables:
+            notes.append(
+                f"Reading for '{reading.question}': no table source"
+                + (f" named '{reading.source}'" if reading.source else "")
+                + " on this design. The designer's own reading was kept."
+            )
+            continue
+        reasons: list[str] = []
+        for source in tables:
+            plan, reason = plan_from_reading(spec, source, reading)
+            if plan is not None:
+                resolved[(source.name, plan.goal)] = plan
+                break
+            reasons.append(reason)
+        else:
+            notes.append(reasons[0] + " The designer's own reading was kept.")
+    return resolved, notes
+
+
 def _job_tools(
-    spec: ServerSpec, source: DataSourceProfile
+    spec: ServerSpec,
+    source: DataSourceProfile,
+    readings: dict[tuple[str, str], ToolPlan] | None = None,
 ) -> tuple[list[ToolPlan], list[str]]:
-    """Tools for every recorded question this source can answer."""
+    """Tools for every recorded question this source can answer. A caller's
+    reading of a question, already checked, replaces the designer's own."""
     plans: list[ToolPlan] = []
     notes: list[str] = []
     for job in spec.jobs_to_be_done:
-        plan, reason = _job_tool(spec, source, job)
+        given = (readings or {}).get((source.name, job))
+        plan, reason = (
+            (given.model_copy(deep=True), "")
+            if given is not None
+            else _job_tool(spec, source, job)
+        )
         if plan is None:
             if reason:
                 notes.append(reason)
@@ -879,7 +1608,8 @@ def _job_tools(
             if plan.params and {q.name for q in plan.params} != {
                 q.name for q in twin.params
             }:
-                plan.name = _tool_name(plan.name, "filtered")
+                # Keep the suffix whole when the name is at its length limit.
+                plan.name = plan.name[:54].rstrip("_") + "_filtered"
             else:
                 twin.eval_seeds.append(job)
                 continue
@@ -887,27 +1617,25 @@ def _job_tools(
     return plans, notes
 
 
-def _structured_tools(spec: ServerSpec, source: DataSourceProfile) -> list[ToolPlan]:
+def _structured_tools(
+    spec: ServerSpec,
+    source: DataSourceProfile,
+    readings: dict[tuple[str, str], ToolPlan] | None = None,
+) -> list[ToolPlan]:
     """Propose the tools a tabular source can actually support."""
     plans: list[ToolPlan] = [_describe_tool(spec, source)]
     label = source.title or source.name.replace("_", " ")
     # Rank by the user's questions, so 'UV index' picks uv_index rather
     # than whichever measure happened to be profiled first.
-    # The lookup key is the record's own key (the one the grain or source name
-    # mentions), never a personal field and never a shared foreign key such
+    # The lookup key is the record's own key, never a shared foreign key such
     # as the franchise a question happens to mention.
-    grain_words = _tokens(f"{source.grain} {source.name} {source.title}")
-    identifiers = sorted(
-        [f for f in source.identifiers() if not f.pii],
-        key=lambda f: -len(_tokens(f.name.replace("ID", " id")) & grain_words),
-    )
+    key = _record_key(source)
     measures = _rank(source.measures(), spec)
     dimensions = _rank(source.dimensions(), spec)
     dates = _rank(source.dates(), spec)
     text_fields = _rank(source.text_fields(), spec)
 
-    if identifiers:
-        key = identifiers[0]
+    if key is not None:
         plans.append(
             ToolPlan(
                 name=_tool_name(spec.tool_prefix, "get", source.name),
@@ -1015,8 +1743,24 @@ def _structured_tools(spec: ServerSpec, source: DataSourceProfile) -> list[ToolP
             )
         )
 
-    job_plans, _ = _job_tools(spec, source)
+    job_plans, _ = _job_tools(spec, source, readings)
     if job_plans:
+        # 'Look up an award by its PIID' is the lookup on that key; a generic
+        # 'get' on the same key would be a twin for the model to choose between.
+        keyed = {
+            p.params[0].source_field
+            for p in job_plans
+            if p.pattern is QueryPattern.LOOKUP and p.params
+        }
+        plans = [
+            p
+            for p in plans
+            if not (
+                p.pattern is QueryPattern.LOOKUP
+                and p.params
+                and p.params[0].source_field in keyed
+            )
+        ]
         return plans + job_plans
 
     if measures and dimensions:
@@ -1223,11 +1967,20 @@ def _other_tools(spec: ServerSpec, source: DataSourceProfile) -> list[ToolPlan]:
     return plans
 
 
-def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
-    """Propose a tool surface, with notes on what was left out and why."""
+def design_tools(
+    spec: ServerSpec, readings: list[QuestionReading] | None = None
+) -> tuple[list[ToolPlan], list[str]]:
+    """Propose a tool surface, with notes on what was left out and why.
+
+    `readings` are the caller's own readings of recorded questions. Each is
+    checked against the profiled columns and replaces the designer's reading
+    of that question; one that does not fit is reported and ignored.
+    """
     plans: list[ToolPlan] = []
     notes: list[str] = []
     notes.extend(_apply_scope_exclusions(spec))
+    given, reading_notes = _resolve_readings(spec, list(readings or []))
+    notes.extend(reading_notes)
 
     for source in spec.data_sources:
         text_table = (
@@ -1239,7 +1992,7 @@ def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
             # A table of text rows (reviews, notes) answers keyword search,
             # counts and lookups with plain SQL; only semantic search needs
             # an index.
-            plans.extend(_structured_tools(spec, source))
+            plans.extend(_structured_tools(spec, source, given))
             notes.append(
                 f"'{source.name}' is a table of text, so its search is keyword "
                 "matching. For meaning-based search, build an AI Search index "
@@ -1252,7 +2005,7 @@ def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
             SourceKind.LOCAL_SNAPSHOT,
             SourceKind.REST_API,
         }:
-            plans.extend(_structured_tools(spec, source))
+            plans.extend(_structured_tools(spec, source, given))
         else:
             plans.extend(_other_tools(spec, source))
 
@@ -1326,7 +2079,7 @@ def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
         if (
             text_table or source.modality is not DataModality.UNSTRUCTURED
         ) and source.kind in {SourceKind.UC_TABLE, SourceKind.LOCAL_SNAPSHOT}:
-            notes.extend(_job_tools(spec, source)[1])
+            notes.extend(_job_tools(spec, source, given)[1])
     pii = [f.name for s in spec.data_sources for f in s.fields if f.pii]
     if pii:
         notes.append(
@@ -1451,10 +2204,10 @@ def _apply_scope_exclusions(spec: ServerSpec) -> list[str]:
         hit: list[str] = []
         for source in spec.data_sources:
             for field in source.fields:
-                if field.pii or field.role not in {
-                    FieldRole.IDENTIFIER,
-                    FieldRole.DIMENSION,
-                }:
+                # A name column can be grouped and listed by, so a rule that
+                # withholds individuals hides it with the keys.
+                keyed = field.role in {FieldRole.IDENTIFIER, FieldRole.DIMENSION}
+                if field.pii or not (keyed or is_label(field)):
                     continue
                 words = {
                     w[:5]

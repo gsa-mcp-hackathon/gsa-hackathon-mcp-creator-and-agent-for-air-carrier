@@ -1,8 +1,8 @@
 {
   "server": "mcp-a-creator",
   "tools": 10,
-  "calls": 400,
-  "refused_by_validation": 147,
+  "calls": 403,
+  "refused_by_validation": 150,
   "refused_by_tool": 217,
   "answered": 36,
   "workspace_client_requests_refused": 0

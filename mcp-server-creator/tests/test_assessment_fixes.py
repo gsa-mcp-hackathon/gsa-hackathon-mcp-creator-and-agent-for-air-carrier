@@ -498,13 +498,16 @@ def test_tool_prefix_skips_generic_name_parts():
     assert prefix("mcp-server") == "mcp"
 
 
-def test_a_forward_window_question_is_reported_not_mapped_to_a_ranking():
+def test_a_forward_window_question_gets_a_date_window_not_a_ranking():
     """'Which awards expire in the next 90 days?' was answered by a ranking
-    of awards by amount: a confident tool for a different question."""
+    of awards by amount, then (round 5) refused with a note. Since 1.0.0rc3
+    it is a paged list bounded on the end date; the caller works the window
+    out from today's date, so it moves."""
     from mcp_server_creator.designer import design_tools
     from mcp_server_creator.models import (
         DataModality,
         DataSourceProfile,
+        QueryPattern,
         ServerSpec,
         SourceKind,
     )
@@ -528,9 +531,12 @@ def test_a_forward_window_question_is_reported_not_mapped_to_a_ranking():
             )
         ],
     )
-    tools, notes = design_tools(spec)
-    assert not any(t.goal == spec.jobs_to_be_done[0] for t in tools)
-    assert any("moves with today" in note for note in notes)
+    tools, _notes = design_tools(spec)
+    plan = next(t for t in tools if t.goal == spec.jobs_to_be_done[0])
+    assert plan.pattern is QueryPattern.LOOKUP and plan.paginated
+    bounds = {p.name: (p.source_field, p.operator, p.required) for p in plan.params}
+    assert bounds["start_date"] == ("end_date", ">=", True)
+    assert bounds["end_date"] == ("end_date", "<", False)
 
 
 def test_how_much_is_never_answered_with_a_row_count():
@@ -607,10 +613,31 @@ def _misread(spec):
     return (found[0] if found else None), report
 
 
-def test_review_flags_an_average_where_the_question_asks_for_a_ratio():
+def test_a_ratio_question_is_reported_and_an_average_for_it_is_flagged():
+    """'Average fare per mile' divides one column by another. The designer
+    says no pattern does that (1.0.0rc3; before, it built an average and the
+    review flagged it). A caller's reading that asks for the average anyway
+    is still caught by the review, from the question's own words."""
+    from mcp_server_creator.designer import parse_reading
+
     job = "What was the average fare per mile by pickup ZIP in January 2016?"
     spec = _spec([_taxi()], [job])
-    spec.tools, _ = design_tools(spec)
+    spec.tools, notes = design_tools(spec)
+    assert not any(p.goal == job for p in spec.tools)
+    assert any("ratio (per mile)" in note for note in notes)
+    unanswered = [
+        f for f in review_spec(spec).findings if f.check == "every_question_has_a_tool"
+    ]
+    assert unanswered and job in unanswered[0].evidence
+
+    fare = next(f.name for f in _taxi().fields if "fare" in f.name.lower())
+    zip_code = next(f.name for f in _taxi().fields if "zip" in f.name.lower())
+    reading, problem = parse_reading(
+        f"{job} => shape=ranking; aggregation=avg; measure={fare}; group_by={zip_code}"
+    )
+    assert reading is not None, problem
+    spec.tools, _ = design_tools(spec, [reading])
+    assert any(p.goal == job and p.aggregation == "avg" for p in spec.tools)
     finding, report = _misread(spec)
     assert finding is not None and "per mile" in finding.evidence
     assert finding.severity is Severity.HIGH and report.scores["honesty"] <= 2

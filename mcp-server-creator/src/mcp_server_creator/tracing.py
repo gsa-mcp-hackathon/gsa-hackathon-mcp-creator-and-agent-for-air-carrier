@@ -4,7 +4,8 @@ Two channels, with different audiences:
 
 * Audit lines. One JSON line per call to stdout (the app's Logs tab) and,
   when CREATOR_TRACE_DIR names a volume directory, one small file per call.
-  These never contain arguments or results.
+  These never contain arguments or results. Over stdio they go to stderr:
+  there stdout is the protocol channel and carries JSON-RPC messages only.
 * MLflow traces, for evaluation. When MLFLOW_EXPERIMENT_ID is set (on
   Databricks Apps, from the `experiment` resource), every call becomes an
   MLflow trace with a TOOL span holding the clipped inputs and outputs, the
@@ -57,10 +58,21 @@ def _outcome(result: Any) -> tuple[str, str]:
     return "ok", ""
 
 
+_AUDIT_TO_STDERR = False
+
+
+def audit_to_stderr() -> None:
+    """Send audit lines to stderr. Called before serving over stdio, where a
+    line on stdout that is not a JSON-RPC message breaks the client's parser."""
+    global _AUDIT_TO_STDERR
+    _AUDIT_TO_STDERR = True
+
+
 def record(entry: dict[str, Any]) -> None:
-    """Emit one trace: stdout always, the volume when configured."""
+    """Emit one trace: the log stream always, the volume when configured."""
     line = json.dumps(entry, separators=(",", ":"))
-    print(f"TRACE {line}", file=sys.stdout, flush=True)
+    stream = sys.stderr if _AUDIT_TO_STDERR else sys.stdout
+    print(f"TRACE {line}", file=stream, flush=True)
     directory = settings.creator_trace_dir
     if not volume_files.is_volume_path(directory):
         return

@@ -180,7 +180,7 @@
   },
   {
    "measure": "Hostile arguments against all 30 read tools and the Creator",
-   "result": "421 calls to the read servers: 340 refused, none wrote, none pasted into SQL; 400 to the Creator: nothing written outside its root",
+   "result": "421 calls to the read servers: 340 refused, none wrote, none pasted into SQL; 403 to the Creator: nothing written outside its root",
    "not": "In-process against a recording fake warehouse"
   },
   {
@@ -210,7 +210,7 @@
   },
   {
    "measure": "Code suites from a clean clone",
-   "result": "1,657 passed, 0 failed, 825 of them hostile-input cases (9 projects)",
+   "result": "1,762 passed, 0 failed, 828 of them hostile-input cases (9 projects)",
    "not": "Tests show the code does what it says, not that it helps a user"
   }
  ],
@@ -221,7 +221,7 @@
   },
   {
    "risk": "Code injection into generated projects",
-   "control": "Free text made inert; eight payloads fuzzed; every generated file compiled with warnings as errors; 400 hostile calls to the Creator, nothing written outside its root"
+   "control": "Free text made inert; eight payloads fuzzed; every generated file compiled with warnings as errors; 403 hostile calls to the Creator, nothing written outside its root"
   },
   {
    "risk": "Unwanted writes",

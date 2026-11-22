@@ -60,7 +60,10 @@ def register_tools(mcp: FastMCP) -> None:
         return service.status(_c(), store.as_of())
 
     @mcp.tool(name="docs_list_documents", annotations={**READ, "title": "List documents"})
-    def docs_list_documents(kind: Kind = Kind.any) -> list[dict[str, Any]]:
+    def docs_list_documents(
+        kind: Annotated[Kind, Field(description=(
+            "Limit to one document kind, e.g. budget_justification or gao_report. any means all."))] = Kind.any,
+    ) -> list[dict[str, Any]]:
         """Every loaded PDF with its artifact_id, kind (budget_justification = J-book,
         selected_acquisition_report = SAR/MSAR, crs_report, gao_report ...), budget_cycle (PB2024
         for a J-book named PB24 or PB 2024), pages and tables."""
@@ -154,8 +157,10 @@ def register_tools(mcp: FastMCP) -> None:
 
     @mcp.tool(name="docs_compare_figures", annotations={**READ, "title": "Check figures against the sources"})
     def docs_compare_figures(
-        figures: Annotated[list[Figure], Field(min_length=1, max_length=20)],
-        tolerance_musd: Annotated[str, Field(max_length=16)] = "0",
+        figures: Annotated[list[Figure], Field(min_length=1, max_length=20, description=(
+            "One to twenty claimed figures to check, each with its value in $M."))],
+        tolerance_musd: Annotated[str, Field(max_length=16, description=(
+            "Allowed difference in $M, e.g. 0.5 to catch rounding. 0 means exact."))] = "0",
     ) -> dict[str, Any]:
         """For each claimed figure: is it printed anywhere, in which documents, and is any of them a
         J-book exhibit or SAR (authoritative) rather than CRS or GAO (secondary)."""
@@ -164,8 +169,10 @@ def register_tools(mcp: FastMCP) -> None:
     @mcp.tool(name="docs_tieout_document", annotations={**READ, "title": "Tie out a document's tables"})
     def docs_tieout_document(
         artifact_id: AID,
-        first_page: Annotated[int, Field(ge=0, le=5000)] = 0,
-        last_page: Annotated[int, Field(ge=0, le=5000)] = 0,
+        first_page: Annotated[int, Field(ge=0, le=5000, description=(
+            "First page of the range, 1-based. 0 means from the start of the document."))] = 0,
+        last_page: Annotated[int, Field(ge=0, le=5000, description=(
+            "Last page of the range. 0 means to the end of the document."))] = 0,
     ) -> dict[str, Any]:
         """Run every tie-out in a document (or page range) and list the tables that do not add up."""
         return _guard(service.tieout_document, _c(), artifact_id, first_page, last_page)

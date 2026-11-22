@@ -358,7 +358,7 @@
    "k": "Files byte-identical from the same specification, across processes"
   },
   {
-   "v": "1.0.0rc2",
+   "v": "1.0.0rc3",
    "k": "Released with a changelog and SBOM; an upgrade regenerates a server and keeps the owner's edits"
   },
   {

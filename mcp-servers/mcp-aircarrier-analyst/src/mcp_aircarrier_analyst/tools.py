@@ -203,7 +203,7 @@ def register_tools(mcp: FastMCP) -> None:
     def analyst_search_documents(
         query: Annotated[str, Field(min_length=3, max_length=120, description="Exact phrase, PIID, CAGE, line item or term, e.g. 'N00024-15-C-2114', 'government furnished', '0204112N'.")],
         category: Annotated[DocCategory, Field(description="Optional document category filter.")] = DocCategory.any,
-        limit: Annotated[int, Field(ge=1, le=25)] = 10,
+        limit: Annotated[int, Field(ge=1, le=25, description="Number of hits to return.")] = 10,
     ) -> dict[str, Any]:
         """Find a phrase in the full text of every loaded PDF page (SCN Book PB27, SAR/MSAR, GAO,
         CRS, NPS, DoN 5200.45A, DCMA MAN 2101-02, SUPSHIP Ops Manual). Returns document, page, grade,

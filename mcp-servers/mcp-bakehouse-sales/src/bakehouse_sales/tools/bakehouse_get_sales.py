@@ -50,6 +50,7 @@ def register(mcp: FastMCP) -> None:
             str,
             Field(
                 description=("Exact transactionID to fetch. Example: 1000000."),
+                max_length=256,
             ),
         ],
     ) -> dict[str, Any]:

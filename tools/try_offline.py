@@ -24,6 +24,9 @@ from mcp.client.stdio import stdio_client
 ROOT = Path(__file__).resolve().parents[1]
 HUB = ROOT / "the-one-hub" / "ops-center"
 CREATOR = ROOT / "mcp-server-creator"
+# The servers log to stderr (start-up banner, one audit line per call). The
+# answers are what this script shows, so the log is dropped.
+QUIET = open(os.devnull, "w")  # noqa: SIM115 - held for the life of the script
 
 
 async def _call(session: ClientSession, tool: str, args: dict) -> dict:
@@ -49,7 +52,8 @@ def _server(project: Path, *command: str) -> StdioServerParameters:
 async def hub() -> None:
     print("== mcp-aircarrier-hub (16 tools), no workspace\n")
     hub_server = _server(HUB, "python", "mcp/mcp_server.py")
-    async with stdio_client(hub_server) as (r, w), ClientSession(r, w) as s:
+    client = stdio_client(hub_server, errlog=QUIET)
+    async with client as (r, w), ClientSession(r, w) as s:
         await s.initialize()
         held = await _call(s, "hub_check_claim", {
             "hull": "CVN-79", "layer": "budget", "element": "Total Ship Estimate",
@@ -77,7 +81,8 @@ async def creator() -> None:
         "Show declarations for a given disaster number",
     ]
     creator_server = _server(CREATOR, "mcp-a-creator")
-    async with stdio_client(creator_server) as (r, w), ClientSession(r, w) as s:
+    client = stdio_client(creator_server, errlog=QUIET)
+    async with client as (r, w), ClientSession(r, w) as s:
         await s.initialize()
         started = await _call(s, "creator_start_design", {
             "purpose": "Answer FEMA public assistance questions",
@@ -98,6 +103,10 @@ async def creator() -> None:
         designed = await _call(s, "creator_design_tools", {"design_id": design_id})
         for tool in designed.get("tools", []):
             print(f"  {tool['name']}: {tool.get('goal', '')[:70]}")
+            reading = tool.get("reading")
+            if reading:  # how the designer read the question; a caller may correct it
+                read = ", ".join(f"{k}={v}" for k, v in reading.items() if v)
+                print(f"      read as: {read}")
         review = await _call(s, "creator_review_server", {"design_id": design_id})
         print(f"\n  review: {review.get('verdict') or review.get('summary', '')}")
 
