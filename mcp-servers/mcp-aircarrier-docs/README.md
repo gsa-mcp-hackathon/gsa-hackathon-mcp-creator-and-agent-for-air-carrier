@@ -1,6 +1,6 @@
 # mcp-aircarrier-docs
 
-> **Scorecard:** 11 tools · 55 tests · in the read-server adversarial sweep (421 hostile calls) · tie-outs on the 22 SCN books after round 10: 7,690 of 7,693, the 3 left within rounding (store before round 10: 7,703 of 7,712 on 34 PDFs) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+> **Scorecard:** 11 tools · 55 tests · in the read-server adversarial sweep (421 hostile calls) · tie-outs on the deployed store, 34 PDFs, after round 10: 7,743 of 7,746, the 3 left within rounding (before: 7,703 of 7,712) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
 
 Deterministic reading of the CVN-79 PDF corpus (SCN J-book exhibits, SAR/MSAR, CRS, GAO). No model in the loop:
 every number is an exact decimal with its document, page, row header, column header and unit.
@@ -45,7 +45,7 @@ SELECT on those two tables, CAN USE on the warehouse, and READ VOLUME on each ro
 ## Known limits (v0.1.0)
 
 * Text-only tables (for example CRS RS20643 Table 2) are not rebuilt as grids; their figures are found in page text.
-* Tie-outs, measured on the store on 2026-11-21: 7,703 of 7,712 checks pass over 34 documents (the first
+* Tie-outs on the deployed store, 2026-11-22 after round 10: 7,743 of 7,746 checks pass over 34 documents, the 3 left within the rounding bound ([evidence](../../docs/submission/evidence/tieout_store_2026-11-22.json)). Before round 10, 2026-11-21: 7,703 of 7,712 (the first
   full run that day: 7,638 of 7,733). The earlier "4 of 818" counted PB2027 only; its 4 were cost elements named "Total ...", such
   as "Total Ship Test Program", read as totals. A Total row with a Subtotal below it is now read as a line
   item when that removes failures and adds none. Most of the 95 failures are layouts older books print: a

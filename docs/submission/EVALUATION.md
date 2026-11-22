@@ -95,6 +95,29 @@ after the expiry waited for the reload. It now serves the loaded copy and refres
 background thread, and loads it at startup (`store.py`, two tests). In the first evening
 after that deploy, 11 known-answer checks were all right at p50 1.19 s, max 1.24 s.
 
+**After the round 10 redeploy (2026-11-22, commit `3d4a84f`).** Probe known-answer checks
+from the docs fix (22:30 UTC on 2026-11-21) to 04:25 UTC, the last ones after every app was
+redeployed ([evidence](evidence/probe_window_2026-11-22.json)):
+
+| Server | Known-answer checks | Right | p50 ms | p95 ms | Max ms |
+| --- | --- | --- | --- | --- | --- |
+| mcp-aircarrier-docs | 24 | 24 | 1,176 | 1,223 | 1,236 |
+| mcp-aircarrier-analyst | 24 | 24 | 4,327 | 6,062 | 6,168 |
+| mcp-aircarrier-ops | 23 | 23 | 920 | 1,787 | 1,929 |
+| mcp-aircarrier-hub | 23 | 23 | 54 | 90 | 109 |
+
+A latency run the same night called the probe's known answer repeatedly from the owner's
+browser, checking every answer ([evidence](evidence/latency_2026-11-22.json)). Docs, 234
+calls 7 s apart across a cache expiry: 233 right, p50 1,177 ms, p95 1,335 ms, p99 1,950 ms,
+max 2,337 ms during the background reload. Hub, 150 calls: 149 right, p50 90 ms, p95 173 ms,
+max 392 ms. Each run's one miss was a transport error in the browser, not a wrong answer.
+These times include the network from a laptop, which the probe's do not.
+
+Round 4 accuracy split by the server of each run's first tool call
+([evidence](evidence/delegation_by_server_r4.json)): Claude Sonnet 4.5 87.2% from docs (117
+runs), 89.7% from ops (78), 11 of 12 from analyst; GPT-5 mini 75.2% from docs (125), 84.0%
+from ops (81). The first call shows where a run started, not every server it used.
+
 ### 2.3 Tool choice by real models (delegation)
 
 | Round | Questions | With tools | Without tools |
@@ -147,8 +170,9 @@ has not been re-measured.
   documents. After the round 10 fixes, the 22 SCN books re-extracted with the docs server's
   own extractor give 7,690 of 7,693, the 3 left within the rounding bound of the printed
   figures, with no check that passed before failing now
-  (`docs/submission/evidence/tieout_rerun_2026-11-21.json`). The store is re-measured after
-  redeploy.
+  (`docs/submission/evidence/tieout_rerun_2026-11-21.json`). On the deployed store after
+  the redeploy (2026-11-22, commit `3d4a84f`), all 34 PDFs: 7,743 of 7,746, the same 3 within
+  rounding, none failing outside it (`docs/submission/evidence/tieout_store_2026-11-22.json`).
 * CVN-79 Total Ship Estimate, $13,409.970M (PB2027 P-5c, p.95), closes to 0.000 by cost
   category and by funding stream.
 * Impact page: 24 of 24 figures found verbatim on the cited page of the cited artifact.

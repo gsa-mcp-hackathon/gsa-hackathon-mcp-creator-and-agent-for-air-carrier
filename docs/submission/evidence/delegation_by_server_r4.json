@@ -1,0 +1,51 @@
+{
+  "what": "Round 4 accuracy (run r4-4bb6a2a6, runs with tools, 3 repeats) split by the server of each run's first tool call",
+  "source": "users.xiaobing_shang1_civ.aircarrier_delegation_eval_runs, trace_json",
+  "read_at": "2026-11-22T04:39Z",
+  "rows": [
+    {
+      "first_server": "docs",
+      "model": "databricks-claude-sonnet-4-5",
+      "runs": 117,
+      "passed": 102,
+      "pct": 87.2
+    },
+    {
+      "first_server": "docs",
+      "model": "databricks-gpt-5-mini",
+      "runs": 125,
+      "passed": 94,
+      "pct": 75.2
+    },
+    {
+      "first_server": "ops",
+      "model": "databricks-claude-sonnet-4-5",
+      "runs": 78,
+      "passed": 70,
+      "pct": 89.7
+    },
+    {
+      "first_server": "ops",
+      "model": "databricks-gpt-5-mini",
+      "runs": 81,
+      "passed": 68,
+      "pct": 84.0
+    },
+    {
+      "first_server": "analyst",
+      "model": "databricks-claude-sonnet-4-5",
+      "runs": 12,
+      "passed": 11,
+      "pct": 91.7
+    },
+    {
+      "first_server": "analyst",
+      "model": "databricks-gpt-5-mini",
+      "runs": 1,
+      "passed": 1,
+      "pct": 100.0
+    }
+  ],
+  "check": "Sums match the published round 4 totals: Claude 183 of 207, GPT-5 mini 163 of 207.",
+  "caveat": "The first tool call names where a run started, not every server it used; analyst carries 13 runs, too few to read as a rate."
+}

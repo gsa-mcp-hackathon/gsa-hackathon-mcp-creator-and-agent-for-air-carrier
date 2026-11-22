@@ -1,0 +1,394 @@
+{
+  "what": "Tie-outs over every document in the deployed docs server's store (docs_tieout_document on each of 34 PDFs, called over MCP)",
+  "date": "2026-11-22",
+  "app": "mcp-aircarrier-docs",
+  "commit": "3d4a84fc709401c0c5c7733086911c4a1e25f559",
+  "corpus_loaded_at": "2026-11-22T04:20:25Z",
+  "run": {
+    "started": "2026-11-22T04:35:55Z",
+    "finished": "2026-11-22T04:36:00Z",
+    "caller": "the project owner's signed-in browser session, through Claude's built-in browser"
+  },
+  "documents": 34,
+  "checks": 7746,
+  "passed": 7743,
+  "failed": 3,
+  "failed_within_rounding_bound": 3,
+  "before_round10": {
+    "checks": 7712,
+    "passed": 7703,
+    "failed": 9
+  },
+  "note": "The 3 failures differ by $0.2M to $0.5M and fall inside the rounding bound of the printed figures; they count as failures, not passes. No check fails outside the rounding bound.",
+  "per_document": [
+    {
+      "filename": "SCN_BOOKpb2014.pdf",
+      "artifact_id": "7b5a586d6ffb270a",
+      "kind": "budget_justification",
+      "checks": 4,
+      "passed": 4,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Book PB27.pdf",
+      "artifact_id": "bb2e90fd1d91a0bc",
+      "kind": "budget_justification",
+      "checks": 792,
+      "passed": 792,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_BookPB2024.pdf",
+      "artifact_id": "0e22875425eafbd3",
+      "kind": "budget_justification",
+      "checks": 821,
+      "passed": 821,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_BookPB2025.pdf",
+      "artifact_id": "fc826e7935d0668c",
+      "kind": "budget_justification",
+      "checks": 841,
+      "passed": 841,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_BookPB2026.pdf",
+      "artifact_id": "9a61b0a5733e09c7",
+      "kind": "budget_justification",
+      "checks": 646,
+      "passed": 646,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2006.pdf",
+      "artifact_id": "a74c553062dd5476",
+      "kind": "budget_justification",
+      "checks": 82,
+      "passed": 82,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2007.pdf",
+      "artifact_id": "d3b6d8bb4997e16e",
+      "kind": "budget_justification",
+      "checks": 62,
+      "passed": 61,
+      "failed": 1,
+      "failed_within_rounding_bound": 1,
+      "failures": [
+        {
+          "page": 66,
+          "row": "Total Obligational Authority",
+          "column": "TOTAL PROGRAM",
+          "printed": "2450.2",
+          "computed": "2449.7",
+          "difference": "0.5",
+          "verdict": "within_rounding_bound"
+        }
+      ]
+    },
+    {
+      "filename": "SCN_Bookpb2008.pdf",
+      "artifact_id": "327129143fe06b83",
+      "kind": "budget_justification",
+      "checks": 57,
+      "passed": 55,
+      "failed": 2,
+      "failed_within_rounding_bound": 2,
+      "failures": [
+        {
+          "page": 122,
+          "row": "Total AP",
+          "column": "First System (BY3) Award Date Nov 09 > CY FY07",
+          "printed": "116.6",
+          "computed": "116.8",
+          "difference": "-0.2",
+          "verdict": "within_rounding_bound"
+        },
+        {
+          "page": 122,
+          "row": "Total AP",
+          "column": "First System (BY6) Completion Date Nov 12 > Total",
+          "printed": "915.7",
+          "computed": "915.9",
+          "difference": "-0.2",
+          "verdict": "within_rounding_bound"
+        }
+      ]
+    },
+    {
+      "filename": "SCN_Bookpb2009.pdf",
+      "artifact_id": "eaadf6094ef1c60c",
+      "kind": "budget_justification",
+      "checks": 37,
+      "passed": 37,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2010.pdf",
+      "artifact_id": "e5a485e49897b854",
+      "kind": "budget_justification",
+      "checks": 4,
+      "passed": 4,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2011.pdf",
+      "artifact_id": "49d99002d0a89acc",
+      "kind": "budget_justification",
+      "checks": 5,
+      "passed": 5,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2012.pdf",
+      "artifact_id": "4d0800f702218e89",
+      "kind": "budget_justification",
+      "checks": 7,
+      "passed": 7,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2013.pdf",
+      "artifact_id": "ba2628d2c2b5fc75",
+      "kind": "budget_justification",
+      "checks": 2,
+      "passed": 2,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2015.pdf",
+      "artifact_id": "860ca470dcc01c85",
+      "kind": "budget_justification",
+      "checks": 4,
+      "passed": 4,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2016.pdf",
+      "artifact_id": "dcfe7661c9ed109d",
+      "kind": "budget_justification",
+      "checks": 6,
+      "passed": 6,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2017.pdf",
+      "artifact_id": "e7b07bfcdeb0ba6a",
+      "kind": "budget_justification",
+      "checks": 526,
+      "passed": 526,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2018.pdf",
+      "artifact_id": "4ef754f30e96491e",
+      "kind": "budget_justification",
+      "checks": 539,
+      "passed": 539,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2019.pdf",
+      "artifact_id": "37b391627588a4cb",
+      "kind": "budget_justification",
+      "checks": 508,
+      "passed": 508,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2020.pdf",
+      "artifact_id": "b37473bac9565e26",
+      "kind": "budget_justification",
+      "checks": 615,
+      "passed": 615,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2021.pdf",
+      "artifact_id": "3a148bf9c8ba1805",
+      "kind": "budget_justification",
+      "checks": 696,
+      "passed": 696,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2022.pdf",
+      "artifact_id": "9cfc2ec7d970ea12",
+      "kind": "budget_justification",
+      "checks": 680,
+      "passed": 680,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SCN_Bookpb2023.pdf",
+      "artifact_id": "1ec0a996bf497f15",
+      "kind": "budget_justification",
+      "checks": 783,
+      "passed": 783,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "RS20643.302.Navy Ford (CVN-78) Class Aircraft Carrier 07262007.pdf",
+      "artifact_id": "554a0298f2b95dc6",
+      "kind": "crs_report",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "RS20643.302.Navy Ford (CVN-78) Class Aircraft Carrier.pdf",
+      "artifact_id": "91d338a069b1b0c9",
+      "kind": "crs_report",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "gao-15-22Cost Cap Legislation.pdf",
+      "artifact_id": "28e8df417b37a803",
+      "kind": "gao_report",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "gao-17-575 Cost Estimate on Ford class.pdf",
+      "artifact_id": "8cd883c80f0c57bd",
+      "kind": "gao_report",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "gao-26-108457 Weapon Systems Annual Assessment 2026.pdf",
+      "artifact_id": "f9afddd66fcaefe7",
+      "kind": "gao_report",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "DCMA_MAN_2101-02_Payment.pdf",
+      "artifact_id": "a94563a9021fbe35",
+      "kind": "regulation_or_manual",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "DoN 5200.45A CH-1GENERAL EQUIPMENT – ACCOUNTABILITY AND MANAGEMENT.pdf",
+      "artifact_id": "1ccf0c73de8a0008",
+      "kind": "regulation_or_manual",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "SUPSHIP Operations Manual  Ch4-FinancialManagement-18Aug19.pdf",
+      "artifact_id": "afd43870ba703ee4",
+      "kind": "regulation_or_manual",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "CVN 78 MSAR Dec 2023.pdf",
+      "artifact_id": "1d2450069f21d572",
+      "kind": "selected_acquisition_report",
+      "checks": 10,
+      "passed": 10,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "CVN 78 _SAR_DEC_2022_final.pdf",
+      "artifact_id": "1b96077fc60550c1",
+      "kind": "selected_acquisition_report",
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "CVN_78_MSAR_FY2027_PBv2.pdf",
+      "artifact_id": "98b141f55c3eba9a",
+      "kind": "selected_acquisition_report",
+      "checks": 8,
+      "passed": 8,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    },
+    {
+      "filename": "NPS-AM-26-055.pdf",
+      "artifact_id": "980db3c2572108aa",
+      "kind": "thesis_or_study",
+      "checks": 0,
+      "passed": 0,
+      "failed": 0,
+      "failed_within_rounding_bound": 0,
+      "failures": []
+    }
+  ]
+}

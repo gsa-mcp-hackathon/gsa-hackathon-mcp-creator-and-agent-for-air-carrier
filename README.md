@@ -242,17 +242,19 @@ Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-d
 | 12:56 | Answer a question: experts at headquarters and in the field |
 | 13:30 | Community expertise, beyond DoD, production posture, close |
 
-**Changed since the video (round 10, 2026-11-21).** The code below is in the repository.
-Items marked *redeploy* reach the live apps on their next deploy.
+**Changed since the video (round 10, deployed 2026-11-22 04:20 UTC at `3d4a84f`).**
 
 - Ask the evidence calls the docs, ops and hub servers over MCP, and each step shows which server
-  answered (*redeploy*; needs the CAN_USE grant in [DEPLOYMENT.md](docs/DEPLOYMENT.md)).
+  answered. Live run: one question, four tool calls across `mcp-aircarrier-docs`,
+  `mcp-aircarrier-hub` and `mcp-aircarrier-ops`
+  ([screenshot](docs/screenshots/live-ask-via-mcp.jpg)).
 - The gate checks a figure against its own hull's total and refuses a hull it has no total for
-  (route R9) (*redeploy*).
+  (route R9).
 - The bakehouse server was rebuilt by MCP A Creator through its own tools: 7 tools, up from 4.
 - All FastMCP servers moved to FastMCP 3.4 or later, which closes two published CVEs, and a tool
-  that returns an error body now sets `isError` (*redeploy*).
-- Tie-outs on the 22 SCN books: 7,690 of 7,693 pass, the 3 left within rounding.
+  that returns an error body now sets `isError`. The first deploy on 3.4 crashed on a
+  half-upgraded package and was fixed the same night (finding 30).
+- Tie-outs on the deployed store, all 34 PDFs: 7,743 of 7,746 pass, the 3 left within rounding.
 
 ---
 
@@ -687,14 +689,17 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
   **7,690 of 7,693 checks pass**, and the 3 left (PB2008 p.122, PB2007 p.66) differ by $0.2M to $0.5M,
   inside the rounding bound of the printed figures; they are reported as
   `within_rounding_bound` and still count as failures. No check that passed before fails now
-  ([evidence](docs/submission/evidence/tieout_rerun_2026-11-21.json)). The store figure is
-  re-measured after the docs server is redeployed.
+  ([evidence](docs/submission/evidence/tieout_rerun_2026-11-21.json)). On the deployed
+  store after the redeploy, all 34 PDFs: **7,743 of 7,746 pass**, the same 3 within rounding,
+  nothing failing outside it ([evidence](docs/submission/evidence/tieout_store_2026-11-22.json)).
 - **The docs server's slow mode is gone.** It reloaded its 7,804-page corpus inside the
   request once the 30-minute cache expired (p50 12.6 s, max 20.2 s); it now refreshes in the
-  background and loads at startup. After that deploy the probe measured 11 known-answer
-  checks, all right, p50 1.19 s, max 1.24 s. Eleven checks are a short window.
-- **The One Hub server was deployed on 2026-11-21, so its probe history is short:** 9 of 9
-  known answers right, p50 54 ms, on the first evening. Its
+  background and loads at startup. Since that deploy: the probe, 24 of 24 known answers right
+  at p50 1.18 s; a 234-call run on 2026-11-22 across a cache expiry, 233 right (one browser
+  transport error), p50 1.18 s, p95 1.34 s, max 2.34 s at the reload
+  ([evidence](docs/submission/evidence/latency_2026-11-22.json)).
+- **The One Hub server was deployed on 2026-11-21, so its probe history is short:** 23 of 23
+  known answers right to 2026-11-22 04:25 UTC, p50 54 ms. Its
   HTTP form had refused every request behind the Apps proxy (421 Invalid Host header, the
   SDK's localhost guard); that is fixed and tested. It runs from `the-one-hub/ops-center`
   (`app.yaml`), and the probe's known answer is the held $13,529M baseline routed to human
