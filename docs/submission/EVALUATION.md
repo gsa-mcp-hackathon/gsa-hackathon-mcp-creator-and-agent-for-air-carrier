@@ -213,6 +213,14 @@ answer. Without tools, the model wrote out tool calls it never ran and, on U01, 
 quote with the wrong date and subsystems. Limits: one reviewer, the project owner, not blind;
 one entry (U01 without tools) was corrected from a mis-click, which the results file records.
 
+Blind re-score (2026-11-22): the same ten pairs as answer A and answer B, sides set by a seed
+whose SHA-256 was committed before the sheet went out, tool markup removed from both. One
+outside rater, a teammate who did not build the servers, returned a sheet: with the servers
+5.4 of 6 (1.8 / 1.8 / 1.8), without tools 1.0 (0.0 / 0.7 / 0.3); would rely on 9 of 10 vs 0
+of 10; preferred the answer with the servers in all 10 pairs
+([BLIND_RESULTS.md](../../eval/delegation/sme_review/BLIND_RESULTS.md)). With one outside
+rater there is no agreement statistic.
+
 ## 3. Security considerations
 
 The model fills SQL fragments, file paths and free text, and reads untrusted documents.
