@@ -4,10 +4,10 @@ Run locally:
     uv run python main.py
 
 Or via the installed script:
-    uv run mcp-bakehouse-sales
+    uv run bakehouse-sales
 """
 
-from mcp_bakehouse_sales.app import main
+from bakehouse_sales.app import main
 
 if __name__ == "__main__":
     main()

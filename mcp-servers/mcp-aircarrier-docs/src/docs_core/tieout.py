@@ -30,6 +30,32 @@ def tolerance(*places: int) -> Decimal:
     return Decimal(1).scaleb(-max(places or (0,)))
 
 
+CROSS_PERIOD = re.compile(r"\btotal\b|to complete", re.IGNORECASE)
+
+
+def rounding_bound(places: int, n_terms: int, per_term: int = 1) -> Decimal:
+    """How far honest rounding can move a sum: half a unit in the last printed
+    place for each term and for the total itself. In a column that is itself a
+    total across years ('TOTAL PROGRAM'), each term is a sum of per_term
+    rounded year values, so its rounding is per_term times larger."""
+    return Decimal("0.5").scaleb(-places) * (n_terms + 1) * max(per_term, 1)
+
+
+def _verdict(check: dict, t: Table, c, n_terms: int) -> dict:
+    """passed stays exact. A failing check whose difference honest rounding
+    can explain is marked within_rounding_bound, and is still not a pass."""
+    if check["passed"]:
+        return {**check, "verdict": "exact"}
+    per_term = 1
+    if CROSS_PERIOD.search(check["column"] or ""):
+        per_term = sum(1 for col in _money_cols(t)
+                       if not CROSS_PERIOD.search(t.col_headers[col] if col < len(t.col_headers) else ""))
+    bound = rounding_bound(c.places, n_terms, per_term)
+    within = abs(Decimal(check["difference"])) <= bound
+    return {**check, "rounding_bound": str(bound),
+            "verdict": "within_rounding_bound" if within else "fails"}
+
+
 def _money_cols(t: Table) -> list[int]:
     return sorted({c.col for c in t.cells if c.value is not None and c.scale})
 
@@ -110,12 +136,14 @@ def _check_totals(t: Table, labels: dict[int, str], items: set[int]) -> list[dic
                 s = sum((p.value for p in parts), Decimal(0))
                 tol = tolerance(c.places, *(p.places for p in parts))
                 rule = "subtotal_equals_sum_of_rows" if is_sub else "total_equals_sum_of_rows"
+                n_terms = len(parts)
                 if abs(c.value - s) > tol and not is_sub:
-                    s, rule = _second_reading(c, parts, flow, prev_total, tol, s, rule)
-                out.append({"rule": rule,
+                    s, rule, n_terms = _second_reading(c, parts, flow, prev_total, tol, s, rule)
+                out.append(_verdict({"rule": rule,
                             "table_id": t.table_id, "page": t.page, "row": lab, "column": c.col_header,
                             "printed": str(c.value), "computed": str(s), "difference": str(c.value - s),
-                            "n_parts": len(parts), "passed": abs(c.value - s) <= tol, "tolerance": str(tol)})
+                            "n_parts": len(parts), "passed": abs(c.value - s) <= tol, "tolerance": str(tol)},
+                            t, c, n_terms))
             if is_sub:
                 subs.append(c)
                 loose = []
@@ -171,13 +199,21 @@ def _second_reading(c, parts, flow, prev_total, tol, s, rule):
     structures budget exhibits print instead. A reading is taken only when it
     reproduces the printed total to its rounding; otherwise the plain sum and
     its failure are reported."""
-    v = _flow_value(flow, prev_total)
-    if v is not None and abs(c.value - v) <= tol:
-        return v, "total_follows_less_and_plus_lines"
-    v = _without_group_rows(parts, tol)
-    if v is not None and abs(c.value - v) <= tol:
-        return v, "total_equals_items_without_group_rows"
-    return s, rule
+    flow_v = _flow_value(flow, prev_total)
+    if flow_v is not None and abs(c.value - flow_v) <= tol:
+        return flow_v, "total_follows_less_and_plus_lines", len(flow)
+    group_v = _without_group_rows(parts, tol)
+    if group_v is not None and abs(c.value - group_v) <= tol:
+        return group_v, "total_equals_items_without_group_rows", len(parts)
+    # None reproduces the total: report the closest reading, so the residual
+    # shown is the one to explain (PB2007 p.66: the flow is 0.5 off, the
+    # plain sum 2,014.1).
+    readings = [(s, rule, len(parts))]
+    if flow_v is not None:
+        readings.append((flow_v, "total_follows_less_and_plus_lines", len(flow)))
+    if group_v is not None:
+        readings.append((group_v, "total_equals_items_without_group_rows", len(parts)))
+    return min(readings, key=lambda x: abs(c.value - x[0]))
 
 
 def check_net_funding(chain: list[Table]) -> list[dict]:

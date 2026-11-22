@@ -94,6 +94,77 @@ def _row_is_numeric(row: list[str]) -> bool:
     return any(N.parse(c) is not None for c in row[1:] if c)
 
 
+def _label_row(t: Table) -> int | None:
+    """The row naming the value columns ('Unit Cost ($ M) | Qty (Each) | Total
+    Cost ($ M) | ...'): the one with the most text labels after the first
+    column, the last such row on a tie. None when no row has three."""
+    best, best_n = None, 2
+    for r, row in enumerate(t.grid):
+        n = sum(1 for c in row[1:]
+                if (c or "").strip() and N.parse(c) is None and not N.is_nil(c))
+        if n >= best_n:
+            best, best_n = r, n
+    return best
+
+
+def labeled_columns(t: Table) -> list[int]:
+    """Columns after the first that carry a label in the label row."""
+    r = _label_row(t)
+    if r is None:
+        return []
+    row = t.grid[r]
+    return [c for c in range(1, len(row)) if (row[c] or "").strip()]
+
+
+def header_labels(t: Table) -> tuple[str, ...]:
+    """The labels of labeled_columns, in order: equal on two pages of one table
+    even when the extractor split them into a different number of columns."""
+    r = _label_row(t)
+    return tuple(" ".join(t.grid[r][c].split()) for c in labeled_columns(t)) if r is not None else ()
+
+
+def _is_value_token(tok: str) -> bool:
+    return N.parse(tok) is not None or N.is_nil(tok)
+
+
+def _split_collapsed_rows(grid: list[list[str]], h: int) -> None:
+    """A row whose label wraps at the foot of a page can come out of the PDF as
+    one cell holding the label and every value: "4.2) Govt responsible - - ...
+    119.746 - - 119.746 portion of shpbldg" (PB2022 P-5 p.376). Its values
+    then drop out of every sum. Split them back into the value columns, but
+    only when the run of values and dashes is as long as the filled value
+    cells of the nearest row above, so each lands where that row's do."""
+    for r in range(h, len(grid)):
+        row = grid[r]
+        if not row or not (row[0] or "").strip() or any((c or "").strip() for c in row[1:]):
+            continue
+        toks = row[0].split()
+        best = (0, 0)
+        i = 0
+        while i < len(toks):
+            j = i
+            while j < len(toks) and _is_value_token(toks[j]):
+                j += 1
+            if j - i > best[1] - best[0]:
+                best = (i, j)
+            i = max(j, i + 1)
+        a, b = best
+        run = toks[a:b]
+        if len(run) < 3 or not any(N.parse(x) is not None for x in run):
+            continue
+        model = next((grid[k] for k in range(r - 1, h - 1, -1)
+                      if sum(1 for c in grid[k][1:] if (c or "").strip()) >= 3), None)
+        if model is None:
+            continue
+        slots = [c for c in range(1, len(model)) if (model[c] or "").strip()]
+        if len(slots) != len(run):
+            continue
+        new = [" ".join(toks[:a] + toks[b:])] + [""] * (max(len(row), len(model)) - 1)
+        for c, tok in zip(slots, run, strict=True):
+            new[c] = tok
+        grid[r] = new
+
+
 def build(table_id: str, artifact_id: str, filename: str, page: int, grid,
           title_block=None, legends=None, exhibits=None, continuation_of=None, extractor="") -> Table:
     if isinstance(grid, str):
@@ -107,6 +178,7 @@ def build(table_id: str, artifact_id: str, filename: str, page: int, grid,
     if h == len(grid):  # a text-only table: its first row is the header
         h = 1 if grid else 0
     t.header_rows = h
+    _split_collapsed_rows(grid, h)
     w = t.n_cols
     stacks: list[list[str]] = [[] for _ in range(w)]
     title_like = {" ".join(x.split()) for x in t.title_block}
@@ -130,6 +202,19 @@ def build(table_id: str, artifact_id: str, filename: str, page: int, grid,
     t.col_headers = [" > ".join(s) for s in stacks]
     unit_text = " ".join(t.title_block + t.legends + [" ".join(c.split()) for r in grid[:h] for c in r])
     t.scale = (N.scale_of(unit_text) or (None, None))[1]
+    # A P-5 page can open with a Resource Summary block, so the row that names
+    # the value columns ("Unit Cost ($ M) | Qty (Each) | Total Cost ($ M)")
+    # falls in the body. Below it, each column takes the unit its label names;
+    # without this the cost elements on such a page were never checked.
+    label_r = _label_row(t)
+    body_units: dict[int, str | None] = {}
+    if label_r is not None and label_r >= h:
+        for c, lab in enumerate(grid[label_r]):
+            own = N.scale_of(lab or "")
+            if own:
+                body_units[c] = own[1]
+            elif COUNT.search(lab or ""):
+                body_units[c] = None
     for r in range(h, len(grid)):
         rh = t.row_label(r)
         for c, txt in enumerate(grid[r]):
@@ -139,6 +224,8 @@ def build(table_id: str, artifact_id: str, filename: str, page: int, grid,
             ch = t.col_headers[c] if c < len(t.col_headers) else ""
             own = N.scale_of(ch)
             sc = own[1] if own else (None if COUNT.search(ch) else t.scale)
+            if body_units and label_r is not None and r > label_r and not own:
+                sc = body_units.get(c, sc)
             cell = Cell(r, c, " ".join(txt.split()), v, N.places(txt) if v is not None else 0, rh, ch, sc)
             t.cells.append(cell)
             if v is not None:

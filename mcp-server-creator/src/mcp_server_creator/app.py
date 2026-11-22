@@ -20,8 +20,9 @@ import os
 
 from fastmcp import FastMCP
 
-from mcp_server_creator import examples
+from mcp_server_creator import __version__, examples
 from mcp_server_creator.config import settings
+from mcp_server_creator.error_contract import ErrorContractMiddleware
 from mcp_server_creator.prompts import register_prompts
 from mcp_server_creator.resources import register_resources
 from mcp_server_creator.routes import register_routes
@@ -73,6 +74,7 @@ mcp = FastMCP(
 
 mcp.add_middleware(TraceMiddleware())
 mcp.add_middleware(SourceNoticeMiddleware())
+mcp.add_middleware(ErrorContractMiddleware())
 warm_up()
 register_tools(mcp)
 register_prompts(mcp)
@@ -90,7 +92,27 @@ def main() -> None:
       2. `MCP_TRANSPORT=streamable-http` means HTTP on MCP_HOST:MCP_PORT.
       3. Otherwise stdio, which is how a local client launches the server as
          a subprocess.
+
+    `--help` and `--version` print and exit without starting a server. Any
+    other argument is ignored, so a platform that adds its own still starts.
     """
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="mcp-a-creator",
+        description=(
+            "MCP A Creator: an MCP server that builds MCP servers on Databricks. "
+            "With no arguments it serves MCP over stdio; DATABRICKS_APP_PORT or "
+            "PORT serves streamable HTTP at /mcp; MCP_TRANSPORT=streamable-http "
+            "serves HTTP on MCP_HOST:MCP_PORT. Check a machine first with "
+            "mcp-a-creator-doctor."
+        ),
+    )
+    parser.add_argument(
+        "--version", action="version", version=f"mcp-a-creator {__version__}"
+    )
+    parser.parse_known_args()
+
     platform_port = os.getenv("DATABRICKS_APP_PORT") or os.getenv("PORT")
 
     if platform_port:

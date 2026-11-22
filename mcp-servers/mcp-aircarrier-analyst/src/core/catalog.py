@@ -29,7 +29,13 @@ VOLUME_ARTIFACTS = f"{CATALOG}.source.artifacts"
 # Built stores, live today. The `aircarrier` catalog above does not exist in the commercial
 # workspace (checked 2026-11-08), so the built stores live in one schema with a name prefix,
 # the same convention the app uses (AIRCARRIER_STORE_PREFIX). Move with one variable.
-STORE_SCHEMA = os.environ.get("AIRCARRIER_STORE_SCHEMA", "users.xiaobing_shang1_civ")
+# PILOT_SCHEMA is the one place the pilot workspace is named for the jobs and the app;
+# every deployed app sets AIRCARRIER_STORE_SCHEMA in its app.yaml instead.
+PILOT_SCHEMA = "users.xiaobing_shang1_civ"
+STORE_SCHEMA = os.environ.get("AIRCARRIER_STORE_SCHEMA", PILOT_SCHEMA)
+# The volume holding the source PDFs, the manifest and the dossier.
+ARTIFACTS_VOLUME = os.environ.get(
+    "AIRCARRIER_ARTIFACTS_VOLUME", "/Volumes/" + STORE_SCHEMA.replace(".", "/") + "/aircarrier_artifacts")
 _P = f"{STORE_SCHEMA}.aircarrier_"
 PDF_PAGES = _P + "pdf_pages"
 PDF_TABLES = _P + "pdf_tables"

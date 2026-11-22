@@ -1,11 +1,11 @@
 [project]
 name = "mcp-a-creator"
-version = "0.1.0"
+version = "1.0.0rc1"
 description = "An MCP server that builds custom MCP servers on Databricks"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "fastmcp>=2.14,<3",
+    "fastmcp>=3.4,<5",  # proven on 3.4 and 4.2 by scripts/check_compat.sh
     "httpx>=0.27.0",
     "pydantic>=2.0.0",
     "pydantic-settings>=2.0.0",
@@ -28,6 +28,8 @@ mcp-a-creator = "mcp_server_creator.app:main"
 # One command that answers "will this even start here?" before anyone
 # connects a client.
 mcp-a-creator-doctor = "mcp_server_creator.doctor:main"
+# Regenerate a generated project with this release, keeping owned files.
+mcp-a-creator-upgrade = "mcp_server_creator.upgrade:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -46,6 +48,9 @@ dev = [
     # The workspace write and deploy tests run against fakes, but
     # user_workspace.write_files imports ImportFormat from the SDK.
     "databricks-sdk>=0.30.0",
+    # tests/test_security_scan_fixes.py runs bandit over a generated project;
+    # without it in the dev group that test was skipped in CI.
+    "bandit>=1.7.0",
 ]
 
 [tool.ruff]

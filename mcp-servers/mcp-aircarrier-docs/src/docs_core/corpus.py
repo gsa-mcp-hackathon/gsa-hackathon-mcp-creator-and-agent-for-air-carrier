@@ -82,7 +82,11 @@ class Corpus:
             if t.continuation_of or not prev or not t.title_block:
                 continue
             p = prev[-1]
-            if p.title_block[:1] != t.title_block[:1] or p.n_cols != t.n_cols:
+            # The extractor can split the same columns differently on two
+            # pages (PB2022 P-5: 26 and 21); the header labels still match.
+            same_cols = p.n_cols == t.n_cols or (
+                grid.header_labels(p) and grid.header_labels(p) == grid.header_labels(t))
+            if p.title_block[:1] != t.title_block[:1] or not same_cols:
                 continue
             last = next((p.row_label(r) for r in range(p.n_rows - 1, p.header_rows - 1, -1)
                          if p.row_label(r) and not p.row_label(r).lower().startswith("remarks")), "")
@@ -120,7 +124,13 @@ class Corpus:
             return head
         rows = [list(r) for r in head.grid]
         for t in ch[1:]:
-            rows += [list(r) for r in t.grid[t.header_rows:]]
+            body = [list(r) for r in t.grid[t.header_rows:]]
+            if t.n_cols != head.n_cols:
+                body = _align(body, grid.labeled_columns(t), grid.labeled_columns(head),
+                              head.n_cols)
+                if body is None:  # the columns cannot be matched: no joined reading
+                    return head
+            rows += body
         return grid.build(head.table_id, head.artifact_id, head.filename, head.page, rows, head.title_block,
                           head.legends, head.exhibits, None, head.extractor)
 
@@ -135,9 +145,11 @@ class Corpus:
                 r["scope"] = "page"
                 res.append(r)
         if len(ch) > 1 and any(not r["passed"] for r in res):
-            joined = {(r["row"], r["column"]): r for r in tieout.check_totals(self.merged(table_id))}
+            # Matched on the row and the printed figure: a continuation page
+            # can name its columns differently from the first page.
+            joined = {(r["row"], r["printed"]): r for r in tieout.check_totals(self.merged(table_id))}
             for i, r in enumerate(res):
-                j = joined.get((r["row"], r["column"]))
+                j = joined.get((r["row"], r["printed"]))
                 if not r["passed"] and j and j["passed"]:
                     res[i] = {**j, "scope": "joined_pages", "pages": [ch[0].page, ch[-1].page],
                               "link_inferred": any(t.link_inferred for t in ch)}
@@ -192,3 +204,32 @@ class Corpus:
                         "filename": c.filename, "page": c.page, "table_id": c.table_id, "labels": c.labels,
                         "text": c.text[:1800]})
         return out
+
+
+def _align(body: list[list[str]], src: list[int], dst: list[int], width: int):
+    """Move a continuation page's cells into the first page's columns, matching
+    labeled columns by position. A value in a column with no label goes to the
+    labeled column on its left when that cell is empty; otherwise, or when the
+    two pages do not have the same number of labeled columns, None."""
+    if len(src) != len(dst) or not src:
+        return None
+    to = dict(zip(src, dst, strict=True))
+    out = []
+    for row in body:
+        new = [""] * width
+        new[0] = row[0] if row else ""
+        for c in range(1, len(row)):
+            v = (row[c] or "").strip()
+            if not v:
+                continue
+            target = to.get(c)
+            if target is None:
+                left = [k for k in src if k < c]
+                if not left or new[to[left[-1]]]:
+                    return None
+                target = to[left[-1]]
+            if new[target]:
+                return None
+            new[target] = row[c]
+        out.append(new)
+    return out

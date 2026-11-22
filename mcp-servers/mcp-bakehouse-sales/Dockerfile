@@ -23,4 +23,4 @@ RUN uv pip install --system --no-cache .
 EXPOSE 8080
 
 # PORT is set above, so app.py serves streamable-HTTP on that port.
-CMD ["python", "-m", "mcp_bakehouse_sales.app"]
+CMD ["python", "-m", "bakehouse_sales.app"]

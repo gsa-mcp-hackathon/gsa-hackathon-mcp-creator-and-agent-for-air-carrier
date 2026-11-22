@@ -42,8 +42,7 @@ from core import catalog
 from core.contracts import State
 from ops.dispatcher.routing import ROUTES
 
-MANIFEST = os.environ.get("AIRCARRIER_MANIFEST",
-                          "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/MANIFEST.json")
+MANIFEST = os.environ.get("AIRCARRIER_MANIFEST", catalog.ARTIFACTS_VOLUME + "/MANIFEST.json")
 
 # Seed-register status -> state machine. Anything not listed stays out of the register
 # and is reported, so a new status word is never silently mapped.

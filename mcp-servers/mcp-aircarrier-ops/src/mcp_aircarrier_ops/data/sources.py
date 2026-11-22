@@ -6,13 +6,15 @@ so a table move or a refresh change is a one-line edit.
 
 from __future__ import annotations
 
+import os
 import re
 
 from mcp_aircarrier_ops.config import settings
 
 # --- Where the stores live. Same variable as the docs and analyst servers:
-# AIRCARRIER_STORE_SCHEMA=<catalog>.<schema>. The default is the pilot schema.
-DEFAULT_STORE_SCHEMA = "users.xiaobing_shang1_civ"
+# AIRCARRIER_STORE_SCHEMA=<catalog>.<schema>, set in app.yaml. A deployed app
+# without it stops at start-up; a local run or a test reads this placeholder.
+DEFAULT_STORE_SCHEMA = "main.aircarrier"
 _PART = r"[A-Za-z_][A-Za-z0-9_]{0,254}"
 
 
@@ -23,9 +25,10 @@ def store_location(value: str | None = None) -> tuple[str, str]:
     surfacing later as a confusing per-tool identifier error.
     """
     # settings reads the environment and, locally, a .env file.
-    raw = (
-        value if value is not None else settings.aircarrier_store_schema
-    ).strip() or DEFAULT_STORE_SCHEMA
+    raw = (value if value is not None else settings.aircarrier_store_schema).strip()
+    if not raw and value is None and os.environ.get("DATABRICKS_APP_PORT"):
+        raise ValueError("AIRCARRIER_STORE_SCHEMA is not set. Set it in app.yaml.")
+    raw = raw or DEFAULT_STORE_SCHEMA
     match = re.fullmatch(rf"({_PART})\.({_PART})", raw)
     if not match:
         raise ValueError(

@@ -30,8 +30,8 @@ import httpx
 from fastmcp import Client
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DATASET_DIR = REPO_ROOT / "eval/phoenix/datasets/mcp-eval-0"
-DATASET = DATASET_DIR / "examples/mcp-eval-0.csv"
+DATASET_DIR = REPO_ROOT / "eval/phoenix/datasets/bakehouse-eval-0"
+DATASET = DATASET_DIR / "examples/bakehouse-eval-0.csv"
 MAX_TURNS = 8
 NUMBER = re.compile(r"-?[\d,]*\.?\d+")
 
@@ -187,9 +187,7 @@ async def main() -> int:
                 )
                 results.append({**case, "answer": answer, "tool_calls": calls})
         else:
-            async with Client(
-                REPO_ROOT / "src/mcp_bakehouse_sales/app.py"
-            ) as mcp_client:
+            async with Client(REPO_ROOT / "src/bakehouse_sales/app.py") as mcp_client:
                 tools = mcp_tools_to_openai(await mcp_client.list_tools())
                 print(f"attached {len(tools)} tools")
                 for case in cases:

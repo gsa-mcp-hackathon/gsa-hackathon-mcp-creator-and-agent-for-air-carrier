@@ -33,6 +33,40 @@ jobs:
       - name: scripts/check.sh ${{ matrix.project }}
         run: scripts/check.sh ${{ matrix.project }}
 
+  compatibility:
+    name: Creator and a generated project on FastMCP ${{ matrix.fastmcp }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # The floor every pin allows, and current (MCP SDK 2, protocol 2026-07-28).
+        fastmcp: ["3.4.11", "4.2.4"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: scripts/check_compat.sh ${{ matrix.fastmcp }}
+
+  supply-chain:
+    name: known vulnerabilities in every deployed server's requirements
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        requirements:
+          - mcp-server-creator/requirements.txt
+          - mcp-servers/mcp-aircarrier-docs/requirements.txt
+          - mcp-servers/mcp-aircarrier-analyst/requirements.txt
+          - mcp-servers/mcp-aircarrier-ops/requirements.txt
+          - mcp-servers/aircarrier-mcp-probe/requirements.txt
+          - the-one-hub/ops-center/requirements.txt
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uvx pip-audit -r ${{ matrix.requirements }} --progress-spinner off
+
   evidence:
     name: links resolve, published results match the raw runs, round 4 grader tests pass
     runs-on: ubuntu-latest

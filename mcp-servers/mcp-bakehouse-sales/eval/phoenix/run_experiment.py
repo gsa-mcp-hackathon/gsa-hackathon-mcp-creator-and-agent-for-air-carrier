@@ -2,9 +2,9 @@
 
 Run inside the harness environment described in eval/README.md:
 
-    python run_experiment.py --dataset-name mcp-eval-0
-    python run_experiment.py --dataset-name mcp-eval-0 --no-tools
-    python run_experiment.py --dataset-name mcp-eval-0 \
+    python run_experiment.py --dataset-name bakehouse-eval-0
+    python run_experiment.py --dataset-name bakehouse-eval-0 --no-tools
+    python run_experiment.py --dataset-name bakehouse-eval-0 \
         --system-prompt-version v2 --repeats 3
 
 `--no-tools` is the baseline. The gap between it and the tooled run is the
@@ -24,9 +24,9 @@ load_dotenv()
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dataset-name", default="mcp-eval-0")
+    parser.add_argument("--dataset-name", default="bakehouse-eval-0")
     parser.add_argument("--system-prompt-version", default="v1", choices=["v1", "v2"])
-    parser.add_argument("--project-name", default="mcp-eval-0")
+    parser.add_argument("--project-name", default="bakehouse-eval-0")
     parser.add_argument("--phoenix-endpoint", default="http://localhost:6006/v1/traces")
     parser.add_argument("--experiment-description", default="")
     parser.add_argument("--repeats", type=int, default=3)

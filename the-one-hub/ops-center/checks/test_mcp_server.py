@@ -234,3 +234,77 @@ def test_hostile_arguments_are_refused_or_answered_safely(srv, tools):
                     text = str(exc)
                 assert not [s for s in LEAKS if s in text], (name, pname, text[:300])
     assert calls >= 190  # 193 on 2026-11-21: 131 refused, 62 answered safely
+
+
+# ------------------------------------------- round 10 (A1): the gate takes nothing on trust
+CITED_TSE = {
+    "hull": "CVN-79", "layer": "budget", "element": "Total Ship Estimate",
+    "period": "FY2027 PB", "value_musd": "13409.970", "tag": "VERIFIED", "confidence": 1.0,
+    "source_system": "PB2027 SCN J-book", "exhibit": "P-5c", "page": 95,
+    "row_label": "Total Ship Estimate", "column_header_chain": ["Cost Category", "Total"],
+    "page_legends": ["Dollars in Millions"],
+}
+
+
+def test_an_unsourced_verified_tag_is_not_promoted(srv):
+    # 2026-11-21: a $130M CVN-80 figure tagged VERIFIED with no source came back 'promote'.
+    ok, out = _call(srv, "hub_check_claim", hull="CVN-80", layer="budget", element="made up",
+                    period="FY2027 PB", value_musd="130", tag="VERIFIED")
+    assert ok and out["decision"] == "human_review", out
+    assert "METHOD" in out["risk_flags"]
+    assert any("without a source and a locator" in t for t in out["tells"])
+
+
+def test_a_hull_with_no_subject_total_is_not_routed(srv):
+    # 2026-11-21: a $2,000M DDG-51 figure was measured against CVN-79's total.
+    ok, out = _call(srv, "hub_check_claim", **{**CITED_TSE, "hull": "DDG-51",
+                                                "value_musd": "2000"})
+    assert ok and out["decision"] == "gap" and out["rule"] == "R9", out
+    assert "DDG-51" in out["reason"]
+
+
+def test_a_fully_cited_total_can_reach_the_tie_out_route(srv):
+    # 2026-11-21: without a page parameter every exhibit claim stuck at R2 'no page number'.
+    ok, out = _call(srv, "hub_check_claim", **CITED_TSE)
+    assert ok and out["decision"] == "promote_if_tied_out" and out["rule"] == "R5", out
+
+
+def test_each_hull_is_measured_against_its_own_total(srv):
+    ok, out = _call(srv, "hub_check_claim", **{**CITED_TSE, "hull": "cvn 80",
+                                                "value_musd": "14457.915"})
+    assert ok and out["decision"] == "promote_if_tied_out", out
+    assert out["exposure_share"] == 1.0
+
+
+def test_a_cited_record_needs_a_row_label_not_a_page(srv):
+    ok, out = _call(srv, "hub_check_claim", hull="CVN-79", layer="obligation",
+                    element="modification P00010", period="FY2016", value_musd="12.5",
+                    tag="VERIFIED", source_system="USAspending", row_label="N0002415C2114 P00010")
+    assert ok and out["decision"] == "promote" and out["rule"] == "R6", out
+
+
+def test_the_probe_known_answer_is_unchanged(srv):
+    # aircarrier-mcp-probe sends exactly this and expects human_review.
+    ok, out = _call(srv, "hub_check_claim", hull="CVN-79", layer="budget",
+                    element="Total Ship Estimate", period="FY2027 PB", value_musd="13529",
+                    tag="VERIFIED", confidence=0.9)
+    assert ok and out["decision"] == "human_review", out
+
+
+# ------------------------------------- round 10 (A2): every hub tool says what it returns
+def test_every_tool_declares_an_output_schema_and_describes_every_parameter(tools):
+    assert all(t.outputSchema for t in tools.values()), [
+        n for n, t in tools.items() if not t.outputSchema]
+    bare = [(n, k) for n, t in tools.items()
+            for k, v in (t.inputSchema or {}).get("properties", {}).items()
+            if not v.get("description")]
+    assert not bare, bare
+
+
+def test_every_table_validates_against_its_output_schema(srv):
+    failing = []
+    for name in mcp_server.list_tables()["tables"]:
+        ok, out = _call(srv, "hub_get_table", name=name)
+        if not ok:
+            failing.append((name, out[:120]))
+    assert not failing, failing

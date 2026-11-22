@@ -29,7 +29,8 @@ log = logging.getLogger("probe")
 logging.basicConfig(level=logging.INFO)
 
 INTERVAL_S = int(os.getenv("PROBE_INTERVAL_S", "900"))
-VOLUME = os.getenv("PROBE_VOLUME", "/Volumes/users/xiaobing_shang1_civ/aircarrier_mcp_probe_runs").rstrip("/")
+# Set in app.yaml; no workspace's own path lives in code.
+VOLUME = os.getenv("PROBE_VOLUME", "/Volumes/main/aircarrier/mcp_probe_runs").rstrip("/")
 
 w = WorkspaceClient()
 app = FastAPI(title="aircarrier-mcp-probe")

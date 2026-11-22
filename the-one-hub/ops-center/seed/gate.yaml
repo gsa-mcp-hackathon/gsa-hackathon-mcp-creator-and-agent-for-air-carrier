@@ -4,6 +4,15 @@ subject:
   total_usd_m: 13409.970      # PB2027 Total Ship Estimate, Exhibit P-5c, FY2013 column
   total_source: ring0/RING0_CVN79.md N.1
 
+# Every hull is measured against its own total (core/policy/gate.py
+# SUBJECT_TOTALS_USD_M). A hull missing here is routed R9, never measured
+# against CVN-79's total.
+subjects:
+  CVN-78: {total_usd_m: 12907.0,   source: "PB2018 P-5c, p.47 (last book carrying CVN-78)"}
+  CVN-79: {total_usd_m: 13409.970, source: "PB2027 P-5c, p.95"}
+  CVN-80: {total_usd_m: 14457.915, source: "PB2027 P-5c, p.95"}
+  CVN-81: {total_usd_m: 15615.934, source: "PB2027 P-5c, p.137"}
+
 materiality_floor_share: 0.01   # share of the subject total, so it transfers between hulls
 
 residual_floor_usd_m: 1.0       # above this, a residual opens a gap rather than taking a label
@@ -16,6 +25,7 @@ always_review_flags: [PREMISE, METHOD, KEY]
 # class, and the gate must see it.
 routes:
   R-1: {when: "any outstanding policy violation",                decision: human_review}
+  R9:  {when: "the hull has no subject total",                   decision: gap}
   R8:  {when: "claim exceeds 100 percent of its own subject",    decision: human_review}
   R0: {when: "tag == UNKNOWN",                                   decision: gap}
   R1: {when: "any of PREMISE, METHOD, KEY",                      decision: human_review}

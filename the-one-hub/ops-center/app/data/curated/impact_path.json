@@ -476,7 +476,7 @@
    "do": "Rebuild each table with exact decimals and check every subtotal and total.",
    "tool": "docs_get_table, docs_tieout_document",
    "out": "Tables usable as arithmetic, or a named failure",
-   "proof": "814 of 818 tie-out checks pass"
+   "proof": "7,690 of 7,693 tie-out checks pass on the 22 SCN books; the 3 left are within rounding"
   },
   {
    "n": 4,

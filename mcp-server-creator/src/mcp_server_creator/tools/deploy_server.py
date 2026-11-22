@@ -163,19 +163,25 @@ def register(mcp: FastMCP) -> None:
     )
     def creator_deploy_server(
         design_id: Annotated[
-            str, Field(description=designs.DESIGN_ID_DESCRIPTION)
+            str,
+            Field(
+                max_length=16,
+                pattern=r"^$|^dsn_[0-9a-f]{8}$",
+                description=designs.DESIGN_ID_DESCRIPTION,
+            ),
         ] = "",
         spec_json: Annotated[
-            str, Field(description=designs.SPEC_JSON_DESCRIPTION)
+            str, Field(max_length=500_000, description=designs.SPEC_JSON_DESCRIPTION)
         ] = "",
         source_path: Annotated[
             str,
             Field(
+                max_length=1_000,
                 description=(
                     "Workspace folder holding the project, as written by "
                     "creator_write_project. Defaults to "
                     "/Workspace/Users/<you>/mcp-servers/<server-name>."
-                )
+                ),
             ),
         ] = "",
         approve: Annotated[
@@ -192,10 +198,11 @@ def register(mcp: FastMCP) -> None:
         approval_token: Annotated[
             str,
             Field(
+                max_length=200,
                 description=(
                     "The `approval.token` from the approve=false answer the "
                     "user agreed to. Required with approve=true."
-                )
+                ),
             ),
         ] = "",
         grant_tables: Annotated[

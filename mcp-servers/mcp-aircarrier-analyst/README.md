@@ -1,6 +1,6 @@
 # mcp-aircarrier-analyst
 
-> **Scorecard:** 12 tools · 39 tests · in the 421-call adversarial sweep · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+> **Scorecard:** 12 tools · 39 tests · in the read-server adversarial sweep (421 hostile calls) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
 
 An MCP server that acts as an intelligence analyst for the CVN-79 (USS John F. Kennedy) cost
 reconciliation. Version 0.2 adds the case investigator.

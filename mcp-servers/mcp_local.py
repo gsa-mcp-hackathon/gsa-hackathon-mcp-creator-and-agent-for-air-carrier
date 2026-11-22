@@ -31,12 +31,12 @@ What changes, and why it is safe
 
 Use
 ---
-    import sys; sys.path.insert(0, "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-servers")
+    import sys; sys.path.insert(0, "/Workspace/Users/<you>/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-servers")
     import mcp_local
     mcp_local.call("docs", "docs_search", query="Cost Limitation Baseline", top_k=3)
     mcp_local.list_tools("ops")
 
-It needs fastmcp>=2.14,<3 in the session (the servers pin the same range).
+It needs fastmcp>=3.4,<4 in the session (the servers pin the same range).
 mcp-a-creator is excluded on purpose: it writes projects and deploys apps,
 and it should run only as itself.
 """
@@ -206,7 +206,7 @@ def load(name: str, spark=None, allow_writes: bool = False, isolate: bool = True
             import fastmcp  # noqa: F401
         except ImportError:
             raise ImportError("fastmcp is not installed in this session; install "
-                              "'fastmcp>=2.14,<3' 'mcp>=1.24,<2' (the range the servers pin)") from None
+                              "'fastmcp>=3.4,<4' 'mcp>=1.24,<2' (the range the servers pin)") from None
         if spark is None:
             from pyspark.sql import SparkSession
             spark = SparkSession.getActiveSession() or SparkSession.builder.getOrCreate()

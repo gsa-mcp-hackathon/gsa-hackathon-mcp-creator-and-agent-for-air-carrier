@@ -48,3 +48,10 @@ env:
     value: delta
   - name: AIRCARRIER_CAPTURE_VOLUME
     value: /Volumes/users/xiaobing_shang1_civ/aircarrier_captures
+  # Ask the evidence acts as an MCP host over these apps (api/mcp_host.py). The
+  # app's service principal needs CAN USE on each; without it the agent falls
+  # back to its in-app tools and says so with the answer.
+  - name: AIRCARRIER_ASK_VIA_MCP
+    value: "1"
+  - name: AIRCARRIER_MCP_APPS
+    value: mcp-aircarrier-docs,mcp-aircarrier-ops,mcp-aircarrier-hub

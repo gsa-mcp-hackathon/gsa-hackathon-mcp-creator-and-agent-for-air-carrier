@@ -1,6 +1,6 @@
 # mcp-aircarrier-docs
 
-> **Scorecard:** 11 tools · 50 tests · in the 421-call adversarial sweep · 7,703 of 7,712 tie-out checks pass on 34 PDFs (2026-11-21) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+> **Scorecard:** 11 tools · 55 tests · in the read-server adversarial sweep (421 hostile calls) · tie-outs on the 22 SCN books after round 10: 7,690 of 7,693, the 3 left within rounding (store before round 10: 7,703 of 7,712 on 34 PDFs) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
 
 Deterministic reading of the CVN-79 PDF corpus (SCN J-book exhibits, SAR/MSAR, CRS, GAO). No model in the loop:
 every number is an exact decimal with its document, page, row header, column header and unit.
@@ -51,9 +51,18 @@ SELECT on those two tables, CAN USE on the warehouse, and READ VOLUME on each ro
   item when that removes failures and adds none. Most of the 95 failures are layouts older books print: a
   P-40 money flow (Total Obligational Authority = Full Funding TOA plus Plus lines less Less lines) and P-10
   group rows followed by their items. Each is tried only when the plain sum fails, and taken only when it
-  reproduces the printed total; quantity rows ("End Item Qty") are not money. The 9 left: rounding in two
-  totals (PB2008 p.122, PB2007 p.66), one "First Destination" cell the extractor missed (PB2006 p.167), and
-  subtotals whose items start on the previous page (PB2022 p.377, PB2023 p.449).
+  reproduces the printed total; quantity rows ("End Item Qty") are not money. The 9 left had four causes,
+  found by reading the PDFs (round 10): a number printed with a stray space ("5 .2", PB2006 p.167), now
+  rejoined when one valid number results; a row whose wrapped label swallowed its values (PB2022 p.376),
+  split back when the values match a neighbour's cells; continuation pages the extractor split into
+  different column counts (PB2022, PB2023), now linked and merged by their column labels; and rounding
+  (PB2008 p.122, PB2007 p.66), now marked `within_rounding_bound` and still counted as failing. The same
+  reading found that P-5 pages opening with a Resource Summary block had no unit, so their cost elements
+  were never checked (each body column now takes the unit its label names), and that the joined-page
+  retry could report a failure under another row's figure (now matched on row and printed figure).
+  Re-extracting the 22 SCN books: 7,690 of 7,693 pass, the 3 left within rounding, no regressions
+  (`docs/submission/evidence/tieout_rerun_2026-11-21.json`). `docs_tieout_document` reports
+  `failed_within_rounding_bound` apart.
 * The corpus (7,804 pages, about 11 s to load) refreshes on a background thread after `DOCS_CACHE_TTL_S`
   and loads at startup. Before 2026-11-21 the reload ran inside the request that found the cache expired:
   the slow mode (p50 12.6 s) of the probe's known-answer latency. After the fix: 11 of 11 at p50 1.19 s.

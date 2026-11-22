@@ -22,7 +22,7 @@ _log = logging.getLogger(__name__)
 # active, which inside a notebook or Genie Code chat is that session's throwaway
 # experiment. Pin the root span to one dedicated experiment instead.
 # Override with AIRCARRIER_TRACE_EXPERIMENT_ID (id) or AIRCARRIER_TRACE_EXPERIMENT (path).
-DEFAULT_TRACE_EXPERIMENT = "/Users/xiaobing.shang1.civ@mail.mil/aircarrier-llm-traces"
+DEFAULT_TRACE_EXPERIMENT = "/Shared/aircarrier-llm-traces"
 _trace_exp_cache: dict[str, str | None] = {}
 
 

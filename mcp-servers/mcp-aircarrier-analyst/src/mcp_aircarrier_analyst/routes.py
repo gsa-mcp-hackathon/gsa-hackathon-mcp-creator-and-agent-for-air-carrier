@@ -1,6 +1,8 @@
 """HTTP routes beside /mcp. /health never touches the warehouse."""
 from __future__ import annotations
 
+import os
+
 from fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -27,7 +29,7 @@ LANDING: dict = {
     "cases": investigator.HYPOTHESES,
     "refuses": ["Creating or promoting a claim (D16)", "Fuzzy PIID matching",
                 "Summing total_dollars_obligated", "Recording an outcome without an authoritative document"],
-    "owner": "xiaobing.shang1.civ@mail.mil",
+    "owner": os.environ.get("APP_OWNER", ""),
     "mcp_endpoint": "/mcp",
     "transport": "streamable-http (stateless)",
 }

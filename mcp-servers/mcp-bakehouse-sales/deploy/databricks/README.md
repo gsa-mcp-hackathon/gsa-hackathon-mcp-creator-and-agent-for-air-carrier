@@ -1,4 +1,4 @@
-# Deploying Mcp Bakehouse Sales to Databricks Apps
+# Deploying Bakehouse Sales to Databricks Apps
 
 - **Transport:** MCP over streamable HTTP at `/mcp`, health at `/health`
 - **Port:** Databricks injects `DATABRICKS_APP_PORT`; `app.py` reads it

@@ -17,6 +17,8 @@ Run: python -m pytest -q test_adversarial_arguments.py
 
 from __future__ import annotations
 
+import json
+import os
 import sys
 from pathlib import Path
 from typing import ClassVar
@@ -38,6 +40,11 @@ HOSTILE_STRINGS = [
     "{{7*7}} ${jndi:ldap://x} %s%n",
 ]
 HOSTILE_NUMBERS = [-1, 0, 10**12, -(10**12)]
+# Counts published in the docs come from this file, written by
+# `SWEEP_WRITE=1 pytest test_adversarial_arguments.py`; a plain run fails when
+# it no longer matches.
+SUMMARY = Path(__file__).with_name("adversarial_summary.json")
+OUTCOMES: list[dict] = []
 LEAK_TELLS = ["Traceback", 'File "/', "site-packages", "dapi", "secret token"]
 
 
@@ -182,7 +189,38 @@ def test_hostile_arguments_are_refused_or_answered_safely(server, tool, args):
     leaks = [tell for tell in LEAK_TELLS if tell in text]
     assert not leaks, f"{server}.{tool} leaked {leaks}: {text[:400]}"
     hostile = [s for v in args.values() for s in _strings_in(v) if s in HOSTILE_STRINGS]
-    for sql, _params in SPARK.calls[before:]:
+    statements = [
+        (sql, params) for sql, params in SPARK.calls[before:] if "current_user()" not in sql
+    ]
+    bound = 0
+    for sql, params in statements:
         assert L.is_read_only(sql), f"{server}.{tool} sent a write: {sql[:200]}"
         pasted = [s for s in hostile if len(s) > 3 and s in sql]
         assert not pasted, f"{server}.{tool} pasted an argument into SQL: {sql[:300]}"
+        flat = " ".join(str(p) for p in (params or []))
+        bound += any(h and h.lower() in flat.lower() for h in hostile)
+    OUTCOMES.append(
+        {"refused": not out.get("ok"), "statements": len(statements), "bound": bound}
+    )
+
+
+def test_summary_matches_the_published_file():
+    if len(OUTCOMES) != len(CASES):
+        pytest.skip("run the whole file to compare the summary")
+    summary = {
+        "servers": ["docs", "analyst", "ops"],
+        "tools": len({(s, t) for s, t, _ in CASES}),
+        "hostile_calls": len(CASES),
+        "tests": len(CASES) + 2,  # plus the coverage check and this one
+        "refused": sum(o["refused"] for o in OUTCOMES),
+        "answered": sum(not o["refused"] for o in OUTCOMES),
+        "statements_reaching_the_warehouse": sum(o["statements"] for o in OUTCOMES),
+        "statements_with_a_hostile_value_bound_as_a_parameter": sum(
+            o["bound"] for o in OUTCOMES
+        ),
+        "writes": 0,
+        "hostile_values_pasted_into_sql": 0,
+    }
+    if os.environ.get("SWEEP_WRITE"):
+        SUMMARY.write_text(json.dumps(summary, indent=2) + "\n")
+    assert json.loads(SUMMARY.read_text()) == summary

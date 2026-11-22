@@ -31,21 +31,23 @@ def register(mcp: FastMCP) -> None:
         name: Annotated[
             str,
             Field(
+                max_length=80,
                 description=(
                     "A skill name such as 'mcp-tool-design', or a knowledge "
                     "slug such as 'databricks-mcp'. Call "
                     "creator_list_library for the exact names."
-                )
+                ),
             ),
         ],
         reference: Annotated[
             str,
             Field(
+                max_length=200,
                 description=(
                     "A reference file belonging to that skill, as the "
                     "listing spells it, e.g. 'references/examples.md'. "
                     "Leave empty for the skill body itself."
-                )
+                ),
             ),
         ] = "",
     ) -> dict[str, Any]:

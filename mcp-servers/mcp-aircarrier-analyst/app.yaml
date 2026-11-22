@@ -1,7 +1,7 @@
 # Databricks Apps runtime configuration for mcp-aircarrier-analyst.
 # MCP endpoint: https://<app-host>/mcp (stateless streamable HTTP). Health: /health.
 # src/ layout: a shell puts both packages (core, mcp_aircarrier_analyst) on the path.
-# Self-heal: if a stale fastmcp/mcp install shadows the pinned 2.x, wipe and reinstall.
+# Self-heal: if a stale fastmcp/mcp install shadows the pinned 3.x, wipe and reinstall.
 command:
   - /bin/sh
   - -c
@@ -11,9 +11,12 @@ command:
     SP=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])");
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --no-cache-dir --force-reinstall --no-deps
-    "fastmcp>=2.14,<3" "mcp>=1.24,<2"; }; } &&
+    "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
     python -m mcp_aircarrier_analyst.app
 env:
+  # Shown as the owner on the app's landing page ('/').
+  - name: APP_OWNER
+    value: xiaobing.shang1.civ@mail.mil
   - name: DATABRICKS_WAREHOUSE_ID
     valueFrom: sql-warehouse
   - name: AIRCARRIER_STORE_SCHEMA

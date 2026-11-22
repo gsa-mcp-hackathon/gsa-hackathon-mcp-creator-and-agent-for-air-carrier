@@ -63,8 +63,7 @@ from core.policy.gate import route
 from ops.agents.reader.handlers import exhibit, prose, transaction
 from ops.dispatcher.routing import next_action
 
-MANIFEST = os.environ.get("AIRCARRIER_MANIFEST",
-                          "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/MANIFEST.json")
+MANIFEST = os.environ.get("AIRCARRIER_MANIFEST", catalog.ARTIFACTS_VOLUME + "/MANIFEST.json")
 LOCK_HOURS = 2
 DEFERRED = "deferred: "
 

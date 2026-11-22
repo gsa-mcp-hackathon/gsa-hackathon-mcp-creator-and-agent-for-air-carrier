@@ -53,10 +53,11 @@ def register(mcp: FastMCP) -> None:
         name: Annotated[
             str,
             Field(
+                max_length=64,
                 description=(
                     "Short lowercase slug used in generated code, e.g. "
                     "'contracts' or 'policy_docs'."
-                )
+                ),
             ),
         ],
         kind: Annotated[SourceKind, Field(description="Where the data lives.")],
@@ -65,75 +66,105 @@ def register(mcp: FastMCP) -> None:
             Field(description="Rows, free text, or something in between."),
         ],
         design_id: Annotated[
-            str, Field(description=designs.DESIGN_ID_DESCRIPTION)
+            str,
+            Field(
+                max_length=16,
+                pattern=r"^$|^dsn_[0-9a-f]{8}$",
+                description=designs.DESIGN_ID_DESCRIPTION,
+            ),
         ] = "",
         spec_json: Annotated[
-            str, Field(description=designs.SPEC_JSON_DESCRIPTION)
+            str, Field(max_length=500_000, description=designs.SPEC_JSON_DESCRIPTION)
         ] = "",
         schema_text: Annotated[
             str,
             Field(
+                max_length=200_000,
                 description=(
                     "Paste anything that describes the fields: a CREATE "
                     "TABLE statement, a CSV header with a few rows, "
                     "DESCRIBE output, or a JSON response sample. Leave empty "
                     "for a Unity Catalog table if live inspection works."
-                )
+                ),
             ),
         ] = "",
-        catalog: Annotated[str, Field(description="Unity Catalog name.")] = "",
-        schema_name: Annotated[str, Field(description="Schema name.")] = "",
-        table: Annotated[str, Field(description="Table name.")] = "",
+        catalog: Annotated[
+            str, Field(max_length=255, description="Unity Catalog name.")
+        ] = "",
+        schema_name: Annotated[
+            str, Field(max_length=255, description="Schema name.")
+        ] = "",
+        table: Annotated[str, Field(max_length=255, description="Table name.")] = "",
         index_name: Annotated[
             str,
-            Field(description="Full AI Search index name, catalog.schema.index."),
+            Field(
+                max_length=765,
+                description="Full AI Search index name, catalog.schema.index.",
+            ),
         ] = "",
-        genie_space_id: Annotated[str, Field(description="Genie space id.")] = "",
+        genie_space_id: Annotated[
+            str, Field(max_length=64, description="Genie space id.")
+        ] = "",
         function_name: Annotated[
-            str, Field(description="Unity Catalog function name.")
+            str, Field(max_length=765, description="Unity Catalog function name.")
         ] = "",
         volume_path: Annotated[
             str,
-            Field(description="Volume path, /Volumes/<catalog>/<schema>/<volume>/..."),
+            Field(
+                max_length=1_000,
+                description="Volume path, /Volumes/<catalog>/<schema>/<volume>/...",
+            ),
         ] = "",
         api_base_url: Annotated[
             str,
             Field(
+                max_length=500,
                 description=(
                     "Fixed origin for a REST source. Operator controlled, "
                     "never a tool argument on the generated server."
-                )
+                ),
             ),
         ] = "",
         snapshot_path: Annotated[
             str,
             Field(
+                max_length=500,
                 description=(
                     "Path of a data file packaged with the server, relative "
                     "to its data directory, e.g. 'contracts.csv'. This is "
                     "the one source kind that needs no credentials at all."
-                )
+                ),
             ),
         ] = "",
-        title: Annotated[str, Field(description="Human-readable name.")] = "",
+        title: Annotated[
+            str, Field(max_length=200, description="Human-readable name.")
+        ] = "",
         description: Annotated[
-            str, Field(description="What it contains and who maintains it.")
+            str,
+            Field(
+                max_length=4_000, description="What it contains and who maintains it."
+            ),
         ] = "",
         grain: Annotated[
             str,
             Field(
+                max_length=500,
                 description=(
                     "What one row or document represents, e.g. 'one contract "
                     "award, not one modification'."
-                )
+                ),
             ),
         ] = "",
         update_cadence: Annotated[
             str,
-            Field(description="How often it refreshes, e.g. 'monthly, 32-day lag'."),
+            Field(
+                max_length=200,
+                description="How often it refreshes, e.g. 'monthly, 32-day lag'.",
+            ),
         ] = "",
         as_of: Annotated[
-            str, Field(description="The date the data currently reflects.")
+            str,
+            Field(max_length=40, description="The date the data currently reflects."),
         ] = "",
         document_count: Annotated[
             int,
@@ -141,21 +172,25 @@ def register(mcp: FastMCP) -> None:
         ] = 0,
         text_column: Annotated[
             str,
-            Field(description="For unstructured: the column holding chunk text."),
+            Field(
+                max_length=255,
+                description="For unstructured: the column holding chunk text.",
+            ),
         ] = "",
         citation_columns: Annotated[
-            list[str],
+            list[Annotated[str, Field(max_length=255)]],
             Field(
+                max_length=20,
                 description=(
                     "For unstructured: columns returned with every passage "
                     "so an answer can cite it, e.g. "
                     "['doc_title','page','url']. Retrieval that cannot cite "
                     "cannot be audited."
-                )
+                ),
             ),
         ] = [],
         search_endpoint: Annotated[
-            str, Field(description="AI Search endpoint name.")
+            str, Field(max_length=255, description="AI Search endpoint name.")
         ] = "",
         try_live_inspection: Annotated[
             bool,

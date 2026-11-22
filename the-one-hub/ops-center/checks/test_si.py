@@ -515,7 +515,7 @@ def test_live(spark=None):
         import pytest
         pytest.skip("live check needs a Spark session; run this file as a script")
     os.environ.setdefault("AIRCARRIER_CATALOG", "users")
-    os.environ.setdefault("AIRCARRIER_SCHEMA", "xiaobing_shang1_civ")
+    os.environ.setdefault("AIRCARRIER_SCHEMA", "aircarrier_test")
     q = live_q(spark)
     for piid, (disp, n) in (("N00024-09-C-2116", T2116), ("N00024-15-C-2114", T2114)):
         r = run("reconcile_obligations", piid, q_app=q)

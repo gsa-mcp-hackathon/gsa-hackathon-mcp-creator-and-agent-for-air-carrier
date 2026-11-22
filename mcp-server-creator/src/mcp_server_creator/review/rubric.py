@@ -244,8 +244,11 @@ def _check_inputs(
                     (f for f in source.fields if f.name == param.source_field),
                     None,
                 )
+                # Only a category is a closed set. An identifier, a date or an
+                # amount with few distinct values in a pasted sample is not.
                 if (
                     field is not None
+                    and field.role in {FieldRole.DIMENSION, FieldRole.FLAG}
                     and field.cardinality_hint is not None
                     and field.cardinality_hint <= 50
                 ):
@@ -934,14 +937,44 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
     )  # fmt: skip
     agg = plan.aggregation
     takes = {"sum": "a sum", "avg": "an average", "count": "a count"}[agg]
-    if wants_avg and agg != "avg":
+    source = spec.source_by_name(plan.source)
+    quantity = None
+    if source is not None:
+        from mcp_server_creator.designer import counted_measure
+
+        quantity = counted_measure(
+            q, [f for f in source.fields if f.role is FieldRole.MEASURE and not f.pii]
+        )
+    if quantity is not None and agg != "sum":
+        out.append(
+            f"{plan.name} takes {takes}; '{plan.goal}' asks for a sum of "
+            f"{quantity.name}, not a count of rows"
+        )
+    elif quantity is not None:
+        pass
+    elif wants_avg and agg != "avg":
         out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks for an average")
-    elif wants_count and not wants_amount and agg != "count":
+    elif (
+        wants_count
+        and not wants_amount
+        and agg != "count"
+        # An aggregate tool returns record_count with its sum and mean, so
+        # 'how many and what average' is answered by one call.
+        and plan.pattern is not QueryPattern.AGGREGATE
+    ):
         out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks how many")
     elif agg == "count" and wants_amount and not wants_count:
         out.append(f"{plan.name} counts rows; '{plan.goal}' asks for an amount")
     elif agg == "avg" and not wants_avg:
         out.append(f"{plan.name} averages; '{plan.goal}' does not ask for an average")
+
+    # 'Top 5 products by quantity' asks for a ranking; one total answers a
+    # different question (bakehouse, 2026-11-21).
+    if (
+        re.search(r"\b(top|bottom|best|worst|highest|lowest|rank)\b", q)
+        and plan.pattern is QueryPattern.AGGREGATE
+    ):
+        out.append(f"{plan.name} returns one total; '{plan.goal}' asks for a ranking")
 
     ratio = re.search(
         r"\bper\s+(miles?|km|kilometers?|gallons?|pounds?|kg|units?|items?|seats?|"
@@ -983,7 +1016,11 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
             and f.name != plan.measure_field
             and _stems(f.name) & _stems(plan.goal)
         ]
-        if named and not _stems(plan.measure_field) & _stems(plan.goal):
+        # 'units' resolves to quantity through the designer's synonyms, so a
+        # stem it shares with unitPrice is not a second measure named.
+        resolved = quantity is not None and quantity.name == plan.measure_field
+        shared = _stems(plan.measure_field) & _stems(plan.goal)
+        if named and not resolved and not shared:
             out.append(
                 f"{plan.name} adds up {plan.measure_field}; '{plan.goal}' names "
                 f"{', '.join(named)}"

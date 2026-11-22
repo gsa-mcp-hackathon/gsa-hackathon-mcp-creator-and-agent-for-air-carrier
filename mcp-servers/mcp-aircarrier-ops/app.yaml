@@ -9,7 +9,7 @@
 #
 # Self-heal: the app's .venv persists across deployments, and pip leaves
 # stray files behind when FastMCP changes major version (a 4.x package
-# directory can shadow a 2.x module of the same name). If `import fastmcp`
+# directory can shadow a 3.x module of the same name). If `import fastmcp`
 # fails, the fastmcp and mcp packages are wiped and reinstalled before start.
 command:
   - /bin/sh
@@ -21,9 +21,12 @@ command:
     echo "Stale fastmcp or mcp files in $SP, reinstalling";
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --no-cache-dir --force-reinstall --no-deps
-    "fastmcp>=2.14,<3" "mcp>=1.24,<2"; }; } &&
+    "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
     python -m mcp_aircarrier_ops.app
 env:
+  # Shown as the owner on the app's landing page ('/').
+  - name: APP_OWNER
+    value: xiaobing.shang1.civ@mail.mil
   - name: DATABRICKS_WAREHOUSE_ID
     valueFrom: sql_warehouse
   # <catalog>.<schema> holding the aircarrier_* stores (same variable as the

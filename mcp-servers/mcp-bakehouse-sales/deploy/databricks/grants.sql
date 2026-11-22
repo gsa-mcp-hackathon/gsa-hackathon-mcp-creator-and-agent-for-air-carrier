@@ -11,9 +11,9 @@
 -- SET VAR app_sp = '<service-principal-application-id>';
 
 -- sales (uc_table)
-GRANT USE CATALOG ON CATALOG samples TO `$app_sp`;
-GRANT USE SCHEMA ON SCHEMA samples.bakehouse TO `$app_sp`;
-GRANT SELECT ON TABLE samples.bakehouse.sales_transactions TO `$app_sp`;
+GRANT USE CATALOG ON CATALOG `samples` TO `$app_sp`;
+GRANT USE SCHEMA ON SCHEMA `samples`.`bakehouse` TO `$app_sp`;
+GRANT SELECT ON TABLE `samples`.`bakehouse`.`sales_transactions` TO `$app_sp`;
 
 -- The SQL warehouse is granted through the bundle resource in
 -- databricks.yml (permission: CAN_USE), not with a GRANT here.

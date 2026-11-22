@@ -67,7 +67,7 @@ one_hub() {
     next_flags
     PYTHONPATH=. uv run --no-sync pytest "${FLAGS[@]}" --assert=plain \
       checks/test_analyst.py checks/test_si.py checks/test_work.py \
-      checks/test_harness.py checks/test_mcp_server.py checks/test_impact.py checks/test_deploy_config.py checks/test_capture_ask.py || exit 1
+      checks/test_harness.py checks/test_mcp_server.py checks/test_impact.py checks/test_deploy_config.py checks/test_capture_ask.py checks/test_mcp_host.py || exit 1
     # Script suites print their own summary and exit non-zero on failure.
     for suite in test_agents test_gate test_llm_tracing test_app test_serverless_entrypoints verify; do
       echo "-- checks/$suite.py"
@@ -87,13 +87,17 @@ run() {
     analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests ;;
     probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
     mcp-local) (cd "$ROOT/mcp-servers" && next_flags && uv run --quiet --no-project --with pytest \
-                 --with "fastmcp>=2.14,<3" python -m pytest test_mcp_local.py "${FLAGS[@]}" \
+                 --with "fastmcp>=3.4,<4" python -m pytest test_mcp_local.py "${FLAGS[@]}" \
                && echo "-- instruction text in results is reported (source_notice)" \
-               && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
+               && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=3.4,<4" \
                  --with-requirements mcp-aircarrier-ops/requirements.txt \
                  python -m pytest test_source_notice.py "${FLAGS[@]}" \
+               && echo "-- a failure reaches the client as an error (error_contract)" \
+               && next_flags && uv run --quiet --no-project --with pytest \
+                 --with-requirements ../mcp-server-creator/requirements.txt \
+                 python -m pytest test_error_contract.py "${FLAGS[@]}" \
                && echo "-- adversarial arguments against all 30 Air Carrier tools" \
-               && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=2.14,<3" \
+               && next_flags && uv run --quiet --no-project --with pytest --with "fastmcp>=3.4,<4" \
                  --with "mcp>=1.24,<2" \
                  --with-requirements mcp-aircarrier-docs/requirements.txt \
                  --with-requirements mcp-aircarrier-analyst/requirements.txt \
@@ -101,6 +105,8 @@ run() {
                  python -m pytest test_adversarial_arguments.py "${FLAGS[@]}") ;;
     one-hub)   one_hub ;;
     evidence)  (cd "$ROOT" && python3 scripts/check_links.py \
+                 && python3 scripts/check_portability.py \
+                 && uvx --quiet --with pyyaml --with python-pptx --with python-docx python scripts/check_numbers.py \
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \
                  && diff -u eval/delegation/RESULTS.md /tmp/delegation_results.md \
                  && echo "eval/delegation/RESULTS.md matches runs.csv" \

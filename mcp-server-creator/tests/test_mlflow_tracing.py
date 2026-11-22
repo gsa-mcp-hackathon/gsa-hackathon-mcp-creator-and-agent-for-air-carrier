@@ -81,11 +81,14 @@ async def test_the_design_id_becomes_the_session(fake_mlflow):
 
 
 async def test_long_inputs_are_clipped(fake_mlflow):
-    long_purpose = "x" * (tracing.CLIP_CHARS + 500)
+    # purpose is capped at 2,000 characters; spec_json takes a whole design.
+    long_spec = "x" * (tracing.CLIP_CHARS + 500)
     async with Client(mcp) as client:
-        await client.call_tool("creator_start_design", {"purpose": long_purpose})
-    recorded = fake_mlflow.spans[0].inputs["purpose"]
-    assert len(recorded) < len(long_purpose) and "clipped" in recorded
+        await client.call_tool(
+            "creator_review_server", {"spec_json": long_spec}, raise_on_error=False
+        )
+    recorded = fake_mlflow.spans[0].inputs["spec_json"]
+    assert len(recorded) < len(long_spec) and "clipped" in recorded
 
 
 async def test_metadata_capture_keeps_values_out(fake_mlflow, monkeypatch):

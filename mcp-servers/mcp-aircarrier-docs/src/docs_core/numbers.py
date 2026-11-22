@@ -29,6 +29,21 @@ def clean(token: str) -> str:
     return _DECOR.sub("", t).strip()
 
 
+_SPLIT = re.compile(r"^(\(?-?\$?[\d,.]+) ([\d,.]+\)?%?)$")
+
+
+def _join_split(t: str) -> str:
+    """'5 .2' and '3 3.2' are 5.2 and 33.2: some PDFs kern a stray space into a
+    number (PB2006 P-40 p.167). Joined only when one space splits it, the
+    joined text has exactly one decimal point and is a valid number, so two
+    values sharing a cell ('3.3 4.4') and integer pairs ('3 4') stay unread."""
+    m = _SPLIT.match(t)
+    if not m:
+        return t
+    joined = m.group(1) + m.group(2)
+    return joined if joined.count(".") == 1 and _NUM.match(joined) else t
+
+
 def parse(token: str) -> Decimal | None:
     """The exact value printed, or None when the cell is not a number.
 
@@ -36,7 +51,7 @@ def parse(token: str) -> Decimal | None:
     exhibit means nothing was budgeted, which is not the same as a printed 0).
     Percentages are returned as printed (12.5 for "12.5%").
     """
-    t = clean(token)
+    t = _join_split(clean(token))
     if t in NIL or not _NUM.match(t):
         return None
     neg = t.startswith("(") and t.endswith(")")
@@ -54,7 +69,7 @@ def is_nil(token: str) -> bool:
 
 def places(token: str) -> int:
     """Decimal places as printed; the tolerance of a tie-out follows from it."""
-    t = clean(token).strip("()%")
+    t = _join_split(clean(token)).strip("()%")
     return len(t.split(".")[1]) if "." in t else 0
 
 

@@ -140,3 +140,81 @@ def test_snapshot_lookup_and_search_strip_pii() -> None:
             assert 'hidden = {"cardNumber"}' in module, plan.name
             checked += 1
     assert checked == 2
+
+
+# Round 10 (A4): 'how many units' became a record count, and the review passed it.
+def _plans_for(job: str) -> list:
+    spec = _bakery()
+    spec.jobs_to_be_done = [job]
+    plans, _notes = design_tools(spec)
+    return [p for p in plans if p.goal == job]
+
+
+def test_how_many_units_sums_the_quantity_column() -> None:
+    (plan,) = _plans_for("How many units did we sell last week?")
+    assert plan.aggregation == "sum" and plan.measure_field == "quantity", plan
+
+
+def test_how_many_transactions_still_counts_rows() -> None:
+    (plan,) = _plans_for("How many transactions did we have last week?")
+    assert plan.aggregation == "count", plan
+
+
+def test_review_flags_a_count_tool_for_a_quantity_question() -> None:
+    from mcp_server_creator.review.rubric import review_spec
+
+    spec = _bakery()
+    job = "How many units did we sell last week?"
+    spec.jobs_to_be_done = [job]
+    spec.tools, _notes = design_tools(spec)
+    plan = next(p for p in spec.tools if p.goal == job)
+    plan.aggregation, plan.measure_field = "count", ""
+    report = review_spec(spec)
+    misread = [f for f in report.findings if f.check == "tool_computes_its_question"]
+    assert misread and "sum of quantity" in misread[0].evidence, report.findings
+
+
+def test_review_passes_the_designed_quantity_tool() -> None:
+    from mcp_server_creator.review.rubric import review_spec
+
+    spec = _bakery()
+    spec.jobs_to_be_done = ["How many units did we sell last week?"]
+    spec.tools, _notes = design_tools(spec)
+    report = review_spec(spec)
+    assert "tool_computes_its_question" in report.passed_checks, report.findings
+
+
+# Round 10 (A6): defects found by regenerating the bakehouse server.
+def test_a_hyphenated_ranking_groups_by_what_it_ranks() -> None:
+    job = "What are the top 5 best-selling products by quantity for a given franchise?"
+    (plan,) = _plans_for(job)
+    assert plan.group_field == "product" and plan.measure_field == "quantity", plan
+
+
+def test_average_ticket_size_averages_the_sale_amount() -> None:
+    (plan,) = _plans_for("What average ticket size did a franchise have?")
+    assert plan.aggregation == "avg" and plan.measure_field == "totalPrice", plan
+
+
+def test_review_flags_one_total_for_a_ranking_question() -> None:
+    from mcp_server_creator.models import QueryPattern
+    from mcp_server_creator.review.rubric import review_spec
+
+    spec = _bakery()
+    job = "What are the top 5 best-selling products by quantity?"
+    spec.jobs_to_be_done = [job]
+    spec.tools, _notes = design_tools(spec)
+    plan = next(p for p in spec.tools if p.goal == job)
+    plan.pattern, plan.group_field = QueryPattern.AGGREGATE, ""
+    findings = [
+        f for f in review_spec(spec).findings if f.check == "tool_computes_its_question"
+    ]
+    assert findings and "asks for a ranking" in findings[0].evidence
+
+
+def test_a_pasted_sample_proposes_only_categories_as_closed_sets() -> None:
+    from mcp_server_creator.profiling import profile_summary
+
+    spec = _bakery()
+    candidates = profile_summary(spec.data_sources[0].fields)["enum_candidates"]
+    assert "transactionID" not in candidates and "dateTime" not in candidates

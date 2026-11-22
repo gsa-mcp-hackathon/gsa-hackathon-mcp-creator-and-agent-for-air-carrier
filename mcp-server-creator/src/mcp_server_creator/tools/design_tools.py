@@ -31,27 +31,34 @@ def register(mcp: FastMCP) -> None:
     )
     def creator_design_tools(
         design_id: Annotated[
-            str, Field(description=designs.DESIGN_ID_DESCRIPTION)
+            str,
+            Field(
+                max_length=16,
+                pattern=r"^$|^dsn_[0-9a-f]{8}$",
+                description=designs.DESIGN_ID_DESCRIPTION,
+            ),
         ] = "",
         spec_json: Annotated[
-            str, Field(description=designs.SPEC_JSON_DESCRIPTION)
+            str, Field(max_length=500_000, description=designs.SPEC_JSON_DESCRIPTION)
         ] = "",
         drop: Annotated[
-            list[str],
+            list[Annotated[str, Field(max_length=64)]],
             Field(
+                max_length=50,
                 description=(
                     "Tool names to remove from the proposal, after the user "
                     "has looked at it."
-                )
+                ),
             ),
         ] = [],
         keep_only: Annotated[
-            list[str],
+            list[Annotated[str, Field(max_length=64)]],
             Field(
+                max_length=50,
                 description=(
                     "Keep only these tool names. Use this when the user has "
                     "picked a short list; it beats dropping one at a time."
-                )
+                ),
             ),
         ] = [],
     ) -> dict[str, Any]:

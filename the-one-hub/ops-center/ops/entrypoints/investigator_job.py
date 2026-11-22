@@ -55,7 +55,7 @@ from ops.dispatcher.routing import next_action
 
 S = catalog.STORE_SCHEMA
 TRIAGE, PROPOSED, CRS = S + ".aircarrier_question_triage", S + ".aircarrier_proposed_gaps", S + ".aircarrier_collection_requirements"
-LOG_MD = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/11f858c166f2e31d/LOG.md"
+LOG_MD = catalog.ARTIFACTS_VOLUME + "/11f858c166f2e31d/LOG.md"
 
 DDL = [f"""CREATE TABLE IF NOT EXISTS {TRIAGE} (note_id STRING NOT NULL, artifact_id STRING, question STRING,
   action STRING, gap_ref STRING, mechanism_id STRING, reason STRING, model STRING, trace STRING,

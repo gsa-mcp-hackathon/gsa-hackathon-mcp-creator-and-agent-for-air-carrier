@@ -13,13 +13,16 @@ Important legal and policy guidelines.
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+| Version | Security fixes |
+| --- | --- |
+| 1.0.0rc1 (tag `v1.0.0-rc1`) and `main` | Yes |
+| 0.1.0 | No: it pins FastMCP 2.14, which carries CVE-2025-64340 and CVE-2026-27124 |
 
-| Version (Branch) | Supported          |
-| ------- | ------------------ |
-| main   | :white_check_mark: |
-| other  | :x:
+Each release ships a CycloneDX SBOM of its locked runtime dependencies in
+[`release/`](release/), built by `scripts/build_creator_release.sh`. CI runs
+`pip-audit` on the deployed requirements and `bandit` on the code on every push.
+The FastMCP and protocol versions each release is tested on are in the
+[README](README.md#which-fastmcp-and-protocol-versions).
 
 ## Security Researchers
 
@@ -31,10 +34,15 @@ Security researchers shall:
 
 ## This server's posture
 
-Seven of the eight tools are read-only. The eighth, `creator_write_project`,
-writes files and is off unless an operator sets both `CREATOR_ALLOW_WRITE`
-and `CREATOR_OUTPUT_ROOT`; every path is then resolved inside that root,
-traversal and absolute paths are refused, and the default is a dry run.
+Eight of the ten tools only read or compute. `creator_write_project` writes
+files and is off unless an operator sets both `CREATOR_ALLOW_WRITE` and
+`CREATOR_OUTPUT_ROOT`; every path is then resolved inside that root, traversal
+and absolute paths are refused, and the default is a dry run.
+`creator_deploy_server` deploys only with an approval token bound to the
+reviewed design, app name, grants and files. Every string input is capped and
+`tests/test_adversarial_arguments.py` sends hostile values into every parameter
+of all ten tools with writing on (400 calls; nothing escapes, nothing is
+written outside the root). A failure reaches the client as `isError`.
 
 No tool accepts an absolute URL, a raw SQL string, or a filesystem path.
 `tests/test_security.py` asserts this, so adding one breaks CI on purpose.

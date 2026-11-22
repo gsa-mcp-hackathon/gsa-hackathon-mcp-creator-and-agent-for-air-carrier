@@ -419,3 +419,87 @@ def test_long_names_still_generate_a_lint_clean_project(tmp_path):
         check=False,
     )
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+# ------------------------------------------- round 10 (D1): provenance and drift
+def _drift(project):
+    return subprocess.run(
+        [sys.executable, ".mcp-creator/check_drift.py"],
+        cwd=project,
+        capture_output=True,
+        text=True,
+    )
+
+
+def test_every_project_records_its_spec_version_and_file_hashes(
+    manifest, designed_spec
+):
+    import hashlib
+    import json
+
+    from mcp_server_creator import __version__
+
+    by_path = {f.path: f.content for f in manifest.files}
+    lock = json.loads(by_path[".mcp-creator/lock.json"])
+    assert lock["creator_version"] == __version__
+    assert lock["server_name"] == designed_spec.server_name
+    spec = by_path[".mcp-creator/spec.json"]
+    assert lock["spec_sha256"] == hashlib.sha256(spec.encode()).hexdigest()
+    assert json.loads(spec)["server_name"] == designed_spec.server_name
+    hashed = set(lock["files"])
+    assert hashed == set(by_path) - {".mcp-creator/lock.json", ".mcp-creator/owned.txt"}
+    for path, digest in lock["files"].items():
+        assert hashlib.sha256(by_path[path].encode()).hexdigest() == digest, path
+
+
+def test_drift_check_passes_fresh_fails_on_an_undeclared_edit_and_passes_declared(
+    manifest, designed_spec, tmp_path
+):
+    project = _write(manifest, tmp_path / "drift")
+    fresh = _drift(project)
+    assert fresh.returncode == 0, fresh.stdout + fresh.stderr
+
+    readme = project / "README.md"
+    readme.write_text(readme.read_text() + "\nA note the owner added.\n")
+    edited = _drift(project)
+    assert edited.returncode == 1 and "undeclared: README.md" in edited.stdout
+
+    owned = project / ".mcp-creator/owned.txt"
+    owned.write_text(owned.read_text() + "README.md\n")
+    declared = _drift(project)
+    assert declared.returncode == 0, declared.stdout
+
+
+def test_two_processes_generate_identical_files(designed_spec, tmp_path):
+    """Determinism across processes, not only within one.
+
+    2026-11-21: tests/test_server.py listed the tool names from a set, whose
+    order follows the process's hash seed, so the same specification gave
+    different bytes in two runs. Generating twice in one process cannot see it.
+    """
+    import json
+
+    spec_file = tmp_path / "spec.json"
+    spec_file.write_text(designed_spec.model_dump_json())
+    script = (
+        "import hashlib, json, sys\n"
+        "from mcp_server_creator.generators import generate_full_project\n"
+        "from mcp_server_creator.models import ServerSpec\n"
+        "spec = ServerSpec.model_validate_json(open(sys.argv[1]).read())\n"
+        "m = generate_full_project(spec)\n"
+        "print(json.dumps({f.path: hashlib.sha256(f.content.encode()).hexdigest()"
+        " for f in m.files}, sort_keys=True))\n"
+    )
+    runs = []
+    for seed in ("1", "2"):
+        env = {**os.environ, "PYTHONHASHSEED": seed}
+        out = subprocess.run(
+            [sys.executable, "-c", script, str(spec_file)],
+            capture_output=True,
+            text=True,
+            env=env,
+            check=True,
+        ).stdout
+        runs.append(json.loads(out.strip().splitlines()[-1]))
+    differ = [p for p in runs[0] if runs[0][p] != runs[1].get(p)]
+    assert not differ, differ

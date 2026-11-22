@@ -1,6 +1,4 @@
-# mcp-bakehouse-sales
-
-> **Scorecard:** 4 tools, built by MCP A Creator on Databricks' `samples.bakehouse` table, to show the Creator on a dataset unrelated to CVN-79 · 21 tests · deployed and probed until 2026-11-21, when its app was deleted so the One Hub server could take the slot (the shared workspace is capped at 100 apps). It is a demonstration, not government data, and not part of the CVN-79 evidence. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+# Bakehouse Sales
 
 Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.
 
@@ -26,10 +24,13 @@ the question.
 
 | Tool | What it answers | Source |
 |---|---|---|
-| `mcp_describe_sales` | Tell me what is in Bakehouse sales transactions: the fields, what they mean, the allowed values, and how fresh it is. | sales |
-| `mcp_top_product_by_transactionid` | Which product accounts for the most transactionID? | sales |
-| `mcp_sales_totals` | Give me the totals for Bakehouse sales transactions: how many records and how much transactionID. | sales |
-| `mcp_sales_trend` | How has transactionID moved month by month, and where did it change most? | sales |
+| `bakehouse_describe_sales` | Tell me what is in Bakehouse sales transactions: the fields, what they mean, the allowed values, and how fresh it is. | sales |
+| `bakehouse_get_sales` | Show me the full Bakehouse sales transactions record for one identifier. | sales |
+| `bakehouse_top_franchiseid_by_totalprice` | Which franchises had the highest total revenue between two dates? | sales |
+| `bakehouse_top_product_by_quantity` | What are the top 5 best-selling products by quantity for a given franchise? | sales |
+| `bakehouse_top_paymentmethod_by_totalprice` | How does revenue split by payment method? | sales |
+| `bakehouse_daily_totalprice` | What was total revenue per day over a date range? | sales |
+| `bakehouse_average_totalprice` | How many transactions and what average ticket size did a franchise have? | sales |
 
 ## Data sources
 
@@ -57,10 +58,10 @@ Connect a client with an absolute path to this repository:
 ```json
 {
   "mcpServers": {
-    "mcp-bakehouse-sales": {
+    "bakehouse-sales": {
       "command": "uv",
-      "args": ["run", "mcp-bakehouse-sales"],
-      "cwd": "/absolute/path/to/mcp-bakehouse-sales"
+      "args": ["run", "bakehouse-sales"],
+      "cwd": "/absolute/path/to/bakehouse-sales"
     }
   }
 }
@@ -103,7 +104,7 @@ docstrings can answer a real question. See [eval/README.md](eval/README.md).
 
 ## Limitations
 
-- `sales` has no stable identifier, so a single record cannot be fetched reliably.
+- No structural gaps were found in the profiled fields. That is not the same as the data being complete; confirm coverage with the source owner.
 
 ## Security
 

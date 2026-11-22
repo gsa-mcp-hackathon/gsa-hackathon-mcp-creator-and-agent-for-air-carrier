@@ -13,6 +13,7 @@ from mcp_server_creator.generators import (
     evaluation,
     formatting,
     project,
+    provenance,
     toolcode,
 )
 from mcp_server_creator.models import FileManifest, ServerSpec
@@ -41,9 +42,12 @@ def generate_full_project(
         manifest.merge(evaluation.generate_evaluation(spec))
         _add_eval_dependency_group(manifest, spec)
 
+    provenance.add_files(manifest, spec)
     # Format before the files leave the generator, so the project passes its
     # own `ruff check` and `ruff format --check` on the first commit.
     formatting.format_manifest_python(manifest.files, first_party=spec.package_name)
+    # Last: the lock hashes every file as it will be written.
+    provenance.stamp(manifest, spec)
     if not formatting.ruff_available():
         manifest.warnings.append(
             "ruff was not available, so the generated Python was not "
@@ -69,7 +73,7 @@ def _add_eval_dependency_group(manifest: FileManifest, spec: ServerSpec) -> None
     They stay out of pyproject.toml on purpose. uv resolves every dependency
     group together with the project and installs `dev` by default, so a
     harness pin that disagrees with the server's own pins (arize-phoenix 20.7
-    and later need fastmcp 4; the server pins fastmcp below 3) would make
+    and later need fastmcp 4; the server pins fastmcp below 4) would make
     `uv sync` fail before the server ever starts. The Phoenix harness launches
     the server as a subprocess, so it does not need to share its environment.
     """

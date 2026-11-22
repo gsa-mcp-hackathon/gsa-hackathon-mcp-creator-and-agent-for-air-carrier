@@ -1,0 +1,678 @@
+{
+  "classification": "internal",
+  "data_sources": [
+    {
+      "api_base_url": "",
+      "as_of": "",
+      "catalog": "samples",
+      "description": "",
+      "fields": [
+        {
+          "cardinality_hint": 36,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "1000000",
+          "name": "transactionID",
+          "nullable": false,
+          "pii": false,
+          "role": "identifier",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 36,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "2000000",
+          "name": "customerID",
+          "nullable": false,
+          "pii": true,
+          "role": "identifier",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 5,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "3000000",
+          "name": "franchiseID",
+          "nullable": false,
+          "pii": false,
+          "role": "identifier",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 36,
+          "data_type": "date",
+          "description": "",
+          "enum_values": [],
+          "example": "2024-05-01 10:00:00",
+          "name": "dateTime",
+          "nullable": false,
+          "pii": false,
+          "role": "date",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 6,
+          "data_type": "string",
+          "description": "",
+          "enum_values": [
+            "Austin Almond Biscotti",
+            "Golden Gate Ginger",
+            "Orchard Oasis",
+            "Outback Oatmeal",
+            "Pearly Pies",
+            "Tokyo Tidbits"
+          ],
+          "example": "Austin Almond Biscotti",
+          "name": "product",
+          "nullable": false,
+          "pii": false,
+          "role": "dimension",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 7,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "1",
+          "name": "quantity",
+          "nullable": false,
+          "pii": false,
+          "role": "measure",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 1,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "3",
+          "name": "unitPrice",
+          "nullable": false,
+          "pii": false,
+          "role": "measure",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 7,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "3",
+          "name": "totalPrice",
+          "nullable": false,
+          "pii": false,
+          "role": "measure",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 3,
+          "data_type": "string",
+          "description": "",
+          "enum_values": [
+            "amex",
+            "mastercard",
+            "visa"
+          ],
+          "example": "amex",
+          "name": "paymentMethod",
+          "nullable": false,
+          "pii": false,
+          "role": "dimension",
+          "stored_as_text": false
+        },
+        {
+          "cardinality_hint": 36,
+          "data_type": "bigint",
+          "description": "",
+          "enum_values": [],
+          "example": "4000000000000000",
+          "name": "cardNumber",
+          "nullable": false,
+          "pii": true,
+          "role": "identifier",
+          "stored_as_text": false
+        }
+      ],
+      "function_name": "",
+      "genie_space_id": "",
+      "grain": "one point-of-sale transaction for one product line",
+      "index_name": "",
+      "kind": "uc_table",
+      "modality": "structured",
+      "name": "sales",
+      "notes": [],
+      "required_grants": [
+        "USE CATALOG on the catalog",
+        "USE SCHEMA on the schema",
+        "SELECT on the table",
+        "CAN USE on the SQL warehouse bound in app.yaml"
+      ],
+      "retrieval": null,
+      "row_count_hint": null,
+      "schema_name": "bakehouse",
+      "snapshot_path": "",
+      "table": "sales_transactions",
+      "title": "Bakehouse sales transactions",
+      "update_cadence": "static sample",
+      "volume_path": ""
+    }
+  ],
+  "deployment": {
+    "app_name": "mcp-bakehouse-sales",
+    "auth_mode": "databricks_oauth",
+    "secret_scope": "",
+    "source_code_path": "",
+    "sql_warehouse_resource": "sql_warehouse",
+    "target": "databricks_apps",
+    "use_bundle": true,
+    "workspace_host": ""
+  },
+  "domain": "retail point-of-sale sales",
+  "environment": "commercial",
+  "evaluation": {
+    "agent_model": "databricks-claude-sonnet-4-5",
+    "baseline_without_tools": true,
+    "dataset_name": "bakehouse-eval-0",
+    "golden_question_count": 20,
+    "include_decoys": true,
+    "include_injection": true,
+    "include_no_action": true,
+    "include_out_of_scope": true,
+    "judge_model": "databricks-claude-opus-4-1",
+    "repeats": 3,
+    "target_accuracy": 0.85
+  },
+  "jobs_to_be_done": [
+    "Which franchises had the highest total revenue between two dates?",
+    "What are the top 5 best-selling products by quantity for a given franchise?",
+    "How does revenue split by payment method?",
+    "What was total revenue per day over a date range?",
+    "How many transactions and what average ticket size did a franchise have?"
+  ],
+  "license_name": "MIT",
+  "maintainer": "",
+  "out_of_scope": [
+    "Customer personal details such as names, emails or addresses",
+    "Forecasting future sales",
+    "Changing or deleting any sales record"
+  ],
+  "pii_present": true,
+  "primary_user": "a sales analyst at the Bakehouse franchise head office who reviews franchise performance weekly",
+  "purpose": "Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.",
+  "read_only": true,
+  "repo_url": "",
+  "server_name": "bakehouse-sales",
+  "title": "Bakehouse Sales",
+  "tool_prefix": "bakehouse",
+  "tools": [
+    {
+      "aggregation": "sum",
+      "date_field": "",
+      "error_hints": [],
+      "eval_seeds": [
+        "TODO: how many fields does Bakehouse sales transactions have, and what is its grain?"
+      ],
+      "freshness_note": "This tool needs no credentials and no query: the dictionary ships with the server.",
+      "goal": "Tell me what is in Bakehouse sales transactions: the fields, what they mean, the allowed values, and how fresh it is.",
+      "granularity": "month",
+      "group_field": "",
+      "idempotent": true,
+      "measure_field": "",
+      "name": "bakehouse_describe_sales",
+      "open_world": true,
+      "paginated": false,
+      "params": [],
+      "pattern": "describe_source",
+      "read_only": true,
+      "returns": "The source's grain, update cadence, as-of date, and every field with its type, role, description, and allowed values.",
+      "source": "sales",
+      "title": "Describe Bakehouse sales transactions"
+    },
+    {
+      "aggregation": "sum",
+      "date_field": "",
+      "error_hints": [
+        "Identifiers are exact; call the describe tool for example values."
+      ],
+      "eval_seeds": [
+        "TODO: look up one known Bakehouse sales transactions record by its identifier."
+      ],
+      "freshness_note": "",
+      "goal": "Show me the full Bakehouse sales transactions record for one identifier.",
+      "granularity": "month",
+      "group_field": "",
+      "idempotent": true,
+      "measure_field": "",
+      "name": "bakehouse_get_sales",
+      "open_world": true,
+      "paginated": false,
+      "params": [
+        {
+          "default": null,
+          "description": "Exact transactionID to fetch. Example: 1000000.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "transactionid",
+          "operator": "=",
+          "python_type": "str",
+          "required": true,
+          "source_field": "transactionID"
+        }
+      ],
+      "pattern": "lookup",
+      "read_only": true,
+      "returns": "The matching record, plus the field used to find it. An error with a hint when nothing matches.",
+      "source": "sales",
+      "title": "Get one Bakehouse sales transactions record"
+    },
+    {
+      "aggregation": "sum",
+      "date_field": "dateTime",
+      "error_hints": [
+        "Drop a filter, or widen the date range."
+      ],
+      "eval_seeds": [
+        "Which franchises had the highest total revenue between two dates?"
+      ],
+      "freshness_note": "",
+      "goal": "Which franchises had the highest total revenue between two dates?",
+      "granularity": "month",
+      "group_field": "franchiseID",
+      "idempotent": true,
+      "measure_field": "totalPrice",
+      "name": "bakehouse_top_franchiseid_by_totalprice",
+      "open_world": true,
+      "paginated": true,
+      "params": [
+        {
+          "default": null,
+          "description": "First day to include, YYYY-MM-DD. Work out relative periods such as 'last month' from today's date. Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "start_date",
+          "operator": ">=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Day after the last day to include, YYYY-MM-DD (exclusive). Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "end_date",
+          "operator": "<",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one product.",
+          "enum_values": [
+            "Austin Almond Biscotti",
+            "Golden Gate Ginger",
+            "Orchard Oasis",
+            "Outback Oatmeal",
+            "Pearly Pies",
+            "Tokyo Tidbits"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "product",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "product"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one paymentMethod.",
+          "enum_values": [
+            "amex",
+            "mastercard",
+            "visa"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "paymentmethod",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "paymentMethod"
+        }
+      ],
+      "pattern": "rank",
+      "read_only": true,
+      "returns": "Groups of franchiseID ordered by total totalPrice, with record counts and, for totals and counts, each group's share.",
+      "source": "sales",
+      "title": "Top franchiseID by total totalPrice"
+    },
+    {
+      "aggregation": "sum",
+      "date_field": "dateTime",
+      "error_hints": [
+        "Drop a filter, or widen the date range."
+      ],
+      "eval_seeds": [
+        "What are the top 5 best-selling products by quantity for a given franchise?"
+      ],
+      "freshness_note": "",
+      "goal": "What are the top 5 best-selling products by quantity for a given franchise?",
+      "granularity": "month",
+      "group_field": "product",
+      "idempotent": true,
+      "measure_field": "quantity",
+      "name": "bakehouse_top_product_by_quantity",
+      "open_world": true,
+      "paginated": true,
+      "params": [
+        {
+          "default": null,
+          "description": "Only rows for this franchiseID. Leave empty for all.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "franchiseid",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "franchiseID"
+        },
+        {
+          "default": null,
+          "description": "First day to include, YYYY-MM-DD. Work out relative periods such as 'last month' from today's date. Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "start_date",
+          "operator": ">=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Day after the last day to include, YYYY-MM-DD (exclusive). Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "end_date",
+          "operator": "<",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one paymentMethod.",
+          "enum_values": [
+            "amex",
+            "mastercard",
+            "visa"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "paymentmethod",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "paymentMethod"
+        }
+      ],
+      "pattern": "rank",
+      "read_only": true,
+      "returns": "Groups of product ordered by total quantity, with record counts and, for totals and counts, each group's share.",
+      "source": "sales",
+      "title": "Top product by total quantity"
+    },
+    {
+      "aggregation": "sum",
+      "date_field": "dateTime",
+      "error_hints": [
+        "Drop a filter, or widen the date range."
+      ],
+      "eval_seeds": [
+        "How does revenue split by payment method?"
+      ],
+      "freshness_note": "",
+      "goal": "How does revenue split by payment method?",
+      "granularity": "month",
+      "group_field": "paymentMethod",
+      "idempotent": true,
+      "measure_field": "totalPrice",
+      "name": "bakehouse_top_paymentmethod_by_totalprice",
+      "open_world": true,
+      "paginated": true,
+      "params": [
+        {
+          "default": null,
+          "description": "First day to include, YYYY-MM-DD. Work out relative periods such as 'last month' from today's date. Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "start_date",
+          "operator": ">=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Day after the last day to include, YYYY-MM-DD (exclusive). Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "end_date",
+          "operator": "<",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one product.",
+          "enum_values": [
+            "Austin Almond Biscotti",
+            "Golden Gate Ginger",
+            "Orchard Oasis",
+            "Outback Oatmeal",
+            "Pearly Pies",
+            "Tokyo Tidbits"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "product",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "product"
+        }
+      ],
+      "pattern": "rank",
+      "read_only": true,
+      "returns": "Groups of paymentMethod ordered by total totalPrice, with record counts and, for totals and counts, each group's share.",
+      "source": "sales",
+      "title": "Top paymentMethod by total totalPrice"
+    },
+    {
+      "aggregation": "sum",
+      "date_field": "dateTime",
+      "error_hints": [
+        "Drop a filter, or widen the date range."
+      ],
+      "eval_seeds": [
+        "What was total revenue per day over a date range?"
+      ],
+      "freshness_note": "",
+      "goal": "What was total revenue per day over a date range?",
+      "granularity": "day",
+      "group_field": "",
+      "idempotent": true,
+      "measure_field": "totalPrice",
+      "name": "bakehouse_daily_totalprice",
+      "open_world": true,
+      "paginated": false,
+      "params": [
+        {
+          "default": null,
+          "description": "First day to include, YYYY-MM-DD. Work out relative periods such as 'last month' from today's date. Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "start_date",
+          "operator": ">=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Day after the last day to include, YYYY-MM-DD (exclusive). Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "end_date",
+          "operator": "<",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one product.",
+          "enum_values": [
+            "Austin Almond Biscotti",
+            "Golden Gate Ginger",
+            "Orchard Oasis",
+            "Outback Oatmeal",
+            "Pearly Pies",
+            "Tokyo Tidbits"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "product",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "product"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one paymentMethod.",
+          "enum_values": [
+            "amex",
+            "mastercard",
+            "visa"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "paymentmethod",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "paymentMethod"
+        }
+      ],
+      "pattern": "trend",
+      "read_only": true,
+      "returns": "One row per day with the total totalPrice and record count, plus the change and percentage change against the prior period.",
+      "source": "sales",
+      "title": "Daily total totalPrice"
+    },
+    {
+      "aggregation": "avg",
+      "date_field": "dateTime",
+      "error_hints": [
+        "Drop a filter, or widen the date range."
+      ],
+      "eval_seeds": [
+        "How many transactions and what average ticket size did a franchise have?"
+      ],
+      "freshness_note": "",
+      "goal": "How many transactions and what average ticket size did a franchise have?",
+      "granularity": "month",
+      "group_field": "",
+      "idempotent": true,
+      "measure_field": "totalPrice",
+      "name": "bakehouse_average_totalprice",
+      "open_world": true,
+      "paginated": false,
+      "params": [
+        {
+          "default": null,
+          "description": "First day to include, YYYY-MM-DD. Work out relative periods such as 'last month' from today's date. Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "start_date",
+          "operator": ">=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Day after the last day to include, YYYY-MM-DD (exclusive). Empty for no bound.",
+          "enum_values": [],
+          "maximum": null,
+          "minimum": null,
+          "name": "end_date",
+          "operator": "<",
+          "python_type": "str",
+          "required": false,
+          "source_field": "dateTime"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one product.",
+          "enum_values": [
+            "Austin Almond Biscotti",
+            "Golden Gate Ginger",
+            "Orchard Oasis",
+            "Outback Oatmeal",
+            "Pearly Pies",
+            "Tokyo Tidbits"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "product",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "product"
+        },
+        {
+          "default": null,
+          "description": "Narrow results to one paymentMethod.",
+          "enum_values": [
+            "amex",
+            "mastercard",
+            "visa"
+          ],
+          "maximum": null,
+          "minimum": null,
+          "name": "paymentmethod",
+          "operator": "=",
+          "python_type": "str",
+          "required": false,
+          "source_field": "paymentMethod"
+        }
+      ],
+      "pattern": "aggregate",
+      "read_only": true,
+      "returns": "Record count and the measure's sum, mean, minimum and maximum.",
+      "source": "sales",
+      "title": "Average totalPrice"
+    }
+  ]
+}

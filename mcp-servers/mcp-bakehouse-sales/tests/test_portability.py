@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import json
 
-from mcp_bakehouse_sales.app import mcp
+from bakehouse_sales.app import mcp
 
 MAX_TOTAL_SCHEMA_BYTES = 14_000
 MAX_TOOL_SCHEMA_BYTES = 3_500

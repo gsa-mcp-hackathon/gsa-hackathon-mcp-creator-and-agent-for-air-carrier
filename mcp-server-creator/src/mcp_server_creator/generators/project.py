@@ -31,6 +31,10 @@ from mcp_server_creator.utils import (
 # reports instruction text found in a tool result (see its docstring).
 _SOURCE_NOTICE = Path(__file__).resolve().parent.parent / "source_notice.py"
 SOURCE_NOTICE_MODULE = _SOURCE_NOTICE.read_text(encoding="utf-8")
+# Copied as error_contract.py: marks a result whose body reports an error as
+# isError, so clients and graders do not count a failure as a success.
+_ERROR_CONTRACT = Path(__file__).resolve().parent.parent / "error_contract.py"
+ERROR_CONTRACT_MODULE = _ERROR_CONTRACT.read_text(encoding="utf-8")
 
 APP_MODULE = '''"""MCP server entry point.
 
@@ -45,7 +49,7 @@ import os
 
 from fastmcp import FastMCP
 
-from {{package}} import source_notice
+from {{package}} import error_contract, source_notice
 from {{package}}.config import settings
 from {{package}}.prompts import register_prompts
 from {{package}}.resources import register_resources
@@ -67,6 +71,7 @@ mcp = FastMCP(
 )
 
 mcp.add_middleware(source_notice.SourceNoticeMiddleware())
+mcp.add_middleware(error_contract.ErrorContractMiddleware())
 register_tools(mcp)
 register_prompts(mcp)
 register_resources(mcp)
@@ -544,6 +549,7 @@ def package_files(spec: ServerSpec) -> dict[str, str]:
         "app.py": render(APP_MODULE, values),
         "config.py": CONFIG_MODULE,
         "source_notice.py": SOURCE_NOTICE_MODULE,
+        "error_contract.py": ERROR_CONTRACT_MODULE,
         "routes.py": render(ROUTES_MODULE, values),
         "models.py": _models_module(spec),
         "prompts/__init__.py": render(PROMPTS_AGGREGATOR, values),
@@ -583,6 +589,7 @@ dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
     "ruff>=0.6.0",
+    "bandit>=1.7.0",
 ]
 
 [tool.ruff]
@@ -738,6 +745,15 @@ jobs:
 
       - name: Run tests
         run: uv run pytest tests/ -v
+
+      - name: Every hand edit is declared (.mcp-creator/owned.txt)
+        run: uv run python .mcp-creator/check_drift.py
+
+      - name: Security scan
+        run: uv run bandit -c pyproject.toml -r . -q
+
+      - name: Dependency audit
+        run: uvx pip-audit -r requirements.txt --progress-spinner off
 """
 
 SERVER_JSON = """{
@@ -1232,7 +1248,7 @@ be trusted on anything.
 def _dependencies(spec: ServerSpec) -> list[str]:
     """Runtime dependencies for the generated server."""
     deps = [
-        "fastmcp>=2.14,<3",
+        "fastmcp>=3.4,<4",
         "pydantic>=2.0.0",
         "pydantic-settings>=2.0.0",
     ]
@@ -1404,7 +1420,13 @@ def repo_files(spec: ServerSpec) -> dict[str, str]:
         "repo_url": spec.repo_url or "https://github.com/OWNER/" + spec.server_name,
         "registry_name": _registry_name(spec),
         "dependencies": rendered_deps,
-        "expected_tools": repr(expected_tools) if expected_tools else "set()",
+        # Sorted: a set's repr follows the process's hash seed, so two runs of
+        # the Creator in two processes wrote the names in different orders.
+        "expected_tools": (
+            "{" + ", ".join(repr(n) for n in sorted(expected_tools)) + "}"
+            if expected_tools
+            else "set()"
+        ),
         "extra_security_tests": extra_tests,
         "pytest_import": "\nimport pytest\n" if needs_pytest else "",
         "jobs": bullet_list(spec.jobs_to_be_done),

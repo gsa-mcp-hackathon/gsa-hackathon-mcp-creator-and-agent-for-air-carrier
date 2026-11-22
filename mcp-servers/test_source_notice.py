@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT))
 CANON = REPO / "mcp-server-creator/src/mcp_server_creator/source_notice.py"
 COPIES = [
     ROOT / "mcp-aircarrier-ops/src/mcp_aircarrier_ops/source_notice.py",
-    ROOT / "mcp-bakehouse-sales/src/mcp_bakehouse_sales/source_notice.py",
+    ROOT / "mcp-bakehouse-sales/src/bakehouse_sales/source_notice.py",
     ROOT / "mcp-aircarrier-docs/src/mcp_aircarrier_docs/source_notice.py",
     ROOT / "mcp-aircarrier-analyst/src/mcp_aircarrier_analyst/source_notice.py",
     REPO / "the-one-hub/ops-center/mcp/source_notice.py",
@@ -31,7 +31,7 @@ COPIES = [
 APPS = [
     REPO / "mcp-server-creator/src/mcp_server_creator/app.py",
     ROOT / "mcp-aircarrier-ops/src/mcp_aircarrier_ops/app.py",
-    ROOT / "mcp-bakehouse-sales/src/mcp_bakehouse_sales/app.py",
+    ROOT / "mcp-bakehouse-sales/src/bakehouse_sales/app.py",
     ROOT / "mcp-aircarrier-docs/src/mcp_aircarrier_docs/app.py",
     ROOT / "mcp-aircarrier-analyst/src/mcp_aircarrier_analyst/app.py",
 ]

@@ -67,7 +67,8 @@ def test_app_yaml_equals_bundle_config_env_for_dev():
 
 def test_app_yaml_starts_on_the_live_backend():
     app = _app_yaml_env()
-    assert len(app) == 15, sorted(app)
+    assert len(app) == 17, sorted(app)  # 15, plus the two MCP host settings (round 10)
+    assert app["AIRCARRIER_ASK_VIA_MCP"] == ("value", "1")
     assert app["AIRCARRIER_DATA_BACKEND"] == ("value", "uc")
     assert app["DATABRICKS_WAREHOUSE_ID"] == ("valueFrom", "sql-warehouse")
     assert app["AIRCARRIER_SI_PERSIST"] == ("value", "delta")

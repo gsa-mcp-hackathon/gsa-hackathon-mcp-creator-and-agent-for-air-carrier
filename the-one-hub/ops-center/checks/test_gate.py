@@ -19,9 +19,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+import yaml
+
 from core.contracts import Claim, Coordinate, Tag, Zone
 from core.policy.decisions import evaluate
-from core.policy.gate import Decision, route
+from core.policy.gate import SUBJECT_TOTALS_USD_M, Decision, route
 from ops.agents.challenger.run import challenge
 from ops.agents.tieout.run import anchor_chain, residual_is_finding, two_axis_close
 
@@ -53,6 +55,30 @@ def main() -> int:
                                        ["FY2013", "CVN 79"], "Propulsion Equipment", 1,
                                        ["(dagger) indicates the presence of a P-8a"])),
            Decision.PROMOTE_IF_TIED_OUT)
+
+    # Round 10 (A1): each hull against its own total. $140M is 1.04% of CVN-79's
+    # total (material) and 0.97% of CVN-80's (below the floor).
+    expect("CVN-80 figure measured against CVN-80's own total",
+           Claim(claim_id="C1b", hull="CVN-80", layer="L1", element="Propulsion Equipment",
+                 period="FY2027", value=140.0, discovered_at=NOW, tag=Tag.VERIFIED,
+                 confidence=0.98, zone=Zone.VALIDATED,
+                 coordinate=Coordinate("A-SCN-PB27", "P-5c", "1611N", "2001",
+                                       ["FY2027", "CVN 80"], "Propulsion Equipment", 95,
+                                       ["Dollars in Millions"])),
+           Decision.PROMOTE)
+    expect("a hull with no subject total is not routed (R9)",
+           Claim(claim_id="C1c", hull="DDG-51", layer="L1", element="Basic Construction",
+                 period="FY2027", value=2000.0, discovered_at=NOW, tag=Tag.VERIFIED,
+                 confidence=0.98, zone=Zone.VALIDATED,
+                 coordinate=Coordinate("A-SCN-PB27", "P-5c", "1611N", "2122",
+                                       ["FY2027"], "Basic Construction", 10,
+                                       ["Dollars in Millions"])),
+           Decision.GAP)
+    seed = yaml.safe_load((Path(__file__).resolve().parents[1] / "seed" / "gate.yaml").read_text())
+    same = {h: v["total_usd_m"] for h, v in seed["subjects"].items()} == SUBJECT_TOTALS_USD_M
+    print(f"  [{'ok  ' if same else 'FAIL'}] seed/gate.yaml subjects match gate.py")
+    if not same:
+        FAILURES.append("seed/gate.yaml subjects drifted from SUBJECT_TOTALS_USD_M")
 
     expect("N.7 Error 1: Columbia-class columns taken for carrier columns",
            Claim(claim_id="C2", hull="CVN-79", layer="L1", element="Basic Construction",

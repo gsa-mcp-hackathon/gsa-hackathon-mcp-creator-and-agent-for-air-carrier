@@ -1,6 +1,8 @@
 """HTTP routes beside /mcp. /health never touches the warehouse."""
 from __future__ import annotations
 
+import os
+
 from fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -17,7 +19,7 @@ LANDING = {
     "tools": ["docs_status", "docs_list_documents", "docs_document_map", "docs_read_page", "docs_get_table",
               "docs_find_line_item", "docs_search", "docs_find_figure", "docs_compare_figures",
               "docs_tieout_document", "docs_parse_pdf"],
-    "owner": "xiaobing.shang1.civ@mail.mil",
+    "owner": os.environ.get("APP_OWNER", ""),
     "mcp_endpoint": "/mcp",
     "transport": "streamable-http (stateless)",
 }
