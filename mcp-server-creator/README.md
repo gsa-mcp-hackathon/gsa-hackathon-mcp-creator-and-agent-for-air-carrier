@@ -1,6 +1,6 @@
 # MCP A Creator
 
-> **Scorecard:** 10 tools · 677 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc1 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
+> **Scorecard:** 10 tools · 685 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc1 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
 
 An MCP server whose domain is building MCP servers.
 
@@ -242,8 +242,30 @@ The tests that pin each rule are in `tests/test_assessment_fixes.py`.
 │   ├── answer_key.py          # the independent answer key
 │   └── phoenix/               # agent, judges, datasets, experiment runner
 ├── docs/limitations.md        # what the data cannot answer
+├── .mcp-creator/              # spec.json, lock.json, owned.txt, check_drift.py
 └── README.md  QUICKSTART.md  SECURITY.md
 ```
+
+### After generation: edits and upgrades
+
+`.mcp-creator/lock.json` records the Creator version and the SHA-256 of every
+generated file. The project's CI runs `check_drift.py`, which fails when a
+generated file was edited without being listed in `owned.txt`, so every hand
+edit is declared.
+
+A newer Creator upgrades the project without overwriting those edits:
+
+```bash
+mcp-a-creator-upgrade path/to/project            # show the plan
+mcp-a-creator-upgrade path/to/project --write    # apply it
+```
+
+It regenerates the project from its own `spec.json` and compares each file as
+generated then, as it is now, and as this release generates it. Unedited files
+take the new template; files in `owned.txt` are kept; a file edited without
+being declared, whose template also changed, is a conflict, and then nothing is
+written until the owner keeps it (declares it) or restores it. Run against the
+committed bakehouse server, the plan is 64 files unchanged.
 
 ### Data access the generators support
 
@@ -335,8 +357,8 @@ project's suite and an interop call on each version below. CI runs it on every p
 
 | FastMCP | MCP SDK | Protocol the server speaks | Result (2026-11-21) |
 |---|---|---|---|
-| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 677 of 677, bakehouse 21 of 21, interop ok |
-| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 677 of 677, bakehouse 21 of 21, interop ok |
+| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 685 of 685, bakehouse 21 of 21, interop ok |
+| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 685 of 685, bakehouse 21 of 21, interop ok |
 
 The interop call uses the MCP SDK 1.x client, the one the deployed servers and the
 probe use today. A FastMCP 4.2 server agrees with it on 2025-11-25, so moving a

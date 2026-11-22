@@ -26,6 +26,10 @@ that a failed call now sets `isError` and an over-long argument is refused.
   The sweep writes `tests/adversarial_summary.json` (finding 20).
 - `bandit` and `pip-audit` in the Creator's dev group and CI, and in the CI that
   every generated project ships with.
+- `mcp-a-creator-upgrade` regenerates a generated project with the current
+  release from its own `spec.json`: unedited files take the new templates,
+  files in `owned.txt` are kept, and an undeclared edit over a changed
+  template stops the upgrade before anything is written.
 - `mcp-a-creator --help` and `--version`.
 
 ### Changed

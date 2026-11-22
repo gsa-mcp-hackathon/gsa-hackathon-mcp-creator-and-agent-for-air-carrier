@@ -164,7 +164,7 @@
   },
   {
    "measure": "Code suites from a clean clone",
-   "result": "1,641 passed, 0 failed, 825 of them hostile-input cases (9 projects)",
+   "result": "1,649 passed, 0 failed, 825 of them hostile-input cases (9 projects)",
    "not": "Tests show the code does what it says, not that it helps a user"
   }
  ],

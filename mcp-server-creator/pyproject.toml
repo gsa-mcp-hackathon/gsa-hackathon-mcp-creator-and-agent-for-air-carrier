@@ -28,6 +28,8 @@ mcp-a-creator = "mcp_server_creator.app:main"
 # One command that answers "will this even start here?" before anyone
 # connects a client.
 mcp-a-creator-doctor = "mcp_server_creator.doctor:main"
+# Regenerate a generated project with this release, keeping owned files.
+mcp-a-creator-upgrade = "mcp_server_creator.upgrade:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -4,12 +4,12 @@
 # first, then the documents. Measured 2026-11-21 on round 10 (branch round10).
 
 code_suites:
-  passed: 1641          # scripts/check.sh, every project, clean clone
+  passed: 1649          # scripts/check.sh, every project, clean clone
   skipped: 5            # One Hub tests that need a live Spark session
-  hostile_cases: 825    # of the 1,641: both adversarial sweeps (423 + 402)
+  hostile_cases: 825    # of the 1,649: both adversarial sweeps (423 + 402)
   evidence_tests: 36    # round 4 grader and runner tests in the evidence step
   by_project:
-    creator: 677        # includes 402 hostile-input cases
+    creator: 685        # includes 402 hostile-input cases
     ops: 40
     bakehouse: 21
     docs: 55
@@ -56,6 +56,9 @@ retired:                 # figures that must not appear as current anywhere chec
   - "sixty tools"
   - "none reached SQL"
   - "1 (needs bandit)"
+  - "1,641"
+  - "677 tests"
+  - "677 passed"
 
 checked:                 # where retired figures are looked for
   - README.md
@@ -76,9 +79,9 @@ checked:                 # where retired figures are looked for
   - docs/submission/evaluation-report.docx
 
 required:                # each file must contain each phrase
-  README.md: ["1,641", "63 tools", "421 hostile calls", "7,690 of 7,693"]
+  README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693"]
   SCORECARD.md: ["7,690 of 7,693", "400 hostile calls"]
-  docs/submission/EVALUATION.md: ["1,641", "421 hostile calls"]
-  the-one-hub/ops-center/app/data/curated/stack.json: ["1,641 passed"]
-  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,641", "63 tools"]
-  docs/submission/evaluation-report.docx: ["1,641", "63 tools", "7,690 of 7,693"]
+  docs/submission/EVALUATION.md: ["1,649", "421 hostile calls"]
+  the-one-hub/ops-center/app/data/curated/stack.json: ["1,649 passed"]
+  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,649", "63 tools"]
+  docs/submission/evaluation-report.docx: ["1,649", "63 tools", "7,690 of 7,693"]
