@@ -32,6 +32,7 @@ from mcp_server_creator.tracing import TraceMiddleware, audit_to_stderr, warm_up
 
 mcp = FastMCP(
     name="MCP A Creator",
+    version=__version__,  # what a client sees in serverInfo, not FastMCP's own
     instructions=(
         "MCP A Creator helps anyone build their own MCP server from their "
         "data and a task they do by hand today. When a user arrives, explain "

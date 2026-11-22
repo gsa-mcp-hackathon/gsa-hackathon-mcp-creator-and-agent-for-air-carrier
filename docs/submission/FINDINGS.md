@@ -6,16 +6,16 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 ## Where it stands
 
 `scripts/check.sh` from a clean clone, on Python 3.11 and 3.12 in CI:
-**1,762 passed, 5 skipped, 0 failed** (checked 2026-11-22, round 13; figures in
+**1,770 passed, 5 skipped, 0 failed** (checked 2026-11-22, round 15; figures in
 [`docs/numbers.yaml`](../numbers.yaml)).
 
 | Project | Result |
 | --- | --- |
-| Creator | 798 passed: 393 tests and a 405-case sweep of hostile input into all 10 tools (403 calls, nothing escaped, nothing written outside its root) |
+| Creator | 805 passed: 400 tests and a 405-case sweep of hostile input into all 10 tools (403 calls, nothing escaped, nothing written outside its root) |
 | Air Carrier ops | 40 passed |
 | Air Carrier docs | 55 passed |
 | Air Carrier analyst | 39 passed |
-| Probe | 11 passed |
+| Probe | 12 passed |
 | Bakehouse (rebuilt by the Creator on 2026-11-21) | 21 passed |
 | `mcp_local.py`, source notice, error contract and the adversarial sweep | 23, 23, 9 and 423 passed: 421 hostile calls against all 30 read tools, 344 refused, none wrote, none pasted an argument into SQL |
 | One Hub | 320 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
