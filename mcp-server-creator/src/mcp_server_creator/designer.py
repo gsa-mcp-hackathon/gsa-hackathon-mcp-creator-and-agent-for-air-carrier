@@ -369,6 +369,34 @@ def _job_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | None
     return best
 
 
+# 'How many units did we sell?' asks for a sum of a quantity column, not a
+# count of rows. A count cue followed by one of these words, or by a word that
+# names a measure column ('how many hours' over hours_worked), is a sum.
+_QUANTITY_WORDS = frozenset(
+    {
+        "units", "unit", "pieces", "items", "gallons", "liters", "litres",
+        "hours", "miles", "barrels", "tons", "pounds", "kilograms", "quantity",
+        "qty", "seats",
+    }
+)  # fmt: skip
+_COUNTED_WORD = re.compile(r"\b(?:how many|number of|count of)\s+([a-z]+)")
+
+
+def counted_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | None:
+    """The measure a 'how many <quantity>' question adds up, or None when it
+    really asks for a count of rows ('how many transactions')."""
+    match = _COUNTED_WORD.search(text.lower())
+    if match is None:
+        return None
+    word = match.group(1)
+    if word in _QUANTITY_WORDS or (
+        word not in _MEASURE_SYNONYMS
+        and any(word[:4] in _field_stems(f) for f in measures)
+    ):
+        return _job_measure(f" {word} ", measures)
+    return None
+
+
 def _job_tool(
     spec: ServerSpec, source: DataSourceProfile, job: str
 ) -> tuple[ToolPlan | None, str]:
@@ -429,8 +457,11 @@ def _job_tool(
             granularity = grain
             break
     measure = _job_measure(text, measures)
+    quantity = counted_measure(text, measures)
     if any(cue in text for cue in _AVG_CUES):
         aggregation = "avg"
+    elif quantity is not None:
+        aggregation, measure = "sum", quantity
     elif any(cue in text for cue in _COUNT_CUES) or measure is None:
         aggregation = "count"
     else:

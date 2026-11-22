@@ -934,7 +934,22 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
     )  # fmt: skip
     agg = plan.aggregation
     takes = {"sum": "a sum", "avg": "an average", "count": "a count"}[agg]
-    if wants_avg and agg != "avg":
+    source = spec.source_by_name(plan.source)
+    quantity = None
+    if source is not None:
+        from mcp_server_creator.designer import counted_measure
+
+        quantity = counted_measure(
+            q, [f for f in source.fields if f.role is FieldRole.MEASURE and not f.pii]
+        )
+    if quantity is not None and agg != "sum":
+        out.append(
+            f"{plan.name} takes {takes}; '{plan.goal}' asks for a sum of "
+            f"{quantity.name}, not a count of rows"
+        )
+    elif quantity is not None:
+        pass
+    elif wants_avg and agg != "avg":
         out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks for an average")
     elif wants_count and not wants_amount and agg != "count":
         out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks how many")
@@ -983,7 +998,11 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
             and f.name != plan.measure_field
             and _stems(f.name) & _stems(plan.goal)
         ]
-        if named and not _stems(plan.measure_field) & _stems(plan.goal):
+        # 'units' resolves to quantity through the designer's synonyms, so a
+        # stem it shares with unitPrice is not a second measure named.
+        resolved = quantity is not None and quantity.name == plan.measure_field
+        shared = _stems(plan.measure_field) & _stems(plan.goal)
+        if named and not resolved and not shared:
             out.append(
                 f"{plan.name} adds up {plan.measure_field}; '{plan.goal}' names "
                 f"{', '.join(named)}"

@@ -140,3 +140,45 @@ def test_snapshot_lookup_and_search_strip_pii() -> None:
             assert 'hidden = {"cardNumber"}' in module, plan.name
             checked += 1
     assert checked == 2
+
+
+# Round 10 (A4): 'how many units' became a record count, and the review passed it.
+def _plans_for(job: str) -> list:
+    spec = _bakery()
+    spec.jobs_to_be_done = [job]
+    plans, _notes = design_tools(spec)
+    return [p for p in plans if p.goal == job]
+
+
+def test_how_many_units_sums_the_quantity_column() -> None:
+    (plan,) = _plans_for("How many units did we sell last week?")
+    assert plan.aggregation == "sum" and plan.measure_field == "quantity", plan
+
+
+def test_how_many_transactions_still_counts_rows() -> None:
+    (plan,) = _plans_for("How many transactions did we have last week?")
+    assert plan.aggregation == "count", plan
+
+
+def test_review_flags_a_count_tool_for_a_quantity_question() -> None:
+    from mcp_server_creator.review.rubric import review_spec
+
+    spec = _bakery()
+    job = "How many units did we sell last week?"
+    spec.jobs_to_be_done = [job]
+    spec.tools, _notes = design_tools(spec)
+    plan = next(p for p in spec.tools if p.goal == job)
+    plan.aggregation, plan.measure_field = "count", ""
+    report = review_spec(spec)
+    misread = [f for f in report.findings if f.check == "tool_computes_its_question"]
+    assert misread and "sum of quantity" in misread[0].evidence, report.findings
+
+
+def test_review_passes_the_designed_quantity_tool() -> None:
+    from mcp_server_creator.review.rubric import review_spec
+
+    spec = _bakery()
+    spec.jobs_to_be_done = ["How many units did we sell last week?"]
+    spec.tools, _notes = design_tools(spec)
+    report = review_spec(spec)
+    assert "tool_computes_its_question" in report.passed_checks, report.findings
