@@ -7,6 +7,7 @@ Locally, copy `.env.example` to `.env`.
 
 from __future__ import annotations
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -21,7 +22,9 @@ class Settings(BaseSettings):
 
     # ── Transport ─────────────────────────────────────────────────────────
     mcp_transport: str = "stdio"
-    mcp_host: str = "0.0.0.0"
+    # Local HTTP binds to loopback by default. Set MCP_HOST=0.0.0.0 only in
+    # a container behind a proxy; Databricks Apps binds all interfaces itself.
+    mcp_host: str = "127.0.0.1"
     mcp_port: int = 8000
 
     # ── Databricks ────────────────────────────────────────────────────────
@@ -29,13 +32,15 @@ class Settings(BaseSettings):
     databricks_host: str = ""
     databricks_warehouse_id: str = ""
     databricks_client_id: str = ""
-    databricks_client_secret: str = ""
-    databricks_token: str = ""
+    # Credentials are never set in code (the empty defaults are not secrets,
+    # hence nosemgrep); repr=False keeps them out of logs and tracebacks.
+    databricks_client_secret: str = Field(default="", repr=False)  # nosemgrep
+    databricks_token: str = Field(default="", repr=False)  # nosemgrep
 
     # ── Upstream API ──────────────────────────────────────────────────────
     # Only used when a tool reads a REST source. The origin itself is fixed
     # in data/rest.py; this is the credential, never the destination.
-    api_key: str = ""
+    api_key: str = Field(default="", repr=False)  # nosemgrep
 
     query_timeout_seconds: float = 60.0
 

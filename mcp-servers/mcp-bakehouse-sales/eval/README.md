@@ -40,29 +40,28 @@ cd eval/phoenix
 uv run --no-project --with-requirements ../requirements.txt phoenix serve  # :6006
 
 uv run --no-project --with-requirements ../requirements.txt \
-    python create_dataset.py --dataset-name mcp-eval-0 --dry-run
+    python create_dataset.py --dataset-name bakehouse-eval-0 --dry-run
 uv run --no-project --with-requirements ../requirements.txt \
-    python create_dataset.py --dataset-name mcp-eval-0
+    python create_dataset.py --dataset-name bakehouse-eval-0
 
 uv run --no-project --with-requirements ../requirements.txt \
-    python run_experiment.py --dataset-name mcp-eval-0 --no-tools
+    python run_experiment.py --dataset-name bakehouse-eval-0 --no-tools
 uv run --no-project --with-requirements ../requirements.txt \
-    python run_experiment.py --dataset-name mcp-eval-0
+    python run_experiment.py --dataset-name bakehouse-eval-0
 uv run --no-project --with-requirements ../requirements.txt \
-    python run_experiment.py --dataset-name mcp-eval-0 \
-    --system-prompt-version v2
+    python run_experiment.py --dataset-name bakehouse-eval-0 --system-prompt-version v2
 ```
 
 ## Fill in the answers first
 
-`datasets/mcp-eval-0/evaluation.xml` ships with 14
+`datasets/bakehouse-eval-0/evaluation.xml` ships with 12
 questions. The ones marked `TODO` need a real answer before a correctness
 score means anything:
 
 1. Implement the matching function in `answer_key.py` with a query you wrote
    from scratch.
 2. Run it, and paste the result into the `responses` column of
-   `datasets/mcp-eval-0/examples/mcp-eval-0.csv`.
+   `datasets/bakehouse-eval-0/examples/bakehouse-eval-0.csv`.
 3. Hand-check at least ten records and turn those into unit tests in
    `tests/`.
 

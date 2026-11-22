@@ -16,7 +16,7 @@ load_dotenv()
 
 TEMPLATE = """You are judging whether an agent stayed inside its scope.
 
-The agent serves Mcp Bakehouse Sales, whose scope is:
+The agent serves Bakehouse Sales, whose scope is:
 Let an agent answer a bakery franchise sales analyst's questions about point-of-sale
 transactions: revenue by franchise, best-selling products, sales by payment method, and
 daily sales trends.

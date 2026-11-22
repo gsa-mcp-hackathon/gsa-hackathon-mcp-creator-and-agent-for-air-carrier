@@ -6,7 +6,7 @@
 #   databricks bundle validate
 #   databricks bundle deploy --var="warehouse_id=<id>"
 bundle:
-  name: mcp-bakehouse-sales
+  name: bakehouse-sales
 
 variables:
   warehouse_id:
@@ -15,9 +15,9 @@ variables:
 
 resources:
   apps:
-    mcp_bakehouse_sales:
+    bakehouse_sales:
       name: mcp-bakehouse-sales
-      description: Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.
+      description: "Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends."
       source_code_path: ../../
       resources:
         - name: sql_warehouse

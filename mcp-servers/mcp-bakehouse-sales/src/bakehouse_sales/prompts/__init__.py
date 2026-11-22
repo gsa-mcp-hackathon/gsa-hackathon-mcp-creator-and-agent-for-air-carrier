@@ -6,7 +6,7 @@ Prompts appear in a client as slash commands. Each module exposes
 
 from __future__ import annotations
 
-from mcp_bakehouse_sales.prompts import starters
+from bakehouse_sales.prompts import starters
 
 
 def register_prompts(mcp) -> None:

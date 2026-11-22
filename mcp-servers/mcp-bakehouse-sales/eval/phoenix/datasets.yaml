@@ -1,8 +1,8 @@
 datasets:
-  mcp-eval-0:
-    csv_path: datasets/mcp-eval-0/examples/mcp-eval-0.csv
+  bakehouse-eval-0:
+    csv_path: datasets/bakehouse-eval-0/examples/bakehouse-eval-0.csv
     input_keys:
       - query
     output_keys:
       - responses
-    description: "14 questions for Mcp Bakehouse Sales"
+    description: "12 questions for Bakehouse Sales"

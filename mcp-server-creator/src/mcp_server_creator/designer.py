@@ -202,6 +202,8 @@ _MEASURE_SYNONYMS: dict[str, tuple[str, ...]] = {
     "spending": ("amount", "cost", "spend", "price", "total"),
     "cost": ("cost", "amount", "price", "spend"),
     "units": ("quantity", "qty", "units"),
+    # 'average ticket size': the amount of one sale.
+    "ticket": ("total", "price", "amount", "sales"),
     "unit": ("quantity", "qty", "units"),
     "sold": ("quantity", "qty", "units"),
     "volume": ("quantity", "qty", "volume"),
@@ -489,9 +491,12 @@ def _job_tool(
     group: FieldProfile | None = None
     # 'top 5 products by revenue': what is ranked comes before 'by'; the
     # word after 'by' is then the measure, not the grouping.
-    top = re.search(r"\b(?:top|bottom|best|worst)\s+(?:\d+\s+)?([a-z ]+?)\s+by\b", text)
+    # 'top 5 best-selling products by quantity': hyphenated words are words.
+    top = re.search(
+        r"\b(?:top|bottom|best|worst)\s+(?:\d+\s+)?([a-z -]+?)\s+by\b", text
+    )
     if top:
-        group = _best_field(top.group(1).split(), groupable)
+        group = _best_field(top.group(1).replace("-", " ").split(), groupable)
     by_words = _phrase_after(text, "by")
     if (
         group is None

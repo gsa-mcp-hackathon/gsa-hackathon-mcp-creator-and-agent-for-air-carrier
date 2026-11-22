@@ -1,0 +1,4 @@
+# Files you have taken over by hand, one project-relative path per line.
+# A file listed here may differ from what MCP A Creator generated; any other
+# generated file that differs fails .mcp-creator/check_drift.py in CI.
+# An upgrade with a newer Creator keeps these files as they are.

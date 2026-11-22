@@ -18,7 +18,7 @@ import re
 from functools import lru_cache
 from typing import Any
 
-from mcp_bakehouse_sales.config import settings
+from bakehouse_sales.config import settings
 
 SAFE_IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]{0,254}$")
 MAX_ROWS = 5000

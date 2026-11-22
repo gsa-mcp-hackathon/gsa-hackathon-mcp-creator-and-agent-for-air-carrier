@@ -22,27 +22,27 @@ CATALOGUE = {
             {
                 "name": "transactionID",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
                 "allowed_values": None,
             },
             {
                 "name": "customerID",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
                 "allowed_values": None,
             },
             {
                 "name": "franchiseID",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
                 "allowed_values": None,
             },
             {
                 "name": "dateTime",
-                "type": "timestamp",
+                "type": "date",
                 "role": "date",
                 "description": "",
                 "allowed_values": None,
@@ -92,7 +92,7 @@ CATALOGUE = {
             {
                 "name": "cardNumber",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
                 "allowed_values": None,
             },
@@ -104,12 +104,12 @@ CATALOGUE = {
 def register(mcp: FastMCP) -> None:
     """Register the dictionary resources with the server."""
 
-    @mcp.resource("mcp://dictionary/sources")
+    @mcp.resource("bakehouse://dictionary/sources")
     def source_catalogue() -> str:
         """Every source behind this server, with its fields."""
         return json.dumps(CATALOGUE, indent=2, default=str)
 
-    @mcp.resource("mcp://dictionary/{source}")
+    @mcp.resource("bakehouse://dictionary/{source}")
     def source_dictionary(source: str) -> str:
         """The field list for one named source."""
         entry = CATALOGUE.get(source)

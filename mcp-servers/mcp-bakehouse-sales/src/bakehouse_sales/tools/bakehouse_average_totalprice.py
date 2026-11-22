@@ -1,7 +1,6 @@
-"""Bakehouse sales transactions totals.
+"""Average totalPrice.
 
-Give me the totals for Bakehouse sales transactions: how many records and how much
-transactionID.
+How many transactions and what average ticket size did a franchise have?
 
 Source: sales (uc_table).
 """
@@ -13,14 +12,14 @@ from typing import Annotated, Any
 from fastmcp import FastMCP
 from pydantic import Field
 
-from mcp_bakehouse_sales.data import sources
-from mcp_bakehouse_sales.data.warehouse import (
+from bakehouse_sales.data import sources
+from bakehouse_sales.data.warehouse import (
     WarehouseError,
     column,
     qualified,
     run_query,
 )
-from mcp_bakehouse_sales.models import PaymentmethodValue, ProductValue
+from bakehouse_sales.models import PaymentmethodValue, ProductValue
 
 TABLE = qualified(
     sources.SALES_CATALOG,
@@ -32,19 +31,40 @@ AS_OF = sources.SALES_AS_OF
 
 
 def register(mcp: FastMCP) -> None:
-    """Register the mcp_sales_totals tool with the MCP server."""
+    """Register this tool with the MCP server:
+
+    bakehouse_average_totalprice
+    """
 
     @mcp.tool(
-        name="mcp_sales_totals",
+        name="bakehouse_average_totalprice",
         annotations={
-            "title": "Bakehouse sales transactions totals",
+            "title": "Average totalPrice",
             "readOnlyHint": True,
             "destructiveHint": False,
             "idempotentHint": True,
             "openWorldHint": True,
         },
     )
-    def mcp_sales_totals(
+    def bakehouse_average_totalprice(
+        start_date: Annotated[
+            str,
+            Field(
+                description=(
+                    "First day to include, YYYY-MM-DD. Work out relative periods such "
+                    "as 'last month' from today's date. Empty for no bound."
+                ),
+            ),
+        ] = "",
+        end_date: Annotated[
+            str,
+            Field(
+                description=(
+                    "Day after the last day to include, YYYY-MM-DD (exclusive). Empty "
+                    "for no bound."
+                ),
+            ),
+        ] = "",
         product: Annotated[
             ProductValue,
             Field(
@@ -58,35 +78,41 @@ def register(mcp: FastMCP) -> None:
             ),
         ] = PaymentmethodValue.ANY,
     ) -> dict[str, Any]:
-        """Give me the totals for Bakehouse sales transactions: how many records and how
-        much transactionID.
+        """How many transactions and what average ticket size did a franchise have?
 
         One record is one point-of-sale transaction for one product line. The source
         refreshes static sample and currently reflects the as_of value in the response.
 
-        Returns: Record count and the measure's sum, mean, minimum, and maximum for the
-        filtered scope.
+        Returns: Record count and the measure's sum, mean, minimum and maximum.
 
         Does not cover: Customer personal details such as names, emails or addresses;
         Forecasting future sales; Changing or deleting any sales record.
         """
+        filter_start_date = start_date.strip()
+        filter_end_date = end_date.strip()
         filter_product = "" if product is ProductValue.ANY else product.value
         filter_paymentmethod = (
             "" if paymentmethod is PaymentmethodValue.ANY else paymentmethod.value
         )
         clauses: list[str] = []
         params: list[Any] = []
+        if filter_start_date:
+            clauses.append(column("dateTime", COLUMNS) + " >= ?")
+            params.append(filter_start_date)
+        if filter_end_date:
+            clauses.append(column("dateTime", COLUMNS) + " < ?")
+            params.append(filter_end_date)
         if filter_product:
-            clauses.append(f"{column('product', COLUMNS)} = ?")
+            clauses.append(column("product", COLUMNS) + " = ?")
             params.append(filter_product)
         if filter_paymentmethod:
-            clauses.append(f"{column('paymentMethod', COLUMNS)} = ?")
+            clauses.append(column("paymentMethod", COLUMNS) + " = ?")
             params.append(filter_paymentmethod)
         where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
         try:
-            measure_column = column("transactionID", COLUMNS)
+            measure_column = column("totalPrice", COLUMNS)
             sql = (
-                f"SELECT COUNT(*) AS record_count, "
+                f"SELECT COUNT(*) AS record_count, "  # nosemgrep # nosec B608
                 f"SUM({measure_column}) AS measure_total, "
                 f"AVG({measure_column}) AS measure_mean, "
                 f"MIN({measure_column}) AS measure_min, "
@@ -101,7 +127,7 @@ def register(mcp: FastMCP) -> None:
             }
         return {
             "as_of": AS_OF,
-            "measure": "transactionID",
+            "measure": "totalPrice",
             "totals": rows[0] if rows else {},
             "filters_applied": len(clauses),
         }

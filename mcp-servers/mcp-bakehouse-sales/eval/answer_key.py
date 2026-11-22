@@ -21,8 +21,12 @@ from typing import Callable
 def q1_example() -> str:
     """TODO: compute this answer with a query written from scratch.
 
-    Do not import from mcp_bakehouse_sales. Write the SQL (or the snapshot read)
-    yourself, run it, and return the answer as a string.
+    Do not import from the server package:
+
+        bakehouse_sales
+
+    Write the SQL (or the snapshot read) yourself, run it, and return the
+    answer as a string.
     """
     raise NotImplementedError(
         "write an independent query for q1 before trusting the correctness score"

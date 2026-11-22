@@ -1,4 +1,4 @@
-"""Conversation starters for Mcp Bakehouse Sales.
+"""Conversation starters for Bakehouse Sales.
 
 Seeded from the questions the server was built to answer, so a new user sees
 what it is for without reading the README.

@@ -1,17 +1,16 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-  "name": "io.github.llmlocalai/mcp-bakehouse-sales",
+  "name": "local.example/bakehouse-sales",
   "description": "Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends.",
   "repository": {
-    "url": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn",
-    "source": "github",
-    "subfolder": "mcp-servers/mcp-bakehouse-sales"
+    "url": "https://github.com/OWNER/bakehouse-sales",
+    "source": "github"
   },
   "version": "0.1.0",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp-bakehouse-sales-7474654188777746.aws.databricksapps.com/mcp"
+      "url": "https://mcp-bakehouse-sales.databricksapps.com/mcp"
     }
   ]
 }

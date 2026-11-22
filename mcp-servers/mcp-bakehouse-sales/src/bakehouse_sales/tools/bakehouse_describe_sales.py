@@ -12,16 +12,19 @@ from typing import Any
 
 from fastmcp import FastMCP
 
-from mcp_bakehouse_sales.data import sources
+from bakehouse_sales.data import sources
 
 AS_OF = sources.SALES_AS_OF
 
 
 def register(mcp: FastMCP) -> None:
-    """Register the mcp_describe_sales tool with the MCP server."""
+    """Register this tool with the MCP server:
+
+    bakehouse_describe_sales
+    """
 
     @mcp.tool(
-        name="mcp_describe_sales",
+        name="bakehouse_describe_sales",
         annotations={
             "title": "Describe Bakehouse sales transactions",
             "readOnlyHint": True,
@@ -30,7 +33,7 @@ def register(mcp: FastMCP) -> None:
             "openWorldHint": True,
         },
     )
-    def mcp_describe_sales() -> dict[str, Any]:
+    def bakehouse_describe_sales() -> dict[str, Any]:
         """Tell me what is in Bakehouse sales transactions: the fields, what they mean,
         the allowed values, and how fresh it is.
 
@@ -50,33 +53,33 @@ def register(mcp: FastMCP) -> None:
             {
                 "name": "transactionID",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
-                "example": "",
+                "example": "1000000",
                 "allowed_values": None,
             },
             {
                 "name": "customerID",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
-                "example": "",
+                "example": "2000000",
                 "allowed_values": None,
             },
             {
                 "name": "franchiseID",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
-                "example": "",
+                "example": "3000000",
                 "allowed_values": None,
             },
             {
                 "name": "dateTime",
-                "type": "timestamp",
+                "type": "date",
                 "role": "date",
                 "description": "",
-                "example": "",
+                "example": "2024-05-01 10:00:00",
                 "allowed_values": None,
             },
             {
@@ -84,7 +87,7 @@ def register(mcp: FastMCP) -> None:
                 "type": "string",
                 "role": "dimension",
                 "description": "",
-                "example": "",
+                "example": "Austin Almond Biscotti",
                 "allowed_values": [
                     "Austin Almond Biscotti",
                     "Golden Gate Ginger",
@@ -99,7 +102,7 @@ def register(mcp: FastMCP) -> None:
                 "type": "bigint",
                 "role": "measure",
                 "description": "",
-                "example": "",
+                "example": "1",
                 "allowed_values": None,
             },
             {
@@ -107,7 +110,7 @@ def register(mcp: FastMCP) -> None:
                 "type": "bigint",
                 "role": "measure",
                 "description": "",
-                "example": "",
+                "example": "3",
                 "allowed_values": None,
             },
             {
@@ -115,7 +118,7 @@ def register(mcp: FastMCP) -> None:
                 "type": "bigint",
                 "role": "measure",
                 "description": "",
-                "example": "",
+                "example": "3",
                 "allowed_values": None,
             },
             {
@@ -123,15 +126,15 @@ def register(mcp: FastMCP) -> None:
                 "type": "string",
                 "role": "dimension",
                 "description": "",
-                "example": "",
+                "example": "amex",
                 "allowed_values": ["amex", "mastercard", "visa"],
             },
             {
                 "name": "cardNumber",
                 "type": "bigint",
-                "role": "measure",
+                "role": "identifier",
                 "description": "",
-                "example": "",
+                "example": "4000000000000000",
                 "allowed_values": None,
             },
         ]

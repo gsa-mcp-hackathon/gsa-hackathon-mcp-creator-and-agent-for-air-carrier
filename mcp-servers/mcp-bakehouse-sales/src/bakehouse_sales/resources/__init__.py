@@ -6,7 +6,7 @@ Each module exposes `register(mcp)`; this file aggregates them into
 
 from __future__ import annotations
 
-from mcp_bakehouse_sales.resources import dictionary
+from bakehouse_sales.resources import dictionary
 
 
 def register_resources(mcp) -> None:

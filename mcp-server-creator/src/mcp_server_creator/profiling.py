@@ -686,10 +686,17 @@ def profile_summary(fields: list[FieldProfile]) -> dict[str, Any]:
     by_role: dict[str, list[str]] = {}
     for field in fields:
         by_role.setdefault(field.role.value, []).append(field.name)
+    # A closed set is a category: identifiers, dates and amounts drawn from a
+    # short pasted sample have few distinct values without being one.
     enum_ready = [
         f.name
         for f in fields
-        if f.enum_values or (f.cardinality_hint and f.cardinality_hint <= 50)
+        if f.enum_values
+        or (
+            f.cardinality_hint
+            and f.cardinality_hint <= 50
+            and f.role in {FieldRole.DIMENSION, FieldRole.FLAG}
+        )
     ]
     observations: list[str] = []
     pii = [f.name for f in fields if f.pii or looks_like_pii(f.name)]

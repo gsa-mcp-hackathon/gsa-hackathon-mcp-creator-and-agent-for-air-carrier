@@ -15,7 +15,7 @@ from phoenix.evals import LLM, ClassificationEvaluator
 load_dotenv()
 
 TEMPLATE = """You are grading an answer from an agent whose only tools come
-from Mcp Bakehouse Sales.
+from Bakehouse Sales.
 
 Scope of that server:
 Let an agent answer a bakery franchise sales analyst's questions about point-of-sale

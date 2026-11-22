@@ -8,14 +8,17 @@ from __future__ import annotations
 
 from fastmcp import FastMCP
 
-from mcp_bakehouse_sales.app import mcp
-from mcp_bakehouse_sales.config import settings
+from bakehouse_sales.app import mcp
+from bakehouse_sales.config import settings
 
 EXPECTED_TOOLS = {
-    "mcp_sales_trend",
-    "mcp_sales_totals",
-    "mcp_top_product_by_transactionid",
-    "mcp_describe_sales",
+    "bakehouse_daily_totalprice",
+    "bakehouse_top_franchiseid_by_totalprice",
+    "bakehouse_average_totalprice",
+    "bakehouse_get_sales",
+    "bakehouse_describe_sales",
+    "bakehouse_top_paymentmethod_by_totalprice",
+    "bakehouse_top_product_by_quantity",
 }
 
 
@@ -24,7 +27,7 @@ def test_server_is_importable():
 
 
 def test_server_has_name():
-    assert mcp.name == "Mcp Bakehouse Sales"
+    assert mcp.name == "Bakehouse Sales"
 
 
 def test_default_transport_is_stdio():
@@ -33,25 +36,25 @@ def test_default_transport_is_stdio():
 
 
 def test_tools_register_without_error():
-    from mcp_bakehouse_sales.tools import register_tools
+    from bakehouse_sales.tools import register_tools
 
     register_tools(FastMCP("test"))
 
 
 def test_prompts_register_without_error():
-    from mcp_bakehouse_sales.prompts import register_prompts
+    from bakehouse_sales.prompts import register_prompts
 
     register_prompts(FastMCP("test"))
 
 
 def test_resources_register_without_error():
-    from mcp_bakehouse_sales.resources import register_resources
+    from bakehouse_sales.resources import register_resources
 
     register_resources(FastMCP("test"))
 
 
 def test_routes_register_without_error():
-    from mcp_bakehouse_sales.routes import register_routes
+    from bakehouse_sales.routes import register_routes
 
     register_routes(FastMCP("test"))
 

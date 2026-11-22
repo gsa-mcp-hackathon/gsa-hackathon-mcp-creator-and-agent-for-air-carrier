@@ -32,10 +32,10 @@ Add this to your client's MCP settings, with an absolute path:
 ```json
 {
   "mcpServers": {
-    "mcp-bakehouse-sales": {
+    "bakehouse-sales": {
       "command": "uv",
-      "args": ["run", "mcp-bakehouse-sales"],
-      "cwd": "/absolute/path/to/mcp-bakehouse-sales"
+      "args": ["run", "bakehouse-sales"],
+      "cwd": "/absolute/path/to/bakehouse-sales"
     }
   }
 }

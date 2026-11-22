@@ -1,6 +1,6 @@
-"""Bakehouse sales transactions over time.
+"""Daily total totalPrice.
 
-How has transactionID moved month by month, and where did it change most?
+What was total revenue per day over a date range?
 
 Source: sales (uc_table).
 """
@@ -12,14 +12,14 @@ from typing import Annotated, Any
 from fastmcp import FastMCP
 from pydantic import Field
 
-from mcp_bakehouse_sales.data import sources
-from mcp_bakehouse_sales.data.warehouse import (
+from bakehouse_sales.data import sources
+from bakehouse_sales.data.warehouse import (
     WarehouseError,
     column,
     qualified,
     run_query,
 )
-from mcp_bakehouse_sales.models import PaymentmethodValue, ProductValue
+from bakehouse_sales.models import PaymentmethodValue, ProductValue
 
 TABLE = qualified(
     sources.SALES_CATALOG,
@@ -31,19 +31,40 @@ AS_OF = sources.SALES_AS_OF
 
 
 def register(mcp: FastMCP) -> None:
-    """Register the mcp_sales_trend tool with the MCP server."""
+    """Register this tool with the MCP server:
+
+    bakehouse_daily_totalprice
+    """
 
     @mcp.tool(
-        name="mcp_sales_trend",
+        name="bakehouse_daily_totalprice",
         annotations={
-            "title": "Bakehouse sales transactions over time",
+            "title": "Daily total totalPrice",
             "readOnlyHint": True,
             "destructiveHint": False,
             "idempotentHint": True,
             "openWorldHint": True,
         },
     )
-    def mcp_sales_trend(
+    def bakehouse_daily_totalprice(
+        start_date: Annotated[
+            str,
+            Field(
+                description=(
+                    "First day to include, YYYY-MM-DD. Work out relative periods such "
+                    "as 'last month' from today's date. Empty for no bound."
+                ),
+            ),
+        ] = "",
+        end_date: Annotated[
+            str,
+            Field(
+                description=(
+                    "Day after the last day to include, YYYY-MM-DD (exclusive). Empty "
+                    "for no bound."
+                ),
+            ),
+        ] = "",
         product: Annotated[
             ProductValue,
             Field(
@@ -57,35 +78,43 @@ def register(mcp: FastMCP) -> None:
             ),
         ] = PaymentmethodValue.ANY,
     ) -> dict[str, Any]:
-        """How has transactionID moved month by month, and where did it change most?
+        """What was total revenue per day over a date range?
 
         One record is one point-of-sale transaction for one product line. The source
         refreshes static sample and currently reflects the as_of value in the response.
 
-        Returns: One row per month with the measure total, record count, and the change
-        and percentage change against the prior month, computed server-side.
+        Returns: One row per day with the total totalPrice and record count, plus the
+        change and percentage change against the prior period.
 
         Does not cover: Customer personal details such as names, emails or addresses;
         Forecasting future sales; Changing or deleting any sales record.
         """
+        filter_start_date = start_date.strip()
+        filter_end_date = end_date.strip()
         filter_product = "" if product is ProductValue.ANY else product.value
         filter_paymentmethod = (
             "" if paymentmethod is PaymentmethodValue.ANY else paymentmethod.value
         )
         clauses: list[str] = []
         params: list[Any] = []
+        if filter_start_date:
+            clauses.append(column("dateTime", COLUMNS) + " >= ?")
+            params.append(filter_start_date)
+        if filter_end_date:
+            clauses.append(column("dateTime", COLUMNS) + " < ?")
+            params.append(filter_end_date)
         if filter_product:
-            clauses.append(f"{column('product', COLUMNS)} = ?")
+            clauses.append(column("product", COLUMNS) + " = ?")
             params.append(filter_product)
         if filter_paymentmethod:
-            clauses.append(f"{column('paymentMethod', COLUMNS)} = ?")
+            clauses.append(column("paymentMethod", COLUMNS) + " = ?")
             params.append(filter_paymentmethod)
         where = (" WHERE " + " AND ".join(clauses)) if clauses else ""
         try:
             date_column = column("dateTime", COLUMNS)
-            measure_column = column("transactionID", COLUMNS)
+            measure_column = column("totalPrice", COLUMNS)
             sql = (
-                f"SELECT date_trunc('MONTH', {date_column}) "
+                f"SELECT date_trunc('DAY', {date_column}) "  # nosemgrep # nosec B608
                 f"AS period, "
                 f"SUM({measure_column}) AS measure_total, "
                 f"COUNT(*) AS record_count "
@@ -114,7 +143,7 @@ def register(mcp: FastMCP) -> None:
         return {
             "as_of": AS_OF,
             "date_field": "dateTime",
-            "measure": "transactionID",
-            "granularity": "month",
+            "measure": "totalPrice",
+            "granularity": "day",
             "periods": rows,
         }

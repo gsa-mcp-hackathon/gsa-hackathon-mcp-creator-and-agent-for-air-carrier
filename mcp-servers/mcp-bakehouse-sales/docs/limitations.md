@@ -5,7 +5,7 @@ be trusted on anything.
 
 ## What the data cannot support
 
-- `sales` has no stable identifier, so a single record cannot be fetched reliably.
+- No structural gaps were found in the profiled fields. That is not the same as the data being complete; confirm coverage with the source owner.
 
 ## Freshness
 

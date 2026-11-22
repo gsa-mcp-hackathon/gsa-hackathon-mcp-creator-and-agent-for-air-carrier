@@ -2,9 +2,9 @@
 
 Run inside the harness environment described in eval/README.md:
 
-python create_dataset.py --list
-python create_dataset.py --dataset-name mcp-eval-0 --dry-run
-python create_dataset.py --dataset-name mcp-eval-0
+    python create_dataset.py --list
+    python create_dataset.py --dataset-name bakehouse-eval-0 --dry-run
+    python create_dataset.py --dataset-name bakehouse-eval-0
 """
 
 from __future__ import annotations

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from mcp_bakehouse_sales.app import mcp
+from bakehouse_sales.app import mcp
 
 FORBIDDEN_PARAM_NAMES = {
     "url",
@@ -66,7 +66,7 @@ async def test_read_only_tools_are_annotated_read_only():
 
 
 def test_identifier_validation_rejects_injection():
-    from mcp_bakehouse_sales.data.warehouse import quote_ident
+    from bakehouse_sales.data.warehouse import quote_ident
 
     for attempt in (
         "table; DROP TABLE users",
@@ -81,13 +81,13 @@ def test_identifier_validation_rejects_injection():
 
 
 def test_identifier_validation_accepts_plain_names():
-    from mcp_bakehouse_sales.data.warehouse import quote_ident
+    from bakehouse_sales.data.warehouse import quote_ident
 
     assert quote_ident("my_table") == "`my_table`"
 
 
 def test_column_allowlist_rejects_unknown_columns():
-    from mcp_bakehouse_sales.data.warehouse import column
+    from bakehouse_sales.data.warehouse import column
 
     with pytest.raises(ValueError):
         column("not_a_column", ("real_column",))

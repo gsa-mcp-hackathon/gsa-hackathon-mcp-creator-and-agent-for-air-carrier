@@ -24,12 +24,12 @@ PROMPT_DIR = Path(__file__).resolve().parent / "prompts"
 
 
 class BakehouseSalesAgent:
-    """Runs questions against Mcp Bakehouse Sales over stdio."""
+    """Runs questions against Bakehouse Sales over stdio."""
 
     def __init__(
         self,
         system_prompt_version: str = "v1",
-        project_name: str = "mcp-eval-0",
+        project_name: str = "bakehouse-eval-0",
         phoenix_endpoint: str = "http://localhost:6006/v1/traces",
         with_tools: bool = True,
     ) -> None:
@@ -55,10 +55,10 @@ class BakehouseSalesAgent:
         if self.with_tools:
             self.client = MultiServerMCPClient(
                 {
-                    "mcp_bakehouse_sales": {
+                    "bakehouse_sales": {
                         "transport": "stdio",
                         "command": "uv",
-                        "args": ["run", "mcp-bakehouse-sales"],
+                        "args": ["run", "bakehouse-sales"],
                         "cwd": str(REPO_ROOT),
                     }
                 }

@@ -1,5 +1,5 @@
 [project]
-name = "mcp-bakehouse-sales"
+name = "bakehouse-sales"
 version = "0.1.0"
 description = "Let an agent answer a bakery franchise sales analyst's questions about point-of-sale transactions: revenue by franchise, best-selling products, sales by payment method, and daily sales trends."
 readme = "README.md"
@@ -13,20 +13,21 @@ dependencies = [
 ]
 
 [project.scripts]
-mcp-bakehouse-sales = "mcp_bakehouse_sales.app:main"
+bakehouse-sales = "bakehouse_sales.app:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/mcp_bakehouse_sales"]
+packages = ["src/bakehouse_sales"]
 
 [dependency-groups]
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.0",
     "ruff>=0.6.0",
+    "bandit>=1.7.0",
 ]
 
 [tool.ruff]
@@ -37,6 +38,15 @@ extend-exclude = ["*.md"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+# The data dictionary is a literal of profiled descriptions. Ruff cannot split
+# a string inside it, and rewording a description would change the data.
+"src/bakehouse_sales/resources/dictionary.py" = ["E501"]
+
+[tool.bandit]
+# Tests use assert by design. Run: bandit -c pyproject.toml -r .
+exclude_dirs = ["tests", ".venv"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

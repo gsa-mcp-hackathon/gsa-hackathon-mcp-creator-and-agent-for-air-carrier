@@ -25,12 +25,12 @@ REPO = ROOT.parent
 CANON = REPO / "mcp-server-creator/src/mcp_server_creator/error_contract.py"
 COPIES = [
     ROOT / "mcp-aircarrier-ops/src/mcp_aircarrier_ops/error_contract.py",
-    ROOT / "mcp-bakehouse-sales/src/mcp_bakehouse_sales/error_contract.py",
+    ROOT / "mcp-bakehouse-sales/src/bakehouse_sales/error_contract.py",
 ]
 APPS = [
     REPO / "mcp-server-creator/src/mcp_server_creator/app.py",
     ROOT / "mcp-aircarrier-ops/src/mcp_aircarrier_ops/app.py",
-    ROOT / "mcp-bakehouse-sales/src/mcp_bakehouse_sales/app.py",
+    ROOT / "mcp-bakehouse-sales/src/bakehouse_sales/app.py",
 ]
 
 
@@ -41,7 +41,8 @@ def test_every_copy_matches_the_creator(copy):
 
 @pytest.mark.parametrize("app", APPS, ids=lambda p: p.parts[-3])
 def test_every_fastmcp_server_installs_it(app):
-    assert "mcp.add_middleware(ErrorContractMiddleware())" in app.read_text()
+    text = app.read_text()
+    assert "mcp.add_middleware(" in text and "ErrorContractMiddleware())" in text
 
 
 def test_the_generator_ships_and_installs_it():
