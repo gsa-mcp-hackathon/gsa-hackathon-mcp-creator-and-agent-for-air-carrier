@@ -64,8 +64,12 @@ def _connection_kwargs() -> dict[str, Any]:
     host = settings.databricks_host.replace("https://", "").rstrip("/")
     if not host:
         raise WarehouseError(
-            "DATABRICKS_HOST is not set. Databricks Apps injects it; set it "
-            "in .env for local development."
+            "DATABRICKS_HOST is not set (Databricks Apps injects it; set it in "
+            ".env for local development). "
+            "This server reads Unity Catalog tables through a SQL warehouse, so it "
+            "answers only inside a Databricks workspace. With no workspace, run "
+            "mcp-aircarrier-hub or MCP A Creator, which work locally (README, Run "
+            "an MCP server locally)."
         )
     if not settings.databricks_warehouse_id:
         raise WarehouseError(

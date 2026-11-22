@@ -6,12 +6,12 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 ## Where it stands
 
 `scripts/check.sh` from a clean clone, on Python 3.11 and 3.12 in CI:
-**1,649 passed, 5 skipped, 0 failed** (checked 2026-11-21, round 10; figures in
+**1,657 passed, 5 skipped, 0 failed** (checked 2026-11-22, round 12; figures in
 [`docs/numbers.yaml`](../numbers.yaml)).
 
 | Project | Result |
 | --- | --- |
-| Creator | 685 passed: 283 tests and a 402-case sweep of hostile input into all 10 tools (400 calls, nothing escaped, nothing written outside its root) |
+| Creator | 693 passed: 291 tests and a 402-case sweep of hostile input into all 10 tools (400 calls, nothing escaped, nothing written outside its root) |
 | Air Carrier ops | 40 passed |
 | Air Carrier docs | 55 passed |
 | Air Carrier analyst | 39 passed |

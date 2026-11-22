@@ -53,7 +53,9 @@ _STOP = {
 def _tokens(text: str) -> set[str]:
     """Four-letter stems, so 'temperature' meets 'temp' and 'days' meets 'day'."""
     words = re.findall(r"[a-z]+", text.lower().replace("_", " "))
-    return {word[:4] for word in words if len(word) >= 3 and word not in _STOP}
+    return {
+        singular(word)[:4] for word in words if len(word) >= 3 and word not in _STOP
+    }
 
 
 def _job_tokens(spec: ServerSpec) -> set[str]:
@@ -88,10 +90,13 @@ def _tool_name(prefix: str, *parts: str) -> str:
 
 
 def _enum_candidates(
-    source: DataSourceProfile, limit: int = 2, spec: ServerSpec | None = None
+    source: DataSourceProfile,
+    limit: int = 2,
+    spec: ServerSpec | None = None,
+    exclude: frozenset[str] = frozenset(),
 ) -> list[FieldProfile]:
     """Dimension fields narrow enough to expose as enums."""
-    dimensions = [f for f in source.dimensions() if not f.pii]
+    dimensions = [f for f in source.dimensions() if not f.pii and f.name not in exclude]
     if spec is not None:
         dimensions = _rank(dimensions, spec)
     candidates = [
@@ -104,11 +109,18 @@ def _enum_candidates(
 
 
 def _filter_params(
-    source: DataSourceProfile, limit: int = 2, spec: ServerSpec | None = None
+    source: DataSourceProfile,
+    limit: int = 2,
+    spec: ServerSpec | None = None,
+    exclude: frozenset[str] = frozenset(),
 ) -> list[ParamPlan]:
-    """Optional filter parameters, as enums where the data allows."""
+    """Optional filter parameters, as enums where the data allows.
+
+    Fields in `exclude` (the tool's own grouping or entity) are skipped before
+    the limit, so a grouped tool still gets two real filters.
+    """
     params: list[ParamPlan] = []
-    for field in _enum_candidates(source, limit, spec):
+    for field in _enum_candidates(source, limit, spec, exclude):
         description = (
             field.description
             or f"Narrow results to one {field.name.replace('_', ' ')}."
@@ -253,6 +265,25 @@ _FORWARD_WINDOW_CUES = re.compile(
     r"\b(expire|expires|expiring|due|ending|end|ends)\b.*\b(next|within|coming)\s+"
     r"\d+\s+(day|days|week|weeks|month|months)\b"
 )
+# 'Show the declarations for a given disaster number': list the records for
+# one value. A count or total would answer a different question.
+_LIST_CUES = re.compile(r"^\s*(show|list|display|give me|get|pull)\b")
+_LIST_KEY = re.compile(
+    r"\bfor\s+(?:a given|a specific|a single|one|a|an|that|this)?\s*"
+    r"([a-z]+(?:\s+[a-z]+)?)"
+)
+# 'how many distinct counties', 'how many disasters': distinct values of a
+# column, unless the counted word is the table's own row ('how many projects').
+_DISTINCT_CUES = re.compile(r"\b(?:distinct|unique|different)\s+([a-z]+)")
+_COUNTED_THING = re.compile(r"\b(?:how many|number of|count of)\s+([a-z]+)")
+_PLACE_FIELD = re.compile(
+    r"state|country|region|city|county|province|territory|district|location"
+)
+_MONTH_NAMES = {"january", "february", "march", "april", "may", "june", "july",
+                "august", "september", "october", "november", "december"}  # fmt: skip
+_TIME_WORDS = {"day", "days", "week", "weeks", "month", "months", "year", "years",
+               "quarter", "quarters", "time"}  # fmt: skip
+
 _PHRASE_STOP = {
     "last", "this", "next", "between", "for", "in", "on", "from", "since", "and",
     "or", "with", "during", "over", "per", "each", "do", "does", "did", "sold",
@@ -322,8 +353,19 @@ def _coverage_ok(field: FieldProfile, stems: set[str]) -> bool:
     return 3 * matched >= len(meaningful)
 
 
+def singular(word: str) -> str:
+    """'cities' -> 'city', 'boxes' -> 'box', 'lenders' -> 'lender'."""
+    if len(word) > 4 and word.endswith("ies"):
+        return word[:-3] + "y"
+    if len(word) > 4 and word.endswith(("ses", "xes", "ches", "shes")):
+        return word[:-2]
+    if len(word) > 3 and word.endswith("s") and not word.endswith(("ss", "us")):
+        return word[:-1]
+    return word
+
+
 def _best_field(words: list[str], fields: list[FieldProfile]) -> FieldProfile | None:
-    stems = {w[:4] for w in words if len(w) >= 3}
+    stems = {singular(w)[:4] for w in words if len(w) >= 3}
     # Adjacent words that spell a column name ('ship mode' -> l_shipmode)
     # break the tie with columns that only share a stem (l_shipinstruct).
     joined = [
@@ -356,10 +398,14 @@ def _job_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | None
         for w in words
         if len(w) >= 3 and w not in _STOP and w not in _MEASURE_SYNONYMS
     }
+    # 'obligated amount' names federalShareObligated; 'amount' alone would
+    # pick projectAmount. A generic word counts for less than a specific one.
+    generic = {w[:4] for w in _GENERIC_FIELD_WORDS if len(w) >= 3}
     best, best_score = None, 0
     for field in measures:
         field_words = set(name_words(field.name))
-        score = 3 * len(stems & _field_stems(field))
+        shared = stems & _field_stems(field)
+        score = 3 * len(shared - generic) + len(shared & generic)
         for word in words:
             if any(syn in field_words for syn in _MEASURE_SYNONYMS.get(word, ())):
                 score += 3
@@ -399,11 +445,184 @@ def counted_measure(text: str, measures: list[FieldProfile]) -> FieldProfile | N
     return None
 
 
+def _row_words(source: DataSourceProfile) -> set[str]:
+    """Stems naming what one row is: 'pa_projects', 'one row per project'."""
+    from mcp_server_creator.profiling import name_words
+
+    text = f"{source.name} {source.title} {source.grain}"
+    return {w[:4] for w in name_words(text) if len(w) >= 3} - {"row", "rows"}
+
+
+def _distinct_field(
+    text: str, source: DataSourceProfile, fields: list[FieldProfile]
+) -> FieldProfile | None:
+    """The field a question counts distinct values of, or None for rows.
+
+    'unique event types' on a table of storm events counts event_type: the
+    field must match a word beyond the ones that name the row itself, so
+    'how many projects' on a table of projects still counts rows.
+    """
+    match = _DISTINCT_CUES.search(text) or _COUNTED_THING.search(text)
+    if match is None:
+        return None
+    phrase: list[str] = []
+    for word in text[match.start(1) :].split()[:2]:
+        if word in _PHRASE_STOP:
+            break
+        phrase.append(word)
+    if phrase[0] in _TIME_WORDS:
+        return None
+    field = _best_field(phrase, fields)
+    if field is None:
+        return None
+    asked = {w[:4] for w in phrase if len(w) >= 3}
+    if not (_field_stems(field) - _row_words(source)) & asked:
+        return None
+    return field
+
+
+def _grouping_words(text: str, labels: list[FieldProfile]) -> list[str]:
+    """Words after 'per' or 'each' that name a group. A period word ('each
+    year') groups only by a period column the table has, such as year."""
+    for marker in ("per", "each", "by"):
+        words = _phrase_after(text, marker)
+        if not words:
+            continue
+        if words[0] not in _TIME_WORDS or _best_field(words, labels) is not None:
+            return words
+    return []
+
+
+def _list_tool(
+    spec: ServerSpec, source: DataSourceProfile, job: str, text: str
+) -> ToolPlan | None:
+    """'Show the declarations for a given disaster number': every record for
+    one value, paged. Only a table answers this; a snapshot has no paging."""
+    if source.kind is not SourceKind.UC_TABLE or not _LIST_CUES.search(text):
+        return None
+    # 'Show daily sales for franchise 3' asks for a trend, not a list.
+    computing = (
+        _COMPUTE_WORDS.search(text)
+        or any(cue in text for _grain, cues in _GRAIN_CUES for cue in cues)
+        or any(cue in text for cue in _AVG_CUES)
+        or any(w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text))
+    )
+    if computing:
+        return None
+    match = _LIST_KEY.search(text)
+    keys = [
+        f
+        for f in source.fields
+        if not f.pii and f.role in {FieldRole.IDENTIFIER, FieldRole.DIMENSION}
+    ]
+    key = _best_field(match.group(1).split(), keys) if match else None
+    if key is None:
+        return None
+    label = source.title or source.name.replace("_", " ")
+    return ToolPlan(
+        name=_tool_name(spec.tool_prefix, source.name, "for", key.name),
+        title=f"{label} for one {key.name}",
+        goal=job,
+        pattern=QueryPattern.LOOKUP,
+        source=source.name,
+        params=[
+            ParamPlan(
+                name=to_identifier(key.name),
+                python_type="str",
+                description=(
+                    key.description
+                    or f"Exact {key.name.replace('_', ' ')} to list records for."
+                    + (f" Example: {key.example}." if key.example else "")
+                ),
+                required=True,
+                source_field=key.name,
+            )
+        ],
+        paginated=True,
+        returns=(
+            f"Every {label} record whose {key.name} matches, paged, with the "
+            "total so the first page is never mistaken for the whole answer."
+        ),
+        error_hints=["Values are exact; call the describe tool for examples."],
+        eval_seeds=[job],
+    )
+
+
+def _group_field(
+    text: str,
+    granularity: str,
+    groupable: list[FieldProfile],
+    labels: list[FieldProfile],
+    distinct: FieldProfile | None,
+) -> FieldProfile | None:
+    """The column a question groups by, or None for one total or a trend."""
+    group: FieldProfile | None = None
+    # 'top 5 products by revenue': what is ranked comes before 'by'; the
+    # word after 'by' is then the measure, not the grouping.
+    # 'top 5 best-selling products by quantity': hyphenated words are words.
+    top = re.search(
+        r"\b(?:top|bottom|best|worst)\s+(?:\d+\s+)?([a-z -]+?)\s+by\b", text
+    )
+    if top:
+        group = _best_field(top.group(1).replace("-", " ").split(), groupable)
+    by_words = _phrase_after(text, "by")
+    if (
+        group is None
+        and by_words
+        and by_words[0] not in {"day", "week", "month", "year", "quarter"}
+    ):
+        group = _best_field(by_words, groupable + labels)
+    if group is None and not granularity:
+        # 'gallons delivered per state', 'declared in each fiscal year'
+        grouping = _grouping_words(text, labels)
+        if grouping:
+            group = _best_field(grouping, groupable + labels)
+    if group is not None and distinct is not None and group.name == distinct.name:
+        group = None
+    if group is None and not granularity:
+        group = _best_field(_phrases_after(text, "which"), groupable)
+    return group
+
+
+def _entity_filter(
+    job: str, text: str, others: list[FieldProfile], used: set[str]
+) -> tuple[FieldProfile | None, str]:
+    """A column the question pins to one value, and the value if it says it."""
+    # 'franchise 3000003': a named key with its value.
+    for word, value in re.findall(r"\b([a-z]+)\s+(\d[\w-]*)", text):
+        candidate = _best_field([word], others)
+        if candidate is not None:
+            return candidate, value
+    # 'for one franchise', 'at my store': a filter the caller fills in.
+    for word in re.findall(
+        r"\b(?:for|at|in|of)\s+(?:a single|a given|one|an|a|my|our)\s+([a-z]+)",
+        text,
+    ):
+        candidate = _best_field([word], others)
+        if candidate is not None:
+            return candidate, ""
+    # 'distinct counties in Texas': a capitalised place filters the table's
+    # place column; the caller passes the value.
+    place = re.search(r"\b(?:in|from|across)\s+([A-Z][a-zA-Z]+)", job)
+    if place is None:
+        return None, ""
+    word = place.group(1)
+    if (word.isupper() and len(word) <= 3) or word.lower() in _MONTH_NAMES:
+        return None, ""
+    spots = [
+        f for f in others if f.name not in used and _PLACE_FIELD.search(f.name.lower())
+    ]
+    return (spots[0], word) if spots else (None, "")
+
+
 def _job_tool(
     spec: ServerSpec, source: DataSourceProfile, job: str
 ) -> tuple[ToolPlan | None, str]:
     """One tool that answers one recorded question, or the reason it cannot."""
     text = " " + job.lower().replace("?", " ").replace(",", " ") + " "
+    listing = _list_tool(spec, source, job, text)
+    if listing is not None:
+        return listing, ""
     # 'What does the exhibit say', 'which documents mention': a search or
     # lookup answers these; a computed tool would invent a total.
     if is_retrieval(job):
@@ -460,7 +679,10 @@ def _job_tool(
             break
     measure = _job_measure(text, measures)
     quantity = counted_measure(text, measures)
-    if any(cue in text for cue in _AVG_CUES):
+    distinct = _distinct_field(text, source, groupable + labels) if sql else None
+    if distinct is not None and quantity is None:
+        aggregation, measure = "count_distinct", distinct
+    elif any(cue in text for cue in _AVG_CUES):
         aggregation = "avg"
     elif quantity is not None:
         aggregation, measure = "sum", quantity
@@ -468,7 +690,7 @@ def _job_tool(
         aggregation = "count"
     else:
         aggregation = "sum"
-    if aggregation == "count":
+    if aggregation in ("count", "count_distinct"):
         # 'How much has been obligated ... by fiscal year?' asks for an
         # amount. Answering it with a row count is a confident wrong number
         # (eval F6), so with no measure to add up the tool is refused.
@@ -476,7 +698,7 @@ def _job_tool(
             " how much " in text
             or any(w in _MEASURE_SYNONYMS for w in re.findall(r"[a-z]+", text))
         ) and not any(cue in text for cue in _COUNT_CUES)
-        if wants_amount:
+        if wants_amount and aggregation == "count":
             return (
                 None,
                 f"'{job}': no numeric column in '{source.name}' holds that "
@@ -484,48 +706,15 @@ def _job_tool(
                 "live so it is recognised as a measure and cast before it is "
                 "summed; never answer 'how much' with a row count.",
             )
-        measure = None
+        if aggregation == "count":
+            measure = None
     if aggregation == "avg" and measure is None:
         return None, f"'{job}': no numeric column in '{source.name}' to average."
 
-    group: FieldProfile | None = None
-    # 'top 5 products by revenue': what is ranked comes before 'by'; the
-    # word after 'by' is then the measure, not the grouping.
-    # 'top 5 best-selling products by quantity': hyphenated words are words.
-    top = re.search(
-        r"\b(?:top|bottom|best|worst)\s+(?:\d+\s+)?([a-z -]+?)\s+by\b", text
-    )
-    if top:
-        group = _best_field(top.group(1).replace("-", " ").split(), groupable)
-    by_words = _phrase_after(text, "by")
-    if (
-        group is None
-        and by_words
-        and by_words[0] not in {"day", "week", "month", "year", "quarter"}
-    ):
-        group = _best_field(by_words, groupable + labels)
-    if group is None and not granularity:
-        group = _best_field(_phrases_after(text, "which"), groupable)
-
-    entity: FieldProfile | None = None
-    entity_value = ""
+    group = _group_field(text, granularity, groupable, labels, distinct)
     others = [f for f in groupable if f is not group]
-    for word, value in re.findall(r"\b([a-z]+)\s+(\d[\w-]*)", text):
-        candidate = _best_field([word], others)
-        if candidate is not None:
-            entity, entity_value = candidate, value
-            break
-    if entity is None:
-        # 'for one franchise', 'at my store': a filter the caller fills in.
-        for word in re.findall(
-            r"\b(?:for|at|in|of)\s+(?:a single|a given|one|an|a|my|our|each)"
-            r"\s+([a-z]+)",
-            text,
-        ):
-            candidate = _best_field([word], others)
-            if candidate is not None:
-                entity = candidate
-                break
+    used = {f.name for f in (group, distinct) if f is not None}
+    entity, entity_value = _entity_filter(job, text, others, used)
 
     wants_range = bool(_RANGE_CUES.search(text))
     counting = any(cue in text for cue in _COUNT_CUES)
@@ -596,20 +785,31 @@ def _job_tool(
     taken = {p.source_field for p in params}
     if group is not None:
         taken.add(group.name)
+    if aggregation == "count_distinct" and measure is not None:
+        taken.add(measure.name)  # what is counted is not also a filter
     params += [
         p
-        for p in _filter_params(source, spec=spec)
-        if p.source_field not in taken and p.name not in {q.name for q in params}
+        for p in _filter_params(source, spec=spec, exclude=frozenset(taken))
+        if p.name not in {q.name for q in params}
     ]
 
     measure_label = measure.name if measure is not None else "count"
     if aggregation == "avg":
         measure_label = f"avg_{measure_label}"
-    agg_word = {"sum": "total", "avg": "average", "count": "count"}[aggregation]
+    elif aggregation == "count_distinct":
+        measure_label = f"distinct_{measure_label}"
+    agg_word = {
+        "sum": "total",
+        "avg": "average",
+        "count": "count",
+        "count_distinct": "distinct",
+    }[aggregation]
     # Human wording, separate from the name slug: "total totalPrice",
     # "average fare_amount", "record count" -- never "count count".
     if measure is None:
         phrase = "record count"
+    elif aggregation == "count_distinct":
+        phrase = f"count of distinct {measure.name}"
     else:
         phrase = f"{'average' if aggregation == 'avg' else 'total'} {measure.name}"
     if pattern is QueryPattern.TREND:
@@ -634,7 +834,11 @@ def _job_tool(
             measure.name if measure is not None else source.name,
         )
         title = phrase[0].upper() + phrase[1:]
-        returns = "Record count and the measure's sum, mean, minimum and maximum."
+        returns = (
+            f"Record count and the number of distinct {measure.name} values."
+            if aggregation == "count_distinct"
+            else "Record count and the measure's sum, mean, minimum and maximum."
+        )
 
     return (
         ToolPlan(
@@ -1099,11 +1303,18 @@ def design_tools(spec: ServerSpec) -> tuple[list[ToolPlan], list[str]]:
 
     if len(unique) > MAX_TOOLS:
         kept, cut = _cap_tools(spec, unique)
-        notes.append(
-            f"{len(unique)} tools were proposed, more than the {MAX_TOOLS} a "
-            "focused server should carry. Kept the tools that answer the "
-            "user's questions first, and dropped: " + ", ".join(cut) + "."
-        )
+        if cut:
+            notes.append(
+                f"{len(unique)} tools were proposed, more than the {MAX_TOOLS} a "
+                "focused server should carry. Kept the tools that answer the "
+                "user's questions first, and dropped: " + ", ".join(cut) + "."
+            )
+        if len(kept) > MAX_TOOLS:
+            notes.append(
+                f"{len(kept)} tools are kept, one per recorded question plus the "
+                f"dictionary, more than the {MAX_TOOLS} a focused server should "
+                "carry. Consider splitting the questions across two servers."
+            )
         unique = kept
 
     for source in spec.data_sources:
@@ -1303,7 +1514,11 @@ def _one_tool_per_job(
 def _cap_tools(
     spec: ServerSpec, plans: list[ToolPlan]
 ) -> tuple[list[ToolPlan], list[str]]:
-    """Keep MAX_TOOLS: question tools, then one dictionary, lookups, search."""
+    """Keep MAX_TOOLS: question tools, then one dictionary, lookups, search.
+
+    A tool that is the only answer to a recorded question is never cut: a
+    server over the limit is a design to split, not a question to drop.
+    """
     jobs = set(spec.jobs_to_be_done)
     first_describe = next(
         (p.name for p in plans if p.pattern is QueryPattern.DESCRIBE_SOURCE), ""
@@ -1326,7 +1541,9 @@ def _cap_tools(
         return 4
 
     order = sorted(range(len(plans)), key=lambda i: (priority(plans[i]), i))
-    keep = set(order[:MAX_TOOLS])
+    # The first dictionary stays too: every tool's error hint points to it.
+    answering = sum(1 for p in plans if priority(p) == 0) + bool(first_describe)
+    keep = set(order[: max(MAX_TOOLS, answering)])
     kept = [p for i, p in enumerate(plans) if i in keep]
     cut = [p.name for i, p in enumerate(plans) if i not in keep]
     return kept, cut
@@ -1366,7 +1583,7 @@ def _pattern_bonus(job: str, pattern: QueryPattern) -> int:
         QueryPattern.RANK: ("which", "most", "highest", "lowest", "top", "rank"),
         QueryPattern.AGGREGATE: ("total", "how many", "how much", "sum", "average"),
         QueryPattern.TREND: ("trend", "over time", "month", "change", "moved"),
-        QueryPattern.LOOKUP: ("show me the", "details", "record for"),
+        QueryPattern.LOOKUP: ("show me the", "details", "record for", "for a given"),
         QueryPattern.SEARCH: ("mention", "search", "find", "contain"),
     }
     return 1 if any(cue in text for cue in cues.get(pattern, ())) else 0

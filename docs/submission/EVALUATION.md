@@ -39,7 +39,7 @@ are kept in the score and listed apart rather than re-graded upward.
 
 | Project | Passed | Skipped |
 | --- | --- | --- |
-| MCP A Creator (283 tests plus a 402-case hostile-input sweep) | 685 | 0 |
+| MCP A Creator (291 tests plus a 402-case hostile-input sweep) | 693 | 0 |
 | Ops server | 40 | 0 |
 | Docs server | 55 | 0 |
 | Analyst server | 39 | 0 |
@@ -50,7 +50,7 @@ are kept in the score and listed apart rather than re-graded upward.
 | Error contract, every FastMCP server | 9 | 0 |
 | Adversarial sweep, 30 read tools (421 hostile calls) | 423 | 0 |
 | One Hub (pytest) | 320 | 5 (need a live Spark session) |
-| **Total, nine projects** | **1,649** | **5** |
+| **Total, nine projects** | **1,657** | **5** |
 
 These are unit, contract, server, generator and adversarial tests. They show the code does
 what it says; they do not measure whether an agent answers well, which sections 2.3 and 2.4

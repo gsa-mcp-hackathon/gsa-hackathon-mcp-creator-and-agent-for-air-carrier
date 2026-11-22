@@ -159,7 +159,16 @@ def _measure_lines(
 
 
 def _plan_measure(plan: ToolPlan, source: DataSourceProfile) -> FieldProfile | None:
-    """The measure this tool aggregates; None when it counts records."""
+    """The measure this tool aggregates; None when it counts records.
+
+    A distinct count names the field whose values it counts, which is usually
+    a key or a category rather than a measure.
+    """
+    if plan.aggregation == "count_distinct":
+        return next(
+            (f for f in source.fields if f.name == plan.measure_field and not f.pii),
+            None,
+        )
     if plan.measure_field:
         return _pick(source, FieldRole.MEASURE, plan.measure_field)
     if plan.aggregation == "count":
@@ -571,10 +580,21 @@ def _sql_where(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
     return lines
 
 
-def _body_sql_lookup(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
-    """Fetch one record by its identifier."""
+def _lookup_key(plan: ToolPlan, source: DataSourceProfile) -> str:
+    """The column a lookup matches: the one its parameter names, else a key."""
+    known = {f.name for f in source.fields}
+    named = next((p.source_field for p in plan.params if p.source_field), "")
+    if named in known:
+        return named
     identifier = _pick(source, FieldRole.IDENTIFIER)
-    key = identifier.name if identifier else _first_field_name(source)
+    return identifier.name if identifier else _first_field_name(source)
+
+
+def _body_sql_lookup(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
+    """Fetch one record by its identifier, or every record for one value."""
+    if plan.paginated:
+        return _body_sql_lookup_many(plan, source)
+    key = _lookup_key(plan, source)
     param = plan.params[0].name if plan.params else "record_id"
     return [
         "        try:",
@@ -603,6 +623,63 @@ def _body_sql_lookup(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
         '            "as_of": AS_OF,',
         '            "record": rows[0],',
         f'            "fields_used": [{_lit(key)}],',
+        "        }",
+    ]
+
+
+def _body_sql_lookup_many(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
+    """'Show the declarations for disaster 4332': every record for one value.
+
+    Paged and in a stable order, with the total, so an agent never mistakes
+    the first page for the whole answer.
+    """
+    key = _lookup_key(plan, source)
+    param = next((p.name for p in plan.params if p.source_field == key), "")
+    order = search_order(source)
+    projection = _select_list(source)
+    select_sql = (
+        '                f"SELECT {select_list} FROM {TABLE}{where}{order_by} "'
+        "  # nosemgrep # nosec B608"
+        if projection
+        else '                f"SELECT * FROM {TABLE}{where}{order_by} "'
+        "  # nosemgrep # nosec B608"
+    )
+    return [
+        *_sql_where(plan, source),
+        f"        if not filter_{param}:",
+        "            return {",
+        f'                "error": "Give a value for {param}.",',
+        '                "hint": "Call the describe tool for example values.",',
+        '                "as_of": AS_OF,',
+        "            }",
+        "        try:",
+        "            totals = run_query(",
+        '                f"SELECT COUNT(*) AS total FROM {TABLE}{where}",'
+        "  # nosemgrep # nosec B608",
+        "                list(params),",
+        "            )",
+        '            total = int(totals[0]["total"]) if totals else 0',
+        '            order_by = " ORDER BY " + ", ".join(',
+        "                column(c, COLUMNS) for c in " + repr(order),
+        "            )",
+        *projection,
+        "            rows = run_query(",
+        select_sql,
+        '                "LIMIT ? OFFSET ?",',
+        "                list(params) + [limit, offset],",
+        "            )",
+        *_error_guard(source, "Check the value's format and try again."),
+        "        next_offset = offset + len(rows)",
+        "        return {",
+        '            "as_of": AS_OF,',
+        f'            "matched_on": {_lit(key)},',
+        '            "total": total,',
+        '            "count": len(rows),',
+        '            "offset": offset,',
+        '            "has_more": next_offset < total,',
+        '            "next_offset": next_offset if next_offset < total else None,',
+        '            "items": rows,',
+        '            "ordered_by": ' + repr(order) + ",",
         "        }",
     ]
 
@@ -761,18 +838,24 @@ def _body_sql_search(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
     ]
 
 
+def _agg_expr(plan: ToolPlan, measure_name: str) -> str:
+    """The SQL aggregate a computed tool applies, over measure_column."""
+    if not measure_name:
+        return "COUNT(*)"
+    if plan.aggregation == "count_distinct":
+        return "COUNT(DISTINCT {measure_column})"
+    if plan.aggregation == "avg":
+        return "AVG({measure_column})"
+    return "SUM({measure_column})"
+
+
 def _body_sql_rank(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
     """Top groups by a measure, with each group's share of the whole."""
     measure = _plan_measure(plan, source)
     dimension = _plan_group(plan, source)
     measure_name = measure.name if measure else ""
     group_name = dimension.name if dimension else _first_field_name(source)
-    if not measure_name:
-        agg = "COUNT(*)"
-    elif plan.aggregation == "avg":
-        agg = "AVG({measure_column})"
-    else:
-        agg = "SUM({measure_column})"
+    agg = _agg_expr(plan, measure_name)
     measure_line = _measure_lines(measure) if measure_name else []
     return [
         *_sql_where(plan, source),
@@ -800,7 +883,7 @@ def _body_sql_rank(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
         "        population = overall[0] if overall else {}",
         (
             "        grand_total = 0.0  # shares of an average are meaningless"
-            if plan.aggregation == "avg" and measure_name
+            if plan.aggregation in ("avg", "count_distinct") and measure_name
             else '        grand_total = float(population.get("measure_total") or 0)'
         ),
         "        for row in rows:",
@@ -824,7 +907,16 @@ def _body_sql_aggregate(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
     measure = _plan_measure(plan, source)
     measure_name = measure.name if measure else ""
     lines = [*_sql_where(plan, source), "        try:"]
-    if measure_name:
+    if measure_name and plan.aggregation == "count_distinct":
+        lines += [
+            *_measure_lines(measure),
+            "            sql = (",
+            '                f"SELECT COUNT(*) AS record_count, "  # nosemgrep # nosec B608',
+            '                f"COUNT(DISTINCT {measure_column}) AS distinct_count "',
+            '                f"FROM {TABLE}{where}"',
+            "            )",
+        ]
+    elif measure_name:
         lines += [
             *_measure_lines(measure),
             "            sql = (",
@@ -873,9 +965,8 @@ def _body_sql_trend(plan: ToolPlan, source: DataSourceProfile) -> list[str]:
         '                f"AS period, "',
     ]
     if measure_name:
-        agg_fn = "AVG" if plan.aggregation == "avg" else "SUM"
         lines.append(
-            f'                f"{agg_fn}({{measure_column}}) AS measure_total, "'
+            f'                f"{_agg_expr(plan, measure_name)} AS measure_total, "'
         )
     lines += [
         '                f"COUNT(*) AS record_count "',

@@ -51,7 +51,13 @@ def _connection_kwargs() -> dict[str, Any]:
     host = os.getenv("DATABRICKS_HOST", "").replace("https://", "").rstrip("/")
     wh = os.getenv("DATABRICKS_WAREHOUSE_ID", "")
     if not host:
-        raise WarehouseError("DATABRICKS_HOST is not set.")
+        raise WarehouseError(
+            "DATABRICKS_HOST is not set. "
+            "This server reads Unity Catalog tables through a SQL warehouse, so it "
+            "answers only inside a Databricks workspace. With no workspace, run "
+            "mcp-aircarrier-hub or MCP A Creator, which work locally (README, Run "
+            "an MCP server locally)."
+        )
     if not wh:
         raise WarehouseError("No SQL warehouse is configured (app.yaml valueFrom: sql-warehouse).")
     kw: dict[str, Any] = {"server_hostname": host, "http_path": f"/sql/1.0/warehouses/{wh}"}

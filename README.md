@@ -48,10 +48,10 @@ under [Demo video](#demo-video).
 ## Click through the front center
 
 The deployed apps sit behind Databricks sign-in, so the front center is also published as a
-read-only snapshot: **<https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/>**.
+read-only snapshot: **<https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/>**.
 Every page renders from the extracts in this repository, and the 59 gap briefs open in place.
 Ask the evidence, specialist runs, decisions and Answer a question need a signed-in user, so
-the snapshot points them to a [live gallery](docs/site/live/index.html) of screens from the
+the snapshot points them to a [live gallery](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/live/) of screens from the
 deployed app. Rebuild it from `the-one-hub/ops-center` with
 `uv run --with beautifulsoup4 python ../../tools/export_static_site.py`.
 
@@ -80,7 +80,7 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), round 1: 14 questions, 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools; strict held-out 20/24 (83.3%) vs 2/8 | 14 questions, only 4 strictly held out; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog, before the fixes it prompted. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
 | Sealed held-out questions, round 3 (after the fixes), with vs without tools | 50/72 (69.4%, CI 58.0 to 78.9) vs 1/24 (4.2%) | Questions written by the same author as the fixes. 5 misses are an answer-key error of mine (G07); read by hand, 55/72. Real misses remain on counting by sign, a contamination recorded only in the dossier, and multi-source figures |
-| Code suites from a clean clone | 1,649 passed, 0 failed (825 of them hostile-input cases); 5 skipped because they need a live Spark session | They are unit, contract, server, generator and adversarial tests: they show the code does what it says, not that an agent answers well. That is measured by the delegation rounds and the subject-matter review |
+| Code suites from a clean clone | 1,657 passed, 0 failed (825 of them hostile-input cases); 5 skipped because they need a live Spark session | They are unit, contract, server, generator and adversarial tests: they show the code does what it says, not that an agent answers well. That is measured by the delegation rounds and the subject-matter review |
 | Adversarial arguments, all 30 read tools and the Creator | 421 calls to the read servers: 340 refused, 81 answered; 169 statements reached the warehouse, all read-only; 124 carried a hostile value as a bound parameter, none pasted into SQL text. 400 calls to the Creator: 364 refused, 36 answered, nothing written outside its root, no workspace reached | Runs in-process against a recording fake warehouse, not the deployed apps |
 | Creator determinism | Same specification, byte-identical files: 58 of 58 | Determinism is not correctness; the review checks meaning separately |
 | Availability of the deployed servers | 99.90% of 6,193 checks in 413 probe sweeps, 2026-11-12 to 2026-11-20; 1,234 of 1,234 known-answer checks right | One workspace, eight days |
@@ -355,11 +355,11 @@ It walks a person through seven phases, each ending in something reviewable:
 Two more tools, `creator_list_library` and `creator_load_document`, serve the skills and
 reference material, which are also exposed as MCP resources and prompts.
 
-**Release and upgrade.** MCP A Creator is released as `v1.0.0-rc1`, with a changelog, a
+**Release and upgrade.** MCP A Creator is released as `v1.0.0-rc2`, with a changelog, a
 CycloneDX SBOM and the FastMCP and protocol versions it is tested on, and installs without a clone:
 
 ```
-uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc1#subdirectory=mcp-server-creator" mcp-a-creator --version
+uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc2#subdirectory=mcp-server-creator" mcp-a-creator --version
 ```
 
 Every generated project carries `.mcp-creator/` with its spec, the Creator version and the
@@ -367,6 +367,13 @@ SHA-256 of every file, and its CI fails on undeclared drift. `mcp-a-creator-upgr
 a project with a newer Creator, keeps the files the owner edited and lists any conflict, so a
 server stays upgradable after people change it. Output is byte-identical across processes, not
 only within one ([release and upgrade](mcp-server-creator/README.md)).
+
+**Phrasing it has not seen.** Release 1.0.0rc2 reads "per state", "in each fiscal year",
+"distinct counties", "show ... for a given X" and plurals as an analyst means them, and its
+review checks each tool against the question's own words rather than re-running the designer.
+On three schemas no earlier test used, FEMA public assistance got 5 of 9 right before the fix;
+after it, NOAA storm events got 6 of 8 and SBA PPP loans 7 of 8 on their first runs. Every miss
+is fixed and all three are regression tests ([changelog](mcp-server-creator/CHANGELOG.md)).
 
 ---
 
@@ -435,7 +442,7 @@ The evaluation has seven layers, one question each. Full method and results are 
 
 | Layer | Question | Result |
 | --- | --- | --- |
-| Code suites | Does the code do what it says? | **1,649 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
+| Code suites | Does the code do what it says? | **1,657 tests pass from a clean clone** across nine projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them. Two of the three were confident tools for a different question; the review's new `tool_computes_its_question` check flags both when the same prompts are designed offline with the tables' columns |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 read tools gets SQL fragments, path traversal, oversized values, wrong enum members and control characters: **421 hostile calls, 340 refused, 81 answered safely, 0 writes, 0 arguments pasted into SQL** ([test](mcp-servers/test_adversarial_arguments.py)); the same values against the Creator's 10 tools: **400 calls, nothing escaped or written outside its root** ([test](mcp-server-creator/tests/test_adversarial_arguments.py)) |
@@ -465,7 +472,7 @@ happened to each finding is in the
 
 | Claim | The file that proves it | The command that re-runs it |
 | --- | --- | --- |
-| 1,649 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
+| 1,657 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
 | Every Impact page figure is printed on its cited page | [`checks/test_impact.py`](the-one-hub/ops-center/checks/test_impact.py), [`impact.json`](the-one-hub/ops-center/app/data/curated/impact.json) | `scripts/check.sh one-hub` |
 | 83.3% strict held-out with tools, 25.0% without | [`eval/delegation/runs.csv`](eval/delegation/runs.csv), [`RESULTS.md`](eval/delegation/RESULTS.md) | `python3 eval/delegation/analyze.py` (CI fails if it disagrees with RESULTS.md) |
 | No tool accepts a hostile argument | [`mcp-servers/test_adversarial_arguments.py`](mcp-servers/test_adversarial_arguments.py) | `scripts/check.sh mcp-local` |
@@ -538,12 +545,25 @@ uvicorn main:app --port 8000      # then open http://127.0.0.1:8000
 
 ### Run an MCP server locally
 
+Two servers answer with no Databricks workspace. One command asks both real questions:
+
 ```
-cd mcp-server-creator
-uv sync
-uv run mcp-a-creator              # stdio server
+uv run --project mcp-server-creator python tools/try_offline.py
+```
+
+It asks the One Hub server whether CVN-79 can be briefed at $13,529M (answer: human review),
+where the sources discuss the cost limitation baseline, and which open questions matter most,
+then has MCP A Creator design and review a FEMA server from a pasted schema. To run either
+server for your own MCP client:
+
+```
+cd the-one-hub/ops-center && uv run python mcp/mcp_server.py     # One Hub server over stdio
+cd mcp-server-creator && uv run mcp-a-creator                    # MCP A Creator over stdio
 uv run mcp-a-creator-doctor       # will it start here, and what is missing
 ```
+
+The docs, analyst and ops servers read Unity Catalog through a SQL warehouse, so they answer
+only inside a workspace; with none configured they say so and name the two that run locally.
 
 ### Run the tests
 
@@ -556,15 +576,15 @@ JUNIT_DIR=out scripts/check.sh  # also write JUnit XML, as in docs/submission/ev
 ```
 
 Each project installs its own dependencies into its own environment. Expected (checked
-2026-11-21, round 10): Creator 685 passed (402 of them its hostile-input sweep); ops 40;
+2026-11-22, round 12): Creator 693 passed (402 of them its hostile-input sweep); ops 40;
 bakehouse 21; docs 55; analyst 39; probe 11; mcp_local 23, the source-notice suite 23, the
 error-contract suite 9 and the shared adversarial sweep 423; One Hub 320 passed, 5 skipped,
-plus six script suites and lint. Total 1,649 passed, 5 skipped, plus 59 evaluation tests (the
+plus six script suites and lint. Total 1,657 passed, 5 skipped, plus 59 evaluation tests (the
 round 4 grader and runner, and the round 5 seal and keys), the link check, the portability scan and the figures check in the
 evidence step.
 
 What the count is: 509 unit, contract and server tests for the servers, the probe and the
-One Hub; 283 Creator tests, among them generator tests that build a project and run its own
+One Hub; 291 Creator tests, among them generator tests that build a project and run its own
 tests and lint; 825 adversarial-argument cases (423 for the read servers, 402 for the
 Creator); 23 source-notice checks and 9 error-contract checks. A parametrized
 test counts once per input. None of them measures whether an agent answers well; the

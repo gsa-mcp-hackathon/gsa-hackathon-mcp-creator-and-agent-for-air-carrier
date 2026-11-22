@@ -52,7 +52,7 @@
    "problem": "Turning a dataset into a tool an agent can use takes a developer and weeks, and an improvised server is untested and different every time.",
    "does": "Profiles the table, designs one tool per question, reviews meaning as well as shape, and generates a tested project that deploys as the requester's own app after an approval bound to what was reviewed.",
    "beyond": "Every office with a Unity Catalog table and a question; GSA's stated aim of an internal library of MCP server prototypes.",
-   "today": "Built the ops server in this hub and, on an unrelated sales table, mcp-bakehouse-sales, rebuilt through its own tools in 0.38 s (7 tools, up from 4). 15 of 15 generated projects pass their own tests; output byte-identical across processes. Release 1.0.0rc1 with a changelog and SBOM, installable with uvx; every project records its spec, Creator version and file hashes, and mcp-a-creator-upgrade regenerates it without overwriting the owner's edits. Tested on FastMCP 3.4 and 4.2.",
+   "today": "Built the ops server in this hub and, on an unrelated sales table, mcp-bakehouse-sales, rebuilt through its own tools in 0.38 s (7 tools, up from 4). 15 of 15 generated projects pass their own tests; output byte-identical across processes. Release 1.0.0rc2 with a changelog and SBOM, installable with uvx; every project records its spec, Creator version and file hashes, and mcp-a-creator-upgrade regenerates it without overwriting the owner's edits. Tested on FastMCP 3.4 and 4.2.",
    "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/tree/main/mcp-server-creator"
   },
   {
@@ -210,7 +210,7 @@
   },
   {
    "measure": "Code suites from a clean clone",
-   "result": "1,649 passed, 0 failed, 825 of them hostile-input cases (9 projects)",
+   "result": "1,657 passed, 0 failed, 825 of them hostile-input cases (9 projects)",
    "not": "Tests show the code does what it says, not that it helps a user"
   }
  ],
