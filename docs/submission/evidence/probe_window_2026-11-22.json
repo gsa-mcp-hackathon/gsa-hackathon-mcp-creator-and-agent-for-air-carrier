@@ -1,0 +1,48 @@
+{
+  "what": "Probe known-answer checks since the docs cache fix (read_files over the probe's JSONL results)",
+  "query_window_from": "2026-11-21T22:30:00Z",
+  "read_at": "2026-11-22T04:38Z",
+  "known_answer": [
+    {
+      "target": "mcp-aircarrier-docs",
+      "checks": 24,
+      "ok": 24,
+      "p50_ms": 1176,
+      "p95_ms": 1223,
+      "max_ms": 1236,
+      "first": "2026-11-21T22:42:56Z",
+      "last": "2026-11-22T04:25:14Z"
+    },
+    {
+      "target": "mcp-aircarrier-analyst",
+      "checks": 24,
+      "ok": 24,
+      "p50_ms": 4327,
+      "p95_ms": 6062,
+      "max_ms": 6168,
+      "first": "2026-11-21T22:43:00Z",
+      "last": "2026-11-22T04:25:19Z"
+    },
+    {
+      "target": "mcp-aircarrier-ops",
+      "checks": 23,
+      "ok": 23,
+      "p50_ms": 920,
+      "p95_ms": 1787,
+      "max_ms": 1929,
+      "first": "2026-11-21T22:43:01Z",
+      "last": "2026-11-22T04:25:22Z"
+    },
+    {
+      "target": "mcp-aircarrier-hub",
+      "checks": 23,
+      "ok": 23,
+      "p50_ms": 54,
+      "p95_ms": 90,
+      "max_ms": 109,
+      "first": "2026-11-21T22:55:03Z",
+      "last": "2026-11-22T04:25:22Z"
+    }
+  ],
+  "note": "The last checks (04:25Z) ran after all apps were redeployed at commit 3d4a84f (04:13Z to 04:20Z)."
+}

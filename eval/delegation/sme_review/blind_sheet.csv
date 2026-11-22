@@ -1,0 +1,151 @@
+qid,category,question,answer_A,answer_B,A_correct_0_2,A_cited_0_2,A_usable_0_2,A_would_rely_Y_N,B_correct_0_2,B_cited_0_2,B_usable_0_2,B_would_rely_Y_N,better_A_or_B,comment
+R4-19 obl_mod_amount,obligations,"What did modification A00455 on N00024-15-C-2114, the CVN 79 detail design and construction contract, obligate, and what is its action date?","**Modification A00455** on contract N00024-15-C-2114 (CVN-79 detail design and construction):
+
+- **Action Date:** October 20, 2023 (FY2024)
+- **Federal Action Obligation:** $175,000.00
+- **Description:** DETAIL DESIGN AND CONSTRUCTION CVN 79
+- **Cumulative Total Obligated (through this action):** $4,257,731,053.84
+
+**Source:** FPDS/USAspending transaction history for N00024-15-C-2114","Based on the contract modification records:
+
+**Modification A00455** on contract N00024-15-C-2114:
+- **Obligated:** $0
+- **Action Date:** September 30, 2022
+
+**Source:** Contract modification record for N00024-15-C-2114, modification A00455",,,,,,,,,,
+R4-17 obl_mod_amount,obligations,"What did modification A00306 on N00024-09-C-2116, the CVN 79 construction preparation contract, obligate, and what is its action date?","Based on the contract data for N00024-09-C-2116:
+
+**Modification A00306:**
+- **Obligated Amount:** $0.00
+- **Action Date:** September 30, 2015
+
+**Source:** Contract N00024-09-C-2116, Modification A00306 record","**Modification A00306** on contract N00024-09-C-2116 (CVN-79 construction preparation):
+
+- **Action Date:** February 25, 2021 (FY2021)
+- **Obligation:** $536.00
+- **Description:** CVN 79 CONSTRUCTION PREPARATION CONTRACT CHANGE
+
+This was a very small administrative modification that obligated only $536. After this action, the total cumulative obligations on the contract stood at $4,517,862,663.83.
+
+**Source:** FPDS/USAspending prime transaction record for N0002409C2116, modification A00306.",,,,,,,,,,
+R4-28 p5c_cell,exhibit,"On the P-5c Ship Cost exhibit in the PB 2017 Shipbuilding and Conversion, Navy (SCN) justification book, what is the Plan Costs figure for CVN 79?","I apologize, but I'm unable to locate the specific P-5c Ship Cost exhibit for CVN 79 in the PB 2017 SCN justification book in the available documents. To provide you with the exact Plan Costs figure, I would need access to that specific budget exhibit page. Could you confirm if this document is available in the system, or would you be able to provide the document directly?","Based on the P-5c Ship Cost Analysis exhibit in the PB 2017 SCN justification book, the **Plan Costs figure for CVN 79 is $880.078 million**.
+
+This figure represents 7.72% of the Total Ship Estimate of $11,398.000 million for CVN 79.
+
+**Source:** SCN_Bookpb2017.pdf, page 27, Exhibit P-5c, Ship Cost Analysis, Line Item 2001 (Carrier Replacement Program), dated February 2016.",,,,,,,,,,
+R4-35 p5c_tse_change,exhibit,By how much did the Total Ship Estimate printed for CVN 78 on the P-5c change between the PB 2010 and the PB 2017 SCN justification books?,(No answer was returned.),"I don't have access to the specific P-5c exhibits from the PB 2010 and PB 2017 SCN justification books in the available documents. To answer your question accurately, I would need access to:
+
+1. The FY 2010 President's Budget SCN justification book, P-5c exhibit for CVN-78
+2. The FY 2017 President's Budget SCN justification book, P-5c exhibit for CVN-78
+
+Without these specific documents, I cannot provide the exact Total Ship Estimate figures or calculate the change between these two budget submissions.",,,,,,,,,,
+U08 document,document,"According to the FY2027 CVN 78 MSAR, how did CVN 79's delivery date change in October 2016, and which law required the change?",(No answer text.),"Perfect! I found the information. According to the FY2027 CVN-78 MSAR:
+
+**In October 2016, CVN-79's delivery date was revised from June 2022 to September 2024.**
+
+**The change was required by Section 121 of the FY 2017 National Defense Authorization Act (Public Law 114-328).**
+
+This information appears on page 10 of the CVN_78_MSAR_FY2027_PBv2.pdf document. The same information is also confirmed in earlier MSARs (December 2023 and December 2022 versions), showing this was a significant program milestone that extended the delivery date by approximately 27 months.",,,,,,,,,,
+U01 document,document,"According to GAO-26-108457, to what date was CVN 79's planned delivery delayed, and which two subsystems did program officials identify as the causes?","According to GAO-26-108457, I need to search for information about CVN-79's delivery delay and the subsystems that caused it.
+
+Based on GAO-26-108457:
+
+**Delayed Delivery Date:** CVN-79's planned delivery was delayed to **July 2025** (page 16).
+
+**Two Subsystems Identified as Causes:**
+1. **Electromagnetic Aircraft Launch System (EMALS)**
+2. **Advanced Arresting Gear (AAG)**
+
+**Source:** GAO-26-108457, page 16, which states: ""Program officials told us that CVN 79's planned delivery has been delayed to July 2025, primarily due to challenges with two subsystems—the Electromagnetic Aircraft Launch System and the Advanced Arresting Gear.""","Perfect! I have all the information needed to answer the question. The information is clear and complete from GAO-26-108457, page 145 (which is labeled as page 133 in the document's internal numbering).
+
+According to **GAO-26-108457** (Weapon Systems Annual Assessment 2026), page 145:
+
+**CVN 79's planned delivery was delayed to March 2027** (a delay of almost 2 years from the previous estimate).
+
+**The two subsystems identified by program officials as causes of the delay were:**
+1. **Elevator subsystem**
+2. **Landing subsystem**
+
+The report specifically states: ""Program officials attributed this delay to continued challenges with an elevator subsystem and a landing subsystem.""
+
+**Source:** GAO-26-108457, page 145 (CVN 78 Gerald R. Ford Nuclear Aircraft Carrier program assessment)",,,,,,,,,,
+R4-38 premise_trap,premise,What did the Advanced Carbon Dioxide Removal Unit (ACRU) cost on CVN 79?,"Advanced Carbon Dioxide Removal Unit ACRU CVN-79 cost
+
+ACRU CVN 79 price
+
+Carbon Dioxide Removal CVN-79
+
+I was unable to find specific cost information for the Advanced Carbon Dioxide Removal Unit (ACRU) on CVN-79 in the available documents. The search did not return any results containing ACRU cost data for the USS John F. Kennedy program.
+
+To locate this information, you may need to check:
+- Detailed equipment procurement lists or bills of material
+- Ship systems cost breakdowns
+- Government Furnished Equipment (GFE) or Contractor Furnished Equipment (CFE) lists
+- Atmosphere Control System cost documentation
+
+Do you have access to more detailed cost breakdown documents or equipment lists that might contain this specific line item?","**Important finding:** The Advanced Carbon Dioxide Removal Unit (ACRU) is **not a CVN-79 component**.
+
+The search results show a **premise trap**: ACRU is equipment for the **COLUMBIA Class Submarine** (SSBN program, line item 1045), not for CVN-79 (USS John F. Kennedy aircraft carrier).
+
+All the documents found are P-35 Major Ship Component Fact Sheets for the COLUMBIA Class Submarine program, showing ACRU costs ranging from $5.960M to $9.877M across different fiscal years (FY 2021-2024), but these are submarine costs, not carrier costs.
+
+**The ACRU does not appear on CVN-79.** Aircraft carriers and submarines have different atmospheric control systems. If you're looking for a specific environmental control system cost on CVN-79, I can search for carrier-specific equipment instead.",,,,,,,,,,
+U13 multi_source,multi_source,"According to CRS, how much higher is the FY2026 budget's total procurement cost estimate for CVN-80 than for CVN-79?","Based on my searches, I was unable to locate a specific CRS document in the available records that directly compares the FY2026 budget's total procurement cost estimates for CVN-79 versus CVN-80.
+
+To provide you with this information, I would need access to a CRS report (likely titled something like ""Navy Ford Class Aircraft Carrier Program"" or similar) that contains the FY2026 budget figures for both ships. Could you provide the specific CRS report number or title you're referencing?","Perfect! I have the information needed to answer the question. According to the CRS report (RS20643, dated December 4, 2025, by Ronald O'Rourke):
+
+**According to CRS, the FY2026 budget's total procurement cost estimate for CVN-80 is $1,051.5 million higher than for CVN-79.**
+
+**The calculation:**
+- CVN-80 (Enterprise) total procurement cost: **$14,247.5 million**
+- CVN-79 (John F. Kennedy) total procurement cost: **$13,196.0 million**
+- **Difference: $1,051.5 million** (about $1.05 billion)
+
+**Source:** CRS Report RS20643.302, ""Navy Ford (CVN-78) Class Aircraft Carrier Program: Background and Issues for Congress,"" by Ronald O'Rourke, December 4, 2025, page 2.",,,,,,,,,,
+U14 judgment,judgment,GAO's 2026 assessment shows a percentage decrease in the CVN 78 program's unit cost. Does this mean CVN 79 has become less expensive?,"I need to search for information about GAO's 2026 assessment of CVN 78 program unit costs and CVN 79 costs.
+
+Based on the search results, I cannot find specific information about a GAO 2026 assessment showing a percentage decrease in CVN 78 program unit cost or its relationship to CVN 79 costs.
+
+However, to clarify the distinction: **CVN 78 program unit cost** and **CVN 79 ship cost** are different metrics:
+
+- **Program unit cost** = Total program cost ÷ number of ships (includes CVN 78, 79, 80, etc.)
+- **CVN 79 individual ship cost** = specific construction and outfitting costs for that vessel
+
+A decrease in program unit cost could occur even if CVN 79's individual costs increased, if:
+- Later ships (CVN 80+) have lower costs
+- Program quantities increased
+- Accounting changes occurred
+
+**Without access to the specific GAO 2026 assessment document, I cannot confirm whether CVN 79 has become less expensive.** Please provide the GAO report reference so I can give you exact figures and proper citation.","Perfect. Now I have the key information. Let me provide a clear answer to the user's question.
+
+**No, CVN-79 has not become less expensive.** The percentage decrease in unit cost is an accounting artifact, not a real cost reduction.
+
+## What GAO's 2026 Assessment Actually Shows:
+
+**The Unit Cost Decrease is Misleading:**
+GAO-26-108457 (page 145) explicitly states:
+
+> ""The Navy added two additional CVN units this year and averaged cost across all six ships. As a result, the unit cost reflects a percentage decrease, **even though costs for three ships already in development increased.**""
+
+**CVN-79's Actual Cost Trend:**
+The same page reports that **CVN-79 costs have increased by over $1.5 billion since 2021**. Additionally:
+- CVN-80 costs increased $500 million since last year
+- CVN-81 costs increased $1.2 billion since last year
+- CVN-79 delivery was delayed almost 2 years (until March 2027)
+
+## Why the Unit Cost Appears to Decrease:
+
+When the Navy added CVN-82 and CVN-83 to the program baseline and averaged costs across **all six ships** instead of the original three or four, the mathematical average went down—even though the ships already under construction are actually costing more.
+
+This is similar to how adding two inexpensive items to a shopping cart containing three expensive items lowers the average price per item, even though the expensive items didn't get cheaper.
+
+**Source:** GAO-26-108457, Weapon Systems Annual Assessment 2026, page 145.",,,,,,,,,,
+U07 regulation,regulation,"Under Section 122 of the FY2016 NDAA, as described by CRS, by how much could the Secretary of the Navy increase the CVN-79 cost cap, and under what condition?","Based on my searches, I cannot locate specific information in the available CRS documents describing Section 122 of the FY2016 NDAA and the conditions under which the Secretary of the Navy could increase the CVN-79 cost cap. The search results do not return relevant information about this specific statutory provision and its waiver authority.","Based on the CRS report, under **Section 122 of the FY2016 NDAA** (S. 1356/P.L. 114-92 of November 25, 2015):
+
+**Amount of increase:** The Secretary of the Navy could increase the CVN-79 cost cap by **up to $100 million** (from $11,398.0 million to $11,498.0 million).
+
+**Condition:** The increase was permitted **if, during construction of CVN-79, the Chief of Naval Operations determines that measures required to complete the ship within the revised cost cap shall result in an unacceptable reduction to the ship's operational capability.**
+
+If such an action was taken, the Navy was required to adhere to the notification requirements specified in the cost cap legislation.
+
+**Source:** CRS Report RS20643.302 ""Navy Ford (CVN-78) Class Aircraft Carrier Program: Background and Issues for Congress,"" page 11.",,,,,,,,,,

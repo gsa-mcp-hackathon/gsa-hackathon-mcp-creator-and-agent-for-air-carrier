@@ -34,6 +34,7 @@ hostile_inputs:         # files: mcp-servers/adversarial_summary.json,
 tie_outs:
   store_before_round10: "7,703 of 7,712"      # 34 documents, stored tables, 2026-11-21
   local_after_round10: "7,690 of 7,693"       # 22 SCN books re-extracted, 3 within rounding
+  store_after_round10: "7,743 of 7,746"       # deployed store, 34 PDFs, 2026-11-22, 3 within rounding
   file: docs/submission/evidence/tieout_rerun_2026-11-21.json
 
 findings: 30
@@ -53,6 +54,7 @@ retired:                 # figures that must not appear as current anywhere chec
   - "these eight tool names"
   - "421-call"
   - "302 passed"
+  - "7,703 of 7,712 tie-out checks;"
   - "sixty tools"
   - "none reached SQL"
   - "1 (needs bandit)"
@@ -80,7 +82,7 @@ checked:                 # where retired figures are looked for
 
 required:                # each file must contain each phrase
   README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693"]
-  SCORECARD.md: ["7,690 of 7,693", "400 hostile calls"]
+  SCORECARD.md: ["7,743 of 7,746", "400 hostile calls"]
   docs/submission/EVALUATION.md: ["1,649", "421 hostile calls"]
   the-one-hub/ops-center/app/data/curated/stack.json: ["1,649 passed"]
   docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,649", "63 tools"]
