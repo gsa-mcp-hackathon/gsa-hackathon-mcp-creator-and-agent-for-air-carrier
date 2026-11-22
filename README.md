@@ -525,7 +525,7 @@ documents. The controls are in code, not in prompts:
 | `docs/` | Deployment guide, evaluation report, findings and fixes, deck, screenshots | - |
 | `scripts/` | `check.sh` (every suite, one command), `check_links.py` (no broken links) | - |
 | `.github/workflows/ci.yml` | CI: `scripts/check.sh` per project on Python 3.11 and 3.12 | - |
-| `tools/sync_from_workspace.py` | Refreshes this repository from the live workspace folders | - |
+| `tools/sync_from_workspace.py` | Copies the Genie Code skills from `~/.assistant/skills`, where Genie Code reads them, into this repository for review; everything else deploys from here | - |
 
 ---
 
