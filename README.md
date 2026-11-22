@@ -48,10 +48,10 @@ under [Demo video](#demo-video).
 ## Click through the front center
 
 The deployed apps sit behind Databricks sign-in, so the front center is also published as a
-read-only snapshot: **<https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/>**.
+read-only snapshot: **<https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/>**.
 Every page renders from the extracts in this repository, and the 59 gap briefs open in place.
 Ask the evidence, specialist runs, decisions and Answer a question need a signed-in user, so
-the snapshot points them to a [live gallery](docs/site/live/index.html) of screens from the
+the snapshot points them to a [live gallery](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/live/) of screens from the
 deployed app. Rebuild it from `the-one-hub/ops-center` with
 `uv run --with beautifulsoup4 python ../../tools/export_static_site.py`.
 
