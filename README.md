@@ -643,25 +643,30 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
   70%) and multi-source arithmetic (100% vs 58%); GPT-5 mini did better on decoys (92% vs
   50%). The gate, the tie-outs and the grounding checks are code and do not change with the
   model; the wording of an answer does.
-- **Time saved is estimated, not measured.** From the scope of one CVN-79 pass (7,733
+- **Time saved is estimated, not measured.** From the scope of one CVN-79 pass (7,712
   tie-out checks, 1,875 contract actions, 17 variances, 259 collection requirements) the
   hand work is about **194 to 390 analyst hours, 5 to 10 weeks**, at stated minutes per item
   ([docs/TIME_ESTIMATE.md](docs/TIME_ESTIMATE.md)). No analyst has been timed; the document
   says how to measure it.
-- **Some budget tables still do not tie out as read.** Measured on the stored tables on
-  2026-11-21 over all 34 documents: **7,638 of 7,733 checks pass**. (The earlier "814 of 818"
-  covered the PB2027 book only; its 4 failures, cost elements named "Total ...", are fixed,
-  and PB2027 now has none.) Most of the 95 failures were two layouts older books print: a
-  P-40 money flow, where Total Obligational Authority is Full Funding TOA plus advance
-  procurement rather than a sum of every line, and P-10 group rows followed by their items.
-  The checker now reads both, and quantity rows, only when that reproduces the printed
-  total; on those pages, read locally, 95 failures fall to 9 (a rounding difference of $0.2M
-  and subtotals that run across a page break). Re-measure after the next docs deploy.
+- **9 budget-table checks of 7,712 do not tie out as read.** Measured on the stored tables
+  on 2026-11-21 over all 34 documents: **7,703 of 7,712 checks pass**. The first full run
+  that day gave 7,638 of 7,733. (The earlier "814 of 818" covered the PB2027 book only; its 4
+  failures, cost elements named "Total ...", are fixed.) Most of those 95 failures were two
+  layouts older books print: a P-40 money flow, where Total Obligational Authority is Full
+  Funding TOA plus advance procurement rather than a sum of every line, and P-10 group rows
+  followed by their items. The checker now reads both, and leaves quantity rows out of money
+  sums, taking a reading only when it reproduces the printed total; 21 totals whose other
+  line was a quantity are no longer checks. 9 checks still fail, in 4 tables. Two are a $0.2M rounding difference in a 7-item total
+  (PB2008 p.122). One is a 10-year program total whose printed lines differ by $0.5M, also
+  rounding (PB2007 p.66). Two are one cell the extractor missed, "First Destination" in
+  PB2006 p.167, so its total reads $5.2M and $33.2M short. Four are subtotals whose items
+  start on the page before, in PB2022 p.377 and PB2023 p.449 (two columns each), because
+  the extractor did not join the pages. None shows a book whose arithmetic is wrong.
 - **The docs server's slow mode is gone.** It reloaded its 7,804-page corpus inside the
   request once the 30-minute cache expired (p50 12.6 s, max 20.2 s); it now refreshes in the
-  background and loads at startup. After that deploy the probe measured 9 known-answer
-  checks, all right, p50 1.19 s, max 1.24 s. Nine checks are a short window.
-- **The One Hub server was deployed on 2026-11-21, so its probe history is short:** 7 of 7
+  background and loads at startup. After that deploy the probe measured 11 known-answer
+  checks, all right, p50 1.19 s, max 1.24 s. Eleven checks are a short window.
+- **The One Hub server was deployed on 2026-11-21, so its probe history is short:** 9 of 9
   known answers right, p50 54 ms, on the first evening. Its
   HTTP form had refused every request behind the Apps proxy (421 Invalid Host header, the
   SDK's localhost guard); that is fixed and tested. It runs from `the-one-hub/ops-center`

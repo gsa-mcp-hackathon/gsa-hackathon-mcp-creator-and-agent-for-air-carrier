@@ -30,7 +30,7 @@ Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with th
 | --- | --- |
 | Cost model runs top-down only (`ops/harness/cost_model.py`, fixed 2026-11-21 from a placeholder) | EAC range from the budget revisions now computed; the earned value method waits for IPMDAR figures |
 | Injection notice not yet re-measured with models (fixed 2026-11-21: `source_notice` on every server) | The servers now flag the q16 record; how often a model passes the notice on is not measured |
-| Tie-outs on older budget books (measured 2026-11-21: 7,638 of 7,733 pass) | P-40 money flows, P-10 group rows and quantity rows are now read when that reproduces the printed total; on the failing pages, read locally, 95 failures fall to 9. Re-measure after the next docs deploy. The docs latency fix is measured: p50 1.19 s |
+| 9 tie-out checks of 7,712 fail (measured 2026-11-21 after the fix; the first full run was 7,638 of 7,733) | Rounding in two totals (PB2008 p.122, PB2007 p.66), one cell the extractor missed (PB2006 p.167), subtotals across a page break (PB2022 p.377, PB2023 p.449). The docs latency fix is measured: p50 1.19 s |
 | No tool counts obligations by sign, and none exposes transaction-description contamination (P00154) | The two delegation questions still at 0 of 6 (G04, H04) |
 | Creator maps "most negative reviews" to a count | Now flagged by the review (`tool_computes_its_question`); the designer still proposes the count, and the honest answer is "not answerable without a sentiment column" |
 | Demo video narration and deck | The video still says "+$473.97M over the adjusted limit" without the E-17 qualifier, and quotes the knowledge-base corpus without naming it |

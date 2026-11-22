@@ -1,6 +1,6 @@
 # mcp-aircarrier-docs
 
-> **Scorecard:** 11 tools · 50 tests · in the 421-call adversarial sweep · 7,638 of 7,733 tie-out checks pass on 34 PDFs (2026-11-21) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+> **Scorecard:** 11 tools · 50 tests · in the 421-call adversarial sweep · 7,703 of 7,712 tie-out checks pass on 34 PDFs (2026-11-21) · probe known answer 411 of 411. Every server's row: [SCORECARD.md](../../SCORECARD.md).
 
 Deterministic reading of the CVN-79 PDF corpus (SCN J-book exhibits, SAR/MSAR, CRS, GAO). No model in the loop:
 every number is an exact decimal with its document, page, row header, column header and unit.
@@ -45,18 +45,18 @@ SELECT on those two tables, CAN USE on the warehouse, and READ VOLUME on each ro
 ## Known limits (v0.1.0)
 
 * Text-only tables (for example CRS RS20643 Table 2) are not rebuilt as grids; their figures are found in page text.
-* Tie-outs, measured on the store on 2026-11-21: 7,638 of 7,733 checks pass over 34 documents; PB2027 has
-  no failures. The earlier "4 of 818" counted PB2027 only; its 4 were cost elements named "Total ...", such
+* Tie-outs, measured on the store on 2026-11-21: 7,703 of 7,712 checks pass over 34 documents (the first
+  full run that day: 7,638 of 7,733). The earlier "4 of 818" counted PB2027 only; its 4 were cost elements named "Total ...", such
   as "Total Ship Test Program", read as totals. A Total row with a Subtotal below it is now read as a line
   item when that removes failures and adds none. Most of the 95 failures are layouts older books print: a
   P-40 money flow (Total Obligational Authority = Full Funding TOA plus Plus lines less Less lines) and P-10
   group rows followed by their items. Each is tried only when the plain sum fails, and taken only when it
-  reproduces the printed total; quantity rows ("End Item Qty") are not money. On the failing pages, read
-  locally, 95 failures fall to 9: a $0.2M rounding difference and subtotals that run across a page break
-  the extractor did not link. Re-measure after the next deploy.
+  reproduces the printed total; quantity rows ("End Item Qty") are not money. The 9 left: rounding in two
+  totals (PB2008 p.122, PB2007 p.66), one "First Destination" cell the extractor missed (PB2006 p.167), and
+  subtotals whose items start on the previous page (PB2022 p.377, PB2023 p.449).
 * The corpus (7,804 pages, about 11 s to load) refreshes on a background thread after `DOCS_CACHE_TTL_S`
   and loads at startup. Before 2026-11-21 the reload ran inside the request that found the cache expired:
-  the slow mode (p50 12.6 s) of the probe's known-answer latency. After the fix: 9 of 9 at p50 1.19 s.
+  the slow mode (p50 12.6 s) of the probe's known-answer latency. After the fix: 11 of 11 at p50 1.19 s.
 * A result holding text addressed to an AI assistant carries a `source_notice` (`source_notice.py`).
 * `docs_parse_pdf` handles 40 pages and 60 MB per call and does not persist.
 

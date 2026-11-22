@@ -92,7 +92,7 @@ mode. Cause, found in the code on 2026-11-21: the server reloaded its 7,804-page
 inside the request once the 30-minute cache had expired (about 11 s), so a probe arriving
 after the expiry waited for the reload. It now serves the loaded copy and refreshes it on a
 background thread, and loads it at startup (`store.py`, two tests). In the first evening
-after that deploy, 9 known-answer checks were all right at p50 1.19 s, max 1.24 s.
+after that deploy, 11 known-answer checks were all right at p50 1.19 s, max 1.24 s.
 
 ### 2.3 Tool choice by real models (delegation)
 
