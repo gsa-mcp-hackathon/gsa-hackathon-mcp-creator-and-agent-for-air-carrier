@@ -15,7 +15,8 @@ Important legal and policy guidelines.
 
 | Version | Security fixes |
 | --- | --- |
-| 1.0.0rc1 (tag `v1.0.0-rc1`) and `main` | Yes |
+| 1.0.0rc2 (tag `v1.0.0-rc2`) and `main` | Yes |
+| 1.0.0rc1 (tag `v1.0.0-rc1`) | Until 1.0.0 |
 | 0.1.0 | No: it pins FastMCP 2.14, which carries CVE-2025-64340 and CVE-2026-27124 |
 
 Each release ships a CycloneDX SBOM of its locked runtime dependencies in

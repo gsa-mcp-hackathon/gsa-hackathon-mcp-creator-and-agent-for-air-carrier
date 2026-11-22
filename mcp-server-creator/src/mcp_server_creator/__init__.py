@@ -6,4 +6,4 @@ complete, deployable, evaluated MCP server of their own: the skills to follow,
 the generated code, the Databricks deployment kit, and the review rubric.
 """
 
-__version__ = "1.0.0rc1"
+__version__ = "1.0.0rc2"

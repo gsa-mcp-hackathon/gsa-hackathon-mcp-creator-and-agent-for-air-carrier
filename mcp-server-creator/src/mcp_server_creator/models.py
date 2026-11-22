@@ -367,11 +367,15 @@ class ToolPlan(BaseModel):
         description="Draft golden questions this tool should be able to answer.",
     )
     measure_field: str = Field(
-        default="", description="Measure this tool aggregates; empty means count."
+        default="",
+        description=(
+            "Measure this tool aggregates; empty means count. With "
+            "count_distinct, the field whose distinct values are counted."
+        ),
     )
     group_field: str = Field(default="", description="Field a rank tool groups by.")
     date_field: str = Field(default="", description="Date a trend or range uses.")
-    aggregation: Literal["sum", "avg", "count"] = Field(default="sum")
+    aggregation: Literal["sum", "avg", "count", "count_distinct"] = Field(default="sum")
     granularity: Literal["day", "week", "month"] = Field(default="month")
 
     @field_validator("name")

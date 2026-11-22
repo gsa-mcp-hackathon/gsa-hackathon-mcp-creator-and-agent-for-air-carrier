@@ -1,6 +1,6 @@
 # MCP A Creator
 
-> **Scorecard:** 10 tools · 685 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc1 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
+> **Scorecard:** 10 tools · 693 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc2 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
 
 An MCP server whose domain is building MCP servers.
 
@@ -357,8 +357,8 @@ project's suite and an interop call on each version below. CI runs it on every p
 
 | FastMCP | MCP SDK | Protocol the server speaks | Result (2026-11-21) |
 |---|---|---|---|
-| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 685 of 685, bakehouse 21 of 21, interop ok |
-| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 685 of 685, bakehouse 21 of 21, interop ok |
+| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 693 of 693, bakehouse 21 of 21, interop ok |
+| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 693 of 693, bakehouse 21 of 21, interop ok |
 
 The interop call uses the MCP SDK 1.x client, the one the deployed servers and the
 probe use today. A FastMCP 4.2 server agrees with it on 2025-11-25, so moving a
@@ -400,7 +400,7 @@ Install the release with `uvx`, no clone needed (release notes in
 [CHANGELOG.md](CHANGELOG.md); SBOM in [`release/`](release/)):
 
 ```bash
-uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc1#subdirectory=mcp-server-creator" mcp-a-creator --version
+uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc2#subdirectory=mcp-server-creator" mcp-a-creator --version
 ```
 
 Or from a clone:

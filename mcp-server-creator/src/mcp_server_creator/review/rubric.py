@@ -10,6 +10,8 @@ hackathon's criteria.
 
 from __future__ import annotations
 
+import re
+
 from mcp_server_creator import environments
 from mcp_server_creator.generators import toolcode
 from mcp_server_creator.models import (
@@ -907,9 +909,11 @@ def _tool_name_root(name: str) -> str:
 
 
 def _stems(text: str) -> set[str]:
+    """Four-letter stems of the singular words: 'cities' and 'city' agree."""
+    from mcp_server_creator.designer import singular
     from mcp_server_creator.profiling import name_words
 
-    return {w[:4] for w in name_words(text) if len(w) >= 3}
+    return {singular(w)[:4] for w in name_words(text) if len(w) >= 3}
 
 
 # Words that narrow what a question counts. A tool mapped to such a question
@@ -921,13 +925,98 @@ _QUALIFIERS = frozenset(
 )
 
 
-def _misread(spec: ServerSpec, plan) -> list[str]:
+_TIME = frozenset("day days week weeks month months year years quarter quarters "
+                  "time period".split())  # fmt: skip
+_LISTING = re.compile(r"^\s*(show|list|display|give me|get|pull)\b")
+_COMPUTING = re.compile(
+    r"\b(how many|how much|total|average|sum|count|top|most|least|per|by|daily|"
+    r"weekly|monthly|trend|sales|revenue|spend|cost|units)\b"
+)
+
+
+_STOPWORDS = frozenset(
+    "the a an of in for to was were did do does is are have has had with and "
+    "or on at from which what how many much most".split()
+)
+
+
+def _phrase(q: str, start: int, limit: int = 3) -> list[str]:
+    """Up to `limit` words from `start`, stopping at a connective."""
+    words: list[str] = []
+    for word in re.findall(r"[a-z]+", q[start:])[:limit]:
+        if word in _STOPWORDS:
+            break
+        words.append(word)
+    return words
+
+
+def _field_named(words: list[str], fields: list) -> object | None:
+    """The non-measure field a phrase names: the one sharing the most stems
+    with it, then the one with the fewest stems it does not share.
+
+    Read from the field names directly, never through the designer, so the
+    review does not inherit a designer misreading. A period word ('each
+    year') names only a period column such as year or fiscalYear.
+    """
+    asked = _stems(" ".join(words))
+    if not asked:
+        return None
+    period = words[0] if words and words[0].rstrip("s") in _TIME else ""
+    best, best_key = None, (0, 0)
+    for field in fields:
+        if field.role is FieldRole.MEASURE or field.pii:
+            continue
+        if period and period.rstrip("s") not in field.name.lower():
+            continue
+        own = _stems(field.name)
+        key = (len(own & asked), -len(own - asked))
+        if key[0] and key > best_key:
+            best, best_key = field, key
+    return best
+
+
+def _slots(q: str, source) -> list[str]:
+    """What the question itself asks for, as (kind, column) pairs: a grouping
+    ('per state', 'in each fiscal year', 'by category', 'which cities ...
+    most'), a distinct count ('how many disasters', 'unique event types') or
+    a list of records."""
+    found: list[str] = []
+    fields = list(source.fields) if source is not None else []
+    rows = _stems(f"{source.name} {source.title} {source.grain}") if source else set()
+    for marker in ("per", "each", "by"):
+        m = re.search(rf"\b{marker}\s+", q)
+        field = _field_named(_phrase(q, m.end()), fields) if m else None
+        if field is not None:
+            found.append(f"group:{field.name}")
+            break
+    else:
+        # 'Which cities received the most loans?' ranks cities.
+        m = re.search(r"\bwhich\s+(?=.*\b(most|highest|largest|top|least|lowest|"
+                      r"fewest|biggest)\b)", q)  # fmt: skip
+        field = _field_named(_phrase(q, m.end()), fields) if m else None
+        if field is not None:
+            found.append(f"group:{field.name}")
+    # 'number of unique event types': the distinct cue is nearer the column.
+    counted = re.search(r"\b(?:distinct|unique|different)\s+", q) or re.search(
+        r"\b(?:how many|number of|count of)\s+", q
+    )
+    if counted:
+        # 'unique event types' on storm events counts event_type; 'how many
+        # projects' on a table of projects counts rows.
+        words = [w for w in _phrase(q, counted.end(), 2) if w.rstrip("s") not in _TIME]
+        field = _field_named(words, fields) if words else None
+        if field is not None and (_stems(field.name) - rows) & _stems(" ".join(words)):
+            found.append(f"distinct:{field.name}")
+    if _LISTING.search(q) and not _COMPUTING.search(q):
+        found.append("list:")
+    return found
+
+
+def _misread(spec: ServerSpec, plan, question: str | None = None) -> list[str]:
     """Ways a computed tool answers a different question from the one it is
     mapped to, read from the question's own words. Each is a confident tool
     that returns a well-formed number for the wrong question."""
-    import re
-
-    q = plan.goal.lower()
+    q = (question or plan.goal).lower()
     out: list[str] = []
     wants_avg = bool(re.search(r"\b(average|avg|mean)\b", q))
     wants_count = bool(re.search(r"\b(how many|number of|count of|count)\b", q))
@@ -936,7 +1025,13 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
                   r"dollars?|cost|value|obligated|obligations?)\b", q)
     )  # fmt: skip
     agg = plan.aggregation
-    takes = {"sum": "a sum", "avg": "an average", "count": "a count"}[agg]
+    takes = {
+        "sum": "a sum",
+        "avg": "an average",
+        "count": "a count",
+        "count_distinct": "a distinct count",
+    }[agg]
+    counts = agg in ("count", "count_distinct")
     source = spec.source_by_name(plan.source)
     quantity = None
     if source is not None:
@@ -957,13 +1052,13 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
     elif (
         wants_count
         and not wants_amount
-        and agg != "count"
+        and not counts
         # An aggregate tool returns record_count with its sum and mean, so
         # 'how many and what average' is answered by one call.
         and plan.pattern is not QueryPattern.AGGREGATE
     ):
         out.append(f"{plan.name} takes {takes}; '{plan.goal}' asks how many")
-    elif agg == "count" and wants_amount and not wants_count:
+    elif counts and wants_amount and not wants_count:
         out.append(f"{plan.name} counts rows; '{plan.goal}' asks for an amount")
     elif agg == "avg" and not wants_avg:
         out.append(f"{plan.name} averages; '{plan.goal}' does not ask for an average")
@@ -1026,6 +1121,25 @@ def _misread(spec: ServerSpec, plan) -> list[str]:
                 f"{', '.join(named)}"
             )
 
+    # The question's own grouping, distinct count and list request, checked
+    # against the tool spec.
+    for slot in _slots(q, source):
+        kind, word = slot.split(":")
+        if (
+            kind == "group"
+            and plan.pattern is not QueryPattern.TREND
+            and plan.group_field != word
+        ):
+            out.append(f"{plan.name} does not group by {word}; '{q}' asks for each")
+        elif kind == "distinct" and (
+            agg != "count_distinct" or plan.measure_field != word
+        ):
+            out.append(
+                f"{plan.name} takes {takes}; '{q}' asks how many distinct {word}"
+            )
+        elif kind == "list":
+            out.append(f"{plan.name} returns a figure; '{q}' asks to list records")
+
     if plan.pattern is QueryPattern.TREND:
         grain = {"daily": "day", "per day": "day", "by day": "day", "weekly": "week",
                  "per week": "week", "by week": "week", "monthly": "month",
@@ -1087,8 +1201,9 @@ def _check_semantics(
             continue
         fields = {f.name: f for f in source.fields}
         measure = fields.get(plan.measure_field)
+        keyed = plan.aggregation == "count_distinct"  # counting keys is right
         if measure is not None and (
-            measure.role is FieldRole.IDENTIFIER or measure.pii
+            (measure.role is FieldRole.IDENTIFIER and not keyed) or measure.pii
         ):
             id_measures.append(f"{plan.name} ({plan.measure_field})")
         group = fields.get(plan.group_field)
@@ -1109,14 +1224,19 @@ def _check_semantics(
     # evidence: unanswered questions are attached to the nearest tool too.
     from mcp_server_creator.designer import _job_tool
 
-    names = {plan.name for plan in spec.tools}
+    # The designer's mapping alone is not evidence: the tool on the design must
+    # also pass the question-word checks above, which never call the designer.
+    by_name = {plan.name: plan for plan in spec.tools}
     answered: set[str] = set()
     for job in spec.jobs_to_be_done:
         for source in spec.data_sources:
             plan, _ = _job_tool(spec, source, job)
-            if plan is not None and (
-                plan.name in names or _tool_name_root(plan.name) in names
-            ):
+            if plan is None:
+                continue
+            actual = by_name.get(plan.name) or by_name.get(_tool_name_root(plan.name))
+            if actual is None:
+                continue
+            if actual.pattern not in computed or not _misread(spec, actual, job):
                 answered.add(job)
                 break
     # A read question ('what does the exhibit say', 'which documents
