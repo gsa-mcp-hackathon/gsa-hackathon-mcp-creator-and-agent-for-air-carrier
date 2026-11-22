@@ -746,6 +746,9 @@ jobs:
       - name: Run tests
         run: uv run pytest tests/ -v
 
+      - name: Every hand edit is declared (.mcp-creator/owned.txt)
+        run: uv run python .mcp-creator/check_drift.py
+
       - name: Security scan
         run: uv run bandit -c pyproject.toml -r . -q
 
