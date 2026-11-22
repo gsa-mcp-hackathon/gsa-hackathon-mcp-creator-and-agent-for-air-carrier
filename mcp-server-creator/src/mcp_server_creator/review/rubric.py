@@ -1145,6 +1145,15 @@ def _slots(q: str, source) -> list[str]:
         # 'how many high risk investments' on a table of investments counts
         # rows: the words before the row's own noun describe it.
         describes_rows = any(_stems(w) & rows for w in ahead[1:])
+        # 'distinct recipients won awards': the first word already names a
+        # column other than the row's own noun, as the designer reads it.
+        if describes_rows and ahead and not (_stems(ahead[0]) & rows):
+            first = [
+                name
+                for name in _fields_named(ahead[:1], fields)
+                if (_stems(name) - rows) & _stems(ahead[0])
+            ]
+            describes_rows = not first
         words = [w for w in ahead[:2] if w.rstrip("s") not in _TIME]
         if describes_rows:
             words = []

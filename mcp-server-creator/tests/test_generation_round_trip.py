@@ -28,7 +28,7 @@ def _write(manifest, root):
     for generated in manifest.files:
         destination = root / generated.path
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(generated.content, encoding="utf-8")
+        destination.write_text(generated.content, encoding="utf-8", newline="\n")
     return root
 
 
@@ -284,6 +284,7 @@ def test_generated_project_passes_its_own_tests(manifest, tmp_path):
             "PATH": os.environ.get("PATH", ""),
             "PYTHONPATH": str(project / "src"),
             "HOME": os.environ.get("HOME", ""),
+            "SYSTEMROOT": os.environ.get("SYSTEMROOT", ""),
         },
     )
     assert result.returncode == 0, result.stdout[-4000:] + result.stderr[-2000:]
@@ -460,12 +461,12 @@ def test_drift_check_passes_fresh_fails_on_an_undeclared_edit_and_passes_declare
     assert fresh.returncode == 0, fresh.stdout + fresh.stderr
 
     readme = project / "README.md"
-    readme.write_text(readme.read_text() + "\nA note the owner added.\n")
+    readme.write_text(readme.read_text() + "\nA note the owner added.\n", newline="\n")
     edited = _drift(project)
     assert edited.returncode == 1 and "undeclared: README.md" in edited.stdout
 
     owned = project / ".mcp-creator/owned.txt"
-    owned.write_text(owned.read_text() + "README.md\n")
+    owned.write_text(owned.read_text() + "README.md\n", newline="\n")
     declared = _drift(project)
     assert declared.returncode == 0, declared.stdout
 
@@ -480,7 +481,7 @@ def test_two_processes_generate_identical_files(designed_spec, tmp_path):
     import json
 
     spec_file = tmp_path / "spec.json"
-    spec_file.write_text(designed_spec.model_dump_json())
+    spec_file.write_text(designed_spec.model_dump_json(), newline="\n")
     script = (
         "import hashlib, json, sys\n"
         "from mcp_server_creator.generators import generate_full_project\n"

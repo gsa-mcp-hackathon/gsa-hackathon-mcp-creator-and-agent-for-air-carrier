@@ -576,6 +576,13 @@ def _distinct_field(
     for word in text[match.start(1) :].split()[:4]:
         if word in _PHRASE_STOP:
             break
+        # 'distinct recipients won awards': the first word already names a
+        # column other than the row's own noun, so later words cannot turn
+        # the question back into a row count.
+        if not phrase and singular(word)[:4] not in rows:
+            first = _best_field([word], fields)
+            if first is not None and (_field_stems(first) - rows) & {word[:4]}:
+                return first
         # 'how many high risk investments' on a table of investments counts
         # rows: the words before the row's own noun describe it.
         if singular(word)[:4] in rows and phrase:
