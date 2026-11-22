@@ -6,8 +6,9 @@ This document follows the four headings of the GSA evaluation template. The same
 are laid out on the template itself in [evaluation-report.docx](evaluation-report.docx)
 ([PDF](evaluation-report.pdf)), which replaces the earlier report written before delegation
 round 3. Every number
-below was re-run or re-queried on 2026-11-20 against commit `31f3409`, or on 2026-11-21 where
-it says so (code suites, delegation round 4), and each one names the file or command that
+below was re-run or re-queried on 2026-11-20 against commit `31f3409`, or on 2026-11-21 or
+2026-11-22 where it says so (code suites, delegation rounds 4 and 5, the blind re-score, latency,
+tie-outs and the probe after the round 10 redeploy), and each one names the file or command that
 reproduces it.
 
 ## 1. Testing methodology

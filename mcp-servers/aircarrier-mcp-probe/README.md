@@ -16,9 +16,11 @@ For each target app, in order, as the probe's own service principal:
 
 The known answers: the docs server finds $13,529M printed on page 8 of the FY2027 MSAR (a
 regression check on a fixed defect); the analyst reports its engine; the ops server counts
-work register records above zero. MCP A Creator is checked through `tools_list`
-only, because its other tools write and deploy. The One Hub server (`mcp-aircarrier-hub`)
-must route the held $13,529M baseline to `human_review` through `hub_check_claim`.
+work register records above zero; MCP A Creator returns its 8 packaged skills from the
+read-only `creator_list_library` (it is never asked to design, write or deploy). The One Hub
+server (`mcp-aircarrier-hub`) must route the held $13,529M baseline to `human_review` through
+`hub_check_claim`. That check takes about 50 to 60 ms because the gate is deterministic rules
+over the decision log and per-hull totals held in memory: no model and no warehouse call.
 
 Each target app must grant the probe's service principal `CAN_USE`. The hub became a target
 on 2026-11-21. The bakehouse server was a target that day too, until its app was deleted to
