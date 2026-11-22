@@ -181,6 +181,10 @@ def test_http_app_answers_behind_the_apps_proxy():
             "Content-Type": "application/json"}
     with TestClient(mcp_server.http_app(), base_url=f"https://{host}") as c:
         assert c.get("/health").json()["tools"] == 16
+        landing = c.get("/")  # was a 404 for anyone opening the app's link
+        assert landing.status_code == 200
+        assert landing.json()["mcp_endpoint"] == "/mcp"
+        assert len(landing.json()["tools"]) == 16 and landing.json()["read_only"]
         init = {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {
             "protocolVersion": "2025-06-18", "capabilities": {},
             "clientInfo": {"name": "probe", "version": "1"}}}

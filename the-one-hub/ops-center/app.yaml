@@ -2,8 +2,11 @@
 # Source folder: the-one-hub/ops-center (this folder), because the server reads
 # core/, ops/agents/, seed/ and app/data/ beside mcp/. The front center is a
 # different app with its own app.yaml in app/.
-# MCP endpoint: https://<app-host>/mcp (stateless streamable HTTP). Health: /health.
+# MCP endpoint: https://<app-host>/mcp (stateless streamable HTTP). Landing: /. Health: /health.
 command: ["python", "mcp/mcp_server.py"]
 env:
   - name: PYTHONDONTWRITEBYTECODE
     value: "1"
+  # Shown as the owner on the landing page (/).
+  - name: APP_OWNER
+    value: xiaobing.shang1.civ@mail.mil
