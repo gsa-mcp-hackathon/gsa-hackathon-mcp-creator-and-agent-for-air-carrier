@@ -137,7 +137,10 @@ after the round 2 fixes. Round 4's 45 generated questions draw their subjects at
 from the source tables with templates Genie Code wrote; its 24 reviewed questions were
 drafted by Genie Code and reviewed and edited by the project owner. A seal proves the questions did not change after the run; it does
 not make the author independent. A set written by someone else would be a stronger test,
-and the protocol takes one unchanged: seal it, add its hash to `SEALED_SHA256`, run.
+and the protocol takes one unchanged: seal it, add its hash to `SEALED_SHA256`, run. Round 5 is
+that test: ten questions written by an external evaluator who is not a member of the project
+development team and took no part in building the MCP servers or preparing the model responses
+([round5/](round5/README.md)).
 
 ## Files
 

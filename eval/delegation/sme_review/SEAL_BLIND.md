@@ -11,8 +11,10 @@ project owner, outside this repository, until every rater's sheet is back; then
 
 ## Unblinded 2026-11-22
 
-One rater's sheet came back (`blind_sheet_AB.csv`, initials AB, a teammate who did not build the
-servers). The project owner decided to score with that sheet alone. The seed, revealed now:
+One rater's sheet came back (`blind_sheet_AB.csv`, initials AB). The reviewer is external to the
+project development team, is a different person from the Round 5 question author, and took no
+part in building the MCP servers or preparing the model responses (confirmed by the project owner,
+2026-11-22). The project owner decided to score with that sheet alone. The seed, revealed now:
 
 `hXGfy_th_qsJTjnwby6NmKgf`
 

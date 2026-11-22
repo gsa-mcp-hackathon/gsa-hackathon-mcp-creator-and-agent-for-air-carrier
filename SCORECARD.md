@@ -22,7 +22,9 @@ round 4, 69 sealed questions, three repeats, question-bootstrap 95% intervals
 | Claude Sonnet 4.5 | 183/207 = 88.4% (81.2 to 94.7) | 10/69 = 14.5% |
 | GPT-5 mini | 163/207 = 78.7% (70.0 to 86.5) | 1/69 = 1.4% |
 
-Round 5, ten sealed questions from an independent author, same runner and grader
+Round 5, ten sealed questions from an external evaluator who is not a member of the project
+development team and took no part in building the servers or preparing the model responses;
+same runner and grader
 ([`eval/delegation/round5/RESULTS.md`](eval/delegation/round5/RESULTS.md)):
 
 | Model | With tools | No tools |

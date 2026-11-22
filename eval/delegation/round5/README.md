@@ -1,7 +1,8 @@
 # Round 5: questions from an independent author
 
-Ten questions, answers and sources written by a teammate who did not build the tools
-(`questions_i5.csv`, sealed in [SEAL.md](SEAL.md)), run through the round 4 runner, grader,
+Ten questions, answers and sources written by an external evaluator who is not a member of the
+project development team and took no part in building the MCP servers or preparing the model
+responses (`questions_i5.csv`, sealed in [SEAL.md](SEAL.md)), run through the round 4 runner, grader,
 tools, models and repeats without changing them.
 
 | File | Purpose |

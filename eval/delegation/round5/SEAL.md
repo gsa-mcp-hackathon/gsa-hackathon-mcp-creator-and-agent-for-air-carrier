@@ -1,7 +1,8 @@
 # Round 5 seal
 
-Round 5 is ten questions written by a teammate who did not build the tools, without an AI
-assistant, before seeing the tool catalog (per the project owner, 2026-11-22). The author's
+Round 5 is ten questions written by an external evaluator who is not a member of the project
+development team and took no part in building the MCP servers or preparing the model responses,
+without an AI assistant, before seeing the tool catalog (per the project owner, 2026-11-22). The author's
 file arrived on 2026-11-22 at 01:08 ET and was hashed on receipt, before any tool or model saw
 it. The author did not email a hash first, so this receipt hash is the seal.
 
@@ -12,8 +13,13 @@ it. The author did not email a hash first, so this receipt hash is the seal.
 
 Author: Mr. Alpha Brax, PEO Office, 2026-11-22 (given by the project owner; the sealed file's
 provenance column carries no name, so it is recorded here rather than edited into the file).
-The returned blind review sheet carries the same initials, AB. If one person did both, the
-questions were written after that person had scored ten round 4 answer pairs.
+The sealed `questions_i5.json` calls the author "an independent author on the project owner's
+team": that means the owner's office, not the development team. The sealed bytes stay as they are.
+
+The blind review sheet also carries the initials AB. The project owner confirmed on 2026-11-22
+that the blind reviewer is a different person from the Round 5 author, also external to the
+development team. An earlier version of this file said one person might have done both; that
+was a caution written before the owner confirmed, and it is withdrawn.
 
 ## Checks before the run
 

@@ -52,7 +52,7 @@ one that cites a page, and that difference is part of what is being judged.
 
 ## Limits
 
-- The owner's review was not blind (a blind re-score by an outside rater followed on 2026-11-22: [BLIND_RESULTS.md](BLIND_RESULTS.md), 5.4 vs 1.0). The export showed which run had the servers, and answers without tools contain
+- The owner's review was not blind (a blind re-score by an external reviewer, outside the development team, followed on 2026-11-22: [BLIND_RESULTS.md](BLIND_RESULTS.md), 5.4 vs 1.0). The export showed which run had the servers, and answers without tools contain
   tool calls the model wrote out but never ran, so the two kinds are easy to tell apart.
 - One reviewer, ten questions, and the reviewer is the project owner.
 - One correction after scoring: U01 without tools was first entered as 2/2/2 and "rely: yes".
