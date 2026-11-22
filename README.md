@@ -376,7 +376,10 @@ Design choices that matter:
 
 - **State travels in the payload.** The MCP 2026-07-28 revision removed protocol
   sessions, so the design moves between calls as a twelve-character handle and the
-  server holds no session state.
+  server holds no session state. The deployed servers speak protocol 2025-11-25 on
+  FastMCP 3.4; CI also runs the Creator and a generated project on FastMCP 4.2
+  (protocol 2026-07-28) and checks that the two interoperate
+  ([versions](mcp-server-creator/README.md#which-fastmcp-and-protocol-versions)).
 - **Every parameter is a scalar, enum or list of strings**, so any model and client can
   fill it.
 - **Generated tools are typed and goal-shaped.** Column names come from an allowlist and

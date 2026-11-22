@@ -328,6 +328,26 @@ must call Databricks Model Serving inside the boundary.
 Databricks does not publish as unknown rather than guessing, and the review
 scores an `environment_fit` dimension against it.
 
+### Which FastMCP and protocol versions
+
+`scripts/check_compat.sh` runs the Creator's full suite, the generated bakehouse
+project's suite and an interop call on each version below. CI runs it on every push.
+
+| FastMCP | MCP SDK | Protocol the server speaks | Result (2026-11-21) |
+|---|---|---|---|
+| 3.4.11 (the floor) | 1.x | 2025-11-25 | Creator 677 of 677, bakehouse 21 of 21, interop ok |
+| 4.2.4 (current) | 2.3 | 2026-07-28 | Creator 677 of 677, bakehouse 21 of 21, interop ok |
+
+The interop call uses the MCP SDK 1.x client, the one the deployed servers and the
+probe use today. A FastMCP 4.2 server agrees with it on 2025-11-25, so moving a
+server to 4.x does not cut off older clients.
+
+The Creator package allows `fastmcp>=3.4,<5`. The deployed apps and generated
+projects pin `>=3.4,<4` until each app is redeployed on 4.x and probed. The hub
+is the one server that needs code changes first: it imports `mcp.server.fastmcp`,
+which MCP SDK 2 moved. The design follows the 2026-07-28 revision (no protocol
+sessions, state in the payload) on either wire version.
+
 ### One model-access pattern everywhere
 
 The servers this generates call no model at all: tools return data and the

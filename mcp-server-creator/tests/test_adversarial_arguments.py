@@ -96,7 +96,8 @@ def _baseline(schema: dict) -> dict:
 def _cases():
     cases = []
     for tool in _tools():
-        schema = tool.inputSchema or {}
+        # MCP SDK 2 renamed inputSchema to input_schema; read either.
+        schema = getattr(tool, "input_schema", None) or tool.inputSchema or {}
         props = schema.get("properties", {})
         if not props:
             cases.append((tool.name, {}, props, ""))
