@@ -1,17 +1,18 @@
 # Databricks Apps runtime configuration for mcp-aircarrier-docs.
 # MCP endpoint: https://<app-host>/mcp (stateless streamable HTTP). Health: /health.
 # src/ layout: both packages (docs_core, mcp_aircarrier_docs) go on the path.
-# Self-heal: if a stale fastmcp/mcp install shadows the pinned 3.x, wipe and reinstall.
+# Self-heal: if FastMCP cannot be imported (an in-place 2.x to 3.4 upgrade leaves
+# fastmcp/ without __init__.py), wipe fastmcp, fastmcp-slim and mcp and reinstall (finding 30).
 command:
   - /bin/sh
   - -c
   - >-
     export PYTHONPATH=/app/python/source_code/src:$PYTHONPATH &&
-    { python -c "import fastmcp" >/dev/null 2>&1 || {
+    { python -c "from fastmcp import FastMCP" >/dev/null 2>&1 || {
     SP=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])");
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --no-cache-dir --force-reinstall --no-deps
-    "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
+    "fastmcp-slim>=3.4,<4" "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
     python -m mcp_aircarrier_docs.app
 env:
   # Shown as the owner on the app's landing page ('/').

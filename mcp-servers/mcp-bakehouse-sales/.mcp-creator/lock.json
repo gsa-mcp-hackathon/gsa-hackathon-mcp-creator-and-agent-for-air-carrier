@@ -11,7 +11,7 @@
     "QUICKSTART.md": "b42094f343f83c19bb4a52d0d68cd3bad42da9c12243961fa82ca9432e4d3887",
     "README.md": "ab18adf9bc5ff5c967fbe8db0755ca5be8b9f141dbdaa3855f7ad2b1f944588e",
     "SECURITY.md": "f864e95e896899f916063ffcf494876c80cf4a1f9b07dd9dd8fe40ef7df12cb2",
-    "app.yaml": "1942b032e686084791f8a9d7be20a9709cc0a421b5b63322a0fdd7502745276c",
+    "app.yaml": "03c84b28696464d4face1ce80cc4dcfa4f0315abd6edc5f56866a1cba1de3bcb",
     "databricks.yml": "6bf763e48826e2d3e33c97959a30db8f42ec3f2dac609ed9fd8cdc5ca3bf2d36",
     "deploy/databricks/.env.example": "421f6c5ecb6fc5277d53e7f12e18be7b0738e0b4a51d67cfa25d8475ff26fc1b",
     "deploy/databricks/README.md": "2a0be18fcd9c76abf19239c9daf9da07642a4a17ea8ae5d6a6f121b47e263c76",
