@@ -31,6 +31,10 @@ from mcp_server_creator.utils import (
 # reports instruction text found in a tool result (see its docstring).
 _SOURCE_NOTICE = Path(__file__).resolve().parent.parent / "source_notice.py"
 SOURCE_NOTICE_MODULE = _SOURCE_NOTICE.read_text(encoding="utf-8")
+# Copied as error_contract.py: marks a result whose body reports an error as
+# isError, so clients and graders do not count a failure as a success.
+_ERROR_CONTRACT = Path(__file__).resolve().parent.parent / "error_contract.py"
+ERROR_CONTRACT_MODULE = _ERROR_CONTRACT.read_text(encoding="utf-8")
 
 APP_MODULE = '''"""MCP server entry point.
 
@@ -45,7 +49,7 @@ import os
 
 from fastmcp import FastMCP
 
-from {{package}} import source_notice
+from {{package}} import error_contract, source_notice
 from {{package}}.config import settings
 from {{package}}.prompts import register_prompts
 from {{package}}.resources import register_resources
@@ -67,6 +71,7 @@ mcp = FastMCP(
 )
 
 mcp.add_middleware(source_notice.SourceNoticeMiddleware())
+mcp.add_middleware(error_contract.ErrorContractMiddleware())
 register_tools(mcp)
 register_prompts(mcp)
 register_resources(mcp)
@@ -544,6 +549,7 @@ def package_files(spec: ServerSpec) -> dict[str, str]:
         "app.py": render(APP_MODULE, values),
         "config.py": CONFIG_MODULE,
         "source_notice.py": SOURCE_NOTICE_MODULE,
+        "error_contract.py": ERROR_CONTRACT_MODULE,
         "routes.py": render(ROUTES_MODULE, values),
         "models.py": _models_module(spec),
         "prompts/__init__.py": render(PROMPTS_AGGREGATOR, values),
@@ -1239,7 +1245,7 @@ be trusted on anything.
 def _dependencies(spec: ServerSpec) -> list[str]:
     """Runtime dependencies for the generated server."""
     deps = [
-        "fastmcp>=3.2,<4",
+        "fastmcp>=3.4,<4",
         "pydantic>=2.0.0",
         "pydantic-settings>=2.0.0",
     ]

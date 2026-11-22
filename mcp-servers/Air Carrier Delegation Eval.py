@@ -32,7 +32,7 @@
 # COMMAND ----------
 
 # DBTITLE 1,Install MCP client
-# MAGIC %pip install -q "fastmcp>=3.2,<4"
+# MAGIC %pip install -q "fastmcp>=3.4,<4"
 # MAGIC dbutils.library.restartPython()
 
 # COMMAND ----------

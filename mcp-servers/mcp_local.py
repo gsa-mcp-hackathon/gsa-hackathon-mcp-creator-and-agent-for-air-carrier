@@ -36,7 +36,7 @@ Use
     mcp_local.call("docs", "docs_search", query="Cost Limitation Baseline", top_k=3)
     mcp_local.list_tools("ops")
 
-It needs fastmcp>=3.2,<4 in the session (the servers pin the same range).
+It needs fastmcp>=3.4,<4 in the session (the servers pin the same range).
 mcp-a-creator is excluded on purpose: it writes projects and deploys apps,
 and it should run only as itself.
 """
@@ -206,7 +206,7 @@ def load(name: str, spark=None, allow_writes: bool = False, isolate: bool = True
             import fastmcp  # noqa: F401
         except ImportError:
             raise ImportError("fastmcp is not installed in this session; install "
-                              "'fastmcp>=3.2,<4' 'mcp>=1.24,<2' (the range the servers pin)") from None
+                              "'fastmcp>=3.4,<4' 'mcp>=1.24,<2' (the range the servers pin)") from None
         if spark is None:
             from pyspark.sql import SparkSession
             spark = SparkSession.getActiveSession() or SparkSession.builder.getOrCreate()

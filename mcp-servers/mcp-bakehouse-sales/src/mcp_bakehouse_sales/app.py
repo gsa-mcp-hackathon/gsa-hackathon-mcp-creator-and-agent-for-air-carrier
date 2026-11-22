@@ -12,6 +12,7 @@ import os
 from fastmcp import FastMCP
 
 from mcp_bakehouse_sales.config import settings
+from mcp_bakehouse_sales.error_contract import ErrorContractMiddleware
 from mcp_bakehouse_sales.prompts import register_prompts
 from mcp_bakehouse_sales.resources import register_resources
 from mcp_bakehouse_sales.routes import register_routes
@@ -35,6 +36,7 @@ mcp = FastMCP(
 )
 
 mcp.add_middleware(SourceNoticeMiddleware())
+mcp.add_middleware(ErrorContractMiddleware())
 
 register_tools(mcp)
 register_prompts(mcp)

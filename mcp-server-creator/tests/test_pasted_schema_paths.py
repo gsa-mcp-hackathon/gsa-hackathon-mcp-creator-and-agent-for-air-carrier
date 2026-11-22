@@ -60,8 +60,10 @@ async def test_pasted_schema_still_rejects_unsafe_table_coordinates(coordinates)
                 "try_live_inspection": False,
                 **coordinates,
             },
+            raise_on_error=False,
         )
     body = result.structured_content
+    assert result.is_error  # error_contract: a refusal reaches the client as an error
     assert "Invalid Unity Catalog coordinates" in body["error"]
 
 
@@ -126,6 +128,8 @@ async def test_write_project_refuses_a_design_with_no_tools(tmp_path, monkeypatc
         result = await client.call_tool(
             "creator_write_project",
             {"destination": "local", "design_id": design_id, "dry_run": False},
+            raise_on_error=False,
         )
+    assert result.is_error
     assert result.structured_content["error"] == "The design has no tools yet."
     assert not any(tmp_path.iterdir())

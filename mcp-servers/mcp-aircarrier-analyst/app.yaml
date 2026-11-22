@@ -11,7 +11,7 @@ command:
     SP=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])");
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --no-cache-dir --force-reinstall --no-deps
-    "fastmcp>=3.2,<4" "mcp>=1.24,<2"; }; } &&
+    "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
     python -m mcp_aircarrier_analyst.app
 env:
   - name: DATABRICKS_WAREHOUSE_ID

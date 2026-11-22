@@ -22,6 +22,7 @@ from fastmcp import FastMCP
 
 from mcp_server_creator import examples
 from mcp_server_creator.config import settings
+from mcp_server_creator.error_contract import ErrorContractMiddleware
 from mcp_server_creator.prompts import register_prompts
 from mcp_server_creator.resources import register_resources
 from mcp_server_creator.routes import register_routes
@@ -73,6 +74,7 @@ mcp = FastMCP(
 
 mcp.add_middleware(TraceMiddleware())
 mcp.add_middleware(SourceNoticeMiddleware())
+mcp.add_middleware(ErrorContractMiddleware())
 warm_up()
 register_tools(mcp)
 register_prompts(mcp)

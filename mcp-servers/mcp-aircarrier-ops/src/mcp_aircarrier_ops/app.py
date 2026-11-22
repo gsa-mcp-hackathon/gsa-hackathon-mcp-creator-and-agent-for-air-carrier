@@ -12,6 +12,7 @@ import os
 from fastmcp import FastMCP
 
 from mcp_aircarrier_ops.config import settings
+from mcp_aircarrier_ops.error_contract import ErrorContractMiddleware
 from mcp_aircarrier_ops.prompts import register_prompts
 from mcp_aircarrier_ops.resources import register_resources
 from mcp_aircarrier_ops.routes import register_routes
@@ -45,6 +46,7 @@ mcp = FastMCP(
 )
 
 mcp.add_middleware(SourceNoticeMiddleware())
+mcp.add_middleware(ErrorContractMiddleware())
 
 register_tools(mcp)
 register_prompts(mcp)

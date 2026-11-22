@@ -134,9 +134,14 @@ async def _write(spec_json: str, **arguments) -> dict:
 
     async with Client(mcp) as client:
         result = await client.call_tool(
-            "creator_write_project", {"spec_json": spec_json, **arguments}
+            "creator_write_project",
+            {"spec_json": spec_json, **arguments},
+            raise_on_error=False,
         )
-    return result.structured_content or {}
+    body = result.structured_content or {}
+    # error_contract: a refusal arrives as isError, with its body intact.
+    assert result.is_error == bool(body.get("error")), body
+    return body
 
 
 @pytest.fixture
