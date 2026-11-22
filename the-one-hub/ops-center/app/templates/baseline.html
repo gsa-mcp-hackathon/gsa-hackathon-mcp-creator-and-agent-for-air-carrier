@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="phead">
- <div class="eyebrow">Baseline</div>
+ <div class="eyebrow">Cost · Estimate history and caps</div>
  <h1>Cost growth, and what it actually is</h1>
  <p class="lede">The estimate moved from $9,192.0M to ${{ "{:,.3f}".format(program.total_ship_estimate_usd_m) }}M
   across {{ hist.rows|length }} published estimates, about +{{ hist.net_movement_pct }}%. A product that draws one line

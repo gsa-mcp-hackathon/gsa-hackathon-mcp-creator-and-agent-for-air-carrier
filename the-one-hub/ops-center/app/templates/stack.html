@@ -58,7 +58,14 @@
 <section class="imp-band" id="evaluation">
  <div class="eyebrow">Evidence</div>
  <h2>How it was tested, and what each result does not show</h2>
- <div class="card" style="margin:0"><div class="tscroll"><table>
+ <div class="grid g4" style="margin-bottom:1rem">
+  {% for r in st.headline %}
+  <a class="kpi" href="{{ r.href }}" rel="noopener" target="_blank" style="text-decoration:none;color:inherit">
+   <div class="k">{{ r.k }}</div><div class="v" style="font-size:1.4rem">{{ r.v }}</div><div class="n">{{ r.n }}</div>
+  </a>
+  {% endfor %}
+ </div>
+ <div class="card" style="margin:0"><div class="tscroll" style="max-height:none"><table>
   <thead><tr><th>Measure</th><th>Result</th><th>What it does not show</th></tr></thead>
   <tbody>{% for e in st.evaluation %}<tr><td>{{ e.measure }}</td><td><b>{{ e.result }}</b></td><td class="muted">{{ e.not }}</td></tr>{% endfor %}</tbody>
  </table></div></div>
