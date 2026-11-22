@@ -32,6 +32,25 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))  # source_notice
 
+from hub_models import (
+    AnchorChainResult,
+    ChallengeTextResult,
+    CheckClaimResult,
+    CollectionRequirementResult,
+    CorpusStatusResult,
+    GapRow,
+    HazardsResult,
+    KeysetResult,
+    MechanismsResult,
+    NextWorkResult,
+    PlanGapResult,
+    RankGapsResult,
+    SearchCorpusResult,
+    TableListResult,
+    TableResult,
+    TieOutResult,
+)
+
 from core.contracts import Claim, Coordinate, Tag, Zone
 from core.contracts.risk import RiskFlag
 from core.policy.decisions import evaluate
@@ -443,31 +462,35 @@ def _pairs(labels: list[str], amounts: list[str], what: str) -> dict[str, str]:
     return dict(zip(labels, amounts, strict=True))
 
 
-def hub_list_tables() -> dict:
+def hub_list_tables() -> TableListResult:
     """Every table the One Hub serves: program, cost_categories, funding_streams,
     obligations, contracts, gaps, variances, cap_history and more. Each carries a
     'source' field naming the document and section it comes from."""
     return list_tables()
 
 
-def hub_get_table(name: TableName) -> dict:
+def hub_get_table(name: TableName) -> TableResult:
     """One table with its rows and its source attribution, e.g. cost_categories
     (the P-5c decomposition) or cap_history (the statutory cap and its increments)."""
-    return _ok(get_table(name))
+    table = _ok(get_table(name))
+    # A few tables are stored as a bare list (timeline); every table answers
+    # as an object, so the output schema holds for all of them.
+    return {"rows": table} if isinstance(table, list) else table
 
 
 def hub_search_mechanisms(
     query: Annotated[str, Field(min_length=2, max_length=200,
                                 description="A word or phrase, e.g. 'outlay' or 'change orders'.")],
-    limit: Annotated[int, Field(ge=1, le=50)] = 8,
-) -> dict:
+    limit: Annotated[int, Field(ge=1, le=50, description="Most rules to return.")] = 8,
+) -> MechanismsResult:
     """Rules about how carrier money works: where to look, when a value is
     impossible, why two layers differ. Not figures. Query before interpreting
     a document you have not read before."""
     return search_mechanisms(query, limit)
 
 
-def hub_get_keyset(section: KeysetSection = "") -> dict:
+def hub_get_keyset(section: Annotated[KeysetSection, Field(description=(
+        "One section, e.g. collisions; empty for all."))] = "") -> KeysetResult:
     """The identifiers that isolate CVN-79: hull, budget lines, contracts, vendor,
     ledger, scope boundary. Read 'collisions' before building any contract query:
     some contract numbers differ from CVN-79's by one digit and belong to other hulls."""
@@ -477,7 +500,7 @@ def hub_get_keyset(section: KeysetSection = "") -> dict:
 def hub_exhibit_hazards(
     exhibit: Annotated[str, Field(max_length=32, pattern=r"^[A-Za-z0-9 .\-]*$",
                                   description="An exhibit, e.g. P-5 or P-8a; empty for all.")] = "",
-) -> dict:
+) -> HazardsResult:
     """Known traps for a budget or acquisition exhibit (P-1, P-5, P-8a, P-10, P-21,
     the MSAR contract table, USAspending transactions). Every extraction from that
     exhibit inherits them."""
@@ -485,28 +508,29 @@ def hub_exhibit_hazards(
 
 
 def hub_rank_gaps(
-    limit: Annotated[int, Field(ge=1, le=100)] = 10,
+    limit: Annotated[int, Field(ge=1, le=100, description="Most gaps to return.")] = 10,
     free_only: Annotated[bool, Field(description="Only gaps that need no access to close.")] = False,
-) -> dict:
+) -> RankGapsResult:
     """The open questions blocking the CVN-79 number, ranked by exposure,
     ignorance and closability. High-exposure gaps that need access are the
     access ask; the free ones are the work queue."""
     return rank_gaps(limit, free_only)
 
 
-def hub_get_gap(gap_id: GapId) -> dict:
+def hub_get_gap(gap_id: GapId) -> GapRow:
     """One gap: its question, type, the office that can close it, its dollar
     exposure and what it blocks."""
     return _ok(get_gap(gap_id))
 
 
-def hub_plan_gap(gap_id: GapId) -> dict:
+def hub_plan_gap(gap_id: GapId) -> PlanGapResult:
     """What to do about one gap: candidate explanations and, for each, a Collection
     Requirement naming the document, system or office that settles it. Never a figure."""
     return _ok(plan_gap(gap_id))
 
 
-def hub_next_work(limit: Annotated[int, Field(ge=1, le=20)] = 5) -> dict:
+def hub_next_work(limit: Annotated[int, Field(ge=1, le=20, description=(
+        "Most items per list (work now, access to ask for)."))] = 5) -> NextWorkResult:
     """The top of the gap queue with a first step for each, split into work that
     needs no access and the access to ask for."""
     return next_work(limit)
@@ -543,7 +567,7 @@ def hub_check_claim(
     neighborhood: Annotated[str, Field(max_length=4000, description="The text around the figure.")] = "",
     notes: Annotated[str, Field(max_length=2000, description=(
         "Anything else about how the figure was found."))] = "",
-) -> dict:
+) -> CheckClaimResult:
     """Check a candidate figure against the decision log and the gate before it is
     treated as a figure. Returns the policy violations (each naming its D-number),
     the risk flags and the routing decision with its reason. Never promotes: a
@@ -559,8 +583,9 @@ def hub_check_claim(
 def hub_challenge_text(
     text: Annotated[str, Field(min_length=1, max_length=20000,
                                description="A passage to test before trusting it.")],
-    subject: Annotated[str, Field(min_length=3, max_length=16)] = "CVN-79",
-) -> dict:
+    subject: Annotated[str, Field(min_length=3, max_length=16, description=(
+        "The hull the passage should be about; other hulls are flagged."))] = "CVN-79",
+) -> ChallengeTextResult:
     """Run the falsification vocabulary over a passage: wrong platform, wrong hull,
     identifier collision, announcement-derived figures, unusable outlay fields."""
     return challenge_text(text, subject)
@@ -570,7 +595,7 @@ def hub_tie_out(
     total: Amount,
     axis_a_labels: Labels, axis_a_amounts: Amounts,
     axis_b_labels: Labels, axis_b_amounts: Amounts,
-) -> dict:
+) -> TieOutResult:
     """Close one total on two independent decompositions, e.g. the P-5c by cost
     category (axis a) and by funding stream (axis b). Exact decimals, no model;
     passes only when both close to the exhibit's rounding ($500 on a $M exhibit)."""
@@ -579,7 +604,7 @@ def hub_tie_out(
 
 
 def hub_check_anchor_chain(step_labels: Labels, step_amounts: Amounts,
-                           expected_total: Amount) -> dict:
+                           expected_total: Amount) -> AnchorChainResult:
     """Check that named increments, starting from an anchor such as the statutory
     cap, add up exactly to a published total."""
     pairs = _pairs(step_labels, step_amounts, "steps")
@@ -589,11 +614,18 @@ def hub_check_anchor_chain(step_labels: Labels, step_amounts: Amounts,
 def hub_collection_requirement(
     lead: Annotated[str, Field(min_length=3, max_length=2000,
                                description="What to retrieve, in one instruction.")],
-    gap_id: Annotated[str, Field(max_length=4, pattern=r"^$|^[Gg]\d{1,3}$")] = "",
-    target_document: Short = "", target_system: Short = "", target_office: Short = "",
-    period: Annotated[str, Field(max_length=40)] = "",
-    account: Annotated[str, Field(max_length=60)] = "",
-) -> dict:
+    gap_id: Annotated[str, Field(max_length=4, pattern=r"^$|^[Gg]\d{1,3}$", description=(
+        "The gap it serves, e.g. G14; empty if none."))] = "",
+    target_document: Annotated[Short, Field(description=(
+        "The document that settles it, e.g. 'PB2027 SCN J-book'."))] = "",
+    target_system: Annotated[Short, Field(description=(
+        "The system that holds it, e.g. 'DCAS' or 'Navy ERP'."))] = "",
+    target_office: Annotated[Short, Field(description=(
+        "The office that can answer, e.g. 'PMS 379'."))] = "",
+    period: Annotated[str, Field(max_length=40, description="e.g. FY2016 or 'Q3 FY2025'.")] = "",
+    account: Annotated[str, Field(max_length=60, description=(
+        "A Treasury account or line item, e.g. 017-1611."))] = "",
+) -> CollectionRequirementResult:
     """Draft a Collection Requirement from a lead: what to retrieve, from which
     document, system or office, for which period and account. At least one target
     is required. Drafts only; nothing is stored."""
@@ -602,20 +634,22 @@ def hub_collection_requirement(
 
 
 def hub_search_corpus(
-    query: Annotated[str, Field(min_length=2, max_length=300)],
-    k: Annotated[int, Field(ge=1, le=20)] = 6,
+    query: Annotated[str, Field(min_length=2, max_length=300, description=(
+        "Words to find, e.g. 'Cost Limitation Baseline'."))],
+    k: Annotated[int, Field(ge=1, le=20, description="Most passages to return.")] = 6,
     authoritative_only: Annotated[bool, Field(description=(
         "Keep true for anything that could become a figure: with it off, summaries "
         "outrank the documents they summarise."))] = True,
-    artifact_id: Annotated[str, Field(max_length=64, pattern=r"^[A-Za-z0-9_.\-]*$")] = "",
+    artifact_id: Annotated[str, Field(max_length=64, pattern=r"^[A-Za-z0-9_.\-]*$", description=(
+        "Search one document only, by its id from a previous hit."))] = "",
     figures_only: Annotated[bool, Field(description="Only passages that contain dollar amounts.")] = False,
-) -> dict:
+) -> SearchCorpusResult:
     """Search the document knowledge base. Every hit carries its page citation; a
     passage is a lead until it is read in place on the cited page."""
     return _ok(search_corpus(query, k, authoritative_only, artifact_id or None, figures_only))
 
 
-def hub_corpus_status() -> dict:
+def hub_corpus_status() -> CorpusStatusResult:
     """What the knowledge base holds and what it leaves out by design (structured
     tables and images)."""
     return corpus_status()

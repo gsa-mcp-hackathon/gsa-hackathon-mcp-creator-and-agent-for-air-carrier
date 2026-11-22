@@ -289,3 +289,22 @@ def test_the_probe_known_answer_is_unchanged(srv):
                     element="Total Ship Estimate", period="FY2027 PB", value_musd="13529",
                     tag="VERIFIED", confidence=0.9)
     assert ok and out["decision"] == "human_review", out
+
+
+# ------------------------------------- round 10 (A2): every hub tool says what it returns
+def test_every_tool_declares_an_output_schema_and_describes_every_parameter(tools):
+    assert all(t.outputSchema for t in tools.values()), [
+        n for n, t in tools.items() if not t.outputSchema]
+    bare = [(n, k) for n, t in tools.items()
+            for k, v in (t.inputSchema or {}).get("properties", {}).items()
+            if not v.get("description")]
+    assert not bare, bare
+
+
+def test_every_table_validates_against_its_output_schema(srv):
+    failing = []
+    for name in mcp_server.list_tables()["tables"]:
+        ok, out = _call(srv, "hub_get_table", name=name)
+        if not ok:
+            failing.append((name, out[:120]))
+    assert not failing, failing
