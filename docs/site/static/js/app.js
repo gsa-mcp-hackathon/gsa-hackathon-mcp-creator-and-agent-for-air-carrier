@@ -566,9 +566,13 @@ function usd(s) {
           h += md(j.answer || '(no answer)');
           history.push({ role: 'user', content: text }, { role: 'assistant', content: j.answer || '' });
         }
+        var tr = j.transport || {};
+        var via = tr.kind === 'mcp' ? ' · via MCP: ' + esc((tr.servers || []).join(', '))
+          : (tr.note ? ' · in-app tools (' + esc(tr.note) + ')' : '');
         if (j.trace && j.trace.length) h += '<details class="trace"><summary>' + j.trace.length +
-          ' tool call' + (j.trace.length > 1 ? 's' : '') + ' · ' + esc(j.model || '') + ' · ' + j.seconds + 's</summary>' +
-          j.trace.map(function (t) { return '<div class="mono">' + (t.ok ? '✓ ' : '✗ ') + esc(t.tool) + ' ' +
+          ' tool call' + (j.trace.length > 1 ? 's' : '') + ' · ' + esc(j.model || '') + ' · ' + j.seconds + 's' + via + '</summary>' +
+          j.trace.map(function (t) { return '<div class="mono">' + (t.ok ? '✓ ' : '✗ ') +
+            (t.server ? '<span class="muted">' + esc(t.server) + '</span> ' : '') + esc(t.tool) + ' ' +
             esc(JSON.stringify(t.args)) + (t.note ? ' <span class="muted">' + esc(t.note) + '</span>' : '') + '</div>'; }).join('') +
           '</details>';
         if (j.citations && j.citations.length) h += '<div class="cites">' + j.citations.slice(0, 12).map(function (c) {

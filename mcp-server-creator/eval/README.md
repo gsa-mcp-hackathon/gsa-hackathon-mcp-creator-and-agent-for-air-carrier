@@ -17,7 +17,7 @@ with `creator_load_document(name="mcp-evaluation-harness")`.
 ## 2. This server itself
 
 The creator's own quality question is different: can a model holding only
-these eight tool names and docstrings take a person from "I have data and a
+these ten tool names and docstrings take a person from "I have data and a
 job I do by hand" to a working server?
 
 ### What the test suite already covers

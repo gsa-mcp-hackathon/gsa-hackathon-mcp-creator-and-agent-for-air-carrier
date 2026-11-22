@@ -1,0 +1,77 @@
+# Headline figures, one place. scripts/check_numbers.py (run by check.sh evidence)
+# fails when a document still carries a figure listed under `retired`, or when a
+# file listed under `required` no longer says what this file says. Update here
+# first, then the documents. Measured 2026-11-21 on round 10 (branch round10).
+
+code_suites:
+  passed: 1641          # scripts/check.sh, every project, clean clone
+  skipped: 5            # One Hub tests that need a live Spark session
+  hostile_cases: 825    # of the 1,641: both adversarial sweeps (423 + 402)
+  evidence_tests: 36    # round 4 grader and runner tests in the evidence step
+  by_project:
+    creator: 677        # includes 402 hostile-input cases
+    ops: 40
+    bakehouse: 21
+    docs: 55
+    analyst: 39
+    probe: 11
+    mcp_local: 23
+    source_notice: 23
+    error_contract: 9
+    shared_sweep: 423
+    one_hub: 320
+
+servers:
+  count: 6
+  tools: 63             # Creator 10, docs 11, analyst 12, ops 7, hub 16, bakehouse 7
+  read_tools: 30        # docs, analyst, ops: the delegation and shared-sweep catalog
+
+hostile_inputs:         # files: mcp-servers/adversarial_summary.json,
+                        #        mcp-server-creator/tests/adversarial_summary.json
+  read_servers: {calls: 421, refused: 340, answered: 81, statements: 169, bound: 124, writes: 0, pasted: 0}
+  creator: {calls: 400, refused_by_validation: 147, refused_by_tool: 217, answered: 36}
+
+tie_outs:
+  store_before_round10: "7,703 of 7,712"      # 34 documents, stored tables, 2026-11-21
+  local_after_round10: "7,690 of 7,693"       # 22 SCN books re-extracted, 3 within rounding
+  file: docs/submission/evidence/tieout_rerun_2026-11-21.json
+
+findings: 26
+
+retired:                 # figures that must not appear as current anywhere checked
+  - "1,094 passed"
+  - "1,194 passed"
+  - "1,194 tests"
+  - "814 of 818"
+  - "330 refused"
+  - "91 answered"
+  - "172 statements"
+  - "60 tools"
+  - "263 passed"
+  - "258 tests"
+  - "16 tools, stdio"
+  - "these eight tool names"
+  - "421-call"
+  - "302 passed"
+
+checked:                 # where retired figures are looked for
+  - README.md
+  - SCORECARD.md
+  - docs/IMPACT.md
+  - docs/submission/EVALUATION.md
+  - mcp-server-creator/README.md
+  - mcp-server-creator/eval/README.md
+  - mcp-server-creator/SECURITY.md
+  - mcp-servers/mcp-aircarrier-docs/README.md
+  - mcp-servers/mcp-aircarrier-ops/README.md
+  - mcp-servers/mcp-aircarrier-analyst/README.md
+  - the-one-hub/ops-center/app/data/curated/stack.json
+  - the-one-hub/ops-center/app/data/curated/impact_path.json
+  - docs/site/stack/index.html
+  - docs/site/impact/index.html
+
+required:                # each file must contain each phrase
+  README.md: ["1,641", "63 tools", "421 hostile calls", "7,690 of 7,693"]
+  SCORECARD.md: ["7,690 of 7,693", "400 hostile calls"]
+  docs/submission/EVALUATION.md: ["1,641", "421 hostile calls"]
+  the-one-hub/ops-center/app/data/curated/stack.json: ["1,641 passed"]

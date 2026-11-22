@@ -6,19 +6,21 @@ Every claim can be re-run with [`scripts/check.sh`](../../scripts/check.sh).
 ## Where it stands
 
 `scripts/check.sh` from a clean clone, on Python 3.11 and 3.12 in CI:
-**1,194 passed, 6 skipped, 0 failed** (checked 2026-11-21).
+**1,641 passed, 5 skipped, 0 failed** (checked 2026-11-21, round 10; figures in
+[`docs/numbers.yaml`](../numbers.yaml)).
 
 | Project | Result |
 | --- | --- |
-| Creator | 263 passed, 1 skipped (bandit not installed) |
+| Creator | 677 passed: 275 tests and a 402-case sweep of hostile input into all 10 tools (400 calls, nothing escaped, nothing written outside its root) |
 | Air Carrier ops | 40 passed |
-| Air Carrier docs | 50 passed |
+| Air Carrier docs | 55 passed |
 | Air Carrier analyst | 39 passed |
 | Probe | 11 passed |
-| Bakehouse (generated) | 21 passed (the generated weather server was removed 2026-11-21) |
-| `mcp_local.py`, source notice and the adversarial sweep | 23, 23 and 422 passed: 421 hostile calls against all 30 tools, 330 refused, none wrote, none pasted an argument into SQL |
-| One Hub | 302 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
-| Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 36 round 4 grader and runner tests pass |
+| Bakehouse (rebuilt by the Creator on 2026-11-21) | 21 passed |
+| `mcp_local.py`, source notice, error contract and the adversarial sweep | 23, 23, 9 and 423 passed: 421 hostile calls against all 30 read tools, 340 refused, none wrote, none pasted an argument into SQL |
+| One Hub | 320 passed, 5 skipped (need a live Spark session); six script suites and lint pass |
+| Evidence | No broken relative links; both `RESULTS.md` files match the logged runs; 36 round 4 grader and runner tests pass; no pilot workspace names in runtime code; headline figures match `docs/numbers.yaml` |
+| CI only | `pip-audit` on every deployed server's requirements |
 
 Delegation evaluation, 12 new sealed questions after the fixes: 50 of 72 with the tools
 (69.4%), 1 of 24 without. Full account, including the misses that remain:
@@ -86,6 +88,7 @@ pinned by a test that fails on the old code.
 | 24 | Medium | The committed bakehouse server was the Creator's output from before its fixes: `mcp_` tool names and a tool that summed transaction IDs. Regenerating it from the same purpose and questions found three defects in the current Creator: "top 5 best-selling products by quantity" became one total (the ranking pattern did not read hyphenated words, and the review did not flag a ranking answered by a total); "average ticket size" was refused (no synonym for a sale amount); a pasted sample made every column a closed-set candidate, transaction IDs included (2026-11-21) | Hyphenated words read in rankings; "ticket" maps to the sale amount; only categories are closed-set candidates; the review flags a ranking question mapped to a single total and accepts an aggregate tool for "how many and what average" (it returns both). Four regression tests. Bakehouse regenerated through the Creator's own tools: 7 tools (was 4), every recorded question answered, review "Sound design", 4.6 of 5, 66 files with a lock, written in 0.33 s; its golden answers are computed in the workspace |
 | 25 | Medium | "Same specification, byte-identical files" held only inside one process: the generated `tests/test_server.py` listed tool names from a set, whose order follows the process's hash seed, so two runs of the Creator wrote different bytes. The determinism test generated twice in one process and could not see it; rebuilding the bakehouse in a second process did (2026-11-21) | Names written sorted. `test_two_processes_generate_identical_files` generates in two subprocesses with different hash seeds and compares every file; it fails on the old code. `mcp-server-creator/eval/rebuild_bakehouse.py` rebuilds the bakehouse through the Creator's tools in 0.38 s, identical across processes |
 | 26 | Medium | The README said the front center orchestrates the MCP servers; in code its agents read the stores through in-app tools and called no MCP server (2026-11-21, round 9 assessment) | Ask the evidence is an MCP host (`app/api/mcp_host.py`, `AIRCARRIER_ASK_VIA_MCP=1`): it lists the docs, ops and hub servers' 34 tools, offers them to the model and sends each call to its server as the app's service principal, with the probe's rule that the token goes only to an https Databricks Apps host at `/mcp`. The page shows "via MCP" and the server behind each step; with no server reachable it falls back to the in-app tools and says so. `checks/test_mcp_host.py`, 10 tests. The README now says what each agent uses |
+| 27 | Medium | The live front center's Stack and Impact pages and the published site still said "1,094 passed" and "814 of 818" after both had changed; the Creator README said 258 tests and its evaluation README "these eight tool names"; the README diagram showed the hub as stdio only; the sweep was called 421 and 422 in different places. Each figure was typed into each document (2026-11-21, round 9 assessment) | `docs/numbers.yaml` holds the current figures, the retired ones and where to look; `scripts/check_numbers.py`, run by `check.sh evidence`, fails on a retired figure in 14 checked files or a missing current one; the sweep counts come from generated summary files; documents, curated pages and the static site updated |
 
 ## Fresh clone
 

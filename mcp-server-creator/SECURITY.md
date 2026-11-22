@@ -31,10 +31,15 @@ Security researchers shall:
 
 ## This server's posture
 
-Seven of the eight tools are read-only. The eighth, `creator_write_project`,
-writes files and is off unless an operator sets both `CREATOR_ALLOW_WRITE`
-and `CREATOR_OUTPUT_ROOT`; every path is then resolved inside that root,
-traversal and absolute paths are refused, and the default is a dry run.
+Eight of the ten tools only read or compute. `creator_write_project` writes
+files and is off unless an operator sets both `CREATOR_ALLOW_WRITE` and
+`CREATOR_OUTPUT_ROOT`; every path is then resolved inside that root, traversal
+and absolute paths are refused, and the default is a dry run.
+`creator_deploy_server` deploys only with an approval token bound to the
+reviewed design, app name, grants and files. Every string input is capped and
+`tests/test_adversarial_arguments.py` sends hostile values into every parameter
+of all ten tools with writing on (400 calls; nothing escapes, nothing is
+written outside the root). A failure reaches the client as `isError`.
 
 No tool accepts an absolute URL, a raw SQL string, or a filesystem path.
 `tests/test_security.py` asserts this, so adding one breaks CI on purpose.

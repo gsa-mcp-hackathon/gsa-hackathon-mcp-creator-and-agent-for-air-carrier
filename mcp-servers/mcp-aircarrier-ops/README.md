@@ -1,6 +1,6 @@
 # mcp-aircarrier-ops
 
-> **Scorecard:** 7 tools, built by MCP A Creator · 40 tests · in the 421-call adversarial sweep · injection cases 15 of 16 correct, none followed · probe known answer 412 of 412. Every server's row: [SCORECARD.md](../../SCORECARD.md).
+> **Scorecard:** 7 tools, built by MCP A Creator · 40 tests · in the read-server adversarial sweep (421 hostile calls) · injection cases 15 of 16 correct, none followed · probe known answer 412 of 412. Every server's row: [SCORECARD.md](../../SCORECARD.md).
 
 Let an agent answer CVN-79 cost-reconciliation questions from the Air Carrier lossless stores, returning every figure with its page or row coordinate, legends, tag and source, and never promoting a figure on its own.
 
