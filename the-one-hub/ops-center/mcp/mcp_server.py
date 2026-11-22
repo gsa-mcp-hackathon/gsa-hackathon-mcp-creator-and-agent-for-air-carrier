@@ -33,6 +33,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))  # source_notice
 
 from core.contracts import Claim, Coordinate, Tag, Zone
+from core.contracts.risk import RiskFlag
 from core.policy.decisions import evaluate
 from core.policy.gate import route
 from ops.agents.challenger.run import challenge
@@ -151,12 +152,18 @@ def check_claim(hull: str, layer: str, element: str, period: str,
                 confidence: float = 0.0, source_system: str | None = None,
                 exhibit: str | None = None, column_header_chain: list | None = None,
                 page_legends: list | None = None, neighborhood: str = "",
-                notes: str = "") -> dict:
+                notes: str = "", page: int | None = None,
+                row_label: str | None = None) -> dict:
     """Evaluate a candidate figure against the decision log and the gate.
 
     This is the only route to a promotion decision, and it never promotes on
     its own. It returns the policy violations (each naming its D-number), the
     risk flags the challenger set, and the routing decision with its reason.
+
+    The caller sets the tag, so a VERIFIED tag is taken as a claim about the
+    figure, not as proof: without a source and a locator (a page for a
+    document, a row label for a record) it carries a METHOD flag and goes to
+    review.
     """
     import datetime
     c = Claim(claim_id="adhoc", hull=hull, layer=layer, element=element, period=period,
@@ -167,8 +174,14 @@ def check_claim(hull: str, layer: str, element: str, period: str,
               coordinate=Coordinate("adhoc", exhibit=exhibit,
                                     column_header_chain=column_header_chain or [],
                                     page_legends=page_legends or [],
-                                    neighborhood=neighborhood))
-    for flag, tell in challenge(c, subject=hull):
+                                    neighborhood=neighborhood, page=page,
+                                    row_label=row_label or None))
+    tells = challenge(c, subject=hull)
+    if c.tag is Tag.VERIFIED and not (source_system and (page is not None or row_label)):
+        tells.append((RiskFlag.METHOD,
+                      ("VERIFIED asserted without a source and a locator: name the "
+                       "source system and the page or record the figure was read from")))
+    for flag, _tell in tells:
         c.risk_flags.add(flag)
     violations = evaluate(c)
     r = route(c, violations)
@@ -177,7 +190,7 @@ def check_claim(hull: str, layer: str, element: str, period: str,
         "exposure_share": round(r.exposure_share, 4),
         "risk_flags": r.flags,
         "policy_violations": [{"decision": v.decision, "message": v.message} for v in violations],
-        "tells": [t for _f, t in challenge(c, subject=hull)],
+        "tells": [t for _f, t in tells],
         "note": "A routing decision, not a promotion. A person or a deterministic "
                 "rule acts on it. D13.",
     }
@@ -509,17 +522,27 @@ def hub_check_claim(
     period: Annotated[str, Field(min_length=1, max_length=40, description="e.g. FY2027 PB.")],
     value_musd: Annotated[str, Field(max_length=20, pattern=NUMBER_OR_EMPTY,
                                      description="The figure in $M as printed; empty if none.")] = "",
-    tag: TagName = "UNKNOWN",
-    confidence: Annotated[float, Field(ge=0.0, le=1.0)] = 0.0,
-    source_system: Short = "",
-    exhibit: Annotated[str, Field(max_length=40)] = "",
+    tag: Annotated[TagName, Field(description=(
+        "Your tag for the figure. VERIFIED counts only with source_system and a "
+        "page or row_label; UNKNOWN becomes a gap."))] = "UNKNOWN",
+    confidence: Annotated[float, Field(ge=0.0, le=1.0, description=(
+        "Your confidence in the figure, 0 to 1."))] = 0.0,
+    source_system: Annotated[Short, Field(description=(
+        "Where the figure was read, e.g. 'PB2027 SCN J-book' or 'USAspending'."))] = "",
+    exhibit: Annotated[str, Field(max_length=40, description=(
+        "The exhibit, e.g. P-5c; empty for a record."))] = "",
+    page: Annotated[int, Field(ge=0, le=100000, description=(
+        "PDF page the figure is printed on; 0 if not from a document."))] = 0,
+    row_label: Annotated[str, Field(max_length=200, description=(
+        "The row label as printed, or the record id for a table row."))] = "",
     column_header_chain: Annotated[list[Annotated[str, Field(max_length=200)]],
                                    Field(max_length=12, description="Column headers, outermost first.")] = (),
     page_legends: Annotated[list[Annotated[str, Field(max_length=200)]],
                             Field(max_length=12, description="Every legend printed on the page, "
                                                              "e.g. 'Dollars in Millions'.")] = (),
     neighborhood: Annotated[str, Field(max_length=4000, description="The text around the figure.")] = "",
-    notes: Annotated[str, Field(max_length=2000)] = "",
+    notes: Annotated[str, Field(max_length=2000, description=(
+        "Anything else about how the figure was found."))] = "",
 ) -> dict:
     """Check a candidate figure against the decision log and the gate before it is
     treated as a figure. Returns the policy violations (each naming its D-number),
@@ -529,7 +552,8 @@ def hub_check_claim(
                        value=float(value_musd) if value_musd else None, tag=tag,
                        confidence=confidence, source_system=source_system or None,
                        exhibit=exhibit or None, column_header_chain=list(column_header_chain),
-                       page_legends=list(page_legends), neighborhood=neighborhood, notes=notes)
+                       page_legends=list(page_legends), neighborhood=neighborhood, notes=notes,
+                       page=page or None, row_label=row_label or None)
 
 
 def hub_challenge_text(

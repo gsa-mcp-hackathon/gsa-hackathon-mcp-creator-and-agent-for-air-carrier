@@ -11,6 +11,11 @@
       "decision": "human_review"
     },
     {
+      "code": "R9",
+      "description": "the hull has no subject total",
+      "decision": "gap"
+    },
+    {
       "code": "R8",
       "description": "claim exceeds 100 percent of its own subject",
       "decision": "human_review"
