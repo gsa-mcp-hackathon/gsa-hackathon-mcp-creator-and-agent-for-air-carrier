@@ -30,30 +30,33 @@ Only the owning role, checked in Unity Catalog under the user's own sign-in, app
 
 ## Demo
 
-[![Two-minute demo: the MCP servers, the agents and the front center](docs/demo/air-carrier-two-minute-demo.jpg)](docs/demo/air-carrier-two-minute-demo.mp4)
+[![Demo videos: the solution in two minutes, and the full walkthrough](docs/demo/air-carrier-two-minute-demo.jpg)](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/)
 
-**Two minutes** (1:49, 1080p, narrated, subtitled). The full **16:13 walkthrough** scrolls every
-page and shows live agent runs; its chapters are below.
+| Video | Length | Watch |
+| --- | --- | --- |
+| **The solution in two minutes.** Impact and scope, then the apps, the MCP servers, the front center, a live agent run with a role check, and orchestration across servers | 2:09 | [Play in the browser](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-two-minute-demo.mp4) |
+| **The full walkthrough.** Every layer and every page, with live agent runs on the deployed apps | 14:45 | [Play with chapters](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-full-walkthrough.mp4) |
+
+Both are 1080p, narrated and captioned
+([two-minute .srt](docs/demo/air-carrier-two-minute-demo.srt), [walkthrough .srt](docs/demo/air-carrier-full-walkthrough.srt)).
 
 <details>
-<summary>Full walkthrough chapters (16:13)</summary>
+<summary>Full walkthrough chapters (14:45)</summary>
 
 | Time | Chapter |
 | --- | --- |
-| 0:00 | The problem, the architecture, seven apps on Databricks deployed from GitHub |
-| 2:12 | Six MCP servers and 63 tools; why MCP A Creator matters |
-| 3:59 | The stack and Impact; carrying the build to other DoD programs and other agencies |
-| 6:04 | Brief, the ship, Position |
-| 6:57 | A live specialist run with role-based approval; the six-stage workflow |
-| 8:38 | Cost, cost growth, execution, the gap register and a live Gap Investigator run |
-| 10:10 | Variance, asset valuation, industrial base |
-| 10:38 | Ask the evidence as an MCP host, the work queue, brief readiness, an Obligation Reconciler run |
-| 12:33 | Run log, detail table, sources, method, rules, coverage |
-| 13:33 | Answer a question: experts at headquarters and in the field |
-| 14:33 | The evaluation, production posture, close |
+| 0:00 | The problem and one solution in four layers |
+| 2:25 | Seven apps, six MCP servers, MCP A Creator |
+| 4:30 | The financial-control layer |
+| 5:01 | The front center: the stack, impact, the brief, the ship, position |
+| 7:14 | Agentic workflow, live: a specialist run and role-based approval |
+| 8:48 | Cost, execution, the gap register and a Gap Investigator run |
+| 10:10 | Agentic orchestration: Ask as an MCP host, the work queue, a reconciler run |
+| 11:45 | Records, sources, method, rules, coverage, and the experts |
+| 13:10 | How we know it works, security, close |
 
-Pages are from `main` at `073b269`; live agent runs were recorded 2026-11-21 with waits cut.
-Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-demo.srt).
+Live agent runs were recorded on the deployed apps on 2026-11-21, with waits cut. The other pages
+are the same app run from this repository. Narration is synthesized speech.
 </details>
 
 ## Try it
@@ -63,6 +66,7 @@ Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-d
 | Read-only site, every page | No | <https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/> |
 | Live front center | Databricks sign-in | <https://aircarrier-front-center-dev-7474654188777746.aws.databricksapps.com/> |
 | Run it on your laptop | No | [Two commands](#run-it-yourself) |
+| Demo videos with chapters | No | <https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/> |
 | Rater's map | No | [GSA criteria: where to look](#gsa-criteria-where-to-look) |
 | Deck and evaluation report | No | [Deck PDF](docs/submission/mcp-a-creator-one-hub-deck.pdf) · [Report PDF](docs/submission/evaluation-report.pdf) · [Word](docs/submission/evaluation-report.docx) · [PowerPoint](docs/submission/mcp-a-creator-one-hub-deck.pptx) |
 

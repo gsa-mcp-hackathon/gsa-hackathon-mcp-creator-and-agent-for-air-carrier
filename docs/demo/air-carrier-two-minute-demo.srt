@@ -1,0 +1,100 @@
+1
+00:00:00,350 --> 00:00:02,516
+MCP A Creator and the One Hub:
+
+2
+00:00:02,396 --> 00:00:08,925
+one solution for a question no office can answer today. What does a weapon system really cost?
+
+3
+00:00:09,650 --> 00:00:16,604
+The Department of Defense plans to spend more than 2.4 trillion dollars on its costliest weapon programs,
+
+4
+00:00:16,484 --> 00:00:20,118
+and has gone nine years without a clean audit opinion.
+
+5
+00:00:20,298 --> 00:00:23,636
+For one aircraft carrier, four official costs disagree.
+
+6
+00:00:24,350 --> 00:00:28,747
+Our answer has four layers: a creator that builds MCP servers,
+
+7
+00:00:28,627 --> 00:00:32,748
+servers that read the public record, an agent environment,
+
+8
+00:00:32,928 --> 00:00:36,109
+and a financial-control layer no model can override.
+
+9
+00:00:36,850 --> 00:00:45,294
+It runs today as seven Databricks apps, deployed from GitHub with one command: six MCP servers, with 63 tools.
+
+10
+00:00:46,017 --> 00:00:50,288
+MCP A Creator turns a question and a table into a tested,
+
+11
+00:00:50,168 --> 00:00:55,824
+governed server. Fifteen of fifteen generated projects pass their own tests.
+
+12
+00:00:56,550 --> 00:01:01,920
+The front center is where people use it. The Position page shows which figure to quote,
+
+13
+00:01:01,800 --> 00:01:06,084
+and walks from the cap to the budget, every number cited to its page.
+
+14
+00:01:06,817 --> 00:01:08,913
+Here an agent works a live question.
+
+15
+00:01:09,400 --> 00:01:14,842
+The orchestrator routes it to a specialist. Code packs the records in exact decimals,
+
+16
+00:01:14,722 --> 00:01:17,785
+a model explains, and code checks every number.
+
+17
+00:01:18,267 --> 00:01:22,738
+The agent only proposes. This user holds the program office role,
+
+18
+00:01:22,618 --> 00:01:26,955
+so the app refuses the proposal that Financial Operations owns.
+
+19
+00:01:27,135 --> 00:01:29,062
+Unity Catalog makes that call.
+
+20
+00:01:29,783 --> 00:01:35,219
+Ask the evidence orchestrates three MCP servers for one answer, and names every call.
+
+21
+00:01:35,950 --> 00:01:47,818
+Every figure is analyzed, reconciled, cited and gated by code. 7,743 of 7,746 budget tie-outs pass.
+
+22
+00:01:48,550 --> 00:01:53,438
+On an outside evaluator's questions, Claude answered 83 percent
+
+23
+00:01:53,318 --> 00:01:59,492
+with these servers, and 10 percent without. 1,770 tests pass from a clean clone.
+
+24
+00:02:00,217 --> 00:02:03,158
+The next program brings its data, not new software.
+
+25
+00:02:03,338 --> 00:02:08,332
+AI builds and explains. Code proves the number. The owning role decides.
+
