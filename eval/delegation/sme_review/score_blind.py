@@ -16,6 +16,7 @@ import argparse
 import csv
 import hashlib
 import itertools
+import re
 import statistics
 import sys
 from pathlib import Path
@@ -45,7 +46,12 @@ def weighted_kappa(x: list[int], y: list[int], k: int = 3) -> float | None:
 def unblind(path: Path, seed: str) -> dict:
     """{(qid, arm): {criterion: score, 'rely': bool}, ...} plus preferences."""
     scores, prefer = {}, {"with": 0, "without": 0, "none": 0}
-    for row in csv.DictReader(path.open(encoding="utf-8")):
+    raw = path.read_bytes()
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = raw.decode("cp1252")  # Excel on Windows saves CSV this way
+    for row in csv.DictReader(text.splitlines()):
         s = servers_side(seed, row["qid"])
         arm = {s: "with", ("B" if s == "A" else "A"): "without"}
         for side in "AB":
@@ -65,7 +71,7 @@ def main() -> None:
     args = ap.parse_args()
     if hashlib.sha256(args.seed.encode()).hexdigest() != args.hash.lower():
         sys.exit("The seed does not match the recorded hash; nothing unblinded.")
-    raters = {p.stem.replace("blind_sheet_", ""): unblind(p, args.seed) for p in args.sheets}
+    raters = {re.sub(r"^blind_sheet[_ ]*", "", p.stem): unblind(p, args.seed) for p in args.sheets}
 
     lines = ["# Blind subject-matter review", "",
              (f"Raters: {len(raters)}. Ten answer pairs, shown as A and B; a seed recorded by "

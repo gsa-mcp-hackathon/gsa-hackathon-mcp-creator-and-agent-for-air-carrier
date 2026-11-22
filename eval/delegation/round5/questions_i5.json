@@ -1,0 +1,213 @@
+{
+ "question_set": "i5",
+ "written": "2026-11-22",
+ "written_against": "nothing: written by a teammate who did not build the tools, without an AI assistant, before seeing the tool catalog (per the project owner)",
+ "grader": "eval/delegation/round4/grade.py (v2)",
+ "sets": {
+  "independent": {
+   "count": 10,
+   "csv_sha256": "320f74e59b9b323db0843d0035bd4029c655a5eadf41a03413bdace1b13e898a",
+   "written_by": "an independent author on the project owner's team"
+  }
+ },
+ "scoring": "A run passes when grade(answer, expect)['passed'] is true. Every field in expect must pass.",
+ "questions": [
+  {
+   "qid": "I01 exhibit",
+   "template": null,
+   "category": "exhibit",
+   "question": "On the PB 2020 SCN P-5c Ship Cost Analysis exhibit for Carrier Replacement Program (P-1 line 2001), what Plan Costs amount is shown for CVN 79 (FY 2013 hull)?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "880.078"
+     }
+    ]
+   },
+   "source": "FY2020 SCN Justification Book, Exhibit P-5c, Carrier Replacement Program, page 3 of 30 (Volume 1, page 15), FY2013 column; https://www.secnav.navy.mil/fmc/fmb/Documents/20pres/SCN_Book.pdf",
+   "reference_answer": "The Plan Costs figure is $880.078 million.",
+   "set": "independent"
+  },
+  {
+   "qid": "I02 exhibit",
+   "template": null,
+   "category": "exhibit",
+   "question": "What Total Ship Estimate does the PB 2021 SCN P-5c report for CVN 79 in the FY 2013 hull column?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "11397.712"
+     }
+    ]
+   },
+   "source": "FY2021 SCN Justification Book, Exhibit P-5c, Carrier Replacement Program, page 3 of 32 (Volume 1, page 33), Total Ship Estimate row, FY2013 column; https://www.secnav.navy.mil/fmc/fmb/Documents/21pres/SCN_Book.pdf",
+   "reference_answer": "$11,397.712 million.",
+   "set": "independent"
+  },
+  {
+   "qid": "I03 exhibit",
+   "template": null,
+   "category": "exhibit",
+   "question": "In the PB 2023 SCN P-5c, how much did the Navy increase CVN 79's Basic Construction/Conversion and Change Orders estimates compared with the PB 2022 submission, and what reasons did the Navy give?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "588.5"
+     },
+     {
+      "kind": "musd",
+      "value": "125.0"
+     }
+    ],
+    "texts": [
+     "overrun",
+     "rollover|roll-over"
+    ]
+   },
+   "source": "FY2023 SCN Justification Book, Exhibit P-5c, Carrier Replacement Program, page 4 of 42 (Volume 1, page 38), CVN 79 remarks; https://www.secnav.navy.mil/fmc/fmb/Documents/23pres/SCN_Book.pdf",
+   "reference_answer": "Basic Construction/Conversion increased by $588.5 million to support the Government-responsible portion of the shipbuilding contract overrun. Change Orders increased by $125.0 million to support additional requirements arising from technical rollover issues and fact-of-life changes.",
+   "set": "independent"
+  },
+  {
+   "qid": "I04 exhibit",
+   "template": null,
+   "category": "exhibit",
+   "question": "According to the PB 2024 SCN P-5c remarks, what did the Navy realign within CVN 79's estimate, and what changes drove the 24-month extension to the DD&C contract?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "42.3"
+     }
+    ],
+    "texts": [
+     "radar",
+     "JSF|F-35|Joint Strike Fighter"
+    ]
+   },
+   "source": "FY2024 SCN Justification Book, Exhibit P-5c, Carrier Replacement Program, page 3 of 40 (Volume 1, page 39), CVN 79 remarks; https://www.secnav.navy.mil/fmc/fmb/Documents/24pres/SCN_Book.pdf",
+   "reference_answer": "The Navy realigned $42.3 million from Basic Construction: $9.1 million to Plans, $21.7 million to Change Orders, a $0.3 million reduction to Electronics, $0.4 million to HM&E, and $11.4 million to Other Costs. The single-phase contract modification added 24 months to incorporate a new radar suite, JSF modifications, and resolution of technical items discovered late in the CVN 78 program.",
+   "set": "independent"
+  },
+  {
+   "qid": "I05 exhibit",
+   "template": null,
+   "category": "exhibit",
+   "question": "The PB 2026 SCN P-5c states that CVN 79's estimate increased by $260 million from PB 2025. What work does the Navy say this increase supports?",
+   "expect": {
+    "texts": [
+     "water twister",
+     "weapons elevator|\\bAWE\\b"
+    ]
+   },
+   "source": "FY2026 SCN Justification Book, Exhibit P-5c, Carrier Replacement Program, page 4 of 41 (Volume 1, page 46), CVN 79 remarks; https://www.secnav.navy.mil/fmc/fmb/Documents/26pres/SCN_Book.pdf",
+   "reference_answer": "The increase supports installation of the AAG Water Twister MOD II replacement, associated delay and disruption, time-related services, and continued Advanced Weapons Elevator (AWE) work.",
+   "set": "independent"
+  },
+  {
+   "qid": "I06 contract_obligation",
+   "template": null,
+   "category": "contract_obligation",
+   "question": "For the March 17, 2023 modification to contract N00024-15-C-2114 for CVN 79 contractor-furnished on-board repair parts, how much funding was obligated at award, and from which appropriation?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "16068211"
+     }
+    ],
+    "texts": [
+     "\\bSCN\\b|shipbuilding and conversion"
+    ]
+   },
+   "source": "Department of Defense contract announcement, March 17, 2023, Navy entry for Huntington-Ingalls Industries / contract N00024-15-C-2114; https://www.war.gov/News/Contracts/Contract/Article/3333712/",
+   "reference_answer": "$16,068,211 was obligated at award from FY2023 Shipbuilding and Conversion, Navy (SCN) outfitting funds.",
+   "set": "independent"
+  },
+  {
+   "qid": "I07 contract_obligation",
+   "template": null,
+   "category": "contract_obligation",
+   "question": "For the June 23, 2023 CVN 79 contract actions on N00024-15-C-2114 and N00024-09-C-2116, what were the two modification values and how much was obligated at the time of award?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "usd",
+      "value": "274041192"
+     },
+     {
+      "kind": "usd",
+      "value": "119213388"
+     }
+    ],
+    "texts": [
+     "no funds|nothing (was )?obligated|not obligated|\\$\\s?0\\b(?![.,]\\d)|zero|none (was|were) obligated"
+    ]
+   },
+   "source": "Department of Defense contract announcement, June 23, 2023, Navy entry for Huntington Ingalls and Pre-Commissioning Unit John F. Kennedy (CVN 79); https://www.war.gov/News/Contracts/Contract/Article/3437927/contracts-for-jun-23-2023/",
+   "reference_answer": "The Navy announced a $274,041,192 modification to N00024-15-C-2114 and a $119,213,388 modification to N00024-09-C-2116, for a combined announced modification value of $393,254,580. No funds were obligated at the time of award.",
+   "set": "independent"
+  },
+  {
+   "qid": "I08 multi_source",
+   "template": null,
+   "category": "multi_source",
+   "question": "Using the PB 2021 and PB 2026 SCN P-5c exhibits, how much did CVN 79's Total Ship Estimate change, and how does the PB 2026 figure compare with CRS's FY2026 total procurement cost estimate?",
+   "expect": {
+    "numbers": [
+     {
+      "kind": "musd",
+      "value": "11397.712"
+     },
+     {
+      "kind": "musd",
+      "value": "13195.970"
+     },
+     {
+      "kind": "musd",
+      "value": "1798.258"
+     },
+     {
+      "kind": "musd",
+      "value": "13196.0"
+     }
+    ]
+   },
+   "source": "FY2021 SCN Justification Book, Exhibit P-5c, page 3 of 32 (Volume 1, page 33); FY2026 SCN Justification Book, Exhibit P-5c, page 2 of 41 (Volume 1, page 45); CRS Report RS20643, updated December 4, 2025, summary and Table 2; https://www.secnav.navy.mil/fmc/fmb/Documents/21pres/SCN_Book.pdf ; https://www.secnav.navy.mil/fmc/fmb/Documents/26pres/SCN_Book.pdf ; https://www.everycrsreport.com/reports/RS20643.html",
+   "reference_answer": "The P-5c estimate rose from $11,397.712 million in PB 2021 to $13,195.970 million in PB 2026, an increase of $1,798.258 million (about 15.78%). CRS reports the FY2026 total procurement cost estimate as $13,196.0 million, which agrees with the PB 2026 P-5c figure when rounded to the nearest $0.1 million.",
+   "set": "independent"
+  },
+  {
+   "qid": "I09 premise",
+   "template": null,
+   "category": "premise",
+   "question": "Since CVN 79 was procured as part of the CVN 80/CVN 81 two-ship block-buy contract, what block-buy savings did the Navy attribute to CVN 79?",
+   "expect": {
+    "texts": [
+     "not (part|included|covered|procured)|(premise|assumption) (is )?(incorrect|wrong|false|mistaken)|(cover(s|ed)?|for|of) (only )?CVN[- ]?80 and (CVN[- ]?)?81"
+    ]
+   },
+   "source": "CRS Report RS20643, updated December 4, 2025, section 'Two-Ship Block Buy Contract for CVN-80 and CVN-81'; https://www.everycrsreport.com/reports/RS20643.html",
+   "reference_answer": "The premise is incorrect: CVN 79 was not part of the CVN 80/CVN 81 two-ship block buy. CRS states that the block-buy contract covered CVN 80 and CVN 81; CVN 81 was added to the existing CVN 80 contract. Therefore, no CVN 80/CVN 81 block-buy savings should be attributed to CVN 79.",
+   "set": "independent"
+  },
+  {
+   "qid": "I10 premise",
+   "template": null,
+   "category": "premise",
+   "question": "The PB 2026/CRS estimate for CVN 79 is $13,196.0 million, while CRS lists a $11,398.0 million statutory cost cap. Does the $1,798.0 million difference by itself prove that the Navy exceeded the statutory cap?",
+   "expect": {
+    "texts": [
+     "\\bno\\b|does not|doesn't|cannot|not by itself|not (proof|enough|sufficient|a valid)",
+     "inflation|adjust"
+    ]
+   },
+   "source": "CRS Report RS20643, updated December 4, 2025, section 'Program Procurement Cost Cap'; https://www.everycrsreport.com/reports/RS20643.html",
+   "reference_answer": "No. The premise treats the $11,398.0 million figure as an unadjusted ceiling. CRS explains that the CVN 79 cap is $11,398.0 million plus adjustments for inflation and other factors, and that certain costs are excluded from the cap calculation. The simple subtraction is therefore not a valid cap-compliance test. CRS also describes a separate provision allowing up to a $100 million increase if the Chief of Naval Operations determines that meeting the cap would unacceptably reduce operational capability.",
+   "set": "independent"
+  }
+ ]
+}
