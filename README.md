@@ -61,7 +61,7 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Technical quality, C2: performance and reliability (own evaluation setup and results, inputs, error handling, stable performance) | [Evaluation](docs/submission/EVALUATION.md), sections 1 and 2 | Five test layers with their inputs; probe latency table; 99.90% of 6,193 production checks ok |
 | Technical quality, C3: MCP design (Pydantic-validated inputs, unambiguous names and descriptions, goal-shaped tools, not thin wrappers) | [Security](#security), [Evaluation](docs/submission/EVALUATION.md) section 4 | Every parameter validated and attacked (422 tests); tools return totals and summaries, not raw rows; renames made after models misread a name |
 | Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](docs/IMPACT.md#who-uses-it-and-what-changes-for-them), [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](docs/IMPACT.md#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget; a [subject-matter review](eval/delegation/sme_review/RESULTS.md) by a DoD financial manager: 5.4 of 6 with the servers, 1.6 without |
-| Technical quality | [`scripts/check.sh`](scripts/check.sh), the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) and the [JUnit XML of a clean-clone run](docs/submission/evidence/junit/README.md) | One command runs every suite from a clean clone: 8 projects, 1,191 tests, lint, on Python 3.11 and 3.12 |
+| Technical quality | [`scripts/check.sh`](scripts/check.sh), the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) and the [JUnit XML of a clean-clone run](docs/submission/evidence/junit/README.md) | One command runs every suite from a clean clone: 8 projects, 1,194 tests, lint, on Python 3.11 and 3.12 |
 | Technical quality | [Delegation evaluation](eval/delegation/README.md) | Four held-out rounds; rounds 2 to 4 sealed by SHA-256 before the run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Round 4, 69 questions (45 drawn by a seeded generator, 24 reviewed by the project owner), grader v2: **Claude 88.4%, GPT-5 mini 78.7% with, 14.5% and 1.4% without** ([results](eval/delegation/round4/RESULTS.md)). Every miss is read and its cause published, grader defects included |
 | Technical quality | [Evaluation](docs/submission/EVALUATION.md) (GSA's four headings), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Eight-day probe at 99.90% with 1,234 of 1,234 known answers right, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
 | Technical quality | [Security](#security) | 421 hostile calls against all 30 tools: 330 refused, none wrote, none pasted an argument into SQL; generated code fuzzed with warnings as errors |
@@ -77,7 +77,7 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), round 1: 14 questions, 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools; strict held-out 20/24 (83.3%) vs 2/8 | 14 questions, only 4 strictly held out; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog, before the fixes it prompted. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
 | Sealed held-out questions, round 3 (after the fixes), with vs without tools | 50/72 (69.4%, CI 58.0 to 78.9) vs 1/24 (4.2%) | Questions written by the same author as the fixes. 5 misses are an answer-key error of mine (G07); read by hand, 55/72. Real misses remain on counting by sign, a contamination recorded only in the dossier, and multi-source figures |
-| Code suites from a clean clone | 1,191 passed, 0 failed; 6 skipped because they need a live Spark session or bandit | They are unit, contract, server, generator and adversarial tests: they show the code does what it says, not that an agent answers well. That is measured by the delegation rounds and the subject-matter review |
+| Code suites from a clean clone | 1,194 passed, 0 failed; 6 skipped because they need a live Spark session or bandit | They are unit, contract, server, generator and adversarial tests: they show the code does what it says, not that an agent answers well. That is measured by the delegation rounds and the subject-matter review |
 | Adversarial arguments, all 30 tools | 421 calls: 330 refused by validation, 91 answered; 172 statements reached the warehouse, all read-only; 40 carried a hostile value as a bound parameter, none pasted into SQL text | Runs in-process against a recording fake warehouse, not the deployed apps |
 | Creator determinism | Same specification, byte-identical files: 58 of 58 | Determinism is not correctness; the review checks meaning separately |
 | Availability of the deployed servers | 99.90% of 6,193 checks in 413 probe sweeps, 2026-11-12 to 2026-11-20; 1,234 of 1,234 known-answer checks right | One workspace, eight days |
@@ -447,7 +447,7 @@ The evaluation has four layers, one question each. Full method and results are i
 
 | Layer | Question | Result |
 | --- | --- | --- |
-| Code suites | Does the code do what it says? | **1,191 tests pass from a clean clone** across eight projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
+| Code suites | Does the code do what it says? | **1,194 tests pass from a clean clone** across eight projects with one command, [`scripts/check.sh`](scripts/check.sh), which CI runs on Python 3.11 and 3.12. Plus six One Hub script suites and the tie-outs that close the $13,409.970M estimate to zero residual |
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them. Two of the three were confident tools for a different question; the review's new `tool_computes_its_question` check flags both when the same prompts are designed offline with the tables' columns |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 tools gets SQL fragments, path traversal, oversized values, wrong enum members and control characters: **421 calls, 330 refused, 91 answered safely, 0 writes, 0 arguments pasted into SQL** ([test](mcp-servers/test_adversarial_arguments.py)) |
@@ -475,7 +475,7 @@ happened to each finding is in the
 
 | Claim | The file that proves it | The command that re-runs it |
 | --- | --- | --- |
-| 1,191 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
+| 1,194 tests pass from a clean clone | [`scripts/check.sh`](scripts/check.sh), CI | `scripts/check.sh` |
 | Every Impact page figure is printed on its cited page | [`checks/test_impact.py`](the-one-hub/ops-center/checks/test_impact.py), [`impact.json`](the-one-hub/ops-center/app/data/curated/impact.json) | `scripts/check.sh one-hub` |
 | 83.3% strict held-out with tools, 25.0% without | [`eval/delegation/runs.csv`](eval/delegation/runs.csv), [`RESULTS.md`](eval/delegation/RESULTS.md) | `python3 eval/delegation/analyze.py` (CI fails if it disagrees with RESULTS.md) |
 | No tool accepts a hostile argument | [`mcp-servers/test_adversarial_arguments.py`](mcp-servers/test_adversarial_arguments.py) | `scripts/check.sh mcp-local` |
@@ -561,12 +561,12 @@ JUNIT_DIR=out scripts/check.sh  # also write JUnit XML, as in docs/submission/ev
 ```
 
 Each project installs its own dependencies into its own environment. Expected (checked
-2026-11-21): Creator 263 passed, 1 skipped; ops 40; bakehouse 21; docs 47;
+2026-11-21): Creator 263 passed, 1 skipped; ops 40; bakehouse 21; docs 50;
 analyst 39; probe 11; mcp_local 23, the source-notice suite 23 and the adversarial sweep 422;
-One Hub 302 passed, 5 skipped, plus six script suites and lint. Total 1,191 passed,
+One Hub 302 passed, 5 skipped, plus six script suites and lint. Total 1,194 passed,
 6 skipped, plus the 36 round 4 grader and runner tests in the evidence step.
 
-What the count is: 483 unit, contract and server tests for the servers, the probe and the
+What the count is: 486 unit, contract and server tests for the servers, the probe and the
 One Hub; 263 Creator tests, among them generator tests that build a project and run its own
 tests and lint; 422 adversarial-argument cases; and 23 source-notice checks. A parametrized
 test counts once per input. None of them measures whether an agent answers well; the
@@ -643,19 +643,26 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
   70%) and multi-source arithmetic (100% vs 58%); GPT-5 mini did better on decoys (92% vs
   50%). The gate, the tie-outs and the grounding checks are code and do not change with the
   model; the wording of an answer does.
-- **Time saved is estimated, not measured.** From the scope of one CVN-79 pass (818
+- **Time saved is estimated, not measured.** From the scope of one CVN-79 pass (7,733
   tie-out checks, 1,875 contract actions, 17 variances, 259 collection requirements) the
-  hand work is about **171 to 343 analyst hours, 4 to 9 weeks**, at stated minutes per item
+  hand work is about **194 to 390 analyst hours, 5 to 10 weeks**, at stated minutes per item
   ([docs/TIME_ESTIMATE.md](docs/TIME_ESTIMATE.md)). No analyst has been timed; the document
   says how to measure it.
-- **Two fixes wait for the next deployment to be measured.** The docs server served its
-  corpus reload inside the request after the 30-minute cache expired, which is the slow
-  mode of its known-answer latency (p50 12.6 s, max 20.2 s); it now refreshes in the
-  background and warms at startup. The 4 failing tie-out checks of 818 were cost elements
-  named "Total ..." read as totals ("Total Ship Test Program", "TOTAL SHIP COMPUTING
-  ENVIRONMENT (TSCE)"); on the PB2027 book locally, 790 of 790 checks now pass. The probe
-  and `docs_tieout_document` will show both after the redeploy.
-- **The One Hub server was deployed on 2026-11-21, so it has no probe history yet.** Its
+- **Some budget tables still do not tie out as read.** Measured on the stored tables on
+  2026-11-21 over all 34 documents: **7,638 of 7,733 checks pass**. (The earlier "814 of 818"
+  covered the PB2027 book only; its 4 failures, cost elements named "Total ...", are fixed,
+  and PB2027 now has none.) Most of the 95 failures were two layouts older books print: a
+  P-40 money flow, where Total Obligational Authority is Full Funding TOA plus advance
+  procurement rather than a sum of every line, and P-10 group rows followed by their items.
+  The checker now reads both, and quantity rows, only when that reproduces the printed
+  total; on those pages, read locally, 95 failures fall to 9 (a rounding difference of $0.2M
+  and subtotals that run across a page break). Re-measure after the next docs deploy.
+- **The docs server's slow mode is gone.** It reloaded its 7,804-page corpus inside the
+  request once the 30-minute cache expired (p50 12.6 s, max 20.2 s); it now refreshes in the
+  background and loads at startup. After that deploy the probe measured 9 known-answer
+  checks, all right, p50 1.19 s, max 1.24 s. Nine checks are a short window.
+- **The One Hub server was deployed on 2026-11-21, so its probe history is short:** 7 of 7
+  known answers right, p50 54 ms, on the first evening. Its
   HTTP form had refused every request behind the Apps proxy (421 Invalid Host header, the
   SDK's localhost guard); that is fixed and tested. It runs from `the-one-hub/ops-center`
   (`app.yaml`), and the probe's known answer is the held $13,529M baseline routed to human

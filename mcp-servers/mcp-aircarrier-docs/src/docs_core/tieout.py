@@ -20,6 +20,9 @@ LESS = re.compile(r"^less\b", re.IGNORECASE)
 NET = re.compile(r"^net\b.*funding|^net p-1", re.IGNORECASE)
 SKIP = re.compile(r"^(less|plus|memo|note|percent|%|unit cost|qty|quantity)\b", re.IGNORECASE)
 SHIP_TOTAL = re.compile(r"total ship estimate|^total estimate", re.IGNORECASE)
+PLUS = re.compile(r"^plus\b", re.IGNORECASE)
+# A count, not money: "End Item Qty", "PLT in Months". "Economic Order Quantity" is money.
+COUNT = re.compile(r"(?<!order )\b(qty|quantity)\s*(\(each\))?$|\bplt\b|\bin months\b", re.IGNORECASE)
 
 
 def tolerance(*places: int) -> Decimal:
@@ -78,6 +81,8 @@ def _check_totals(t: Table, labels: dict[int, str], items: set[int]) -> list[dic
     for col in _money_cols(t):
         loose: list = []
         subs: list = []
+        flow: list = []
+        prev_total = None
         for r in range(t.header_rows, t.n_rows):
             lab = labels[r]
             if NET.search(lab):
@@ -86,19 +91,28 @@ def _check_totals(t: Table, labels: dict[int, str], items: set[int]) -> list[dic
             is_sub = bool(SUBTOTAL.search(lab))
             is_tot = bool(TOTAL.search(lab)) and not is_sub and r not in items
             if not (is_sub or is_tot):
-                if c is not None and not SKIP.search(lab):
-                    loose.append(c)
+                if c is not None:
+                    if LESS.search(lab):
+                        flow.append(("less", c))
+                    elif PLUS.search(lab):
+                        flow.append(("plus", c))
+                    elif not SKIP.search(lab) and not COUNT.search(lab):
+                        loose.append(c)
+                        flow.append(("item", c))
                 continue
             if c is None:
                 loose = []
                 if is_tot:
-                    subs = []
+                    subs, flow = [], []
                 continue
             parts = loose if is_sub else subs + loose
             if len(parts) >= 2:
                 s = sum((p.value for p in parts), Decimal(0))
                 tol = tolerance(c.places, *(p.places for p in parts))
-                out.append({"rule": "subtotal_equals_sum_of_rows" if is_sub else "total_equals_sum_of_rows",
+                rule = "subtotal_equals_sum_of_rows" if is_sub else "total_equals_sum_of_rows"
+                if abs(c.value - s) > tol and not is_sub:
+                    s, rule = _second_reading(c, parts, flow, prev_total, tol, s, rule)
+                out.append({"rule": rule,
                             "table_id": t.table_id, "page": t.page, "row": lab, "column": c.col_header,
                             "printed": str(c.value), "computed": str(s), "difference": str(c.value - s),
                             "n_parts": len(parts), "passed": abs(c.value - s) <= tol, "tolerance": str(tol)})
@@ -106,8 +120,64 @@ def _check_totals(t: Table, labels: dict[int, str], items: set[int]) -> list[dic
                 subs.append(c)
                 loose = []
             else:
-                loose, subs = [], []
+                loose, subs, flow = [], [], []
+                prev_total = c
     return out
+
+
+def _flow_value(flow: list, prev_total) -> Decimal | None:
+    """A P-40 money flow: the last line that is not a Less or Plus line (End
+    Cost, Full Funding TOA), or the previous total, then each Plus added and
+    each Less taken away. "Total Obligational Authority" is that, not a sum
+    of every line above it."""
+    if not any(k in ("less", "plus") for k, _ in flow):
+        return None
+    start, value = 0, (prev_total.value if prev_total is not None else None)
+    for i, (k, c) in enumerate(flow):
+        if k == "item":
+            start, value = i + 1, c.value
+    if value is None:
+        return None
+    for k, c in flow[start:]:
+        value += c.value if k == "plus" else -c.value
+    return value
+
+
+def _without_group_rows(parts: list, tol: Decimal) -> Decimal | None:
+    """A P-10 outline: a group row ("GFE - ORDNANCE 73.8") is followed by its
+    items (AEGIS 72.7, Tomahawk 1.1). Adding both counts the group twice.
+    Drop each row that equals the sum of the rows right after it (one or
+    more: "GFE - ELECTRONICS 13.8" can hold one item, "EXCOMM 13.8")."""
+    vals = [p.value for p in parts]
+    keep, i, dropped = [], 0, False
+    while i < len(vals):
+        run, j = Decimal(0), i + 1
+        while j < len(vals) and run + vals[j] <= vals[i] + tol:
+            run += vals[j]
+            j += 1
+            if abs(run - vals[i]) <= tol:
+                break
+        if j > i + 1 and abs(run - vals[i]) <= tol:
+            keep.extend(vals[i + 1:j])
+            i, dropped = j, True
+        else:
+            keep.append(vals[i])
+            i += 1
+    return sum(keep, Decimal(0)) if dropped else None
+
+
+def _second_reading(c, parts, flow, prev_total, tol, s, rule):
+    """When a total does not equal the sum of the rows above it, try the two
+    structures budget exhibits print instead. A reading is taken only when it
+    reproduces the printed total to its rounding; otherwise the plain sum and
+    its failure are reported."""
+    v = _flow_value(flow, prev_total)
+    if v is not None and abs(c.value - v) <= tol:
+        return v, "total_follows_less_and_plus_lines"
+    v = _without_group_rows(parts, tol)
+    if v is not None and abs(c.value - v) <= tol:
+        return v, "total_equals_items_without_group_rows"
+    return s, rule
 
 
 def check_net_funding(chain: list[Table]) -> list[dict]:

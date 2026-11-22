@@ -373,3 +373,34 @@ def test_a_failed_refresh_keeps_the_corpus(monkeypatch):
 
     assert store.corpus(broken, background=False) is first
     assert not store._refreshing.is_set()  # the next stale call tries again
+
+
+def test_a_p40_money_flow_is_read_as_less_and_plus_lines():
+    # SCN PB2006 p.164: Total Obligational Authority is Full Funding TOA plus
+    # Advance Procurement, not the sum of every line above it (that doubled it).
+    g = [["Item", "FY 2006 ($ M)"], ["End Cost", "24.9"], ["Less Advance Procurement", "0.0"],
+         ["Less Escalation", "0.0"], ["Full Funding TOA", "24.9"], ["Plus Advance Procurement", "0.0"],
+         ["Total Obligational Authority", "24.9"]]
+    res = tieout.check_totals(grid.build("t", AID, "f", 1, g))
+    assert [(r["rule"], r["passed"]) for r in res] == [("total_follows_less_and_plus_lines", True)]
+    bad = [r[:] for r in g]
+    bad[-1][1] = "25.9"                                   # a real error still fails
+    assert not tieout.check_totals(grid.build("t", AID, "f", 1, bad))[0]["passed"]
+
+
+def test_p10_group_rows_are_not_counted_twice():
+    # SCN PB2011 p.142: a group row is followed by its items.
+    g = [["Item", "FY10 ($ M)"], ["SHIPBUILDER CLASS STANDARD EQUIPMENT (3)", "66.9"],
+         ["CRP Propeller (3)", "3.1"], ["LM 2500 (3)", "63.8"], ["OTHER SHIPBUILDING MATERIAL (4)", "13.4"],
+         ["GFE - ELECTRONICS (5)", "13.8"], ["EXCOMM Equipment (5)", "13.8"], ["Total AP", "94.1"]]
+    [r] = tieout.check_totals(grid.build("t", AID, "f", 1, g))
+    assert r["passed"] and r["rule"] == "total_equals_items_without_group_rows"
+
+
+def test_a_quantity_row_is_not_money_but_economic_order_quantity_is():
+    assert tieout.COUNT.search("End Item Qty") and tieout.COUNT.search("PLT in Months")
+    assert not tieout.COUNT.search("Economic Order Quantity")
+    g = [["Item", "FY 2009 ($ M)"], ["End Item Qty", "1"], ["ERO AP", "6.8"], ["Other AP", "2.0"],
+         ["Total Advance Procurement", "8.8"]]
+    [r] = tieout.check_totals(grid.build("t", AID, "f", 1, g))
+    assert r["passed"] and r["computed"] == "8.8"

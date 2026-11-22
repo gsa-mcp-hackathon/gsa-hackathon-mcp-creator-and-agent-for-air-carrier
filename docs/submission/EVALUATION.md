@@ -41,7 +41,7 @@ are kept in the score and listed apart rather than re-graded upward.
 | --- | --- | --- |
 | MCP A Creator | 263 | 1 (needs bandit) |
 | Ops server | 40 | 0 |
-| Docs server | 47 | 0 |
+| Docs server | 50 | 0 |
 | Analyst server | 39 | 0 |
 | Probe | 11 | 0 |
 | Bakehouse (generated) | 21 | 0 |
@@ -49,7 +49,7 @@ are kept in the score and listed apart rather than re-graded upward.
 | Source notice, every server | 23 | 0 |
 | Adversarial sweep, 30 tools | 422 | 0 |
 | One Hub (pytest) | 302 | 5 (need a live Spark session) |
-| **Total, eight projects** | **1,191** | **6** |
+| **Total, eight projects** | **1,194** | **6** |
 
 These are unit, contract, server, generator and adversarial tests. They show the code does
 what it says; they do not measure whether an agent answers well, which sections 2.3 and 2.4
@@ -91,8 +91,8 @@ deployments and about 12.6 to 13.2 s on most others, so the overall p50 of 12.6 
 mode. Cause, found in the code on 2026-11-21: the server reloaded its 7,804-page corpus
 inside the request once the 30-minute cache had expired (about 11 s), so a probe arriving
 after the expiry waited for the reload. It now serves the loaded copy and refreshes it on a
-background thread, and loads it at startup (`store.py`, two tests). The next probe days
-after the redeploy will show whether the slow mode is gone.
+background thread, and loads it at startup (`store.py`, two tests). In the first evening
+after that deploy, 9 known-answer checks were all right at p50 1.19 s, max 1.24 s.
 
 ### 2.3 Tool choice by real models (delegation)
 
@@ -233,5 +233,5 @@ Recommendations for an agency adopting this:
 * Have someone other than the tool builder write the next sealed question set.
 * Keep the probe running as continuous-monitoring evidence for an authority to operate.
 * Measure analyst hours before and after; this pilot has not. A scope-based estimate,
-  171 to 343 hours for one CVN-79 pass, and the method to measure it are in
+  194 to 390 hours for one CVN-79 pass, and the method to measure it are in
   [docs/TIME_ESTIMATE.md](../TIME_ESTIMATE.md).
