@@ -97,15 +97,28 @@ def test_resolve_and_transport_errors_are_rows_not_crashes():
     assert s.target(DOCS) is False and s.rows[-1]["step"] == "transport"
 
 
-def test_run_summarizes_failing_targets_and_creator_lists_only():
+SKILLS = [{"name": n} for n in (
+    "databricks-mcp-deployment", "mcp-a-creator", "mcp-evaluation-harness", "mcp-portability",
+    "mcp-security-review", "mcp-tool-design", "structured-data-mcp", "unstructured-data-mcp")]
+
+
+def test_run_summarizes_failing_targets_and_creator_answers_read_only():
     post, calls = server(tools=16, answer={"engine": "analyst/0.1", "totals": {"record_count": 5},
                                            "source": "sales", "fields": [{"name": "transactionID"}],
-                                           "decision": "human_review", **DOCS_OK})
+                                           "decision": "human_review", "skills": SKILLS, **DOCS_OK})
     out = sweep(post).run()
     assert out["ok"] and out["failing"] == [] and out["targets"] == 5
     assert P.BAKEHOUSE not in P.TARGETS    # its slot runs mcp-aircarrier-hub since 2026-11-21
     creator = [c for c in calls if "mcp-a-creator" in c[0]]
-    assert [c[1] for c in creator] == ["initialize", "tools/list"]       # never calls a creator tool
+    assert [c[1] for c in creator] == ["initialize", "tools/list", "tools/call"]
+    creator_target = next(t for t in P.TARGETS if t.app == "mcp-a-creator")
+    assert creator_target.tool == "creator_list_library"   # read-only: never writes or deploys
+
+
+def test_creator_known_answer_needs_its_skills():
+    assert P._creator({"skills": SKILLS}) is None
+    assert "missing" in P._creator({"skills": SKILLS[:3]})
+    assert P._creator({})
 
 
 def test_hub_known_answer_holds_the_unconfirmed_baseline():

@@ -102,6 +102,16 @@ def _hub(r: dict) -> str | None:
     return None if d == "human_review" else f"hub_check_claim(13529) returned {d!r}, not human_review"
 
 
+def _creator(r: dict) -> str | None:
+    # creator_list_library is read-only: the Creator's packaged skills, which every
+    # design phase loads. A missing skill means the deployed build is broken.
+    names = {s.get("name") for s in r.get("skills") or []}
+    need = {"mcp-tool-design", "mcp-security-review", "databricks-mcp-deployment"}
+    if len(names) >= 8 and need <= names:
+        return None
+    return f"creator_list_library returned {len(names)} skills, missing {sorted(need - names)}"
+
+
 @dataclass(frozen=True)
 class Target:
     app: str
@@ -119,7 +129,7 @@ TARGETS = [
            {"hull": "CVN-79", "layer": "budget", "element": "Total Ship Estimate",
             "period": "FY2027 PB", "value_musd": "13529", "tag": "VERIFIED", "confidence": 0.9},
            _hub),
-    Target("mcp-a-creator", 10),   # writes and deploys; listing its tools is the whole check
+    Target("mcp-a-creator", 10, "creator_list_library", {}, _creator),  # read-only
 ]
 
 # Not a target: the bakehouse app was deleted on 2026-11-21 so the hub could take its
