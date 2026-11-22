@@ -36,7 +36,7 @@ tie_outs:
   local_after_round10: "7,690 of 7,693"       # 22 SCN books re-extracted, 3 within rounding
   file: docs/submission/evidence/tieout_rerun_2026-11-21.json
 
-findings: 26
+findings: 27
 
 retired:                 # figures that must not appear as current anywhere checked
   - "1,094 passed"
@@ -53,6 +53,9 @@ retired:                 # figures that must not appear as current anywhere chec
   - "these eight tool names"
   - "421-call"
   - "302 passed"
+  - "sixty tools"
+  - "none reached SQL"
+  - "1 (needs bandit)"
 
 checked:                 # where retired figures are looked for
   - README.md
@@ -69,9 +72,13 @@ checked:                 # where retired figures are looked for
   - the-one-hub/ops-center/app/data/curated/impact_path.json
   - docs/site/stack/index.html
   - docs/site/impact/index.html
+  - docs/submission/mcp-a-creator-one-hub-deck.pptx
+  - docs/submission/evaluation-report.docx
 
 required:                # each file must contain each phrase
   README.md: ["1,641", "63 tools", "421 hostile calls", "7,690 of 7,693"]
   SCORECARD.md: ["7,690 of 7,693", "400 hostile calls"]
   docs/submission/EVALUATION.md: ["1,641", "421 hostile calls"]
   the-one-hub/ops-center/app/data/curated/stack.json: ["1,641 passed"]
+  docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,641", "63 tools"]
+  docs/submission/evaluation-report.docx: ["1,641", "63 tools", "7,690 of 7,693"]

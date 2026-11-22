@@ -185,8 +185,8 @@ workspace; the rest are from the app run locally on the shipped extracts.
 
 | | |
 | --- | --- |
-| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![Six servers, sixty tools](docs/screenshots/mcp-servers.jpg) |
-| **Seven apps, live.** The probe, the front center and five MCP servers, each deployed from this repository. | **Six servers, sixty tools.** What each server does and the evidence behind it. |
+| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![Six servers and their tools](docs/screenshots/mcp-servers.jpg) |
+| **Seven apps, live.** The probe, the front center and five MCP servers, each deployed from this repository. | **Six servers.** What each server does and the evidence behind it (captured before the bakehouse rebuild; 63 tools today). |
 | ![MCP A Creator](docs/screenshots/mcp-a-creator.jpg) | ![Carrying the build to the next program](docs/screenshots/carry-to-next-program.jpg) |
 | **MCP A Creator.** Profile, design, review, generate, deploy; 15 of 15 projects pass, 58 of 58 files byte-identical. | **The next program.** What is reused as it is, and what a new program adds. |
 
@@ -241,6 +241,18 @@ Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-d
 | 12:32 | Run log, detail table, sources and method |
 | 12:56 | Answer a question: experts at headquarters and in the field |
 | 13:30 | Community expertise, beyond DoD, production posture, close |
+
+**Changed since the video (round 10, 2026-11-21).** The code below is in the repository.
+Items marked *redeploy* reach the live apps on their next deploy.
+
+- Ask the evidence calls the docs, ops and hub servers over MCP, and each step shows which server
+  answered (*redeploy*; needs the CAN_USE grant in [DEPLOYMENT.md](docs/DEPLOYMENT.md)).
+- The gate checks a figure against its own hull's total and refuses a hull it has no total for
+  (route R9) (*redeploy*).
+- The bakehouse server was rebuilt by MCP A Creator through its own tools: 7 tools, up from 4.
+- All FastMCP servers moved to FastMCP 3.4 or later, which closes two published CVEs, and a tool
+  that returns an error body now sets `isError` (*redeploy*).
+- Tie-outs on the 22 SCN books: 7,690 of 7,693 pass, the 3 left within rounding.
 
 ---
 
