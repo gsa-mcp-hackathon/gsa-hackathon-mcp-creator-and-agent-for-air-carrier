@@ -12,11 +12,11 @@ from bakehouse_sales.app import mcp
 from bakehouse_sales.config import settings
 
 EXPECTED_TOOLS = {
-    "bakehouse_daily_totalprice",
-    "bakehouse_top_franchiseid_by_totalprice",
     "bakehouse_average_totalprice",
-    "bakehouse_get_sales",
+    "bakehouse_daily_totalprice",
     "bakehouse_describe_sales",
+    "bakehouse_get_sales",
+    "bakehouse_top_franchiseid_by_totalprice",
     "bakehouse_top_paymentmethod_by_totalprice",
     "bakehouse_top_product_by_quantity",
 }

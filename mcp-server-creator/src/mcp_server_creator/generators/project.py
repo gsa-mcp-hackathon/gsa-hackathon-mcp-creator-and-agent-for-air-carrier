@@ -1420,7 +1420,13 @@ def repo_files(spec: ServerSpec) -> dict[str, str]:
         "repo_url": spec.repo_url or "https://github.com/OWNER/" + spec.server_name,
         "registry_name": _registry_name(spec),
         "dependencies": rendered_deps,
-        "expected_tools": repr(expected_tools) if expected_tools else "set()",
+        # Sorted: a set's repr follows the process's hash seed, so two runs of
+        # the Creator in two processes wrote the names in different orders.
+        "expected_tools": (
+            "{" + ", ".join(repr(n) for n in sorted(expected_tools)) + "}"
+            if expected_tools
+            else "set()"
+        ),
         "extra_security_tests": extra_tests,
         "pytest_import": "\nimport pytest\n" if needs_pytest else "",
         "jobs": bullet_list(spec.jobs_to_be_done),

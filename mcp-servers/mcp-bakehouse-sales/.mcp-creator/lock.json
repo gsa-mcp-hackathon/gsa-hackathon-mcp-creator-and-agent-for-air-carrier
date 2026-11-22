@@ -65,7 +65,7 @@
     "tests/conftest.py": "b9da167b14a215e28a63b5e5f74f7fa986a8245070c9d65f67ce2bd0c75ca957",
     "tests/test_portability.py": "18fb5c4a6b7debc1777d918bb7ef3c56444028a1b157fec99b4e0f0981420767",
     "tests/test_security.py": "1cc6ae3709569f23a66f0d5b8fe3889b1d60f8b87f48ab76ea756ed6e4e16c73",
-    "tests/test_server.py": "be224b7376418b58854ecb01d0c2b9d30eabd82c7587488658a6d9d4f73cc883"
+    "tests/test_server.py": "bc6aededf674c733b85106e1fc2b87ccf672e714195cff11528082d07689c590"
   },
   "format": 1,
   "server_name": "bakehouse-sales",

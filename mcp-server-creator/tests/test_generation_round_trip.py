@@ -468,3 +468,38 @@ def test_drift_check_passes_fresh_fails_on_an_undeclared_edit_and_passes_declare
     owned.write_text(owned.read_text() + "README.md\n")
     declared = _drift(project)
     assert declared.returncode == 0, declared.stdout
+
+
+def test_two_processes_generate_identical_files(designed_spec, tmp_path):
+    """Determinism across processes, not only within one.
+
+    2026-11-21: tests/test_server.py listed the tool names from a set, whose
+    order follows the process's hash seed, so the same specification gave
+    different bytes in two runs. Generating twice in one process cannot see it.
+    """
+    import json
+
+    spec_file = tmp_path / "spec.json"
+    spec_file.write_text(designed_spec.model_dump_json())
+    script = (
+        "import hashlib, json, sys\n"
+        "from mcp_server_creator.generators import generate_full_project\n"
+        "from mcp_server_creator.models import ServerSpec\n"
+        "spec = ServerSpec.model_validate_json(open(sys.argv[1]).read())\n"
+        "m = generate_full_project(spec)\n"
+        "print(json.dumps({f.path: hashlib.sha256(f.content.encode()).hexdigest()"
+        " for f in m.files}, sort_keys=True))\n"
+    )
+    runs = []
+    for seed in ("1", "2"):
+        env = {**os.environ, "PYTHONHASHSEED": seed}
+        out = subprocess.run(
+            [sys.executable, "-c", script, str(spec_file)],
+            capture_output=True,
+            text=True,
+            env=env,
+            check=True,
+        ).stdout
+        runs.append(json.loads(out.strip().splitlines()[-1]))
+    differ = [p for p in runs[0] if runs[0][p] != runs[1].get(p)]
+    assert not differ, differ
