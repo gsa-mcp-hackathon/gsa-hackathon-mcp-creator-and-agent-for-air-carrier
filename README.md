@@ -143,11 +143,15 @@ Tables are read as the calling user; decisions run under the signed-in user's to
 
 ![Each GSA application track is served by a different layer](docs/diagrams/three-tracks.png)
 
+<details>
+<summary>The same mapping, with links to each part</summary>
+
 | GSA track | Served by | Open this |
 | --- | --- | --- |
 | **Dataset Access Server**: query open government datasets | Docs, analyst and ops servers over budget books, SARs, GAO and CRS reports, USAspending and FPDS records. The Creator builds the next one | [Servers](#the-mcp-servers), [Creator](#mcp-a-creator) |
 | **Service "Read" Integration**: retrieve information from a government service | The hub server reads the One Hub's gate, tie-outs and gap queue. Ask the evidence is an MCP host across three servers. The probe reads every server every 15 minutes | [`mcp-aircarrier-hub`](the-one-hub/ops-center/mcp/), [probe](mcp-servers/aircarrier-mcp-probe/) |
 | **Service "Write" Integration**: submit information to a government service, in a sandbox | Owning-role decisions applied in Unity Catalog under the user's token, `analyst_record_outcome`, `creator_deploy_server` behind an approval token | [Role approval](#agents-propose-the-owning-role-decides), [Security](#security) |
+</details>
 
 The sandbox is a Databricks development workspace over public data. Every write is labeled
 `readOnlyHint: false`, needs a signed-in user, and leaves a row in a register.
@@ -209,16 +213,6 @@ Full case: [docs/IMPACT.md](docs/IMPACT.md).
 
 ![Agentic workflow: trigger, route, pack, work, check, decide, with four specialist agents](docs/diagrams/agent-orchestration.png)
 
-```mermaid
-flowchart LR
-  T[1 Trigger<br/>a page names one task<br/>and one subject] --> R[2 Route<br/>unknown pairs<br/>are refused]
-  R --> P[3 Pack<br/>code reads the records<br/>figures in Decimal]
-  P --> W[4 Work<br/>one model explains<br/>cannot add, re-amount<br/>or re-route a proposal]
-  W --> C[5 Check<br/>code grounds every number<br/>a second model family<br/>reads the answer]
-  C --> D[6 Decide<br/>a person in the owning role<br/>applies or leaves it]
-  D -. authority .-> UC[(Unity Catalog<br/>current_user and<br/>role map)]
-```
-
 | Specialist | Started from | The question it answers |
 | --- | --- | --- |
 | Obligation Reconciler | `/mission`, `/variances`, `/position` | Does this contract's cost tie to its recorded obligations? |
@@ -231,6 +225,32 @@ token, checking `current_user()` and `is_account_group_member()` against a dated
 ([`harness_sql.py`](the-one-hub/ops-center/app/api/harness_sql.py)). In the live demo a PMS 379
 user is refused the lead owned by the Office of Financial Operations and applies the request
 PMS 379 owns. No role travels in a page or a cookie.
+
+**Orchestration across MCP servers.** Ask the evidence (`/ask`) is an MCP host. One question fans
+out to the servers, and the answer names every call.
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor P as Person
+  participant A as Ask the evidence<br/>(MCP host in the front center)
+  participant D as mcp-aircarrier-docs
+  participant O as mcp-aircarrier-ops
+  participant H as mcp-aircarrier-hub<br/>(the gate)
+  P->>A: Can CVN-79 be briefed at $13,529M?
+  A->>D: tools/list
+  A->>O: tools/list
+  A->>H: tools/list
+  A->>D: docs_find_line_item
+  D-->>A: SCN line 2001, PB2027 P-5c, page 95
+  A->>D: docs_get_table
+  D-->>A: Exhibit cells, exact decimals
+  A->>H: hub_check_claim
+  H-->>A: Route: a lead to verify, not a reportable figure
+  A->>D: docs_tieout_document
+  D-->>A: 4 checks passed, 0 failed
+  A-->>P: Answer as a lead, each step naming its server
+```
 
 **Headquarters and field experts.** Answer a question (`/insight`) opens the 59 open questions to
 the people who hold the records: the program office, Financial Operations, the supervisor of
@@ -268,6 +288,9 @@ Most MCP servers are improvised by a model: different every run, untested. The C
 the work. **Skills carry the judgment; deterministic generators write the code**, so one
 specification always yields the same project, byte for byte.
 
+<details>
+<summary>The seven phases and their tools</summary>
+
 | Phase | Tool | Produces |
 | --- | --- | --- |
 | 0 Environment | `creator_check_environment` | What this workspace can run |
@@ -277,6 +300,7 @@ specification always yields the same project, byte for byte.
 | 4 Review | `creator_review_server` | A score on 11 dimensions |
 | 5 Generate | `creator_generate_project`, `creator_write_project` | Server, tests, evaluation harness, app kit |
 | 6 Deploy | `creator_deploy_server` | The person's own app, after an approval bound to the files |
+</details>
 
 - **Proven:** 15 of 15 generated projects pass their own tests; 58 of 58 files byte-identical.
 - **Correctable:** the calling model checks each tool's reading of its question and sends a fix; code validates it against the table. On schemas it had never seen the word rules alone read 10 of 19 questions, which is why the reading is shown ([EVALUATION.md 2.8](docs/submission/EVALUATION.md#28-mcp-a-creator-on-schemas-it-had-not-seen)).
@@ -289,31 +313,39 @@ uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agen
 
 ## Screens
 
-**Live** screens come from the deployed apps; the rest from the app run locally. Screens 2 and 11 show the current look (navy bar, Bitter and Inter); the others were captured before it and show the same pages. Every page is in
-the [read-only site](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/).
+**Live** screens were recorded on the deployed apps on 2026-11-21, before the navy bar and the
+current type. The rest are the current app, run from this repository. Every page is in the
+[read-only site](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/).
 
 | | |
 | --- | --- |
-| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![The stack: one solution, four layers, seven capabilities](docs/screenshots/stack.jpg) |
-| **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The stack, the start page.** One solution, four layers, seven capabilities. |
-| ![MCP A Creator](docs/screenshots/mcp-a-creator.jpg) | ![Ask the evidence as an MCP host: four tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) |
-| **3. MCP A Creator.** A question and a table in, a tested server out. | **4. Ask the evidence, live, as an MCP host.** Four tool calls across three servers, each named. |
-| ![Agent workflow](docs/screenshots/agent-workflow.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
-| **5. Agents propose, the owning role decides.** | **6. Role check, live.** PMS 379 cannot apply a Financial Operations proposal. |
-| ![Position: which figure to quote](docs/screenshots/position.jpg) | ![Gap register](docs/screenshots/gaps.jpg) |
-| **7. Which figure to quote.** The four published costs and what each is. | **8. Gap register.** 59 open questions, each with the office that can close it. |
-| ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) | ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) |
-| **9. Impact.** From CVN-79 to the 59 PB2027 MSAR programs. | **10. Evidence.** Outside questions, blind review, tie-outs, probe. |
-| ![The four layers, the differentiator and the three tracks on the start page](docs/screenshots/stack-architecture.jpg) | ![You ask, agents plan, MCP servers fetch, the gate checks, you decide](docs/screenshots/impact-agents-flow.jpg) |
-| **11. The four layers in the app.** Each layer links to its part; the three tracks sit under it. | **12. Orchestration.** You ask, agents plan, servers fetch, the gate checks, you decide. |
+| ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![The start page: one solution, four layers, seven capabilities](docs/screenshots/stack.jpg) |
+| **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The start page.** One solution, four layers, seven capabilities. |
+| ![The four layers, the differentiator and the three tracks in the app](docs/screenshots/stack-architecture.jpg) | ![The five control steps in the app: analyze, reconcile, cite, gate, decide](docs/screenshots/stack-control.jpg) |
+| **3. The four layers in the app.** Each layer links to its part; the three tracks sit under it. | **4. The control steps in the app.** Analyze, reconcile, cite, gate, decide, each linked to its page. |
+| ![Ask the evidence as an MCP host: four tool calls, each naming its server](docs/screenshots/live-ask-via-mcp.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
+| **5. Ask the evidence, live, as an MCP host.** Four tool calls, each naming its server. | **6. Role check, live.** PMS 379 cannot apply a Financial Operations proposal. |
 | ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
-| **13. A specialist run, live.** Each step labeled code or model. | **14. Review and decide, live.** Only the owning role can apply. |
+| **7. A specialist run, live.** Each step labeled code or model. | **8. Review and decide, live.** Only the owning role can apply. |
+
+<details>
+<summary>Twelve more screens</summary>
+
+| | |
+| --- | --- |
+| ![MCP A Creator in the app: seven phases and what a new program supplies](docs/screenshots/mcp-a-creator.jpg) | ![You ask, agents plan, MCP servers fetch, the gate checks, you decide](docs/screenshots/impact-agents-flow.jpg) |
+| **9. MCP A Creator in the app.** Seven phases; each new program supplies data, not software. | **10. Orchestration.** You ask, agents plan, servers fetch, the gate checks, you decide. |
+| ![Position: which figure to quote](docs/screenshots/position.jpg) | ![Gap register](docs/screenshots/gaps.jpg) |
+| **11. Which figure to quote.** The four published costs and what each is. | **12. Gap register.** 59 open questions, each with the office that can close it. |
 | ![Obligation Reconciler](docs/screenshots/live-agent-reconcile.jpg) | ![Work queue](docs/screenshots/live-work-queue.jpg) |
-| **15. Obligation Reconciler, live.** 927 actions in exact decimals; 8 of 8 checks. | **16. Work queue, live.** Decide, unblock or system. |
-| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![Answer a question](docs/screenshots/insight.jpg) |
-| **17. Brief readiness, live.** What the brief can stand on. | **18. Answer a question.** Experts answer; each answer is a named lead. |
+| **13. Obligation Reconciler, live.** 927 actions in exact decimals; 8 of 8 checks. | **14. Work queue, live.** Decide, unblock or system. |
+| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) |
+| **15. Brief readiness, live.** What the brief can stand on. | **16. Evidence.** Outside questions, blind review, tie-outs, probe. |
+| ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) | ![Answer a question](docs/screenshots/insight.jpg) |
+| **17. Impact.** From CVN-79 to the 59 PB2027 MSAR programs. | **18. Answer a question.** Experts answer; each answer is a named lead. |
 | ![Coverage map](docs/screenshots/coverage.jpg) | ![Rule codes](docs/screenshots/rules.jpg) |
 | **19. Coverage map.** Six layers of cost and the access that would close each. | **20. Rule codes.** The rulebook, rule register and gate routes. |
+</details>
 
 <details>
 <summary>Front center page map</summary>
@@ -363,7 +395,7 @@ Every miss is read by hand and published with its cause. Defects found by testin
 | Mission alignment | [docs/IMPACT.md](docs/IMPACT.md); the `/impact` page |
 | Innovation | [MCP A Creator](#mcp-a-creator), an MCP server that builds MCP servers, joined to a [financial-control layer](#the-financial-control-layer) where no model promotes a figure |
 | Tracks | [One solution, three tracks](#one-solution-three-tracks) |
-| Presentation | [Demo](#demo), [screens](#screens), [deck](docs/submission/mcp-a-creator-one-hub-deck.pdf) |
+| Presentation | [Demo](#demo), [screens](#screens), deck ([PDF](docs/submission/mcp-a-creator-one-hub-deck.pdf), [PowerPoint](docs/submission/mcp-a-creator-one-hub-deck.pptx)) |
 
 ## Security
 
