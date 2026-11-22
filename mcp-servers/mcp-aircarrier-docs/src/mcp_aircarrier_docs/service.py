@@ -279,10 +279,14 @@ def tieout_document(c: Corpus, artifact_id: str, first_page: int = 0, last_page:
     per = {h: c.tieouts(h) for h in heads}
     res = [x for v in per.values() for x in v]
     fails = [x for x in res if not x["passed"]]
+    rounding = [x for x in fails if x.get("verdict") == "within_rounding_bound"]
     return {"artifact_id": d.artifact_id, "filename": d.filename, "tables_checked": len(heads),
             "checks": len(res), "passed": len(res) - len(fails), "failed": len(fails),
+            "failed_within_rounding_bound": len(rounding),
             "failures": fails[:60], "tables_without_totals": sum(1 for v in per.values() if not v),
-            "reading": "A failure means the table as extracted does not add up: check the page before using it."}
+            "reading": "A failure means the table as extracted does not add up: check the page before using it. "
+                       "failed_within_rounding_bound counts failures that honest rounding of the printed "
+                       "figures can explain; they are still failures, not passes."}
 
 
 def parse_pdf(data: bytes, filename: str, pages: str | None) -> dict:
@@ -304,7 +308,9 @@ def parse_pdf(data: bytes, filename: str, pages: str | None) -> dict:
     return {**meta, "filename": filename, "kind": d.kind if d else "",
             "map": structure.document_map(d.kind, sorted(d.pages.items())) if d else [],
             "tables": tables[:60], "tieouts": ties[:120],
-            "tieout_summary": {"checks": len(ties), "failed": sum(1 for x in ties if not x["passed"])},
+            "tieout_summary": {"checks": len(ties), "failed": sum(1 for x in ties if not x["passed"]),
+                               "failed_within_rounding_bound": sum(
+                                   1 for x in ties if x.get("verdict") == "within_rounding_bound")},
             "persisted": False,
             "note": "Parsed on request and not stored. To add it to the corpus, load it into the PDF store tables.",
             "grade": GRADE}

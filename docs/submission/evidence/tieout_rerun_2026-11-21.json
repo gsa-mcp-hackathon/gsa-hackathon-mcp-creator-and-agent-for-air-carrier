@@ -1,0 +1,41 @@
+{
+  "what": "Tie-outs over the 22 SCN budget books, re-extracted with the docs server's own extractor, code at b4fde22 vs round 10 (A9)",
+  "date": "2026-11-21",
+  "books": 22,
+  "before": {
+    "checks": 7663,
+    "passed": 7654,
+    "failed": 9
+  },
+  "after": {
+    "checks": 7693,
+    "passed": 7690,
+    "failed": 3,
+    "failed_within_rounding_bound": 3
+  },
+  "regressions": 0,
+  "still_failing": [
+    {
+      "book": "SCN_Bookpb2007.pdf",
+      "page": 66,
+      "row": "Total Obligational Authority",
+      "printed": "2450.2",
+      "verdict": "within_rounding_bound"
+    },
+    {
+      "book": "SCN_Bookpb2008.pdf",
+      "page": 122,
+      "row": "Total AP",
+      "printed": "116.6",
+      "verdict": "within_rounding_bound"
+    },
+    {
+      "book": "SCN_Bookpb2008.pdf",
+      "page": 122,
+      "row": "Total AP",
+      "printed": "915.7",
+      "verdict": "within_rounding_bound"
+    }
+  ],
+  "note": "The store measurement (34 documents, 7,712 checks) is re-run in the workspace after the docs server is redeployed; this file is the local proof that the change removes six failures and adds none."
+}

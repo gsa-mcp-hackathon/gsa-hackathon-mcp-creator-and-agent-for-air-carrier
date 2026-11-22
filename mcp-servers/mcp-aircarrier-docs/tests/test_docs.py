@@ -1,5 +1,6 @@
 """Fixture tests: known answers, deliberate failures, input limits. No warehouse, no network."""
 import asyncio
+import json
 import os
 import sys
 from decimal import Decimal
@@ -404,3 +405,94 @@ def test_a_quantity_row_is_not_money_but_economic_order_quantity_is():
          ["Total Advance Procurement", "8.8"]]
     [r] = tieout.check_totals(grid.build("t", AID, "f", 1, g))
     assert r["passed"] and r["computed"] == "8.8"
+
+
+# ------------------------------------- round 10 (A9): the nine failing tie-outs, read again
+def test_a_number_split_by_a_stray_space_is_read():
+    # PB2006 P-40 p.167 prints "5 .2" and "3 3.2"; the First Destination row dropped out.
+    from docs_core.numbers import parse
+
+    assert parse("5 .2") == Decimal("5.2") and parse("3 3.2") == Decimal("33.2")
+    assert parse("3.3 4.4") is None and parse("3 4") is None  # two values, not one
+    g = [["BUDGET ITEM JUSTIFICATION SHEET (P-40) ($M)", "", ""],
+         ["", "FY 2011", "TOTAL"],
+         ["Full Funding TOA-Outfitting", "162.4", "3,052.1"],
+         ["Full Funding TOA-Post Delivery", "195.9", "3,925.2"],
+         ["Full Funding TOA-First Destination", "5 .2", "3 3.2"],
+         ["Total Obligational Authority", "363.5", "7,010.5"]]
+    res = tieout.check_totals(grid.build("t", AID, "f", 167, g))
+    assert len(res) == 2 and all(r["passed"] for r in res), res
+
+
+def test_a_row_collapsed_into_its_label_is_split_back():
+    # PB2022 P-5 p.376: a label wrapping at the page foot swallowed $119.746M.
+    g = [["Cost Elements ($ M)", "FY 2021", "", "FY 2022", "FY 2022 Total"],
+         ["", "Total Cost ($ M)", "", "Total Cost ($ M)", "Total Cost ($ M)"],
+         ["4.1) CVN 78 Advanced Weapons Elevator", "71.000", "", "-", "-"],
+         ["4.2) Govt responsible - 119.746 119.746 portion of shpbldg", "", "", "", ""],
+         ["4.3) CVN 79 properly priced GFE", "-", "", "63.060", "63.060"],
+         ["Subtotal: CVN - Carrier Replacement Cost", "71.000", "", "182.806", "182.806"]]
+    t = grid.build("t", AID, "f", 376, g)
+    assert t.grid[3][0] == "4.2) Govt responsible portion of shpbldg"
+    assert t.grid[3][3] == "119.746" and t.grid[3][4] == "119.746"
+    res = tieout.check_totals(t)
+    assert res and all(r["passed"] for r in res), res
+
+
+def _p5_page(page, rows, ncols_pad):
+    pad = [""] * ncols_pad
+    head = [["Exhibit P-5, Cost Analysis: PB 2023 Navy"] + [""] * (3 + ncols_pad),
+            ["Resource Summary", "FY 2023 Base"] + pad + ["", ""],
+            ["Procurement Quantity (Units in Each)", "-"] + pad + ["", ""],
+            ["Cost Elements", "Unit Cost ($ M)"] + pad + ["Qty (Each)", "Total Cost ($ M)"]]
+    body = [[lab, "-"] + pad + ["-", v] for lab, v in rows]
+    return {"artifact_id": AID, "filename": "SCN_Bookpb2023.pdf", "page": page,
+            "table_id": f"{AID}:{page:04d}:00", "grid_json": json.dumps(head + body),
+            "title_block": ["Exhibit P-5, Cost Analysis: PB 2023 Navy"]}
+
+
+def test_a_subtotal_whose_items_start_on_the_page_before_ties_over_both_pages():
+    # PB2023 P-5 p.448-449: the extractor split the same columns 26 and 21 ways,
+    # so the pages were never linked, and the page above had no unit at all
+    # (its Resource Summary block came first), so its rows were never checked.
+    from docs_core.corpus import Corpus
+
+    p448 = _p5_page(448, [("3.1) Proper pricing of LCS 27", "21.530"),
+                          ("3.2) Combining Gear repairs", "35.750")], 2)
+    p449 = _p5_page(449, [("3.3) Crypto Modernization", "4.183"),
+                          ("3.6) Shipyard Rate impacts", "6.338"),
+                          ("Subtotal: Littoral Combat Ship (LCS) Cost", "67.801")], 0)
+    pages = [{"artifact_id": AID, "filename": "SCN_Bookpb2023.pdf", "page": p, "text": "Exhibit P-5"}
+             for p in (448, 449)]
+    c = Corpus(pages, [p448, p449])
+    assert c.tables[f"{AID}:0449:00"].continuation_of == f"{AID}:0448:00"
+    res = c.tieouts(f"{AID}:0448:00")
+    sub = [r for r in res if r["row"].startswith("Subtotal")]
+    assert sub and all(r["passed"] and r["scope"] == "joined_pages" for r in sub), res
+
+
+def test_rounding_is_reported_apart_and_never_passes():
+    # PB2008 P-27 p.122: seven rows each rounded to 0.1 miss the printed total by 0.2.
+    g = [["Item ($ in Millions)", "CY FY07"]] + [[f"Item {i}", v] for i, v in enumerate(
+        ["10.1", "20.2", "30.3", "15.5", "20.6", "10.0", "10.1"])] + [["Total AP", "116.6"]]
+    [r] = tieout.check_totals(grid.build("t", AID, "f", 122, g))
+    assert not r["passed"] and r["verdict"] == "within_rounding_bound"
+    assert Decimal(r["rounding_bound"]) == Decimal("0.40")
+    g[-1] = ["Total AP", "117.9"]  # 1.1 off: more than rounding can explain
+    [r] = tieout.check_totals(grid.build("t", AID, "f", 122, g))
+    assert r["verdict"] == "fails"
+
+
+def test_a_failing_total_reports_its_closest_reading():
+    # PB2007 P-40 p.66, TOTAL PROGRAM: the money flow is 0.5 off (five years each
+    # rounded by 0.1), the plain sum 2,014.1 off. The flow is the residual to explain.
+    g = [["P-40 ($M)", "FY 2005", "FY 2006", "TOTAL PROGRAM"],
+         ["End Cost", "291.0", "361.4", "2450.2"],
+         ["Less Advance Procurement", "30.0", "134.3", "434.3"],
+         ["Full Funding TOA", "260.9", "227.0", "2014.1"],
+         ["Plus Advance Procurement", "63.6", "61.3", "435.6"],
+         ["Total Obligational Authority", "324.6", "288.3", "2450.2"]]
+    r = next(x for x in tieout.check_totals(grid.build("t", AID, "f", 66, g))
+             if x["column"].endswith("TOTAL PROGRAM"))
+    assert r["rule"] == "total_follows_less_and_plus_lines" and r["computed"] == "2449.7"
+    assert r["verdict"] == "within_rounding_bound"
