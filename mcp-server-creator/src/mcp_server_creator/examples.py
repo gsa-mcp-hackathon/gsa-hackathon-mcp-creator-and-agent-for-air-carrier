@@ -88,6 +88,23 @@ EXAMPLES: Final[list[Example]] = [
             "questions about individual employees."
         ),
     },
+    {
+        "persona": "weapon system cost analyst (your own table)",
+        "tables": [],
+        "prompt": (
+            "Use MCP A Creator to build an MCP server for a weapon system "
+            "cost analyst, using <catalog.schema.contract_transactions>, a "
+            "USAspending contract transactions download for the program's "
+            "contracts (for example the CVN 79 construction contracts). "
+            "First confirm the table exists and that "
+            "federal_action_obligation is numeric. They ask: 'What is the "
+            "total federal action obligation by fiscal year?', 'What is the "
+            "total federal action obligation by PIID?', 'Show monthly "
+            "federal action obligation from October 1, 2023 to September "
+            "30, 2024' and 'List the contract actions for a given PIID.' It "
+            "must refuse to estimate costs the table does not hold."
+        ),
+    },
 ]
 
 
