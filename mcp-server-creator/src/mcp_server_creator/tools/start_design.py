@@ -45,36 +45,40 @@ def register(mcp: FastMCP) -> None:
         purpose: Annotated[
             str,
             Field(
-                description=("One sentence: what this server should let an agent do.")
+                max_length=2_000,
+                description=("One sentence: what this server should let an agent do."),
             ),
         ],
         primary_user: Annotated[
             str,
             Field(
+                max_length=300,
                 description=(
                     "The one person whose job gets easier, e.g. 'a budget "
                     "analyst in a component comptroller shop'. A server "
                     "built for everyone is built for nobody."
-                )
+                ),
             ),
         ] = "",
         jobs_to_be_done: Annotated[
-            list[str],
+            list[Annotated[str, Field(max_length=500)]],
             Field(
+                max_length=20,
                 description=(
                     "Three to eight questions that person asks today, in "
                     "their own words. These become tool names and golden "
                     "questions, so do not paraphrase them into jargon."
-                )
+                ),
             ),
         ] = [],
         out_of_scope: Annotated[
-            list[str],
+            list[Annotated[str, Field(max_length=500)]],
             Field(
+                max_length=20,
                 description=(
                     "Questions the server must refuse. Scope refusal is a "
                     "feature and it is measurable."
-                )
+                ),
             ),
         ] = [],
         environment: Annotated[
@@ -91,18 +95,27 @@ def register(mcp: FastMCP) -> None:
         server_name: Annotated[
             str,
             Field(
+                max_length=60,
                 description=(
                     "Slug for the server, e.g. 'contract-triage-mcp'. "
                     "Derived from the purpose when left empty."
-                )
+                ),
             ),
         ] = "",
         domain: Annotated[
             str,
-            Field(description="Subject area, e.g. 'federal budget execution'."),
+            Field(
+                max_length=200,
+                description="Subject area, e.g. 'federal budget execution'.",
+            ),
         ] = "",
         workspace_host: Annotated[
-            str, Field(description="Databricks workspace URL, if known.")
+            str,
+            Field(
+                max_length=300,
+                pattern=r"^$|^(https://)?[A-Za-z0-9.-]+(:\d+)?/?$",
+                description="Databricks workspace URL, if known.",
+            ),
         ] = "",
         classification: Annotated[
             DataClassification,
@@ -112,9 +125,16 @@ def register(mcp: FastMCP) -> None:
             DeploymentTarget,
             Field(description="Where the generated server will run."),
         ] = DeploymentTarget.DATABRICKS_APPS,
-        maintainer: Annotated[str, Field(description="Who will own the server.")] = "",
+        maintainer: Annotated[
+            str, Field(max_length=200, description="Who will own the server.")
+        ] = "",
         repo_url: Annotated[
-            str, Field(description="Repository URL, if one exists yet.")
+            str,
+            Field(
+                max_length=500,
+                pattern=r"^$|^https://[^\s]+$",
+                description="Repository URL (https), if one exists yet.",
+            ),
         ] = "",
     ) -> dict[str, Any]:
         """Build a draft specification and list what still blocks generation.

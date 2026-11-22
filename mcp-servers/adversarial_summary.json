@@ -1,0 +1,16 @@
+{
+  "servers": [
+    "docs",
+    "analyst",
+    "ops"
+  ],
+  "tools": 30,
+  "hostile_calls": 421,
+  "tests": 423,
+  "refused": 340,
+  "answered": 81,
+  "statements_reaching_the_warehouse": 169,
+  "statements_with_a_hostile_value_bound_as_a_parameter": 124,
+  "writes": 0,
+  "hostile_values_pasted_into_sql": 0
+}

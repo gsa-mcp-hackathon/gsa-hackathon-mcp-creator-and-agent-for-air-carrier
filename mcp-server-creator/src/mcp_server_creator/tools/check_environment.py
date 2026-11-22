@@ -52,11 +52,13 @@ def register(mcp: FastMCP) -> None:
         workspace_host: Annotated[
             str,
             Field(
+                max_length=300,
+                pattern=r"^$|^(https://)?[A-Za-z0-9.-]+(:\d+)?/?$",
                 description=(
                     "Workspace URL, if you want it recorded. Probing uses "
                     "the credentials this server is configured with, not "
                     "this value."
-                )
+                ),
             ),
         ] = "",
     ) -> dict[str, Any]:

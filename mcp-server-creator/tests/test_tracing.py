@@ -54,7 +54,9 @@ async def test_a_trace_never_contains_arguments(capsys):
 async def test_a_returned_error_is_traced_as_a_tool_error(capsys):
     async with Client(mcp) as client:
         await client.call_tool(
-            "creator_generate_project", {"design_id": "dsn_0"}, raise_on_error=False
+            "creator_generate_project",
+            {"design_id": "dsn_00000000"},
+            raise_on_error=False,
         )
     (trace,) = _traces(capsys.readouterr().out)
     assert trace["outcome"] == "tool_error"

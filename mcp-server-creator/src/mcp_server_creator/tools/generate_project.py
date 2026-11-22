@@ -61,10 +61,15 @@ def register(mcp: FastMCP) -> None:
     )
     def creator_generate_project(
         design_id: Annotated[
-            str, Field(description=designs.DESIGN_ID_DESCRIPTION)
+            str,
+            Field(
+                max_length=16,
+                pattern=r"^$|^dsn_[0-9a-f]{8}$",
+                description=designs.DESIGN_ID_DESCRIPTION,
+            ),
         ] = "",
         spec_json: Annotated[
-            str, Field(description=designs.SPEC_JSON_DESCRIPTION)
+            str, Field(max_length=500_000, description=designs.SPEC_JSON_DESCRIPTION)
         ] = "",
         include_evaluation: Annotated[
             bool,
@@ -85,12 +90,13 @@ def register(mcp: FastMCP) -> None:
             ),
         ] = True,
         include_contents: Annotated[
-            list[str],
+            list[Annotated[str, Field(max_length=500)]],
             Field(
+                max_length=10,
                 description=(
                     "Paths from the index whose full text you want back, at "
                     "most ten. Leave empty to get the index only."
-                )
+                ),
             ),
         ] = [],
     ) -> dict[str, Any]:

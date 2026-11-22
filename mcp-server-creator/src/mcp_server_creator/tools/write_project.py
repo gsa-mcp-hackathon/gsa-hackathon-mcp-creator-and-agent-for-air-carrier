@@ -53,10 +53,11 @@ def register(mcp: FastMCP) -> None:
         folder: Annotated[
             str,
             Field(
+                max_length=1_000,
                 description=(
                     "For destination 'workspace': a folder inside your home "
                     "folder. Defaults to mcp-servers/<server-name>."
-                )
+                ),
             ),
         ] = "",
         create_folder: Annotated[
@@ -70,10 +71,15 @@ def register(mcp: FastMCP) -> None:
             ),
         ] = True,
         design_id: Annotated[
-            str, Field(description=designs.DESIGN_ID_DESCRIPTION)
+            str,
+            Field(
+                max_length=16,
+                pattern=r"^$|^dsn_[0-9a-f]{8}$",
+                description=designs.DESIGN_ID_DESCRIPTION,
+            ),
         ] = "",
         spec_json: Annotated[
-            str, Field(description=designs.SPEC_JSON_DESCRIPTION)
+            str, Field(max_length=500_000, description=designs.SPEC_JSON_DESCRIPTION)
         ] = "",
         dry_run: Annotated[
             bool,
@@ -87,10 +93,11 @@ def register(mcp: FastMCP) -> None:
         subdirectory: Annotated[
             str,
             Field(
+                max_length=255,
                 description=(
                     "Folder under the configured output root. Defaults to "
                     "the server name."
-                )
+                ),
             ),
         ] = "",
         overwrite: Annotated[
