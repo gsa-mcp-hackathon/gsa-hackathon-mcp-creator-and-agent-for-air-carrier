@@ -31,6 +31,25 @@ would rely on 9 of 10 answers with the servers and 1 of 10 without. Per question
 
 Also recorded per answer: would the reviewer rely on it (Y/N).
 
+## Blind second review (round 10 kit)
+
+For raters who did not build the servers, and for the owner to re-score without labels:
+
+1. `python build_blind_pack.py answers.tsv --seed "<a phrase only you know>"` writes
+   `blind_sheet.csv`: the same ten pairs as answer A and answer B. The seed decides which side
+   holds the answer with the servers; it is in neither the sheet nor the repository. Tool-call
+   markup, "Let me search" narration and the tool-limit placeholder are removed from both sides.
+2. Record the printed SHA-256 of the seed in `SEAL_BLIND.md` and commit it before any sheet goes
+   out.
+3. Each rater scores a copy, saved as `blind_sheet_<initials>.csv`, with the rubric below and the
+   round 4 answer key, against the source documents. About an hour.
+4. When every sheet is back: `python score_blind.py --seed "<seed>" --hash <recorded hash>
+   blind_sheet_*.csv` checks the seed against the hash, unblinds, and writes `BLIND_RESULTS.md`
+   with each rater's means per arm and quadratic-weighted Cohen's kappa for every pair of raters.
+
+Blinding is partial: an answer that says it could not find a source reads differently from
+one that cites a page, and that difference is part of what is being judged.
+
 ## Limits
 
 - Not blind. The export showed which run had the servers, and answers without tools contain
