@@ -1,6 +1,6 @@
 # MCP A Creator
 
-> **Scorecard:** 10 tools · 677 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
+> **Scorecard:** 10 tools · 677 tests (402 of them a hostile-input sweep of all 10 tools) · 15 of 15 generated projects pass their own tests · byte-identical output across processes · every generated project carries a provenance lock and a drift check · release 1.0.0rc1 with a changelog and SBOM, installable with `uvx` · deployed and probed. Every server's row: [SCORECARD.md](../SCORECARD.md).
 
 An MCP server whose domain is building MCP servers.
 
@@ -374,6 +374,15 @@ decides which exist.
 
 ## Getting started
 
+Install the release with `uvx`, no clone needed (release notes in
+[CHANGELOG.md](CHANGELOG.md); SBOM in [`release/`](release/)):
+
+```bash
+uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc1#subdirectory=mcp-server-creator" mcp-a-creator --version
+```
+
+Or from a clone:
+
 ```bash
 cp .env.example .env
 uv sync
@@ -401,7 +410,7 @@ Connect a client with an absolute path to this repository:
     "mcp-a-creator": {
       "command": "uv",
       "args": ["run", "mcp-a-creator"],
-      "cwd": "/absolute/path/to/petershang_gsa_hackathon"
+      "cwd": "/absolute/path/to/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-server-creator"
     }
   }
 }

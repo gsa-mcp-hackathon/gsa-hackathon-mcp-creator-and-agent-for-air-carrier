@@ -50,7 +50,7 @@ Create or edit `.mcp.json` with an **absolute path** to this repository:
     "mcp-a-creator": {
       "command": "uv",
       "args": ["run", "mcp-a-creator"],
-      "cwd": "/absolute/path/to/petershang_gsa_hackathon"
+      "cwd": "/absolute/path/to/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-server-creator"
     }
   }
 }

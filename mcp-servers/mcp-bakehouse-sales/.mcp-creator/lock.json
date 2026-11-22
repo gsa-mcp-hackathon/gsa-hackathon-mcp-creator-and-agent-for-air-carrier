@@ -1,6 +1,6 @@
 {
   "creator": "mcp-a-creator",
-  "creator_version": "0.1.0",
+  "creator_version": "1.0.0rc1",
   "files": {
     ".env.example": "dfbb7661740614002ca010c57fc6ecce2c5331e18a8057e306e023660d485c09",
     ".github/workflows/ci.yml": "05bc09cb4f92617ddd8e1b23fff37b8f66c8851ddc66b7d0b8e58d7dbea60454",

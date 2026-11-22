@@ -13,13 +13,16 @@ Important legal and policy guidelines.
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+| Version | Security fixes |
+| --- | --- |
+| 1.0.0rc1 (tag `v1.0.0-rc1`) and `main` | Yes |
+| 0.1.0 | No: it pins FastMCP 2.14, which carries CVE-2025-64340 and CVE-2026-27124 |
 
-| Version (Branch) | Supported          |
-| ------- | ------------------ |
-| main   | :white_check_mark: |
-| other  | :x:
+Each release ships a CycloneDX SBOM of its locked runtime dependencies in
+[`release/`](release/), built by `scripts/build_creator_release.sh`. CI runs
+`pip-audit` on the deployed requirements and `bandit` on the code on every push.
+The FastMCP and protocol versions each release is tested on are in the
+[README](README.md#which-fastmcp-and-protocol-versions).
 
 ## Security Researchers
 
