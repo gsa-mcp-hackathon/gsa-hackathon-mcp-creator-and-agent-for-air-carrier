@@ -40,10 +40,10 @@ built to run on every major defense acquisition program.
 
 [![Two-minute demo: the MCP servers, the agents and the front center](docs/demo/air-carrier-two-minute-demo.jpg)](docs/demo/air-carrier-two-minute-demo.mp4)
 
-1:55, 1080p, narrated and subtitled: the seven apps on Databricks, the six MCP servers, MCP A
-Creator, the stack, Impact, Ask the evidence, a specialist run with role-based approval, the
-work queue, Answer a question and the evaluation. The full 15:21 walkthrough is described
-under [Demo video](#demo-video).
+1:49, 1080p, narrated and subtitled: the seven apps on Databricks, the six MCP servers and 63
+tools, MCP A Creator, the stack, Impact, Ask the evidence as an MCP host, the agent workflow with
+role-based approval, the work queue, Answer a question and the evaluation. The full 16:13
+walkthrough is described under [Demo video](#demo-video).
 
 ## Click through the front center
 
@@ -183,7 +183,7 @@ register row or rule they name. Run locally on the shipped extracts, the four ag
 
 ### Screenshots
 
-Ten screens, in the order a reader meets the system: what runs, how agents work under
+Twenty screens, in the order a reader meets the system: what runs, how agents work under
 control, what the analysis shows, and how it was tested. **Live** screens come from the
 deployed apps in the Databricks workspace; the rest come from the app run locally on the
 shipped extracts. Every other page is in the [read-only site](#click-through-the-front-center).
@@ -201,35 +201,46 @@ shipped extracts. Every other page is in the [read-only site](#click-through-the
 | ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) | ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) |
 | **9. Impact.** From CVN-79 to the Ford class, 29 Navy ship lines, the F-35 and the 59 PB2027 MSAR programs. | **10. Evidence.** An external evaluator's questions, a blind review by an outside reviewer, tie-outs and the probe, each with what it does not show. |
 
+#### More screens: orchestration, agents and the newer pages
+
+| | |
+| --- | --- |
+| ![Build, read, investigate, govern, deliver, watch](docs/screenshots/stack-architecture.jpg) | ![You ask, agents plan, MCP servers fetch, the gate checks, you decide](docs/screenshots/impact-agents-flow.jpg) |
+| **11. How the parts fit.** Build (Creator), read (docs, ops), investigate (analyst), govern (One Hub and gate), deliver (front center), watch (probe). | **12. Orchestration.** You ask, agents plan, MCP servers fetch, the gate checks, you decide; five users trace their own question through the servers. |
+| ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
+| **13. A specialist run, live.** The orchestrator routes, code packs the records, one model explains, and each step is labeled code or model. | **14. Review and decide, live.** Each proposal names the role that owns it; only that role can tick and apply it. |
+| ![Obligation Reconciler](docs/screenshots/live-agent-reconcile.jpg) | ![Work queue](docs/screenshots/live-work-queue.jpg) |
+| **15. Obligation Reconciler, live.** 927 FPDS actions summed in exact decimals; code re-checks eight of eight conditions. | **16. Work queue, live.** Code sorts every item into one lane: decide, unblock or system. |
+| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![Answer a question](docs/screenshots/insight.jpg) |
+| **17. Brief readiness, live.** What the brief can stand on, what waits on a decision, and the gaps that block the most. | **18. Answer a question.** Headquarters and field experts answer the open questions; each answer enters as a lead with their name. |
+| ![Coverage map](docs/screenshots/coverage.jpg) | ![Rule codes](docs/screenshots/rules.jpg) |
+| **19. Coverage map.** Six layers of cost, what is present at each, and the specific access that would change it. | **20. Rule codes.** The rulebook every specialist works under, the rule register and the gate routes. |
+
 ### Demo video
 
-The 15:21 demo video (1080p, narrated, subtitled) was recorded on 2026-11-21 from the deployed
-apps and submitted with the entry. Waiting time while an agent works is cut and marked on screen.
+The 16:13 demo video (1080p, narrated in one voice, subtitles burned in) walks every page of the
+front center top to bottom from `main` at `073b269`, and shows live agent runs recorded from the
+deployed apps on 2026-11-21. Waiting time while an agent works is cut.
 Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-demo.srt).
 
 | Time | Chapter |
 | --- | --- |
-| 0:00 | The problem, the five layers, the seven apps on Databricks deployed from GitHub |
-| 2:39 | Six servers (63 tools today; the video predates the bakehouse rebuild); MCP A Creator; the evaluation |
-| 5:04 | The stack and Impact; carrying the build to the next program |
-| 6:37 | Brief, Ask the evidence, the ship, Position |
-| 7:54 | The agent workflow, and role-based approval in a live specialist run |
-| 9:46 | Cost, estimate history, budget execution, the gap register and a Gap Investigator run |
-| 10:59 | Variance, asset valuation, industrial base |
-| 11:27 | Ask the evidence, the work queue, brief readiness and an Obligation Reconciler run |
-| 12:32 | Run log, detail table, sources and method |
-| 12:56 | Answer a question: experts at headquarters and in the field |
-| 13:30 | Community expertise, beyond DoD, production posture, close |
+| 0:00 | The problem, the architecture, the seven apps on Databricks deployed from GitHub |
+| 2:12 | Six MCP servers and 63 tools; why MCP A Creator matters |
+| 3:59 | The stack and Impact; carrying the build to other DoD programs and to other agencies |
+| 6:04 | Brief, the ship, Position |
+| 6:57 | A live specialist run with role-based approval; the six-stage workflow |
+| 8:38 | Cost, cost growth, execution, the gap register and a live Gap Investigator run |
+| 10:10 | Variance, asset valuation, industrial base |
+| 10:38 | Ask the evidence as an MCP host, the work queue, brief readiness and an Obligation Reconciler run |
+| 12:33 | Run log, detail table, sources, method, rules, coverage |
+| 13:33 | Answer a question: experts at headquarters and in the field |
+| 14:33 | The evaluation, production posture, close |
 
-**Changed since the video (round 10, deployed 2026-11-22 04:20 UTC at `3d4a84f`).**
+**In this build but not on screen.**
 
-- Ask the evidence calls the docs, ops and hub servers over MCP, and each step shows which server
-  answered. Live run: one question, four tool calls across `mcp-aircarrier-docs`,
-  `mcp-aircarrier-hub` and `mcp-aircarrier-ops`
-  ([screenshot](docs/screenshots/live-ask-via-mcp.jpg)).
 - The gate checks a figure against its own hull's total and refuses a hull it has no total for
   (route R9).
-- The bakehouse server was rebuilt by MCP A Creator through its own tools: 7 tools, up from 4.
 - All FastMCP servers moved to FastMCP 3.4 or later, which closes two published CVEs, and a tool
   that returns an error body now sets `isError`. The first deploy on 3.4 crashed on a
   half-upgraded package and was fixed the same night (finding 30).

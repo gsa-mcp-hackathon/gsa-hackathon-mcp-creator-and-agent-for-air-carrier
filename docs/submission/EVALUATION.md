@@ -204,6 +204,15 @@ The 2026-11-21 demo shows the role check in a live run: the user holds PMS 379, 
 lead belongs to the Office of Financial Operations and is refused, and the request for
 obligation detail, owned by PMS 379, is applied and recorded with the role and the run number.
 
+**Engaging headquarters and field experts.** Many of the 59 open questions can be closed only by
+a person who holds the records or ran the process: the program office (PMS 379), the Navy Office
+of Financial Operations, the supervisor of shipbuilding or the finance center. The gap register
+names the office that can close each one, and Answer a question lists each open question with
+who is likely to know. An expert writes what they know, how they know it and how sure they are,
+and can attach a document. The answer enters as a lead with their name, is routed to the gap it
+answers and appears in the work queue for the owning office. It is never treated as a certified
+figure until a person in the owning role ties it to source, and the run log keeps who said what.
+
 ### 2.7 Subject-matter review of answer quality
 
 The project owner, a GS-15 DoD financial management portfolio manager, scored ten round 4
