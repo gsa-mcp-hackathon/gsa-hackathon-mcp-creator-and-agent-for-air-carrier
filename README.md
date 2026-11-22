@@ -383,24 +383,6 @@ It walks a person through seven phases, each ending in something reviewable:
 Two more tools, `creator_list_library` and `creator_load_document`, serve the skills and
 reference material, which are also exposed as MCP resources and prompts.
 
-Design choices that matter:
-
-- **State travels in the payload.** The MCP 2026-07-28 revision removed protocol
-  sessions, so the design moves between calls as a twelve-character handle and the
-  server holds no session state. The deployed servers speak protocol 2025-11-25 on
-  FastMCP 3.4; CI also runs the Creator and a generated project on FastMCP 4.2
-  (protocol 2026-07-28) and checks that the two interoperate
-  ([versions](mcp-server-creator/README.md#which-fastmcp-and-protocol-versions)).
-- **Every parameter is a scalar, enum or list of strings**, so any model and client can
-  fill it.
-- **Generated tools are typed and goal-shaped.** Column names come from an allowlist and
-  are quoted; values are bound as parameters; personal-data and out-of-scope columns are
-  removed at design time; every docstring states its grain and what it refuses.
-- **The review checks meaning, not shape.** An early design whose tools all computed the
-  wrong thing scored 4.6 of 5 on shape checks. The review now fails a tool that sums an
-  identifier, groups by a column the question never names, or leaves a question
-  uncovered, and caps the honesty score when it does.
-
 **Release and upgrade.** MCP A Creator is released as `v1.0.0-rc1`, with a changelog, a
 CycloneDX SBOM and the FastMCP and protocol versions it is tested on, and installs without a clone:
 
@@ -413,24 +395,6 @@ SHA-256 of every file, and its CI fails on undeclared drift. `mcp-a-creator-upgr
 a project with a newer Creator, keeps the files the owner edited and lists any conflict, so a
 server stays upgradable after people change it. Output is byte-identical across processes, not
 only within one ([release and upgrade](mcp-server-creator/README.md)).
-
-The Creator works as a Genie Code connector. See
-[mcp-server-creator/README.md](mcp-server-creator/README.md) for the walk-through and five
-example prompts. It has built two servers in this repository, on two unrelated datasets:
-[`mcp-aircarrier-ops`](mcp-servers/mcp-aircarrier-ops/) over the CVN-79 stores, and
-[`mcp-bakehouse-sales`](mcp-servers/mcp-bakehouse-sales/) over Databricks'
-`samples.bakehouse` sales table, chosen because every workspace has it. The second build is
-the proof that the Creator is not tied to the carrier: same tool, different table, a tested
-server. On 2026-11-21 the bakehouse server was rebuilt by today's Creator from the same
-purpose and questions, through its own tools, in 0.38 s
-([`eval/rebuild_bakehouse.py`](mcp-server-creator/eval/rebuild_bakehouse.py)): 7 tools
-instead of 4, every recorded question answered, review "Sound design", and a
-`.mcp-creator/` lock with its spec, the Creator version and every file's hash. The rebuild
-also exposed three Creator defects, now fixed (finding 24), and a determinism gap across
-processes (finding 25). Ops is deployed and probed. The bakehouse app ran until
-2026-11-21, when it was deleted so the One Hub server could take its slot (the shared
-workspace is capped at 100 apps); it redeploys from `mcp-servers/mcp-bakehouse-sales/`
-whenever a slot is free.
 
 ---
 
@@ -700,17 +664,6 @@ All data is public. The main sources are:
 - GAO-26-108457 and earlier GAO reviews of the program
 - USAspending and FPDS-NG transaction records for N00024-09-C-2116 and N00024-15-C-2114
 - 10 U.S.C. 8692, Ford-class aircraft carriers: cost limitation baselines
-
-For the portfolio and audit context in [Why this matters](#why-it-matters-in-brief):
-
-- GAO-26-108457, *Weapon Systems Annual Assessment*, July 2026
-- OUSD(C), *Program Acquisition Cost by Weapon System*, FY2026 budget request
-- DoD FY2025 Agency Financial Report, Independent Auditor's Report and Other Information
-- CRS IF12627, *Defense Primer: FY2025 Department of Defense Audit Results*
-- GAO-25-108052, *Insights into the Auditability of DOD's Fiscal Year 2024 Balance Sheet*
-- Department of the Navy FY2025 Agency Financial Report
-- GAO-23-106098, *F-35 Program: DOD Needs Better Accountability for Global Spare Parts*
-- GAO-17-575, *Ford-Class Aircraft Carrier: Follow-On Ships Need More Frequent and Accurate Cost Estimates to Avoid Pitfalls of Lead Ship*
 
 The full source list, with each document's role, is on the front center's Sources page
 and in `the-one-hub/ops-center/corpus/`.
