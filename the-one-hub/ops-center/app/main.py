@@ -70,7 +70,7 @@ SNAPSHOT_PAGES = {
     "/runs": "Runs started here are kept in this process until it stops; the deployment "
              "keeps them in Delta tables.",
     "/ask": "With no model endpoint reachable the agent answers by search alone, from the "
-            "same records.",
+            "same records. Deployed, it calls the docs, ops and One Hub MCP servers.",
 }
 
 
@@ -935,9 +935,13 @@ def api_live():
 # -------------------------------------------------------------------- agent
 @app.get("/ask", response_class=HTMLResponse)
 def ask_page(request: Request):
-    from api import agent
+    from api import agent, mcp_host
+    # Say which transport this copy uses, so a reader of a local run is not
+    # told the page calls MCP servers when it cannot (2026-11-22).
+    transport = ("MCP host over " + ", ".join(mcp_host.app_names()) if mcp_host.enabled()
+                 else "in-app tools over the same records (AIRCARRIER_ASK_VIA_MCP is off)")
     return page(request, "ask.html", "Ask the evidence", models=agent.models(),
-                live=live.status(), xmeta=explore.meta())
+                live=live.status(), xmeta=explore.meta(), transport=transport)
 
 
 @app.post("/api/ask", tags=["agent"])

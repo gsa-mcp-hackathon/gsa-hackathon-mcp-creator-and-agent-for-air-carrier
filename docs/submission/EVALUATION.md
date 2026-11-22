@@ -58,8 +58,8 @@ and the subject-matter review do.
 
 The One Hub also runs six script suites (agents 46/46, gate, LLM tracing, app routes,
 serverless entry points, tie-out); all pass. The evidence check finds no broken relative
-links, finds both `RESULTS.md` files equal to their raw runs, and runs the 36 round 4 grader
-and runner tests. The analyst's eight vendoring checks compare its copy of the One Hub core
+links, finds both `RESULTS.md` files equal to their raw runs, and runs 59 evaluation tests: the round 4
+grader and runner, and the round 5 seal and keys. The analyst's eight vendoring checks compare its copy of the One Hub core
 with the core in the same clone; until 2026-11-21 they pointed at one workspace path and
 were skipped everywhere else. A generated weather server (20 tests) was removed from the
 repository on 2026-11-21 and is not in these totals.

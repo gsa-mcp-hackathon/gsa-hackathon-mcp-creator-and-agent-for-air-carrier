@@ -23,7 +23,7 @@
 </script>
 </head>
 <body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
-Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-21.
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-22.
 Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
 <a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
 <a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
@@ -182,6 +182,16 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <div class="v" style="font-size:1.45rem">88.4% vs 14.5%</div>
 <div class="n">Round 4, Claude Sonnet 4.5, 69 questions, three repeats, fixed by SHA-256 before the run; GPT-5 mini 78.7% vs 1.4%</div>
 </a>
+<a class="kpi" href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/round5/RESULTS.md" rel="noopener" style="text-decoration:none;color:inherit" target="_blank">
+<div class="k">An independent author's sealed questions</div>
+<div class="v" style="font-size:1.45rem">83.3% and 63.3%</div>
+<div class="n">Round 5, ten questions written outside the build team: Claude 25/30, GPT-5 mini 19/30 with the tools; 1 of 10 each without</div>
+</a>
+<a class="kpi" href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/sme_review/BLIND_RESULTS.md" rel="noopener" style="text-decoration:none;color:inherit" target="_blank">
+<div class="k">Answers a reviewer would rely on, blind</div>
+<div class="v" style="font-size:1.45rem">9 of 10 vs 0 of 10</div>
+<div class="n">An outside rater scored ten answer pairs without knowing which had the servers: 5.4 of 6 vs 1.0</div>
+</a>
 <a class="kpi" href="../gaps/" style="text-decoration:none;color:inherit">
 <div class="k">Questions not yet closed, each with an owner</div>
 <div class="v" style="font-size:1.45rem">59 of 65</div>
@@ -197,6 +207,11 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <div class="v" style="font-size:1.45rem">1,234 of 1,234</div>
 <div class="n">99.90% of 6,193 checks ok, 2026-11-12 to 2026-11-20</div>
 </a>
+<a class="kpi" href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/docs/submission/evidence/tieout_store_2026-11-22.json" rel="noopener" style="text-decoration:none;color:inherit" target="_blank">
+<div class="k">Tie-out checks pass in 34 budget PDFs</div>
+<div class="v" style="font-size:1.45rem">7,743 of 7,746</div>
+<div class="n">Every subtotal and total in exact decimals, no model; the 3 left are within rounding</div>
+</a>
 </div>
 </section>
 <section class="imp-band" id="workflow">
@@ -206,10 +221,10 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
   never does the arithmetic and never writes to the record: tools compute, the gate decides what
   may be shown as fact, and a person applies every change.</p>
 <div class="imp-flow">
-<div class="node user"><div class="who">1 · You</div><div class="what">Ask in plain words</div><div class="detail">In Genie Code, any MCP client, or the Ask page. Nothing to configure</div></div>
+<div class="node user"><div class="who">1 · You</div><div class="what">Ask in plain words</div><div class="detail">In Genie Code, any MCP client, or the Ask page, itself an MCP host. Nothing to configure</div></div>
 <div class="node agent"><div class="who">2 · Agents plan</div><div class="what">Decide what evidence the answer needs</div><div class="detail">Investigator, reader, attributor and briefer. They never call each other; each hand-off is a row in the work register</div></div>
-<div class="node server"><div class="who">3 · MCP servers fetch</div><div class="what">Docs, Analyst, Ops</div><div class="detail">Exhibits rebuilt to exact decimals, contract actions to the cent, every value with its page or row hash. 30 tools, read-only except one gated label write</div></div>
-<div class="node gate"><div class="who">4 · The gate checks</div><div class="what">Every figure, before you see it</div><div class="detail">No model. A figure that ties to a source record is verified; anything else is a lead, a review or a gap</div></div>
+<div class="node server"><div class="who">3 · MCP servers fetch</div><div class="what">Docs, Analyst, Ops, One Hub</div><div class="detail">Exhibits to exact decimals, contract actions to the cent, every value with its page or row hash. Each step names the server that answered</div></div>
+<div class="node gate"><div class="who">4 · The gate checks</div><div class="what">Every figure, before you see it</div><div class="detail">No model. Each hull against its own total; a VERIFIED tag needs a source and a page. What does not tie is a lead, a review or a gap</div></div>
 <div class="node agent"><div class="who">5 · Challenger attacks</div><div class="what">The draft, against known error classes</div><div class="detail">Wrong hull, collided identifiers, secondary sources passed off as primary</div></div>
 <div class="node user"><div class="who">6 · You decide</div><div class="what">Approve, edit or dismiss</div><div class="detail">Nothing changes the record until a person with the right role applies it</div></div>
 <div class="node server"><div class="who">7 · Registers remember</div><div class="what">Variances, gaps, decisions</div><div class="detail">The next run starts where this one ended, on any hull or program</div></div>
@@ -295,12 +310,13 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <div class="card" style="margin:0">
 <p style="margin-top:0">An analyst brings a question and a Unity Catalog table. The Creator walks seven phases,
     each ending in something a person can review, and deploys the result as that person's own app.
-    The ops server inside this hub was built this way. A new hull or program needs a key set and a
+    The ops server inside this hub was built this way, and so was a sales server on an unrelated
+    table, rebuilt through the Creator's own tools in under a second. A new hull or program needs a key set and a
     regeneration, with no development project.</p>
 <div class="grid g4" style="margin-top:.8rem">
 <div class="stat"><div class="v" style="font-size:1.2rem">15 of 15</div><div class="n">Generated projects pass their own tests and lint</div></div>
-<div class="stat"><div class="v" style="font-size:1.2rem">58 of 58</div><div class="n">Files byte-identical from the same specification</div></div>
-<div class="stat"><div class="v" style="font-size:1.2rem">7 tools</div><div class="n">The ops server inside this hub, generated by the Creator</div></div>
+<div class="stat"><div class="v" style="font-size:1.2rem">58 of 58</div><div class="n">Files byte-identical from the same specification, across processes</div></div>
+<div class="stat"><div class="v" style="font-size:1.2rem">1.0.0rc1</div><div class="n">Released with a changelog and SBOM; an upgrade regenerates a server and keeps the owner's edits</div></div>
 <div class="stat"><div class="v" style="font-size:1.2rem">1 key set</div><div class="n">What a new hull or program adds before the Creator rebuilds its server</div></div>
 </div>
 </div>
@@ -327,7 +343,7 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <h2>Each new program supplies data, not software</h2>
 <div class="card" style="margin:0"><div class="tscroll"><table>
 <thead><tr><th>Part of the stack</th><th>Reused unchanged</th><th>Each new hull or program adds</th></tr></thead>
-<tbody><tr><td><b>MCP A Creator</b></td><td>Ten tools, eight skills, generators, review, deploy gate</td><td>A question and a Unity Catalog table</td></tr><tr><td><b>Docs server</b></td><td>Reader, document map, tie-out, figure search; no CVN-79 logic in the reader</td><td>The program's PDFs in a volume; one hull-map entry per budget line for ships</td></tr><tr><td><b>Analyst server</b></td><td>Investigation method, evidence weights, collection requests</td><td>Contract numbers and program codes from the key set</td></tr><tr><td><b>Ops server</b></td><td>Exhibit-cell, obligation and register tools</td><td>Regenerated by the Creator over the program's tables</td></tr><tr><td><b>One Hub gate and registers</b></td><td>Promote, review, gap and lead routes; variance and gap types</td><td>The subject total; the floor is a share of it, so it moves with the program</td></tr><tr><td><b>Six agents and the work register</b></td><td>Hand-offs as row state changes</td><td>The subject name in five specialist prompts</td></tr><tr><td><b>Probe</b></td><td>Initialize, tools/list, one known answer, every 15 minutes</td><td>One known-answer check per new server</td></tr></tbody>
+<tbody><tr><td><b>MCP A Creator</b></td><td>Ten tools, eight skills, generators, review, deploy gate, provenance lock and upgrade</td><td>A question and a Unity Catalog table</td></tr><tr><td><b>Docs server</b></td><td>Reader, document map, tie-out, figure search; no CVN-79 logic in the reader</td><td>The program's PDFs in a volume; one hull-map entry per budget line for ships</td></tr><tr><td><b>Analyst server</b></td><td>Investigation method, evidence weights, collection requests</td><td>Contract numbers and program codes from the key set</td></tr><tr><td><b>Ops server</b></td><td>Exhibit-cell, obligation and register tools</td><td>Regenerated by the Creator over the program's tables</td></tr><tr><td><b>One Hub gate and registers</b></td><td>Promote, review, gap and lead routes; variance and gap types</td><td>The program's subject total per hull; the floor is a share of it, so it moves with the program</td></tr><tr><td><b>Six agents and the work register</b></td><td>Hand-offs as row state changes</td><td>The subject name in five specialist prompts</td></tr><tr><td><b>Probe</b></td><td>Initialize, tools/list, one known answer, every 15 minutes</td><td>One known-answer check per new server</td></tr></tbody>
 </table></div></div>
 </section>
 <section class="imp-band" id="hulls">

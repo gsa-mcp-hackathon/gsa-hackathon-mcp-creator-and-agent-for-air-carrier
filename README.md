@@ -62,9 +62,9 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Technical quality, C1: readability and maintainability (separate data models, tool definitions, API interactions) | [Repository map](#repository-map), e.g. `mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/` (`models.py`, `tools/`, `data/warehouse.py`) | The ops server keeps data models, one file per tool, and warehouse access in separate modules; one ruff pin across all projects |
 | Technical quality, C2: performance and reliability (own evaluation setup and results, inputs, error handling, stable performance) | [Evaluation](docs/submission/EVALUATION.md), sections 1 and 2 | Five test layers with their inputs; probe latency table; 99.90% of 6,193 production checks ok |
 | Technical quality, C3: MCP design (Pydantic-validated inputs, unambiguous names and descriptions, goal-shaped tools, not thin wrappers) | [Security](#security), [Evaluation](docs/submission/EVALUATION.md) section 4 | Every parameter validated and attacked (825 hostile-input cases over 40 tools); tools return totals and summaries, not raw rows; renames made after models misread a name |
-| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](docs/IMPACT.md#who-uses-it-and-what-changes-for-them), [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](docs/IMPACT.md#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget; a [subject-matter review](eval/delegation/sme_review/RESULTS.md) by a DoD financial manager: 5.4 of 6 with the servers, 1.6 without |
+| Mission alignment (mission needs, service delivery and oversight) | [Impact page](#where-to-start) `/impact`, [who uses it](docs/IMPACT.md#who-uses-it-and-what-changes-for-them), [the stack](docs/IMPACT.md#the-stack-seven-capabilities-each-useful-on-its-own) and [from one hull to every program](docs/IMPACT.md#from-one-hull-to-every-major-weapon-system) | Six user groups from PEO to auditor; seven capabilities, each useful alone; one GL record traced through the stack; the path from CVN-79 to the 72 MDAPs in the FY2026 budget; a [subject-matter review](eval/delegation/sme_review/RESULTS.md) by a DoD financial manager: 5.4 of 6 with the servers, 1.6 without; [scored blind](eval/delegation/sme_review/BLIND_RESULTS.md) by an outside rater: would rely on 9 of 10 answers with the servers, 0 of 10 without |
 | Technical quality | [`scripts/check.sh`](scripts/check.sh), the [CI run](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml) and the [JUnit XML of a clean-clone run](docs/submission/evidence/junit/README.md) | One command runs every suite from a clean clone: 9 projects, 1,649 tests, lint, a portability scan and a figures check, on Python 3.11 and 3.12 |
-| Technical quality | [Delegation evaluation](eval/delegation/README.md) | Four held-out rounds; rounds 2 to 4 sealed by SHA-256 before the run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Round 4, 69 questions (45 drawn by a seeded generator, 24 reviewed by the project owner), grader v2: **Claude 88.4%, GPT-5 mini 78.7% with, 14.5% and 1.4% without** ([results](eval/delegation/round4/RESULTS.md)). Round 5, ten questions from an independent author: **Claude 83.3%, GPT-5 mini 63.3%** with, 10% without ([results](eval/delegation/round5/RESULTS.md)). Every miss is read and its cause published, grader defects included |
+| Technical quality | [Delegation evaluation](eval/delegation/README.md) | Five held-out rounds; rounds 2 to 5 sealed by SHA-256 before the run. Round 1, 4 questions: 83.3% with the tools, 25.0% without. Round 2, 12 questions: 43.1% with, 12.5% without; 28 of 41 misses needed a tool or option that did not exist, now built. Round 3, 12 new questions after the fixes: **69.4% with, 4.2% without**. Round 4, 69 questions (45 drawn by a seeded generator, 24 reviewed by the project owner), grader v2: **Claude 88.4%, GPT-5 mini 78.7% with, 14.5% and 1.4% without** ([results](eval/delegation/round4/RESULTS.md)). Round 5, ten questions from an independent author: **Claude 83.3%, GPT-5 mini 63.3%** with, 10% without ([results](eval/delegation/round5/RESULTS.md)). Every miss is read and its cause published, grader defects included |
 | Technical quality | [Evaluation](docs/submission/EVALUATION.md) (GSA's four headings), [findings and fixes](docs/submission/FINDINGS.md), [claim map](#claim-to-artifact-map) | Eight-day probe at 99.90% with 1,234 of 1,234 known answers right, independent answer keys, tie-outs to the cent; each headline number mapped to the file and command that prove it |
 | Technical quality | [Security](#security) | 421 hostile calls against all 30 read tools: 340 refused, none wrote, none pasted an argument into SQL; 400 more against the Creator's 10 tools with writing on: nothing escaped, nothing written outside its root; counts generated by the sweeps ([read servers](mcp-servers/adversarial_summary.json), [Creator](mcp-server-creator/tests/adversarial_summary.json)) |
 | Innovation (creative MCP tooling, unique agent workflows) | [MCP A Creator](#mcp-a-creator) | An MCP server that builds MCP servers: same specification, byte-identical project, with its own tests and evaluation, deployed only on an approval bound to what was reviewed |
@@ -75,7 +75,8 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Measure | Result | What it does not show |
 | --- | --- | --- |
 | Subject-matter review: 10 round 4 answer pairs scored by a GS-15 DoD financial manager on correct, cited and usable | With the servers 5.4 of 6, without tools 1.6; would rely on 9 of 10 vs 1 of 10 ([results](eval/delegation/sme_review/RESULTS.md)). Blind re-score by an outside rater, a teammate who did not build the servers: 5.4 vs 1.0, would rely on 9 of 10 vs 0 of 10, preferred the answer with the servers in 10 of 10 ([blind results](eval/delegation/sme_review/BLIND_RESULTS.md)) | One outside rater, so no agreement statistic; the owner's own review was not blind |
-| Sealed held-out questions, round 4: 69 questions, 30 tools at once, three repeats | Claude Sonnet 4.5 183/207 (88.4%, CI 81.2 to 94.7) vs 14.5% without tools; GPT-5 mini 163/207 (78.7%) vs 1.4% | Rounds 1 to 4 written on the builder's side. Round 5, ten questions from an independent author: Claude 25/30 (83.3%), GPT-5 mini 19/30 (63.3%; 21/30 by hand), 1/10 each without tools ([round 5](eval/delegation/round5/RESULTS.md)) |
+| Sealed held-out questions, round 4: 69 questions, 30 tools at once, three repeats | Claude Sonnet 4.5 183/207 (88.4%, CI 81.2 to 94.7) vs 14.5% without tools; GPT-5 mini 163/207 (78.7%) vs 1.4% | Written on the builder's side: 45 drawn by a seeded generator, 24 drafted by Genie Code and reviewed by the project owner. Round 5 below is the outside check |
+| Sealed questions from an independent author, round 5: ten questions by a teammate who did not build the tools, hashed on receipt | Claude Sonnet 4.5 25/30 (83.3%, CI 66.4 to 92.7), GPT-5 mini 19/30 (63.3%; 21/30 read by hand); 1/10 each without tools. The five exhibit questions: 30 of 30 runs right for both models ([round 5](eval/delegation/round5/RESULTS.md)) | Ten questions. The misses cluster on a source the servers do not hold (DoD contract announcements) and on the eight-turn tool limit; two grader defects are published, not fixed after the fact |
 | Tool choice by real models (Claude Sonnet 4.5, GPT-5 mini), round 1: 14 questions, 29 tools at once | 80/84 runs correct (95.2%, CI 88.4 to 98.1) vs 2/28 without tools; strict held-out 20/24 (83.3%) vs 2/8 | 14 questions, only 4 strictly held out; the interval is wide (64.1 to 93.3) |
 | Sealed held-out questions, round 2, with vs without tools | 31/72 (43.1%, CI 32.3 to 54.6) vs 3/24 (12.5%) | Run on the 29-tool catalog, before the fixes it prompted. 28 of the 41 misses needed a tool or option that did not exist; 5 are a grader pattern that rejected "cannot find"; the score is reported as graded |
 | Sealed held-out questions, round 3 (after the fixes), with vs without tools | 50/72 (69.4%, CI 58.0 to 78.9) vs 1/24 (4.2%) | Questions written by the same author as the fixes. 5 misses are an answer-key error of mine (G07); read by hand, 55/72. Real misses remain on counting by sign, a contamination recorded only in the dossier, and multi-source figures |
@@ -84,6 +85,9 @@ deployed app. Rebuild it from `the-one-hub/ops-center` with
 | Creator determinism | Same specification, byte-identical files: 58 of 58 | Determinism is not correctness; the review checks meaning separately |
 | Availability of the deployed servers | 99.90% of 6,193 checks in 413 probe sweeps, 2026-11-12 to 2026-11-20; 1,234 of 1,234 known-answer checks right | One workspace, eight days |
 | Data integrity | $13,409.970M Total Ship Estimate closes to 0.000 on two independent axes | The exhibit ties to itself; it is a budget estimate, not an audited cost |
+| Tie-outs on the deployed store, all 34 PDFs | 7,743 of 7,746 subtotal and total checks pass; the 3 left are within the rounding bound of the printed figures ([evidence](docs/submission/evidence/tieout_store_2026-11-22.json)) | A table that ties to itself can still be the wrong table; the reader checks arithmetic, not the book's judgment |
+| Latency after the docs cache fix | Docs: 233 of 234 right across a cache expiry, p50 1.18 s, p95 1.34 s, max 2.34 s (12 to 20 s before the fix). Hub: p50 54 ms in the probe ([evidence](docs/submission/evidence/latency_2026-11-22.json)) | One night, one workspace; the docs run includes laptop network time |
+| Accuracy by the server of the first tool call, round 4 | Claude Sonnet 4.5 87.2% from docs (117 runs), 89.7% from ops (78); GPT-5 mini 75.2% and 84.0% ([evidence](docs/submission/evidence/delegation_by_server_r4.json)) | The first call shows where a run started, not every server it used; analyst starts too few runs to read as a rate |
 
 The repository holds the product and the proof that it works: MCP A Creator, the One Hub
 that it supports (servers, front center, agents and gate), and the evaluation behind every
@@ -178,7 +182,7 @@ register row or rule they name. Run locally on the shipped extracts, the four ag
 
 ### Screenshots
 
-Taken on 2026-11-21. Pages marked **live** are from the deployed apps in the Databricks
+Taken on 2026-11-21 and 2026-11-22. Pages marked **live** are from the deployed apps in the Databricks
 workspace; the rest are from the app run locally on the shipped extracts.
 
 #### MCP servers
@@ -202,8 +206,8 @@ workspace; the rest are from the app run locally on the shipped extracts.
 | **Checks, live.** Code re-tests every condition of the run: 11 of 11. | **Obligation Reconciler, live.** 927 actions summed in exact decimals; 8 of 8 conditions re-tested. |
 | ![Work queue](docs/screenshots/live-work-queue.jpg) | ![Run log](docs/screenshots/live-run-log.jpg) |
 | **Work queue, live.** Every item in one lane by code: decide, unblock or system. | **Run log, live.** Every agent run and every action by every person, exportable. |
-| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![Ask the evidence: a cited answer, marked as a lead](docs/screenshots/live-ask.jpg) |
-| **Brief readiness, live.** 13 of 32 CVN-79 figures tie to source records today. | **Ask the evidence, live.** One tool call, the total, the largest action and every modification it rests on. |
+| ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![Ask the evidence as an MCP host: four tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) |
+| **Brief readiness, live.** 13 of 32 CVN-79 figures tie to source records today. | **Ask the evidence, live, as an MCP host.** One question, four tool calls: the docs server finds the line and rebuilds the exhibit, the hub server's gate routes the figure, the docs server ties the table out. Each step names its server. |
 
 #### Pages
 
@@ -211,6 +215,8 @@ workspace; the rest are from the app run locally on the shipped extracts.
 | --- | --- |
 | ![The stack: seven capabilities](docs/screenshots/stack.jpg) | ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) |
 | **The stack.** The seven capabilities, how they fit, how each was tested and what the tests do not show. | **Impact.** From CVN-79 to the Ford class, 29 Navy ship lines, the F-35 and the 59 PB2027 MSAR programs. |
+| ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) | ![Impact: measured on one hull](docs/screenshots/impact-results.jpg) |
+| **The stack, evidence.** The outside checks first: an independent author's questions, the blind review, tie-outs and the probe; then every measure with what it does not show. | **Impact, results.** Nine measured results on CVN-79, each linked to the page or file that shows it. |
 | ![Brief: a guided start](docs/screenshots/brief.jpg) | ![Position: which figure to quote](docs/screenshots/position.jpg) |
 | **Brief.** Four steps: pick your question, check what the evidence supports, act on what is open, use the tools. | **Position.** The four published figures, what kind of number each is, and what not to call it. |
 | ![Cost composition: two axes, zero residual](docs/screenshots/cost.jpg) | ![Budget execution from the transaction record](docs/screenshots/execution.jpg) |
@@ -263,7 +269,8 @@ Subtitles: [air-carrier-cvn79-demo.srt](docs/submission/demo/air-carrier-cvn79-d
 The One Hub is built from four parts.
 
 **Three MCP servers, 30 tools, all Databricks Apps.** Any MCP client can use them,
-including Genie Code, and the front center and the agents use the same ones.
+including Genie Code. The front center's Ask the evidence calls docs and ops (and the
+One Hub server) over MCP; the specialists read the same stores with SQL.
 
 | Server | Tools | What it answers |
 | --- | --- | --- |
@@ -392,6 +399,19 @@ Design choices that matter:
   identifier, groups by a column the question never names, or leaves a question
   uncovered, and caps the honesty score when it does.
 
+**Release and upgrade.** MCP A Creator is released as `v1.0.0-rc1`, with a changelog, a
+CycloneDX SBOM and the FastMCP and protocol versions it is tested on, and installs without a clone:
+
+```
+uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn@v1.0.0-rc1#subdirectory=mcp-server-creator" mcp-a-creator --version
+```
+
+Every generated project carries `.mcp-creator/` with its spec, the Creator version and the
+SHA-256 of every file, and its CI fails on undeclared drift. `mcp-a-creator-upgrade` regenerates
+a project with a newer Creator, keeps the files the owner edited and lists any conflict, so a
+server stays upgradable after people change it. Output is byte-identical across processes, not
+only within one ([release and upgrade](mcp-server-creator/README.md)).
+
 The Creator works as a Genie Code connector. See
 [mcp-server-creator/README.md](mcp-server-creator/README.md) for the walk-through and five
 example prompts. It has built two servers in this repository, on two unrelated datasets:
@@ -422,42 +442,46 @@ flowchart LR
     EX[Budget exhibits<br/>P-5c cells]
     WR[Work register<br/>gaps, variances, proposals]
   end
-  subgraph Apps["Databricks Apps (MCP over streamable HTTP)"]
+  subgraph Apps["Seven Databricks Apps, deployed from this repository (MCP over streamable HTTP)"]
     CR[mcp-a-creator<br/>10 tools]
     DOC[mcp-aircarrier-docs<br/>11 tools]
     AN[mcp-aircarrier-analyst<br/>12 tools]
-    OPS[mcp-aircarrier-ops<br/>7 tools]
-    GEN[Generated server<br/>bakehouse]
+    OPS[mcp-aircarrier-ops<br/>7 tools, built by the Creator]
+    HUB[mcp-aircarrier-hub<br/>16 tools, the gate]
     PR[aircarrier-mcp-probe]
+    FC[One Hub front center<br/>Ask the evidence is an MCP host]
   end
   subgraph Use["Who uses them"]
     GC[Genie Code or any MCP client]
-    FC[One Hub front center<br/>Databricks App]
     SP[Four specialist agents<br/>propose]
     AG[Ops-center agents]
-    HUB[mcp-aircarrier-hub<br/>16 tools, HTTP and stdio]
+    GEN[Generated server<br/>bakehouse, in the repository]
   end
   PDF --> DOC
   TX --> AN
   TX --> OPS
   EX --> OPS
   WR --> OPS
-  CR -- generates and deploys --> GEN
+  WR --> HUB
+  CR -- generates --> GEN
+  CR -- generated --> OPS
   DOC --> GC
   AN --> GC
   OPS --> GC
+  HUB --> GC
   CR --> GC
-  DOC --> FC
-  AN --> FC
-  OPS --> FC
-  OPS --> AG
+  FC -- MCP --> DOC
+  FC -- MCP --> OPS
+  FC -- MCP --> HUB
   FC --> SP
   SP -- proposals, decided by role --> WR
-  HUB --> GC
+  OPS --> AG
   AG -- every handoff is a row --> WR
-  PR -. scheduled calls .-> DOC
+  PR -. every 15 minutes .-> DOC
   PR -.-> AN
   PR -.-> OPS
+  PR -.-> HUB
+  PR -.-> CR
 ```
 
 All seven apps run in one workspace and deploy from this repository. Tables are read as the
@@ -468,7 +492,7 @@ fallback; decisions run under the signed-in user's own token.
 
 ## How we know it works
 
-The evaluation has four layers, one question each. Full method and results are in the
+The evaluation has seven layers, one question each. Full method and results are in the
 [evaluation report](docs/submission/evaluation-report.pdf).
 
 | Layer | Question | Result |
@@ -477,7 +501,9 @@ The evaluation has four layers, one question each. Full method and results are i
 | Creator end to end | Does the Creator build good servers, repeatably? | The five README prompts, three runs each, through the MCP interface: **15 of 15** generated projects passed their own tests and lint, and each server's files were byte-identical across runs. Of 14 questions, 11 got the right tool, a stated reason why not, or a review flag; 3 did not, and the report names them. Two of the three were confident tools for a different question; the review's new `tool_computes_its_question` check flags both when the same prompts are designed offline with the tables' columns |
 | Golden set | Does the ops server answer correctly and stay in scope? | 17 items with answers computed by independent SQL, including decoy, no-action, out-of-scope and injection cases ([eval/](mcp-servers/mcp-aircarrier-ops/eval/)) |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 read tools gets SQL fragments, path traversal, oversized values, wrong enum members and control characters: **421 hostile calls, 340 refused, 81 answered safely, 0 writes, 0 arguments pasted into SQL** ([test](mcp-servers/test_adversarial_arguments.py)); the same values against the Creator's 10 tools: **400 calls, nothing escaped or written outside its root** ([test](mcp-server-creator/tests/test_adversarial_arguments.py)) |
-| Delegation | Given all the tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, three repeats each plus a no-tool baseline. Round 1, 14 questions: **80 of 84 (95.2%)** with 29 tools, 2 of 28 without; strict held-out 20/24 (83.3%). Round 2, 12 sealed questions: **31 of 72 (43.1%)**, 3 of 24 without. Round 3, 12 new sealed questions after the fixes, 30 tools: **50 of 72 (69.4%, CI 58.0 to 78.9)**, 1 of 24 without. Round 4, 69 sealed questions, 30 tools: **Claude Sonnet 4.5 183 of 207 (88.4%, CI 81.2 to 94.7), GPT-5 mini 163 of 207 (78.7%, CI 70.0 to 86.5)**, 10 of 69 and 1 of 69 without; intervals resample questions ([round 4 results](eval/delegation/round4/RESULTS.md)). Raw runs and the script that re-derives every number: [eval/delegation/](eval/delegation/README.md) |
+| Delegation | Given all the tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, three repeats each plus a no-tool baseline. Round 1, 14 questions: **80 of 84 (95.2%)** with 29 tools, 2 of 28 without; strict held-out 20/24 (83.3%). Round 2, 12 sealed questions: **31 of 72 (43.1%)**, 3 of 24 without. Round 3, 12 new sealed questions after the fixes, 30 tools: **50 of 72 (69.4%, CI 58.0 to 78.9)**, 1 of 24 without. Round 4, 69 sealed questions, 30 tools: **Claude Sonnet 4.5 183 of 207 (88.4%, CI 81.2 to 94.7), GPT-5 mini 163 of 207 (78.7%, CI 70.0 to 86.5)**, 10 of 69 and 1 of 69 without; intervals resample questions ([round 4 results](eval/delegation/round4/RESULTS.md)). Round 5, ten sealed questions from an independent author: **Claude 25 of 30 (83.3%), GPT-5 mini 19 of 30 (63.3%)**, 1 of 10 each without ([round 5 results](eval/delegation/round5/RESULTS.md)). Raw runs and the script that re-derives every number: [eval/delegation/](eval/delegation/README.md) |
+| Subject-matter review | Would a DoD financial manager rely on the answers? | Ten round 4 answer pairs scored on correct, cited and usable. The project owner: **5.4 of 6 with the servers, 1.6 without**. Then blind, by an outside rater who did not build the servers, sides set by a sealed seed and tool traces removed: **5.4 vs 1.0, would rely on 9 of 10 vs 0 of 10, preferred the servers' answer 10 of 10** ([owner](eval/delegation/sme_review/RESULTS.md), [blind](eval/delegation/sme_review/BLIND_RESULTS.md)) |
+| Tie-outs | Do the rebuilt budget tables add up? | Every subtotal and total in the 34 PDFs, in exact decimals, no model: **7,743 of 7,746 pass on the deployed store**; the 3 left are within the rounding bound of the printed figures ([evidence](docs/submission/evidence/tieout_store_2026-11-22.json)) |
 
 Every delegation run is logged to Delta with a SHA-256 of the tool catalog, so a result
 is tied to the exact tool surface it measured. Rounds 2, 3 and 4 were sealed: questions and
@@ -511,6 +537,11 @@ happened to each finding is in the
 | 99.90% availability over eight days | [evaluation](docs/submission/EVALUATION.md), section 2.2 | The probe app, [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/) |
 | 43.1% and 69.4% on sealed questions fixed before each run | [`eval/delegation/README.md`](eval/delegation/README.md) (the seals), [`questions_h2.json`](eval/delegation/questions_h2.json), [`questions_h3.json`](eval/delegation/questions_h3.json) | `sha256sum eval/delegation/questions_h*.json`, then `python3 eval/delegation/analyze.py` |
 | Round 4: 88.4% (Claude) and 78.7% (GPT-5 mini) on 69 sealed questions | [`round4/SEAL.md`](eval/delegation/round4/SEAL.md), [`questions_h4.json`](eval/delegation/round4/questions_h4.json), [`runs_r4.csv`](eval/delegation/round4/runs_r4.csv), [`RESULTS.md`](eval/delegation/round4/RESULTS.md) | `sha256sum eval/delegation/round4/questions_h4.json`, then `python3 eval/delegation/round4/analyze_round4.py` (CI fails if it disagrees with RESULTS.md) |
+| Round 5: 83.3% (Claude) and 63.3% (GPT-5 mini) on an independent author's sealed questions | [`round5/SEAL.md`](eval/delegation/round5/SEAL.md), [`questions_i5.json`](eval/delegation/round5/questions_i5.json), [`runs_r5.csv`](eval/delegation/round5/runs_r5.csv), [`RESULTS.md`](eval/delegation/round5/RESULTS.md) | `sha256sum eval/delegation/round5/questions_i5.json`; `scripts/check.sh evidence` runs `round5/test_round5.py` |
+| Blind review: would rely on 9 of 10 vs 0 of 10 | [`SEAL_BLIND.md`](eval/delegation/sme_review/SEAL_BLIND.md) (the seed's hash), [`blind_sheet_AB.csv`](eval/delegation/sme_review/blind_sheet_AB.csv), [`BLIND_RESULTS.md`](eval/delegation/sme_review/BLIND_RESULTS.md) | `cd eval/delegation/sme_review && python3 score_blind.py --seed hXGfy_th_qsJTjnwby6NmKgf --hash 46eeaa3b229d54779a3f1c0568bb46f7c0cc36a8a26a0b97a7c150d44b56e618 blind_sheet_AB.csv` |
+| 7,743 of 7,746 tie-out checks pass on the deployed store | [`tieout_store_2026-11-22.json`](docs/submission/evidence/tieout_store_2026-11-22.json) | The docs server's `docs_tieout_document` on each of the 34 PDFs |
+| Docs p50 1.18 s across a cache expiry; hub p50 54 ms | [`latency_2026-11-22.json`](docs/submission/evidence/latency_2026-11-22.json), [EVALUATION.md](docs/submission/EVALUATION.md) section 2.2 | The probe app; the latency run's method is recorded in the same file |
+| Ask the evidence calls the MCP servers and names each one | [`app/api/mcp_host.py`](the-one-hub/ops-center/app/api/mcp_host.py), [`checks/test_mcp_host.py`](the-one-hub/ops-center/checks/test_mcp_host.py), [screenshot](docs/screenshots/live-ask-via-mcp.jpg) | `scripts/check.sh one-hub` |
 
 ---
 
@@ -590,8 +621,8 @@ Each project installs its own dependencies into its own environment. Expected (c
 2026-11-21, round 10): Creator 685 passed (402 of them its hostile-input sweep); ops 40;
 bakehouse 21; docs 55; analyst 39; probe 11; mcp_local 23, the source-notice suite 23, the
 error-contract suite 9 and the shared adversarial sweep 423; One Hub 320 passed, 5 skipped,
-plus six script suites and lint. Total 1,649 passed, 5 skipped, plus the 36 round 4 grader
-and runner tests, the link check, the portability scan and the figures check in the
+plus six script suites and lint. Total 1,649 passed, 5 skipped, plus 59 evaluation tests (the
+round 4 grader and runner, and the round 5 seal and keys), the link check, the portability scan and the figures check in the
 evidence step.
 
 What the count is: 509 unit, contract and server tests for the servers, the probe and the
@@ -670,8 +701,18 @@ Settings, Pages). After a change to the front center, rebuild it with the comman
 - **Results depend on the model.** Round 4 with tools: Claude Sonnet 4.5 88.4%, GPT-5 mini
   78.7% (difference +9.7 points, CI +1.4 to +17.9). The gap is in premise traps (100% vs
   70%) and multi-source arithmetic (100% vs 58%); GPT-5 mini did better on decoys (92% vs
-  50%). The gate, the tie-outs and the grounding checks are code and do not change with the
+  50%). On an independent author's questions (round 5) the gap was wider: 83.3% vs
+  63.3%, mostly multi-source and premise questions; both models got all 15 exhibit runs right.
+  The gate, the tie-outs and the grounding checks are code and do not change with the
   model; the wording of an answer does.
+- **Not yet built or measured, and stated as such.** The Creator has not been evaluated with a
+  model driving its tools from a one-line intent, so there is no time-to-server figure yet
+  (the bakehouse rebuild through its tools took 0.38 s of compute, not a person's time). The
+  share of the ops server that is still unedited Creator output is not measured. The source
+  notice is tested on the servers but not re-measured with models. Generated servers run as
+  the app's own identity, so Unity Catalog row filters for the end user do not apply to them;
+  each generated tool reads one source, with no joins; and deployed servers are not yet
+  listed in a registry table.
 - **Time saved is estimated, not measured.** From the scope of one CVN-79 pass (7,712
   tie-out checks, 1,875 contract actions, 17 variances, 259 collection requirements) the
   hand work is about **194 to 390 analyst hours, 5 to 10 weeks**, at stated minutes per item

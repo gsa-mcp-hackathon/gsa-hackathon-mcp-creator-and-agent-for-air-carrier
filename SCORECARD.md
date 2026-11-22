@@ -2,7 +2,7 @@
 
 One row per MCP server in this repository: what it is for, how it was tested, what the
 tests show and what is still missing. Every figure names the file or command behind it.
-Updated 2026-11-21.
+Updated 2026-11-22.
 
 | Server | Tools | Unit and contract tests | Adversarial sweep | Accuracy evidence | Probe (8 days) | Deployed | Open |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -21,6 +21,18 @@ round 4, 69 sealed questions, three repeats, question-bootstrap 95% intervals
 | --- | --- | --- |
 | Claude Sonnet 4.5 | 183/207 = 88.4% (81.2 to 94.7) | 10/69 = 14.5% |
 | GPT-5 mini | 163/207 = 78.7% (70.0 to 86.5) | 1/69 = 1.4% |
+
+Round 5, ten sealed questions from an independent author, same runner and grader
+([`eval/delegation/round5/RESULTS.md`](eval/delegation/round5/RESULTS.md)):
+
+| Model | With tools | No tools |
+| --- | --- | --- |
+| Claude Sonnet 4.5 | 25/30 = 83.3% (66.4 to 92.7) | 1/10 |
+| GPT-5 mini | 19/30 = 63.3% (45.5 to 78.1); 21/30 read by hand | 1/10 |
+
+Exhibit questions: 30 of 30 runs right for both models. The misses are a source the servers
+do not hold (DoD contract announcements), the eight-turn tool limit, and two published
+grader defects.
 
 By area for Claude: obligations 96.7% (mostly ops), document reading 93.3% (docs), printed
 exhibit figures 71.8% (docs and ops; the weakest area, concentrated in older books printed
@@ -48,7 +60,7 @@ people use them, and where agent output meets human authority.
 | Tests, every server | `scripts/check.sh` (or `scripts/check.sh <project>`) |
 | Adversarial sweep | `scripts/check.sh mcp-local` |
 | Probe | [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/); results in [EVALUATION.md](docs/submission/EVALUATION.md) section 2.2 |
-| Delegation | `python3 eval/delegation/round4/analyze_round4.py` |
+| Delegation | `python3 eval/delegation/round4/analyze_round4.py`; round 5 keys and seal: `scripts/check.sh evidence` |
 | Creator determinism and end to end | [EVALUATION.md](docs/submission/EVALUATION.md) section 2.5 |
 
 ## Mission user and what the server changes for them

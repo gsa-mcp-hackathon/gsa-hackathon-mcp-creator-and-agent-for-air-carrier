@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <div class="phead">
- <div class="eyebrow">Method</div>
+ <div class="eyebrow">Dive deeper · Method</div>
  <h1>How this is built, and why it can be challenged</h1>
  <p class="lede">The goal is not a single authoritative number. A single number tied to one declared
   source of truth is worth less than a defensible account of how the number is reported, how it is
@@ -103,6 +103,21 @@
   <div><h4>Briefer</h4><p style="font-size:.85rem">Audience-specific explanation. Never introduces a
    figure that is not in the ledger.</p></div>
  </div>
+ <h3 style="margin-top:1rem">How the gate decides, in code</h3>
+ <p style="font-size:.88rem;margin:.2rem 0 .5rem">The same function runs inside the agents and behind the
+  One Hub server's <span class="mono">hub_check_claim</span>, so a figure gets the same answer from a page,
+  an agent or any MCP client. The first route that matches decides.</p>
+ <ul style="font-size:.86rem;margin:0 0 .8rem;padding-left:1.1rem">
+  <li><b>Each hull against its own total.</b> Materiality is 1% of that hull's latest P-5c Total Ship
+   Estimate (CVN-78 to CVN-81), never CVN-79's. A hull with no recorded total is a gap (route R9),
+   not a pass.</li>
+  <li><b>A VERIFIED tag is a claim, not a fact.</b> The caller sets the tag, so VERIFIED without a source
+   system and a page or row label carries a METHOD flag and goes to a person.</li>
+  <li><b>Above 100% of its own subject, or any open policy violation,</b> goes to a person (R8, R-1).</li>
+  <li><b>A material figure is promoted only if it is VERIFIED, unflagged and tied out on both axes</b>
+   (R5). Everything else is held as a lead, sent for review or opened as a gap.
+   <a href="/rules">Every route and rule code</a>.</li>
+ </ul>
  <div class="note"><b>The honest limit, stated as a design property.</b> The gate catches the error
   classes already seen, and a novel one only where the negative vocabulary reaches. The miss log is
   the mechanism by which that limit moves: when something gets through and is caught later, it
