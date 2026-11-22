@@ -32,17 +32,19 @@ def project(designed_spec, tmp_path):
     for f in generate_full_project(designed_spec).files:
         target = tmp_path / "proj" / f.path
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(f.content, encoding="utf-8")
+        target.write_text(f.content, encoding="utf-8", newline="\n")
     return tmp_path / "proj"
 
 
 def _older_template(project: Path, path: str, text: str) -> None:
     """Make `path` look as if an earlier Creator generated `text` there."""
-    (project / path).write_text(text, encoding="utf-8")
+    (project / path).write_text(text, encoding="utf-8", newline="\n")
     lock = json.loads((project / LOCK).read_text())
     lock["files"][path] = hashlib.sha256(text.encode()).hexdigest()
     lock["creator_version"] = "0.9.0"
-    (project / LOCK).write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
+    (project / LOCK).write_text(
+        json.dumps(lock, indent=2, sort_keys=True) + "\n", newline="\n"
+    )
 
 
 def _drift(project: Path) -> subprocess.CompletedProcess:
@@ -73,8 +75,12 @@ def test_an_unedited_file_takes_the_new_template(project):
 
 def test_an_owned_file_is_kept_when_the_template_changes(project):
     _older_template(project, "README.md", "# Old README\n")
-    (project / "README.md").write_text("# Old README\nThe owner's note.\n")
-    (project / OWNED).write_text((project / OWNED).read_text() + "README.md\n")
+    (project / "README.md").write_text(
+        "# Old README\nThe owner's note.\n", newline="\n"
+    )
+    (project / OWNED).write_text(
+        (project / OWNED).read_text() + "README.md\n", newline="\n"
+    )
     plan = plan_upgrade(project)
     assert plan.actions["owned"] == ["README.md"] and plan.can_apply
     apply_upgrade(plan)
@@ -84,7 +90,9 @@ def test_an_owned_file_is_kept_when_the_template_changes(project):
 
 def test_an_undeclared_edit_over_a_changed_template_stops_the_upgrade(project):
     _older_template(project, "README.md", "# Old README\n")
-    (project / "README.md").write_text("# Old README\nAn undeclared edit.\n")
+    (project / "README.md").write_text(
+        "# Old README\nAn undeclared edit.\n", newline="\n"
+    )
     lock_before = (project / LOCK).read_text()
     plan = plan_upgrade(project)
     assert plan.actions["conflict"] == ["README.md"] and not plan.can_apply
@@ -97,7 +105,7 @@ def test_an_undeclared_edit_over_a_changed_template_stops_the_upgrade(project):
 
 def test_an_edit_where_the_template_did_not_move_is_left_to_the_drift_check(project):
     readme = project / "README.md"
-    readme.write_text(readme.read_text() + "\nAn edit.\n")
+    readme.write_text(readme.read_text() + "\nAn edit.\n", newline="\n")
     plan = plan_upgrade(project)
     assert "README.md" in plan.actions["unchanged"] and plan.writes == []
     assert "undeclared: README.md" in _drift(project).stdout

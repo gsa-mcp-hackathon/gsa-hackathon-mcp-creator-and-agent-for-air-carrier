@@ -839,7 +839,7 @@ def project(request, tmp_path_factory):
     for generated in manifest.files:
         destination = root / generated.path
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(generated.content, encoding="utf-8")
+        destination.write_text(generated.content, encoding="utf-8", newline="\n")
     return root, manifest
 
 
@@ -861,6 +861,7 @@ def test_the_generated_project_is_lint_clean_and_passes_its_own_tests(project) -
             "PATH": os.environ.get("PATH", ""),
             "PYTHONPATH": str(root / "src"),
             "HOME": os.environ.get("HOME", ""),
+            "SYSTEMROOT": os.environ.get("SYSTEMROOT", ""),
         },
     )
     assert result.returncode == 0, result.stdout[-4000:] + result.stderr[-2000:]
@@ -882,3 +883,36 @@ def test_every_generated_string_argument_is_capped(project) -> None:
             if note.startswith("Annotated[str,") and "max_length=" not in note:
                 uncapped.append(f"{generated.path}: {node.arg}")
     assert not uncapped, uncapped
+
+
+# ---------------------------------------------------------------------------
+# A verb between the counted thing and the row's own noun keeps the distinct
+# count: 'distinct recipients won awards' on a table of awards.
+# ---------------------------------------------------------------------------
+
+DISTINCT_BEFORE_A_VERB = [
+    "How many unique recipients won awards?",
+    "How many distinct recipients won awards from the Department of the Navy?",
+    "How many different recipients received awards in fiscal year 2025?",
+]
+
+
+@pytest.mark.parametrize("question", DISTINCT_BEFORE_A_VERB)
+def test_a_distinct_count_survives_a_verb_before_the_row_noun(question) -> None:
+    spec = _spec("awards")
+    spec.jobs_to_be_done = [question]
+    spec.tools, notes = design_tools(spec, [])
+    plan = next((p for p in spec.tools if p.goal == question), None)
+    assert plan is not None, notes
+    assert plan.aggregation == "count_distinct", plan
+    assert plan.measure_field == "recipient_name", plan
+
+
+@pytest.mark.parametrize("question", DISTINCT_BEFORE_A_VERB)
+def test_the_review_agrees_with_a_distinct_count_before_a_verb(question) -> None:
+    spec = _spec("awards")
+    spec.jobs_to_be_done = [question]
+    spec.tools, _notes = design_tools(spec, [])
+    report = review_spec(spec)
+    assert question not in _reviewed(spec, "tool_computes_its_question"), report
+    assert question not in _reviewed(spec, "every_question_has_a_tool"), report

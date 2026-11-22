@@ -36,6 +36,9 @@ def _run(args: list[str], source: str) -> str | None:
             input=source,
             capture_output=True,
             text=True,
+            # Generated code is UTF-8; without this, Windows pipes it as cp1252
+            # and a non-ASCII character in a description stops the build.
+            encoding="utf-8",
             timeout=TIMEOUT_SECONDS,
             check=False,
         )

@@ -88,7 +88,7 @@ def _write(manifest, root: Path) -> Path:
     for generated in manifest.files:
         target = root / generated.path
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(generated.content)
+        target.write_text(generated.content, encoding="utf-8")
     return root
 
 

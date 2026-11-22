@@ -42,7 +42,7 @@ def test_no_example_points_at_a_table_that_does_not_exist():
         ROOT / "src/mcp_server_creator/routes.py",
         ROOT / "src/mcp_server_creator/examples.py",
     ]:
-        assert "main.contracts" not in path.read_text(), path
+        assert "main.contracts" not in path.read_text(encoding="utf-8"), path
 
 
 def test_instructions_carry_the_examples_and_the_existence_check():
