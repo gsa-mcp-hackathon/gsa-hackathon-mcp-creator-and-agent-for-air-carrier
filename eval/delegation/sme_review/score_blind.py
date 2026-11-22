@@ -77,6 +77,9 @@ def main() -> None:
              (f"Raters: {len(raters)}. Ten answer pairs, shown as A and B; a seed recorded by "
              f"hash (`{args.hash[:16]}...`) before the sheets went out decided the sides. "
              "Tool-call markup and search narration were removed from both answers."), "",
+             ("Who rated: see [SEAL_BLIND.md](SEAL_BLIND.md). Each rater is external to the project "
+              "development team and took no part in building the MCP servers or preparing the model "
+              "responses."), "",
              "| Rater | Arm | Correct | Cited | Usable | Total of 6 | Would rely | Preferred |",
              "| --- | --- | --- | --- | --- | --- | --- | --- |"]
     for name, r in raters.items():

@@ -76,6 +76,8 @@ retired:                 # figures that must not appear as current anywhere chec
   - "25 server tests"
   - "One tool call, the total"
   - "36 round 4 grader"
+  - "teammate who did not build"
+  - "If one person did both"
 
 checked:                 # where retired figures are looked for
   - README.md
@@ -92,13 +94,16 @@ checked:                 # where retired figures are looked for
   - the-one-hub/ops-center/app/data/curated/impact_path.json
   - docs/site/stack/index.html
   - docs/site/impact/index.html
+  - eval/delegation/round5/SEAL.md
+  - eval/delegation/round5/README.md
+  - eval/delegation/sme_review/SEAL_BLIND.md
   - docs/submission/mcp-a-creator-one-hub-deck.pptx
   - docs/submission/evaluation-report.docx
 
 required:                # each file must contain each phrase
-  README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234"]
+  README.md: ["1,649", "63 tools", "421 hostile calls", "7,690 of 7,693", "Five held-out rounds", "25/30 (83.3%", "9 of 10 vs 0 of 10", "1,234 of 1,234", "not a member of the project development team", "separate external reviewer"]
   SCORECARD.md: ["7,743 of 7,746", "400 hostile calls", "25/30 = 83.3%"]
-  docs/submission/EVALUATION.md: ["1,649", "421 hostile calls"]
+  docs/submission/EVALUATION.md: ["1,649", "421 hostile calls", "not a member of the project development team", "separate external reviewer"]
   the-one-hub/ops-center/app/data/curated/stack.json: ["1,649 passed", "25/30 (83.3%)", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
   the-one-hub/ops-center/app/data/curated/impact_path.json: ["25/30", "9 of 10 vs 0 of 10", "7,743 of 7,746", "1,234 of 1,234"]
   docs/submission/mcp-a-creator-one-hub-deck.pptx: ["1,649", "63 tools", "83.3%", "9 of 10 vs 0 of 10"]

@@ -1,5 +1,9 @@
 # Round 5 results: questions from an independent author
 
+The questions were written by an external evaluator who is not a member of the project development
+team and took no part in building the MCP servers or preparing the model responses
+([SEAL.md](SEAL.md)).
+
 Run `r5-0b1c2d3e`, 2026-11-22 06:34 UTC, in a Databricks notebook from the workspace Git folder
 at `main` `9413d10`: the sealed `questions_i5.json` (hash checked by the runner), the round 4
 runner, grader v2, 30 tools, catalog `5df1f1b1ecd75cb6`. 80 rows saved to the runs table. Every

@@ -91,14 +91,14 @@
   },
   {
    "v": "83.3% and 63.3%",
-   "k": "An independent author's sealed questions",
-   "n": "Round 5, ten questions written outside the build team: Claude 25/30, GPT-5 mini 19/30 with the tools; 1 of 10 each without",
+   "k": "An external evaluator's sealed questions",
+   "n": "Round 5, ten questions by an evaluator outside the development team: Claude 25/30, GPT-5 mini 19/30 with the tools; 1 of 10 each without",
    "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/round5/RESULTS.md"
   },
   {
    "v": "9 of 10 vs 0 of 10",
    "k": "Answers a reviewer would rely on, blind",
-   "n": "An outside rater scored ten answer pairs without knowing which had the servers: 5.4 of 6 vs 1.0",
+   "n": "A separate external reviewer scored ten answer pairs without knowing which had the servers: 5.4 of 6 vs 1.0",
    "href": "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/eval/delegation/sme_review/BLIND_RESULTS.md"
   },
   {

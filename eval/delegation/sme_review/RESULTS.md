@@ -1,7 +1,7 @@
 # Subject-matter review: results
 
 10 round 4 questions, Claude Sonnet 4.5, scored by the project owner on a 0 to 6 rubric
-(correct, cited, usable; 0 to 2 each). Not blind: see README.md. Blind re-score by an outside rater: [BLIND_RESULTS.md](BLIND_RESULTS.md).
+(correct, cited, usable; 0 to 2 each). Not blind: see README.md. Blind re-score by an external reviewer outside the development team: [BLIND_RESULTS.md](BLIND_RESULTS.md).
 
 | | With the servers | Without tools |
 | --- | --- | --- |
