@@ -135,8 +135,8 @@ Rollback: `python tools/deploy_from_github.py` cannot pin a commit; use
 > After any front-center deploy, check:
 >
 > 1. `tools/deploy_from_github.py` reports SUCCEEDED at the pushed commit.
-> 2. The run log has no "No warehouse is bound" note, and Brief readiness counts the live
->    CVN-79 claims (32 as of 2026-11-19), not 0.
+> 2. The run log has no "No warehouse is bound" note, and Brief readiness counts more than 0
+>    live CVN-79 claims (0 means the app is reading no warehouse).
 > 3. The app log shows `Cloning git repository`, and the page footer reads
 >    "Data backend: uc".
 

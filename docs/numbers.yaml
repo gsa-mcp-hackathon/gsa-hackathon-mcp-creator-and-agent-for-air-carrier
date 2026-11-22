@@ -91,6 +91,9 @@ checked:                 # where retired figures are looked for
   - mcp-servers/mcp-aircarrier-docs/README.md
   - mcp-servers/mcp-aircarrier-ops/README.md
   - mcp-servers/mcp-aircarrier-analyst/README.md
+  - the-one-hub/ops-center/mcp/README.md
+  - mcp-servers/aircarrier-mcp-probe/README.md
+  - docs/DEPLOYMENT.md
   - the-one-hub/ops-center/app/data/curated/stack.json
   - the-one-hub/ops-center/app/data/curated/impact_path.json
   - docs/site/stack/index.html

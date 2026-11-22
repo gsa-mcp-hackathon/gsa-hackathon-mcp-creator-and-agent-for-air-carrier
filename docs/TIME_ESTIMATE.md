@@ -1,6 +1,6 @@
 # Analyst time for one CVN-79 reconciliation pass: an estimate from the scope of work
 
-Written 2026-11-21. [Back to the README](../README.md#known-limitations).
+Written 2026-11-21. [Back to the README](../README.md). Every limitation: [LIMITATIONS.md](LIMITATIONS.md).
 
 **This is an estimate, not a measurement.** The counts below are what the One Hub works
 through in one pass on CVN-79, each read from a file in this repository. The minutes per

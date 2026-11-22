@@ -150,7 +150,7 @@ def main() -> int:
          "FastAPI and Jinja2, server-side SVG, no CDN and no build step"),
         ("Agent surface", "mcp/", "done",
          ("Deployed as mcp-aircarrier-ops (read-only stores) and mcp-aircarrier-analyst (LOA "
-         "investigator). mcp/mcp_server.py is the in-bundle reference and is not deployed")),
+         "investigator). mcp/mcp_server.py is deployed as mcp-aircarrier-hub (16 read-only tools, since 2026-11-21)")),
         ("Reader", "ops/agents/reader", "partial",
          # Unit counts from aircarrier_claim (current exhibit claims), 2026-11-12.
          ("Transaction, exhibit and prose handlers turn documents into claims and mechanisms. "

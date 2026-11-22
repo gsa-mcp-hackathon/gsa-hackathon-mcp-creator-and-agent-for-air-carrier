@@ -144,7 +144,7 @@
    "name": "Agent surface",
    "path": "mcp/",
    "status": "done",
-   "note": "Deployed as mcp-aircarrier-ops (read-only stores) and mcp-aircarrier-analyst (LOA investigator). mcp/mcp_server.py is the in-bundle reference and is not deployed"
+   "note": "Deployed as mcp-aircarrier-ops (read-only stores) and mcp-aircarrier-analyst (LOA investigator). mcp/mcp_server.py is deployed as mcp-aircarrier-hub (16 read-only tools, since 2026-11-21)"
   },
   {
    "name": "Reader",
