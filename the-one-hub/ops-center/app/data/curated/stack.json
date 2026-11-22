@@ -1,5 +1,206 @@
 {
  "as_of": "2026-11-22",
+ "solution": {
+  "lede": "An MCP server creator, domain MCP servers, an agent orchestration environment and a financial-control layer. The seven capabilities below are the parts of these four layers.",
+  "layers": [
+   {
+    "n": 4,
+    "key": "control",
+    "name": "Financial-control layer",
+    "what": "Decides what is true and who may act. No model in it.",
+    "href": "#control",
+    "parts": [
+     "Exact decimal analysis",
+     "Tie-outs to source",
+     "Provenance to the page",
+     "Gate, four routes",
+     "Authority in Unity Catalog"
+    ]
+   },
+   {
+    "n": 3,
+    "key": "agents",
+    "name": "Agent orchestration environment",
+    "what": "Where people and agents work the questions.",
+    "href": "/mission",
+    "parts": [
+     "This front center, 22 pages",
+     "Four specialist agents",
+     "Six-stage workflow",
+     "MCP host across three servers"
+    ]
+   },
+   {
+    "n": 2,
+    "key": "servers",
+    "name": "Domain MCP servers",
+    "what": "Cited access to documents, records and the registers.",
+    "href": "#capabilities",
+    "parts": [
+     "docs · 11 tools",
+     "analyst · 12",
+     "ops · 7",
+     "hub · 16",
+     "bakehouse · 7"
+    ]
+   },
+   {
+    "n": 1,
+    "key": "creator",
+    "name": "MCP A Creator",
+    "what": "Builds a tested, governed MCP server from a question and a table.",
+    "href": "#capabilities",
+    "parts": [
+     "10 tools",
+     "Skills carry the judgment",
+     "Generators write the code",
+     "Byte-identical output"
+    ]
+   }
+  ],
+  "differentiator": {
+   "title": "AI-assisted development, joined to deterministic financial control",
+   "rules": [
+    {
+     "kind": "model",
+     "who": "AI",
+     "does": "designs servers, plans, explains, drafts"
+    },
+    {
+     "kind": "code",
+     "who": "Code",
+     "does": "computes, reconciles, cites, gates"
+    },
+    {
+     "kind": "role",
+     "who": "Role",
+     "does": "the owning office approves, under its own sign-in"
+    }
+   ],
+   "foot": "Six MCP servers, 63 tools, seven Databricks apps deployed from GitHub. A probe calls every deployed server every 15 minutes."
+  },
+  "tracks": [
+   {
+    "name": "Dataset Access Server",
+    "gsa": "Query open government datasets",
+    "href": "#capabilities",
+    "link": "The servers",
+    "parts": [
+     {
+      "name": "mcp-aircarrier-docs",
+      "does": "Budget books, SARs, GAO and CRS reports: 34 PDFs read to the page and cell"
+     },
+     {
+      "name": "mcp-aircarrier-analyst",
+      "does": "USAspending and FPDS contract records, account files"
+     },
+     {
+      "name": "mcp-aircarrier-ops",
+      "does": "Exhibit cells, obligations and variance registers"
+     },
+     {
+      "name": "MCP A Creator",
+      "does": "Builds a new dataset server from a question and a table"
+     }
+    ]
+   },
+   {
+    "name": "Service “Read” Integration",
+    "gsa": "Retrieve information from a government service",
+    "href": "/ask",
+    "link": "Ask the evidence",
+    "parts": [
+     {
+      "name": "mcp-aircarrier-hub",
+      "does": "Reads the One Hub: gate status, tie-outs, the gap queue, next work"
+     },
+     {
+      "name": "Ask the evidence",
+      "does": "This app as an MCP host: one answer, three servers, every call named"
+     },
+     {
+      "name": "Probe",
+      "does": "Calls every deployed server every 15 minutes with a known answer"
+     }
+    ]
+   },
+   {
+    "name": "Service “Write” Integration",
+    "gsa": "Submit information to a government service, in a sandbox",
+    "href": "/work",
+    "link": "The work queue",
+    "parts": [
+     {
+      "name": "Owning-role decisions",
+      "does": "A proposal is applied in Unity Catalog under the user's own token"
+     },
+     {
+      "name": "analyst_record_outcome",
+      "does": "A confirmed answer is written as a named lead, labeled as a write"
+     },
+     {
+      "name": "creator_deploy_server",
+      "does": "Deploys the person's own app after an approval bound to the files"
+     }
+    ]
+   }
+  ],
+  "sandbox": "The sandbox is a Databricks development workspace over public data. Every write is labeled as a write, needs a signed-in user and leaves a row in a register.",
+  "control": [
+   {
+    "n": 1,
+    "kind": "code",
+    "tag": "Code",
+    "name": "Analyze",
+    "does": "Records are read and summed in exact decimals. No model does arithmetic.",
+    "proof": "927 contract actions",
+    "href": "/mission",
+    "link": "Brief readiness"
+   },
+   {
+    "n": 2,
+    "kind": "code",
+    "tag": "Code",
+    "name": "Reconcile",
+    "does": "Each figure is tied to its source on two axes, and to the other ledgers.",
+    "proof": "7,743 of 7,746 tie-outs",
+    "href": "/variances",
+    "link": "Variance register"
+   },
+   {
+    "n": 3,
+    "kind": "code",
+    "tag": "Code",
+    "name": "Cite",
+    "does": "Every number carries its document, page, table and cell.",
+    "proof": "34 PDFs, 7,804 pages",
+    "href": "/sources",
+    "link": "Sources"
+   },
+   {
+    "n": 4,
+    "kind": "code",
+    "tag": "Code",
+    "name": "Gate",
+    "does": "Promote, human review, gap, or hold as a lead. The first matching route decides.",
+    "proof": "$13,409.970M closes to 0.000",
+    "href": "/rules",
+    "link": "Rules and routes"
+   },
+   {
+    "n": 5,
+    "kind": "role",
+    "tag": "Role",
+    "name": "Decide",
+    "does": "Only the owning office can apply a change, under its own sign-in.",
+    "proof": "current_user() in Unity Catalog",
+    "href": "/work",
+    "link": "Work queue"
+   }
+  ],
+  "may": "Plan the work, explain a variance, draft the request to the office that holds the record, read an answer as a second check.",
+  "never": "Add a figure, change an amount, re-route a proposal, promote a number into a product, or approve anything."
+ },
  "layers": [
   {
    "n": 1,

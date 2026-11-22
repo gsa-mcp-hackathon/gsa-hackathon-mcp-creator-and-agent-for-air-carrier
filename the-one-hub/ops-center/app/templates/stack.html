@@ -6,16 +6,78 @@
  <div class="scrim"></div>
  <div class="inner">
   <div class="eyebrow" style="color:rgba(255,255,255,.8)">The stack</div>
-  <h1>Seven capabilities, each useful on its own</h1>
-  <p>MCP servers that read, investigate and govern; a server that builds servers; agents that hand
-   work to each other only through a register; and a probe that checks every server every 15 minutes.
-   CVN-79 is the first ship they were assembled for. None of them is specific to it.</p>
+  <h1>One solution, four layers, seven capabilities</h1>
+  <p>A creator that builds MCP servers, servers that read and investigate the public record, agents that
+   propose, and a financial-control layer that no model can override. AI helps build and explain. Code
+   proves every number. The owning role decides. CVN-79 is the first ship they were assembled for.
+   None of them is specific to it.</p>
  </div>
  <span class="credit">CVN-79 in dry dock, Newport News Shipbuilding</span>
 </section>
 
 <p class="for brief-for"><span><b>For</b> engineers, reviewers, and any office with a table and a question</span>
  <span><b>Decision</b> which capability to reuse, and what its tests do and do not show</span></p>
+
+<section class="imp-band" id="solution">
+ <div class="eyebrow">The solution</div>
+ <h2>One solution, four layers</h2>
+ <p class="lede">{{ st.solution.lede }}</p>
+ <div class="sol">
+  <div class="sol-stack">
+   {% for l in st.solution.layers %}
+   <a class="sol-layer k-{{ l.key }}" href="{{ l.href }}">
+    <span class="n">{{ l.n }}</span>
+    <span class="t"><b>{{ l.name }}</b><span>{{ l.what }}</span></span>
+    <span class="chips">{% for p in l.parts %}<i>{{ p }}</i>{% endfor %}</span>
+   </a>
+   {% endfor %}
+  </div>
+  <aside class="sol-diff">
+   <div class="k">What sets it apart</div>
+   <h3>{{ st.solution.differentiator.title }}</h3>
+   {% for r in st.solution.differentiator.rules %}
+   <p><span class="kpill p-{{ r.kind }}">{{ r.who }}</span><span>{{ r.does }}</span></p>
+   {% endfor %}
+   <p class="foot">{{ st.solution.differentiator.foot }}</p>
+  </aside>
+ </div>
+</section>
+
+<section class="imp-band" id="tracks">
+ <div class="eyebrow">Three GSA application tracks</div>
+ <h2>Each track is served by a different layer</h2>
+ <div class="grid g3" style="margin-top:.7rem">
+  {% for t in st.solution.tracks %}
+  <article class="card track">
+   <h3>{{ t.name }}</h3>
+   <p class="cap">{{ t.gsa }}</p>
+   <dl>{% for c in t.parts %}<div><dt><code>{{ c.name }}</code></dt><dd>{{ c.does }}</dd></div>{% endfor %}</dl>
+   <p class="see"><a href="{{ t.href }}">{{ t.link }}</a></p>
+  </article>
+  {% endfor %}
+ </div>
+ <p class="cap" style="margin-top:.6rem">{{ st.solution.sandbox }}</p>
+</section>
+
+<section class="imp-band" id="control">
+ <div class="eyebrow">The financial-control layer</div>
+ <h2>How a figure earns its place in a brief</h2>
+ <div class="ctl-flow">
+  {% for c in st.solution.control %}
+  <div class="ctl k-{{ c.kind }}">
+   <span><span class="kpill p-{{ c.kind }}">{{ c.tag }}</span></span>
+   <h3>{{ c.n }} {{ c.name }}</h3>
+   <p>{{ c.does }}</p>
+   <span class="proof">{{ c.proof }}</span>
+   <a href="{{ c.href }}">{{ c.link }}</a>
+  </div>
+  {% endfor %}
+ </div>
+ <div class="grid g2 ctl-rules">
+  <div class="card may"><h4>What a model may do</h4><p>{{ st.solution.may }}</p></div>
+  <div class="card never"><h4>What a model can never do</h4><p>{{ st.solution.never }}</p></div>
+ </div>
+</section>
 
 <section class="imp-band" id="layers">
  <div class="eyebrow">How the parts fit</div>

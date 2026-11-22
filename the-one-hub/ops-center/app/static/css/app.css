@@ -11,38 +11,43 @@
 :root {
   --bg:#f6f7f9; --bg-2:#ffffff; --bg-3:#eef1f5; --bg-sunk:#e8ecf1;
   --fg:#10151c; --fg-2:#3c4857; --fg-3:#5d6a7a; --line:#d2d9e3; --line-2:#b9c3d1;
-  --accent:#0b63c5; --accent-2:#064a97; --accent-soft:#e3eefc;
+  --accent:#0b4f9e; --accent-2:#083a78; --accent-soft:#e3eefc;
   --ok:#0e6b43; --ok-soft:#d8f0e3;
   --warn:#915f08; --warn-soft:#fbeccf;
   --bad:#b0202f; --bad-soft:#fbe4e6;
-  --info:#0b63c5; --info-soft:#e3eefc;
+  --info:#0b4f9e; --info-soft:#e3eefc;
   --mut:#5b6a7f; --mut-soft:#e7ebf1;
   --c1:#0b63c5; --c2:#0d9488; --c3:#7c3aed; --c4:#c2410c; --c5:#0369a1;
   --c6:#65a30d; --c7:#be185d; --c8:#4338ca; --c9:#a16207; --c10:#0f766e;
   --shadow:0 1px 2px rgba(14,22,34,.06), 0 4px 14px rgba(14,22,34,.06);
   --radius:12px; --radius-s:8px;
-  /* Claude's typography.
-     Styrene and Tiempos are Anthropic's licensed faces and cannot be
-     redistributed, so they are named first and the stack degrades to the
-     closest widely available equivalents. If the org licenses them, drop the
-     woff2 files in static/fonts, add the @font-face blocks below, and every
-     surface picks them up with no other change. Nothing here loads from a
-     CDN: the app has to build and run inside a deny-by-default egress
-     policy, where a webfont request is simply a missing font. */
-  --mono:"Styrene Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  --sans:"Styrene B","Styrene A",ui-sans-serif,-apple-system,BlinkMacSystemFont,
-         "Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
-  --serif:"Tiempos Text",Copernicus,ui-serif,Georgia,Cambria,"Times New Roman",serif;
+  /* Brand surface, shared with the deck, the diagrams and the demo videos:
+     navy with brass, teal for code, violet for a model. These five never
+     change with the theme. Brass, teal and violet are for text on navy only;
+     on a light card they fall under the floor, so use --warn, --ok, --c3. */
+  --navy:#081726; --navy-2:#122b43; --navy-line:#2a4d69;
+  --on-navy:#f2f6fa; --on-navy-2:#b4c4d4; --brass:#e8ae3a; --teal:#35d0ba; --violet:#b79cff;
+  /* Typography. Bitter for titles and headings, Inter for everything else:
+     the same two faces as the deck, the diagrams and the demo videos. Both
+     are under the SIL Open Font License and ship in static/fonts as Latin
+     subsets (about 120 KB), so nothing loads from a CDN: the app has to
+     build and run inside a deny-by-default egress policy, where a webfont
+     request is simply a missing font. The stacks after the first name are
+     what a reader gets if a file fails to load. */
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+  --sans:"Inter",ui-sans-serif,-apple-system,BlinkMacSystemFont,
+         "Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:"Bitter",ui-serif,Georgia,Cambria,"Times New Roman",serif;
 }
 html[data-theme="dark"] {
-  --bg:#0c1118; --bg-2:#131a24; --bg-3:#18212e; --bg-sunk:#0a0e14;
-  --fg:#e9eef5; --fg-2:#aebacb; --fg-3:#7b8a9e; --line:#232e3d; --line-2:#2e3c4f;
-  --accent:#4da3ff; --accent-2:#7cc0ff; --accent-soft:#102841;
+  --bg:#081726; --bg-2:#0e2338; --bg-3:#143049; --bg-sunk:#06111d;
+  --fg:#f2f6fa; --fg-2:#b4c4d4; --fg-3:#93a7bb; --line:#24455f; --line-2:#2f5676;
+  --accent:#5eb0ff; --accent-2:#8cc8ff; --accent-soft:#123456;
   --ok:#4ade80; --ok-soft:#0e2a1d;
   --warn:#fbbf24; --warn-soft:#2c2109;
   --bad:#f87171; --bad-soft:#2d1215;
-  --info:#4da3ff; --info-soft:#102841;
-  --mut:#94a3b8; --mut-soft:#1a2432;
+  --info:#5eb0ff; --info-soft:#123456;
+  --mut:#9db2c6; --mut-soft:#143049;
   --c1:#4da3ff; --c2:#2dd4bf; --c3:#a78bfa; --c4:#fb923c; --c5:#38bdf8;
   --c6:#a3e635; --c7:#f472b6; --c8:#818cf8; --c9:#fbbf24; --c10:#5eead4;
   --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 22px rgba(0,0,0,.35);
@@ -54,18 +59,17 @@ body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 h1,h2,h3,h4{line-height:1.22;margin:0 0 .5rem;font-weight:650;letter-spacing:-.011em}
-/* Display headings in the serif, body in the sans. That pairing is what reads
-   as Claude rather than as a generic dashboard. Revert by deleting the
-   font-family on these two rules. */
-h1{font-family:var(--serif);font-size:2.05rem;font-weight:600;letter-spacing:-.021em}
-h2{font-size:1.3rem;margin-top:0}
+/* Titles and section headings in Bitter, body in Inter: the pairing the deck,
+   the diagrams and the videos use. Revert by deleting the font-family on
+   these two rules. */
+h1{font-family:var(--serif);font-size:2.05rem;font-weight:700;letter-spacing:-.015em}
+h2{font-family:var(--serif);font-size:1.3rem;margin-top:0;font-weight:700;letter-spacing:-.008em}
 h3{font-size:1.02rem} h4{font-size:.88rem;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-3)}
 p{margin:0 0 .85rem} .muted{color:var(--fg-3)}
 code,.mono{font-family:var(--mono);font-size:.88em}
 
 /* ---------- top bar ---------- */
-.topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg-2) 88%,transparent);
-  backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.topbar{position:sticky;top:0;z-index:50;background:var(--navy);border-bottom:1px solid var(--navy-line)}
 .topbar-in{max-width:1480px;margin:0 auto;display:flex;align-items:center;gap:.5rem;padding:0 1.1rem;height:56px}
 .brand{display:flex;align-items:center;gap:.6rem;font-weight:680;letter-spacing:-.02em;
   color:var(--fg);white-space:nowrap;margin-right:.4rem}
@@ -76,7 +80,8 @@ code,.mono{font-family:var(--mono);font-size:.88em}
 .brand-photo{width:34px;height:34px;flex:none;border-radius:8px;
   background:#0B2545 url(/static/img/hero-atlantic-thumb.jpg) no-repeat 21.2% 0/347.8% auto;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 1px 2px rgba(0,0,0,.25)}
-.brand .sub{font-weight:450;font-size:.74rem;color:var(--fg-3);letter-spacing:.02em}
+.brand .sub{font-weight:450;font-size:.74rem;color:var(--on-navy-2);letter-spacing:.02em}
+.topbar .brand{color:var(--on-navy)}
 /* The nav scrolls when the window is narrower than its items. With the
    scrollbar hidden and no edge treatment the last item reads as clipped
    rather than scrollable, which looks like a broken layout. The mask fades
@@ -87,6 +92,11 @@ nav.main{display:flex;gap:.15rem;align-items:center;flex:1;position:relative}
   border:0;background:none;cursor:pointer;font-family:inherit;line-height:1.2}
 .navlink:hover{background:var(--bg-3);color:var(--fg);text-decoration:none}
 .navlink.on,.navgroup.on>.navtop{background:var(--accent-soft);color:var(--accent);font-weight:680}
+/* In the bar the links sit on navy: light text, brass for the current page. */
+.topbar .navlink{color:var(--on-navy-2)}
+.topbar .navlink:hover{background:var(--navy-2);color:var(--on-navy)}
+.topbar .navlink.on,.topbar .navgroup.on>.navtop{background:var(--navy-2);color:var(--brass)}
+.topbar .navlink:focus-visible{outline-color:var(--brass)}
 .navlink:focus-visible,.navmenu a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .navgroup{position:relative}
 .chev{width:11px;height:11px;opacity:.75;transition:transform .14s}
@@ -107,6 +117,8 @@ nav.main{display:flex;gap:.15rem;align-items:center;flex:1;position:relative}
 .iconbtn{display:grid;place-items:center;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);
   background:var(--bg-2);color:var(--fg-2);cursor:pointer}
 .iconbtn:hover{background:var(--bg-3);color:var(--fg)}
+.topbar .iconbtn{background:var(--navy-2);border-color:var(--navy-line);color:var(--on-navy-2)}
+.topbar .iconbtn:hover{background:var(--navy-line);color:var(--on-navy)}
 .iconbtn svg{width:17px;height:17px}
 html[data-theme="dark"] .ico-sun{display:none}
 html:not([data-theme="dark"]) .ico-moon{display:none}
@@ -280,20 +292,20 @@ mark{background:var(--warn-soft);color:var(--fg);padding:0 .15em;border-radius:3
 .hide{display:none!important}
 
 /* ---------------------------------------------------------------------------
-   Vendored Anthropic faces. Uncomment after putting the woff2 files in
-   static/fonts/. They are licensed, so they are not in this repository.
-   font-display:swap so a missing file degrades to the fallback stack rather
-   than rendering nothing.
-
-@font-face{font-family:"Styrene B";font-weight:400;font-style:normal;font-display:swap;
-  src:url("/static/fonts/StyreneB-Regular.woff2") format("woff2")}
-@font-face{font-family:"Styrene B";font-weight:600;font-style:normal;font-display:swap;
-  src:url("/static/fonts/StyreneB-Medium.woff2") format("woff2")}
-@font-face{font-family:"Tiempos Text";font-weight:400;font-style:normal;font-display:swap;
-  src:url("/static/fonts/TiemposText-Regular.woff2") format("woff2")}
-@font-face{font-family:"Tiempos Text";font-weight:600;font-style:normal;font-display:swap;
-  src:url("/static/fonts/TiemposText-Semibold.woff2") format("woff2")}
+   Self-hosted faces (static/fonts, SIL Open Font License). font-display:swap
+   so a file that fails to load degrades to the fallback stack instead of
+   rendering nothing.
 --------------------------------------------------------------------------- */
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:swap;
+  src:url("/static/fonts/Inter-Regular.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:swap;
+  src:url("/static/fonts/Inter-Medium.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:swap;
+  src:url("/static/fonts/Inter-SemiBold.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:swap;
+  src:url("/static/fonts/Inter-Bold.woff2") format("woff2")}
+@font-face{font-family:"Bitter";font-weight:100 900;font-style:normal;font-display:swap;
+  src:url("/static/fonts/Bitter-Variable.woff2") format("woff2")}
 
 /* ---------------------------------------------------- executive charts */
 .spark{display:block}
@@ -658,8 +670,8 @@ body.si-open{overflow:hidden}
 
 /* ---- 2026-11-11: waterfall labels, nav call to action, contribute page ---- */
 .chart .wf-lab{fill:var(--fg-2);font-size:11px;line-height:1.2}
-.navlink.navcta{background:var(--accent);color:#fff;font-weight:650;margin-left:.25rem}
-.navlink.navcta:hover,.navlink.navcta.on{background:var(--accent);color:#fff;filter:brightness(1.08)}
+.navlink.navcta,.topbar .navlink.navcta{background:var(--brass);color:var(--navy);font-weight:700;margin-left:.25rem}
+.navlink.navcta:hover,.navlink.navcta.on,.topbar .navlink.navcta:hover,.topbar .navlink.navcta.on{background:var(--brass);color:var(--navy);filter:brightness(1.08)}
 .cx-stats{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem;font-size:.84rem;color:var(--fg-2);margin-top:.4rem}
 .cx-stats b{color:var(--fg);font-variant-numeric:tabular-nums}
 .cx{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:1rem;align-items:start}
@@ -915,3 +927,50 @@ ul.next{margin:.7rem 0 0;padding-left:1.1rem;font-size:.86rem;color:var(--fg-2);
   border-radius:var(--radius);background:var(--bg-2);font-size:.86rem;line-height:1.5}
 .ask-host img{width:150px;height:120px;object-fit:cover;object-position:top;flex:none;border-radius:6px;border:1px solid var(--line);cursor:zoom-in}
 @media(max-width:700px){.ask-host{flex-direction:column}.ask-host img{width:100%}}
+
+/* The stack: one solution in four layers, the three tracks, the control flow
+   (2026-11-22). The plate is navy in both themes, like the deck and videos. */
+.sol{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,1fr);gap:1rem;margin-top:.8rem;padding:1.1rem;
+  border-radius:var(--radius);background:radial-gradient(900px 420px at 88% -20%,#12324f 0%,rgba(18,50,79,0) 60%),var(--navy);
+  border:1px solid var(--navy-line);color:var(--on-navy)}
+.sol-stack{display:grid;gap:.6rem}
+.sol-layer{display:grid;grid-template-columns:2.6rem minmax(0,15rem) minmax(0,1fr);gap:.9rem;align-items:center;
+  padding:.75rem .95rem;border-radius:10px;background:var(--navy-2);border:1px solid var(--navy-line);color:var(--on-navy)}
+.sol-layer:hover{text-decoration:none;border-color:var(--brass)}
+.sol-layer .n{font:700 2.1rem/1 var(--serif);text-align:center}
+.sol-layer.k-control .n{color:var(--brass)} .sol-layer.k-agents .n{color:var(--violet)}
+.sol-layer.k-servers .n{color:#5eb0ff} .sol-layer.k-creator .n{color:var(--teal)}
+.sol-layer .t b{display:block;font:700 1.08rem/1.25 var(--serif)}
+.sol-layer .t span{display:block;font-size:.8rem;color:var(--on-navy-2);margin-top:.2rem;line-height:1.4}
+.sol-layer .chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.sol-layer .chips i{font-style:normal;font-size:.76rem;font-weight:500;padding:.28rem .5rem;border-radius:7px;white-space:nowrap;
+  background:var(--navy);border:1px solid var(--navy-line);color:var(--on-navy)}
+.sol-diff{padding:1rem 1.1rem;border-radius:10px;background:var(--navy-2);border:1px solid var(--brass)}
+.sol-diff .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:var(--on-navy-2)}
+.sol-diff h3{font:700 1.2rem/1.28 var(--serif);margin:.5rem 0 .8rem;color:var(--on-navy)}
+.sol-diff p{display:flex;gap:.6rem;align-items:center;font-size:.84rem;margin:0 0 .6rem;color:var(--on-navy);line-height:1.4}
+.sol-diff p.foot{display:block;color:var(--on-navy-2);font-size:.78rem;margin:.9rem 0 0}
+.kpill{flex:none;display:inline-block;min-width:3.4rem;text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.03em;
+  padding:.2rem .5rem;border-radius:999px;border:1px solid currentColor;background:none}
+.sol .p-model{color:var(--violet)} .sol .p-code{color:var(--teal)} .sol .p-role{color:var(--brass)}
+.track h3{font-family:var(--serif);font-size:1.08rem;margin:0}
+.track .cap{font-style:italic;margin:.25rem 0 .6rem}
+.track dl{margin:0;display:grid;gap:.55rem}
+.track dt{font-size:.8rem;font-weight:600}.track dt code{color:var(--ok);font-size:1em}
+.track dd{margin:.1rem 0 0;font-size:.84rem;color:var(--fg-2)}
+.track .see{margin-top:.7rem;font-size:.82rem;font-weight:600}
+.ctl-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.7rem;margin-top:.7rem}
+.ctl{display:flex;flex-direction:column;gap:.3rem;padding:.8rem .85rem;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--bg-2);position:relative}
+.ctl:not(:last-child)::after{content:"\2192";position:absolute;right:-.62rem;top:1.4rem;color:var(--fg-3);font-weight:700;z-index:1}
+.ctl h3{margin:.25rem 0 0;font-family:var(--serif);font-size:1.02rem}
+.ctl p{margin:0;font-size:.82rem;color:var(--fg-2)}
+.ctl .proof{margin-top:auto;padding-top:.45rem;font-family:var(--mono);font-size:.74rem;color:var(--warn)}
+.ctl a{font-size:.8rem;font-weight:600}
+.ctl .p-code{color:var(--ok)} .ctl .p-role{color:var(--warn)}
+.ctl.k-role{border-color:var(--warn)}
+.ctl-rules{margin-top:.8rem}
+.ctl-rules h4{margin:0 0 .3rem}.ctl-rules .may h4{color:var(--c3)}.ctl-rules .never h4{color:var(--bad)}
+.ctl-rules p{margin:0;font-size:.88rem}
+@media (max-width:1100px){.sol{grid-template-columns:minmax(0,1fr)}.ctl-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.ctl::after{display:none}}
+@media (max-width:760px){.sol-layer{grid-template-columns:2.2rem minmax(0,1fr)}.sol-layer .chips{grid-column:1 / -1}}

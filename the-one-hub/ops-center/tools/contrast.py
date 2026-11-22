@@ -66,11 +66,31 @@ def audit(name: str, p: dict) -> int:
     return bad
 
 
+def audit_brand(p: dict) -> int:
+    """The navy surface (top bar, the solution plate) is the same in both themes."""
+    bad = 0
+    bgs = [("navy", p.get("navy")), ("navy-2", p.get("navy-2"))]
+    print(f"\nBRAND  (floor {FLOOR}:1)")
+    print(f"  {'':<10}" + "".join(f"{b:>12}" for b, _ in bgs))
+    for f in ("on-navy", "on-navy-2", "brass", "teal", "violet"):
+        row = f"  {f:<10}"
+        for _, bg in bgs:
+            r = ratio(p[f], bg)
+            bad += r < FLOOR
+            row += f"{r:>10.2f}{' ' if r >= FLOOR else '!'} "
+        print(row + f"  {p[f]}")
+    r = ratio(p["navy"], p["brass"])           # the brass button carries navy text
+    bad += r < FLOOR
+    print(f"  {'navy on brass':<14}{r:>8.2f}{' ' if r >= FLOOR else '!'}")
+    return bad
+
+
 def main() -> int:
     css = CSS.read_text(encoding="utf-8")
     light = palette(css, ":root {")
     dark = palette(css, 'html[data-theme="dark"] {')
     bad = audit(f"LIGHT  (floor {FLOOR}:1)", light) + audit(f"DARK   (floor {FLOOR}:1)", dark)
+    bad += audit_brand(light)
     print(f"\n{bad} combination(s) below {FLOOR}:1" if bad else
           f"\nevery combination clears {FLOOR}:1")
     return 1 if bad else 0
