@@ -246,10 +246,10 @@ def test_service_rejects_bad_input(corpus):
 
 
 def test_volume_paths():
-    ok = "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/a.pdf"
+    ok = "/Volumes/main/aircarrier/artifacts/a.pdf"
     assert volume.check_path(ok) == ok
     for bad in ("/etc/passwd", "/Volumes/other/s/v/a.pdf", ok.replace("a.pdf", "a.csv"),
-                "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts/../../x/a.pdf"):
+                "/Volumes/main/aircarrier/artifacts/../../x/a.pdf"):
         with pytest.raises(volume.VolumeError):
             volume.check_path(bad)
 

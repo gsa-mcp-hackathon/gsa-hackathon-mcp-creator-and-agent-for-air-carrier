@@ -339,7 +339,7 @@ def test_store_schema_parses_and_rejects_bad_values():
     from mcp_aircarrier_ops.data.sources import store_location
 
     assert store_location("main.carrier_v2") == ("main", "carrier_v2")
-    assert store_location("  ") == ("users", "xiaobing_shang1_civ")
+    assert store_location("  ") == ("main", "aircarrier")
     for bad in ("main", "a.b.c", "main.x; DROP TABLE t", "main.`x`", "1a.b"):
         with pytest.raises(ValueError, match="AIRCARRIER_STORE_SCHEMA"):
             store_location(bad)
@@ -376,7 +376,7 @@ def test_store_schema_env_moves_every_table():
     tables, landing = out.strip().splitlines()
     assert all(t.startswith("`other_cat`.`other_sch`.") for t in tables.split("|"))
     assert all(t.startswith("other_cat.other_sch.") for t in landing.split("|"))
-    assert "xiaobing_shang1_civ" not in out
+    assert "aircarrier_" not in out or "main.aircarrier" not in out
 
 
 def test_open_state_means_not_closed_or_promoted():

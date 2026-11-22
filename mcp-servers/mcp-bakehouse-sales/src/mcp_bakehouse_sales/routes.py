@@ -7,6 +7,8 @@ even when the warehouse is unreachable.
 
 from __future__ import annotations
 
+import os
+
 from fastmcp import FastMCP
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -36,7 +38,7 @@ LANDING: dict = {
         "Forecasting future sales",
         "Changing or deleting any sales record",
     ],
-    "owner": "xiaobing.shang1.civ@mail.mil",
+    "owner": os.environ.get("APP_OWNER", ""),
     "how_to_use": [
         "In Genie Code, open Settings > Connectors > Custom MCP Server.",
         "Select mcp-bakehouse-sales and save.",

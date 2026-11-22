@@ -105,6 +105,7 @@ run() {
                  python -m pytest test_adversarial_arguments.py "${FLAGS[@]}") ;;
     one-hub)   one_hub ;;
     evidence)  (cd "$ROOT" && python3 scripts/check_links.py \
+                 && python3 scripts/check_portability.py \
                  && python3 eval/delegation/analyze.py > /tmp/delegation_results.md \
                  && diff -u eval/delegation/RESULTS.md /tmp/delegation_results.md \
                  && echo "eval/delegation/RESULTS.md matches runs.csv" \

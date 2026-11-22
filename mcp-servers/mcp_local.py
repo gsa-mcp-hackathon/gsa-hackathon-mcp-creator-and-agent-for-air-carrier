@@ -31,7 +31,7 @@ What changes, and why it is safe
 
 Use
 ---
-    import sys; sys.path.insert(0, "/Workspace/Users/xiaobing.shang1.civ@mail.mil/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-servers")
+    import sys; sys.path.insert(0, "/Workspace/Users/<you>/gsa-hackathon-mcp-creator-and-agent-for-cvn/mcp-servers")
     import mcp_local
     mcp_local.call("docs", "docs_search", query="Cost Limitation Baseline", top_k=3)
     mcp_local.list_tools("ops")

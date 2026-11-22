@@ -14,7 +14,7 @@ Rules this module enforces, so callers cannot get them wrong:
     handler set (RAW), and gate_decision records where the claim must go next.
   * value is DECIMAL(38,9), taken from repr(float), so a USD_M figure keeps its cents.
 
-Table lives at catalog.CLAIM_LEDGER (users.xiaobing_shang1_civ.aircarrier_claim) until
+Table lives at catalog.CLAIM_LEDGER (<AIRCARRIER_STORE_SCHEMA>.aircarrier_claim) until
 the aircarrier catalog exists; then point catalog.CLAIM_LEDGER at {CATALOG}.claim.
 """
 from __future__ import annotations

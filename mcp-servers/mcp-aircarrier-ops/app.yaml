@@ -24,6 +24,9 @@ command:
     "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
     python -m mcp_aircarrier_ops.app
 env:
+  # Shown as the owner on the app's landing page ('/').
+  - name: APP_OWNER
+    value: xiaobing.shang1.civ@mail.mil
   - name: DATABRICKS_WAREHOUSE_ID
     valueFrom: sql_warehouse
   # <catalog>.<schema> holding the aircarrier_* stores (same variable as the

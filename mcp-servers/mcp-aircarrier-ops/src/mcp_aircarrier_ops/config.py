@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     # ── Data location ─────────────────────────────────────────────────────
     # <catalog>.<schema> holding the aircarrier_* tables. Same variable as the
     # docs and analyst servers. Validated in data/sources.py.
-    aircarrier_store_schema: str = "users.xiaobing_shang1_civ"
+    aircarrier_store_schema: str = ""
 
 
 settings = Settings()

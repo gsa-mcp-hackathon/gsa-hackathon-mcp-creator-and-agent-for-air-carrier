@@ -1,15 +1,27 @@
 """Every name the server reads, in one place. Overridable by environment."""
 import os
 
-SCHEMA = os.environ.get("AIRCARRIER_STORE_SCHEMA", "users.xiaobing_shang1_civ")
+
+def _setting(name: str, local_default: str) -> str:
+    """A deployment setting. A deployed app (DATABRICKS_APP_PORT set) must set
+    it in app.yaml and stops at start-up when it does not; a local run or a
+    test gets a neutral placeholder. No workspace's own names live in code."""
+    value = os.environ.get(name, "").strip()
+    if value:
+        return value
+    if os.environ.get("DATABRICKS_APP_PORT"):
+        raise RuntimeError(f"{name} is not set. Set it in app.yaml (env) for this app.")
+    return local_default
+
+SCHEMA = _setting("AIRCARRIER_STORE_SCHEMA", "main.aircarrier")
 PAGES = f"{SCHEMA}.aircarrier_pdf_pages"
 TABLES = f"{SCHEMA}.aircarrier_pdf_tables"
 # Premise traps (node_type negative_term): submarine-only systems, other hulls' contracts,
 # methods that must not be used. Optional: without SELECT on it, docs_search simply adds no flags.
 NODES = f"{SCHEMA}.aircarrier_kg_nodes"
 # Volumes a caller may ask the server to parse: comma-separated path prefixes.
-VOLUME_ROOTS = tuple(p.strip().rstrip("/") + "/" for p in os.environ.get(
-    "DOCS_VOLUME_ROOTS", "/Volumes/users/xiaobing_shang1_civ/aircarrier_artifacts").split(",") if p.strip())
+VOLUME_ROOTS = tuple(p.strip().rstrip("/") + "/" for p in _setting(
+    "DOCS_VOLUME_ROOTS", "/Volumes/main/aircarrier/artifacts").split(",") if p.strip())
 CACHE_TTL_S = int(os.environ.get("DOCS_CACHE_TTL_S", "1800"))
 
 # Ship cost exhibits (P-5, P-5c) head each hull's column with its full-funding fiscal year,
