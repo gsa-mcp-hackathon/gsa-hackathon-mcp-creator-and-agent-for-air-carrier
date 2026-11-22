@@ -7,21 +7,24 @@
 #
 # The MCP endpoint is https://<app-hostname>/mcp, with health at /health.
 #
-# Self-heal: the app's .venv persists across deployments, and pip leaves
-# stray files behind when FastMCP changes major version (a 4.x package
-# directory can shadow a 3.x module of the same name). If `import fastmcp`
-# fails, the fastmcp and mcp packages are wiped and reinstalled before start.
+# Self-heal: the app's environment persists across deployments and pip
+# upgrades it in place. Going from FastMCP 2.x to 3.4, pip installs the new
+# fastmcp-slim package (which now holds the fastmcp module) and then removes
+# the old 2.x files at the same paths, leaving fastmcp/ with no __init__.py.
+# `import fastmcp` still succeeds on that; `from fastmcp import FastMCP` does
+# not. So the check imports FastMCP, and on failure fastmcp, fastmcp-slim and
+# mcp are wiped and reinstalled before start (finding 30).
 command:
   - /bin/sh
   - -c
   - >-
     export PYTHONPATH=/app/python/source_code/src:$PYTHONPATH &&
-    { python -c "import fastmcp" >/dev/null 2>&1 || {
+    { python -c "from fastmcp import FastMCP" >/dev/null 2>&1 || {
     SP=$(python -c "import sysconfig; print(sysconfig.get_paths()['purelib'])");
-    echo "Stale fastmcp or mcp files in $SP, reinstalling";
+    echo "fastmcp is missing or incomplete in $SP, reinstalling";
     rm -rf "$SP/fastmcp" "$SP/mcp";
     python -m pip install --no-cache-dir --force-reinstall --no-deps
-    "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
+    "fastmcp-slim>=3.4,<4" "fastmcp>=3.4,<4" "mcp>=1.24,<2"; }; } &&
     python -m mcp_aircarrier_ops.app
 env:
   # Shown as the owner on the app's landing page ('/').
