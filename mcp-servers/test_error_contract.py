@@ -43,12 +43,15 @@ def test_every_copy_matches_the_creator(copy):
 def test_every_fastmcp_server_installs_it(app):
     text = app.read_text()
     assert "mcp.add_middleware(" in text and "ErrorContractMiddleware())" in text
+    # 2026-11-23: an unexpected exception's text must not reach a client either.
+    assert "mask_error_details=True" in text
 
 
 def test_the_generator_ships_and_installs_it():
     text = (REPO / "mcp-server-creator/src/mcp_server_creator/generators/project.py").read_text()
     assert '"error_contract.py": ERROR_CONTRACT_MODULE' in text
     assert "mcp.add_middleware(error_contract.ErrorContractMiddleware())" in text
+    assert 'name="{{title}}",' in text and "mask_error_details=True" in text
 
 
 def test_only_a_top_level_error_counts():

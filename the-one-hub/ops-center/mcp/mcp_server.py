@@ -423,9 +423,6 @@ INSTRUCTIONS = (
     "decimals and no model. A lead's only output is a Collection Requirement "
     "(hub_collection_requirement or hub_plan_gap). No tool writes anything."
 )
-READ_ONLY = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True,
-             "openWorldHint": False}
-
 NUMBER = r"^-?\d{1,12}(\.\d{1,6})?$"
 NUMBER_OR_EMPTY = r"^$|^-?\d{1,12}(\.\d{1,6})?$"
 TableName = Annotated[str, Field(min_length=1, max_length=64, pattern=r"^[a-z0-9_]+$",
@@ -679,8 +676,11 @@ def build(http: bool = False):
     srv = FastMCP(SERVER_NAME, instructions=INSTRUCTIONS + INSTRUCTION, **kw)
     for fn in TOOLS:
         title = fn.__name__.removeprefix("hub_").replace("_", " ").capitalize()
-        srv.tool(name=fn.__name__,
-                 annotations=ToolAnnotations(title=title, **READ_ONLY))(_noticed(fn))
+        # The four hints are written out here, not spread from a shared dict, so a
+        # reviewer or a static scanner reads them without running the code.
+        srv.tool(name=fn.__name__, annotations=ToolAnnotations(
+            title=title, readOnlyHint=True, destructiveHint=False, idempotentHint=True,
+            openWorldHint=False))(_noticed(fn))
     if http:
         import os
 
@@ -706,14 +706,33 @@ def build(http: bool = False):
 
 def _noticed(fn):
     """The tool, with source_notice added to its result when the result holds
-    text addressed to an AI assistant (mcp-servers/test_source_notice.py)."""
+    text addressed to an AI assistant (mcp-servers/test_source_notice.py).
+
+    It is also the one place every tool call passes through, so it is where an
+    unexpected exception is stopped. The MCP SDK would send its text to the
+    client, and that text can hold a path or a row. A ToolError carries a
+    message written for the caller and passes unchanged. Anything else is
+    reported by tool name and error type only; the log gets where it was raised."""
     import functools
+    import logging
+    import traceback
 
     from source_notice import annotate_dict
 
     @functools.wraps(fn)
     def wrapped(*args, **kwargs):
-        return annotate_dict(fn(*args, **kwargs))
+        try:
+            return annotate_dict(fn(*args, **kwargs))
+        except ToolError:
+            raise
+        except Exception as e:  # noqa: BLE001 - reported by type, never by its text
+            where = "".join(traceback.format_tb(e.__traceback__)[-3:])
+            logging.getLogger(__name__).error(
+                "%s failed: %s\n%s", fn.__name__, type(e).__name__, where)
+            raise ToolError(
+                f"{fn.__name__} failed with an unexpected error ({type(e).__name__}). Its "
+                "text is withheld; the server log has where it was raised. If it repeats, "
+                "report it to the server owner.") from None
     return wrapped
 
 

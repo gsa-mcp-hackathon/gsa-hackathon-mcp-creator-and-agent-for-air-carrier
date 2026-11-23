@@ -21,6 +21,10 @@ from mcp_aircarrier_ops.tools import register_tools
 
 mcp = FastMCP(
     name="Air Carrier Ops",
+    # An unexpected exception reaches a client as "Error calling tool 'x'" with
+    # no text (it can hold a path, a table name or a statement). ToolError
+    # messages and error bodies ({"error": ..., "hint": ...}) still pass.
+    mask_error_details=True,
     instructions=(
         "Air Carrier Ops answers CVN-79 (USS John F. Kennedy) cost-reconciliation "
         "questions from the Air Carrier stores, returning every figure with its page "

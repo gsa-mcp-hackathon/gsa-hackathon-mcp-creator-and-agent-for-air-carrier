@@ -33,6 +33,10 @@ from mcp_server_creator.tracing import TraceMiddleware, audit_to_stderr, warm_up
 mcp = FastMCP(
     name="MCP A Creator",
     version=__version__,  # what a client sees in serverInfo, not FastMCP's own
+    # An unexpected exception reaches a client as "Error calling tool 'x'" with
+    # no text (it can hold a path, a table name or a statement). ToolError
+    # messages and error bodies ({"error": ..., "hint": ...}) still pass.
+    mask_error_details=True,
     instructions=(
         "MCP A Creator helps anyone build their own MCP server from their "
         "data and a task they do by hand today. When a user arrives, explain "

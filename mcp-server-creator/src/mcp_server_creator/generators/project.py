@@ -58,6 +58,10 @@ from {{package}}.tools import register_tools
 
 mcp = FastMCP(
     name="{{title}}",
+    # An unexpected exception reaches a client as "Error calling tool 'x'" with
+    # no text (it can hold a path, a table name or a statement). ToolError
+    # messages and error bodies ({"error": ..., "hint": ...}) still pass.
+    mask_error_details=True,
     instructions=(
 {{purpose_parts}}
         " "
