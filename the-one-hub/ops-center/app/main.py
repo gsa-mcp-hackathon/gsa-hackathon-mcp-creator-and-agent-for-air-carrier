@@ -1352,12 +1352,12 @@ def _store_capture(record: dict, files: list[tuple[str, bytes]]) -> tuple[bool, 
     if not root:
         return False, "No capture volume is configured (AIRCARRIER_CAPTURE_VOLUME).", []
     from databricks.sdk import WorkspaceClient
-    w = WorkspaceClient()
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     cid = _u.uuid4().hex[:12]
     base = f"{root}/{day}/{cid}"
     paths = []
     try:
+        w = WorkspaceClient()  # inside the try: a sign-in failure is a failed write, not a 500
         for name, blob in files:
             safe = re.sub(r"[^A-Za-z0-9._-]+", "_", name)[:120] or "file"
             p = f"{base}/{safe}"
@@ -1367,8 +1367,15 @@ def _store_capture(record: dict, files: list[tuple[str, bytes]]) -> tuple[bool, 
                            "captured_at": datetime.now(timezone.utc).isoformat()}
         w.files.upload(f"{base}/capture.json",
                        io.BytesIO(_json.dumps(record, indent=1).encode()), overwrite=False)
-    except Exception as exc:  # noqa: BLE001 - say what failed
-        return False, f"Could not write to {root}: {str(exc)[:200]}", paths
+    except Exception as exc:  # noqa: BLE001 - reported by type, never by its text
+        # The SDK's message can hold the request URL, the volume path or a response
+        # body, and this note is shown in the browser. The log gets the type too.
+        import logging
+        logging.getLogger("aircarrier.capture").error(
+            "capture %s was not stored: %s", cid, type(exc).__name__)
+        return False, (f"Could not write to the capture volume ({type(exc).__name__}). "
+                       "Check that AIRCARRIER_CAPTURE_VOLUME names a volume directory and "
+                       "that the app service principal has WRITE VOLUME on it."), paths
     return True, f"Stored as {cid}.", paths
 
 
