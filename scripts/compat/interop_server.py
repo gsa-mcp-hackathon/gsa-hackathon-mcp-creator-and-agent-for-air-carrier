@@ -7,7 +7,9 @@ from fastmcp import FastMCP
 mcp = FastMCP("interop")
 
 
-@mcp.tool
+@mcp.tool(name="ping", annotations={
+    "title": "Echo a number", "readOnlyHint": True, "destructiveHint": False,
+    "idempotentHint": True, "openWorldHint": False})
 def ping(x: int) -> dict:
     """Return the number it was given."""
     return {"x": x}

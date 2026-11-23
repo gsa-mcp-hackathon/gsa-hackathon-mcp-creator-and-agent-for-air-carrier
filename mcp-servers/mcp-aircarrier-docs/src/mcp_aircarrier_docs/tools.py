@@ -1,6 +1,15 @@
-"""MCP tools: validate, call the service, return. Every tool is read-only."""
+"""MCP tools: validate, call the service, return. Every tool is read-only.
+
+Every decorator states its four hints (readOnlyHint, destructiveHint,
+idempotentHint, openWorldHint) as literals, so a reviewer or a static scanner
+reads them without evaluating a shared dict. Every handler ends in an explicit
+try/except: _guard turns a domain error into a ToolError with its own message,
+and _fail reports anything unexpected without its text.
+"""
 from __future__ import annotations
 
+import logging
+import traceback
 from enum import Enum
 from typing import Annotated, Any
 
@@ -24,7 +33,7 @@ from mcp_aircarrier_docs.output_models import (
     TieoutDocumentResult,
 )
 
-READ = {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}
+log = logging.getLogger(__name__)
 
 
 class Kind(str, Enum):
@@ -62,17 +71,40 @@ def _guard(fn, *a, **k) -> Any:
         raise ToolError(str(e)) from None
 
 
+def _fail(tool: str, e: Exception) -> ToolError:
+    """What a client is told when a tool fails.
+
+    A ToolError already carries a message written for the caller (_guard builds it
+    from a sanitized domain error). Anything else is unexpected, and its text can
+    hold a path, a table name or a statement, so the reply names only the tool and
+    the error type. The log gets the type and where it was raised, never the text.
+    """
+    if isinstance(e, ToolError):
+        return e
+    where = "".join(traceback.format_tb(e.__traceback__)[-3:])
+    log.error("%s failed: %s\n%s", tool, type(e).__name__, where)
+    return ToolError(f"{tool} failed with an unexpected error ({type(e).__name__}). Its text is withheld; "
+                     "the server log has where it was raised. If it repeats, report it to the server owner.")
+
+
 def _c():
     return _guard(store.corpus)
 
 
 def register_tools(mcp: FastMCP) -> None:
-    @mcp.tool(name="docs_status", annotations={**READ, "title": "Corpus status"})
+    @mcp.tool(name="docs_status", annotations={
+        "title": "Corpus status", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_status() -> StatusResult:
         """How many documents, pages, tables and chunks are loaded, by kind, and when."""
-        return _guard(service.status, _c(), store.as_of())
+        try:
+            return _guard(service.status, _c(), store.as_of())
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_status", e) from None
 
-    @mcp.tool(name="docs_list_documents", annotations={**READ, "title": "List documents"})
+    @mcp.tool(name="docs_list_documents", annotations={
+        "title": "List documents", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_list_documents(
         kind: Annotated[Kind, Field(description=(
             "Limit to one document kind, e.g. budget_justification or gao_report. any means all."))] = Kind.any,
@@ -80,9 +112,14 @@ def register_tools(mcp: FastMCP) -> None:
         """Every loaded PDF with its artifact_id, kind (budget_justification = J-book,
         selected_acquisition_report = SAR/MSAR, crs_report, gao_report ...), budget_cycle (PB2024
         for a J-book named PB24 or PB 2024), pages and tables."""
-        return _guard(service.list_documents, _c(), kind.value)
+        try:
+            return _guard(service.list_documents, _c(), kind.value)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_list_documents", e) from None
 
-    @mcp.tool(name="docs_document_map", annotations={**READ, "title": "Map a document's structure"})
+    @mcp.tool(name="docs_document_map", annotations={
+        "title": "Map a document's structure", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_document_map(
         artifact_id: AID,
         line_item: Annotated[str, Field(max_length=4, description="Optional P-1 line item, e.g. 2001.")] = "",
@@ -90,18 +127,28 @@ def register_tools(mcp: FastMCP) -> None:
         """The layout of one document as page ranges: for a J-book each exhibit (P-40, P-5c, P-27,
         P-8a, P-35, P-10) of each P-1 line item with appropriation and date; for a SAR its sections
         and dollar bases (BY/TY); for CRS and GAO the numbered tables and figures."""
-        return _guard(service.document_map, _c(), artifact_id, line_item)
+        try:
+            return _guard(service.document_map, _c(), artifact_id, line_item)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_document_map", e) from None
 
-    @mcp.tool(name="docs_read_page", annotations={**READ, "title": "Read a page"})
+    @mcp.tool(name="docs_read_page", annotations={
+        "title": "Read a page", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_read_page(
         artifact_id: AID,
         page: Annotated[int, Field(ge=1, le=5000, description="1-based page number, as cited in search hits.")],
         max_chars: Annotated[int, Field(ge=500, le=30000, description="Cut the page text at this many characters.")] = 12000,
     ) -> PageResult:
         """The full text of one page, its structural labels, and the ids of the tables on it."""
-        return _guard(service.read_page, _c(), artifact_id, page, max_chars)
+        try:
+            return _guard(service.read_page, _c(), artifact_id, page, max_chars)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_read_page", e) from None
 
-    @mcp.tool(name="docs_get_table", annotations={**READ, "title": "Get a table with tie-outs"})
+    @mcp.tool(name="docs_get_table", annotations={
+        "title": "Get a table with tie-outs", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_get_table(
         table_id: TID,
         include_continuations: Annotated[bool, Field(description=(
@@ -115,9 +162,14 @@ def register_tools(mcp: FastMCP) -> None:
         tieout_status is pass. On a ship cost exhibit (P-5, P-5c) each cell also carries ship_fy,
         hull (the column's hull: the columns are headed by funding year, not by hull name) and
         share_of_total_ship_estimate_pct; read the hull's column and quote the share as given."""
-        return _guard(service.get_table, _c(), table_id, include_continuations, max_rows)
+        try:
+            return _guard(service.get_table, _c(), table_id, include_continuations, max_rows)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_get_table", e) from None
 
-    @mcp.tool(name="docs_find_line_item", annotations={**READ, "title": "Find a budget line item"})
+    @mcp.tool(name="docs_find_line_item", annotations={
+        "title": "Find a budget line item", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_find_line_item(
         line_item: Annotated[str, Field(min_length=4, max_length=4, pattern=r"^\d{4}$",
                                         description=("4-digit P-1 line item number, e.g. 2001 (Carrier Replacement "
@@ -134,9 +186,14 @@ def register_tools(mcp: FastMCP) -> None:
         figures. When a question names a book ("the PB 2024 SCN book"), pass budget_cycle; each
         section carries its book's budget_cycle and printed page numbers. On a P-5c each hull is
         a column headed by its fiscal year: CVN 79 is the FY 2013 ship."""
-        return _guard(service.find_line_item, _c(), line_item, exhibit, budget_cycle)
+        try:
+            return _guard(service.find_line_item, _c(), line_item, exhibit, budget_cycle)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_find_line_item", e) from None
 
-    @mcp.tool(name="docs_search", annotations={**READ, "title": "Search the documents"})
+    @mcp.tool(name="docs_search", annotations={
+        "title": "Search the documents", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_search(
         query: Annotated[str, Field(min_length=1, max_length=400, description=(
             "Words or a figure to find. Keyword ranking, not semantic: use the terms printed in "
@@ -155,10 +212,15 @@ def register_tools(mcp: FastMCP) -> None:
         13409.97 are the same. Every hit has its document, page and labels. If the query names a
         known premise trap (submarine-only equipment, another hull or its contract, a method that
         must not be used), premise_flags says which and why: answer with that first."""
-        return _guard(service.search, _c(), query, kind.value, artifact_id, content.value, top_k,
-                      store.premise_terms())
+        try:
+            return _guard(service.search, _c(), query, kind.value, artifact_id, content.value, top_k,
+                          store.premise_terms())
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_search", e) from None
 
-    @mcp.tool(name="docs_find_figure", annotations={**READ, "title": "Find where a figure is printed"})
+    @mcp.tool(name="docs_find_figure", annotations={
+        "title": "Find where a figure is printed", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_find_figure(
         value_musd: Annotated[str, Field(max_length=32, description="Value in $M, e.g. 13409.97 or 12936.")],
         tolerance_musd: Annotated[str, Field(max_length=16, description=(
@@ -166,9 +228,14 @@ def register_tools(mcp: FastMCP) -> None:
     ) -> FigureResult:
         """Every place a dollar figure is printed: table cells (converted with their column unit, with
         row and column headers) and page text. found=false means no loaded document prints it."""
-        return _guard(service.find_figure, _c(), value_musd, tolerance_musd)
+        try:
+            return _guard(service.find_figure, _c(), value_musd, tolerance_musd)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_find_figure", e) from None
 
-    @mcp.tool(name="docs_compare_figures", annotations={**READ, "title": "Check figures against the sources"})
+    @mcp.tool(name="docs_compare_figures", annotations={
+        "title": "Check figures against the sources", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_compare_figures(
         figures: Annotated[list[Figure], Field(min_length=1, max_length=20, description=(
             "One to twenty claimed figures to check, each with its value in $M."))],
@@ -177,9 +244,14 @@ def register_tools(mcp: FastMCP) -> None:
     ) -> CompareResult:
         """For each claimed figure: is it printed anywhere, in which documents, and is any of them a
         J-book exhibit or SAR (authoritative) rather than CRS or GAO (secondary)."""
-        return _guard(service.compare_figures, _c(), [f.model_dump() for f in figures], tolerance_musd)
+        try:
+            return _guard(service.compare_figures, _c(), [f.model_dump() for f in figures], tolerance_musd)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_compare_figures", e) from None
 
-    @mcp.tool(name="docs_tieout_document", annotations={**READ, "title": "Tie out a document's tables"})
+    @mcp.tool(name="docs_tieout_document", annotations={
+        "title": "Tie out a document's tables", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_tieout_document(
         artifact_id: AID,
         first_page: Annotated[int, Field(ge=0, le=5000, description=(
@@ -188,9 +260,14 @@ def register_tools(mcp: FastMCP) -> None:
             "Last page of the range. 0 means to the end of the document."))] = 0,
     ) -> TieoutDocumentResult:
         """Run every tie-out in a document (or page range) and list the tables that do not add up."""
-        return _guard(service.tieout_document, _c(), artifact_id, first_page, last_page)
+        try:
+            return _guard(service.tieout_document, _c(), artifact_id, first_page, last_page)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_tieout_document", e) from None
 
-    @mcp.tool(name="docs_parse_pdf", annotations={**READ, "title": "Parse a PDF from a volume"})
+    @mcp.tool(name="docs_parse_pdf", annotations={
+        "title": "Parse a PDF from a volume", "readOnlyHint": True, "destructiveHint": False,
+        "idempotentHint": True, "openWorldHint": False})
     def docs_parse_pdf(
         volume_path: Annotated[str, Field(max_length=500, description="/Volumes/... path to a .pdf")],
         pages: Annotated[str, Field(max_length=60, description="Pages, e.g. 1-10,15. At most 40.")] = "",
@@ -200,4 +277,7 @@ def register_tools(mcp: FastMCP) -> None:
         def go():
             data = volume.read(volume_path, extract.MAX_BYTES)
             return service.parse_pdf(data, volume_path.rsplit("/", 1)[-1], pages or None)
-        return _guard(go)
+        try:
+            return _guard(go)
+        except Exception as e:  # noqa: BLE001 - _fail keeps unexpected error text out of the reply
+            raise _fail("docs_parse_pdf", e) from None

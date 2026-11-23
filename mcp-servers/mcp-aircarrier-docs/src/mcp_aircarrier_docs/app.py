@@ -11,6 +11,9 @@ from mcp_aircarrier_docs.tools import register_tools
 
 mcp = FastMCP(
     name="Air Carrier Docs",
+    # An unexpected exception reaches a client as "Error calling tool 'x'" with no text
+    # (it can hold a path, a table name or a statement). ToolError messages still pass.
+    mask_error_details=True,
     instructions=(
         "Air Carrier Docs reads the CVN-79 document corpus deterministically: the SCN justification book "
         "(J-book) exhibits, SAR/MSAR, CRS and GAO reports. Use it to source or check a number.\n"

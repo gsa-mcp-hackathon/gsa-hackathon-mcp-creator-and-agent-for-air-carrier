@@ -264,7 +264,35 @@ def test_extract_limits():
 
 
 # --------------------------------------------------------------------- MCP
-def test_mcp_tools_registered_and_callable(corpus):
+HINTS = {"readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint"}
+
+
+def literal_hints_and_try(tools_py, expected):
+    """m8ven scan, 2026-11-23. A scanner reads the decorator, not the running server:
+    hints supplied through a shared dict (**READ) were served correctly but reported
+    missing. Each decorator must state all four as literals, and each handler must
+    hold an explicit try/except."""
+    import ast
+
+    with open(tools_py, encoding="utf-8") as f:
+        tree = ast.parse(f.read())
+    seen = 0
+    for fn in ast.walk(tree):
+        if not isinstance(fn, ast.FunctionDef):
+            continue
+        for d in fn.decorator_list:
+            if isinstance(d, ast.Call) and getattr(d.func, "attr", "") == "tool":
+                ann = next(k.value for k in d.keywords if k.arg == "annotations")
+                assert isinstance(ann, ast.Dict), fn.name
+                literal = {k.value for k, v in zip(ann.keys, ann.values)
+                           if isinstance(k, ast.Constant) and isinstance(v, ast.Constant) and isinstance(v.value, bool)}
+                assert HINTS <= literal, (fn.name, sorted(HINTS - literal))
+                assert any(isinstance(n, ast.Try) for n in fn.body), fn.name
+                seen += 1
+    assert seen == expected
+
+
+def test_mcp_tools_registered_and_callable(corpus, monkeypatch):
     from fastmcp import Client
 
     from mcp_aircarrier_docs.app import mcp
@@ -279,6 +307,23 @@ def test_mcp_tools_registered_and_callable(corpus):
     names, gt, err = asyncio.run(go())
     assert len(names) == 11 and "docs_compare_figures" in names
     assert gt["tieout_status"] == "pass" and err
+    literal_hints_and_try(os.path.join(os.path.dirname(__file__), "..", "src", "mcp_aircarrier_docs", "tools.py"), 11)
+
+    # An unexpected error reaches the client without its text (m8ven scan, 2026-11-23).
+    # Before the fix the reply was "Error calling tool '...': <the exception text>".
+    def boom(*a, **k):
+        raise RuntimeError("SECRET host=example token=abc path=/Volumes/private/x")
+
+    monkeypatch.setattr(service, "status", boom)
+
+    async def fail():
+        async with Client(mcp) as cl:
+            return await cl.call_tool("docs_status", {}, raise_on_error=False)
+
+    res = asyncio.run(fail())
+    text = res.content[0].text
+    assert res.is_error and "SECRET" not in text and "/Volumes" not in text
+    assert "docs_status" in text and "RuntimeError" in text
 
 
 TRAPS = [("Large Aperture Bow", "LAB array is a submarine bow sonar. Carriers do not carry one"),

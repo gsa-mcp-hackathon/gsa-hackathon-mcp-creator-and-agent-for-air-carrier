@@ -139,6 +139,34 @@ def payload(res):
     return res.structured_content if res.structured_content is not None else json.loads(res.content[0].text)
 
 
+HINTS = {"readOnlyHint", "destructiveHint", "idempotentHint", "openWorldHint"}
+
+
+def literal_hints_and_try(tools_py, expected):
+    """m8ven scan, 2026-11-23. A scanner reads the decorator, not the running server:
+    hints supplied through a shared dict (**READ) were served correctly but reported
+    missing. Each decorator must state all four as literals, and each handler must
+    hold an explicit try/except."""
+    import ast
+
+    with open(tools_py, encoding="utf-8") as f:
+        tree = ast.parse(f.read())
+    seen = 0
+    for fn in ast.walk(tree):
+        if not isinstance(fn, ast.FunctionDef):
+            continue
+        for d in fn.decorator_list:
+            if isinstance(d, ast.Call) and getattr(d.func, "attr", "") == "tool":
+                ann = next(k.value for k in d.keywords if k.arg == "annotations")
+                assert isinstance(ann, ast.Dict), fn.name
+                literal = {k.value for k, v in zip(ann.keys, ann.values)
+                           if isinstance(k, ast.Constant) and isinstance(v, ast.Constant) and isinstance(v.value, bool)}
+                assert HINTS <= literal, (fn.name, sorted(HINTS - literal))
+                assert any(isinstance(n, ast.Try) for n in fn.body), fn.name
+                seen += 1
+    assert seen == expected
+
+
 def test_tools_listed():
     from fastmcp import Client
 
@@ -164,6 +192,7 @@ def test_tools_listed():
             assert a.readOnlyHint is False, name
         else:
             assert a.readOnlyHint is True, name
+    literal_hints_and_try(Path(__file__).resolve().parents[1] / "src/mcp_aircarrier_analyst/tools.py", 12)
 
 
 def test_investigate_then_record_round_trip(fake_store):
@@ -184,11 +213,21 @@ def test_record_outcome_refuses_bad_evidence(fake_store):
     assert bad.is_error
 
 
-def test_errors_are_tool_errors(fake_store):
+def test_errors_are_tool_errors(fake_store, monkeypatch):
     res = call("analyst_explain_residual", {"piid": P, "submission_period": "FY2030P03"})
     assert res.is_error and "Available" in res.content[0].text
     res = call("analyst_investigate_transaction", {"piid": "N0002416C2116", "modification_number": "P1"})
     assert res.is_error
+
+    # An unexpected error reaches the client without its text (m8ven scan, 2026-11-23).
+    # Before the fix the reply was "Error calling tool '...': <the exception text>".
+    def boom(*a, **k):
+        raise RuntimeError("SECRET host=example token=abc path=/Volumes/private/x")
+
+    monkeypatch.setattr(service, "open_questions", boom)
+    text = (res := call("analyst_open_questions", {"piid": P})).content[0].text
+    assert res.is_error and "SECRET" not in text and "/Volumes" not in text
+    assert "analyst_open_questions" in text and "RuntimeError" in text
 
 
 def test_window_residual_backtest_status(fake_store):

@@ -14,6 +14,12 @@ dependencies = [
     "ruff>=0.6.0",
 ]
 
+[project.urls]
+Homepage = "https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/"
+Repository = "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn"
+Issues = "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/issues"
+"Privacy Policy" = "https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/blob/main/PRIVACY.md"
+
 [project.optional-dependencies]
 # Needed only for live Unity Catalog inspection and for generated servers
 # that read governed data. The server runs fully without them.

@@ -412,7 +412,7 @@ Every miss is read by hand and published with its cause. Defects found by testin
 | Prompt injection | Retrieved text is data; text aimed at a model carries a source notice |
 | Supply chain | In CI, pip-audit on every deployed server's requirements and bandit over every deployed source tree; both in every generated project; FastMCP 3.4 closes two CVEs |
 
-Detail: [SECURITY.md](SECURITY.md).
+Detail: [SECURITY.md](SECURITY.md). What each component records and where it stays: [PRIVACY.md](PRIVACY.md).
 
 ## Run it yourself
 
