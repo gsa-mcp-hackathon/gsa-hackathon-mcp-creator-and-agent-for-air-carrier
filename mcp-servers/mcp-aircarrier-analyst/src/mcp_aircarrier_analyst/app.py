@@ -11,6 +11,9 @@ from mcp_aircarrier_analyst.tools import register_tools
 
 mcp = FastMCP(
     name="Air Carrier Analyst",
+    # An unexpected exception reaches a client as "Error calling tool 'x'" with no text
+    # (it can hold a path, a table name or a statement). ToolError messages still pass.
+    mask_error_details=True,
     instructions=(
         "Air Carrier Analyst: an intelligence analyst for the CVN-79 (USS John F. Kennedy) cost "
         "reconciliation. It works records that are missing critical data elements, such as a GL line "
