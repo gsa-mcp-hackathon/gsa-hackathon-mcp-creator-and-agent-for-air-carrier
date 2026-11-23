@@ -223,9 +223,10 @@ def _profile_table(
                 # `qualified` and every column below come from quote_uc_name:
                 # each part matched UC_PART_RE and is backtick-quoted, so no
                 # caller text reaches the SQL unvalidated. No values are
-                # interpolated.
+                # interpolated. That is the reason for every `nosec B608`
+                # in this function.
                 cursor.execute(
-                    f"SELECT COUNT(*) AS row_count FROM {qualified}"  # nosemgrep
+                    f"SELECT COUNT(*) AS row_count FROM {qualified}"  # nosemgrep # nosec B608
                 )
                 counted = cursor.fetchone()
             details["row_count"] = int(counted[0]) if counted else None
@@ -239,7 +240,7 @@ def _profile_table(
                     for index, field in enumerate(probes)
                 )
                 with connection.cursor() as cursor:
-                    cursor.execute(f"SELECT {selects} FROM {qualified}")  # nosemgrep
+                    cursor.execute(f"SELECT {selects} FROM {qualified}")  # nosemgrep # nosec B608
                     distinct_row = cursor.fetchone()
                 if distinct_row is not None:
                     for index, field in enumerate(probes):
@@ -267,7 +268,7 @@ def _profile_table(
                     for index, field in enumerate(amount_probes)
                 )
                 with connection.cursor() as cursor:
-                    cursor.execute(f"SELECT {selects} FROM {qualified}")  # nosemgrep
+                    cursor.execute(f"SELECT {selects} FROM {qualified}")  # nosemgrep # nosec B608
                     counts = cursor.fetchone()
                 if counts is not None:
                     for index, field in enumerate(amount_probes):
@@ -296,7 +297,7 @@ def _profile_table(
             for field in enum_targets:
                 quoted = quote_uc_name(field.name)
                 sql = (
-                    f"SELECT DISTINCT {quoted} AS value "  # nosemgrep
+                    f"SELECT DISTINCT {quoted} AS value "  # nosemgrep # nosec B608
                     f"FROM {qualified} "
                     f"WHERE {quoted} IS NOT NULL LIMIT 30"  # nosemgrep
                 )

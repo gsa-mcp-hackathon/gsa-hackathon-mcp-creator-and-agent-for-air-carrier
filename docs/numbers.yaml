@@ -50,6 +50,15 @@ probe:                   # refresh at freeze from the probe table, then every re
   checks: "99.90% of 6,193"
   known_answers: "1,234 of 1,234"
 
+quality:                 # added 2026-11-22: output contracts and static checks
+  typed_output_tools: 56 # of 63: creator 10, docs 11, analyst 12, ops 7, hub 16; bakehouse 7 is generated code
+  contract_tests: 47     # creator 4, docs 15, analyst 17, ops 11; run by each project, not in the 1,770
+  grader_selftest: 9     # scripts/check.sh quality, not in the 59 evidence tests
+  mypy_modules: {checked: 137, baselined: 33}   # mypy.ini names the 33
+  coverage_pct: {creator: 86, ops: 71, bakehouse: 47, docs: 77, analyst: 74, probe: 94}
+  coverage_floor: {creator: 80, ops: 65, bakehouse: 40, docs: 70, analyst: 65, probe: 85}
+  bandit: "no finding at medium severity and confidence or higher"
+
 retired:                 # figures that must not appear as current anywhere checked
   - "1,762"
   - "798 tests"

@@ -18,6 +18,7 @@ from pydantic import Field
 from mcp_server_creator import designs
 from mcp_server_creator.config import settings
 from mcp_server_creator.generators import generate_full_project
+from mcp_server_creator.output_models import GenerateProjectResult
 from mcp_server_creator.utils import truncate
 
 MAX_CONTENT_FILES = 10
@@ -99,7 +100,7 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = [],
-    ) -> dict[str, Any]:
+    ) -> GenerateProjectResult:
         """Generate the whole project and return its file index.
 
         Review the index first, then ask for the files that matter: usually

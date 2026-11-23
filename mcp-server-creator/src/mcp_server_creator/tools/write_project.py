@@ -22,6 +22,7 @@ from pydantic import Field
 from mcp_server_creator import designs, live, user_workspace, volume_files
 from mcp_server_creator.config import settings
 from mcp_server_creator.generators import generate_full_project
+from mcp_server_creator.output_models import WriteProjectResult
 from mcp_server_creator.utils import UnsafePathError, safe_output_path, slugify
 
 
@@ -115,7 +116,7 @@ def register(mcp: FastMCP) -> None:
         include_deployment: Annotated[
             bool, Field(description="Include the Databricks deployment kit.")
         ] = True,
-    ) -> dict[str, Any]:
+    ) -> WriteProjectResult:
         """Write every generated file under the configured output root.
 
         Returns: `written` or `would_write` with each path, `root`,

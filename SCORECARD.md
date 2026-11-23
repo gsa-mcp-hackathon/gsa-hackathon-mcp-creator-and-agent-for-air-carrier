@@ -55,6 +55,27 @@ people use them, and where agent output meets human authority.
 | Ask the evidence | Questions in plain words; answers cite the records they rest on. With `AIRCARRIER_ASK_VIA_MCP=1` it is an MCP host: it calls the docs, ops and One Hub servers' 34 tools and shows the server behind each step | Answers are leads; same input validation as capture; the bearer token goes only to a Databricks Apps host at `/mcp`; with no server reachable it uses its in-app tools and says so | in `test_capture_ask.py`; `checks/test_mcp_host.py` 10 |
 | The gate | Decides whether a figure is promoted, held as a lead or sent to review | Deterministic, no model; `hub_check_claim` exposes it | `checks/test_gate.py`, agents suite 46 of 46 |
 
+## Output contracts and static checks
+
+Added 2026-11-22. Each tool declares a return model, so its MCP listing carries an output
+schema, and FastMCP checks every answer against it before it leaves the server. The contract
+tests call every tool through the MCP client and fail if an answer is refused.
+
+| Server | Tools with a typed output schema | Contract tests | Coverage, measured (floor) | mypy, modules checked |
+| --- | --- | --- | --- | --- |
+| MCP A Creator | 10 of 10 | 4, one design through all ten tools | 86% (80%) | 34 of 46 |
+| Docs | 11 of 11 | 15 | 77% (70%) | 16 of 21 |
+| Analyst | 12 of 12 | 17 | 74% (65%) | 11 of 20 |
+| Ops | 7 of 7 | 11, with Decimal, date and datetime values | 71% (65%) | 20 of 23 |
+| One Hub | 16 of 16 | In its 33 server tests | Not measured: script suites | 2 of 3 |
+| Bakehouse | 0 of 7: generated code, typed when the generator is | None | 47% (40%) | 20 of 22 |
+| Probe | No tools | None | 94% (85%) | 1 of 2 |
+
+The modules mypy does not yet check are named one by one in [`mypy.ini`](mypy.ini); a new
+error anywhere else fails the build. bandit reports nothing at medium severity and confidence
+or higher in any deployed source tree (`scripts/check.sh quality`). Coverage counts each
+server's unit tests only, not the shared hostile-input sweep.
+
 ## How each row is reproduced
 
 | Row | Command |
@@ -63,6 +84,7 @@ people use them, and where agent output meets human authority.
 | Adversarial sweep | `scripts/check.sh mcp-local` |
 | Probe | [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/); results in [EVALUATION.md](docs/submission/EVALUATION.md) section 2.2 |
 | Delegation | `python3 eval/delegation/round4/analyze_round4.py`; round 5 keys and seal: `scripts/check.sh evidence` |
+| Output contracts, coverage, mypy | `scripts/check.sh <project>`; bandit and the grader self-test: `scripts/check.sh quality` |
 | Creator determinism and end to end | [EVALUATION.md](docs/submission/EVALUATION.md) section 2.5 |
 
 ## Mission user and what the server changes for them

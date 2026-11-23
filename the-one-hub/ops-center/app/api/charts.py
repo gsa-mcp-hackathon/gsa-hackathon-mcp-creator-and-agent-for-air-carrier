@@ -33,7 +33,8 @@ def _html(chart):
     which escape every data value they emit."""
     @functools.wraps(chart)
     def wrapper(*args, **kwargs) -> Markup:
-        return Markup(chart(*args, **kwargs))
+        # Safe by construction: see the docstring above and the module docstring.
+        return Markup(chart(*args, **kwargs))  # nosec B704
     return wrapper
 
 

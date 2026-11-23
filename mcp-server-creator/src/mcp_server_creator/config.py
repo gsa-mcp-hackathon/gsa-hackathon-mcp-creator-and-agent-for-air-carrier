@@ -23,7 +23,8 @@ class Settings(BaseSettings):
     # app.py auto-selects HTTP when Databricks Apps injects DATABRICKS_APP_PORT
     # (or a generic PORT), so this rarely needs setting on a host.
     mcp_transport: str = "stdio"
-    mcp_host: str = "0.0.0.0"
+    # A hosted app sits behind the Apps proxy, which authenticates every request.
+    mcp_host: str = "0.0.0.0"  # nosec B104
     mcp_port: int = 8000
 
     # ── Writing generated projects to disk ────────────────────────────────────

@@ -26,6 +26,7 @@ from mcp_server_creator.models import (
     RetrievalProfile,
     SourceKind,
 )
+from mcp_server_creator.output_models import AddDataSourceResult
 from mcp_server_creator.profiling import (
     default_grants,
     describe_document_corpus,
@@ -201,7 +202,7 @@ def register(mcp: FastMCP) -> None:
                 )
             ),
         ] = True,
-    ) -> dict[str, Any]:
+    ) -> AddDataSourceResult:
         """Profile one source, add it to the design, and say what it supports.
 
         Returns: `design_id`, `summary` with the fields grouped by role,

@@ -31,6 +31,7 @@ from mcp_aircarrier_ops.models import (
     StateValue,
     state_clause,
 )
+from mcp_aircarrier_ops.output_models import WorkRegisterCountsResult
 
 TOOL_NAME = "carrier_work_register_counts"
 
@@ -107,7 +108,7 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = StateValue.ANY,
-    ) -> dict[str, Any]:
+    ) -> WorkRegisterCountsResult:
         """How much work is open on the CVN-79 cost reconciliation, and where it sits:
         work items counted by kind, state and owner agent.
 

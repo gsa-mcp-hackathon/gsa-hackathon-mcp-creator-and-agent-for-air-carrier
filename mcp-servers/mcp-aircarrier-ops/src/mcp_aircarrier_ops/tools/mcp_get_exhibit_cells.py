@@ -7,7 +7,7 @@ Source: exhibit_cells (uc_table).
 
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastmcp import FastMCP
 from pydantic import Field
@@ -19,6 +19,7 @@ from mcp_aircarrier_ops.data.warehouse import (
     qualified,
     run_query,
 )
+from mcp_aircarrier_ops.output_models import ExhibitCellsResult
 
 TABLE = qualified(
     sources.EXHIBIT_CELLS_CATALOG,
@@ -58,7 +59,7 @@ def register(mcp: FastMCP) -> None:
             int,
             Field(description="Cells to skip, in row then column order.", ge=0),
         ] = 0,
-    ) -> dict[str, Any]:
+    ) -> ExhibitCellsResult:
         """Show every cell of one PDF exhibit table, in row then column order.
 
         One record is one cell of one PDF table on one page; value verbatim, value_num

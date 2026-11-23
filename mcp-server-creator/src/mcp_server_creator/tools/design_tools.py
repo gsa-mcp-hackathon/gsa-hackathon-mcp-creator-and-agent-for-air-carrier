@@ -19,6 +19,7 @@ from mcp_server_creator.designer import (
     design_tools,
     parse_reading,
 )
+from mcp_server_creator.output_models import DesignToolsResult
 
 
 def _reading(plan: Any, jobs: list[str]) -> dict[str, Any]:
@@ -95,7 +96,7 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = [],
-    ) -> dict[str, Any]:
+    ) -> DesignToolsResult:
         """Propose tools the data can support, and name what it cannot.
 
         One tool per question shape per source, named after the user's own

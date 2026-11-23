@@ -22,6 +22,7 @@ from pydantic import Field
 from mcp_server_creator import designs, environments, live, tracing
 from mcp_server_creator.config import settings
 from mcp_server_creator.designs import store_mode
+from mcp_server_creator.output_models import CheckEnvironmentResult
 
 
 def register(mcp: FastMCP) -> None:
@@ -61,7 +62,7 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = "",
-    ) -> dict[str, Any]:
+    ) -> CheckEnvironmentResult:
         """Report what this environment supports, and what that rules out.
 
         Run this before designing anything. It answers the three questions

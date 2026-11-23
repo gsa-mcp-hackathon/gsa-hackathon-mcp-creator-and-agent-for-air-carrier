@@ -145,7 +145,8 @@ def main() -> None:
                 )
             ],
         )
-        uvicorn.run(app, host="0.0.0.0", port=int(platform_port))
+        # The Apps proxy authenticates every request before it reaches the app.
+        uvicorn.run(app, host="0.0.0.0", port=int(platform_port))  # nosec B104
     elif settings.mcp_transport == "streamable-http":
         mcp.run(
             transport="streamable-http",

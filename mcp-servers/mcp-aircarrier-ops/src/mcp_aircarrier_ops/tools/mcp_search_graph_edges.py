@@ -20,6 +20,7 @@ from mcp_aircarrier_ops.data.warehouse import (
     run_query,
 )
 from mcp_aircarrier_ops.models import RelValue
+from mcp_aircarrier_ops.output_models import SearchResult
 
 TABLE = qualified(
     sources.GRAPH_EDGES_CATALOG,
@@ -90,7 +91,7 @@ def register(mcp: FastMCP) -> None:
                 ge=0,
             ),
         ] = 0,
-    ) -> dict[str, Any]:
+    ) -> SearchResult:
         """Find Knowledge graph edges records whose text mentions something.
 
         One record is one directed edge src -rel-> dst between typed node ids

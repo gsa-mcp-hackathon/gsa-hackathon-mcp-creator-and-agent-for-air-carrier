@@ -67,6 +67,9 @@ select = ["E", "F", "I"]
 # carry an inline `# nosemgrep` that must stay on the same line (so the
 # generated server inherits it); the generated lines themselves fit in 88.
 "src/mcp_server_creator/generators/toolcode.py" = ["E501"]
+# live.py builds its SQL from validated, backtick-quoted identifiers. Those
+# lines carry `# nosemgrep # nosec B608`, which must stay on the same line.
+"src/mcp_server_creator/live.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

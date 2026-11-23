@@ -7,11 +7,10 @@ rather than guessing.
 
 from __future__ import annotations
 
-from typing import Any
-
 from fastmcp import FastMCP
 
 from mcp_server_creator import library
+from mcp_server_creator.output_models import ListLibraryResult
 
 
 def register(mcp: FastMCP) -> None:
@@ -27,7 +26,7 @@ def register(mcp: FastMCP) -> None:
             "openWorldHint": False,
         },
     )
-    def creator_list_library() -> dict[str, Any]:
+    def creator_list_library() -> ListLibraryResult:
         """Show every skill and reference document this server can hand you.
 
         Start here. Skills are procedures to follow; knowledge documents are

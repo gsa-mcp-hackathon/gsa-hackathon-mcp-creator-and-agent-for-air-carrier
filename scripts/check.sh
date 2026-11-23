@@ -3,10 +3,15 @@
 #
 #   scripts/check.sh            # every project
 #   scripts/check.sh creator    # one project (see PROJECTS below)
+#   scripts/check.sh quality    # bandit and the grader self-test (see EXTRA below)
 #   JUNIT_DIR=out scripts/check.sh   # also write one JUnit XML file per pytest run
 #
 # CI runs exactly this script, one project per job, so a green badge and a
 # green local run mean the same thing. Needs uv (https://docs.astral.sh/uv/).
+#
+# Each server project runs, in order: its unit tests with a coverage floor,
+# its contract tests (every tool's answer fits its published output schema),
+# ruff, and mypy with the repository's mypy.ini.
 # Works inside a Databricks Git folder: no bytecode or pytest cache is written.
 set -uo pipefail
 
@@ -14,7 +19,18 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export PYTHONDONTWRITEBYTECODE=1
 PYTEST_FLAGS=(-q -p no:cacheprovider)
 RUFF_PIN=0.17.5
+MYPY_PIN=1.18.2
+BANDIT_PIN=1.9.4
 PROJECTS=(creator ops bakehouse docs analyst probe mcp-local one-hub evidence)
+# Not one of the nine projects above, whose totals the documents quote. It runs
+# by name and at the end of `evidence`, so the CI evidence job covers it.
+EXTRA=(quality)
+# What bandit scans: the source of every deployed app, and the generated server.
+BANDIT_TREES=(mcp-server-creator/src mcp-servers/mcp-aircarrier-docs/src
+  mcp-servers/mcp-aircarrier-analyst/src mcp-servers/mcp-aircarrier-ops/src
+  mcp-servers/mcp-bakehouse-sales/src mcp-servers/aircarrier-mcp-probe/main.py
+  mcp-servers/aircarrier-mcp-probe/probe.py the-one-hub/ops-center/app
+  the-one-hub/ops-center/mcp)
 FAILED=()
 
 say() { printf '\n== %s\n' "$*"; }
@@ -31,30 +47,50 @@ next_flags() {
   return 0
 }
 
+# Coverage data goes outside the repository, like the pytest cache.
+coverage_file() { echo "${TMPDIR:-/tmp}/aircarrier-coverage-${CUR:-run}"; }
+
 # uv projects: their pyproject.toml declares the dev group.
+#   uv_project <dir> <coverage floor, percent of src>
 uv_project() {
-  local dir="$1"
+  local dir="$1" floor="$2"
   (
     cd "$ROOT/$dir" || exit 1
     uv sync --group dev --quiet || exit 1
     next_flags
-    uv run --no-sync pytest tests "${FLAGS[@]}" || exit 1
+    COVERAGE_FILE="$(coverage_file)" uv run --quiet --no-sync --with pytest-cov \
+      pytest tests "${FLAGS[@]}" --cov=src --cov-report= --cov-fail-under="$floor" || exit 1
+    if [ -d contract ]; then
+      next_flags
+      uv run --no-sync pytest contract "${FLAGS[@]}" || exit 1
+    fi
     uv run --no-sync ruff check . || exit 1
     uv run --no-sync ruff format --check . || exit 1
+    uv run --quiet --no-sync --with "mypy==$MYPY_PIN" \
+      mypy --config-file "$ROOT/mypy.ini" --cache-dir=/dev/null src || exit 1
   )
 }
 
 # requirements.txt projects: an isolated venv, never the system Python.
+#   req_project <dir> <pytest target> <coverage source> <coverage floor> <mypy targets...>
 req_project() {
-  local dir="$1" target="$2"
+  local dir="$1" target="$2" covered="$3" floor="$4"
+  shift 4
   (
     cd "$ROOT/$dir" || exit 1
     uv venv --quiet --allow-existing .venv || exit 1
-    uv pip install --quiet --python .venv -r requirements.txt pytest pytest-asyncio || exit 1
+    uv pip install --quiet --python .venv -r requirements.txt pytest pytest-asyncio \
+      pytest-cov "mypy==$MYPY_PIN" || exit 1
     next_flags
-    PYTHONPATH=src .venv/bin/python -m pytest "$target" "${FLAGS[@]}" || exit 1
+    COVERAGE_FILE="$(coverage_file)" PYTHONPATH=src .venv/bin/python -m pytest "$target" \
+      "${FLAGS[@]}" --cov="$covered" --cov-report= --cov-fail-under="$floor" || exit 1
+    if [ -d contract ]; then
+      next_flags
+      PYTHONPATH=src .venv/bin/python -m pytest contract "${FLAGS[@]}" || exit 1
+    fi
     # Hand-written projects carry no ruff config, so pin the version (finding F12).
     uvx --quiet "ruff@$RUFF_PIN" check . || exit 1
+    .venv/bin/python -m mypy --config-file "$ROOT/mypy.ini" --cache-dir=/dev/null "$@" || exit 1
   )
 }
 
@@ -75,17 +111,22 @@ one_hub() {
         || { tail -20 "/tmp/onehub_$suite.log"; exit 1; }
       tail -1 "/tmp/onehub_$suite.log"
     done
+    # The hub's return models are checked; mypy.ini lists what is not yet.
+    uv run --quiet --no-sync --with "mypy==$MYPY_PIN" \
+      mypy --config-file "$ROOT/mypy.ini" --cache-dir=/dev/null mcp || exit 1
   )
 }
 
 run() {
   case "$1" in
-    creator)   uv_project mcp-server-creator ;;
-    ops)       uv_project mcp-servers/mcp-aircarrier-ops ;;
-    bakehouse) uv_project mcp-servers/mcp-bakehouse-sales ;;
-    docs)      req_project mcp-servers/mcp-aircarrier-docs tests ;;
-    analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests ;;
-    probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py ;;
+    # Coverage floors sit a few points under the 2026-11-22 measurements
+    # (creator 86, ops 71, bakehouse 47, docs 77, analyst 74, probe 94).
+    creator)   uv_project mcp-server-creator 80 ;;
+    ops)       uv_project mcp-servers/mcp-aircarrier-ops 65 ;;
+    bakehouse) uv_project mcp-servers/mcp-bakehouse-sales 40 ;;
+    docs)      req_project mcp-servers/mcp-aircarrier-docs tests src 70 src ;;
+    analyst)   req_project mcp-servers/mcp-aircarrier-analyst tests src 65 src ;;
+    probe)     req_project mcp-servers/aircarrier-mcp-probe test_probe.py probe 85 main.py probe.py ;;
     mcp-local) (cd "$ROOT/mcp-servers" && next_flags && uv run --quiet --no-project --with pytest \
                  --with "fastmcp>=3.4,<4" python -m pytest test_mcp_local.py "${FLAGS[@]}" \
                && echo "-- instruction text in results is reported (source_notice)" \
@@ -114,8 +155,16 @@ run() {
                       eval/delegation/round4/test_runner.py eval/delegation/round5/test_round5.py \
                  && python3 -B eval/delegation/round4/analyze_round4.py > /tmp/delegation_results_r4.md \
                  && diff -u eval/delegation/round4/RESULTS.md /tmp/delegation_results_r4.md \
-                 && echo "eval/delegation/round4/RESULTS.md matches runs_r4.csv") ;;
-    *) echo "unknown project: $1 (choose from: ${PROJECTS[*]})"; return 2 ;;
+                 && echo "eval/delegation/round4/RESULTS.md matches runs_r4.csv") \
+                 && CUR=quality run quality ;;
+    quality)   (cd "$ROOT" \
+                 && echo "-- bandit: medium severity and confidence or higher, every deployed source tree" \
+                 && uvx --quiet "bandit==$BANDIT_PIN" -q -ll -ii -r "${BANDIT_TREES[@]}" \
+                 && echo "bandit: no finding at or above medium" \
+                 && echo "-- grader self-test: the right answer scores 100%, silence scores 0%" \
+                 && next_flags && uvx --quiet pytest "${FLAGS[@]}" \
+                      eval/delegation/test_grader_selftest.py) ;;
+    *) echo "unknown project: $1 (choose from: ${PROJECTS[*]} ${EXTRA[*]})"; return 2 ;;
   esac
 }
 
