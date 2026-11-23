@@ -145,9 +145,26 @@ def test_capture_in_app_with_identity_is_attributed(client, monkeypatch):
     assert r.json()["record"]["submitted_by"] == "a@b.mil"
 
 
-def test_capture_local_run_without_identity_still_works(client):
+def test_capture_local_run_without_identity_still_works(client, monkeypatch):
     r = post(client, "/api/capture", {"body": "x"})
     assert r.status_code == 200
+
+    # 2026-11-23: a failed write to the capture volume is reported by error type.
+    # Before, the note carried the first 200 characters of the exception and the
+    # volume path, and the page shows that note to the user.
+    import databricks.sdk
+
+    class Refused:
+        def __init__(self):
+            raise RuntimeError("SECRET token=dapi123 https://host/api/2.0/fs/files/Volumes/x")
+
+    monkeypatch.setenv("AIRCARRIER_CAPTURE_VOLUME", "/Volumes/private/schema/captures")
+    monkeypatch.setattr(databricks.sdk, "WorkspaceClient", Refused)
+    r = post(client, "/api/capture", {"body": "x"})
+    out = r.json()
+    assert r.status_code == 200 and out["stored"] is False, out
+    assert "SECRET" not in r.text and "dapi123" not in r.text and "/Volumes/private" not in r.text
+    assert "RuntimeError" in out["note"] and "WRITE VOLUME" in out["note"]
     assert r.json()["record"]["submitted_by"] == "unauthenticated"
 
 

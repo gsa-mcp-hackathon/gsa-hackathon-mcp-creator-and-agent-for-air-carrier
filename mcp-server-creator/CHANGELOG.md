@@ -28,6 +28,16 @@ are on `main` and in the deployed app, and go into the next tag.
 - `scripts/check.sh creator` also runs mypy (`mypy.ini` at the repository
   root) and holds unit-test coverage at 80% or more; bandit scans `src` in
   CI (`scripts/check.sh quality`).
+- An unexpected exception no longer sends its text to the client. The Creator
+  and every server it generates set `mask_error_details=True`, so the reply
+  is "Error calling tool 'x'" with nothing after it. Before, the exception
+  text followed, and it can hold a path, a table name or a statement.
+  `ToolError` messages and error bodies (`{"error": ..., "hint": ...}`) are
+  unchanged. `mcp-servers/test_error_contract.py` checks the Creator, the ops
+  server, the bakehouse server and the generator template. The committed
+  bakehouse project was upgraded with `mcp-a-creator-upgrade` (one file).
+- `pyproject.toml` lists the project URLs: homepage, repository, issues and
+  the privacy policy.
 
 ## 1.0.0rc3 (2026-11-22)
 
