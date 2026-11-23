@@ -37,7 +37,7 @@ tie_outs:
   store_after_round10: "7,743 of 7,746"       # deployed store, 34 PDFs, 2026-11-22, 3 within rounding
   file: docs/submission/evidence/tieout_rerun_2026-11-21.json
 
-findings: 33
+findings: 38
 
 evaluation:              # added 2026-11-22 (round 11): the outside checks
   round5_independent: {claude: "25/30 (83.3%)", gpt5_mini: "19/30 (63.3%)", without: "1/10"}

@@ -23,7 +23,7 @@
 </script>
 </head>
 <body><div style="background:#0b1a33;color:#fff;font:500 14px/1.45 Inter,system-ui,sans-serif;padding:9px 18px;text-align:center">
-Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-22.
+Read-only snapshot of the front center, rendered from the extracts in the repository on 2026-11-23.
 Ask the evidence, specialist runs, decisions and Answer a question need Databricks sign-in:
 <a href="../live/" style="color:#9cc3ff;font-weight:600">see them in the live gallery and demo</a> ·
 <a href="https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn" style="color:#9cc3ff">repository</a>
@@ -125,7 +125,7 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <a class="sol-layer k-servers" href="#capabilities">
 <span class="n">2</span>
 <span class="t"><b>Domain MCP servers</b><span>Cited access to documents, records and the registers.</span></span>
-<span class="chips"><i>docs · 11 tools</i><i>analyst · 12</i><i>ops · 7</i><i>hub · 16</i><i>bakehouse · 7</i></span>
+<span class="chips"><i>docs · 11 tools</i><i>analyst · 12</i><i>ops · 7</i><i>hub · 16</i><i>bakehouse · 7 (repository)</i></span>
 </a>
 <a class="sol-layer k-creator" href="#capabilities">
 <span class="n">1</span>
@@ -139,7 +139,7 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <p><span class="kpill p-model">AI</span><span>designs servers, plans, explains, drafts</span></p>
 <p><span class="kpill p-code">Code</span><span>computes, reconciles, cites, gates</span></p>
 <p><span class="kpill p-role">Role</span><span>the owning office approves, under its own sign-in</span></p>
-<p class="foot">Six MCP servers, 63 tools, seven Databricks apps deployed from GitHub. A probe calls every deployed server every 15 minutes.</p>
+<p class="foot">Five MCP servers, 56 tools, in seven Databricks apps deployed from GitHub. A sixth server, bakehouse, is in the repository (63 tools in all). A probe calls every deployed server every 15 minutes.</p>
 </aside>
 </div>
 </section>
@@ -359,7 +359,7 @@ Ask the evidence, specialist runs, decisions and Answer a question need Databric
 <figcaption>Read-only by default. Every write is gated, every figure is checked, every decision is a person's.</figcaption>
 </figure>
 <div class="card" style="margin:0"><table class="ledger"><tbody>
-<tr><td><b>SQL injection</b></td><td style="font-size:.86rem">Identifiers allow-listed and quoted; values bound as parameters; 421 hostile calls, none pasted into SQL</td></tr><tr><td><b>Code injection into generated projects</b></td><td style="font-size:.86rem">Free text made inert; eight payloads fuzzed; every generated file compiled with warnings as errors; 403 hostile calls to the Creator, nothing written outside its root</td></tr><tr><td><b>Unwanted writes</b></td><td style="font-size:.86rem">Read-only tools except one gated label write; Creator writes are dry runs; deploy needs an approval token bound to the reviewed design</td></tr><tr><td><b>Identity and grants</b></td><td style="font-size:.86rem">Per-user OAuth through Databricks Apps; tables read as the caller under Unity Catalog; the MCP host sends its token only to a Databricks Apps host at /mcp; no credentials in code</td></tr><tr><td><b>Prompt injection</b></td><td style="font-size:.86rem">Retrieved text is data, never instructions; any result holding text aimed at a model carries a source notice; planted records: 15 of 16 answers correct, none followed</td></tr><tr><td><b>Errors</b></td><td style="font-size:.86rem">Every server returns a failure as isError with its reason and a hint, so a client never counts an error as an answer</td></tr><tr><td><b>Supply chain</b></td><td style="font-size:.86rem">pip-audit and bandit in CI and in every generated project; FastMCP 3.4 or later, which closes two published CVEs</td></tr>
+<tr><td><b>SQL injection</b></td><td style="font-size:.86rem">Identifiers allow-listed and quoted; values bound as parameters; 421 hostile calls, none pasted into SQL</td></tr><tr><td><b>Code injection into generated projects</b></td><td style="font-size:.86rem">Free text made inert; eight payloads fuzzed; every generated file compiled with warnings as errors; 403 hostile calls to the Creator, nothing written outside its root</td></tr><tr><td><b>Unwanted writes</b></td><td style="font-size:.86rem">Read-only tools except one gated label write; Creator writes are dry runs; deploy needs an approval token bound to the reviewed design</td></tr><tr><td><b>Identity and grants</b></td><td style="font-size:.86rem">Workspace sign-in through Databricks Apps; each server reads as its own service principal under Unity Catalog grants; decisions act under the user's own token; the MCP host sends its token only to a Databricks Apps host at /mcp; no credentials in code</td></tr><tr><td><b>Prompt injection</b></td><td style="font-size:.86rem">Retrieved text is data, never instructions; any result holding text aimed at a model carries a source notice; planted records: 15 of 16 answers correct, none followed</td></tr><tr><td><b>Errors</b></td><td style="font-size:.86rem">Every server returns a failure as isError with its reason and a hint, so a client never counts an error as an answer</td></tr><tr><td><b>Supply chain</b></td><td style="font-size:.86rem">pip-audit and bandit in CI and in every generated project; FastMCP 3.4 or later, which closes two published CVEs</td></tr>
 </tbody></table></div>
 </div>
 </section>
