@@ -1,0 +1,51 @@
+Output of the notebook mcp-servers/Output Schema Live Check, run by the project owner on
+2026-11-22 (US Eastern) in the Databricks workspace, on serverless compute, as the signed-in
+user. The code was main at f25a47a, downloaded from GitHub; the tables were the warehouse's.
+Nothing was written. Each line is one tool call: "fits" means the server accepted its own
+answer against the tool's output schema; "refused" is the tool's own error body.
+
+source: main at f25a47a Merge pull request #24 from llmlocalai/tech-quality-fixes
+{'docs': 11, 'analyst': 12, 'ops': 7} tools
+server   tool                               outcome              ms  detail
+docs     docs_status                        fits              22764
+docs     docs_list_documents                fits                 35
+docs     docs_search                        fits               1204  query=Total Ship Estimate
+docs     docs_document_map                  fits                 39  artifact_id=bb2e90fd1d91a0bc
+docs     docs_read_page                     fits                 21  artifact_id=bb2e90fd1d91a0bc, page=327
+docs     docs_tieout_document               fits                 18  artifact_id=bb2e90fd1d91a0bc, first_page=327, last_page=327
+docs     docs_find_line_item                fits                376  line_item=2001
+docs     docs_find_line_item                fits                 19  line_item=2001, budget_cycle=PB2001
+docs     docs_get_table                     fits                 29  table_id=bb2e90fd1d91a0bc:0327:00
+docs     docs_find_figure                   fits                715  value_musd=13409.97
+docs     docs_find_figure                   fits                408  value_musd=1.23
+docs     docs_compare_figures               fits               1124  figures=[{'label': 'total ship estim
+analyst  analyst_list_sources               fits               6923
+analyst  analyst_search_documents           fits                736  query=N00024-15-C-2114
+analyst  analyst_trace_entity               fits               4705  entity=CVN-79
+analyst  analyst_profile_record             fits                 18  record={'GL Amount': '$454,765,071.
+analyst  analyst_investigate_record         fits              16502  record={'GL Amount': '$454,765,071.
+analyst  analyst_investigate_record         fits               9466  record={'GL Amount': '$454,765,071., detail=full
+analyst  analyst_model_status               fits                 17
+analyst  analyst_open_questions             fits               1164  piid=N0002415C2114
+analyst  analyst_investigate_transaction    fits                 61  piid=N0002415C2114, transaction_key=9700_-NONE-_N0002415C2114_P0
+analyst  analyst_explain_residual           fits                935  piid=N0002415C2114, submission_period=FY2021P03
+analyst  analyst_explain_residual           fits                 30  piid=N0002415C2114, submission_period=FY2019Q1
+analyst  analyst_investigate_window         fits                 22  piid=N0002415C2114, fiscal_year=2020, first_period=4, last_period=4
+analyst  analyst_open_questions             fits                 22  piid=N0002409C2116
+analyst  analyst_investigate_transaction    fits                 18  piid=N0002409C2116, transaction_key=9700_-NONE-_N0002409C2116_P0
+analyst  analyst_backtest                   fits               1289  piid=N0002415C2114
+ops      carrier_search_exhibit_cells       fits               1989  query=Total Ship Estimate
+ops      carrier_get_exhibit_cells          fits               1354  table_id=0e22875425eafbd3:0038:00
+ops      carrier_get_exhibit_cells          refused            1165  {"error":"No record matched 'no-such-table'.","hint":"Identifiers are exact. Find a table_id with carrier_search_exhibit_cells, or read the mcp://dict
+ops      carrier_search_graph_edges         fits               1365  query=CVN-79
+ops      carrier_search_obligations         fits               1576  contract=N00024-15-C-2114, order=largest_first
+ops      carrier_search_obligations         fits               1522  contract=N00024-09-C-2116, order=largest_first
+ops      carrier_search_obligations         fits               1588  contract=N00024-15-C-2114, detail=full, limit=3
+ops      carrier_search_variances           fits               1574
+ops      carrier_search_work_register       fits               1937  query=CVN
+ops      carrier_work_register_counts       fits                706
+
+37 calls: 36 fit, 1 refused in the tool's own words, 0 refused by an output schema.
+Every tool that only reads had an answer that fits.
+Not called: analyst_record_outcome (writes a training label); docs_parse_pdf (needs a PDF in a Unity Catalog volume).
+PASS: 37 live calls, none refused by an output schema.

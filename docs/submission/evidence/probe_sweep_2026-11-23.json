@@ -1,0 +1,166 @@
+{
+  "what": "The probe app's own status page (GET / on aircarrier-mcp-probe), read by the project owner after the apps were redeployed from main with typed output schemas on every tool.",
+  "sweep_logged_utc": "2026-11-23T03:50:54Z",
+  "app_log_line": "INFO:probe:sweep probe-e3c3733dd108 ok=True failing=[]",
+  "previous_sweep": "probe-52d4403a025f at 2026-11-23T03:35:43Z, before the redeploy, also ok",
+  "summary": {
+    "targets": 5,
+    "steps": 20,
+    "steps_ok": 20,
+    "known_answers_right": 5
+  },
+  "status": {
+    "interval_s": 900,
+    "volume": "/Volumes/users/xiaobing_shang1_civ/aircarrier_mcp_probe_runs",
+    "last": {
+      "probe_run_id": "probe-e3c3733dd108",
+      "ok": true,
+      "failing": [],
+      "targets": 5,
+      "steps": [
+        {
+          "target": "mcp-aircarrier-docs",
+          "step": "resolve",
+          "ok": true,
+          "latency_ms": null,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-docs",
+          "step": "initialize",
+          "ok": true,
+          "latency_ms": 101,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-docs",
+          "step": "tools_list",
+          "ok": true,
+          "latency_ms": 60,
+          "detail": "11 tools"
+        },
+        {
+          "target": "mcp-aircarrier-docs",
+          "step": "known_answer",
+          "ok": true,
+          "latency_ms": 1142,
+          "detail": "docs_find_figure ok"
+        },
+        {
+          "target": "mcp-aircarrier-analyst",
+          "step": "resolve",
+          "ok": true,
+          "latency_ms": null,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-analyst",
+          "step": "initialize",
+          "ok": true,
+          "latency_ms": 92,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-analyst",
+          "step": "tools_list",
+          "ok": true,
+          "latency_ms": 61,
+          "detail": "12 tools"
+        },
+        {
+          "target": "mcp-aircarrier-analyst",
+          "step": "known_answer",
+          "ok": true,
+          "latency_ms": 5415,
+          "detail": "analyst_model_status ok"
+        },
+        {
+          "target": "mcp-aircarrier-ops",
+          "step": "resolve",
+          "ok": true,
+          "latency_ms": null,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-ops",
+          "step": "initialize",
+          "ok": true,
+          "latency_ms": 86,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-ops",
+          "step": "tools_list",
+          "ok": true,
+          "latency_ms": 90,
+          "detail": "7 tools"
+        },
+        {
+          "target": "mcp-aircarrier-ops",
+          "step": "known_answer",
+          "ok": true,
+          "latency_ms": 1960,
+          "detail": "carrier_work_register_counts ok"
+        },
+        {
+          "target": "mcp-aircarrier-hub",
+          "step": "resolve",
+          "ok": true,
+          "latency_ms": null,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-hub",
+          "step": "initialize",
+          "ok": true,
+          "latency_ms": 92,
+          "detail": null
+        },
+        {
+          "target": "mcp-aircarrier-hub",
+          "step": "tools_list",
+          "ok": true,
+          "latency_ms": 53,
+          "detail": "16 tools"
+        },
+        {
+          "target": "mcp-aircarrier-hub",
+          "step": "known_answer",
+          "ok": true,
+          "latency_ms": 101,
+          "detail": "hub_check_claim ok"
+        },
+        {
+          "target": "mcp-a-creator",
+          "step": "resolve",
+          "ok": true,
+          "latency_ms": null,
+          "detail": null
+        },
+        {
+          "target": "mcp-a-creator",
+          "step": "initialize",
+          "ok": true,
+          "latency_ms": 98,
+          "detail": null
+        },
+        {
+          "target": "mcp-a-creator",
+          "step": "tools_list",
+          "ok": true,
+          "latency_ms": 87,
+          "detail": "10 tools"
+        },
+        {
+          "target": "mcp-a-creator",
+          "step": "known_answer",
+          "ok": true,
+          "latency_ms": 1059,
+          "detail": "creator_list_library ok"
+        }
+      ]
+    },
+    "written": "/Volumes/users/xiaobing_shang1_civ/aircarrier_mcp_probe_runs/2026-11-23/probe-e3c3733dd108.jsonl",
+    "error": null
+  }
+}

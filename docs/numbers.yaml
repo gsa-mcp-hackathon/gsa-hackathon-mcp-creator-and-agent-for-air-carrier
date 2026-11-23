@@ -58,6 +58,9 @@ quality:                 # added 2026-11-22: output contracts and static checks
   coverage_pct: {creator: 86, ops: 71, bakehouse: 47, docs: 77, analyst: 74, probe: 94}
   coverage_floor: {creator: 80, ops: 65, bakehouse: 40, docs: 70, analyst: 65, probe: 85}
   bandit: "no finding at medium severity and confidence or higher"
+  live_schema_check: {date: "2026-11-22", commit: f25a47a, calls: 37, fit: 36, refused_by_schema: 0}
+  probe_after_deploy: {sweep: probe-e3c3733dd108, utc: "2026-11-23T03:50:54Z", steps_ok: 20, steps: 20}
+  junit_total: 1890      # evidence/junit: 1,770 + 5 skipped + 59 evidence + 47 contract + 9 grader self-tests
 
 retired:                 # figures that must not appear as current anywhere checked
   - "1,762"
