@@ -204,6 +204,7 @@ tested in the One Hub suite counted in 2.1.
 | The gate | Deterministic promote, hold or review; no model | `checks/test_gate.py`; agents suite 46 of 46 |
 | One Hub MCP server `mcp-aircarrier-hub` | 16 read-only `hub_` tools with output schemas; inputs validated before the call; each hull measured against its own total; a VERIFIED tag needs a source and a locator | `checks/test_mcp_server.py`, 33 |
 | Ask the evidence as an MCP host | Lists the docs, ops and hub servers' tools and calls them as the app's service principal; token only to a Databricks Apps host at `/mcp`; falls back to in-app tools and says so | `checks/test_mcp_host.py`, 10 |
+| Start page, type and colour | The four layers, three tracks and five control steps render from data; the app serves its own fonts and no rule loads one from another origin; every text colour clears 4.5:1 in both themes and on the navy bar | `checks/test_app.py`, `tools/contrast.py` |
 
 The 2026-11-21 demo shows the role check in a live run: the user holds PMS 379, the residual
 lead belongs to the Office of Financial Operations and is refused, and the request for
@@ -333,6 +334,9 @@ Known weakness: no run flagged an injected instruction to the user. Every server
    its own review catching none of the misses (section 2.8). More rules would not have fixed
    that. Showing each tool's reading, letting the calling model correct it, and having code
    check the correction did.
+8. **State the whole before the parts.** A set of servers invites being scored as servers. The
+   start page, the README and the deck now open on the four layers and the control flow, and
+   each layer links to its own evidence, so a reader meets the solution first and the parts second.
 
 Recommendations for an agency adopting this:
 
