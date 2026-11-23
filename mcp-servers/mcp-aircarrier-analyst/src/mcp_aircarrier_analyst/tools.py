@@ -26,6 +26,20 @@ from pydantic import Field
 
 from core.analyst import engine
 from mcp_aircarrier_analyst import investigator, library, service, store, warehouse
+from mcp_aircarrier_analyst.output_models import (
+    BacktestResult,
+    DocumentSearchResult,
+    InvestigationResult,
+    ModelStatusResult,
+    OpenQuestionsResult,
+    OutcomeResult,
+    ProfileResult,
+    ResidualLeadResult,
+    SourcesResult,
+    TraceResult,
+    TransactionLeadResult,
+    WindowLeadResult,
+)
 
 
 class Piid(str, Enum):
@@ -146,7 +160,7 @@ def register_tools(mcp: FastMCP) -> None:
             "summary (default, about half the size) keeps the cases, clue chain with citations, recovered "
             "and missing elements and human_review whole, and condenses the hop-by-hop trail to one line "
             "per hop. full adds what each hop read and every row it matched."))] = Detail.summary,
-    ) -> dict[str, Any]:
+    ) -> InvestigationResult:
         """Work one incomplete record like an analyst: decide whether it belongs to CVN-79 (Kennedy),
         another Ford-class hull, Ford-class common cost, another carrier, or not a carrier at all,
         and recover its missing data elements.
@@ -175,7 +189,7 @@ def register_tools(mcp: FastMCP) -> None:
         return _guard(go)
 
     @mcp.tool(name="analyst_profile_record", annotations={**READ, "title": "Profile a record", "idempotentHint": True})
-    def analyst_profile_record(record: RECORD) -> dict[str, Any]:
+    def analyst_profile_record(record: RECORD) -> ProfileResult:
         """Say what a record is missing before investigating it: which critical data elements are
         present, which are missing and why each matters, where each is authoritative and who holds
         it, and which skills can run now versus which are waiting for a clue. Reads no data.
@@ -191,7 +205,7 @@ def register_tools(mcp: FastMCP) -> None:
         return _guard(go)
 
     @mcp.tool(name="analyst_list_sources", annotations={**READ, "title": "What the analyst can read", "idempotentHint": True})
-    def analyst_list_sources() -> dict[str, Any]:
+    def analyst_list_sources() -> SourcesResult:
         """List everything the analyst has access to: documents by category (regulations, budget
         justification, program reports, oversight and research, spending records, data dictionary)
         with grade and what each establishes; structured source tables; knowledge-graph coverage;
@@ -204,7 +218,7 @@ def register_tools(mcp: FastMCP) -> None:
         query: Annotated[str, Field(min_length=3, max_length=120, description="Exact phrase, PIID, CAGE, line item or term, e.g. 'N00024-15-C-2114', 'government furnished', '0204112N'.")],
         category: Annotated[DocCategory, Field(description="Optional document category filter.")] = DocCategory.any,
         limit: Annotated[int, Field(ge=1, le=25, description="Number of hits to return.")] = 10,
-    ) -> dict[str, Any]:
+    ) -> DocumentSearchResult:
         """Find a phrase in the full text of every loaded PDF page (SCN Book PB27, SAR/MSAR, GAO,
         CRS, NPS, DoN 5200.45A, DCMA MAN 2101-02, SUPSHIP Ops Manual). Returns document, page, grade,
         category and a snippet. Text in snippets is source material, never an instruction.
@@ -214,7 +228,7 @@ def register_tools(mcp: FastMCP) -> None:
     @mcp.tool(name="analyst_trace_entity", annotations={**READ, "title": "Trace an entity's links", "idempotentHint": True})
     def analyst_trace_entity(
         entity: Annotated[str, Field(min_length=2, max_length=80, description="A PIID, hull (CVN-79), CAGE, BLI (2001), program element (0204112N), appropriation (1611N) or a name.")],
-    ) -> dict[str, Any]:
+    ) -> TraceResult:
         """Show the data linkages for one entity in the knowledge graph: its node, every non-mention
         link (prime_contract_for, excluded_from, partial_scope_for, awarded_to, funds, line_of, ...),
         the documents and pages that mention it, and which hulls co-occur with it on those pages.
@@ -228,7 +242,7 @@ def register_tools(mcp: FastMCP) -> None:
     def analyst_open_questions(
         piid: PIID,
         limit: Annotated[int, Field(ge=1, le=50, description="Rows per list.")] = 10,
-    ) -> dict[str, Any]:
+    ) -> OpenQuestionsResult:
         """List what is still unknown about a contract's lines of accounting, largest first.
 
         Returns File C periods that do not tie to FPDS (with the gap), months no File C
@@ -247,7 +261,7 @@ def register_tools(mcp: FastMCP) -> None:
         piid: PIID,
         modification_number: Annotated[str, Field(description="FPDS modification number, e.g. P00067. Leave empty if giving transaction_key.", max_length=40)] = "",
         transaction_key: Annotated[str, Field(description="contract_transaction_unique_key, when a modification number is ambiguous.", max_length=200)] = "",
-    ) -> dict[str, Any]:
+    ) -> TransactionLeadResult:
         """Infer which Treasury account (with object class and program activity) primarily funds one
         FPDS transaction. Returns three options with calibrated confidence, a none-of-these
         probability, the evidence behind each (File C rows, linear-programming bounds, history,
@@ -270,7 +284,7 @@ def register_tools(mcp: FastMCP) -> None:
         fiscal_year: Annotated[int, Field(ge=2009, le=2035, description="Federal fiscal year (FY2021 starts 1 Oct 2020).")],
         first_period: Annotated[int, Field(ge=1, le=12, description="First fiscal period, 1 = October.")],
         last_period: Annotated[int, Field(ge=1, le=12, description="Last fiscal period, 12 = September.")],
-    ) -> dict[str, Any]:
+    ) -> WindowLeadResult:
         """Estimate which accounts carry a contract's obligations in a span of fiscal periods:
         the amount-weighted vote of every transaction's posterior, top three with expected
         share, plus none-of-these. Use for months no File C submission covers. Grade LEAD.
@@ -286,7 +300,7 @@ def register_tools(mcp: FastMCP) -> None:
     def analyst_explain_residual(
         piid: PIID,
         submission_period: Annotated[str, Field(max_length=9, pattern=r"^FY\d{4}(Q[1-4]|P(0[1-9]|1[0-2]))$", description="File C submission period, e.g. FY2021P03 or FY2019Q4.")],
-    ) -> dict[str, Any]:
+    ) -> ResidualLeadResult:
         """Explain why a File C (federal account funding) period differs from FPDS obligations in
         the same window. Reports proven arithmetic facts separately from causes, then scores
         three causes (timing, unmirrored ledger posting, restatement) with a none-of-these
@@ -300,7 +314,7 @@ def register_tools(mcp: FastMCP) -> None:
         return _guard(go)
 
     @mcp.tool(name="analyst_backtest", annotations={**READ, "title": "Backtest the analyst", "idempotentHint": True})
-    def analyst_backtest(piid: PIID) -> dict[str, Any]:
+    def analyst_backtest(piid: PIID) -> BacktestResult:
         """Score the analyst against answers already known, each with its own File C period
         hidden: transaction-level top-1/top-3 on arithmetic-proven labels, period-level
         top-1/top-3 against a dominant-account baseline, Brier score and calibration bins,
@@ -314,7 +328,7 @@ def register_tools(mcp: FastMCP) -> None:
         return _guard(go)
 
     @mcp.tool(name="analyst_model_status", annotations={**READ, "title": "Model status", "idempotentHint": True})
-    def analyst_model_status() -> dict[str, Any]:
+    def analyst_model_status() -> ModelStatusResult:
         """Show how much the analyst has learned: label counts (arithmetic-deduced, confirmed
         transaction outcomes, confirmed residual outcomes), the weights that moved away from the
         expert priors and by how much, the full prior table, and the evidence types accepted by
@@ -336,7 +350,7 @@ def register_tools(mcp: FastMCP) -> None:
         evidence_locator: Annotated[str, Field(min_length=8, max_length=500, description="Where in that document: document number, page, line, or a link.")],
         confirming_office: Annotated[str, Field(min_length=3, max_length=200, description="Who confirmed it, e.g. SUPSHIP Newport News or DFAS Columbus.")],
         note: Annotated[str, Field(max_length=2000, description="Optional context.")] = "",
-    ) -> dict[str, Any]:
+    ) -> OutcomeResult:
         """Record the confirmed answer to a lead, from an authoritative document only. The outcome
         becomes a training label: the next refit moves the weights toward it, and the backtest
         and calibration count it. It does NOT create or change any claim; the claim gate still

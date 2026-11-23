@@ -33,6 +33,7 @@ from mcp_server_creator import designs, user_workspace
 from mcp_server_creator.config import settings
 from mcp_server_creator.generators.project import app_description
 from mcp_server_creator.models import ServerSpec, SourceKind
+from mcp_server_creator.output_models import DeployServerResult
 from mcp_server_creator.review import review_spec
 from mcp_server_creator.utils import slugify
 
@@ -219,7 +220,7 @@ def register(mcp: FastMCP) -> None:
             bool,
             Field(description="Deploy a fresh snapshot even if the app is live."),
         ] = False,
-    ) -> dict[str, Any]:
+    ) -> DeployServerResult:
         """Security-review, then create and deploy the server as your app.
 
         Call with approve=false first and show the user `security` and

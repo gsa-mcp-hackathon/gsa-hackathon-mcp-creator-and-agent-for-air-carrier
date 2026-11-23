@@ -76,10 +76,10 @@ The read-only site cannot run agents, so it links to a [gallery of live screens]
 
 | | What is true today | Evidence |
 | --- | --- | --- |
-| **Technology** | 6 MCP servers, 63 tools, FastMCP over streamable HTTP on Databricks Apps. Pydantic-validated inputs, bound SQL parameters, `isError` with a hint. Authority decided in Unity Catalog under the user's own token | [Servers](#the-mcp-servers), [Security](#security) |
+| **Technology** | 6 MCP servers, 63 tools, FastMCP over streamable HTTP on Databricks Apps. Pydantic-validated inputs, bound SQL parameters, `isError` with a hint. A typed output schema on every tool of the five deployed servers (56 of 63). Authority decided in Unity Catalog under the user's own token | [Servers](#the-mcp-servers), [Security](#security) |
 | **Testing** | 1,770 tests pass from a clean clone. 421 hostile calls on the read tools wrote nothing; 403 on the Creator escaped nothing. Five held-out rounds of real-model questions | [How we know it works](#how-we-know-it-works) |
 | **Outside checks** | An external evaluator's questions: Claude 25/30 (83.3%), 1/10 without tools. A blind outside reviewer would rely on 9 of 10 vs 0 of 10 answers | [Round 5](eval/delegation/round5/RESULTS.md), [Blind review](eval/delegation/sme_review/BLIND_RESULTS.md) |
-| **Maturity** | Seven apps deploy from GitHub with one command. A probe calls every server every 15 minutes: 99.90% of 6,193 checks, 1,234 of 1,234 known answers right. Creator release `v1.0.0-rc3` with changelog and SBOM. CI on Python 3.11 and 3.12 with pip-audit and bandit | [Deploy](#run-it-yourself), [Scorecard](SCORECARD.md) |
+| **Maturity** | Seven apps deploy from GitHub with one command. A probe calls every server every 15 minutes: 99.90% of 6,193 checks, 1,234 of 1,234 known answers right. Creator release `v1.0.0-rc3` with changelog and SBOM. CI on Python 3.11 and 3.12 with pip-audit, bandit, mypy and a coverage floor per server | [Deploy](#run-it-yourself), [Scorecard](SCORECARD.md) |
 | **Impact** | CVN-79 reconciled across four ledgers. 7,743 of 7,746 budget tie-outs pass. 59 open questions ranked, each with the office that can close it | [Impact](docs/IMPACT.md) |
 | **Adoptability** | A new program supplies data, not software. The Creator built the ops server and a second server over unrelated data; 15 of 15 generated projects pass their own tests | [Plug and play](#plug-and-play-what-a-new-program-reuses) |
 
@@ -375,6 +375,8 @@ current type. The rest are the current app, run from this repository. Every page
 | Would a financial manager rely on the answers? | Blind, by a separate external reviewer: **5.4 vs 1.0** of 6, would rely on **9 of 10 vs 0 of 10**, preferred the servers 10 of 10. Owner's own score: 5.4 vs 1.6 | [blind](eval/delegation/sme_review/BLIND_RESULTS.md), [owner](eval/delegation/sme_review/RESULTS.md) |
 | Do deployed servers keep answering? | **99.90% of 6,193** probe checks, 2026-11-12 to 2026-11-20; **1,234 of 1,234** known answers right | [probe](mcp-servers/aircarrier-mcp-probe/) |
 | Do the numbers tie to source? | **7,743 of 7,746** tie-outs on the deployed store (3 within rounding); $13,409.970M closes to zero two ways | [evidence](docs/submission/evidence/tieout_store_2026-11-22.json), [`verify.py`](the-one-hub/ops-center/checks/verify.py) |
+| Does every answer fit its published schema? | **47 contract tests** call every tool on the Creator, docs, analyst and ops servers through the MCP client; the One Hub's 33 server tests cover its own | `contract/` in each server, e.g. [docs](mcp-servers/mcp-aircarrier-docs/contract/test_output_schemas.py) |
+| Is the code held to static checks? | mypy checks **104 of 137** server modules and names the other 33 as a baseline; bandit finds nothing at medium or above in any deployed source tree; each server has a coverage floor (Creator measured at 86%) | `scripts/check.sh`, [`mypy.ini`](mypy.ini) |
 | Does the Creator build good servers, repeatably? | **15 of 15** generated projects pass; **58 of 58** files byte-identical | `scripts/check.sh creator` |
 
 **Who ran the outside checks.** The Round 5 questions were written by an external evaluator who
@@ -389,9 +391,9 @@ Every miss is read by hand and published with its cause. Defects found by testin
 
 | Criterion | Open this |
 | --- | --- |
-| C1 Readability and maintainability | [`mcp-aircarrier-ops/src/`](mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/): models, one file per tool, warehouse access, kept apart |
+| C1 Readability and maintainability | [`mcp-aircarrier-ops/src/`](mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/): models, one file per tool, warehouse access, kept apart; mypy and a coverage floor in CI ([`mypy.ini`](mypy.ini)) |
 | C2 Performance and reliability | [EVALUATION.md](docs/submission/EVALUATION.md) sections 1 and 2, including the Creator on schemas it had not seen (2.8); probe and latency results above |
-| C3 MCP design | [Security](#security); goal-shaped tools that return totals with their basis |
+| C3 MCP design | [Security](#security); goal-shaped tools that return totals with their basis; a typed output schema per tool ([docs](mcp-servers/mcp-aircarrier-docs/src/mcp_aircarrier_docs/output_models.py), [analyst](mcp-servers/mcp-aircarrier-analyst/src/mcp_aircarrier_analyst/output_models.py)) |
 | Mission alignment | [docs/IMPACT.md](docs/IMPACT.md); the `/impact` page |
 | Innovation | [MCP A Creator](#mcp-a-creator), an MCP server that builds MCP servers, joined to a [financial-control layer](#the-financial-control-layer) where no model promotes a figure |
 | Tracks | [One solution, three tracks](#one-solution-three-tracks) |
@@ -407,7 +409,7 @@ Every miss is read by hand and published with its cause. Defects found by testin
 | Unwanted writes | Read-only by default; analyst lead writes labeled `readOnlyHint: false`; Creator deploys need an approval token bound to the files |
 | Identity | Workspace sign-in on every app; tables read as the caller; decisions under the user's token |
 | Prompt injection | Retrieved text is data; text aimed at a model carries a source notice |
-| Supply chain | pip-audit and bandit in CI and in every generated project; FastMCP 3.4 closes two CVEs |
+| Supply chain | In CI, pip-audit on every deployed server's requirements and bandit over every deployed source tree; both in every generated project; FastMCP 3.4 closes two CVEs |
 
 Detail: [SECURITY.md](SECURITY.md).
 

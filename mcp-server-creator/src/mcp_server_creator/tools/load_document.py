@@ -6,12 +6,13 @@ tokens, and a reference file is loaded only when a phase needs it.
 
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastmcp import FastMCP
 from pydantic import Field
 
 from mcp_server_creator import library
+from mcp_server_creator.output_models import LoadDocumentResult
 
 
 def register(mcp: FastMCP) -> None:
@@ -50,7 +51,7 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = "",
-    ) -> dict[str, Any]:
+    ) -> LoadDocumentResult:
         """Return the full text of one skill or reference document.
 
         Follow a skill's instructions as a procedure. Treat a knowledge

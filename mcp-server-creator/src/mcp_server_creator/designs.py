@@ -221,6 +221,7 @@ def resolve(design_id: str | None, spec_json: str | None) -> tuple[ServerSpec, s
                     f"{'.'.join(str(p) for p in item['loc'])}: {item['msg']}"
                     for item in error.errors(include_url=False)[:4]
                 )
+                + ". The full shape is the resource creator://schema/server-spec."
             ) from None
     raise DesignError(
         "pass design_id, the handle creator_start_design returned, or "

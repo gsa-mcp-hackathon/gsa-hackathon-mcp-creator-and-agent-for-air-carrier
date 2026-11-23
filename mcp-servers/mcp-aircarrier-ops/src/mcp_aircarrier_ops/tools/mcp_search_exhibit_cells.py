@@ -20,6 +20,7 @@ from mcp_aircarrier_ops.data.warehouse import (
     run_query,
 )
 from mcp_aircarrier_ops.models import ExtractorValue, ValueKindValue
+from mcp_aircarrier_ops.output_models import SearchResult
 
 # A search hit only needs enough of a cell to recognise it; one prose cell
 # measured 5 KB. Full text: docs_get_table on the docs server.
@@ -102,7 +103,7 @@ def register(mcp: FastMCP) -> None:
                 ge=0,
             ),
         ] = 0,
-    ) -> dict[str, Any]:
+    ) -> SearchResult:
         """Find PDF exhibit table cells records whose text mentions something.
 
         One record is one cell of one PDF table on one page; value verbatim, value_num

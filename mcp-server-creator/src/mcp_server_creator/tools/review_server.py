@@ -7,13 +7,14 @@ afternoon.
 
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastmcp import FastMCP
 from pydantic import Field
 
 from mcp_server_creator import designs
 from mcp_server_creator.models import Severity
+from mcp_server_creator.output_models import ReviewServerResult
 from mcp_server_creator.review import review_spec
 
 
@@ -42,7 +43,7 @@ def register(mcp: FastMCP) -> None:
         spec_json: Annotated[
             str, Field(max_length=500_000, description=designs.SPEC_JSON_DESCRIPTION)
         ] = "",
-    ) -> dict[str, Any]:
+    ) -> ReviewServerResult:
         """Score a design and return findings with concrete fixes.
 
         Eleven dimensions, each scored 0 to 5: goal orientation, input

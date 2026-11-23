@@ -11,7 +11,7 @@ gateway that forwards it to a provider with a narrower schema subset.
 
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 
 from fastmcp import FastMCP
 from pydantic import Field, ValidationError
@@ -25,6 +25,7 @@ from mcp_server_creator.models import (
     ServerSpec,
     Severity,
 )
+from mcp_server_creator.output_models import StartDesignResult
 from mcp_server_creator.utils import derive_server_name, slugify
 
 
@@ -136,7 +137,7 @@ def register(mcp: FastMCP) -> None:
                 description="Repository URL (https), if one exists yet.",
             ),
         ] = "",
-    ) -> dict[str, Any]:
+    ) -> StartDesignResult:
         """Build a draft specification and list what still blocks generation.
 
         Call this first, with whatever the user has already said. Do not

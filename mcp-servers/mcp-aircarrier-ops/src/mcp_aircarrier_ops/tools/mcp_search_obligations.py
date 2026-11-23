@@ -24,6 +24,7 @@ from mcp_aircarrier_ops.data.warehouse import (
     run_query,
 )
 from mcp_aircarrier_ops.models import ContractValue, DetailValue, OrderValue
+from mcp_aircarrier_ops.output_models import ObligationsResult
 
 TABLE = qualified(
     sources.OBLIGATIONS_2116_CATALOG,
@@ -159,7 +160,7 @@ def register(mcp: FastMCP) -> None:
                 ),
             ),
         ] = DetailValue.SUMMARY,
-    ) -> dict[str, Any]:
+    ) -> ObligationsResult:
         """Find contract actions (FPDS/USAspending prime transactions) on a CVN-79
         prime contract, N00024-09-C-2116 (construction preparation) or
         N00024-15-C-2114 (detail design and construction): by keyword, by exact

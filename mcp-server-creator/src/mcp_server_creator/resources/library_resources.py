@@ -12,6 +12,7 @@ import json
 from fastmcp import FastMCP
 
 from mcp_server_creator import __version__, library
+from mcp_server_creator.models import ServerSpec
 
 
 def register(mcp: FastMCP) -> None:
@@ -44,6 +45,11 @@ def register(mcp: FastMCP) -> None:
             return library.load_knowledge(slug)
         except library.LibraryError as error:
             return str(error)
+
+    @mcp.resource("creator://schema/server-spec")
+    def server_spec_schema() -> str:
+        """The JSON Schema of a specification: what spec_json must contain."""
+        return json.dumps(ServerSpec.model_json_schema(), indent=2)
 
     @mcp.resource("creator://info/server")
     def server_info() -> str:

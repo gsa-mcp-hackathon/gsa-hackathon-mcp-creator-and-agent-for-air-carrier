@@ -18,6 +18,16 @@ are on `main` and in the deployed app, and go into the next tag.
 - `serverInfo.version` is the Creator's release. Before, an MCP client saw
   FastMCP's version there.
 - Generated files are piped to ruff as UTF-8, so the suite passes on Windows.
+- Every `creator_` tool declares a return model (`output_models.py`), so its
+  MCP listing carries an output schema. Inputs, results and error bodies are
+  unchanged; `contract/` walks one design through all ten tools and fails if
+  an answer does not fit.
+- A new resource, `creator://schema/server-spec`, is the JSON Schema of a
+  specification. `spec_json` stays a string so any model can pass it; a
+  `spec_json` that does not validate now names this resource.
+- `scripts/check.sh creator` also runs mypy (`mypy.ini` at the repository
+  root) and holds unit-test coverage at 80% or more; bandit scans `src` in
+  CI (`scripts/check.sh quality`).
 
 ## 1.0.0rc3 (2026-11-22)
 

@@ -25,6 +25,7 @@ from mcp_aircarrier_ops.models import (
     StateValue,
     state_clause,
 )
+from mcp_aircarrier_ops.output_models import SearchResult
 
 TOOL_NAME = "carrier_search_work_register"
 
@@ -104,7 +105,7 @@ def register(mcp: FastMCP) -> None:
                 ge=0,
             ),
         ] = 0,
-    ) -> dict[str, Any]:
+    ) -> SearchResult:
         """Find Work register records whose text mentions something.
 
         One record is one work item (kind + ref_id) with its current state and

@@ -23,6 +23,7 @@ from mcp_aircarrier_ops.data.warehouse import (
     run_query,
 )
 from mcp_aircarrier_ops.models import VarianceStatusValue
+from mcp_aircarrier_ops.output_models import SearchResult
 
 TOOL_NAME = "carrier_search_variances"
 
@@ -79,7 +80,7 @@ def register(mcp: FastMCP) -> None:
             int,
             Field(description="Rows to skip from the start.", ge=0),
         ] = 0,
-    ) -> dict[str, Any]:
+    ) -> SearchResult:
         """Find variances: places where two public sources disagree about a CVN-79
         figure, with both figures, the difference, which one to use and why. Use it
         when a question asks why two systems or documents give different numbers,
