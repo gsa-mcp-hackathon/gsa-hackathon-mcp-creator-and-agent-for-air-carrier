@@ -41,7 +41,7 @@
      "analyst · 12",
      "ops · 7",
      "hub · 16",
-     "bakehouse · 7"
+     "bakehouse · 7 (repository)"
     ]
    },
    {
@@ -77,7 +77,7 @@
      "does": "the owning office approves, under its own sign-in"
     }
    ],
-   "foot": "Six MCP servers, 63 tools, seven Databricks apps deployed from GitHub. A probe calls every deployed server every 15 minutes."
+   "foot": "Five MCP servers, 56 tools, in seven Databricks apps deployed from GitHub. A sixth server, bakehouse, is in the repository (63 tools in all). A probe calls every deployed server every 15 minutes."
   },
   "tracks": [
    {
@@ -430,7 +430,7 @@
   },
   {
    "risk": "Identity and grants",
-   "control": "Per-user OAuth through Databricks Apps; tables read as the caller under Unity Catalog; the MCP host sends its token only to a Databricks Apps host at /mcp; no credentials in code"
+   "control": "Workspace sign-in through Databricks Apps; each server reads as its own service principal under Unity Catalog grants; decisions act under the user's own token; the MCP host sends its token only to a Databricks Apps host at /mcp; no credentials in code"
   },
   {
    "risk": "Prompt injection",

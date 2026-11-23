@@ -47,7 +47,7 @@ Both are 1080p, narrated and captioned
 | Time | Chapter |
 | --- | --- |
 | 0:00 | The problem, and one solution in four layers |
-| 2:00 | Seven apps, six MCP servers, MCP A Creator |
+| 2:00 | Seven apps, the MCP servers, MCP A Creator |
 | 3:43 | The financial-control layer |
 | 4:13 | The front center: the start page, impact, position |
 | 5:20 | Agentic workflow, live: a specialist run and role-based approval |
@@ -59,6 +59,11 @@ Both are 1080p, narrated and captioned
 Live agent runs were recorded on the deployed apps on 2026-11-21, with waits cut. The other pages
 are the same app run from this repository. Narration is synthesized speech.
 </details>
+
+Five MCP servers are deployed, with 56 tools: the Creator, docs, analyst, ops and the One Hub. The
+other two apps are the front center and the probe. Both videos say six MCP servers and 63 tools:
+that count adds the bakehouse server, which is in this repository as the Creator's second build
+and gave its app slot to the One Hub on 2026-11-21.
 
 ## Try it
 
@@ -77,7 +82,7 @@ The read-only site cannot run agents, so it links to a [gallery of live screens]
 
 | | What is true today | Evidence |
 | --- | --- | --- |
-| **Technology** | 6 MCP servers, 63 tools, FastMCP over streamable HTTP on Databricks Apps. Pydantic-validated inputs, bound SQL parameters, `isError` with a hint. A typed output schema on every tool of the five deployed servers (56 of 63). Authority decided in Unity Catalog under the user's own token | [Servers](#the-mcp-servers), [Security](#security) |
+| **Technology** | 5 MCP servers deployed, 56 tools. A sixth, bakehouse, is in the repository as the Creator's second build (63 tools across all six). FastMCP over streamable HTTP on Databricks Apps. Pydantic-validated inputs, bound SQL parameters, `isError` with a hint. A typed output schema on every tool of the five deployed servers (56 of 63). Authority decided in Unity Catalog under the user's own token | [Servers](#the-mcp-servers), [Security](#security) |
 | **Testing** | 1,770 tests pass from a clean clone. 421 hostile calls on the read tools wrote nothing; 403 on the Creator escaped nothing. Five held-out rounds of real-model questions | [How we know it works](#how-we-know-it-works) |
 | **Outside checks** | An external evaluator's questions: Claude 25/30 (83.3%), 1/10 without tools. A blind outside reviewer would rely on 9 of 10 vs 0 of 10 answers | [Round 5](eval/delegation/round5/RESULTS.md), [Blind review](eval/delegation/sme_review/BLIND_RESULTS.md) |
 | **Maturity** | Seven apps deploy from GitHub with one command. A probe calls every server every 15 minutes: 99.90% of 6,193 checks, 1,234 of 1,234 known answers right. Creator release `v1.0.0-rc3` with changelog and SBOM. CI on Python 3.11 and 3.12 with pip-audit, bandit, mypy and a coverage floor per server | [Deploy](#run-it-yourself), [Scorecard](SCORECARD.md) |
@@ -409,7 +414,8 @@ Every miss is read by hand and published with its cause. Defects found by testin
 | Hostile arguments | Pydantic models and enums on every parameter, length caps on free text; attacked in one sweep |
 | Code injection into generated projects | Free text made inert; every generated file compiled or parsed in a fuzz test |
 | Unwanted writes | Read-only by default; analyst lead writes labeled `readOnlyHint: false`; Creator deploys need an approval token bound to the files |
-| Identity | Workspace sign-in on every app; tables read as the caller; decisions under the user's token |
+| Identity | Workspace sign-in on every app; each server reads as its own service principal under Unity Catalog grants; the Creator profiles tables and the front center records decisions under the user's own token |
+| Internal detail in errors | An unexpected failure is reported by tool name and at most the error type; the exception text stays in the server log |
 | Prompt injection | Retrieved text is data; text aimed at a model carries a source notice |
 | Supply chain | In CI, pip-audit on every deployed server's requirements and bandit over every deployed source tree; both in every generated project; FastMCP 3.4 closes two CVEs |
 
