@@ -1,7 +1,7 @@
 # MCP A Creator and the One Hub for CVN-79
 
 [![CI](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml/badge.svg)](https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn/actions/workflows/ci.yml)
-
+[![M8ven Score](https://m8ven.ai/badge/mcp/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn)](https://m8ven.ai/mcp/llmlocalai/gsa-hackathon-mcp-creator-and-agent-for-cvn?s=readme)
 **GSA MCP & SI Agent Government Hackathon.** Tracks: Dataset Access Server · Service "Read" Integration · Service "Write" Integration (sandbox). [Which part serves which track](#one-solution-three-tracks).
 
 DoD plans to spend more than $2.4 trillion on its costliest weapon programs and has failed its
