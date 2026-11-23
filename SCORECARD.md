@@ -76,6 +76,15 @@ error anywhere else fails the build. bandit reports nothing at medium severity a
 or higher in any deployed source tree (`scripts/check.sh quality`). Coverage counts each
 server's unit tests only, not the shared hostile-input sweep.
 
+The schemas were also checked on the warehouse tables before they were deployed. The notebook
+[`Output Schema Live Check`](mcp-servers/Output%20Schema%20Live%20Check.py) runs Docs, Analyst
+and Ops in-process and calls every tool that only reads, with arguments taken from earlier
+answers. Run on 2026-11-22 against `main` at `f25a47a`: 37 calls, 36 answers fit their schema,
+1 was the tool's own refusal of a planted table id, and 0 were refused by an output schema.
+Two tools are not called: `analyst_record_outcome` writes, and `docs_parse_pdf` needs a PDF in
+a volume. The One Hub and the Creator are outside the notebook; the probe calls one tool on
+each every 15 minutes.
+
 ## How each row is reproduced
 
 | Row | Command |
@@ -85,6 +94,7 @@ server's unit tests only, not the shared hostile-input sweep.
 | Probe | [`aircarrier-mcp-probe`](mcp-servers/aircarrier-mcp-probe/); results in [EVALUATION.md](docs/submission/EVALUATION.md) section 2.2 |
 | Delegation | `python3 eval/delegation/round4/analyze_round4.py`; round 5 keys and seal: `scripts/check.sh evidence` |
 | Output contracts, coverage, mypy | `scripts/check.sh <project>`; bandit and the grader self-test: `scripts/check.sh quality` |
+| Output schemas on live data | Run the notebook [`Output Schema Live Check`](mcp-servers/Output%20Schema%20Live%20Check.py) from a workspace Git folder |
 | Creator determinism and end to end | [EVALUATION.md](docs/submission/EVALUATION.md) section 2.5 |
 
 ## Mission user and what the server changes for them
