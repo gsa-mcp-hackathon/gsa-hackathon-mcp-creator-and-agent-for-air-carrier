@@ -20,6 +20,10 @@ from bakehouse_sales.tools import register_tools
 
 mcp = FastMCP(
     name="Bakehouse Sales",
+    # An unexpected exception reaches a client as "Error calling tool 'x'" with
+    # no text (it can hold a path, a table name or a statement). ToolError
+    # messages and error bodies ({"error": ..., "hint": ...}) still pass.
+    mask_error_details=True,
     instructions=(
         "Let an agent answer a bakery franchise sales analyst's questions about "
         "point-of-sale transactions: revenue by franchise, best-selling products, "

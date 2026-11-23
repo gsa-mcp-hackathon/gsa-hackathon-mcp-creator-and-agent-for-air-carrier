@@ -103,7 +103,18 @@ def test_every_tool_is_read_only_and_described(tools):
     for name, t in tools.items():
         a = t.annotations
         assert a and a.readOnlyHint and not a.destructiveHint and a.idempotentHint, name
+        assert a.openWorldHint is False, name
         assert t.description and len(t.description) > 40, name
+
+    # 2026-11-23: every tool runs inside _noticed, and an unexpected exception leaves
+    # it as a ToolError that names the tool and the error type, never the text.
+    def hub_boom():
+        raise RuntimeError("SECRET path=/Volumes/private/x")
+
+    with pytest.raises(mcp_server.ToolError) as err:
+        mcp_server._noticed(hub_boom)()
+    assert "SECRET" not in str(err.value) and "/Volumes" not in str(err.value)
+    assert "hub_boom" in str(err.value) and "RuntimeError" in str(err.value)
 
 
 def test_schemas_stay_portable_across_models(tools):

@@ -33,7 +33,7 @@ On Databricks Apps the platform authenticates every request and passes the calle
 
 ## Error messages
 
-When a tool fails for an unexpected reason, the reply names the tool and the error type only. The error text is withheld because it can hold a path, a table name or a statement.
+When a tool fails for an unexpected reason, the reply names the tool and at most the error type. The error text is withheld because it can hold a path, a table name or a statement.
 
 ## Network destinations
 

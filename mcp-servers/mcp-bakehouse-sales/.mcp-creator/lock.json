@@ -40,7 +40,7 @@
     "requirements.txt": "b46df535441366052348b7691829bc42d050ad7c83f6ce184fa9423df123c9f8",
     "server.json": "6318104169f63363df9f5f879c7cbb5eaf69bb117c459e93bf16b2749c2956eb",
     "src/bakehouse_sales/__init__.py": "dd244b50ab4923fe372fa8579a3be7b972d1d34d21c344584870a254fd41a831",
-    "src/bakehouse_sales/app.py": "185b07d81e60030d080f14d973284462720c78eb7297a54454664dcd9d7ac16e",
+    "src/bakehouse_sales/app.py": "5fad2171710095cf9218a2bbd043d23f815321d7f24237da988b9b2d71d106fb",
     "src/bakehouse_sales/config.py": "d9b93c3c1e703ab1df9590b7ef8c8cbf7e24831cd8482cad1a9c0d317051c896",
     "src/bakehouse_sales/data/__init__.py": "cbfbaeaa2f2441358166e73535f66a1b011ad939b9d2f1b8328a0d6bd837d9ab",
     "src/bakehouse_sales/data/sources.py": "3918ba758d7d6cf912161539656f45093b122672eda989f3d079ae997b8def26",
