@@ -376,6 +376,7 @@ current type. The rest are the current app, run from this repository. Every page
 | Do deployed servers keep answering? | **99.90% of 6,193** probe checks, 2026-11-12 to 2026-11-20; **1,234 of 1,234** known answers right | [probe](mcp-servers/aircarrier-mcp-probe/) |
 | Do the numbers tie to source? | **7,743 of 7,746** tie-outs on the deployed store (3 within rounding); $13,409.970M closes to zero two ways | [evidence](docs/submission/evidence/tieout_store_2026-11-22.json), [`verify.py`](the-one-hub/ops-center/checks/verify.py) |
 | Does every answer fit its published schema? | **47 contract tests** call every tool on the Creator, docs, analyst and ops servers through the MCP client; the One Hub's 33 server tests cover its own | `contract/` in each server, e.g. [docs](mcp-servers/mcp-aircarrier-docs/contract/test_output_schemas.py) |
+| Do the schemas hold on real data? | Before the deploy, every read tool on docs, analyst and ops called on the warehouse tables: **37 live calls, 0 refused** by an output schema. After it, the probe passed 20 of 20 steps on all five servers | [notebook](mcp-servers/Output%20Schema%20Live%20Check.py), [live run](docs/submission/evidence/output_schema_live_check_2026-11-22.txt), [probe sweep](docs/submission/evidence/probe_sweep_2026-11-23.json) |
 | Is the code held to static checks? | mypy checks **104 of 137** server modules and names the other 33 as a baseline; bandit finds nothing at medium or above in any deployed source tree; each server has a coverage floor (Creator measured at 86%) | `scripts/check.sh`, [`mypy.ini`](mypy.ini) |
 | Does the Creator build good servers, repeatably? | **15 of 15** generated projects pass; **58 of 58** files byte-identical | `scripts/check.sh creator` |
 
@@ -392,7 +393,7 @@ Every miss is read by hand and published with its cause. Defects found by testin
 | Criterion | Open this |
 | --- | --- |
 | C1 Readability and maintainability | [`mcp-aircarrier-ops/src/`](mcp-servers/mcp-aircarrier-ops/src/mcp_aircarrier_ops/): models, one file per tool, warehouse access, kept apart; mypy and a coverage floor in CI ([`mypy.ini`](mypy.ini)) |
-| C2 Performance and reliability | [EVALUATION.md](docs/submission/EVALUATION.md) sections 1 and 2, including the Creator on schemas it had not seen (2.8); probe and latency results above |
+| C2 Performance and reliability | [EVALUATION.md](docs/submission/EVALUATION.md) sections 1 and 2, including the Creator on schemas it had not seen (2.8) and output contracts checked on fixtures and on live data (2.9); probe and latency results above |
 | C3 MCP design | [Security](#security); goal-shaped tools that return totals with their basis; a typed output schema per tool ([docs](mcp-servers/mcp-aircarrier-docs/src/mcp_aircarrier_docs/output_models.py), [analyst](mcp-servers/mcp-aircarrier-analyst/src/mcp_aircarrier_analyst/output_models.py)) |
 | Mission alignment | [docs/IMPACT.md](docs/IMPACT.md); the `/impact` page |
 | Innovation | [MCP A Creator](#mcp-a-creator), an MCP server that builds MCP servers, joined to a [financial-control layer](#the-financial-control-layer) where no model promotes a figure |

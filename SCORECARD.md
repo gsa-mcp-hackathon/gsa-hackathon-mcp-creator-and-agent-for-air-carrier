@@ -83,7 +83,8 @@ answers. Run on 2026-11-22 against `main` at `f25a47a`: 37 calls, 36 answers fit
 1 was the tool's own refusal of a planted table id, and 0 were refused by an output schema.
 Two tools are not called: `analyst_record_outcome` writes, and `docs_parse_pdf` needs a PDF in
 a volume. The One Hub and the Creator are outside the notebook; the probe calls one tool on
-each every 15 minutes.
+each every 15 minutes. After the deploy, the probe's sweep at 03:50 UTC on 2026-11-23 passed all
+20 steps on all five servers ([evidence](docs/submission/evidence/probe_sweep_2026-11-23.json)).
 
 ## How each row is reproduced
 

@@ -12,17 +12,18 @@ are laid out on the template itself in [evaluation-report.docx](evaluation-repor
 round 3. Every number
 below was re-run or re-queried on 2026-11-20 against commit `31f3409`, or on 2026-11-21 or
 2026-11-22 where it says so (code suites, delegation rounds 4 and 5, the blind re-score, latency,
-tie-outs and the probe after the round 10 redeploy), and each one names the file or command that
-reproduces it.
+tie-outs, the probe after the round 10 redeploy, and the output contracts and static checks in
+section 2.9), and each one names the file or command that reproduces it.
 
 ## 1. Testing methodology
 
-The evaluation asks five separate questions, because passing one says nothing about the
+The evaluation asks six separate questions, because passing one says nothing about the
 others.
 
 | Layer | Question | How it is tested | Reproduce |
 | --- | --- | --- | --- |
-| Code suites | Does the code do what it says? | Unit, contract and route tests per project, each in its own environment, plus lint (ruff, pinned) | `scripts/check.sh` |
+| Code suites | Does the code do what it says? | Unit, contract and route tests per project, each in its own environment, with a coverage floor, lint (ruff, pinned) and mypy | `scripts/check.sh` |
+| Output contracts | Does every answer fit the schema its tool publishes? | Each tool declares a return model; contract tests call every tool through the MCP client; a notebook calls every read tool on the warehouse tables before a deploy | `scripts/check.sh <project>`, `mcp-servers/Output Schema Live Check.py` |
 | Adversarial arguments | Does any tool accept a hostile argument? | Every parameter of all 30 Air Carrier tools receives SQL fragments, path traversal, oversized values, wrong enum members and control characters, against a recording fake warehouse | `scripts/check.sh mcp-local` |
 | Known answers in production | Do the deployed servers answer correctly, every time? | A probe app calls each deployed server as a non-human caller: resolve, initialize, tools/list, then one known-answer tool call, logged per step | `aircarrier-mcp-probe`, results in `/Volumes/users/xiaobing_shang1_civ/aircarrier_mcp_probe_runs` |
 | Delegation | Given all tools at once, do real models pick the right ones? | Claude Sonnet 4.5 and GPT-5 mini, with and without server instructions, three repeats, plus a no-tool baseline. Rounds 2 to 4 were sealed: questions and answer key fixed by a SHA-256 committed before any model saw them | `python3 eval/delegation/analyze.py`, `python3 eval/delegation/round4/analyze_round4.py` |
@@ -68,6 +69,11 @@ grader and runner, and the round 5 seal and keys. The analyst's eight vendoring 
 with the core in the same clone; until 2026-11-21 they pointed at one workspace path and
 were skipped everywhere else. A generated weather server (20 tests) was removed from the
 repository on 2026-11-21 and is not in these totals.
+
+Since 2026-11-22 each server's run also holds a coverage floor, its contract tests and mypy, and
+the evidence check ends with bandit and nine tests of the graders themselves (section 2.9). None
+of those are counted in the 1,770. JUnit XML of a fresh-clone run of every suite, contract tests
+included, is in [evidence/junit](evidence/junit/README.md).
 
 One environment caveat: run inside a Databricks serverless notebook, four live harness tests
 fail with `PySparkImportError`, most likely because the notebook's Spark environment
@@ -280,6 +286,54 @@ What changed because of it:
 Not measured: how often a calling model's corrections fix the remaining half. That needs a
 model-in-the-loop run on a new sealed set and is the next evaluation.
 
+### 2.9 Output contracts and static checks
+
+Added 2026-11-22. Before this, only the One Hub's 16 tools published an output schema. The other
+servers returned untyped dictionaries, and no check measured types or coverage. Each tool on the
+five deployed servers now declares a return model, so its MCP listing carries an output schema,
+and FastMCP checks every answer against it before the answer leaves the server. An answer that
+does not fit comes back as an error.
+
+| Server | Tools with a typed output schema | Contract tests | Coverage, measured (floor) | mypy, modules checked |
+| --- | --- | --- | --- | --- |
+| MCP A Creator | 10 of 10 | 4, one design through all ten tools | 86% (80%) | 34 of 46 |
+| Docs | 11 of 11 | 15 | 77% (70%) | 16 of 21 |
+| Analyst | 12 of 12 | 17 | 74% (65%) | 11 of 20 |
+| Ops | 7 of 7 | 11, with Decimal, date and datetime values | 71% (65%) | 20 of 23 |
+| One Hub | 16 of 16 | In its 33 server tests | Not measured: script suites | 2 of 3 |
+| Bakehouse | 0 of 7: generated code, typed when the generator is | None | 47% (40%) | 20 of 22 |
+| Probe | No tools | None | 94% (85%) | 1 of 2 |
+| **Total** | **56 of 63** | **47** | | **104 of 137** |
+
+* **Contract tests.** 47 tests call every tool on the Creator, docs, analyst and ops servers
+  through the MCP client and fail if the server refuses its own answer. They run with each
+  project in `scripts/check.sh`.
+* **Static checks.** mypy checks 104 of 137 server modules; the other 33 are named one by one in
+  [`mypy.ini`](../../mypy.ini), and a new error anywhere else fails the build. Each server has a
+  coverage floor set below its measured figure. bandit reports nothing at medium severity and
+  confidence or higher in any deployed source tree (`scripts/check.sh quality`).
+* **The graders are tested too.** Nine tests run the round 4 and round 5 graders on whole
+  question sets with answerers whose score is known beforehand: the reference answer to every
+  sealed question scores 69 of 69 and 10 of 10, a silent answerer scores 0, and a blanket
+  refusal passes only the questions whose right answer is a refusal
+  (`eval/delegation/test_grader_selftest.py`).
+* **Live data, before the deploy.** Fixtures cannot show that a model is no stricter than the
+  tables. On 2026-11-22 the notebook
+  [`Output Schema Live Check`](../../mcp-servers/Output%20Schema%20Live%20Check.py) ran the docs,
+  analyst and ops servers in-process against the warehouse, as the signed-in user, from `main`
+  at `f25a47a`. It made 37 calls over every tool that only reads, with arguments taken from
+  earlier answers: 36 answers fit their schema, 1 was the tool's own refusal of a planted table
+  id, and 0 were refused by an output schema
+  ([evidence](evidence/output_schema_live_check_2026-11-22.txt)).
+* **After the deploy.** The probe's sweep at 03:50 UTC on 2026-11-23, the first after the apps
+  were redeployed from that commit, passed all 20 steps on all five servers, with each known
+  answer right ([evidence](evidence/probe_sweep_2026-11-23.json)).
+
+Not covered: the seven bakehouse tools, which are generated code and get return models when the
+Creator's generator emits them; `analyst_record_outcome` (it writes) and `docs_parse_pdf` (it
+needs a PDF in a volume), which the live check does not call; and the Creator and the One Hub on
+live data beyond the one tool the probe calls on each.
+
 ## 3. Security considerations
 
 The model fills SQL fragments, file paths and free text, and reads untrusted documents.
@@ -289,8 +343,9 @@ The controls are in code, not in prompts.
 | --- | --- | --- |
 | SQL injection | Identifiers allow-listed and quoted; values bound as parameters; the One Hub's `sqlsafe.compose` refuses anything that is not a vetted fragment | 421 hostile calls against the 30 read tools: 344 refused, 77 answered, 155 statements reached the warehouse, all read-only, none with a hostile value in its SQL text (`mcp-servers/adversarial_summary.json`) |
 | Hostile input to the Creator | Every string capped, URL and handle patterns, list caps; writes confined to the configured root | 403 hostile calls against its 10 tools with writing on: 367 refused, 36 answered, nothing written outside the root, no workspace reached (`mcp-server-creator/tests/adversarial_summary.json`) |
-| Known vulnerabilities | `pip-audit` on every deployed server's requirements in CI; FastMCP moved to 3.4+, which fixes CVE-2025-64340 and CVE-2026-27124; bandit on the Creator and on every generated project | CI `supply-chain` job; finding 18 |
+| Known vulnerabilities and unsafe code | `pip-audit` on every deployed server's requirements in CI; FastMCP moved to 3.4+, which fixes CVE-2025-64340 and CVE-2026-27124; bandit over every deployed source tree and on every generated project, nothing at medium severity and confidence or higher | CI `supply-chain` job; `scripts/check.sh quality`; finding 18 |
 | A failure read as a success | Every FastMCP server marks a result with a top-level error as `isError`, body and hint kept | `mcp-servers/test_error_contract.py`; finding 19 |
+| An answer that drifts from its contract | Each tool on the five deployed servers publishes an output schema from its return model; the server checks every answer against it and returns a mismatch as an error, not as data | 47 contract tests; 37 live calls, 0 refused (section 2.9) |
 | Input validation | Pydantic models and enums on every tool parameter; bounded limits | Same sweep: hostile arguments refused at validation or answered safely |
 | Code injection into generated projects | Free text made inert before entering any literal, docstring or comment; generated Python compiled with warnings as errors; TOML/JSON/YAML/XML must parse | `mcp-server-creator/tests/test_injection_safety.py` |
 | Unwanted writes | Air Carrier tools never change source data. Four analyst tools append their answer to the analyst's own leads log and are annotated `readOnlyHint: false`; the one other write is a gated label write needing an authoritative locator and a confirming office. Creator writes are dry runs by default; deploy needs an approval token bound to the reviewed design, app name, grants and files | Creator and analyst suites |
@@ -337,6 +392,10 @@ Known weakness: no run flagged an injected instruction to the user. Every server
 8. **State the whole before the parts.** A set of servers invites being scored as servers. The
    start page, the README and the deck now open on the four layers and the control flow, and
    each layer links to its own evidence, so a reader meets the solution first and the parts second.
+9. **Publish the output contract, then test it on real data before the deploy.** A typed output
+   makes a server stricter, and a model that is tighter than the data turns a working tool into
+   an error. The fixtures passed. The check that mattered called every read tool on the
+   warehouse tables before the deploy, and the probe confirmed the result after it (section 2.9).
 
 Recommendations for an agency adopting this:
 
