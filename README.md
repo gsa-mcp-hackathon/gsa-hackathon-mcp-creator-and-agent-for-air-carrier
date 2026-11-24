@@ -21,7 +21,7 @@ It is one solution with four layers. Each row below is a part of it, and none is
 | Layer | What it is | Size |
 | --- | --- | --- |
 | 1 **MCP server creator** | [MCP A Creator](#mcp-a-creator) turns a question and a Unity Catalog table into a tested, governed MCP server | 10 tools |
-| 2 **Domain MCP servers** | [Five servers](#the-mcp-servers) give cited access to budget documents, contract records, the work registers and the gate | 53 tools |
+| 2 **Domain MCP servers** | [Four deployed servers](#the-mcp-servers) give cited access to budget documents, contract records, the work registers and the gate; a fifth, bakehouse, is in the repository | 46 tools deployed |
 | 3 **Agent orchestration environment** | [The front center](#agents-propose-the-owning-role-decides): four specialist agents, a six-stage workflow, an MCP host across three servers | 22 pages |
 | 4 **Financial-control layer** | [Exact-decimal analysis, reconciliation to source, provenance to the page, a gate with no model, authority in Unity Catalog](#the-financial-control-layer) | 7,743 of 7,746 tie-outs |
 
@@ -168,7 +168,7 @@ The sandbox is a Databricks development workspace over public data. Every write 
 
 | Control | How it is enforced | Proof |
 | --- | --- | --- |
-| Deterministic analysis | Code reads the records and sums them in `Decimal`. No model does arithmetic | 927 contract actions, 8 of 8 checks, in the live Obligation Reconciler run |
+| Deterministic analysis | Code reads the records and sums them in `Decimal`. No model does arithmetic | 927 contract actions, 11 of 11 checks, in the live Obligation Reconciler run |
 | Reconciliation | Every budget figure is tied to its exhibit on two axes, and the four ledgers to each other | 7,743 of 7,746 tie-outs; $13,409.970M closes to 0.000 two ways |
 | Provenance | Each number carries its document, page, table and cell | 34 PDFs, 7,804 pages; [sources](docs/BACKGROUND.md) |
 | Gate | [`gate.yaml`](the-one-hub/ops-center/seed/gate.yaml): promote, human review, gap, or hold as a lead. No model in it | [Gate routes](#the-mcp-servers) |
@@ -326,9 +326,9 @@ The rest are the same app, run from this repository. Every page is in the
 | | |
 | --- | --- |
 | ![Seven Databricks apps, all active](docs/screenshots/live-databricks-apps.jpg) | ![The start page: one solution, four layers, seven capabilities](docs/screenshots/stack.jpg) |
-| **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The start page.** One solution, four layers, seven capabilities. |
+| **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The start page, live.** One solution, four layers, seven capabilities. |
 | ![The four layers, the differentiator and the three tracks in the app](docs/screenshots/stack-architecture.jpg) | ![The five control steps in the app: analyze, reconcile, cite, gate, decide](docs/screenshots/stack-control.jpg) |
-| **3. The four layers in the app.** Each layer links to its part; the three tracks sit under it. | **4. The control steps in the app.** Analyze, reconcile, cite, gate, decide, each linked to its page. |
+| **3. The four layers in the app, live.** Each layer links to its part; the three tracks sit under it. | **4. The control steps in the app.** Analyze, reconcile, cite, gate, decide, each linked to its page. |
 | ![Ask the evidence as an MCP host: 18 tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
 | **5. Ask the evidence, live, as an MCP host.** 18 tool calls across the docs, hub and ops servers; the answer is a lead. | **6. Role check, live.** PMS 379 cannot apply a Financial Operations proposal. |
 | ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
