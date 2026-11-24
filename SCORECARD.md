@@ -2,7 +2,8 @@
 
 One row per MCP server in this repository: what it is for, how it was tested, what the
 tests show and what is still missing. Every figure names the file or command behind it.
-Updated 2026-11-22.
+Updated 2026-11-23: the five deployed servers withhold internal error text and state their
+tool hints as literals ([findings 34 and 35](docs/submission/FINDINGS.md)).
 
 | Server | Tools | Unit and contract tests | Adversarial sweep | Accuracy evidence | Probe (8 days) | Deployed | Open |
 | --- | --- | --- | --- | --- | --- | --- | --- |
