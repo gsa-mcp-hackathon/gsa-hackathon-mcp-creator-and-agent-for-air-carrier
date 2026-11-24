@@ -43,13 +43,13 @@ LIVE = [  # screenshots from the deployed app, in docs/screenshots
     ("live-databricks-apps.jpg", "Seven apps, live", "The probe, the front center and five MCP servers, each deployed from the GitHub repository."),
     ("live-agent-run-steps.jpg", "A specialist run streams its steps", "The Account Analyst works a File C period; each step is labeled code or model."),
     ("live-role-check.jpg", "Role check", "The user holds PMS 379. The residual lead belongs to the Office of Financial Operations, so the app refuses to apply it."),
-    ("live-agent-review-decide.jpg", "Review and decide", "The Gap Investigator's requests for gap G52, each addressed to the office that holds the records. Nothing is saved until a person applies it."),
-    ("live-agent-run-checks.jpg", "Code re-checks the run", "Every condition of the run is tested again by code: 11 of 11."),
-    ("live-agent-reconcile.jpg", "Obligation Reconciler", "927 actions summed in exact decimals; 8 of 8 conditions re-tested."),
+    ("live-agent-review-decide.jpg", "Review and decide", "The Account Analyst's proposals for a File C period, each addressed to the office that owns it. Nothing is saved until a person applies it."),
+    ("live-agent-run-checks.jpg", "Code re-checks the run", "Every condition of the run is tested again by code: 10 of 10, then a second model family confirms each fact."),
+    ("live-agent-reconcile.jpg", "Obligation Reconciler", "927 actions summed in exact decimals; each File C period ties or is marked a residual."),
     ("live-work-queue.jpg", "Work queue", "Every item in one lane by code: decide, unblock or system."),
     ("live-run-log.jpg", "Run log", "Every agent run and every action by every person, exportable."),
     ("live-brief-readiness.jpg", "Brief readiness", "13 of 32 CVN-79 figures tie to source records today."),
-    ("live-ask-via-mcp.jpg", "Ask the evidence, as an MCP host", "One question, four tool calls across mcp-aircarrier-docs, mcp-aircarrier-hub and mcp-aircarrier-ops; each step names the server that answered, and the answer is marked as a lead."),
+    ("live-ask-via-mcp.jpg", "Ask the evidence, as an MCP host", "One question, 18 tool calls across mcp-aircarrier-docs, mcp-aircarrier-hub and mcp-aircarrier-ops; the answer names the servers that answered and is marked as a lead."),
 ]
 
 SHIM = """<script>
@@ -200,13 +200,13 @@ def write_gallery(out: Path, day: str) -> None:
     main_el.append(BeautifulSoup(f"""
 <div class="wrap" style="max-width:1100px;margin:0 auto;padding:28px 20px">
 <h1>Live gallery</h1>
-<p>The front center deployed in the Databricks workspace, on 2026-11-21. Everything here needs a signed-in
+<p>The front center deployed in the Databricks workspace, on 2026-11-23. Everything here needs a signed-in
 user, so the read-only snapshot cannot run it. Authority to apply a proposal is decided inside Unity Catalog
 under the signed-in user's own token.</p>
 <h2>Two-minute demo</h2>
 <video controls preload="metadata" poster="../../demo/air-carrier-two-minute-demo.jpg" style="width:100%;border-radius:10px">
 <source src="../../demo/air-carrier-two-minute-demo.mp4" type="video/mp4"></video>
-<p class="muted">2:10, narrated and captioned. <a href="../../demo/">Both demo videos, with chapters</a>. Snapshot built {day}.</p>
+<p class="muted">1:49, narrated and captioned. <a href="../../demo/">Both demo videos, with chapters</a>. Snapshot built {day}.</p>
 <h2>Screens from the deployed app</h2>
 {cards}
 </div>""", "html.parser"))

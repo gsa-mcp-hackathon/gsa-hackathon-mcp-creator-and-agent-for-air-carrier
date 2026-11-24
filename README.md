@@ -35,35 +35,34 @@ Only the owning role, checked in Unity Catalog under the user's own sign-in, app
 
 | Video | Length | Watch |
 | --- | --- | --- |
-| **The solution in two minutes.** Impact and scope, then the apps, the MCP servers, the front center, a live agent run with a role check, and orchestration across servers | 2:10 | [Play in the browser](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-two-minute-demo.mp4) |
-| **The full walkthrough.** The four layers, the tracks, the front center and live agent runs on the deployed apps | 11:08 | [Play with chapters](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-full-walkthrough.mp4) |
+| **The solution in two minutes.** Impact and scope, then the apps, the MCP servers, the front center, a live agent run with a role check, and orchestration across servers | 1:49 | [Play in the browser](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-two-minute-demo.mp4) |
+| **The full walkthrough.** The four layers, the tracks, every part of the front center and three live agent runs on the deployed apps | 13:08 | [Play with chapters](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-full-walkthrough.mp4) |
 
 Both are 1080p, narrated and captioned
 ([two-minute .srt](docs/demo/air-carrier-two-minute-demo.srt), [walkthrough .srt](docs/demo/air-carrier-full-walkthrough.srt)).
 
 <details>
-<summary>Full walkthrough chapters (11:08)</summary>
+<summary>Full walkthrough chapters (13:08)</summary>
 
 | Time | Chapter |
 | --- | --- |
 | 0:00 | The problem, and one solution in four layers |
-| 2:00 | Seven apps, the MCP servers, MCP A Creator |
-| 3:43 | The financial-control layer |
-| 4:13 | The front center: the start page, impact, position |
-| 5:20 | Agentic workflow, live: a specialist run and role-based approval |
-| 6:41 | The gap register and a Gap Investigator run |
-| 7:10 | Agentic orchestration: Ask as an MCP host, the work queue, a reconciler run |
-| 8:38 | The method, and the experts who hold the answers |
-| 9:19 | How we know it works, security, close |
+| 1:46 | The front center: the start page and the financial-control layer |
+| 3:25 | Impact: from one hull to every weapon system |
+| 4:52 | The Brief, the ship and the cost position |
+| 6:36 | Agentic workflow, live: a specialist run and role-based approval |
+| 7:55 | Audit: gaps, variances, asset value, the industrial base |
+| 9:27 | Agentic orchestration: Ask as an MCP host, the work queue, a reconciler run |
+| 10:58 | The record, the method, and the experts who hold the answers |
+| 11:51 | How we know it works, security, close |
 
-Live agent runs were recorded on the deployed apps on 2026-11-21, with waits cut. The other pages
-are the same app run from this repository. Narration is synthesized speech.
+Every screen is the deployed front center, recorded on 2026-11-23 with waits cut. The opening and
+closing use slides from the deck. Narration is synthesized speech; the recording's own audio is removed.
 </details>
 
-Five MCP servers are deployed, with 56 tools: the Creator, docs, analyst, ops and the One Hub. The
-other two apps are the front center and the probe. Both videos say six MCP servers and 63 tools:
-that count adds the bakehouse server, which is in this repository as the Creator's second build
-and gave its app slot to the One Hub on 2026-11-21.
+Both videos state what is running: seven apps, five of them MCP servers with 56 tools (the Creator,
+docs, analyst, ops and the One Hub), plus the front center and the probe. The bakehouse server, the
+Creator's second build, is in this repository and gave its app slot to the One Hub on 2026-11-21.
 
 ## Try it
 
@@ -319,8 +318,8 @@ uvx --from "git+https://github.com/llmlocalai/gsa-hackathon-mcp-creator-and-agen
 
 ## Screens
 
-**Live** screens were recorded on the deployed apps on 2026-11-21, before the navy bar and the
-current type. The rest are the current app, run from this repository. Every page is in the
+**Live** screens were recorded on the deployed apps on 2026-11-23, except the apps list (2026-11-22).
+The rest are the same app, run from this repository. Every page is in the
 [read-only site](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/site/stack/).
 
 | | |
@@ -329,8 +328,8 @@ current type. The rest are the current app, run from this repository. Every page
 | **1. Seven apps, live.** Five MCP servers, the probe and the front center. | **2. The start page.** One solution, four layers, seven capabilities. |
 | ![The four layers, the differentiator and the three tracks in the app](docs/screenshots/stack-architecture.jpg) | ![The five control steps in the app: analyze, reconcile, cite, gate, decide](docs/screenshots/stack-control.jpg) |
 | **3. The four layers in the app.** Each layer links to its part; the three tracks sit under it. | **4. The control steps in the app.** Analyze, reconcile, cite, gate, decide, each linked to its page. |
-| ![Ask the evidence as an MCP host: four tool calls, each naming its server](docs/screenshots/live-ask-via-mcp.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
-| **5. Ask the evidence, live, as an MCP host.** Four tool calls, each naming its server. | **6. Role check, live.** PMS 379 cannot apply a Financial Operations proposal. |
+| ![Ask the evidence as an MCP host: 18 tool calls across three servers](docs/screenshots/live-ask-via-mcp.jpg) | ![A specialist run refuses a proposal the user's role does not own](docs/screenshots/live-role-check.jpg) |
+| **5. Ask the evidence, live, as an MCP host.** 18 tool calls across the docs, hub and ops servers; the answer is a lead. | **6. Role check, live.** PMS 379 cannot apply a Financial Operations proposal. |
 | ![A specialist run streams its steps](docs/screenshots/live-agent-run-steps.jpg) | ![Review and decide](docs/screenshots/live-agent-review-decide.jpg) |
 | **7. A specialist run, live.** Each step labeled code or model. | **8. Review and decide, live.** Only the owning role can apply. |
 
@@ -344,7 +343,7 @@ current type. The rest are the current app, run from this repository. Every page
 | ![Position: which figure to quote](docs/screenshots/position.jpg) | ![Gap register](docs/screenshots/gaps.jpg) |
 | **11. Which figure to quote.** The four published costs and what each is. | **12. Gap register.** 59 open questions, each with the office that can close it. |
 | ![Obligation Reconciler](docs/screenshots/live-agent-reconcile.jpg) | ![Work queue](docs/screenshots/live-work-queue.jpg) |
-| **13. Obligation Reconciler, live.** 927 actions in exact decimals; 8 of 8 checks. | **14. Work queue, live.** Decide, unblock or system. |
+| **13. Obligation Reconciler, live.** 927 actions in exact decimals; each File C period ties or is a residual. | **14. Work queue, live.** Decide, unblock or system. |
 | ![Brief readiness](docs/screenshots/live-brief-readiness.jpg) | ![The stack: how it was tested](docs/screenshots/stack-evidence.jpg) |
 | **15. Brief readiness, live.** What the brief can stand on. | **16. Evidence.** Outside questions, blind review, tie-outs, probe. |
 | ![Impact: from one carrier to every weapon system](docs/screenshots/impact.jpg) | ![Answer a question](docs/screenshots/insight.jpg) |

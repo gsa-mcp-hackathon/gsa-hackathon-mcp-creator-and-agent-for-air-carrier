@@ -1,492 +1,472 @@
 1
-00:00:00,350 --> 00:00:08,363
-MCP A Creator and the One Hub: our entry in the GSA MCP Server and SI Agent Government Hackathon.
+00:00:00,300 --> 00:00:03,384
+One ship. Four official costs. None of them agree.
 
 2
-00:00:08,543 --> 00:00:15,014
-It is one solution with four layers, proven on one ship, the aircraft carrier CVN-79.
+00:00:03,624 --> 00:00:12,913
+The aircraft carrier John F. Kennedy, CVN-79, has a 2019 budget estimate of 11.3 billion dollars,
 
 3
-00:00:15,750 --> 00:00:17,041
-Here is the problem.
+00:00:12,913 --> 00:00:24,308
+a cost cap in law of 11.4 billion, a cost limitation baseline of 12.9 billion, and a 2027 budget total of 13.4 billion.
 
 4
-00:00:17,221 --> 00:00:23,947
-The Department of Defense plans to spend more than 2.4 trillion dollars on its costliest weapon programs,
+00:00:24,548 --> 00:00:26,762
+Each figure is correct for its own purpose.
 
 5
-00:00:23,947 --> 00:00:27,718
-and it has gone nine years without a clean audit opinion.
+00:00:27,002 --> 00:00:33,172
+Today, no office can trace what a weapon system costs from the budget request, through the contracts,
 
 6
-00:00:27,898 --> 00:00:34,142
-No office can trace what a weapon system costs, from the budget request, through the contracts, to the asset.
+00:00:33,172 --> 00:00:40,075
+to the asset, in a form that a program office, a cost estimator, a budget analyst and an auditor will all accept.
 
 7
-00:00:34,322 --> 00:00:46,766
-CVN-79 shows it. The ship has four official costs, from 11,341 million dollars to 13,409.97 million.
+00:00:40,800 --> 00:00:43,304
+Our answer is one solution in four layers.
 
 8
-00:00:46,946 --> 00:00:50,746
-None of them agree, and 59 questions stay open underneath.
+00:00:43,544 --> 00:00:49,875
+At the base, MCP A Creator builds a tested, governed MCP server from a question and a table.
 
 9
-00:00:51,483 --> 00:00:53,627
-We built one solution in four layers.
+00:00:50,115 --> 00:00:56,812
+Above it, domain MCP servers give agents cited access to documents, records and registers.
 
 10
-00:00:53,807 --> 00:01:00,598
-Layer one, MCP A Creator, builds a tested, governed MCP server from a question and a table.
+00:00:57,052 --> 00:01:01,843
+The agent orchestration environment is where people and agents work the questions.
 
 11
-00:01:00,778 --> 00:01:06,251
-Layer two is the domain servers. They give agents cited access to budget documents,
+00:01:02,083 --> 00:01:08,480
+At the top, a financial-control layer decides what is true and who may act. No model is in that layer.
 
 12
-00:01:06,251 --> 00:01:09,008
-contract records and the work registers.
+00:01:08,720 --> 00:01:14,459
+The differentiator is AI assisted development, joined to deterministic financial control.
 
 13
-00:01:09,188 --> 00:01:16,279
-Layer three is the agent orchestration environment, where four specialist agents propose and people decide.
+00:01:15,167 --> 00:01:22,044
+All of it runs on Databricks today, as seven apps deployed from the public GitHub repository with one command.
 
 14
-00:01:16,459 --> 00:01:21,382
-Layer four is the financial-control layer. It analyzes in exact decimals,
+00:01:22,284 --> 00:01:31,502
+Five of them are MCP servers, with 56 tools: MCP A Creator, the docs server, the analyst server, the ops server, and the One Hub.
 
 15
-00:01:21,382 --> 00:01:28,650
-reconciles every figure to its source, records where each number came from, and decides who has authority.
+00:01:31,742 --> 00:01:36,980
+The other two apps are the front center, and a probe that calls every server every fifteen minutes.
 
 16
-00:01:28,830 --> 00:01:33,022
-No model sits in that layer. That is what sets this work apart:
+00:01:37,220 --> 00:01:46,001
+A sixth server, built by the Creator on an unrelated sales table, stays in the repository as proof that the Creator is not tied to ships.
 
 17
-00:01:33,022 --> 00:01:37,601
-AI-assisted development, joined to deterministic financial control.
+00:01:46,733 --> 00:01:52,811
+This is the front center. The start page states the solution: four layers and seven capabilities.
 
 18
-00:01:38,317 --> 00:01:40,092
-The entry covers three tracks.
+00:01:53,051 --> 00:02:02,468
+Each of the three GSA tracks is served by a different layer: dataset access, service read integration, and service write integration in a sandbox.
 
 19
-00:01:40,272 --> 00:01:47,292
-For dataset access, the docs, analyst and ops servers query open budget, oversight and contract data.
+00:02:03,200 --> 00:02:07,293
+The financial-control layer shows how a figure earns its place in a brief.
 
 20
-00:01:47,472 --> 00:01:52,298
-For service read, the One Hub server and the Ask page retrieve the state of the work.
+00:02:07,533 --> 00:02:13,249
+Code analyzes the records in exact decimals. Code reconciles each figure to its source.
 
 21
-00:01:52,478 --> 00:01:59,963
-For service write, a person's decision is submitted under their own identity, in a sandbox workspace over public data.
+00:02:13,489 --> 00:02:20,870
+Code cites the document, page, table and cell. A gate routes the figure. Then a person in the owning role decides.
 
 22
-00:02:00,683 --> 00:02:05,343
-All of it runs on Databricks today, as seven apps: the docs, analyst,
+00:02:21,110 --> 00:02:27,695
+A model may plan, explain and draft. A model can never add a figure, change an amount, or approve anything.
 
 23
-00:02:05,343 --> 00:02:10,325
-ops and One Hub servers, MCP A Creator, the probe, and the front center.
+00:02:28,400 --> 00:02:33,638
+Below are the seven capabilities, with what each one solves, for whom, and where it stands today.
 
 24
-00:02:10,505 --> 00:02:14,824
-Each one deploys from the public GitHub repository with one command.
+00:02:33,878 --> 00:02:41,303
+MCP A Creator. The docs server, which reads 34 PDFs and 7,804 pages down to the page and
 
 25
-00:02:15,550 --> 00:02:18,852
-Six MCP servers expose 63 tools.
+00:02:41,303 --> 00:02:47,462
+the table. The analyst server, which works a record that is missing data.
 
 26
-00:02:19,032 --> 00:02:28,101
-The docs server reads 34 PDFs, 7,804 pages, down to the page and the table, with no model in the loop.
+00:02:47,702 --> 00:02:54,778
+The ops server, which the Creator built. The One Hub server, which holds the gate. The probe. And the front center itself.
 
 27
-00:02:28,281 --> 00:02:32,962
-The analyst server works a record that is missing data, and names what to ask for.
+00:02:55,500 --> 00:02:59,727
+The same page shows how it was tested, and what each result does not show.
 
 28
-00:02:33,142 --> 00:02:39,808
-The ops server serves exhibit cells, obligations and the registers. MCP A Creator built it.
+00:02:59,967 --> 00:03:07,305
+An outside evaluator's questions scored 83 percent. A blind reviewer would rely on nine of ten answers.
 
 29
-00:02:39,988 --> 00:02:42,856
-The One Hub server holds the gate and the gap queue.
+00:03:07,545 --> 00:03:20,487
+7,743 of 7,746 budget tie-outs pass, and the probe got 1,234 of 1,234 known answers right.
 
 30
-00:02:43,036 --> 00:02:49,099
-The bakehouse server, also built by the Creator, reads a sales table that has nothing to do with ships.
+00:03:20,727 --> 00:03:24,751
+Security is listed by risk, with the control in code for each one.
 
 31
-00:02:49,279 --> 00:02:55,402
-Every input is validated, and 421 hostile calls against the read tools wrote nothing.
+00:03:25,467 --> 00:03:33,414
+The Impact page makes the case for scale. One carrier, read to the cent. The same agents and servers for every weapon system.
 
 32
-00:02:56,117 --> 00:02:58,992
-MCP A Creator is the part that scales.
+00:03:33,654 --> 00:03:36,278
+The portfolio is large and slow moving:
 
 33
-00:02:59,172 --> 00:03:03,527
-Give it a question and a Unity Catalog table. It profiles the table,
+00:03:36,278 --> 00:03:44,150
+more than 2.4 trillion dollars across the department's costliest weapon programs, and its cost cannot yet be audited.
 
 34
-00:03:03,527 --> 00:03:09,411
-designs one tool per question, reviews each tool, and generates a full project with tests.
+00:03:44,390 --> 00:03:50,900
+The working pattern is simple. You ask. Agents plan. MCP servers fetch. The gate checks. You decide.
 
 35
-00:03:09,591 --> 00:03:15,539
-It deploys that project as the requester's own app, after an approval bound to the exact files.
+00:03:51,600 --> 00:03:57,389
+Five users bring five different questions: a senior leader, a program office cost analyst,
 
 36
-00:03:15,719 --> 00:03:19,401
-Skills carry the judgment, and generators write the code,
+00:03:57,389 --> 00:04:02,084
+a budget analyst, an accountant or auditor, and any analyst with a table.
 
 37
-00:03:19,401 --> 00:03:26,951
-so one specification gives the same project every time. Fifteen of fifteen generated projects pass their own tests.
+00:04:02,324 --> 00:04:05,490
+Each question is traced through the stack, tool by tool.
 
 38
-00:03:27,131 --> 00:03:31,632
-We also measured it where it was weakest. On tables it had never seen,
+00:04:05,730 --> 00:04:14,429
+With MCP A Creator, a new program gets its own governed server without a developer. Each new program supplies data, not software.
 
 39
-00:03:31,632 --> 00:03:34,902
-its word rules read 10 of 19 questions correctly.
+00:04:15,133 --> 00:04:22,902
+The same servers already read the whole Ford class. Four hulls come from budget books that are already loaded, each with its cost cap.
 
 40
-00:03:35,082 --> 00:03:40,486
-So each tool now shows how it read the question. The calling model corrects it in one line,
+00:04:23,142 --> 00:04:28,140
+The page records what CVN-78 and CVN-79 teach the ships that follow,
 
 41
-00:03:40,486 --> 00:03:43,516
-and code checks the correction against the table.
+00:04:28,140 --> 00:04:34,241
+and the eight steps that take any program from the public record to governed tools.
 
 42
-00:03:44,250 --> 00:03:47,075
-The fourth layer is why the numbers can be trusted.
+00:04:34,967 --> 00:04:41,085
+The plan runs program by program, in phases: the Ford class, Navy shipbuilding,
 
 43
-00:03:47,255 --> 00:03:53,539
-Code reads the records and adds them in exact decimals. Each figure is tied back to its source,
+00:04:41,085 --> 00:04:47,281
+the F-35, and then the 59 programs that have a 2027 selected acquisition report.
 
 44
-00:03:53,539 --> 00:03:56,835
-and carries its document, its page and its cell.
+00:04:47,521 --> 00:04:51,723
+The page ends by saying what it does not show, and by listing its sources.
 
 45
-00:03:57,015 --> 00:04:02,953
-A gate with no model in it decides: promote, send to review, log a gap, or hold as a lead.
+00:04:52,433 --> 00:04:58,175
+The Brief page answers one question: what can we say about CVN-79's cost today?
 
 46
-00:04:03,132 --> 00:04:06,601
-And only the office that owns a record can approve a change.
+00:04:58,415 --> 00:05:03,289
+You start from your own question. The page then shows what you can say, with its basis.
 
 47
-00:04:06,781 --> 00:04:12,639
-A model may plan, explain and draft. It can never add a figure, change an amount, or approve.
+00:05:03,529 --> 00:05:10,812
+A total ship estimate of 13.41 billion dollars. 17.7 percent above the statutory cap.
 
 48
-00:04:13,383 --> 00:04:16,149
-The front center is where people use all of this.
+00:05:10,812 --> 00:05:18,609
+75.8 percent traced to a named contract. And a delivery 54 months later than first planned.
 
 49
-00:04:16,329 --> 00:04:20,302
-It opens on the solution itself: the four layers, the three tracks,
+00:05:18,849 --> 00:05:24,066
+It also lists what to hold back, and why, and which open questions still block the number.
 
 50
-00:04:20,302 --> 00:04:25,048
-and the five steps that prove a figure, each linked to the page that shows it.
+00:05:24,767 --> 00:05:29,915
+The ship page gives the context: the second ship of the Gerald R. Ford class,
 
 51
-00:04:25,583 --> 00:04:31,150
-Below that are the seven capabilities. For each one, the page shows the problem it solves,
+00:05:29,915 --> 00:05:35,330
+built at HII Newport News Shipbuilding, with every milestone cited to its source.
 
 52
-00:04:31,150 --> 00:04:34,609
-how it was tested, and what each result does not show.
+00:05:36,033 --> 00:05:40,338
+Under Cost, the Position page answers which figure to quote, and for what.
 
 53
-00:04:35,350 --> 00:04:42,748
-Impact answers the bigger question. You ask. Agents plan. MCP servers fetch. The gate checks. You decide.
+00:05:40,578 --> 00:05:48,901
+The four published figures are four different kinds of number: a dated estimate, a limit in law, an adjusted limit, and a budget request.
 
 54
-00:04:42,928 --> 00:04:47,219
-A new program supplies data, not software. It brings its documents,
+00:05:49,141 --> 00:05:52,780
+The bridge from the cap to the budget closes exactly,
 
 55
-00:04:47,219 --> 00:04:50,990
-its contract numbers and a role map, and reuses the rest.
+00:05:52,780 --> 00:06:01,429
+step by step. The budget total sits 2.01 billion dollars above the statutory cap, and each step names the mechanism behind it.
 
 56
-00:04:51,717 --> 00:04:57,175
-Position answers the first question a leader asks: which figure do I quote, and for what?
+00:06:01,669 --> 00:06:06,954
+What cannot yet be explained is stated as an open question, with the office that can close it.
 
 57
-00:04:57,355 --> 00:05:02,846
-The page compares every pair, and walks the bridge from the cap to the budget, step by step.
+00:06:07,667 --> 00:06:13,273
+The reconciliation ladder shows how far down the records go, from appropriation to disbursement.
 
 58
-00:05:03,583 --> 00:05:12,750
-Cost composition breaks the 13,409.97 million dollar total down by cost category and by funding stream.
+00:06:13,513 --> 00:06:20,085
+Cost composition shows what a named contract or vendor line accounts for. 75.8 percent
 
 59
-00:05:13,483 --> 00:05:19,740
-Budget execution shows the obligation curve, the handoff between contracts, and the largest actions.
+00:06:20,085 --> 00:06:26,657
+of the hull is tied to a named record. The remaining 24.2 percent is a visibility gap,
 
 60
-00:05:20,483 --> 00:05:24,184
-Here is the agentic workflow, live, on the deployed app.
+00:06:26,657 --> 00:06:27,956
+not a budget gap.
 
 61
-00:05:24,364 --> 00:05:30,553
-From Position, we ask a specialist to explain an account period that does not tie to the transactions.
+00:06:28,196 --> 00:06:36,080
+The estimate history shows how the estimate moved across twelve budget submissions, and the statutory cap history sits beside it.
 
 62
-00:05:31,033 --> 00:05:33,896
-The orchestrator routes it to the Account Analyst.
+00:06:36,800 --> 00:06:46,398
+Budget execution is computed live from 1,875 prime contract transactions and 2,990 sub-awards.
 
 63
-00:05:34,076 --> 00:05:37,351
-The steps stream in, each one labeled code or model.
+00:06:46,638 --> 00:06:54,429
+Now a live specialist run. We ask the Account Analyst to explain why one File C period does not tie to the transactions.
 
 64
-00:05:37,833 --> 00:05:43,822
-The account file exceeds the closest transaction window by 770 million dollars.
+00:06:54,669 --> 00:07:03,768
+Every step is labeled as code or as model. Code routes the task. Code packs the records in exact decimals. One model explains them.
 
 65
-00:05:44,300 --> 00:05:51,928
-The run proposes two things: a lead for the Office of Financial Operations, and a request for the obligation detail.
+00:07:04,500 --> 00:07:09,424
+Then code checks the answer again. The canvas re-check passes ten of ten conditions.
 
 66
-00:05:52,400 --> 00:05:56,954
-Now the access control. The signed-in user holds the program office role.
+00:07:09,664 --> 00:07:15,224
+A second model family, the Records Checker, confirms that every stated fact matches a record.
 
 67
-00:05:57,134 --> 00:06:04,288
-The first proposal belongs to Financial Operations, so the app says so, and refuses to let this user apply it.
+00:07:15,464 --> 00:07:20,392
+Two proposals are ready for a person. Nothing is saved until a person applies it.
 
 68
-00:06:04,767 --> 00:06:09,035
-The second proposal is owned by the program office. The user applies it,
+00:07:21,100 --> 00:07:30,919
+In review, the first proposal belongs to the Navy's Office of Financial Operations. We are signed in as program office PMS 379,
 
 69
-00:06:09,035 --> 00:06:12,712
-and the action is recorded with the role and the run number.
+00:07:30,919 --> 00:07:33,702
+so the system refuses, and says why.
 
 70
-00:06:13,450 --> 00:06:16,004
-Every run follows the same six stages.
+00:07:33,942 --> 00:07:41,152
+The role check runs in Unity Catalog, under the user's own sign-in. No role travels in a page or a cookie.
 
 71
-00:06:16,184 --> 00:06:23,088
-A page triggers one task on one subject. Code packs the records, with every figure in exact decimals.
+00:07:41,392 --> 00:07:45,107
+The second proposal belongs to our own office, so we can apply it.
 
 72
-00:06:23,268 --> 00:06:28,947
-One model explains. It cannot add a figure, change an amount, or change who owns an item.
+00:07:45,833 --> 00:07:51,052
+Back on the page, the obligation curve shows the handoff between the two prime contracts,
 
 73
-00:06:29,127 --> 00:06:34,132
-Code then grounds every number, and a model from a second family reads the answer.
+00:07:51,052 --> 00:07:55,039
+and the largest contract actions are listed with their descriptions.
 
 74
-00:06:34,312 --> 00:06:41,573
-Last, only the role that owns an item can apply it. Unity Catalog makes that call under the user's own token.
+00:07:55,767 --> 00:08:01,650
+Under Audit, the gap register answers which open questions block the number, and who can close them.
 
 75
-00:06:42,317 --> 00:06:47,225
-The gap register asks which open questions block the number, and who can close them.
+00:08:01,890 --> 00:08:08,687
+65 questions are registered. 59 are open, and 14 can be worked now with no new access.
 
 76
-00:06:47,405 --> 00:06:51,690
-It splits the work into what can be done now, and what needs an access request.
+00:08:09,400 --> 00:08:16,200
+A second specialist, the Gap Investigator, works one gap: when is construction in progress relieved for this hull?
 
 77
-00:06:52,417 --> 00:06:58,523
-From any gap, an agent drafts the request. Here the Gap Investigator works gap G52.
+00:08:16,440 --> 00:08:24,415
+It reads the collection requirements, names the office that holds the answer, and marks what it could not confirm as blank, instead of guessing.
 
 78
-00:06:59,000 --> 00:07:02,247
-It proposes collection requests addressed to the offices
+00:08:24,655 --> 00:08:28,771
+The same checks pass, and one request is ready for a person to review.
 
 79
-00:07:02,247 --> 00:07:06,136
-that hold the records, and the checker re-checks every condition.
+00:08:29,500 --> 00:08:35,960
+The variance register keeps every place where public sources disagree. Conflicting values are retained with
 
 80
-00:07:06,600 --> 00:07:10,078
-Nothing is saved until a person with the right role applies it.
+00:08:35,960 --> 00:08:39,100
+their provenance, and never resolved by picking one.
 
 81
-00:07:10,817 --> 00:07:15,269
-Ask the evidence takes a plain question, and answers it from the same records.
+00:08:39,340 --> 00:08:50,528
+One example: a December 2025 baseline of 13.529 billion dollars is printed, but not yet confirmed. The gate holds it for human review.
 
 82
-00:07:15,449 --> 00:07:21,042
-What was obligated on the contract in fiscal 2022, and what was the largest action?
+00:08:51,233 --> 00:08:57,419
+Asset valuation looks at the hull as the Navy's books see it: construction in progress, not yet a vessel.
 
 83
-00:07:21,533 --> 00:07:27,527
-The wait is cut. The answer comes back as a lead, with its citation and the records behind it.
+00:08:57,659 --> 00:09:05,536
+The page gives three structural reasons why capitalized value will never equal program cost: scope, timing and boundary.
 
 84
-00:07:28,250 --> 00:07:31,154
-On the deployed app, Ask is an MCP host.
+00:09:06,267 --> 00:09:15,452
+The industrial base page shows who builds what. The shipyard is the hull builder and the systems integrator, but not the maker of most major systems.
 
 85
-00:07:31,334 --> 00:07:37,266
-It lists the tools of the docs, ops and One Hub servers, and each step names the server it used.
+00:09:15,692 --> 00:09:27,186
+Tier two comes from 2,990 reported sub-awards: 426.8 million dollars, 261 subcontractors, in 35 states.
 
 86
-00:07:37,446 --> 00:07:42,125
-Asked whether the ship can be briefed at 13,529 million dollars,
+00:09:27,900 --> 00:09:37,975
+Ask the evidence is an MCP host, not a chatbot. The agent lists the tools of three MCP servers, and sends each call to the server that owns it.
 
 87
-00:07:42,125 --> 00:07:47,070
-it finds the budget line, rebuilds the exhibit, and runs the gate.
+00:09:38,700 --> 00:09:45,605
+We ask two questions in plain language: why are there three different cost caps, and which File C periods fail to tie?
 
 88
-00:07:47,250 --> 00:07:52,318
-The gate calls the result a lead to verify. It does not call it a reportable figure.
+00:09:45,845 --> 00:09:50,016
+Each answer comes back as a lead, with its citations, its tool calls,
 
 89
-00:07:53,050 --> 00:07:58,623
-A second question: which account periods fail to tie to the transactions, and by how much?
+00:09:50,016 --> 00:09:55,456
+and the servers that answered. Where the tools cannot support a claim, the answer says so.
 
 90
-00:07:59,100 --> 00:08:03,232
-The answer lists each period and its difference, with the SQL that ran.
+00:09:55,696 --> 00:09:59,777
+An answer here is a starting point to verify, never a reported figure.
 
 91
-00:08:03,950 --> 00:08:07,729
+00:10:00,500 --> 00:10:04,169
 The work queue shows what needs a decision, what is blocked, and why.
 
 92
-00:08:08,200 --> 00:08:13,807
-Each run keeps its full record: the steps, the checks code ran again, and the checker's verdict.
+00:10:04,409 --> 00:10:13,151
+16 decisions are waiting. Where no one holds the required role, the queue says so, and the item waits. It is never applied by default.
 
 93
-00:08:14,550 --> 00:08:23,235
-Brief readiness shows what the brief can stand on. Live, 13 of 32 CVN-79 figures tie to source records.
+00:10:13,867 --> 00:10:22,904
+Brief readiness checks the claim ledger: 13 of 32 CVN-79 figures tie to source records today. The rest stay leads.
 
 94
-00:08:23,700 --> 00:08:32,714
-The Obligation Reconciler adds 927 contract actions in exact decimals, and code re-checks eight of eight conditions.
+00:10:23,633 --> 00:10:29,640
+The Obligation Reconciler tests a contract's reported cost against its recorded obligations.
 
 95
-00:08:33,200 --> 00:08:37,893
-Its finding goes to the program office as a proposal, for a person to decide.
+00:10:29,880 --> 00:10:37,492
+We give it a figure to test: five million dollars. Code sums 927 contract actions in exact decimals,
 
 96
-00:08:38,617 --> 00:08:42,135
-Method explains how this is built, and why it can be challenged.
+00:10:37,492 --> 00:10:42,592
+finds 4.58 billion dollars, and reports the difference to the cent.
 
 97
-00:08:42,315 --> 00:08:48,528
-It keeps three trust zones with a one-way door, and it follows one rule. No model promotes a figure.
+00:10:42,832 --> 00:10:45,440
+Each File C period is then compared with
 
 98
-00:08:49,250 --> 00:08:56,111
-Finally, the people who know. Answer a question opens the 59 open questions to experts at headquarters
+00:10:45,440 --> 00:10:53,915
+the transactions. Periods that tie are confirmed. Periods that do not are marked as a residual, with a button to explain each one.
 
 99
-00:08:56,111 --> 00:08:57,374
-and in the field.
+00:10:54,155 --> 00:10:57,974
+Again, two proposals wait for a person, and the run is recorded.
 
 100
-00:08:57,554 --> 00:09:01,471
-Each question names who is likely to know: the program office,
+00:10:58,700 --> 00:11:07,959
+The run log keeps every run, and every action by every person. The detail table holds the records behind the figures, with filters and export.
 
 101
-00:09:01,471 --> 00:09:06,392
-financial operations, the supervisor of shipbuilding, or the finance center.
+00:11:08,199 --> 00:11:12,703
+The sources page says what each document family carries, and what it does not.
 
 102
-00:09:06,572 --> 00:09:10,252
-An expert writes what they know, how they know it, and how sure they are.
+00:11:13,433 --> 00:11:20,493
+The method page explains how this is built, and why it can be challenged. It keeps what the method got wrong, on purpose.
 
 103
-00:09:10,432 --> 00:09:15,174
-The answer is recorded with their name as a lead, routed to the gap it answers,
+00:11:20,733 --> 00:11:27,740
+It also shows where AI sits. No AI output writes directly to a trusted table, and the gate decides in code.
 
 104
-00:09:15,174 --> 00:09:18,895
-and never treated as a certified figure until it is checked.
+00:11:28,467 --> 00:11:37,238
+The last page turns to the people who hold the answers. There are 59 open questions, and two sentences from the right person can close one.
 
 105
-00:09:19,617 --> 00:09:20,930
-How do we know it works?
+00:11:37,478 --> 00:11:44,506
+You pick a question in your area, and read the brief the system prepared. You say what you know, how you know it, and how sure you are.
 
 106
-00:09:21,110 --> 00:09:26,063
-On 69 sealed questions, hashed before any model saw them,
+00:11:44,746 --> 00:11:50,555
+Your answer is recorded as a lead, with your name. It is never recorded as a certified figure.
 
 107
-00:09:26,063 --> 00:09:33,656
-Claude Sonnet 4.5 answers 88.4 percent with the servers, against 14.5 percent without.
+00:11:51,267 --> 00:11:59,546
+How do we know it works? 1,770 tests pass from a clean clone, and 828 of them are hostile inputs.
 
 108
-00:09:33,836 --> 00:09:39,253
-GPT-5 mini goes from 1.4 percent to 78.7.
+00:11:59,786 --> 00:12:04,805
+421 hostile calls against the 30 read tools wrote nothing.
 
 109
-00:09:39,433 --> 00:09:44,805
-On questions written by an evaluator outside the team, Claude scores 25 of 30.
+00:12:05,045 --> 00:12:10,898
+On sealed questions, tools take two model families from guessing to answering:
 
 110
-00:09:44,985 --> 00:09:51,974
-A separate outside reviewer, working blind, would rely on 9 of 10 answers with the servers, and none without.
+00:12:10,898 --> 00:12:17,651
+Claude from 14 percent correct to 88 percent, and GPT-5 mini from 1 percent to 79 percent.
 
 111
-00:09:52,154 --> 00:09:59,034
-1,770 tests pass from a clean clone, and 828 of them are hostile inputs.
+00:12:17,891 --> 00:12:25,326
+On an outside evaluator's questions, Claude scored 83 percent. Neither outside person is on the development team.
 
 112
-00:09:59,214 --> 00:10:13,596
-On the deployed store, 7,743 of 7,746 budget tie-outs pass. And the probe passes 99.9 percent of 6,193 live checks.
+00:12:26,033 --> 00:12:33,448
+Controls are in code, not in prompts. Every app sits behind workspace sign-in, and runs as its own service principal.
 
 113
-00:10:14,317 --> 00:10:15,581
-It is built to run.
+00:12:33,688 --> 00:12:39,567
+Inputs are validated, SQL parameters are bound, and retrieved text is treated as data.
 
 114
-00:10:15,761 --> 00:10:20,913
-Every app requires workspace sign-in. Decisions run under the user's own token.
+00:12:39,807 --> 00:12:48,653
+An outside scan on November 23rd found that an unexpected error could carry internal text to a client. Every server now withholds it,
 
 115
-00:10:21,093 --> 00:10:27,175
-Tool inputs are validated and capped, identifiers are allow-listed, and parameters are bound.
+00:12:48,653 --> 00:12:50,050
+and a test checks it.
 
 116
-00:10:27,355 --> 00:10:30,847
-And the probe calls every deployed server every 15 minutes.
+00:12:50,767 --> 00:12:58,279
+The next program supplies data, not software. The Creator, the readers, the gate and the front center are reused as they are.
 
 117
-00:10:31,583 --> 00:10:34,295
-The next program supplies data, not software.
-
-118
-00:10:34,475 --> 00:10:40,359
-Inside the Department, the path runs from CVN-79 to the Ford class,
-
-119
-00:10:40,359 --> 00:10:46,715
-then 29 Navy ship lines, the F-35, and all 59 programs on one template.
-
-120
-00:10:46,895 --> 00:10:52,366
-Beyond defense, every agency has the same shape of problem: budget justifications,
-
-121
-00:10:52,366 --> 00:10:56,957
-contract and grant records, and audit findings it cannot yet close.
-
-122
-00:10:57,683 --> 00:11:02,677
+00:12:58,1000 --> 00:13:03,668
 AI builds and explains. Code proves the number. The owning role decides.
 
-123
-00:11:02,857 --> 00:11:06,780
+118
+00:13:03,908 --> 00:13:07,710
 One ship, reconciled to the cent, and ready for the next program.
 
