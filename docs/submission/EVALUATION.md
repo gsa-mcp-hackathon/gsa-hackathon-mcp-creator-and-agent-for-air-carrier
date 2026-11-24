@@ -363,6 +363,15 @@ answer to the analyst's own leads table. They were annotated read-only; they now
 `readOnlyHint: false` and `destructiveHint: false`, say so in their descriptions, and a test
 checks the annotation of every analyst tool. They never change source data.
 
+Fixed on 2026-11-23, after an outside scan of the repository (m8ven): an unexpected exception could send its
+text, which can hold a path, a table name or a statement, to the client. Every server now reports such a
+failure by tool name and at most the error type, the Creator's template does the same for every server it
+generates, and a test checks each one. The scan also reported 23 of 24 tools as missing annotation hints.
+All were served correctly; each decorator now states its hints as literals so a reader of the source can
+see them. The repository gained a privacy policy written from the code. The scan found no credential
+exfiltration, sensitive file access or obfuscation, and verified that 24 tool handlers match their declared
+behaviour ([findings 34 to 38](FINDINGS.md)).
+
 Known weakness: no run flagged an injected instruction to the user. Every server now adds a source notice to a result holding text aimed at a model; how often models pass it on is not yet re-measured.
 
 ## 4. Lessons learned and recommendations
