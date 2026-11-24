@@ -15,7 +15,7 @@ Our answer is one solution in four layers: MCP A Creator, domain MCP servers,
 an agent environment, and a financial-control layer that no model can override.
 
 5
-00:00:22,033 --> 00:00:26,741
+00:00:22,033 --> 00:00:26,740
 It runs today as seven Databricks apps, deployed from GitHub with one command.
 
 6

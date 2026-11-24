@@ -39,7 +39,8 @@ Only the owning role, checked in Unity Catalog under the user's own sign-in, app
 | **The full walkthrough.** The four layers, the tracks, every part of the front center and three live agent runs on the deployed apps | 13:08 | [Play with chapters](https://llmlocalai.github.io/gsa-hackathon-mcp-creator-and-agent-for-cvn/demo/) · [file](docs/demo/air-carrier-full-walkthrough.mp4) |
 
 Both are 1080p, narrated and captioned
-([two-minute .srt](docs/demo/air-carrier-two-minute-demo.srt), [walkthrough .srt](docs/demo/air-carrier-full-walkthrough.srt)).
+([two-minute .srt](docs/demo/air-carrier-two-minute-demo.srt), [walkthrough .srt](docs/demo/air-carrier-full-walkthrough.srt);
+the words by chapter are in the [narration scripts](docs/demo/NARRATION.md)).
 
 <details>
 <summary>Full walkthrough chapters (13:08)</summary>

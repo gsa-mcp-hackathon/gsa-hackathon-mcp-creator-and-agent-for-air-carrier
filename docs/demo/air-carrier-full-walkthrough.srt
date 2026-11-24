@@ -463,7 +463,7 @@ and a test checks it.
 The next program supplies data, not software. The Creator, the readers, the gate and the front center are reused as they are.
 
 117
-00:12:58,1000 --> 00:13:03,668
+00:12:59,000 --> 00:13:03,668
 AI builds and explains. Code proves the number. The owning role decides.
 
 118
